@@ -19,7 +19,7 @@ ctest --test-dir build --output-on-failure
 
 ## 已执行验证
 
-MSVC x64 Debug 和 Release 均构建成功，CTest 各 2/2 通过。测试使用始终有效的检查函数，Release 不会因 NDEBUG 而跳过断言。
+MSVC x64 Debug 和 Release 均构建成功，CTest 各 3/3 通过。测试使用始终有效的检查函数，Release 不会因 NDEBUG 而跳过断言。
 
 覆盖：静态模型维度、矩阵行列越界、匹配衰减器波幅/功率、非互易方向性、双端口同时激励及非二端口拒绝。
 
@@ -27,5 +27,6 @@ MSVC x64 Debug 和 Release 均构建成功，CTest 各 2/2 通过。测试使用
 
 - Linux/macOS 构建尚未实际运行。
 - 当前二端口函数只计算给定入射波的响应，尚非带反射反馈的网络求解器。
-- Touchstone、插值和噪声模块未纳入此轮验证；不能由这两个测试推断这些模块正确。
+- Touchstone 已验证基础 RI/MA/DB 转换和单位换算，完整限制见 touchstone.md；插值和噪声尚未纳入测试。
 - SystemVue 2023 对照验证尚未执行，v0.1 和长期目标均未完成。
+
