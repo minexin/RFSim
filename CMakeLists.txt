@@ -21,3 +21,6 @@ add_test(NAME touchstone_validation COMMAND touchstone_validation "${CMAKE_CURRE
 add_executable(network_test tests/network_test.cpp)
 target_link_libraries(network_test PRIVATE rfmodel)
 add_test(NAME network_test COMMAND network_test)
+add_executable(sweep_test tests/sweep_test.cpp)
+target_link_libraries(sweep_test PRIVATE rfmodel)
+add_test(NAME sweep_test COMMAND sweep_test "${CMAKE_CURRENT_SOURCE_DIR}/tests")
