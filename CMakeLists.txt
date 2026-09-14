@@ -18,3 +18,6 @@ add_test(NAME touchstone_smoke COMMAND touchstone_smoke "${CMAKE_CURRENT_SOURCE_
 add_executable(touchstone_validation tests/touchstone_validation.cpp)
 target_link_libraries(touchstone_validation PRIVATE rfmodel)
 add_test(NAME touchstone_validation COMMAND touchstone_validation "${CMAKE_CURRENT_SOURCE_DIR}/tests")
+add_executable(network_test tests/network_test.cpp)
+target_link_libraries(network_test PRIVATE rfmodel)
+add_test(NAME network_test COMMAND network_test)
