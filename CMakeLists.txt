@@ -15,3 +15,6 @@ add_executable(touchstone_smoke tests/touchstone_smoke.cpp)
 target_link_libraries(touchstone_smoke PRIVATE rfmodel)
 add_test(NAME touchstone_smoke COMMAND touchstone_smoke "${CMAKE_CURRENT_SOURCE_DIR}/tests")
 
+add_executable(touchstone_validation tests/touchstone_validation.cpp)
+target_link_libraries(touchstone_validation PRIVATE rfmodel)
+add_test(NAME touchstone_validation COMMAND touchstone_validation "${CMAKE_CURRENT_SOURCE_DIR}/tests")

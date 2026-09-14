@@ -1,14 +1,11 @@
-# Touchstone 当前支持与限制
+# Touchstone 数据接入
 
-读取器已有 RI、MA、DB 转换。已实际验证：两端口全零 RI 文件、单端口 MA/DB 非零复数值、GHz/MHz/kHz 频率缩放，以及非法格式拒绝。
+读取 legacy `.sNp` 全矩阵 S 参数，RI/MA/DB 转换，Hz/kHz/MHz/GHz，行内注释、前导空白、矩阵续行及尾部缺省选项。统一参考电阻保存在 `reference_impedance_ohms`，不隐式重归一化。
 
-CTest 使用显式源目录参数定位样例，不依赖构建目录与源码目录的相对位置。Debug/Release 均纳入 `touchstone_smoke`。
+依据 [IBIS Touchstone 规范](https://www.ibis.org/touchstone_ver2.1/touchstone_ver2_1.pdf) 对旧版数据约定的说明，二端口 S11/S21/S12/S22 转为内部行优先存储，其余端口数使用行优先。
 
-## 未完成项
+输入必须有选项行、有限数值、正参考电阻和非负严格递增频率。不支持的参数类型/单位、重复头、残缺记录、非法扩展名及版本 2 关键字明确报错。读取器资源上限为 1024 端口，并非格式标准上限。
 
-- 两端口非互易数据的 S21/S12 文件顺序映射尚未修正和验证。
-- 参考阻抗尚未保存，参数类型和未知频率单位缺少严格校验。
-- 续行、缺省选项、Touchstone 2.0、噪声数据尚未支持。
-- 频率递增性、非有限数值和端口扩展名的严格校验尚未完成。
+测试包含非互易二端口传输方向、三端口续行顺序、75 欧姆参考、缺省 GHz/MA，以及 14 类非法输入；MSVC Debug/Release CTest 各 4/4 通过。
 
-当前为受限读取原型，不能据三个测试宣称完整 `.sNp` 或 SystemVue 数据兼容。
+尚未支持：Touchstone 2 元数据、噪声区段、逐端口参考阻抗。尚未执行 SystemVue 导出数据的差异验证；不宣称完整 Touchstone 兼容。

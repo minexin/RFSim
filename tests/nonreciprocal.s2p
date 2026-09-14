@@ -1,0 +1,4 @@
+  ! Nonreciprocal data, deliberately distinct S21 and S12
+  # ghz s ri r 75
+1 0.1 0 2 0 ! S11 S21
+0 0.3 0.4 0 ! S12 S22
