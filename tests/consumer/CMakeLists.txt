@@ -1,0 +1,7 @@
+cmake_minimum_required(VERSION 3.20)
+project(RFModelConsumer LANGUAGES CXX)
+find_package(RFModel 0.1.0 EXACT CONFIG REQUIRED)
+add_executable(consumer main.cpp)
+target_link_libraries(consumer PRIVATE RFModel::rfmodel)
+enable_testing()
+add_test(NAME installed_consumer COMMAND consumer)

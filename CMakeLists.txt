@@ -1,10 +1,28 @@
 cmake_minimum_required(VERSION 3.20)
-project(RFModel LANGUAGES CXX)
+project(RFModel VERSION 0.1.0 LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 add_library(rfmodel INTERFACE)
-target_include_directories(rfmodel INTERFACE include)
-enable_testing()
+add_library(RFModel::rfmodel ALIAS rfmodel)
+target_compile_features(rfmodel INTERFACE cxx_std_17)
+target_include_directories(rfmodel INTERFACE
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<INSTALL_INTERFACE:include>)
+include(GNUInstallDirs)
+include(CMakePackageConfigHelpers)
+install(TARGETS rfmodel EXPORT RFModelTargets)
+install(DIRECTORY include/rfmodel DESTINATION include)
+install(EXPORT RFModelTargets NAMESPACE RFModel:: DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/RFModel)
+configure_package_config_file(cmake/RFModelConfig.cmake.in
+    ${CMAKE_CURRENT_BINARY_DIR}/RFModelConfig.cmake
+    INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/RFModel)
+write_basic_package_version_file(${CMAKE_CURRENT_BINARY_DIR}/RFModelConfigVersion.cmake
+    VERSION ${PROJECT_VERSION} COMPATIBILITY ExactVersion)
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/RFModelConfig.cmake
+    ${CMAKE_CURRENT_BINARY_DIR}/RFModelConfigVersion.cmake
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/RFModel)
+include(CTest)
+if(BUILD_TESTING)
 add_executable(rfmodel_smoke tests/smoke.cpp)
 target_link_libraries(rfmodel_smoke PRIVATE rfmodel)
 add_executable(linear_solver_smoke tests/linear_solver_smoke.cpp)
@@ -36,3 +54,4 @@ add_test(NAME external_s_test COMMAND external_s_test)
 add_executable(linear_analysis_test tests/linear_analysis_test.cpp)
 target_link_libraries(linear_analysis_test PRIVATE rfmodel)
 add_test(NAME linear_analysis_test COMMAND linear_analysis_test)
+endif()
