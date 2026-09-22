@@ -1,0 +1,37 @@
+name: Cross-platform C++17
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, ubuntu-latest, macos-latest]
+        configuration: [Debug, Release]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Configure
+        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=${{ matrix.configuration }} -DCMAKE_CXX_EXTENSIONS=OFF
+      - name: Build
+        run: cmake --build build --config ${{ matrix.configuration }} --parallel 2
+      - name: Test core and CLI
+        run: ctest --test-dir build -C ${{ matrix.configuration }} --output-on-failure
+      - name: Install package
+        run: cmake --install build --config ${{ matrix.configuration }} --prefix "$PWD/install"
+      - name: Configure independent consumer
+        run: cmake -S tests/consumer -B consumer-build -DCMAKE_BUILD_TYPE=${{ matrix.configuration }} -DCMAKE_PREFIX_PATH="$PWD/install"
+      - name: Build independent consumer
+        run: cmake --build consumer-build --config ${{ matrix.configuration }} --parallel 2
+      - name: Test installed package
+        run: ctest --test-dir consumer-build -C ${{ matrix.configuration }} --output-on-failure
