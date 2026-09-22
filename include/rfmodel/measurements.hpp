@@ -8,6 +8,27 @@ struct PortPower {
     double outgoing_w;
     double absorbed_w;
 };
+// Real positive reference only. Singular open/short limits are explicit errors.
+inline Complex input_impedance(Complex reflection, double reference_ohms=50.0) {
+    if (!std::isfinite(reference_ohms) || reference_ohms<=0 ||
+        !std::isfinite(reflection.real()) || !std::isfinite(reflection.imag()))
+        throw std::invalid_argument("invalid impedance conversion input");
+    if (reflection==Complex{1,0}) throw std::domain_error("open circuit has infinite impedance");
+    const Complex value=reference_ohms*((Complex{1,0}+reflection)/(Complex{1,0}-reflection));
+    if (!std::isfinite(value.real()) || !std::isfinite(value.imag()))
+        throw std::overflow_error("impedance conversion overflow");
+    return value;
+}
+inline Complex input_admittance(Complex reflection, double reference_ohms=50.0) {
+    if (!std::isfinite(reference_ohms) || reference_ohms<=0 ||
+        !std::isfinite(reflection.real()) || !std::isfinite(reflection.imag()))
+        throw std::invalid_argument("invalid admittance conversion input");
+    if (reflection==Complex{-1,0}) throw std::domain_error("short circuit has infinite admittance");
+    const Complex value=((Complex{1,0}-reflection)/(Complex{1,0}+reflection))/reference_ohms;
+    if (!std::isfinite(value.real()) || !std::isfinite(value.imag()))
+        throw std::overflow_error("admittance conversion overflow");
+    return value;
+}
 inline PortPower port_power(Complex incident, Complex outgoing) {
     const double a=std::norm(incident), b=std::norm(outgoing);
     if (!std::isfinite(a) || !std::isfinite(b)) throw std::invalid_argument("nonfinite wave power");

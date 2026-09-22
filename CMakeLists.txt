@@ -71,4 +71,7 @@ add_test(NAME tabulated_model_test COMMAND tabulated_model_test "${CMAKE_CURRENT
 add_executable(ideal_devices_test tests/ideal_devices_test.cpp)
 target_link_libraries(ideal_devices_test PRIVATE rfmodel)
 add_test(NAME ideal_devices_test COMMAND ideal_devices_test)
+add_executable(impedance_test tests/impedance_test.cpp)
+target_link_libraries(impedance_test PRIVATE rfmodel)
+add_test(NAME impedance_test COMMAND impedance_test)
 endif()
