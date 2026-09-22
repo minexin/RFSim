@@ -1,0 +1,17 @@
+execute_process(COMMAND "${CLI}" "${FIXTURES}/sweep.s2p" 2000000000
+    RESULT_VARIABLE status OUTPUT_VARIABLE csv ERROR_VARIABLE err)
+if(NOT status EQUAL 0)
+    message(FATAL_ERROR "CSV export failed: ${err}")
+endif()
+string(REPLACE "\r\n" "\n" csv "${csv}")
+set(expected "frequency_hz,row_port,column_port,reference_ohms,s_real,s_imag\n2000000000,1,1,50,0,0\n2000000000,1,2,50,0.375,0\n2000000000,2,1,50,0.375,0\n2000000000,2,2,50,0,0\n")
+if(NOT csv STREQUAL expected)
+    message(FATAL_ERROR "CSV content mismatch: ${csv}")
+endif()
+foreach(frequency IN ITEMS 4000000000 nan 100Hz)
+    execute_process(COMMAND "${CLI}" "${FIXTURES}/sweep.s2p" "${frequency}"
+        RESULT_VARIABLE status OUTPUT_VARIABLE csv ERROR_VARIABLE err)
+    if(NOT status EQUAL 1 OR NOT csv STREQUAL "" OR err STREQUAL "")
+        message(FATAL_ERROR "Invalid request did not fail atomically: ${frequency}")
+    endif()
+endforeach()

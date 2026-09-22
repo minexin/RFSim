@@ -22,7 +22,18 @@ install(FILES ${CMAKE_CURRENT_BINARY_DIR}/RFModelConfig.cmake
     ${CMAKE_CURRENT_BINARY_DIR}/RFModelConfigVersion.cmake
     DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/RFModel)
 include(CTest)
+option(RFMODEL_BUILD_CLI "Build the batch S parameter CSV exporter" ON)
+if(RFMODEL_BUILD_CLI)
+add_executable(rfmodel_cli src/rfmodel_cli.cpp)
+target_link_libraries(rfmodel_cli PRIVATE RFModel::rfmodel)
+install(TARGETS rfmodel_cli RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
+endif()
 if(BUILD_TESTING)
+if(RFMODEL_BUILD_CLI)
+add_test(NAME cli_export COMMAND ${CMAKE_COMMAND}
+    -DCLI=$<TARGET_FILE:rfmodel_cli> -DFIXTURES=${CMAKE_CURRENT_SOURCE_DIR}/tests
+    -P ${CMAKE_CURRENT_SOURCE_DIR}/tests/check_cli.cmake)
+endif()
 add_executable(rfmodel_smoke tests/smoke.cpp)
 target_link_libraries(rfmodel_smoke PRIVATE rfmodel)
 add_executable(linear_solver_smoke tests/linear_solver_smoke.cpp)
