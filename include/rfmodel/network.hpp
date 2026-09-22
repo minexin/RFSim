@@ -24,6 +24,33 @@ class LinearNetwork {
         if (boundaries_[p].assigned) throw std::invalid_argument("port already connected or terminated");
     }
 public:
+    // Selected external ports must be unassigned. Their order defines S rows/columns.
+    // All remaining ports must already be connected or terminated without sources.
+    SMatrix external_s(const std::vector<std::size_t>& ports) const {
+        if (ports.empty()) throw std::invalid_argument("no external ports");
+        std::vector<bool> selected(boundaries_.size(),false);
+        for (auto p : ports) {
+            available(p);
+            if (selected[p]) throw std::invalid_argument("duplicate external port");
+            selected[p]=true;
+        }
+        for (std::size_t p=0; p<boundaries_.size(); ++p) {
+            if (!selected[p] && !boundaries_[p].assigned)
+                throw std::invalid_argument("unassigned internal port");
+            if (boundaries_[p].source != Complex{})
+                throw std::invalid_argument("S extraction requires zero independent sources");
+        }
+        SMatrix result{ports.size(),std::vector<Complex>(ports.size()*ports.size())};
+        for (std::size_t column=0; column<ports.size(); ++column) {
+            auto excitation=*this;
+            for (std::size_t i=0; i<ports.size(); ++i)
+                excitation.terminate(ports[i],{},i==column ? Complex{1,0} : Complex{});
+            const auto waves=excitation.solve();
+            for (std::size_t row=0; row<ports.size(); ++row)
+                result(row,column)=waves.outgoing[ports[row]];
+        }
+        return result;
+    }
     explicit LinearNetwork(double reference_ohms = 50.0) : reference_(reference_ohms) {
         if (!std::isfinite(reference_) || reference_ <= 0) throw std::invalid_argument("invalid network reference");
     }
