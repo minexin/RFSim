@@ -24,6 +24,7 @@ class LinearNetwork {
         if (boundaries_[p].assigned) throw std::invalid_argument("port already connected or terminated");
     }
 public:
+    double reference_impedance_ohms() const { return reference_; }
     // Selected external ports must be unassigned. Their order defines S rows/columns.
     // All remaining ports must already be connected or terminated without sources.
     SMatrix external_s(const std::vector<std::size_t>& ports) const {
