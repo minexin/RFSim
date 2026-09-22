@@ -19,7 +19,7 @@ ctest --test-dir build --output-on-failure
 
 ## 已执行验证
 
-MSVC x64 Debug 和 Release 均构建成功，CTest 各 10/10 通过。测试使用始终有效的检查函数，Release 不会因 NDEBUG 而跳过断言。
+MSVC x64 Debug 和 Release 均构建成功，CTest 各 11/11 通过。测试使用始终有效的检查函数，Release 不会因 NDEBUG 而跳过断言。
 
 覆盖：静态模型维度、矩阵行列越界、匹配衰减器波幅/功率、非互易方向性、双端口同时激励及非二端口拒绝。
 
