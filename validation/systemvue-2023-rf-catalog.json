@@ -1,0 +1,1955 @@
+{
+  "schema_version": 1,
+  "baseline": "SystemVue 2023 installed help",
+  "source_qch": "C:\\Program Files\\Keysight\\SystemVue2023\\Help\\systemvue.qch",
+  "source_page": "rfdesign/RF_Design_Kit_Library.html",
+  "source_page_sha256": "46282b84b3282a348c1976bbedc21c021fb4d5a9eafc5ad4791fa03978fa6336",
+  "unique_part_count": 243,
+  "coverage_meaning": "Catalog inventory only; no part is declared compatible.",
+  "parts": [
+    {
+      "help_page": "algorithm/Delay_Part.html",
+      "catalog_names": [
+        "Delay Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "algorithm/Mixer_Part.html",
+      "catalog_names": [
+        "Mixer Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/4T_Stub_(open)_Part.html",
+      "catalog_names": [
+        "4T Stub (open) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/4T_Stub_(shorted)_Part.html",
+      "catalog_names": [
+        "4T Stub (shorted) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/ADC_(Basic)_Part.html",
+      "catalog_names": [
+        "ADC (Basic) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Adapter_(Waveguid-TEM)_Part.html",
+      "catalog_names": [
+        "Adapter (Waveguid-TEM) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Amp_(RF)_Part.html",
+      "catalog_names": [
+        "Amp (RF) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Amp_(Variable_Gain)_Part.html",
+      "catalog_names": [
+        "Amp (Variable Gain) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Antenna_Path_Part.html",
+      "catalog_names": [
+        "Antenna Path Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Attenuator_(DC_Control)_Part.html",
+      "catalog_names": [
+        "Attenuator (DC Control) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Attenuator_(Digital_Step)_Part.html",
+      "catalog_names": [
+        "Attenuator (Digital Step) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Attenuator_(Power)_Part.html",
+      "catalog_names": [
+        "Attenuator (Power) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Attenuator_(Variable)_Part.html",
+      "catalog_names": [
+        "Attenuator (Variable) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Attenuator_Part.html",
+      "catalog_names": [
+        "Attenuator Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Bandpass_Filter_(Bessel)_Part.html",
+      "catalog_names": [
+        "Bandpass Filter (Bessel) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Bandpass_Filter_(Butterworth)_Part.html",
+      "catalog_names": [
+        "Bandpass Filter (Butterworth) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Bandpass_Filter_(Chebyshev)_Part.html",
+      "catalog_names": [
+        "Bandpass Filter (Chebyshev) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Bandpass_Filter_(Elliptic)_Part.html",
+      "catalog_names": [
+        "Bandpass Filter (Elliptic) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Bandpass_Filter_(Pole_Zero)_Part.html",
+      "catalog_names": [
+        "Bandpass Filter (Pole Zero) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Bandstop_Filter_(Bessel)_Part.html",
+      "catalog_names": [
+        "Bandstop Filter (Bessel) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Bandstop_Filter_(Butterworth)_Part.html",
+      "catalog_names": [
+        "Bandstop Filter (Butterworth) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Bandstop_Filter_(Chebyshev)_Part.html",
+      "catalog_names": [
+        "Bandstop Filter (Chebyshev) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Bandstop_Filter_(Elliptic)_Part.html",
+      "catalog_names": [
+        "Bandstop Filter (Elliptic) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Bandstop_Filter_(Pole_Zero)_Part.html",
+      "catalog_names": [
+        "Bandstop Filter (Pole Zero) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/CPLX_Part.html",
+      "catalog_names": [
+        "CPLX Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/CapacitorQ_Part.html",
+      "catalog_names": [
+        "CapacitorQ Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Capacitor_(Interdigital)_Part.html",
+      "catalog_names": [
+        "Capacitor (Interdigital) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Capacitor_Part.html",
+      "catalog_names": [
+        "Capacitor Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Circuit_Link_Part.html",
+      "catalog_names": [
+        "Circuit Link Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Circulator_Part.html",
+      "catalog_names": [
+        "Circulator Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Coax_Cable_(RG214)_Part.html",
+      "catalog_names": [
+        "Coax Cable (RG214) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Coax_Cable_(RG58)_Part.html",
+      "catalog_names": [
+        "Coax Cable (RG58) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Coax_Cable_(RG59)_Part.html",
+      "catalog_names": [
+        "Coax Cable (RG59) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Coax_Cable_(RG6)_Part.html",
+      "catalog_names": [
+        "Coax Cable (RG6) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Coax_Cable_(RG8)_Part.html",
+      "catalog_names": [
+        "Coax Cable (RG8) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Coax_Cable_(RG9)_Part.html",
+      "catalog_names": [
+        "Coax Cable (RG9) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Coax_Cable_Part.html",
+      "catalog_names": [
+        "Coax Cable Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Coax_Closed_End_Part.html",
+      "catalog_names": [
+        "Coax Closed End Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Coax_Gap_(Center_Conductor)_Part.html",
+      "catalog_names": [
+        "Coax Gap (Center Conductor) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Coax_Line_(4)_Part.html",
+      "catalog_names": [
+        "Coax Line (4) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Coax_Line_Part.html",
+      "catalog_names": [
+        "Coax Line Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Coax_Step_Part.html",
+      "catalog_names": [
+        "Coax Step Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Coplanar_(Gap)_Part.html",
+      "catalog_names": [
+        "Coplanar (Gap) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Coplanar_(ground_plane)_Part.html",
+      "catalog_names": [
+        "Coplanar (ground plane) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Coplanar_Part.html",
+      "catalog_names": [
+        "Coplanar Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Coupled_Antenna_Part.html",
+      "catalog_names": [
+        "Coupled Antenna Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Coupled_Microstrip_Line_(10)_Part.html",
+      "catalog_names": [
+        "Coupled Microstrip Line (10) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Coupled_Microstrip_Line_(3)_Part.html",
+      "catalog_names": [
+        "Coupled Microstrip Line (3) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Coupled_Microstrip_Line_(4)_Part.html",
+      "catalog_names": [
+        "Coupled Microstrip Line (4) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Coupled_Microstrip_Line_(5)_Part.html",
+      "catalog_names": [
+        "Coupled Microstrip Line (5) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Coupled_Microstrip_Line_(6)_Part.html",
+      "catalog_names": [
+        "Coupled Microstrip Line (6) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Coupled_Microstrip_Line_(7)_Part.html",
+      "catalog_names": [
+        "Coupled Microstrip Line (7) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Coupled_Microstrip_Line_(8)_Part.html",
+      "catalog_names": [
+        "Coupled Microstrip Line (8) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Coupled_Microstrip_Line_(9)_Part.html",
+      "catalog_names": [
+        "Coupled Microstrip Line (9) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Coupled_Microstrip_Line_(Asym)_Part.html",
+      "catalog_names": [
+        "Coupled Microstrip Line (Asym) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Coupled_Microstrip_Line_(N)_Part.html",
+      "catalog_names": [
+        "Coupled Microstrip Line (N) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Coupled_Microstrip_Line_(Sym)_Part.html",
+      "catalog_names": [
+        "Coupled Microstrip Line (Sym) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Coupled_Slabline_(10)_Part.html",
+      "catalog_names": [
+        "Coupled Slabline (10) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Coupled_Slabline_(12)_Part.html",
+      "catalog_names": [
+        "Coupled Slabline (12) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Coupled_Slabline_(14)_Part.html",
+      "catalog_names": [
+        "Coupled Slabline (14) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Coupled_Slabline_(16)_Part.html",
+      "catalog_names": [
+        "Coupled Slabline (16) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Coupled_Slabline_(18)_Part.html",
+      "catalog_names": [
+        "Coupled Slabline (18) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Coupled_Slabline_(2)_Part.html",
+      "catalog_names": [
+        "Coupled Slabline (2) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Coupled_Slabline_(20)_Part.html",
+      "catalog_names": [
+        "Coupled Slabline (20) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Coupled_Slabline_(6)_Part.html",
+      "catalog_names": [
+        "Coupled Slabline (6) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Coupled_Slabline_(8)_Part.html",
+      "catalog_names": [
+        "Coupled Slabline (8) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Coupled_Slabline_(N)_Part.html",
+      "catalog_names": [
+        "Coupled Slabline (N) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Coupled_Striplines_(10)_Part.html",
+      "catalog_names": [
+        "Coupled Striplines (10) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Coupled_Striplines_(2)_Part.html",
+      "catalog_names": [
+        "Coupled Striplines (2) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Coupled_Striplines_(3)_Part.html",
+      "catalog_names": [
+        "Coupled Striplines (3) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Coupled_Striplines_(4)_Part.html",
+      "catalog_names": [
+        "Coupled Striplines (4) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Coupled_Striplines_(5)_Part.html",
+      "catalog_names": [
+        "Coupled Striplines (5) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Coupled_Striplines_(6)_Part.html",
+      "catalog_names": [
+        "Coupled Striplines (6) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Coupled_Striplines_(7)_Part.html",
+      "catalog_names": [
+        "Coupled Striplines (7) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Coupled_Striplines_(8)_Part.html",
+      "catalog_names": [
+        "Coupled Striplines (8) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Coupled_Striplines_(9)_Part.html",
+      "catalog_names": [
+        "Coupled Striplines (9) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Coupled_Striplines_(N)_Part.html",
+      "catalog_names": [
+        "Coupled Striplines (N) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Coupled_TLines_(10)_Part.html",
+      "catalog_names": [
+        "Coupled TLines (10) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Coupled_TLines_(2)_Part.html",
+      "catalog_names": [
+        "Coupled TLines (2) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Coupled_TLines_(2)_Zodd,Zeven_Part.html",
+      "catalog_names": [
+        "Coupled TLines (2) Zodd,Zeven Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Coupled_TLines_(3)_Part.html",
+      "catalog_names": [
+        "Coupled TLines (3) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Coupled_TLines_(4)_Part.html",
+      "catalog_names": [
+        "Coupled TLines (4) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Coupled_TLines_(5)_Part.html",
+      "catalog_names": [
+        "Coupled TLines (5) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Coupled_TLines_(6)_Part.html",
+      "catalog_names": [
+        "Coupled TLines (6) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Coupled_TLines_(7)_Part.html",
+      "catalog_names": [
+        "Coupled TLines (7) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Coupled_TLines_(8)_Part.html",
+      "catalog_names": [
+        "Coupled TLines (8) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Coupled_TLines_(9)_Part.html",
+      "catalog_names": [
+        "Coupled TLines (9) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Coupled_TLines_(N)_Part.html",
+      "catalog_names": [
+        "Coupled TLines (N) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Coupler_(180_Deg_Hybrid)_Part.html",
+      "catalog_names": [
+        "Coupler (180 Deg Hybrid) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Coupler_(90_Deg_Hybrid)_Part.html",
+      "catalog_names": [
+        "Coupler (90 Deg Hybrid) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Coupler_(Dual_Dir)_Part.html",
+      "catalog_names": [
+        "Coupler (Dual Dir) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Coupler_(Single_Dir)_Part.html",
+      "catalog_names": [
+        "Coupler (Single Dir) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Current_Probe_Part.html",
+      "catalog_names": [
+        "Current Probe Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Dataset_1-Port_(S_Param)_Part.html",
+      "catalog_names": [
+        "Dataset 1-Port (S Param) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Dataset_2-Port_(S_Param)_Part.html",
+      "catalog_names": [
+        "Dataset 2-Port (S Param) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Digital_Divider_Part.html",
+      "catalog_names": [
+        "Digital Divider Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Duplexer_(Chebyshev)_Part.html",
+      "catalog_names": [
+        "Duplexer (Chebyshev) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Duplexer_(Elliptic)_Part.html",
+      "catalog_names": [
+        "Duplexer (Elliptic) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/File_1-Port_(S_Param)_Part.html",
+      "catalog_names": [
+        "File 1-Port (S Param) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/File_10-Port_(S_Param)_Part.html",
+      "catalog_names": [
+        "File 10-Port (S Param) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/File_2-Port_(Generic)_Part.html",
+      "catalog_names": [
+        "File 2-Port (Generic) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/File_2-Port_(S_Param)_Part.html",
+      "catalog_names": [
+        "File 2-Port (S Param) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/File_2-Port_(S_Param_w_block)_Part.html",
+      "catalog_names": [
+        "File 2-Port (S Param w block) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/File_2-Port_Split_Gnd_(S_Param)_Part.html",
+      "catalog_names": [
+        "File 2-Port Split Gnd (S Param) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/File_3-Port_(S_Param)_Part.html",
+      "catalog_names": [
+        "File 3-Port (S Param) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/File_4-Port_(S_Param)_Part.html",
+      "catalog_names": [
+        "File 4-Port (S Param) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/File_5-Port_(S_Param)_Part.html",
+      "catalog_names": [
+        "File 5-Port (S Param) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/File_6-Port_(S_Param)_Part.html",
+      "catalog_names": [
+        "File 6-Port (S Param) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/File_7-Port_(S_Param)_Part.html",
+      "catalog_names": [
+        "File 7-Port (S Param) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/File_8-Port_(S_Param)_Part.html",
+      "catalog_names": [
+        "File 8-Port (S Param) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/File_9-Port_(S_Param)_Part.html",
+      "catalog_names": [
+        "File 9-Port (S Param) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/File_N-Port_(S_Param)_Part.html",
+      "catalog_names": [
+        "File N-Port (S Param) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Freq_Divider_Part.html",
+      "catalog_names": [
+        "Freq Divider Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Freq_Multiplier_Part.html",
+      "catalog_names": [
+        "Freq Multiplier Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Gain_Block_(Power)_Part.html",
+      "catalog_names": [
+        "Gain Block (Power) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Ground_Part.html",
+      "catalog_names": [
+        "Ground Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Harmonic_Load_Tuner_Part.html",
+      "catalog_names": [
+        "Harmonic Load Tuner Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Highpass_Filter_(Bessel)_Part.html",
+      "catalog_names": [
+        "Highpass Filter (Bessel) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Highpass_Filter_(Butterworth)_Part.html",
+      "catalog_names": [
+        "Highpass Filter (Butterworth) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Highpass_Filter_(Chebyshev)_Part.html",
+      "catalog_names": [
+        "Highpass Filter (Chebyshev) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Highpass_Filter_(Elliptic)_Part.html",
+      "catalog_names": [
+        "Highpass Filter (Elliptic) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Highpass_Filter_(Pole_Zero)_Part.html",
+      "catalog_names": [
+        "Highpass Filter (Pole Zero) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/InductorQ_Part.html",
+      "catalog_names": [
+        "InductorQ Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Inductor_(Microstrip,_Spiral)_Part.html",
+      "catalog_names": [
+        "Inductor (Microstrip, Spiral) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Inductor_(Rectangular)_Part.html",
+      "catalog_names": [
+        "Inductor (Rectangular) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Inductor_Part.html",
+      "catalog_names": [
+        "Inductor Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Input_(DC_Curr)_Part.html",
+      "catalog_names": [
+        "Input (DC Curr) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Input_Port_Part.html",
+      "catalog_names": [
+        "Input Port Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Interconnect_2-Port_(S_Param)_Part.html",
+      "catalog_names": [
+        "Interconnect 2-Port (S Param) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Isolator_Part.html",
+      "catalog_names": [
+        "Isolator Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Lange_Coupler_(4)_Part.html",
+      "catalog_names": [
+        "Lange Coupler (4) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Lange_Coupler_(6)_Part.html",
+      "catalog_names": [
+        "Lange Coupler (6) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Lange_Coupler_(8)_Part.html",
+      "catalog_names": [
+        "Lange Coupler (8) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Limiter_Part.html",
+      "catalog_names": [
+        "Limiter Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Log_Detector_Part.html",
+      "catalog_names": [
+        "Log Detector Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Lowpass_Filter_(Bessel)_Part.html",
+      "catalog_names": [
+        "Lowpass Filter (Bessel) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Lowpass_Filter_(Butterworth)_Part.html",
+      "catalog_names": [
+        "Lowpass Filter (Butterworth) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Lowpass_Filter_(Chebyshev)_Part.html",
+      "catalog_names": [
+        "Lowpass Filter (Chebyshev) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Lowpass_Filter_(Elliptic)_Part.html",
+      "catalog_names": [
+        "Lowpass Filter (Elliptic) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Lowpass_Filter_(Pole_Zero)_Part.html",
+      "catalog_names": [
+        "Lowpass Filter (Pole Zero) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Microstrip_(inverted)_Part.html",
+      "catalog_names": [
+        "Microstrip (inverted) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Microstrip_(suspended)_Part.html",
+      "catalog_names": [
+        "Microstrip (suspended) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Microstrip_Bend_(Arb_Angle)_Part.html",
+      "catalog_names": [
+        "Microstrip Bend (Arb Angle) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Microstrip_Bend_(opt)_Part.html",
+      "catalog_names": [
+        "Microstrip Bend (opt) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Microstrip_Bend_(sqr,cham)_Part.html",
+      "catalog_names": [
+        "Microstrip Bend (sqr,cham) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Microstrip_Cross_Part.html",
+      "catalog_names": [
+        "Microstrip Cross Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Microstrip_Curve-line_Part.html",
+      "catalog_names": [
+        "Microstrip Curve-line Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Microstrip_End_Part.html",
+      "catalog_names": [
+        "Microstrip End Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Microstrip_Gap_Part.html",
+      "catalog_names": [
+        "Microstrip Gap Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Microstrip_Line_Part.html",
+      "catalog_names": [
+        "Microstrip Line Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Microstrip_Ring_Part.html",
+      "catalog_names": [
+        "Microstrip Ring Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Microstrip_Step_(width)_Part.html",
+      "catalog_names": [
+        "Microstrip Step (width) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Microstrip_Stub_(radial)_Part.html",
+      "catalog_names": [
+        "Microstrip Stub (radial) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Microstrip_Taper_Part.html",
+      "catalog_names": [
+        "Microstrip Taper Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Microstrip_Tee_(asym)_Part.html",
+      "catalog_names": [
+        "Microstrip Tee (asym) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Microstrip_Tee_(radial)_Part.html",
+      "catalog_names": [
+        "Microstrip Tee (radial) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Microstrip_Via_Part.html",
+      "catalog_names": [
+        "Microstrip Via Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Noise_Divider_Part.html",
+      "catalog_names": [
+        "Noise Divider Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/NonLinear_Block_(Power)_Part.html",
+      "catalog_names": [
+        "NonLinear Block (Power) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Oscillator_(Power)_Part.html",
+      "catalog_names": [
+        "Oscillator (Power) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Output_Port_Part.html",
+      "catalog_names": [
+        "Output Port Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Phase_Shift_Part.html",
+      "catalog_names": [
+        "Phase Shift Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Phased_Array_Antenna_Part.html",
+      "catalog_names": [
+        "Phased Array Antenna Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Phased_Array_Attenuator_Part.html",
+      "catalog_names": [
+        "Phased Array Attenuator Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Phased_Array_Combiner_Splitter_Part.html",
+      "catalog_names": [
+        "Phased Array Combiner Splitter Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Phased_Array_Phase_Shifter_Part.html",
+      "catalog_names": [
+        "Phased Array Phase Shifter Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Phased_Array_RF_Amplifier_Part.html",
+      "catalog_names": [
+        "Phased Array RF Amplifier Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Phased_Array_RxPort_TxSource_Part.html",
+      "catalog_names": [
+        "Phased Array RxPort TxSource Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Phased_Array_S_Parameter_Part.html",
+      "catalog_names": [
+        "Phased Array S Parameter Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Phased_Array_Time_Delay_Part.html",
+      "catalog_names": [
+        "Phased Array Time Delay Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Phased_Array_X_Parameter_Part.html",
+      "catalog_names": [
+        "Phased Array X Parameter Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/RC_TLine_Part.html",
+      "catalog_names": [
+        "RC TLine Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Resistor_Part.html",
+      "catalog_names": [
+        "Resistor Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Ribbon_Part.html",
+      "catalog_names": [
+        "Ribbon Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Signal_Ground_Part.html",
+      "catalog_names": [
+        "Signal Ground Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Slabline_(Round_Rod)_Part.html",
+      "catalog_names": [
+        "Slabline (Round Rod) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Source_(DC_Curr)_Part.html",
+      "catalog_names": [
+        "Source (DC Curr) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Source_(DC_Volt)_Part.html",
+      "catalog_names": [
+        "Source (DC Volt) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Source_(Multi)_Part.html",
+      "catalog_names": [
+        "Source (Multi) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Splitter_(10-way_0_deg)_Part.html",
+      "catalog_names": [
+        "Splitter (10-way 0 deg) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Splitter_(12-way_0_deg)_Part.html",
+      "catalog_names": [
+        "Splitter (12-way 0 deg) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Splitter_(16-way_0_deg)_Part.html",
+      "catalog_names": [
+        "Splitter (16-way 0 deg) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Splitter_(2-Way_0_deg)_Part.html",
+      "catalog_names": [
+        "Splitter (2-Way 0 deg) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Splitter_(2-way_180_deg)_Part.html",
+      "catalog_names": [
+        "Splitter (2-way 180 deg) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Splitter_(2-way_90_deg)_Part.html",
+      "catalog_names": [
+        "Splitter (2-way 90 deg) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Splitter_(24-way_0_deg)_Part.html",
+      "catalog_names": [
+        "Splitter (24-way 0 deg) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Splitter_(3-way_0_deg)_Part.html",
+      "catalog_names": [
+        "Splitter (3-way 0 deg) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Splitter_(4-way_0_deg)_Part.html",
+      "catalog_names": [
+        "Splitter (4-way 0 deg) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Splitter_(48-way_0_deg)_Part.html",
+      "catalog_names": [
+        "Splitter (48-way 0 deg) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Splitter_(5-way_0_deg)_Part.html",
+      "catalog_names": [
+        "Splitter (5-way 0 deg) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Splitter_(6-way_0_deg)_Part.html",
+      "catalog_names": [
+        "Splitter (6-way 0 deg) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Splitter_(64-way_0_deg)_Part.html",
+      "catalog_names": [
+        "Splitter (64-way 0 deg) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Splitter_(8-way_0_deg)_Part.html",
+      "catalog_names": [
+        "Splitter (8-way 0 deg) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Splitter_(9-way_0_deg)_Part.html",
+      "catalog_names": [
+        "Splitter (9-way 0 deg) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Sqr_Coax_Line_(Rnd)_Part.html",
+      "catalog_names": [
+        "Sqr Coax Line (Rnd) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Sqr_Coax_Line_(sqr)_Part.html",
+      "catalog_names": [
+        "Sqr Coax Line (sqr) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Stripline_(Offset)_Part.html",
+      "catalog_names": [
+        "Stripline (Offset) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Stripline_(Offset_Coupled)__Part.html",
+      "catalog_names": [
+        "Stripline (Offset Coupled) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Stripline_Bend_Part.html",
+      "catalog_names": [
+        "Stripline Bend Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Stripline_End_Part.html",
+      "catalog_names": [
+        "Stripline End Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Stripline_Gap_Part.html",
+      "catalog_names": [
+        "Stripline Gap Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Stripline_Part.html",
+      "catalog_names": [
+        "Stripline Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Stripline_Step_(width)_Part.html",
+      "catalog_names": [
+        "Stripline Step (width) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Stripline_Tee_Part.html",
+      "catalog_names": [
+        "Stripline Tee Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Subcircuit_(w_2-PortNoGnd)_Part.html",
+      "catalog_names": [
+        "Subcircuit (w 2-PortNoGnd) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Subcircuit_(w_NET2)_Part.html",
+      "catalog_names": [
+        "Subcircuit (w NET2) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Switch_(SP10T)_Part.html",
+      "catalog_names": [
+        "Switch (SP10T) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Switch_(SP11T)_Part.html",
+      "catalog_names": [
+        "Switch (SP11T) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Switch_(SP12T)_Part.html",
+      "catalog_names": [
+        "Switch (SP12T) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Switch_(SP13T)_Part.html",
+      "catalog_names": [
+        "Switch (SP13T) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Switch_(SP14T)_Part.html",
+      "catalog_names": [
+        "Switch (SP14T) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Switch_(SP15T)_Part.html",
+      "catalog_names": [
+        "Switch (SP15T) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Switch_(SP16T)_Part.html",
+      "catalog_names": [
+        "Switch (SP16T) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Switch_(SP17T)_Part.html",
+      "catalog_names": [
+        "Switch (SP17T) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Switch_(SP18T)_Part.html",
+      "catalog_names": [
+        "Switch (SP18T) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Switch_(SP19T)_Part.html",
+      "catalog_names": [
+        "Switch (SP19T) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Switch_(SP20T)_Part.html",
+      "catalog_names": [
+        "Switch (SP20T) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Switch_(SP3T)_Part.html",
+      "catalog_names": [
+        "Switch (SP3T) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Switch_(SP4T)_Part.html",
+      "catalog_names": [
+        "Switch (SP4T) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Switch_(SP5T)_Part.html",
+      "catalog_names": [
+        "Switch (SP5T) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Switch_(SP6T)_Part.html",
+      "catalog_names": [
+        "Switch (SP6T) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Switch_(SP7T)_Part.html",
+      "catalog_names": [
+        "Switch (SP7T) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Switch_(SP8T)_Part.html",
+      "catalog_names": [
+        "Switch (SP8T) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Switch_(SP9T)_Part.html",
+      "catalog_names": [
+        "Switch (SP9T) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Switch_(SPDT)_Part.html",
+      "catalog_names": [
+        "Switch (SPDT) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Switch_(SPST)_Part.html",
+      "catalog_names": [
+        "Switch (SPST) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/TEM_TLine_(Distortionless)_Part.html",
+      "catalog_names": [
+        "TEM TLine (Distortionless) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/TEM_TLine_(Exponential)_Part.html",
+      "catalog_names": [
+        "TEM TLine (Exponential) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/TEM_TLine_(Uniform)_Part.html",
+      "catalog_names": [
+        "TEM TLine (Uniform) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/TLPX_Part.html",
+      "catalog_names": [
+        "TLPX Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Test_Point_Part.html",
+      "catalog_names": [
+        "Test Point Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Transformer_(Center-Tapped)_Part.html",
+      "catalog_names": [
+        "Transformer (Center-Tapped) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Transformer_(Ruthroff)_Part.html",
+      "catalog_names": [
+        "Transformer (Ruthroff) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Transformer_Part.html",
+      "catalog_names": [
+        "Transformer Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Transmission_Line4_(SPICE)_Part.html",
+      "catalog_names": [
+        "Transmission Line4 (SPICE) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Transmission_Line4_(elec)_Part.html",
+      "catalog_names": [
+        "Transmission Line4 (elec) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Transmission_Line4_(phys)_Part.html",
+      "catalog_names": [
+        "Transmission Line4 (phys) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Transmission_Line_(elec)_Part.html",
+      "catalog_names": [
+        "Transmission Line (elec) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Transmission_Line_(phys)_Part.html",
+      "catalog_names": [
+        "Transmission Line (phys) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Waveguide_(Rect)_Part.html",
+      "catalog_names": [
+        "Waveguide (Rect) Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Wire_Part.html",
+      "catalog_names": [
+        "Wire Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/X-parameters_Part.html",
+      "catalog_names": [
+        "X-parameters Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    },
+    {
+      "help_page": "rfdesign/Zero_IF_Receiver_Part.html",
+      "catalog_names": [
+        "Zero IF Receiver Part"
+      ],
+      "assessment": "unassessed",
+      "systemvue_comparison": "not_executed"
+    }
+  ]
+}

@@ -14,4 +14,4 @@
 | 参数优化/Monte Carlo | 未实现 | 参数契约与任务执行 |
 | GUI | 后置 | 核心接口稳定后推进 |
 
-[线性分析输出细表](linear-analysis-compatibility.md) 保留官方本机帮助来源。跨平台验证已经完成现有测试范围，详见 [构建记录](build-validation.md)。器件全集仍需从 RF Design 库建立完整清单。
+[线性分析输出细表](linear-analysis-compatibility.md) 保留官方本机帮助来源。跨平台验证已经完成现有测试范围，详见 [构建记录](build-validation.md)。已从本机 RF Design 索引建立 [243 项目录基线](rf-design-catalog.md)，逐项参数和行为验收仍待完成。

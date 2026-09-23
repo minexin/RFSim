@@ -26,3 +26,13 @@
 ## 探测终态
 
 工具会话 58675 已退出（退出码 1）。失败发生在 New-Object/COM class factory 激活阶段，HRESULT 为 0x80080005（CO_E_SERVER_EXEC_FAILURE），未获得 Application 对象，也未调用工作区查询或仿真。上面的“仍未返回”记录为先前观察快照，现已终结。该错误不能单独证明许可不足，后续应检查 SystemVue 启动与 COM 注册环境。
+
+## 2026-09-24 重新核验
+
+观察到已有 SystemVue 进程 PID 21144，进程路径经只读 CIM 查询确认指向 SystemVue2023/Bin/SystemVue.exe。没有启动第二个实例或关闭现有进程。
+
+Windows PowerShell 的 GetActiveObject("Genesys.Application") 能取得非空对象，但直接动态访问 Manager 和 Application 均得到 null，工作区数量查询失败。不能仅据此判定产品不支持自动化；可能涉及默认 COM 接口或实例状态，仍需强类型接口核验。
+
+已新增 `scripts/reference/inspect-active-systemvue.ps1`，引用安装目录自带 Interop.GENESYS.dll，以强类型接口只读查询已有实例。脚本不创建实例，不打开、保存或关闭工作区。首次尝试因自动审批额度失败而未执行；本次正常审批后，Windows PowerShell 的脚本执行策略阻止加载，仍未到达强类型 COM 调用。未修改系统执行策略。该脚本尚未完成运行验证。
+
+不受上述阻碍的本机帮助目录提取已完成并重复核验，详见 rf-design-catalog.md。迄今尚无 SystemVue 仿真输出或数值兼容结论。
