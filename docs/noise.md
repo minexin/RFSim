@@ -16,7 +16,7 @@ Fmin/Rn/GammaOpt 和变频噪声仍未实现；SystemVue 2023 差异测试仍待
 
 `passive_thermal_noise(S,T)` 在经典热平衡近似下计算 kB*T*(I-S*S†)，kB=1.380649e-23 J/K。T 是器件均匀物理温度，可以为零；即使 T=0 也检查无源性。该公式的参考来源：[Caltech 噪声波分析报告](https://www.kiss.caltech.edu/papers/reports/oliver-king-final-report.pdf)。不含量子修正、外部源/负载噪声或器件间温差分布。
 
-`propagate_noise(H,C)` 计算 H*C*H†，目前 H 是与 C 相同阶数的方阵。H 必须由调用方给出；本接口不会从网络连接自动求出 H，也未连接到 LinearAnalysisResult 的 CS 字段。
+`propagate_noise(H,C)` 计算 H*C*H†，目前 H 是与 C 相同阶数的方阵。H 必须由调用方给出；本接口不会从网络连接自动求出 H，网络求解和扫描通过上层接口连接，见 linear-noise-sweep.md。
 
 输入相关矩阵需有限、Hermitian、半正定。使用对角选主元的半正定 Cholesky 分解并重构，归一化门限为 256*n*epsilon。门限内的剩余块视为零，因此会丢弃该尺度以下的微小噪声成分。无源性检查以 I-S*S† 的元素最大幅度或 1（取较大者）作为尺度；普通相关矩阵以自身最大幅度归一化。显著非无源、负定或非 Hermitian 输入会被拒绝。上限 1024 端口，算法为稠密矩阵实现。
 
@@ -27,7 +27,7 @@ Fmin/Rn/GammaOpt 和变频噪声仍未实现；SystemVue 2023 差异测试仍待
 
 使用 b=S*a+c、a=K*b，解 (I-S*K)*H=I，再计算 H*C*H† 并提取指定外部端口。K 由内部连接和终端反射系数构造。一次分解处理所有右端，复用参数转换的选主元和残差检查，计算为稠密 O(N^3)。外端口顺序决定结果行列顺序，原网络保持不变。
 
-外部端口必须未分配，其余端口必须已有连接或无独立激励的终端。外部端口假设匹配且无入射噪声。terminate 的反射系数只描述反馈，不会自动添加终端热噪声；有温度的负载应作为带本征噪声的一端口器件加入。该接口没有自动把 NoiseProvider 或器件物理温度组装为全局 C，也未将噪声扫描整合进 LinearAnalysisResult。
+外部端口必须未分配，其余端口必须已有连接或无独立激励的终端。外部端口假设匹配且无入射噪声。terminate 的反射系数只描述反馈，不会自动添加终端热噪声；有温度的负载应作为带本征噪声的一端口器件加入。该接口没有自动把 NoiseProvider 或器件物理温度组装为全局 C，现在可由 analyze_linear 的可选噪声回调进行扫描，见 linear-noise-sweep.md。
 
 回归覆盖两个独立电阻级联与等效网络热平衡公式的一致性、失配终端反射噪声、完全相关源的相干相加、外端口反序、维度错误、缺失边界和奇异反馈。SystemVue 对照仍待执行。
 本阶段 MSVC Debug/Release 全套各 21/21 通过。

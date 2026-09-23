@@ -79,6 +79,25 @@ inline NoiseCorrelation passive_thermal_noise(const SMatrix& s,double temperatur
     noise_detail::finite_matrix(covariance);
     return {std::move(covariance)};
 }
+// Blocks follow device insertion order. Cross-device correlations are zero.
+inline NoiseCorrelation independent_noise(const std::vector<NoiseCorrelation>& blocks) {
+    if (blocks.empty()) throw std::invalid_argument("empty independent noise blocks");
+    std::size_t total=0;
+    for (const auto& block:blocks) {
+        noise_detail::finite_matrix(block.watts_per_hz);
+        total+=block.watts_per_hz.ports;
+        if (total>1024) throw std::invalid_argument("noise port limit exceeded");
+    }
+    SMatrix result{total,std::vector<Complex>(total*total)};
+    std::size_t offset=0;
+    for (const auto& block:blocks) {
+        const auto c=noise_detail::psd_matrix(block.watts_per_hz);
+        for (std::size_t i=0;i<c.ports;++i)
+            for (std::size_t j=0;j<c.ports;++j) result(offset+i,offset+j)=c(i,j);
+        offset+=c.ports;
+    }
+    return {std::move(result)};
+}
 // Square transfer map: outgoing noise = transfer * source noise.
 inline NoiseCorrelation propagate_noise(const SMatrix& transfer,const NoiseCorrelation& source) {
     noise_detail::finite_matrix(transfer);

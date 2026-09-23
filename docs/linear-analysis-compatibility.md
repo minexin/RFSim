@@ -7,7 +7,7 @@
 | F：M 个频率 | analyze_linear 返回 frequencies_hz | SystemVue 数值对照 |
 | S：M 个 N×N 复数矩阵 | scattering，通过端口激励提取 | 模型库与数值对照 |
 | ZPORT：M×N 端口阻抗 | port_impedances_ohms，当前每频点统一正实数 | 各端口独立/复参考阻抗 |
-| CS：噪声相关矩阵 | 未实现 | 相关噪声源和网络传播 |
+| CS：噪声相关矩阵 | 已有 W/Hz 相关噪声网络扫描输出 | SystemVue CS 归一化/单位对照及噪声参数后处理 |
 | 二端口 S11/S12/S21/S22 | 可由 scattering 索引访问 | 命名别名接口 |
 | Zin1/Zin2 | 已有正实参考阻抗下的 input_impedance | 命名别名、复参考及数值对照 |
 | NF、NFmin、GammaOpt、Rn | Friis 不等价于这些网络结果 | 基于 S/CS 的计算 |
