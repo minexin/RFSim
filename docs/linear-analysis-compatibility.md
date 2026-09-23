@@ -10,7 +10,7 @@
 | CS：噪声相关矩阵 | 已有 W/Hz 相关噪声网络扫描输出 | SystemVue CS 归一化/单位对照及噪声参数后处理 |
 | 二端口 S11/S12/S21/S22 | 可由 scattering 索引访问 | 命名别名接口 |
 | Zin1/Zin2 | 已有正实参考阻抗下的 input_impedance | 命名别名、复参考及数值对照 |
-| NF、NFmin、GammaOpt、Rn | Friis 不等价于这些网络结果 | 基于 S/CS 的计算 |
+| NF、NFmin、GammaOpt、Rn | 已有基于 S/相关矩阵及源失配的二端口 NF | NFmin/GammaOpt/Rn 提取及 SystemVue 对照 |
 | zin/yin/groupdelay | 已有标量阻抗/导纳和区间群时延 | 输出边界与 SystemVue 对照 |
 | stoz/stoy | 已有统一正实参考的 S→Z/Y 转换 | 独立/复参考和 SystemVue 数值对照 |
 | 非线性器件工作点线性化 | 未实现 | DC 工作点与模型能力 |
