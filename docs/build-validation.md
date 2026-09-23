@@ -25,7 +25,19 @@ MSVC x64 Debug 和 Release 均构建成功，CTest 各 14/14 通过。测试使�
 
 ## 尚未验证
 
-- Linux/macOS 构建尚未实际运行。
+- 三平台运行已验证，见下方远端 CI 记录；范围限于所列提交与现有测试。
 - 新增 network.hpp 已验证单频同参考阻抗的网络反馈求解，范围见 network.md；频率扫描已通过端到端回归（interpolation.md）；复杂参考阻抗尚未完成。
 - Touchstone 已验证基础 RI/MA/DB 转换和单位换算，完整限制见 touchstone.md；插值已纳入扫描回归；标量噪声和 Friis 级联已纳入测试（noise.md），不代表完整网络噪声能力。
 - SystemVue 2023 对照验证尚未执行，v0.1 和长期目标均未完成。
+
+## 跨平台 CI 实证
+
+[运行 35746795541](https://github.com/minexin/RFSim/actions/runs/35746795541)，提交 `7fba1bf137025282668157a26625780ec1865e46`，在 2026-09-23 核对完整日志：
+
+| 平台 | 编译器 | 配置 | 核心与 CLI | 安装后消费者 |
+|---|---|---|---|---|
+| Ubuntu | GCC 13.3 | Debug / Release | 各 14/14 | 各 1/1 |
+| macOS | AppleClang 21 | Debug / Release | 各 14/14 | 各 1/1 |
+| Windows | MSVC 19.51 | Debug / Release | 各 14/14 | 各 1/1 |
+
+机器可读证据摘要：`validation/cross-platform-7fba1bf.json`。CI 证明已有能力在这些编译器上通过回归，不代表完成 SystemVue 功能兼容。官方 hosted runner 的 latest 标签会变化，具体编译器以上述运行日志为准。
