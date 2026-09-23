@@ -21,3 +21,13 @@
 全零噪声时所有源同样最优，约定返回 GammaOpt=0、NFmin=0 dB、Rn=0。若最优点只位于单位圆边界或在浮点精度内无法分辨其内部距离，则抛出 domain_error，不把不可实现的极限源报告为有效最优源。仍会拒绝在该源处出现奇异反馈的网络。
 
 回归采用已知复数 GammaOpt 的合成矩阵，验证 NFmin、Rn 及多个源反射点的 NF 重建；并覆盖复数增益、输入反射、75 欧姆换算、无源衰减器、零噪声和边界退化。SystemVue 数值对照仍未完成。
+
+## 器件噪声参数导入
+
+`noise_from_parameters(S, parameters, reference_ohms=50, temperature_k=290)` 将 NFmin（dB）、GammaOpt 和 Rn（欧姆）转换为器件本征噪声相关矩阵，可传给 independent_noise 和网络求解。temperature_k 是这些噪声参数的参考温度 T0，并非器件物理温度。固定噪声参数而改变 T0 会按比例改变重建的 W/Hz 矩阵；这不是器件随温度变化的模型。
+
+令 e=10^(NFmin/10)-1、K=4*Rn/(Z0*|1+GammaOpt|²)，输入参考矩阵为 Q=[[K-e,-K*conj(GammaOpt)],[-K*GammaOpt,e+K*|GammaOpt|²]]。用 [[1,S11],[0,S21]] 将 Q 转回器件端口，再乘 kB*T0。实现使用 expm1，复用半正定检查及相关矩阵传播。
+
+非负 NFmin 和 Rn 不足以保证物理可实现性：若 Q 非半正定，输入被拒绝。还拒绝单位圆外/边界 GammaOpt、零前向传输、非法参考及溢出。此接口不读取厂商文件，Touchstone 噪声段解析仍待实现。
+
+新增验证覆盖复数 S 参数双向转换、非默认参考阻抗、参考温度缩放、多个失配源的 NF 重建、无源热噪声矩阵复原及导入参数后的两级网络噪声；还包括不相容参数和溢出拒绝。

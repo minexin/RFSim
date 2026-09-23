@@ -36,6 +36,35 @@ struct TwoPortNoiseParameters {
     Complex optimum_source_reflection{};
     double noise_resistance_ohms{};
 };
+inline NoiseCorrelation noise_from_parameters(
+    const SMatrix& s,const TwoPortNoiseParameters& parameters,double reference_ohms=50.,double temperature_k=290.) {
+    noise_detail::finite_matrix(s);
+    const auto gamma=parameters.optimum_source_reflection;
+    if (s.ports!=2 || !std::isfinite(reference_ohms) || reference_ohms<=0 ||
+        !std::isfinite(temperature_k) || temperature_k<=0 ||
+        !std::isfinite(parameters.minimum_noise_figure_db) || parameters.minimum_noise_figure_db<0 ||
+        !std::isfinite(parameters.noise_resistance_ohms) || parameters.noise_resistance_ohms<0 ||
+        !std::isfinite(gamma.real()) || !std::isfinite(gamma.imag()) || std::abs(gamma)>=1.)
+        throw std::invalid_argument("invalid two-port noise parameters");
+    if (s(1,0)==Complex{}) throw std::domain_error("zero forward transmission");
+    const double excess=std::expm1(parameters.minimum_noise_figure_db*std::log(10.)/10.);
+    const double curvature=4.*(parameters.noise_resistance_ohms/reference_ohms)/std::norm(1.+gamma);
+    if (!std::isfinite(excess) || !std::isfinite(curvature))
+        throw std::overflow_error("noise parameter conversion overflow");
+    // F-1 = excess + curvature*|Gamma-gamma|^2/(1-|Gamma|^2).
+    // The resulting quadratic form must be PSD; positive scalar parameters
+    // alone do not guarantee a physically admissible correlation matrix.
+    const NoiseCorrelation referred{SMatrix{2,{
+        curvature-excess,-curvature*std::conj(gamma),
+        -curvature*gamma,excess+curvature*std::norm(gamma)}}};
+    const SMatrix inverse{2,{1.,s(0,0),0.,s(1,0)}};
+    auto result=propagate_noise(inverse,referred);
+    const double kt=1.380649e-23*temperature_k;
+    if (kt==0) throw std::overflow_error("noise reference underflow");
+    for (auto& value:result.watts_per_hz.values) value*=kt;
+    noise_detail::finite_matrix(result.watts_per_hz);
+    return result;
+}
 inline TwoPortNoiseParameters extract_noise_parameters(
     const SMatrix& s,const NoiseCorrelation& intrinsic,double reference_ohms=50.,double temperature_k=290.) {
     if (!std::isfinite(reference_ohms) || reference_ohms<=0)
