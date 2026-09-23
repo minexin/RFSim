@@ -5,7 +5,7 @@
 
 - Linear Analysis
 - RF System Analysis
-- RF Design 库中的常用器件模块类别
+- RF Design 库中的各种器件模块（按 SystemVue 2023 官方目录逐项核验）
 
 目标是形成跨平台的 C++17 射频系统级频域仿真核心。Windows/MSVC 为首要开发环境，同时保持 Linux/macOS 可移植性。GUI 不属于首阶段范围，但核心 API 必须完整、稳定并可被后续 GUI、Python 或其他前端调用。
 
