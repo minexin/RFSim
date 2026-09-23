@@ -8,6 +8,7 @@ namespace parameter_detail {
 // Solve A*X=B with partial pivoting; multiple right-hand sides.
 inline SMatrix solve(SMatrix a, SMatrix b, double scale_floor=0.) {
     const auto n=a.ports;
+    const SMatrix original_a=a, original_b=b;
     double scale=0;
     for (std::size_t r=0;r<n;++r) {
         double sum=0;
@@ -32,6 +33,31 @@ inline SMatrix solve(SMatrix a, SMatrix b, double scale_floor=0.) {
             for (std::size_t c=r+1;c<n;++c) b(r,col)-=a(r,c)*b(c,col);
             b(r,col)/=a(r,r);
         }
+    // Check every right-hand side against the original equations. Scale both
+    // equations and solutions before products to avoid residual overflow.
+    double equation_scale=0., solution_scale=1.;
+    for (auto value:original_a.values) equation_scale=std::max(equation_scale,std::abs(value));
+    for (auto value:original_b.values) equation_scale=std::max(equation_scale,std::abs(value));
+    for (auto value:b.values) {
+        if (!std::isfinite(value.real()) || !std::isfinite(value.imag()))
+            throw std::overflow_error("parameter solution overflow");
+        solution_scale=std::max(solution_scale,std::abs(value));
+    }
+    if (!std::isfinite(equation_scale) || !std::isfinite(solution_scale))
+        throw std::overflow_error("parameter residual scale overflow");
+    for (std::size_t r=0;r<n;++r)
+        for (std::size_t col=0;col<n;++col) {
+            const auto rhs=(original_b(r,col)/equation_scale)/solution_scale;
+            Complex residual=-rhs;
+            double denominator=std::abs(rhs);
+            for (std::size_t c=0;c<n;++c) {
+                const auto term=(original_a(r,c)/equation_scale)*(b(c,col)/solution_scale);
+                residual+=term;
+                denominator+=std::abs(term);
+            }
+            if (std::abs(residual)>256*std::numeric_limits<double>::epsilon()*n*denominator)
+                throw std::domain_error("parameter conversion residual exceeds tolerance");
+        }
     return b;
 }
 inline SMatrix convert(const SMatrix& s,double reference,bool admittance) {
@@ -46,7 +72,7 @@ inline SMatrix convert(const SMatrix& s,double reference,bool admittance) {
             a(r,c)=identity+(admittance?s(r,c):-s(r,c));
             b(r,c)=identity+(admittance?-s(r,c):s(r,c));
         }
-    auto result=solve(a,b);
+    auto result=solve(a,b,1.);
     for (auto& x:result.values) {
         x=admittance?x/reference:x*reference;
         if (!std::isfinite(x.real()) || !std::isfinite(x.imag())) throw std::overflow_error("parameter conversion overflow");

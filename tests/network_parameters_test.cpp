@@ -19,4 +19,18 @@ int main() {
     rejects<std::domain_error>([]{s_to_y(SMatrix{1,{-1.}});});
     rejects<std::invalid_argument>([]{s_to_z(SMatrix{2,{0.}});});
     rejects<std::invalid_argument>([]{s_to_y(SMatrix{1,{0.}},-1.);});
+    // Cancellation at the identity scale must not yield a huge unstable result.
+    rejects<std::domain_error>([]{s_to_z(SMatrix{1,{std::nextafter(1.,0.)}});});
+    rejects<std::domain_error>([]{s_to_y(SMatrix{1,{std::nextafter(-1.,0.)}});});
+    const SMatrix complex_network{3,{
+        Complex{0.1,0.2},0.2,Complex{0.,0.1},
+        0.4,Complex{-0.1,0.1},0.1,
+        Complex{0.2,-0.1},0.3,-0.2}};
+    const auto zn=s_to_z(complex_network),yn=s_to_y(complex_network);
+    for (std::size_t r=0;r<3;++r)
+        for (std::size_t c=0;c<3;++c) {
+            Complex product=0.;
+            for (std::size_t k=0;k<3;++k) product+=zn(r,k)*yn(k,c);
+            near(product,r==c?1.:0.);
+        }
 }
