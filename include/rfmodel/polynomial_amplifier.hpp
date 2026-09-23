@@ -1,20 +1,8 @@
 #pragma once
 #include "nonlinear_spectrum.hpp"
+#include "power_wave_spectrum.hpp"
 
 namespace rfmodel {
-// Positive-frequency RMS power waves in sqrt(W); norm(coefficient) is tone power.
-// Bin zero is a real DC power amplitude. Negative bins are implicit conjugates.
-struct PowerWaveSpectrum {
-    double spacing_hz{};
-    std::map<int, Complex> amplitudes;
-};
-
-class NonlinearTransmissionProvider {
-public:
-    virtual ~NonlinearTransmissionProvider() = default;
-    virtual PowerWaveSpectrum transmit(const PowerWaveSpectrum &incident) const = 0;
-};
-
 class MatchedPolynomialAmplifier final : public RFDeviceModel,
                                          public SParameterProvider,
                                          public NonlinearTransmissionProvider {
@@ -77,6 +65,7 @@ public:
     }
 
     PowerWaveSpectrum transmit(const PowerWaveSpectrum &incident) const override {
+        validate_power_wave_spectrum(incident);
         const double root_reference = std::sqrt(reference_);
         const double root_two = std::sqrt(2.);
         RealVoltageSpectrum voltage{incident.spacing_hz, {}};
