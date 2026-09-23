@@ -12,3 +12,5 @@
 双向小信号放大器参数与使用示例见 [linear-amplifier.md](linear-amplifier.md)。
 
 失配二端口的换能、工作和可用功率增益见 [power-gain.md](power-gain.md)。
+
+各级端口功率及累计增益预算见 [linear-path.md](linear-path.md)。
