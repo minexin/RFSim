@@ -36,3 +36,17 @@ Windows PowerShell 的 GetActiveObject("Genesys.Application") 能取得非空对
 已新增 `scripts/reference/inspect-active-systemvue.ps1`，引用安装目录自带 Interop.GENESYS.dll，以强类型接口只读查询已有实例。脚本不创建实例，不打开、保存或关闭工作区。首次尝试因自动审批额度失败而未执行；本次正常审批后，Windows PowerShell 的脚本执行策略阻止加载，仍未到达强类型 COM 调用。未修改系统执行策略。该脚本尚未完成运行验证。
 
 不受上述阻碍的本机帮助目录提取已完成并重复核验，详见 rf-design-catalog.md。迄今尚无 SystemVue 仿真输出或数值兼容结论。
+
+## 2026-09-24 强类型只读连接成功
+
+用户明确授权执行 SystemVue 比对相关命令后，使用 Windows PowerShell 5.1 的进程级 `RemoteSigned` 策略执行本地检查脚本成功。没有更改 CurrentUser/LocalMachine 执行策略，也没有重新激活或关闭 SystemVue。
+
+```powershell
+& 'C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe' `
+  -NoProfile -NonInteractive -ExecutionPolicy RemoteSigned `
+  -File D:/project/RFModel/scripts/reference/inspect-active-systemvue.ps1
+```
+
+厂商 Interop.GENESYS.dll 强类型 Application.Manager 返回 1 个工作区。进一步以 IItem 只读枚举，名称为 Data Flow Template，顶层对象计数为 8，分别为 Analyses、Designs、Graphs、Note、Page、TuneList、Variables、WorkspaceVariables。这证明已有实例的管理器与对象访问可用，先前动态 PowerShell 返回 null 的现象不能视为 COM 接口不可用。
+
+检查脚本仅附着现有实例，最多读取每个工作区前 100 个顶层对象名称，并释放取得的 COM 引用；不会调用 Save、RunAnalysis、FileOpen、Quit 或修改工作区。当前仍没有运行参考仿真，因此这次成功是自动化入口验证，不是数值兼容验收。下一步在项目内独立的参考工程副本中运行最小线性用例，保留原已打开工作区。

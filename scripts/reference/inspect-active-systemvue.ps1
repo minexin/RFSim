@@ -10,13 +10,62 @@ using System.Runtime.InteropServices;
 
 public static class ActiveSystemVueInspector
 {
-    public static int WorkspaceCount()
+    public sealed class WorkspaceSnapshot
+    {
+        public string name;
+        public int item_count;
+        public string[] top_level_items;
+    }
+
+    public static WorkspaceSnapshot[] Inspect()
     {
         object active = Marshal.GetActiveObject("Genesys.Application");
         try
         {
             var application = (GENESYS.Application)active;
-            return application.Manager.GetWorkspaceCount();
+            var manager = application.Manager;
+            try
+            {
+                int count = manager.GetWorkspaceCount();
+                var snapshots = new WorkspaceSnapshot[count];
+                for (int index = 0; index < count; ++index)
+                {
+                    var workspace = manager.GetWorkspaceByIndex(index);
+                    try
+                    {
+                        var item = (GENESYS.IItem)workspace;
+                        int itemCount = item.GetItemCount();
+                        var names = new string[Math.Min(itemCount, 100)];
+                        for (int childIndex = 0; childIndex < names.Length; ++childIndex)
+                        {
+                            var child = item.GetItemByIndex(childIndex);
+                            try
+                            {
+                                names[childIndex] = child.GetName();
+                            }
+                            finally
+                            {
+                                Marshal.ReleaseComObject(child);
+                            }
+                        }
+                        snapshots[index] = new WorkspaceSnapshot
+                        {
+                            name = item.GetName(),
+                            item_count = itemCount,
+                            top_level_items = names
+                        };
+                    }
+                    finally
+                    {
+                        Marshal.ReleaseComObject(workspace);
+                    }
+                }
+                return snapshots;
+            }
+            finally
+            {
+                Marshal.ReleaseComObject(manager);
+            }
         }
         finally
         {
@@ -29,11 +78,13 @@ public static class ActiveSystemVueInspector
 }
 '@
 try {
+    $workspaces = @([ActiveSystemVueInspector]::Inspect())
     [pscustomobject]@{
         attached = $true
-        workspace_count = [ActiveSystemVueInspector]::WorkspaceCount()
+        workspace_count = $workspaces.Count
+        workspaces = $workspaces
         operation = 'read_only_active_instance'
-    } | ConvertTo-Json
+    } | ConvertTo-Json -Depth 5
 } catch {
     [pscustomobject]@{
         attached = $false
