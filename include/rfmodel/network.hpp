@@ -1,5 +1,7 @@
 #pragma once
 #include "device_model.hpp"
+#include "network_parameters.hpp"
+#include "noise_matrix.hpp"
 #include <algorithm>
 #include <cmath>
 #include <limits>
@@ -23,11 +25,7 @@ class LinearNetwork {
         if (p >= boundaries_.size()) throw std::out_of_range("network port");
         if (boundaries_[p].assigned) throw std::invalid_argument("port already connected or terminated");
     }
-public:
-    double reference_impedance_ohms() const { return reference_; }
-    // Selected external ports must be unassigned. Their order defines S rows/columns.
-    // All remaining ports must already be connected or terminated without sources.
-    SMatrix external_s(const std::vector<std::size_t>& ports) const {
+    void validate_external_ports(const std::vector<std::size_t>& ports) const {
         if (ports.empty()) throw std::invalid_argument("no external ports");
         std::vector<bool> selected(boundaries_.size(),false);
         for (auto p : ports) {
@@ -39,8 +37,15 @@ public:
             if (!selected[p] && !boundaries_[p].assigned)
                 throw std::invalid_argument("unassigned internal port");
             if (boundaries_[p].source != Complex{})
-                throw std::invalid_argument("S extraction requires zero independent sources");
+                throw std::invalid_argument("external extraction requires zero independent sources");
         }
+    }
+public:
+    double reference_impedance_ohms() const { return reference_; }
+    // Selected external ports must be unassigned. Their order defines S rows/columns.
+    // All remaining ports must already be connected or terminated without sources.
+    SMatrix external_s(const std::vector<std::size_t>& ports) const {
+        validate_external_ports(ports);
         SMatrix result{ports.size(),std::vector<Complex>(ports.size()*ports.size())};
         for (std::size_t column=0; column<ports.size(); ++column) {
             auto excitation=*this;
@@ -51,6 +56,36 @@ public:
                 result(row,column)=waves.outgoing[ports[row]];
         }
         return result;
+    }
+    // Intrinsic outgoing noise b=S*a+c, with globally indexed covariance of c.
+    // External ports are matched and noiseless; termination noise is not implicit.
+    NoiseCorrelation external_noise(const std::vector<std::size_t>& ports,
+                                    const NoiseCorrelation& intrinsic) const {
+        validate_external_ports(ports);
+        const auto n=boundaries_.size();
+        if (intrinsic.watts_per_hz.ports!=n)
+            throw std::invalid_argument("intrinsic noise must cover all network ports");
+        SMatrix s{n,std::vector<Complex>(n*n)}, matrix=s, identity=s;
+        for (const auto& block:blocks_)
+            for (std::size_t r=0;r<block.s.ports;++r)
+                for (std::size_t c=0;c<block.s.ports;++c)
+                    s(block.offset+r,block.offset+c)=block.s(r,c);
+        for (std::size_t r=0;r<n;++r) {
+            matrix(r,r)=identity(r,r)=1.;
+            for (std::size_t p=0;p<n;++p) {
+                const auto& boundary=boundaries_[p];
+                if (!boundary.assigned) continue; // Matched external port.
+                const Complex multiplier=boundary.partner==p?boundary.reflection:Complex{1.,0.};
+                matrix(r,boundary.partner)-=s(r,p)*multiplier;
+            }
+        }
+        // a=C*b => (I-S*C)*b=c. Solve all noise excitations together.
+        const auto transfer=parameter_detail::solve(matrix,identity,1.);
+        const auto full=propagate_noise(transfer,intrinsic).watts_per_hz;
+        SMatrix result{ports.size(),std::vector<Complex>(ports.size()*ports.size())};
+        for (std::size_t r=0;r<ports.size();++r)
+            for (std::size_t c=0;c<ports.size();++c) result(r,c)=full(ports[r],ports[c]);
+        return {std::move(result)};
     }
     explicit LinearNetwork(double reference_ohms = 50.0) : reference_(reference_ohms) {
         if (!std::isfinite(reference_) || reference_ <= 0) throw std::invalid_argument("invalid network reference");
