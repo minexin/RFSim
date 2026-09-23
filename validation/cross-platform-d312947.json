@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "commit": "d312947299cfca10e948c76d0230f711685a3432",
+  "run_url": "https://github.com/minexin/RFSim/actions/runs/35802872861",
+  "conclusion": "success",
+  "jobs": [
+    {
+      "name": "build (ubuntu-latest, Release)",
+      "conclusion": "success",
+      "url": "https://github.com/minexin/RFSim/actions/runs/35802872861/job/106996972314"
+    },
+    {
+      "name": "build (windows-latest, Debug)",
+      "conclusion": "success",
+      "url": "https://github.com/minexin/RFSim/actions/runs/35802872861/job/106996972520"
+    },
+    {
+      "name": "build (windows-latest, Release)",
+      "conclusion": "success",
+      "url": "https://github.com/minexin/RFSim/actions/runs/35802872861/job/106996972523"
+    },
+    {
+      "name": "build (macos-latest, Debug)",
+      "conclusion": "success",
+      "url": "https://github.com/minexin/RFSim/actions/runs/35802872861/job/106996972530"
+    },
+    {
+      "name": "build (macos-latest, Release)",
+      "conclusion": "success",
+      "url": "https://github.com/minexin/RFSim/actions/runs/35802872861/job/106996972532"
+    },
+    {
+      "name": "build (ubuntu-latest, Debug)",
+      "conclusion": "success",
+      "url": "https://github.com/minexin/RFSim/actions/runs/35802872861/job/106996972569"
+    }
+  ],
+  "verification_lines": [
+    "build (ubuntu-latest, Release)\tConfigure\t2026-09-23T00:37:39.8388664Z -- The CXX compiler identification is GNU 13.3.0",
+    "build (ubuntu-latest, Release)\tTest core and CLI\t2026-09-23T00:38:02.4799458Z 100% tests passed, 0 tests failed out of 24",
+    "build (ubuntu-latest, Release)\tConfigure independent consumer\t2026-09-23T00:38:02.6061282Z -- The CXX compiler identification is GNU 13.3.0",
+    "build (ubuntu-latest, Release)\tTest installed package\t2026-09-23T00:38:04.8141242Z 100% tests passed, 0 tests failed out of 1",
+    "build (windows-latest, Debug)\tConfigure\t2026-09-23T00:37:55.9785680Z -- The CXX compiler identification is MSVC 19.51.36256.0",
+    "build (windows-latest, Debug)\tTest core and CLI\t2026-09-23T00:38:16.6671675Z 100% tests passed out of 24",
+    "build (windows-latest, Debug)\tConfigure independent consumer\t2026-09-23T00:38:17.9835641Z -- The CXX compiler identification is MSVC 19.51.36256.0",
+    "build (windows-latest, Debug)\tTest installed package\t2026-09-23T00:38:21.3444937Z 100% tests passed out of 1",
+    "build (windows-latest, Release)\tConfigure\t2026-09-23T00:37:58.0313732Z -- The CXX compiler identification is MSVC 19.51.36256.0",
+    "build (windows-latest, Release)\tTest core and CLI\t2026-09-23T00:38:31.5659039Z 100% tests passed out of 24",
+    "build (windows-latest, Release)\tConfigure independent consumer\t2026-09-23T00:38:32.9320080Z -- The CXX compiler identification is MSVC 19.51.36256.0",
+    "build (windows-latest, Release)\tTest installed package\t2026-09-23T00:38:36.9857420Z 100% tests passed out of 1",
+    "build (macos-latest, Debug)\tConfigure\t2026-09-23T00:37:47.7246180Z -- The CXX compiler identification is AppleClang 21.0.0.21000101",
+    "build (macos-latest, Debug)\tTest core and CLI\t2026-09-23T00:38:04.2135800Z 100% tests passed out of 24",
+    "build (macos-latest, Debug)\tConfigure independent consumer\t2026-09-23T00:38:04.7697760Z -- The CXX compiler identification is AppleClang 21.0.0.21000101",
+    "build (macos-latest, Debug)\tTest installed package\t2026-09-23T00:38:06.7570740Z 100% tests passed out of 1",
+    "build (macos-latest, Release)\tConfigure\t2026-09-23T00:37:48.7742300Z -- The CXX compiler identification is AppleClang 21.0.0.21000101",
+    "build (macos-latest, Release)\tTest core and CLI\t2026-09-23T00:38:06.6463190Z 100% tests passed out of 24",
+    "build (macos-latest, Release)\tConfigure independent consumer\t2026-09-23T00:38:06.8406980Z -- The CXX compiler identification is AppleClang 21.0.0.21000101",
+    "build (macos-latest, Release)\tTest installed package\t2026-09-23T00:38:08.5683340Z 100% tests passed out of 1",
+    "build (ubuntu-latest, Debug)\tConfigure\t2026-09-23T00:37:40.4701253Z -- The CXX compiler identification is GNU 13.3.0",
+    "build (ubuntu-latest, Debug)\tTest core and CLI\t2026-09-23T00:37:51.7625526Z 100% tests passed, 0 tests failed out of 24",
+    "build (ubuntu-latest, Debug)\tConfigure independent consumer\t2026-09-23T00:37:51.8693118Z -- The CXX compiler identification is GNU 13.3.0",
+    "build (ubuntu-latest, Debug)\tTest installed package\t2026-09-23T00:37:53.0455401Z 100% tests passed, 0 tests failed out of 1"
+  ],
+  "systemvue_comparison": "not_executed",
+  "consumer_scope": "Basic installed-package linear analysis smoke; not all new noise APIs"
+}

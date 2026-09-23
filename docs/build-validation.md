@@ -1,5 +1,7 @@
 # 构建与当前验证状态
 
+最新跨平台记录：提交 `d312947299cfca10e948c76d0230f711685a3432` 的 [CI 35802872861](https://github.com/minexin/RFSim/actions/runs/35802872861) 在 Windows/MSVC 19.51、Ubuntu/GCC 13.3、macOS/AppleClang 21 的 Debug/Release 六个配置均通过核心测试 24/24、安装后消费者测试 1/1。机器可读摘要与原始测试结论行见 `validation/cross-platform-d312947.json`。消费者测试仅调用基本线性分析，不代表所有新增噪声 API 的安装后行为已覆盖。下方较早的 14 项记录保留为历史证据。
+
 本机已确认安装 Visual Studio 2022 Build Tools，MSVC 19.44.35228（工具目录 14.44.35207），Windows SDK 10.0.26100.0，以及 Visual Studio 自带的 CMake/CTest。它们没有加入当前 PowerShell 的 PATH；此前“没有可用工具链”的判断不准确。
 
 Windows 可复现命令（需要能访问 SDK 和工具链的执行环境）：
