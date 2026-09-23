@@ -23,6 +23,8 @@ Attenuator 对应 ATTN_Linear、ATTN_NonLinear、AttnPwr、MOD_DSA、SDATA_NL、
 
 ## 实现与验收顺序
 
+2026-09-24 进展：已根据上述增益和端口定义实现 [LinearAmplifierModel](linear-amplifier.md)，具备复阻抗、有限反向隔离和显式相位的小信号矩阵。它补充现有匹配多项式模型，尚未完成 RFAMP 参数适配、DC 阻断及噪声默认值；上表列出的完整兼容缺口继续保留。
+
 1. 提取 RFAMP 引用的 Gain and Impedance、Port Parameter Types、Noise Parameters 和 RFAMP_HO 公式，确定增益归一化、反射、反向隔离和噪声定义。避免直接猜测失配时的 S21。
 2. 建立器件参数到 S 矩阵及噪声协方差的适配层；验证匹配、复阻抗、有限反向隔离、DC 和多频点用例。通用理想器件保留自身明确的数学定义。
 3. 对官方 OP1dB、OPSAT、OIP2/OIP3 的独立设置建立单音压缩及双音互调参考，再实现对应非线性拟合、AM/PM 和高阶行为。
