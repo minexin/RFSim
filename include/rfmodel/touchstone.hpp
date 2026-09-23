@@ -15,6 +15,13 @@ enum class TouchstoneFormat {
     DB
 };
 
+struct TouchstoneNoiseSample {
+    double frequency_hz{};
+    double minimum_noise_figure_db{};
+    Complex optimum_source_reflection{};
+    double noise_resistance_ohms{};
+};
+
 struct TouchstoneData {
     std::size_t ports{};
     double frequency_scale{1.0};
@@ -22,6 +29,7 @@ struct TouchstoneData {
     std::vector<double> frequencies_hz;
     std::vector<SMatrix> matrices;
     double reference_impedance_ohms{50.0};
+    std::vector<TouchstoneNoiseSample> noise_samples;
 };
 
 namespace touchstone_detail {
@@ -62,6 +70,7 @@ inline TouchstoneData read_touchstone(const std::string &path) {
         throw std::runtime_error("cannot open Touchstone file: " + path);
     }
     bool header = false;
+    bool reading_noise = false;
     std::vector<double> record;
     const auto size = 1 + 2 * d.ports * d.ports;
     std::string line;
@@ -127,9 +136,34 @@ inline TouchstoneData read_touchstone(const std::string &path) {
         if (!header) {
             throw std::runtime_error("missing option line");
         }
+        std::vector<double> row;
         do {
-            record.push_back(touchstone_detail::number(token));
+            row.push_back(touchstone_detail::number(token));
         } while (words >> token);
+        const double row_frequency = row.front() * d.frequency_scale;
+        if (record.empty() && d.ports == 2 && !d.frequencies_hz.empty() &&
+            row_frequency <= d.frequencies_hz.back()) {
+            reading_noise = true;
+        }
+        if (reading_noise) {
+            if (row.size() != 5 || !std::isfinite(row_frequency) || row_frequency < 0 ||
+                (!d.noise_samples.empty() &&
+                 row_frequency <= d.noise_samples.back().frequency_hz)) {
+                throw std::runtime_error("invalid five-column noise record or frequency order");
+            }
+            if (row[2] < 0 || row[4] < 0) {
+                throw std::runtime_error("negative noise reflection magnitude or resistance");
+            }
+            const auto gamma =
+                std::polar(row[2], std::remainder(row[3], 360.) * (3.14159265358979323846 / 180.));
+            const double resistance = row[4] * d.reference_impedance_ohms;
+            if (!std::isfinite(resistance)) {
+                throw std::runtime_error("noise resistance overflow");
+            }
+            d.noise_samples.push_back({row_frequency, row[1], gamma, resistance});
+            continue;
+        }
+        record.insert(record.end(), row.begin(), row.end());
         if (record.size() > size) {
             throw std::runtime_error("extra data in frequency record");
         }

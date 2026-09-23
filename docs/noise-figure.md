@@ -28,6 +28,6 @@
 
 令 e=10^(NFmin/10)-1、K=4*Rn/(Z0*|1+GammaOpt|²)，输入参考矩阵为 Q=[[K-e,-K*conj(GammaOpt)],[-K*GammaOpt,e+K*|GammaOpt|²]]。用 [[1,S11],[0,S21]] 将 Q 转回器件端口，再乘 kB*T0。实现使用 expm1，复用半正定检查及相关矩阵传播。
 
-非负 NFmin 和 Rn 不足以保证物理可实现性：若 Q 非半正定，输入被拒绝。还拒绝单位圆外/边界 GammaOpt、零前向传输、非法参考及溢出。此接口不读取厂商文件，Touchstone 噪声段解析仍待实现。
+非负 NFmin 和 Rn 不足以保证物理可实现性：若 Q 非半正定，输入被拒绝。还拒绝单位圆外/边界 GammaOpt、零前向传输、非法参考及溢出。此数值转换接口不直接读取文件；legacy Touchstone 噪声段现已由 read_touchstone 及 TabulatedNoiseModel::from_touchstone 接入，详见 touchstone.md。
 
 新增验证覆盖复数 S 参数双向转换、非默认参考阻抗、参考温度缩放、多个失配源的 NF 重建、无源热噪声矩阵复原及导入参数后的两级网络噪声；还包括不相容参数和溢出拒绝。

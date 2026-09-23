@@ -1,6 +1,7 @@
 #pragma once
 #include "tabulated_model.hpp"
 #include "noise_matrix.hpp"
+#include "noise_figure.hpp"
 
 namespace rfmodel {
 struct NoiseTable {
@@ -41,6 +42,27 @@ public:
             }
             matrix = noise_detail::psd_matrix(matrix);
         }
+    }
+
+    static TabulatedNoiseModel from_touchstone(std::string name,
+                                               const std::string &path,
+                                               OutOfBand policy = OutOfBand::Reject,
+                                               double reference_temperature_k = 290.) {
+        auto data = read_touchstone(path);
+        if (data.noise_samples.empty()) {
+            throw std::invalid_argument("Touchstone file contains no noise data");
+        }
+        NoiseTable noise;
+        for (const auto &sample : data.noise_samples) {
+            const auto scattering = interpolate_s(data, sample.frequency_hz, policy);
+            const TwoPortNoiseParameters parameters{sample.minimum_noise_figure_db,
+                                                    sample.optimum_source_reflection,
+                                                    sample.noise_resistance_ohms};
+            noise.frequencies_hz.push_back(sample.frequency_hz);
+            noise.samples.push_back(noise_from_parameters(
+                scattering, parameters, data.reference_impedance_ohms, reference_temperature_k));
+        }
+        return TabulatedNoiseModel(std::move(name), std::move(data), std::move(noise), policy);
     }
 
     std::string name() const override {
