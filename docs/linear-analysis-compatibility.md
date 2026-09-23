@@ -12,7 +12,7 @@
 | Zin1/Zin2 | 已有正实参考阻抗下的 input_impedance | 命名别名、复参考及数值对照 |
 | NF、NFmin、GammaOpt、Rn | Friis 不等价于这些网络结果 | 基于 S/CS 的计算 |
 | zin/yin/groupdelay | 已有标量阻抗/导纳和区间群时延 | 输出边界与 SystemVue 对照 |
-| stoz/stoy | 未实现 | 多端口矩阵转换 |
+| stoz/stoy | 已有统一正实参考的 S→Z/Y 转换 | 独立/复参考和 SystemVue 数值对照 |
 | 非线性器件工作点线性化 | 未实现 | DC 工作点与模型能力 |
 
 厂商帮助指出该 Linear Analysis 不包含稳定圆/增益圆/噪声圆及传输线、微带设计功能，不应把这些列为必须复制的功能。该描述不替代对 RF Design 各器件模块的逐项核验。
