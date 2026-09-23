@@ -41,4 +41,6 @@ SystemVue 2023 本机帮助 `sim/Gain_and_Impedance.html` 明确区分模型增�
 
 ## 验证
 
+失配功率增益的公共测量接口已补充在 [power-gain.md](power-gain.md)，可以对本模型及一般二端口 S 矩阵分别计算三种增益。
+
 2026-09-24，MSVC Debug 与 Release 全套各 32/32 通过，58 个 C++ 文件格式检查通过。新增用例覆盖默认参数、有限 S12 的源/负载反射反馈解析解、复数阻抗、相位周期、单向极限、极大阻抗缩放及错误输入。尚未执行 SystemVue 数值对照，也不据此声称 Linux/macOS 本提交已验证。

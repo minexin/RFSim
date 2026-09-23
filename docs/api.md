@@ -10,3 +10,5 @@
 - 对外 ABI 暂不承诺稳定；v1.0 前优先保证源码兼容和测试可复现。
 
 双向小信号放大器参数与使用示例见 [linear-amplifier.md](linear-amplifier.md)。
+
+失配二端口的换能、工作和可用功率增益见 [power-gain.md](power-gain.md)。

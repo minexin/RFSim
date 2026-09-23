@@ -4,6 +4,7 @@
 #include <rfmodel/noise.hpp>
 #include <rfmodel/noise_figure.hpp>
 #include <rfmodel/linear_solver.hpp>
+#include <rfmodel/power_gain.hpp>
 #include <cmath>
 
 int main() {
@@ -25,5 +26,8 @@ int main() {
         rfmodel::extract_noise_parameters(result.scattering[0], result.noise_correlation[0]);
     const auto imported = rfmodel::noise_from_parameters(result.scattering[0], parameters);
     const auto nf = rfmodel::two_port_noise_figure_db(result.scattering[0], imported);
+    if (std::abs(rfmodel::operating_power_gain(result.scattering[0]) - 0.25) >= 1e-12) {
+        return 3;
+    }
     return std::abs(nf - 10 * std::log10(4.)) < 1e-12 ? 0 : 2;
 }
