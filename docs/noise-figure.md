@@ -8,6 +8,16 @@
 
 拒绝非二端口、非法协方差、非正参考温度、非无源源反射、零前向传输、奇异源反馈及数值溢出。这里的源反馈检查不构成完整稳定性分析。反向噪声系数需先一致地重排 S 与噪声矩阵端口。
 
-解析验证覆盖常温衰减器 F=1/G、双倍物理温度、源失配、具有虚部相关项的噪声源，以及衰减器加放大器网络求解与独立 Friis 实现的一致性。可逐频点将 analyze_linear 返回的 scattering 和 noise_correlation 配对使用。NFmin/GammaOpt/Rn 提取、非匹配测量负载及 SystemVue 对照仍待完成。
+解析验证覆盖常温衰减器 F=1/G、双倍物理温度、源失配、具有虚部相关项的噪声源，以及衰减器加放大器网络求解与独立 Friis 实现的一致性。可逐频点将 analyze_linear 返回的 scattering 和 noise_correlation 配对使用。NFmin/GammaOpt/Rn 提取见下节；非匹配测量负载及 SystemVue 对照仍待完成。
 
 本阶段 MSVC Debug/Release 全套各 23/23 通过。
+
+## NFmin、GammaOpt 与 Rn
+
+`extract_noise_parameters(S,C,reference_ohms=50,temperature_k=290)` 返回 `TwoPortNoiseParameters`，包含 minimum_noise_figure_db、optimum_source_reflection 和 noise_resistance_ohms。参考阻抗用来将归一化噪声电阻换算为欧姆；必须与输入端口参考相同。
+
+先把噪声转换到输入参考矩阵 Q，使分子为 A*|Gamma|²+2*Re(B*Gamma)+D。取 t=A+D，最佳源为 -2*conj(B)/(t+sqrt(t²-4*|B|²))，在缩放后计算判别式以避免平方溢出。Rn=Z0*(A+D-2*Re(B))/4。NFmin 用既有噪声系数函数在最佳源处求值。参数约定及 NF 重建式参考 [Qucs 技术文档 Noise Parameters](https://qucs.github.io/tech/node9.html)。
+
+全零噪声时所有源同样最优，约定返回 GammaOpt=0、NFmin=0 dB、Rn=0。若最优点只位于单位圆边界或在浮点精度内无法分辨其内部距离，则抛出 domain_error，不把不可实现的极限源报告为有效最优源。仍会拒绝在该源处出现奇异反馈的网络。
+
+回归采用已知复数 GammaOpt 的合成矩阵，验证 NFmin、Rn 及多个源反射点的 NF 重建；并覆盖复数增益、输入反射、75 欧姆换算、无源衰减器、零噪声和边界退化。SystemVue 数值对照仍未完成。

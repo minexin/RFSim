@@ -16,4 +16,4 @@ auto result = rfmodel::analyze_linear(grid, ports, build_network,
     });
 ```
 
-回归覆盖不同物理温度的两级衰减器、频变插损、反序外端口、解析输出噪声、一次构建/频点、无噪声请求的空字段，以及中途回调错误的频率上下文。这里的 W/Hz 定义尚未与 SystemVue 2023 CS 数据归一化核对，不能宣称 CS 数值兼容；NF/NFmin/Rn/GammaOpt 后处理仍待实现。
+回归覆盖不同物理温度的两级衰减器、频变插损、反序外端口、解析输出噪声、一次构建/频点、无噪声请求的空字段，以及中途回调错误的频率上下文。这里的 W/Hz 定义尚未与 SystemVue 2023 CS 数据归一化核对，不能宣称 CS 数值兼容；NF/NFmin/Rn/GammaOpt 可通过 noise-figure.md 所述二端口后处理接口计算。

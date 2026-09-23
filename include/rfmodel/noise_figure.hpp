@@ -31,4 +31,34 @@ inline double two_port_noise_figure_db(const SMatrix& s,const NoiseCorrelation& 
     if (!std::isfinite(excess)) throw std::overflow_error("noise factor overflow");
     return 10./std::log(10.)*std::log1p(excess);
 }
+struct TwoPortNoiseParameters {
+    double minimum_noise_figure_db{};
+    Complex optimum_source_reflection{};
+    double noise_resistance_ohms{};
+};
+inline TwoPortNoiseParameters extract_noise_parameters(
+    const SMatrix& s,const NoiseCorrelation& intrinsic,double reference_ohms=50.,double temperature_k=290.) {
+    if (!std::isfinite(reference_ohms) || reference_ohms<=0)
+        throw std::invalid_argument("invalid noise parameter reference");
+    // Validate dimensions, temperature, transmission and covariance first.
+    two_port_noise_figure_db(s,intrinsic,{},temperature_k);
+    auto normalized=intrinsic;
+    for (auto& x:normalized.watts_per_hz.values) x/=(1.380649e-23*temperature_k);
+    // Input-referred numerator = A*|Gamma|^2 + 2*Re(B*Gamma) + D.
+    const SMatrix transform{2,{1.,-s(0,0)/s(1,0),0.,1./s(1,0)}};
+    const auto q=propagate_noise(transform,normalized).watts_per_hz;
+    const double scale=std::max(q(0,0).real(),q(1,1).real());
+    if (scale==0) return {}; // Any source is optimal; choose matched source.
+    const double a=q(0,0).real()/scale,d=q(1,1).real()/scale;
+    const Complex b=q(0,1)/scale;
+    const double sum=a+d, magnitude=std::abs(b);
+    const double discriminant=std::max(0.,(sum-2*magnitude)*(sum+2*magnitude));
+    const Complex optimum=-2.*std::conj(b)/(sum+std::sqrt(discriminant));
+    if (std::abs(optimum)>=1.-64*std::numeric_limits<double>::epsilon())
+        throw std::domain_error("noise minimum lies at unresolved unit-circle boundary");
+    const double minimum=two_port_noise_figure_db(s,intrinsic,optimum,temperature_k);
+    const double resistance=(reference_ohms/4.)*scale*(sum-2*b.real());
+    if (!std::isfinite(resistance)) throw std::overflow_error("noise resistance overflow");
+    return {minimum,optimum,resistance};
+}
 }
