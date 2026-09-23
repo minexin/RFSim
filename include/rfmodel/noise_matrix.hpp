@@ -6,6 +6,11 @@
 namespace rfmodel {
 // C(i,j)=E[c_i*conj(c_j)] per Hz, in W/Hz for power-normalized waves.
 struct NoiseCorrelation { SMatrix watts_per_hz; };
+class NoiseCorrelationProvider {
+public:
+    virtual ~NoiseCorrelationProvider() = default;
+    virtual NoiseCorrelation noise_correlation(double frequency_hz) const = 0;
+};
 namespace noise_detail {
 inline void finite_matrix(const SMatrix& m) {
     if (!m.ports || m.ports>1024 || m.values.size()!=m.ports*m.ports)
