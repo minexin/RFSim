@@ -21,7 +21,7 @@ ctest --test-dir build --output-on-failure
 
 ## 已执行验证
 
-MSVC x64 Debug 和 Release 均构建成功，CTest 各 25/25 通过。测试使用始终有效的检查函数，Release 不会因 NDEBUG 而跳过断言。
+MSVC x64 Debug 和 Release 均构建成功，CTest 各 26/26 通过。测试使用始终有效的检查函数，Release 不会因 NDEBUG 而跳过断言。
 
 覆盖：静态模型维度、矩阵行列越界、匹配衰减器波幅/功率、非互易方向性、双端口同时激励及非二端口拒绝。
 
@@ -45,3 +45,5 @@ MSVC x64 Debug 和 Release 均构建成功，CTest 各 25/25 通过。测试使�
 机器可读证据摘要：`validation/cross-platform-7fba1bf.json`。CI 证明已有能力在这些编译器上通过回归，不代表完成 SystemVue 功能兼容。官方 hosted runner 的 latest 标签会变化，具体编译器以上述运行日志为准。
 
 噪声参数导入阶段：本机 MSVC Debug/Release 核心各 25/25，扩展后的独立安装包消费者各 1/1。消费者新增相关噪声扫描、NFmin/GammaOpt/Rn 提取、参数重建矩阵及 NF 校验；该新增覆盖尚不包含上方历史 CI 记录。
+
+代码可读性整理后：46 个 C++ 文件通过 clang-format 19.1.5 格式检查；本机 MSVC Debug/Release 核心各 26/26，独立安装包消费者各 1/1 通过。格式规则和复现命令见 code-style.md。
