@@ -1,0 +1,114 @@
+{
+  "reference": "validation/systemvue-2023-attenuator-near-zero.json",
+  "scope": "Diagnostic decomposition only; absolute comparison failures remain unresolved",
+  "samples": [
+    {
+      "loss_db": 0.0,
+      "source_signal_w": 9.999999750669016e-20,
+      "source_noise_w_per_hz": 4.0038860601707116e-21,
+      "inferred_source_noise_over_temperature": 1.3806503655761074e-23,
+      "inference_limit": "Noise divided by temperature is not proof of the simulator's internal constant",
+      "signal_gain_from_two_DCP_nodes": 0.9999989946232389,
+      "reported_CGAIN": 1,
+      "signed_relative_residuals": {
+        "source_signal_offset": -2.4933098363710826e-08,
+        "source_noise_offset_from_si_kT": 9.890827483705067e-07,
+        "signal_transfer_residual": -1.0053767610651576e-06,
+        "noise_output_to_input_residual": -5.441496364610998e-09,
+        "reported_gain_vs_signal_ratio_residual": 1.0053777719232215e-06
+      },
+      "signal_transfer_within_1e_7": false,
+      "noise_output_to_input_within_1e_7": true
+    },
+    {
+      "loss_db": 1e-08,
+      "source_signal_w": 1.0000000023517427e-19,
+      "source_noise_w_per_hz": 4.00388616941611e-21,
+      "inferred_source_noise_over_temperature": 1.3806504032469345e-23,
+      "inference_limit": "Noise divided by temperature is not proof of the simulator's internal constant",
+      "signal_gain_from_two_DCP_nodes": 0.9999996498228,
+      "reported_CGAIN": 1,
+      "signed_relative_residuals": {
+        "source_signal_offset": 2.3517428004993235e-09,
+        "source_noise_offset_from_si_kT": 1.0163676174013148e-06,
+        "signal_transfer_residual": -3.478746156693191e-07,
+        "noise_output_to_input_residual": -3.5017720001473407e-07,
+        "reported_gain_vs_signal_ratio_residual": 3.501773226943783e-07
+      },
+      "signal_transfer_within_1e_7": false,
+      "noise_output_to_input_within_1e_7": false
+    },
+    {
+      "loss_db": 1e-06,
+      "source_signal_w": 9.999999780209398e-20,
+      "source_noise_w_per_hz": 4.003886071998345e-21,
+      "inferred_source_noise_over_temperature": 1.3806503696546017e-23,
+      "inference_limit": "Noise divided by temperature is not proof of the simulator's internal constant",
+      "signal_gain_from_two_DCP_nodes": 0.9999997651903244,
+      "reported_CGAIN": 1,
+      "signed_relative_residuals": {
+        "source_signal_offset": -2.1979060127463868e-08,
+        "source_noise_offset_from_si_kT": 9.920367896043558e-07,
+        "signal_transfer_residual": -4.551193755197858e-09,
+        "noise_output_to_input_residual": -4.811955500727549e-09,
+        "reported_gain_vs_signal_ratio_residual": 2.348097307702801e-07
+      },
+      "signal_transfer_within_1e_7": true,
+      "noise_output_to_input_within_1e_7": true
+    },
+    {
+      "loss_db": 0.0001,
+      "source_signal_w": 9.999999749930047e-20,
+      "source_noise_w_per_hz": 4.003886059874837e-21,
+      "inferred_source_noise_over_temperature": 1.3806503654740815e-23,
+      "inference_limit": "Noise divided by temperature is not proof of the simulator's internal constant",
+      "signal_gain_from_two_DCP_nodes": 0.9999769694104316,
+      "reported_CGAIN": 0.9999769694104316,
+      "signed_relative_residuals": {
+        "source_signal_offset": -2.5006995252319086e-08,
+        "source_noise_offset_from_si_kT": 9.890088514818984e-07,
+        "signal_transfer_residual": -5.003846559326064e-09,
+        "noise_output_to_input_residual": -4.999532898786185e-09,
+        "reported_gain_vs_signal_ratio_residual": 0.0
+      },
+      "signal_transfer_within_1e_7": true,
+      "noise_output_to_input_within_1e_7": true
+    },
+    {
+      "loss_db": 0.01,
+      "source_signal_w": 9.999999750001348e-20,
+      "source_noise_w_per_hz": 4.0038860599033865e-21,
+      "inferred_source_noise_over_temperature": 1.3806503654839263e-23,
+      "inference_limit": "Noise divided by temperature is not proof of the simulator's internal constant",
+      "signal_gain_from_two_DCP_nodes": 0.9977000588336782,
+      "reported_CGAIN": 0.9977000588336782,
+      "signed_relative_residuals": {
+        "source_signal_offset": -2.499986517801034e-08,
+        "source_noise_offset_from_si_kT": 9.890159820002964e-07,
+        "signal_transfer_residual": -5.000375669084178e-09,
+        "noise_output_to_input_residual": -4.942667608531792e-09,
+        "reported_gain_vs_signal_ratio_residual": 0.0
+      },
+      "signal_transfer_within_1e_7": true,
+      "noise_output_to_input_within_1e_7": true
+    },
+    {
+      "loss_db": 1.0,
+      "source_signal_w": 9.999999749999992e-20,
+      "source_noise_w_per_hz": 4.003886059902843e-21,
+      "inferred_source_noise_over_temperature": 1.380650365483739e-23,
+      "inference_limit": "Noise divided by temperature is not proof of the simulator's internal constant",
+      "signal_gain_from_two_DCP_nodes": 0.7943282307526429,
+      "reported_CGAIN": 0.7943282307526429,
+      "signed_relative_residuals": {
+        "source_signal_offset": -2.5000000847263948e-08,
+        "source_noise_offset_from_si_kT": 9.890158463310428e-07,
+        "signal_transfer_residual": -4.999996749965874e-09,
+        "noise_output_to_input_residual": 1.417985728835447e-10,
+        "reported_gain_vs_signal_ratio_residual": 0.0
+      },
+      "signal_transfer_within_1e_7": true,
+      "noise_output_to_input_within_1e_7": true
+    }
+  ]
+}

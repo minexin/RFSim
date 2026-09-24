@@ -50,18 +50,27 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("capture_directory", type=Path)
     parser.add_argument("output", type=Path)
+    parser.add_argument("--losses", nargs="+", default=["0", "1", "3", "10"],
+                        help="Loss values; spelling must match attenuator-scan-<value>.json")
     args = parser.parse_args()
     samples = []
-    for loss in (0, 1, 3, 10):
-        path = args.capture_directory / ("attenuator-scan-" + str(loss) + ".json")
+    for loss_text in args.losses:
+        loss = float(loss_text)
+        if not math.isfinite(loss) or not 0 <= loss <= 100:
+            raise ValueError("Invalid attenuation")
+        if any(sample["parameters"]["loss_db"] == loss for sample in samples):
+            raise ValueError("Duplicate attenuation")
+        if Path(loss_text).name != loss_text or "/" in loss_text or "\\" in loss_text:
+            raise ValueError("Loss argument must not be a path")
+        path = args.capture_directory / ("attenuator-scan-" + loss_text + ".json")
         content = path.read_bytes()
         sample = collect(json.loads(content.decode("utf-8-sig")), loss)
         sample["capture_sha256"] = hashlib.sha256(content).hexdigest()
         samples.append(sample)
     result = {"schema_version": 1, "product": "SystemVue 2023.0.0.11903", "samples": samples,
-              "scope": "Live System1 analysis; four loss values, one temperature and frequency"}
+              "scope": "Live System1 attenuation scan; one temperature and frequency"}
     args.output.write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
-    print("Validated and collected four fresh analysis captures")
+    print("Validated and collected " + str(len(samples)) + " fresh analysis captures")
 
 
 if __name__ == "__main__":

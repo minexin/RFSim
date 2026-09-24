@@ -48,6 +48,56 @@ python scripts/reference/analyze-attenuator-residuals.py `
 
 ## 重新采集和比对
 
+### 零点邻域复测（2026-09-24）
+
+新的参考实例完成 0、1e-8、1e-6、1e-4、0.01、1 dB 六点实测，最后恢复到 1 dB。
+采集时间为 UTC 09:56:40–09:57:19，所有分析返回的 manager errors 为空；
+每个数据集的时间戳和实际衰减参数均经过校验。独立快照为
+`validation/systemvue-2023-attenuator-near-zero.json`，绝对比较和残差报告分别为
+`systemvue-2023-attenuator-near-zero-comparison.json`、
+`systemvue-2023-attenuator-near-zero-residuals.json`（同目录）。
+
+| 衰减 dB | 增益误差 ppm | 噪声因子误差 ppm | 输出噪声误差 ppm | 输出信号误差 ppm |
+|---:|---:|---:|---:|---:|
+| 0 | 0 | 0 | 0.983640 | 1.030311 |
+| 1e-8 | 0.002303 | 0.002303 | 0.666190 | 0.345523 |
+| 1e-6 | 0.230258 | 0.230259 | 0.987224 | 0.026530 |
+| 1e-4 | 0.005004 | 0.000004 | 0.984008 | 0.030011 |
+| 0.01 | 0.005000 | <0.000001 | 0.984072 | 0.030000 |
+| 1 | 0.005000 | <0.000001 | 0.989157 | 0.030000 |
+
+保持 0.1 ppm 阈值，24 项检查中 14 项通过、10 项未通过。
+零点结果与之前采集一致；在 1e-6 dB，DCP 两端比值相对理想传输仅偏离
+-0.004551 ppm，但 CGAIN 相对该比值偏离 +0.234810 ppm。
+因此，极小衰减下的报告量与功率比差异并不只发生在严格零点。
+这些数据尚不能确定原因或阈值位置；下一步需检查测量计算的数值处理，
+并在不同源功率和温度下复测。核心常数、算法和容差均未更改。
+
+本次启动时出现 Workspace Recovery 和文件打开对话框，COM 的打开调用等待界面输入；
+通过已显示的文件名打开参考副本后，调用正常返回，且只存在一个指定参考工作区。
+工作区数量为零不代表启动提示已处理完毕。遇到等待应检查界面，不能并发重复 FileOpen。
+
+采集文件存放在忽略目录 `build-reference/near-zero`，保留原四点采集。
+采集器新增可选参数，按指定文件名收集非整数衰减值：
+
+```powershell
+python scripts/reference/collect-attenuator-scan.py build-reference/near-zero `
+  validation/systemvue-2023-attenuator-near-zero.json `
+  --losses 0 0.00000001 0.000001 0.0001 0.01 1
+python scripts/reference/compare-attenuator.py `
+  validation/systemvue-2023-attenuator-near-zero.json `
+  build-msvc/Release/reference_attenuator.exe `
+  validation/systemvue-2023-attenuator-near-zero-comparison.json
+python scripts/reference/analyze-attenuator-residuals.py `
+  validation/systemvue-2023-attenuator-near-zero.json `
+  validation/systemvue-2023-attenuator-near-zero-residuals.json
+```
+
+本次采集/比较/诊断工具回归 7/7 通过。前一提交 a26b952 的 GitHub Actions
+运行 35983617906 已完成且成功；该记录不代表本次新增实测差异通过。
+
+### 常规四点扫描
+
 独立参考工作区已打开时，执行以下命令采集；参数设置仅作用于该副本。已有其他工作区时脚本会拒绝分析，不要使用 FileOpen 替换用户工程。
 
 ```powershell
