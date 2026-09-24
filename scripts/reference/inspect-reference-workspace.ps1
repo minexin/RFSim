@@ -3,9 +3,15 @@ param(
     [switch]$OpenCopy,
     [switch]$RunAttenuatorAnalysis,
     [Nullable[double]]$LossDb,
+    [Nullable[double]]$TemperatureK,
     [switch]$CaptureRun
 )
 $ErrorActionPreference = 'Stop'
+if ($null -ne $TemperatureK -and (-not $RunAttenuatorAnalysis -or
+    [double]::IsNaN($TemperatureK) -or [double]::IsInfinity($TemperatureK) -or
+    $TemperatureK -le 0 -or $TemperatureK -gt 1000)) {
+    throw 'TemperatureK requires RunAttenuatorAnalysis and a finite value in (0, 1000] K.'
+}
 if ($null -ne $LossDb -and (-not $RunAttenuatorAnalysis -or
     [double]::IsNaN($LossDb) -or [double]::IsInfinity($LossDb) -or $LossDb -lt 0 -or $LossDb -gt 100)) {
     throw 'LossDb requires RunAttenuatorAnalysis and a finite value from 0 to 100 dB.'
@@ -114,7 +120,7 @@ public static class ReferenceWorkspaceInspector
         }
     }
 
-    public static Node[] Inspect(string path, bool open, bool run, double lossDb)
+    public static Node[] Inspect(string path, bool open, bool run, double lossDb, double temperatureK)
     {
         Console.Error.WriteLine("phase: attach-active-instance");
         object active = Marshal.GetActiveObject("Genesys.Application");
@@ -160,6 +166,12 @@ public static class ReferenceWorkspaceInspector
                                     lossDb.ToString("R", System.Globalization.CultureInfo.InvariantCulture) +
                                     "\")\r\n";
                             }
+                            if (!Double.IsNaN(temperatureK))
+                            {
+                                setup += "wsdoc.Designs.System1.RoomTemp.Set(\"" +
+                                    (temperatureK - 273.15).ToString("R", System.Globalization.CultureInfo.InvariantCulture) +
+                                    "\")\r\n";
+                            }
                             RunStartedUtc = DateTime.UtcNow.ToString("o");
                             Console.Error.WriteLine("phase: run-analysis " + RunStartedUtc);
                             application.RunScript(
@@ -194,8 +206,9 @@ public static class ReferenceWorkspaceInspector
 }
 '@
 $loss = if ($null -eq $LossDb) { [double]::NaN } else { [double]$LossDb }
+$temperature = if ($null -eq $TemperatureK) { [double]::NaN } else { [double]$TemperatureK }
 $nodes = [ReferenceWorkspaceInspector]::Inspect($resolvedPath, $OpenCopy.IsPresent,
-    $RunAttenuatorAnalysis.IsPresent, $loss)
+    $RunAttenuatorAnalysis.IsPresent, $loss, $temperature)
 if ($CaptureRun) {
     [ordered]@{
         run_started_utc = [ReferenceWorkspaceInspector]::RunStartedUtc

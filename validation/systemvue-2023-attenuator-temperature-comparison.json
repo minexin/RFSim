@@ -1,0 +1,163 @@
+{
+  "reference": "validation/systemvue-2023-attenuator-temperature.json",
+  "samples": [
+    {
+      "loss_db": 1,
+      "temperature_k": 250.0,
+      "checks": [
+        {
+          "measurement": "gain",
+          "rfmodel": 0.7943282347242817,
+          "systemvue": 0.7943282307526429,
+          "relative_error": 4.999997031272327e-09,
+          "relative_tolerance": 1e-07,
+          "passed": true
+        },
+        {
+          "measurement": "noise_factor",
+          "rfmodel": 1.2232115618915234,
+          "systemvue": 1.2232115618915673,
+          "relative_error": 3.594213228917591e-14,
+          "relative_tolerance": 1e-07,
+          "passed": true
+        },
+        {
+          "measurement": "output_noise_w_per_hz",
+          "rfmodel": 3.4516225e-21,
+          "systemvue": 3.451625914198781e-21,
+          "relative_error": 9.891566658615899e-07,
+          "relative_tolerance": 1e-07,
+          "passed": false
+        },
+        {
+          "measurement": "signal_output_w",
+          "rfmodel": 7.943282347242817e-20,
+          "systemvue": 7.943282108944365e-20,
+          "relative_error": 2.9999998642905726e-08,
+          "relative_tolerance": 1e-07,
+          "passed": true
+        }
+      ],
+      "passed": false
+    },
+    {
+      "loss_db": 1,
+      "temperature_k": 300.0,
+      "checks": [
+        {
+          "measurement": "gain",
+          "rfmodel": 0.7943282347242817,
+          "systemvue": 0.7943282307526429,
+          "relative_error": 4.999997031272327e-09,
+          "relative_tolerance": 1e-07,
+          "passed": true
+        },
+        {
+          "measurement": "noise_factor",
+          "rfmodel": 1.267853874269828,
+          "systemvue": 1.2678538742698215,
+          "relative_error": 5.078892507651488e-15,
+          "relative_tolerance": 1e-07,
+          "passed": true
+        },
+        {
+          "measurement": "output_noise_w_per_hz",
+          "rfmodel": 4.141947e-21,
+          "systemvue": 4.141951097038548e-21,
+          "relative_error": 9.891566684771073e-07,
+          "relative_tolerance": 1e-07,
+          "passed": false
+        },
+        {
+          "measurement": "signal_output_w",
+          "rfmodel": 7.943282347242817e-20,
+          "systemvue": 7.943282108944365e-20,
+          "relative_error": 2.9999998642905726e-08,
+          "relative_tolerance": 1e-07,
+          "passed": true
+        }
+      ],
+      "passed": false
+    },
+    {
+      "loss_db": 1,
+      "temperature_k": 350.0,
+      "checks": [
+        {
+          "measurement": "gain",
+          "rfmodel": 0.7943282347242817,
+          "systemvue": 0.7943282307526429,
+          "relative_error": 4.999997031272327e-09,
+          "relative_tolerance": 1e-07,
+          "passed": true
+        },
+        {
+          "measurement": "noise_factor",
+          "rfmodel": 1.3124961866481326,
+          "systemvue": 1.3124961866480667,
+          "relative_error": 5.024566801306633e-14,
+          "relative_tolerance": 1e-07,
+          "passed": true
+        },
+        {
+          "measurement": "output_noise_w_per_hz",
+          "rfmodel": 4.832271500000001e-21,
+          "systemvue": 4.8322762798782895e-21,
+          "relative_error": 9.891566648963393e-07,
+          "relative_tolerance": 1e-07,
+          "passed": false
+        },
+        {
+          "measurement": "signal_output_w",
+          "rfmodel": 7.943282347242817e-20,
+          "systemvue": 7.943282108944365e-20,
+          "relative_error": 2.9999998642905726e-08,
+          "relative_tolerance": 1e-07,
+          "passed": true
+        }
+      ],
+      "passed": false
+    },
+    {
+      "loss_db": 1,
+      "temperature_k": 290.0,
+      "checks": [
+        {
+          "measurement": "gain",
+          "rfmodel": 0.7943282347242817,
+          "systemvue": 0.7943282307526429,
+          "relative_error": 4.999997031272327e-09,
+          "relative_tolerance": 1e-07,
+          "passed": true
+        },
+        {
+          "measurement": "noise_factor",
+          "rfmodel": 1.2589254117941668,
+          "systemvue": 1.2589254117941686,
+          "relative_error": 1.4110103924812034e-15,
+          "relative_tolerance": 1e-07,
+          "passed": true
+        },
+        {
+          "measurement": "output_noise_w_per_hz",
+          "rfmodel": 4.0038821e-21,
+          "systemvue": 4.003886060470589e-21,
+          "relative_error": 9.891566665229852e-07,
+          "relative_tolerance": 1e-07,
+          "passed": false
+        },
+        {
+          "measurement": "signal_output_w",
+          "rfmodel": 7.943282347242817e-20,
+          "systemvue": 7.943282108944365e-20,
+          "relative_error": 2.9999998642905726e-08,
+          "relative_tolerance": 1e-07,
+          "passed": true
+        }
+      ],
+      "passed": false
+    }
+  ],
+  "passed": false,
+  "scope": "Matched attenuator loss/temperature scan at 100 MHz only"
+}

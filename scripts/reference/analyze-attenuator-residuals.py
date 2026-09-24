@@ -16,7 +16,7 @@ spec.loader.exec_module(comparison)
 
 def analyze(sample):
     loss = sample["parameters"]["loss_db"]
-    comparison.validate_reference(sample, loss)
+    comparison.validate_reference(sample, loss, sample["parameters"]["temperature_k"])
     values = {item["path"].rsplit("/", 1)[-1]: item["data"] for item in sample["measurements"]}
     signal_in, signal_out = values["DCP"]
     noise_in, noise_out = values["CND"]
@@ -38,6 +38,7 @@ def analyze(sample):
         raise ValueError("Residual overflow")
     return {
         "loss_db": loss,
+        "temperature_k": temperature,
         "source_signal_w": signal_in,
         "source_noise_w_per_hz": noise_in,
         "inferred_source_noise_over_temperature": noise_in / temperature,
@@ -65,7 +66,7 @@ def main():
     }
     args.output.write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
     for sample in result["samples"]:
-        print(sample["loss_db"], {key: value * 1e6 for key, value in
+        print(sample["loss_db"], sample["temperature_k"], {key: value * 1e6 for key, value in
                                   sample["signed_relative_residuals"].items()})
 
 

@@ -48,6 +48,8 @@ python scripts/reference/analyze-attenuator-residuals.py `
 
 ## 重新采集和比对
 
+后续温度实测及工具扩展见 [温度扫描报告](systemvue-attenuator-temperature.md)。
+
 ### 零点邻域复测（2026-09-24）
 
 新的参考实例完成 0、1e-8、1e-6、1e-4、0.01、1 dB 六点实测，最后恢复到 1 dB。

@@ -16,10 +16,12 @@ def parse_utc(value):
     return datetime.fromisoformat(normalized.replace("Z", "+00:00"))
 
 
-def validate_reference(reference, loss_db=1):
+def validate_reference(reference, loss_db=1, temperature_k=290):
     if not isinstance(loss_db, (int, float)) or not math.isfinite(loss_db) or not 0 <= loss_db <= 100:
         raise ValueError("Invalid attenuation")
-    expected_parameters = {"frequency_hz": 100000000, "loss_db": loss_db, "temperature_k": 290,
+    if not isinstance(temperature_k, (int, float)) or not math.isfinite(temperature_k) or not 0 < temperature_k <= 1000:
+        raise ValueError("Invalid temperature")
+    expected_parameters = {"frequency_hz": 100000000, "loss_db": loss_db, "temperature_k": temperature_k,
                            "reference_ohms": 50, "source_available_w": 1e-19}
     if reference["parameters"] != expected_parameters or reference["manager_errors"]:
         raise ValueError("Reference conditions differ from the fixed C++ probe")
@@ -45,8 +47,9 @@ def validate_reference(reference, loss_db=1):
 
 
 def compare_sample(reference, executable, loss_db=1):
-    values = validate_reference(reference, loss_db)
-    completed = subprocess.run([str(executable.resolve()), str(loss_db)], check=True,
+    temperature = reference["parameters"]["temperature_k"]
+    values = validate_reference(reference, loss_db, temperature)
+    completed = subprocess.run([str(executable.resolve()), str(loss_db), str(temperature)], check=True,
                                capture_output=True, text=True)
     actual = json.loads(completed.stdout)
     checks = []
@@ -75,10 +78,11 @@ def main():
         samples = []
         for sample in reference["samples"]:
             loss = sample["parameters"]["loss_db"]
-            samples.append({"loss_db": loss, **compare_sample(sample, args.executable, loss)})
+            samples.append({"loss_db": loss, "temperature_k": sample["parameters"]["temperature_k"],
+                            **compare_sample(sample, args.executable, loss)})
         result = {"reference": args.reference.as_posix(), "samples": samples,
                   "passed": all(sample["passed"] for sample in samples),
-                  "scope": "Matched attenuator loss scan at 100 MHz and 290 K only"}
+                  "scope": "Matched attenuator loss/temperature scan at 100 MHz only"}
     else:
         result = {"reference": args.reference.as_posix(),
                   **compare_sample(reference, args.executable),

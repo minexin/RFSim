@@ -23,6 +23,16 @@ class ReferenceValidationTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "timestamp"):
             comparison.validate_reference(self.reference)
 
+    def test_temperature_conditions(self):
+        self.reference["parameters"]["temperature_k"] = 250
+        self.assertEqual(len(comparison.validate_reference(self.reference, 1, 250)), 5)
+        with self.assertRaises(ValueError):
+            comparison.validate_reference(self.reference)
+        for value in (0, -1, 1001, float("nan"), float("inf")):
+            self.reference["parameters"]["temperature_k"] = value
+            with self.assertRaisesRegex(ValueError, "Invalid temperature"):
+                comparison.validate_reference(self.reference, 1, value)
+
     def test_invalid_vectors(self):
         for bad_data in ([1.], [1., float("nan")]):
             reference = copy.deepcopy(self.reference)
@@ -68,6 +78,11 @@ class ReferenceValidationTests(unittest.TestCase):
                    ("run_started_utc", "run_returned_utc", "manager_errors")}
         capture["nodes"] = nodes
         self.assertEqual(collector.collect(capture, 1)["parameters"]["loss_db"], 1)
+        with self.assertRaisesRegex(ValueError, "temperature"):
+            collector.collect(capture, 1, 250)
+        nodes[-2]["data"] = -23.15
+        self.assertEqual(collector.collect(capture, 1, 250)["parameters"]["temperature_k"], 250)
+        nodes[-2]["data"] = 16.85
         with self.assertRaisesRegex(ValueError, "did not take effect"):
             collector.collect(capture, 3)
         nodes.append(copy.deepcopy(nodes[0]))
