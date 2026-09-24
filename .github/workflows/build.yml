@@ -23,6 +23,8 @@ jobs:
           persist-credentials: false
       - name: Test reference inventory tools
         run: python scripts/reference/test_extract_rf_models.py
+      - name: Test reference result validation
+        run: python scripts/reference/test_compare_attenuator.py
       - name: Configure
         run: cmake -S . -B build -DCMAKE_BUILD_TYPE=${{ matrix.configuration }} -DCMAKE_CXX_EXTENSIONS=OFF
       - name: Build

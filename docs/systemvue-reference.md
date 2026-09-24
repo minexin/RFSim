@@ -1,5 +1,7 @@
 # SystemVue 2023 本机参考入口
 
+最新进展：2026-09-24 已在独立参考实例完成第一次实际分析，三项数值达到阈值、噪声密度仍有未通过差异。见 [衰减器实测比对](systemvue-attenuator-comparison.md)。下文早期状态按时间保留，不代表当前仍未执行仿真。
+
 已在本机只读核实：
 
 - 安装目录：`C:\Program Files\Keysight\SystemVue2023`

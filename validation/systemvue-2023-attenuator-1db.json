@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "product": "SystemVue 2023",
+  "workspace": "RFModel_AttenuatorNoise",
+  "analysis": "Designs/System1",
+  "run_started_utc": "2026-09-24T08:43:49.1488488Z",
+  "run_returned_utc": "2026-09-24T08:43:50.1776220Z",
+  "manager_errors": "",
+  "dataset_timestamp": "1790239430",
+  "source_example": "RF Architecture Design/RF Design Kit/Noise/Attenuator Noise.wsv",
+  "source_sha256": "89784b61cb3ec533b70618f8bb4b32a0ae883cc61d90e6f9445fab2cec8e1616",
+  "parameters": {
+    "frequency_hz": 100000000,
+    "source_available_w": 1E-19,
+    "loss_db": 1,
+    "temperature_k": 290,
+    "reference_ohms": 50
+  },
+  "measurements": [
+    {
+      "path": "RFModel_AttenuatorNoise/Designs/System1_Data_Folder/System1_Sch1_Data_Path1/Eqns/VarBlock/CF",
+      "data": [
+        100000000,
+        100000000
+      ],
+      "dimensions": [
+        2
+      ]
+    },
+    {
+      "path": "RFModel_AttenuatorNoise/Designs/System1_Data_Folder/System1_Sch1_Data_Path1/Eqns/VarBlock/CGAIN",
+      "data": [
+        1,
+        0.7943282307526429
+      ],
+      "dimensions": [
+        2
+      ]
+    },
+    {
+      "path": "RFModel_AttenuatorNoise/Designs/System1_Data_Folder/System1_Sch1_Data_Path1/Eqns/VarBlock/CND",
+      "data": [
+        4.003886059902843E-21,
+        4.003886060470589E-21
+      ],
+      "dimensions": [
+        2
+      ]
+    },
+    {
+      "path": "RFModel_AttenuatorNoise/Designs/System1_Data_Folder/System1_Sch1_Data_Path1/Eqns/VarBlock/CNF",
+      "data": [
+        1,
+        1.2589254117941686
+      ],
+      "dimensions": [
+        2
+      ]
+    },
+    {
+      "path": "RFModel_AttenuatorNoise/Designs/System1_Data_Folder/System1_Sch1_Data_Path1/Eqns/VarBlock/DCP",
+      "data": [
+        9.999999749999992E-20,
+        7.943282108944365E-20
+      ],
+      "dimensions": [
+        2
+      ]
+    }
+  ]
+}

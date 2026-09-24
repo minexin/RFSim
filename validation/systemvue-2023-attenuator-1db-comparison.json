@@ -1,0 +1,39 @@
+{
+  "reference": "validation/systemvue-2023-attenuator-1db.json",
+  "checks": [
+    {
+      "measurement": "gain",
+      "rfmodel": 0.7943282347242817,
+      "systemvue": 0.7943282307526429,
+      "relative_error": 4.999997031272327e-09,
+      "relative_tolerance": 1e-07,
+      "passed": true
+    },
+    {
+      "measurement": "noise_factor",
+      "rfmodel": 1.2589254117941668,
+      "systemvue": 1.2589254117941686,
+      "relative_error": 1.4110103924812034e-15,
+      "relative_tolerance": 1e-07,
+      "passed": true
+    },
+    {
+      "measurement": "output_noise_w_per_hz",
+      "rfmodel": 4.0038821e-21,
+      "systemvue": 4.003886060470589e-21,
+      "relative_error": 9.891566665229852e-07,
+      "relative_tolerance": 1e-07,
+      "passed": false
+    },
+    {
+      "measurement": "signal_output_w",
+      "rfmodel": 7.943282347242817e-20,
+      "systemvue": 7.943282108944365e-20,
+      "relative_error": 2.9999998642905726e-08,
+      "relative_tolerance": 1e-07,
+      "passed": true
+    }
+  ],
+  "passed": false,
+  "scope": "One matched 1 dB attenuator at 100 MHz and 290 K; not library compatibility"
+}
