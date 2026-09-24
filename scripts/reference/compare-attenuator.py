@@ -16,8 +16,10 @@ def parse_utc(value):
     return datetime.fromisoformat(normalized.replace("Z", "+00:00"))
 
 
-def validate_reference(reference):
-    expected_parameters = {"frequency_hz": 100000000, "loss_db": 1, "temperature_k": 290,
+def validate_reference(reference, loss_db=1):
+    if not isinstance(loss_db, (int, float)) or not math.isfinite(loss_db) or not 0 <= loss_db <= 100:
+        raise ValueError("Invalid attenuation")
+    expected_parameters = {"frequency_hz": 100000000, "loss_db": loss_db, "temperature_k": 290,
                            "reference_ohms": 50, "source_available_w": 1e-19}
     if reference["parameters"] != expected_parameters or reference["manager_errors"]:
         raise ValueError("Reference conditions differ from the fixed C++ probe")
@@ -42,15 +44,9 @@ def validate_reference(reference):
     return values
 
 
-def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument("reference", type=Path)
-    parser.add_argument("executable", type=Path)
-    parser.add_argument("output", type=Path)
-    args = parser.parse_args()
-    reference = json.loads(args.reference.read_text(encoding="utf-8-sig"))
-    values = validate_reference(reference)
-    completed = subprocess.run([str(args.executable.resolve())], check=True,
+def compare_sample(reference, executable, loss_db=1):
+    values = validate_reference(reference, loss_db)
+    completed = subprocess.run([str(executable.resolve()), str(loss_db)], check=True,
                                capture_output=True, text=True)
     actual = json.loads(completed.stdout)
     checks = []
@@ -63,9 +59,30 @@ def main():
         checks.append({"measurement": name, "rfmodel": observed, "systemvue": baseline,
                        "relative_error": relative_error, "relative_tolerance": 1e-7,
                        "passed": relative_error <= 1e-7})
-    result = {"reference": args.reference.as_posix(), "checks": checks,
-              "passed": all(check["passed"] for check in checks),
-              "scope": "One matched 1 dB attenuator at 100 MHz and 290 K; not library compatibility"}
+    return {"checks": checks, "passed": all(check["passed"] for check in checks)}
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("reference", type=Path)
+    parser.add_argument("executable", type=Path)
+    parser.add_argument("output", type=Path)
+    args = parser.parse_args()
+    reference = json.loads(args.reference.read_text(encoding="utf-8-sig"))
+    if "samples" in reference:
+        if not reference["samples"]:
+            raise ValueError("Empty reference scan")
+        samples = []
+        for sample in reference["samples"]:
+            loss = sample["parameters"]["loss_db"]
+            samples.append({"loss_db": loss, **compare_sample(sample, args.executable, loss)})
+        result = {"reference": args.reference.as_posix(), "samples": samples,
+                  "passed": all(sample["passed"] for sample in samples),
+                  "scope": "Matched attenuator loss scan at 100 MHz and 290 K only"}
+    else:
+        result = {"reference": args.reference.as_posix(),
+                  **compare_sample(reference, args.executable),
+                  "scope": "One matched 1 dB attenuator at 100 MHz and 290 K; not library compatibility"}
     args.output.write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
     print(json.dumps(result, indent=2))
     return 0 if result["passed"] else 1

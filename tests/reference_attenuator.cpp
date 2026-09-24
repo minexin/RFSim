@@ -4,9 +4,25 @@
 #include <iomanip>
 #include <iostream>
 
-int main() {
+int main(int argc, char **argv) {
     using namespace rfmodel;
-    const auto s = MatchedTransmissionModel("attenuator", 1).s_parameters(100e6);
+    double loss_db = 1;
+    if (argc > 2) {
+        return 2;
+    }
+    if (argc == 2) {
+        try {
+            std::size_t consumed = 0;
+            loss_db = std::stod(argv[1], &consumed);
+            if (consumed != std::string(argv[1]).size() || !std::isfinite(loss_db) || loss_db < 0 ||
+                loss_db > 100) {
+                return 2;
+            }
+        } catch (const std::exception &) {
+            return 2;
+        }
+    }
+    const auto s = MatchedTransmissionModel("attenuator", loss_db).s_parameters(100e6);
     const auto path = analyze_linear_path({{"attenuator", s}}, 1e-19);
     const auto noise = passive_thermal_noise(s, 290);
     const double noise_factor = std::pow(10., two_port_noise_figure_db(s, noise) / 10.);

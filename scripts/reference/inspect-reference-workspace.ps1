@@ -1,9 +1,15 @@
 param(
     [Parameter(Mandatory=$true)][string]$WorkspacePath,
     [switch]$OpenCopy,
-    [switch]$RunAttenuatorAnalysis
+    [switch]$RunAttenuatorAnalysis,
+    [Nullable[double]]$LossDb,
+    [switch]$CaptureRun
 )
 $ErrorActionPreference = 'Stop'
+if ($null -ne $LossDb -and (-not $RunAttenuatorAnalysis -or
+    [double]::IsNaN($LossDb) -or [double]::IsInfinity($LossDb) -or $LossDb -lt 0 -or $LossDb -gt 100)) {
+    throw 'LossDb requires RunAttenuatorAnalysis and a finite value from 0 to 100 dB.'
+}
 $projectRoot = Split-Path (Split-Path $PSScriptRoot -Parent) -Parent
 $allowedRoot = [IO.Path]::GetFullPath((Join-Path $projectRoot 'build-reference')) + '\'
 $resolvedPath = (Resolve-Path -LiteralPath $WorkspacePath).Path
@@ -21,6 +27,10 @@ using System.Runtime.InteropServices;
 
 public static class ReferenceWorkspaceInspector
 {
+    public static string RunStartedUtc;
+    public static string RunReturnedUtc;
+    public static string ManagerErrors;
+
     public sealed class Node
     {
         public string path;
@@ -36,6 +46,10 @@ public static class ReferenceWorkspaceInspector
         if (path.Contains("System1_Sch1_Data") && path.EndsWith("/Eqns"))
         {
             depth = 3;
+        }
+        if (path.EndsWith("/Sch1/PartList/Attn"))
+        {
+            depth = 2;
         }
         if (nodes.Count >= 500)
         {
@@ -100,7 +114,7 @@ public static class ReferenceWorkspaceInspector
         }
     }
 
-    public static Node[] Inspect(string path, bool open, bool run)
+    public static Node[] Inspect(string path, bool open, bool run, double lossDb)
     {
         Console.Error.WriteLine("phase: attach-active-instance");
         object active = Marshal.GetActiveObject("Genesys.Application");
@@ -139,13 +153,22 @@ public static class ReferenceWorkspaceInspector
                             {
                                 throw new InvalidOperationException("Analysis requires the sole dedicated attenuator workspace");
                             }
-                            Console.Error.WriteLine("phase: run-analysis " + DateTime.UtcNow.ToString("o"));
+                            string setup = "wsdoc=Application.Manager.GetWorkspaceByIndex(0)\r\n";
+                            if (!Double.IsNaN(lossDb))
+                            {
+                                setup += "wsdoc.Designs.Sch1.PartList.Attn.ParamSet.L.Set(\"" +
+                                    lossDb.ToString("R", System.Globalization.CultureInfo.InvariantCulture) +
+                                    "\")\r\n";
+                            }
+                            RunStartedUtc = DateTime.UtcNow.ToString("o");
+                            Console.Error.WriteLine("phase: run-analysis " + RunStartedUtc);
                             application.RunScript(
-                                "wsdoc=Application.Manager.GetWorkspaceByIndex(0)\r\n" +
-                                "wsdoc.Designs.System1.RunAnalysis()\r\n",
+                                setup + "wsdoc.Designs.System1.RunAnalysis()\r\n",
                                 GENESYS.ScriptLanguage.genLangVBScript);
-                            Console.Error.WriteLine("phase: analysis-returned " + DateTime.UtcNow.ToString("o"));
-                            Console.Error.WriteLine("manager-errors: " + manager.GetErrors());
+                            RunReturnedUtc = DateTime.UtcNow.ToString("o");
+                            ManagerErrors = manager.GetErrors();
+                            Console.Error.WriteLine("phase: analysis-returned " + RunReturnedUtc);
+                            Console.Error.WriteLine("manager-errors: " + ManagerErrors);
                         }
                         var nodes = new List<Node>();
                         Visit(item, expectedName, 4, nodes);
@@ -170,5 +193,16 @@ public static class ReferenceWorkspaceInspector
     }
 }
 '@
-[ReferenceWorkspaceInspector]::Inspect($resolvedPath, $OpenCopy.IsPresent, $RunAttenuatorAnalysis.IsPresent) |
-    ConvertTo-Json -Depth 8
+$loss = if ($null -eq $LossDb) { [double]::NaN } else { [double]$LossDb }
+$nodes = [ReferenceWorkspaceInspector]::Inspect($resolvedPath, $OpenCopy.IsPresent,
+    $RunAttenuatorAnalysis.IsPresent, $loss)
+if ($CaptureRun) {
+    [ordered]@{
+        run_started_utc = [ReferenceWorkspaceInspector]::RunStartedUtc
+        run_returned_utc = [ReferenceWorkspaceInspector]::RunReturnedUtc
+        manager_errors = [ReferenceWorkspaceInspector]::ManagerErrors
+        nodes = $nodes
+    } | ConvertTo-Json -Depth 10
+} else {
+    $nodes | ConvertTo-Json -Depth 8
+}
