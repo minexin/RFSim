@@ -33,6 +33,16 @@ class ReferenceValidationTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "Invalid temperature"):
                 comparison.validate_reference(self.reference, 1, value)
 
+    def test_source_power_conditions(self):
+        self.reference["parameters"]["source_available_w"] = 1e-3
+        self.assertEqual(len(comparison.validate_reference(self.reference, 1, 290, 1e-3)), 5)
+        with self.assertRaises(ValueError):
+            comparison.validate_reference(self.reference)
+        for value in (0, -1, 1e-24, 2, float("nan"), float("inf")):
+            self.reference["parameters"]["source_available_w"] = value
+            with self.assertRaisesRegex(ValueError, "Invalid source power"):
+                comparison.validate_reference(self.reference, 1, 290, value)
+
     def test_invalid_vectors(self):
         for bad_data in ([1.], [1., float("nan")]):
             reference = copy.deepcopy(self.reference)
@@ -83,6 +93,12 @@ class ReferenceValidationTests(unittest.TestCase):
         nodes[-2]["data"] = -23.15
         self.assertEqual(collector.collect(capture, 1, 250)["parameters"]["temperature_k"], 250)
         nodes[-2]["data"] = 16.85
+        source = {"path": prefix + "Sch1/PartList/Source/ParamSet/Pwr", "data": 1e-3}
+        nodes.append(source)
+        self.assertEqual(collector.collect(capture, 1, 290, 0)["observed_source_available_w"], 1e-3)
+        with self.assertRaisesRegex(ValueError, "source power"):
+            collector.collect(capture, 1)
+        nodes.pop()
         with self.assertRaisesRegex(ValueError, "did not take effect"):
             collector.collect(capture, 3)
         nodes.append(copy.deepcopy(nodes[0]))

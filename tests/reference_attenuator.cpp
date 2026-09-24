@@ -8,7 +8,8 @@ int main(int argc, char **argv) {
     using namespace rfmodel;
     double loss_db = 1;
     double temperature_k = 290;
-    if (argc > 3) {
+    double source_available_w = 1e-19;
+    if (argc > 4) {
         return 2;
     }
     if (argc >= 2) {
@@ -23,7 +24,7 @@ int main(int argc, char **argv) {
             return 2;
         }
     }
-    if (argc == 3) {
+    if (argc >= 3) {
         try {
             std::size_t consumed = 0;
             temperature_k = std::stod(argv[2], &consumed);
@@ -35,8 +36,20 @@ int main(int argc, char **argv) {
             return 2;
         }
     }
+    if (argc == 4) {
+        try {
+            std::size_t consumed = 0;
+            source_available_w = std::stod(argv[3], &consumed);
+            if (consumed != std::string(argv[3]).size() || !std::isfinite(source_available_w) ||
+                source_available_w < 1e-23 || source_available_w > 1) {
+                return 2;
+            }
+        } catch (const std::exception &) {
+            return 2;
+        }
+    }
     const auto s = MatchedTransmissionModel("attenuator", loss_db).s_parameters(100e6);
-    const auto path = analyze_linear_path({{"attenuator", s}}, 1e-19);
+    const auto path = analyze_linear_path({{"attenuator", s}}, source_available_w);
     const auto noise = passive_thermal_noise(s, temperature_k);
     // Noise factor retains its standard 290 K reference as physical temperature changes.
     const double noise_factor = std::pow(10., two_port_noise_figure_db(s, noise) / 10.);

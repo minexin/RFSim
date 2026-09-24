@@ -1,0 +1,283 @@
+{
+  "schema_version": 1,
+  "product": "SystemVue 2023.0.0.11903",
+  "samples": [
+    {
+      "run_started_utc": "2026-09-24T10:06:41.1992759Z",
+      "run_returned_utc": "2026-09-24T10:06:41.4321319Z",
+      "manager_errors": "",
+      "dataset_timestamp": "1790244401",
+      "parameters": {
+        "frequency_hz": 100000000,
+        "loss_db": 1,
+        "temperature_k": 290,
+        "reference_ohms": 50,
+        "source_available_w": 1e-15
+      },
+      "observed_loss_factor": 1.2589254117941673,
+      "observed_room_temperature_c": 16.850000000000023,
+      "measurements": [
+        {
+          "path": "RFModel_AttenuatorNoise/Designs/System1_Data_Folder/System1_Sch1_Data_Path1/Eqns/VarBlock/CF",
+          "data": [
+            100000000,
+            100000000
+          ],
+          "dimensions": [
+            2
+          ]
+        },
+        {
+          "path": "RFModel_AttenuatorNoise/Designs/System1_Data_Folder/System1_Sch1_Data_Path1/Eqns/VarBlock/CGAIN",
+          "data": [
+            1,
+            0.7943282307526428
+          ],
+          "dimensions": [
+            2
+          ]
+        },
+        {
+          "path": "RFModel_AttenuatorNoise/Designs/System1_Data_Folder/System1_Sch1_Data_Path1/Eqns/VarBlock/CNF",
+          "data": [
+            1,
+            1.2589254117941686
+          ],
+          "dimensions": [
+            2
+          ]
+        },
+        {
+          "path": "RFModel_AttenuatorNoise/Designs/System1_Data_Folder/System1_Sch1_Data_Path1/Eqns/VarBlock/CND",
+          "data": [
+            4.003886059902843e-21,
+            4.003886060470589e-21
+          ],
+          "dimensions": [
+            2
+          ]
+        },
+        {
+          "path": "RFModel_AttenuatorNoise/Designs/System1_Data_Folder/System1_Sch1_Data_Path1/Eqns/VarBlock/DCP",
+          "data": [
+            9.99999974999999e-16,
+            7.943282108944363e-16
+          ],
+          "dimensions": [
+            2
+          ]
+        }
+      ],
+      "observed_source_available_w": 1e-15,
+      "capture_sha256": "545f37382674a29125730a383211b577a3aa24525925a2358f2a2ef3a7b2e49b"
+    },
+    {
+      "run_started_utc": "2026-09-24T10:06:43.1917024Z",
+      "run_returned_utc": "2026-09-24T10:06:43.4210840Z",
+      "manager_errors": "",
+      "dataset_timestamp": "1790244403",
+      "parameters": {
+        "frequency_hz": 100000000,
+        "loss_db": 1,
+        "temperature_k": 290,
+        "reference_ohms": 50,
+        "source_available_w": 1e-09
+      },
+      "observed_loss_factor": 1.2589254117941673,
+      "observed_room_temperature_c": 16.850000000000023,
+      "measurements": [
+        {
+          "path": "RFModel_AttenuatorNoise/Designs/System1_Data_Folder/System1_Sch1_Data_Path1/Eqns/VarBlock/CF",
+          "data": [
+            100000000,
+            100000000
+          ],
+          "dimensions": [
+            2
+          ]
+        },
+        {
+          "path": "RFModel_AttenuatorNoise/Designs/System1_Data_Folder/System1_Sch1_Data_Path1/Eqns/VarBlock/CGAIN",
+          "data": [
+            1,
+            0.7943282307526431
+          ],
+          "dimensions": [
+            2
+          ]
+        },
+        {
+          "path": "RFModel_AttenuatorNoise/Designs/System1_Data_Folder/System1_Sch1_Data_Path1/Eqns/VarBlock/CNF",
+          "data": [
+            1,
+            1.2589254117941682
+          ],
+          "dimensions": [
+            2
+          ]
+        },
+        {
+          "path": "RFModel_AttenuatorNoise/Designs/System1_Data_Folder/System1_Sch1_Data_Path1/Eqns/VarBlock/CND",
+          "data": [
+            4.003886059902843e-21,
+            4.003886060470589e-21
+          ],
+          "dimensions": [
+            2
+          ]
+        },
+        {
+          "path": "RFModel_AttenuatorNoise/Designs/System1_Data_Folder/System1_Sch1_Data_Path1/Eqns/VarBlock/DCP",
+          "data": [
+            9.99999974999999e-10,
+            7.943282108944366e-10
+          ],
+          "dimensions": [
+            2
+          ]
+        }
+      ],
+      "observed_source_available_w": 1e-09,
+      "capture_sha256": "667c8443cee14d164569eeab96198258aeadd608d1fef3fa9b171ba71218b07d"
+    },
+    {
+      "run_started_utc": "2026-09-24T10:06:45.0705121Z",
+      "run_returned_utc": "2026-09-24T10:06:45.2857846Z",
+      "manager_errors": "",
+      "dataset_timestamp": "1790244405",
+      "parameters": {
+        "frequency_hz": 100000000,
+        "loss_db": 1,
+        "temperature_k": 290,
+        "reference_ohms": 50,
+        "source_available_w": 0.001
+      },
+      "observed_loss_factor": 1.2589254117941673,
+      "observed_room_temperature_c": 16.850000000000023,
+      "measurements": [
+        {
+          "path": "RFModel_AttenuatorNoise/Designs/System1_Data_Folder/System1_Sch1_Data_Path1/Eqns/VarBlock/CF",
+          "data": [
+            100000000,
+            100000000
+          ],
+          "dimensions": [
+            2
+          ]
+        },
+        {
+          "path": "RFModel_AttenuatorNoise/Designs/System1_Data_Folder/System1_Sch1_Data_Path1/Eqns/VarBlock/CGAIN",
+          "data": [
+            1,
+            0.7943282108944364
+          ],
+          "dimensions": [
+            2
+          ]
+        },
+        {
+          "path": "RFModel_AttenuatorNoise/Designs/System1_Data_Folder/System1_Sch1_Data_Path1/Eqns/VarBlock/CNF",
+          "data": [
+            1,
+            1.2589254432673052
+          ],
+          "dimensions": [
+            2
+          ]
+        },
+        {
+          "path": "RFModel_AttenuatorNoise/Designs/System1_Data_Folder/System1_Sch1_Data_Path1/Eqns/VarBlock/CND",
+          "data": [
+            4.003886059902843e-21,
+            4.003886060470589e-21
+          ],
+          "dimensions": [
+            2
+          ]
+        },
+        {
+          "path": "RFModel_AttenuatorNoise/Designs/System1_Data_Folder/System1_Sch1_Data_Path1/Eqns/VarBlock/DCP",
+          "data": [
+            0.001,
+            0.0007943282108944364
+          ],
+          "dimensions": [
+            2
+          ]
+        }
+      ],
+      "observed_source_available_w": 0.001,
+      "capture_sha256": "a606889870169ee71232a52260df7a09960e0a06b6393ee0bfaaa9ce9fd3b534"
+    },
+    {
+      "run_started_utc": "2026-09-24T10:06:46.9370846Z",
+      "run_returned_utc": "2026-09-24T10:06:47.1707746Z",
+      "manager_errors": "",
+      "dataset_timestamp": "1790244407",
+      "parameters": {
+        "frequency_hz": 100000000,
+        "loss_db": 1,
+        "temperature_k": 290,
+        "reference_ohms": 50,
+        "source_available_w": 1e-19
+      },
+      "observed_loss_factor": 1.2589254117941673,
+      "observed_room_temperature_c": 16.850000000000023,
+      "measurements": [
+        {
+          "path": "RFModel_AttenuatorNoise/Designs/System1_Data_Folder/System1_Sch1_Data_Path1/Eqns/VarBlock/CF",
+          "data": [
+            100000000,
+            100000000
+          ],
+          "dimensions": [
+            2
+          ]
+        },
+        {
+          "path": "RFModel_AttenuatorNoise/Designs/System1_Data_Folder/System1_Sch1_Data_Path1/Eqns/VarBlock/CGAIN",
+          "data": [
+            1,
+            0.7943282307526429
+          ],
+          "dimensions": [
+            2
+          ]
+        },
+        {
+          "path": "RFModel_AttenuatorNoise/Designs/System1_Data_Folder/System1_Sch1_Data_Path1/Eqns/VarBlock/CNF",
+          "data": [
+            1,
+            1.2589254117941686
+          ],
+          "dimensions": [
+            2
+          ]
+        },
+        {
+          "path": "RFModel_AttenuatorNoise/Designs/System1_Data_Folder/System1_Sch1_Data_Path1/Eqns/VarBlock/CND",
+          "data": [
+            4.003886059902843e-21,
+            4.003886060470589e-21
+          ],
+          "dimensions": [
+            2
+          ]
+        },
+        {
+          "path": "RFModel_AttenuatorNoise/Designs/System1_Data_Folder/System1_Sch1_Data_Path1/Eqns/VarBlock/DCP",
+          "data": [
+            9.999999749999992e-20,
+            7.943282108944365e-20
+          ],
+          "dimensions": [
+            2
+          ]
+        }
+      ],
+      "observed_source_available_w": 1e-19,
+      "capture_sha256": "228b9bd0eb84e36e8bd15d379169642ac96fe594b1ea3393015ddb10e1c56988"
+    }
+  ],
+  "scope": "Live System1 source power scan at 1 dB, 290 K, 100 MHz"
+}

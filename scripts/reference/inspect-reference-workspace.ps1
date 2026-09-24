@@ -4,9 +4,15 @@ param(
     [switch]$RunAttenuatorAnalysis,
     [Nullable[double]]$LossDb,
     [Nullable[double]]$TemperatureK,
+    [Nullable[double]]$SourcePowerDbm,
     [switch]$CaptureRun
 )
 $ErrorActionPreference = 'Stop'
+if ($null -ne $SourcePowerDbm -and (-not $RunAttenuatorAnalysis -or
+    [double]::IsNaN($SourcePowerDbm) -or [double]::IsInfinity($SourcePowerDbm) -or
+    $SourcePowerDbm -lt -200 -or $SourcePowerDbm -gt 30)) {
+    throw 'SourcePowerDbm requires RunAttenuatorAnalysis and a finite value from -200 to 30 dBm.'
+}
 if ($null -ne $TemperatureK -and (-not $RunAttenuatorAnalysis -or
     [double]::IsNaN($TemperatureK) -or [double]::IsInfinity($TemperatureK) -or
     $TemperatureK -le 0 -or $TemperatureK -gt 1000)) {
@@ -53,7 +59,7 @@ public static class ReferenceWorkspaceInspector
         {
             depth = 3;
         }
-        if (path.EndsWith("/Sch1/PartList/Attn"))
+        if (path.EndsWith("/Sch1/PartList/Attn") || path.EndsWith("/Sch1/PartList/Source"))
         {
             depth = 2;
         }
@@ -120,7 +126,8 @@ public static class ReferenceWorkspaceInspector
         }
     }
 
-    public static Node[] Inspect(string path, bool open, bool run, double lossDb, double temperatureK)
+    public static Node[] Inspect(string path, bool open, bool run, double lossDb, double temperatureK,
+        double sourcePowerDbm)
     {
         Console.Error.WriteLine("phase: attach-active-instance");
         object active = Marshal.GetActiveObject("Genesys.Application");
@@ -172,6 +179,12 @@ public static class ReferenceWorkspaceInspector
                                     (temperatureK - 273.15).ToString("R", System.Globalization.CultureInfo.InvariantCulture) +
                                     "\")\r\n";
                             }
+                            if (!Double.IsNaN(sourcePowerDbm))
+                            {
+                                setup += "wsdoc.Designs.Sch1.PartList.Source.ParamSet.Pwr.Set(\"" +
+                                    sourcePowerDbm.ToString("R", System.Globalization.CultureInfo.InvariantCulture) +
+                                    "\")\r\n";
+                            }
                             RunStartedUtc = DateTime.UtcNow.ToString("o");
                             Console.Error.WriteLine("phase: run-analysis " + RunStartedUtc);
                             application.RunScript(
@@ -207,8 +220,9 @@ public static class ReferenceWorkspaceInspector
 '@
 $loss = if ($null -eq $LossDb) { [double]::NaN } else { [double]$LossDb }
 $temperature = if ($null -eq $TemperatureK) { [double]::NaN } else { [double]$TemperatureK }
+$power = if ($null -eq $SourcePowerDbm) { [double]::NaN } else { [double]$SourcePowerDbm }
 $nodes = [ReferenceWorkspaceInspector]::Inspect($resolvedPath, $OpenCopy.IsPresent,
-    $RunAttenuatorAnalysis.IsPresent, $loss, $temperature)
+    $RunAttenuatorAnalysis.IsPresent, $loss, $temperature, $power)
 if ($CaptureRun) {
     [ordered]@{
         run_started_utc = [ReferenceWorkspaceInspector]::RunStartedUtc

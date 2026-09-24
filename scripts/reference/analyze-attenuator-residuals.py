@@ -16,7 +16,8 @@ spec.loader.exec_module(comparison)
 
 def analyze(sample):
     loss = sample["parameters"]["loss_db"]
-    comparison.validate_reference(sample, loss, sample["parameters"]["temperature_k"])
+    comparison.validate_reference(sample, loss, sample["parameters"]["temperature_k"],
+                                  sample["parameters"]["source_available_w"])
     values = {item["path"].rsplit("/", 1)[-1]: item["data"] for item in sample["measurements"]}
     signal_in, signal_out = values["DCP"]
     noise_in, noise_out = values["CND"]
@@ -39,6 +40,7 @@ def analyze(sample):
     return {
         "loss_db": loss,
         "temperature_k": temperature,
+        "source_available_w": source_power,
         "source_signal_w": signal_in,
         "source_noise_w_per_hz": noise_in,
         "inferred_source_noise_over_temperature": noise_in / temperature,

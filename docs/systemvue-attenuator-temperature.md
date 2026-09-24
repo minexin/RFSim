@@ -1,5 +1,7 @@
 # 衰减器温度扫描实测
 
+后续源功率扫描见 [源功率报告](systemvue-attenuator-power.md)。
+
 2026-09-24 使用本机 SystemVue 2023.0.0.11903，在专用参考副本
 RFModel_AttenuatorNoise 中固定 100 MHz、1 dB、50 Ω、源功率 1e-19 W，
 依次设置环境温度 250、300、350、290 K。最后恢复 290 K、1 dB。
