@@ -74,6 +74,28 @@ class ReferenceValidationTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "ambiguous"):
             collector.collect(capture, 1)
 
+    def test_residual_decomposition(self):
+        residual_spec = importlib.util.spec_from_file_location(
+            "residuals", Path(__file__).with_name("analyze-attenuator-residuals.py"))
+        residuals = importlib.util.module_from_spec(residual_spec)
+        residual_spec.loader.exec_module(residuals)
+        sample = copy.deepcopy(self.reference)
+        values = {item["path"].rsplit("/", 1)[-1]: item for item in sample["measurements"]}
+        gain = 10 ** -0.1
+        # A common source scale offset must cancel in the through-path ratio.
+        values["DCP"]["data"] = [2e-19, 2e-19 * gain]
+        values["CGAIN"]["data"] = [1., gain]
+        values["CND"]["data"] = [5e-21, 5e-21]
+        result = residuals.analyze(sample)
+        self.assertAlmostEqual(result["signed_relative_residuals"]["source_signal_offset"], 1.)
+        self.assertTrue(result["signal_transfer_within_1e_7"])
+        self.assertTrue(result["noise_output_to_input_within_1e_7"])
+        values["DCP"]["data"][1] *= 0.99
+        self.assertFalse(residuals.analyze(sample)["signal_transfer_within_1e_7"])
+        values["CND"]["data"][0] = 0
+        with self.assertRaises(ValueError):
+            residuals.analyze(sample)
+
 
 if __name__ == "__main__":
     unittest.main()
