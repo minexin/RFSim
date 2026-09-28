@@ -61,4 +61,9 @@ MSVC Debug/Release 完整 CTest 均为 35/35；独立安装消费者均为 1/1�
 
 本次扩展后，MSVC Debug/Release 完整 CTest 各 37/37，安装包消费者各 1/1 通过。
 天线案例统一源密度的 20 项历史比较重放仍为 14 项通过，RFModel 数值与此前报告一致。
-66 个 C++ 文件格式检查通过。本次未运行新的 SystemVue 分析，跨平台结果待 CI 验证。
+66 个 C++ 文件格式检查通过。本次未运行新的 SystemVue 分析。
+
+提交 556a19c 的 [三平台 CI](https://github.com/minexin/RFSim/actions/runs/36432111560)
+已完成，Windows、Ubuntu、macOS 的 Debug/Release 六组任务全部成功，包括核心和安装包
+消费者测试。归档见 `validation/cross-platform-556a19c.json`；此证据绑定该提交，不代表
+后续改动已经完成相同 CI 验证。

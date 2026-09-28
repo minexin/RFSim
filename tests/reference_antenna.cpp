@@ -78,7 +78,14 @@ int main(int argc, char **argv) {
                   << "\",\"gain\":" << *signal.transducer_gain
                   << ",\"noise_factor\":" << *noise.noise_factor
                   << ",\"signal_output_w\":" << signal.load_delivered_w
-                  << ",\"output_noise_w_per_hz\":" << noise.total_output_w_per_hz << "}";
+                  << ",\"output_noise_w_per_hz\":" << noise.total_output_w_per_hz
+                  << ",\"contributions\":[{\"name\":\"Source\",\"watts_per_hz\":"
+                  << noise.source_output_w_per_hz << "}";
+        for (const auto &contribution : noise.contributions) {
+            std::cout << ",{\"name\":\"" << contribution.name
+                      << "\",\"watts_per_hz\":" << contribution.output_w_per_hz << "}";
+        }
+        std::cout << "]}";
     }
     std::cout << "]}\n";
 }

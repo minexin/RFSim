@@ -1,0 +1,291 @@
+{
+  "checks": [
+    {
+      "node": "Source",
+      "measurement": "CGAIN",
+      "rfmodel": 1,
+      "systemvue": 1,
+      "relative_error": 0.0,
+      "relative_tolerance": 1e-07,
+      "passed": true
+    },
+    {
+      "node": "Source",
+      "measurement": "CNF",
+      "rfmodel": 1,
+      "systemvue": 1,
+      "relative_error": 0.0,
+      "relative_tolerance": 1e-07,
+      "passed": true
+    },
+    {
+      "node": "Source",
+      "measurement": "CND",
+      "rfmodel": 6.903251499999993e-22,
+      "systemvue": 6.903251327418734e-22,
+      "relative_error": 2.4999996522599527e-08,
+      "relative_tolerance": 1e-07,
+      "passed": true
+    },
+    {
+      "node": "Source",
+      "measurement": "DCP",
+      "rfmodel": 1e-08,
+      "systemvue": 9.999999750000036e-09,
+      "relative_error": 2.4999997076092485e-08,
+      "relative_tolerance": 1e-07,
+      "passed": true
+    },
+    {
+      "node": "Attn1",
+      "measurement": "CGAIN",
+      "rfmodel": 0.7886864291542018,
+      "systemvue": 0.7886864291542032,
+      "relative_error": 1.6892234737434594e-15,
+      "relative_tolerance": 1e-07,
+      "passed": true
+    },
+    {
+      "node": "Attn1",
+      "measurement": "CNF",
+      "rfmodel": 1.2679310344827586,
+      "systemvue": 1.2679310344829668,
+      "relative_error": 1.642659054438322e-13,
+      "relative_tolerance": 1e-07,
+      "passed": true
+    },
+    {
+      "node": "Attn1",
+      "measurement": "CND",
+      "rfmodel": 1.3905247013054116e-21,
+      "systemvue": 1.3905255456272663e-21,
+      "relative_error": 6.07196219715246e-07,
+      "relative_tolerance": 1e-07,
+      "passed": false
+    },
+    {
+      "node": "Attn1",
+      "measurement": "DCP",
+      "rfmodel": 7.886864291542018e-09,
+      "systemvue": 7.886864094370453e-09,
+      "relative_error": 2.4999995281737982e-08,
+      "relative_tolerance": 1e-07,
+      "passed": true
+    },
+    {
+      "node": "RFAmp1",
+      "measurement": "CGAIN",
+      "rfmodel": 249.40454757923035,
+      "systemvue": 249.4045462247432,
+      "relative_error": 5.43088397565991e-09,
+      "relative_tolerance": 1e-07,
+      "passed": true
+    },
+    {
+      "node": "RFAmp1",
+      "measurement": "CNF",
+      "rfmodel": 1.9237574316290131,
+      "systemvue": 1.9237574349078725,
+      "relative_error": 1.7044037604280056e-09,
+      "relative_tolerance": 1e-07,
+      "passed": true
+    },
+    {
+      "node": "RFAmp1",
+      "measurement": "CND",
+      "rfmodel": 1.094621843270113e-18,
+      "systemvue": 1.0946227716761643e-18,
+      "relative_error": 8.481515965116685e-07,
+      "relative_tolerance": 1e-07,
+      "passed": false
+    },
+    {
+      "node": "RFAmp1",
+      "measurement": "DCP",
+      "rfmodel": 2.4940454757923037e-06,
+      "systemvue": 2.4940453998963042e-06,
+      "relative_error": 3.043088127264998e-08,
+      "relative_tolerance": 1e-07,
+      "passed": true
+    },
+    {
+      "node": "Attn2",
+      "measurement": "CGAIN",
+      "rfmodel": 97.26643194994192,
+      "systemvue": 97.266430935367,
+      "relative_error": 1.0430884636361057e-08,
+      "relative_tolerance": 1e-07,
+      "passed": true
+    },
+    {
+      "node": "Attn2",
+      "measurement": "CNF",
+      "rfmodel": 1.9300289208468975,
+      "systemvue": 1.9300289241911748,
+      "relative_error": 1.7327601973293769e-09,
+      "relative_tolerance": 1e-07,
+      "passed": true
+    },
+    {
+      "node": "Attn2",
+      "measurement": "CND",
+      "rfmodel": 4.293390202647831e-19,
+      "systemvue": 4.293393826802859e-19,
+      "relative_error": 8.441235941421989e-07,
+      "relative_tolerance": 1e-07,
+      "passed": false
+    },
+    {
+      "node": "Attn2",
+      "measurement": "DCP",
+      "rfmodel": 9.726643194994192e-07,
+      "systemvue": 9.726642850370657e-07,
+      "relative_error": 3.543088197157023e-08,
+      "relative_tolerance": 1e-07,
+      "passed": true
+    },
+    {
+      "node": "RFAmp2",
+      "measurement": "CGAIN",
+      "rfmodel": 97266.4319499419,
+      "systemvue": 97266.41361783382,
+      "relative_error": 1.884731574048166e-07,
+      "relative_tolerance": 1e-07,
+      "passed": false
+    },
+    {
+      "node": "RFAmp2",
+      "measurement": "CNF",
+      "rfmodel": 1.9548452223710506,
+      "systemvue": 1.9548452260979308,
+      "relative_error": 1.906483484256402e-09,
+      "relative_tolerance": 1e-07,
+      "passed": true
+    },
+    {
+      "node": "RFAmp2",
+      "measurement": "CND",
+      "rfmodel": 4.3900356326478313e-16,
+      "systemvue": 4.390038573672381e-16,
+      "relative_error": 6.699313685460873e-07,
+      "relative_tolerance": 1e-07,
+      "passed": false
+    },
+    {
+      "node": "RFAmp2",
+      "measurement": "DCP",
+      "rfmodel": 0.0009726643194994191,
+      "systemvue": 0.0009726641118617383,
+      "relative_error": 2.1347315921289757e-07,
+      "relative_tolerance": 1e-07,
+      "passed": false
+    }
+  ],
+  "passed": false,
+  "scope": "Official antenna example; matched small-signal RFModel approximation only",
+  "condition_limit": "Main device/source parameters verified live; pad impedance defaults and full nonlinear/noise model equivalence remain unverified",
+  "rfmodel_noise_budget": {
+    "scope": "RFModel attribution only; no SystemVue per-device attribution was captured",
+    "nodes": [
+      {
+        "output_node": "Attn1",
+        "total_watts_per_hz": 1.3905247013054116e-21,
+        "contributions": [
+          {
+            "name": "Source",
+            "watts_per_hz": 5.444500775088382e-22,
+            "fraction_of_total": 0.3915429024725081
+          },
+          {
+            "name": "Attn1",
+            "watts_per_hz": 8.4607462379657325e-22,
+            "fraction_of_total": 0.6084570975274919
+          }
+        ]
+      },
+      {
+        "output_node": "RFAmp1",
+        "total_watts_per_hz": 1.094621843270113e-18,
+        "contributions": [
+          {
+            "name": "Source",
+            "watts_per_hz": 1.7217023171831417e-19,
+            "fraction_of_total": 0.15728740731499252
+          },
+          {
+            "name": "Attn1",
+            "watts_per_hz": 2.6755228816672694e-19,
+            "fraction_of_total": 0.2444244008208639
+          },
+          {
+            "name": "RFAmp1",
+            "watts_per_hz": 6.548993233850719e-19,
+            "fraction_of_total": 0.5982881918641436
+          }
+        ]
+      },
+      {
+        "output_node": "Attn2",
+        "total_watts_per_hz": 4.293390202647831e-19,
+        "contributions": [
+          {
+            "name": "Source",
+            "watts_per_hz": 6.714546422580836e-20,
+            "fraction_of_total": 0.15639264324122748
+          },
+          {
+            "name": "Attn1",
+            "watts_per_hz": 1.0434395315808337e-19,
+            "fraction_of_total": 0.24303393875947285
+          },
+          {
+            "name": "RFAmp1",
+            "watts_per_hz": 2.5540721326206406e-19,
+            "fraction_of_total": 0.5948846976558261
+          },
+          {
+            "name": "Attn2",
+            "watts_per_hz": 2.4423896188273266e-21,
+            "fraction_of_total": 0.005688720343473672
+          }
+        ]
+      },
+      {
+        "output_node": "RFAmp2",
+        "total_watts_per_hz": 4.3900356326478313e-16,
+        "contributions": [
+          {
+            "name": "Source",
+            "watts_per_hz": 6.714546422580835e-17,
+            "fraction_of_total": 0.15294970210824885
+          },
+          {
+            "name": "Attn1",
+            "watts_per_hz": 1.0434395315808337e-16,
+            "fraction_of_total": 0.23768361327661652
+          },
+          {
+            "name": "RFAmp1",
+            "watts_per_hz": 2.5540721326206404e-16,
+            "fraction_of_total": 0.5817884742498463
+          },
+          {
+            "name": "Attn2",
+            "watts_per_hz": 2.4423896188273264e-18,
+            "fraction_of_total": 0.0055634847258727365
+          },
+          {
+            "name": "RFAmp2",
+            "watts_per_hz": 9.664542999999999e-18,
+            "fraction_of_total": 0.02201472563941553
+          }
+        ]
+      }
+    ]
+  },
+  "source_noise_input": {
+    "watts_per_hz": 6.903251499999993e-22,
+    "mode": "captured_parameter"
+  },
+  "reference_sha256": "605c60d5e6201083c2f3324175ec365f073495a6e876924ab1ccde7781c1115a"
+}

@@ -113,8 +113,32 @@ def compare(reference, actual):
             checks.append({"node": NAMES[index], "measurement": measurement, "rfmodel": observed,
                            "systemvue": expected, "relative_error": error,
                            "relative_tolerance": 1e-7, "passed": error <= 1e-7})
-    return {"checks": checks, "passed": all(check["passed"] for check in checks),
-            "scope": reference["scope"], "condition_limit": reference["condition_limit"]}
+    result = {"checks": checks, "passed": all(check["passed"] for check in checks),
+              "scope": reference["scope"], "condition_limit": reference["condition_limit"]}
+    if any("contributions" in node for node in actual["nodes"]):
+        result["rfmodel_noise_budget"] = noise_budget(actual)
+    return result
+
+
+def noise_budget(actual):
+    """Validate attribution independently of the SystemVue comparison verdict."""
+    result = []
+    for index, node in enumerate(actual["nodes"][1:], start=1):
+        contributions = node.get("contributions", [])
+        if [entry["name"] for entry in contributions] != NAMES[:index + 1]:
+            raise ValueError("Missing, duplicate or reordered noise contribution")
+        powers = [entry["watts_per_hz"] for entry in contributions]
+        if not all(isinstance(value, (int, float)) and math.isfinite(value) and value >= 0
+                   for value in powers):
+            raise ValueError("Invalid noise contribution")
+        total = node["output_noise_w_per_hz"]
+        if not math.isclose(math.fsum(powers), total, rel_tol=1e-12, abs_tol=0):
+            raise ValueError("Noise contributions do not sum to total")
+        result.append({"output_node": node["name"], "total_watts_per_hz": total,
+                       "contributions": [{**entry, "fraction_of_total": value / total}
+                                         for entry, value in zip(contributions, powers)]})
+    return {"scope": "RFModel attribution only; no SystemVue per-device attribution was captured",
+            "nodes": result}
 
 
 def aligned_source_density(reference):

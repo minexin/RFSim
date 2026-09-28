@@ -69,6 +69,21 @@ class AntennaTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "verified"):
             antenna.aligned_source_density(self.reference)
 
+    def test_budget_conservation_and_names(self):
+        actual = {"nodes": [{"name": "Source"}]}
+        for index, name in enumerate(antenna.NAMES[1:], start=1):
+            actual["nodes"].append({"name": name, "output_noise_w_per_hz": (index + 1) * 1e-21,
+                                   "contributions": [{"name": part, "watts_per_hz": 1e-21}
+                                                     for part in antenna.NAMES[:index + 1]]})
+        result = antenna.noise_budget(actual)
+        self.assertAlmostEqual(sum(x["fraction_of_total"] for x in result["nodes"][-1]["contributions"]), 1.)
+        actual["nodes"][-1]["contributions"][0]["watts_per_hz"] *= 2
+        with self.assertRaisesRegex(ValueError, "sum"):
+            antenna.noise_budget(actual)
+        actual["nodes"][-1]["contributions"].pop()
+        with self.assertRaisesRegex(ValueError, "Missing"):
+            antenna.noise_budget(actual)
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -1,0 +1,38 @@
+{
+  "commit": "556a19c6042f25b8eebf39eb3cb45679504fe689",
+  "run_url": "https://github.com/minexin/RFSim/actions/runs/36432111560",
+  "status": "completed",
+  "conclusion": "success",
+  "jobs": [
+    {
+      "name": "build (windows-latest, Debug)",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "build (windows-latest, Release)",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "build (macos-latest, Release)",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "build (ubuntu-latest, Release)",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "build (macos-latest, Debug)",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "build (ubuntu-latest, Debug)",
+      "status": "completed",
+      "conclusion": "success"
+    }
+  ]
+}
