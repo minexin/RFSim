@@ -1,0 +1,26 @@
+[
+  {
+    "scan": "loss-scan",
+    "checks": 16,
+    "passed": 11,
+    "maximum_relative_probe_change": 7.105427357601007E-16
+  },
+  {
+    "scan": "near-zero",
+    "checks": 24,
+    "passed": 14,
+    "maximum_relative_probe_change": 1.7637629906015067E-16
+  },
+  {
+    "scan": "temperature",
+    "checks": 16,
+    "passed": 12,
+    "maximum_relative_probe_change": 1.7637629906015067E-16
+  },
+  {
+    "scan": "power",
+    "checks": 16,
+    "passed": 12,
+    "maximum_relative_probe_change": 1.7637629906015067E-16
+  }
+]

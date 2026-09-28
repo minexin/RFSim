@@ -25,6 +25,8 @@ Windows 本机可运行 `scripts/build-msvc.ps1` 自动定位已有 VS 工具链
 
 [三平台 CI](https://github.com/minexin/RFSim/actions/runs/35746795541) 已验证 Windows/MSVC、Ubuntu/GCC、macOS/AppleClang 的 Debug/Release，六组均通过 14 个核心/CLI 测试与 1 个安装消费者测试。证据绑定提交 `7fba1bf`，见 [验证报告](docs/build-validation.md)。
 
-仍需完成独立/复参考阻抗、相关噪声网络、非线性和变频求解、完整器件目录与 SystemVue 数值对照。本机 COM 激活探测返回 0x80080005，尚未运行参考仿真；不能将解析测试当作 SystemVue 差异测试。
+已运行 SystemVue 2023 衰减器的损耗、温度和源功率对照，噪声密度与极小衰减边界仍有差异，见 [实测报告](docs/systemvue-attenuator-power.md)。相关噪声协方差、双向线性链路和基础非线性/混频能力已进入核心；这些实现不代表完整 RF Design 库兼容。仍需完成独立/复参考阻抗、完整器件目录与更广泛的 SystemVue 数值验证。
+
+新增 [链路噪声接口](docs/linear-path-noise.md) 支持源/负载失配、器件内相关噪声和源噪声/器件噪声分解。
 
 [长期路线](docs/roadmap.md) · [兼容矩阵](docs/systemvue-2023-matrix.md) · [线性分析输出契约](docs/linear-analysis-compatibility.md)

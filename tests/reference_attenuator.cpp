@@ -1,5 +1,6 @@
 #include "rfmodel/ideal_devices.hpp"
 #include "rfmodel/linear_path.hpp"
+#include "rfmodel/linear_path_noise.hpp"
 #include "rfmodel/noise_figure.hpp"
 #include <iomanip>
 #include <iostream>
@@ -52,10 +53,9 @@ int main(int argc, char **argv) {
     const auto path = analyze_linear_path({{"attenuator", s}}, source_available_w);
     const auto noise = passive_thermal_noise(s, temperature_k);
     // Noise factor retains its standard 290 K reference as physical temperature changes.
-    const double noise_factor = std::pow(10., two_port_noise_figure_db(s, noise) / 10.);
-    // Matched source thermal noise transmitted through S21 plus device excess noise.
-    const double output_noise =
-        1.380649e-23 * temperature_k * std::norm(s(1, 0)) + noise.watts_per_hz(1, 1).real();
+    const auto noise_path = analyze_linear_path_noise({{"attenuator", s}}, {noise}, temperature_k);
+    const double noise_factor = *noise_path.noise_factor;
+    const double output_noise = noise_path.total_output_w_per_hz;
     std::cout << std::setprecision(17) << "{\"gain\":" << *path.transducer_gain
               << ",\"noise_factor\":" << noise_factor
               << ",\"output_noise_w_per_hz\":" << output_noise
