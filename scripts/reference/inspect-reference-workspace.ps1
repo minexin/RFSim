@@ -2,12 +2,17 @@ param(
     [Parameter(Mandatory=$true)][string]$WorkspacePath,
     [switch]$OpenCopy,
     [switch]$RunAttenuatorAnalysis,
+    [switch]$RunAntennaAnalysis,
     [Nullable[double]]$LossDb,
     [Nullable[double]]$TemperatureK,
     [Nullable[double]]$SourcePowerDbm,
     [switch]$CaptureRun
 )
 $ErrorActionPreference = 'Stop'
+if ($RunAntennaAnalysis -and ($RunAttenuatorAnalysis -or $null -ne $LossDb -or
+    $null -ne $TemperatureK -or $null -ne $SourcePowerDbm)) {
+    throw 'Antenna reference analysis cannot use attenuator parameter overrides.'
+}
 if ($null -ne $SourcePowerDbm -and (-not $RunAttenuatorAnalysis -or
     [double]::IsNaN($SourcePowerDbm) -or [double]::IsInfinity($SourcePowerDbm) -or
     $SourcePowerDbm -lt -200 -or $SourcePowerDbm -gt 30)) {
@@ -55,15 +60,15 @@ public static class ReferenceWorkspaceInspector
 
     private static void Visit(GENESYS.IItem item, string path, int depth, List<Node> nodes)
     {
-        if (path.Contains("System1_Sch1_Data") && path.EndsWith("/Eqns"))
+        if ((path.Contains("System1_Sch1_Data") || path.Contains("System1_Data")) && path.EndsWith("/Eqns"))
         {
             depth = 3;
         }
-        if (path.EndsWith("/Sch1/PartList/Attn") || path.EndsWith("/Sch1/PartList/Source"))
+        if (path.Contains("/Sch1/PartList/") && path.Split('/').Length == 5)
         {
             depth = 2;
         }
-        if (nodes.Count >= 500)
+        if (nodes.Count >= 2000)
         {
             throw new InvalidOperationException("Reference inspection node limit exceeded");
         }
@@ -126,7 +131,7 @@ public static class ReferenceWorkspaceInspector
         }
     }
 
-    public static Node[] Inspect(string path, bool open, bool run, double lossDb, double temperatureK,
+    public static Node[] Inspect(string path, bool open, bool run, bool antenna, double lossDb, double temperatureK,
         double sourcePowerDbm)
     {
         Console.Error.WriteLine("phase: attach-active-instance");
@@ -146,7 +151,8 @@ public static class ReferenceWorkspaceInspector
                             "FileOpen can replace the active workspace; launch a dedicated reference instance instead");
                     }
                     Console.Error.WriteLine("phase: open-copy-in-empty-instance");
-                    manager.FileOpen(path);
+                    application.RunScript("OpenWorkspace(\"" + path.Replace("\"", "\"\"") + "\")",
+                        GENESYS.ScriptLanguage.genLangVBScript);
                 }
                 Console.Error.WriteLine("phase: find-reference-workspace");
                 for (int index = 0; index < manager.GetWorkspaceCount(); ++index)
@@ -162,9 +168,10 @@ public static class ReferenceWorkspaceInspector
                         Console.Error.WriteLine("phase: inspect-reference-objects");
                         if (run)
                         {
-                            if (expectedName != "RFModel_AttenuatorNoise" || manager.GetWorkspaceCount() != 1)
+                            string permittedName = antenna ? "RFModel_AntennaNoise" : "RFModel_AttenuatorNoise";
+                            if (expectedName != permittedName || manager.GetWorkspaceCount() != 1)
                             {
-                                throw new InvalidOperationException("Analysis requires the sole dedicated attenuator workspace");
+                                throw new InvalidOperationException("Analysis requires the sole dedicated reference workspace");
                             }
                             string setup = "wsdoc=Application.Manager.GetWorkspaceByIndex(0)\r\n";
                             if (!Double.IsNaN(lossDb))
@@ -187,8 +194,11 @@ public static class ReferenceWorkspaceInspector
                             }
                             RunStartedUtc = DateTime.UtcNow.ToString("o");
                             Console.Error.WriteLine("phase: run-analysis " + RunStartedUtc);
+                            string analysis = antenna
+                                ? "wsdoc.GetItemByName(\"RF Design\").GetItemByName(\"System1\").RunAnalysis()\r\n"
+                                : "wsdoc.Designs.System1.RunAnalysis()\r\n";
                             application.RunScript(
-                                setup + "wsdoc.Designs.System1.RunAnalysis()\r\n",
+                                setup + analysis,
                                 GENESYS.ScriptLanguage.genLangVBScript);
                             RunReturnedUtc = DateTime.UtcNow.ToString("o");
                             ManagerErrors = manager.GetErrors();
@@ -197,6 +207,28 @@ public static class ReferenceWorkspaceInspector
                         }
                         var nodes = new List<Node>();
                         Visit(item, expectedName, 4, nodes);
+                        if (run)
+                        {
+                            string datasetPath = antenna
+                                ? expectedName + "/RF Design/System1_Data_Folder/System1_Data_Path1"
+                                : expectedName + "/Designs/System1_Data_Folder/System1_Sch1_Data_Path1";
+                            var datasets = nodes.FindAll(node => node.path == datasetPath);
+                            long timestamp;
+                            var epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+                            double started = (DateTime.Parse(RunStartedUtc, null,
+                                System.Globalization.DateTimeStyles.RoundtripKind).ToUniversalTime() - epoch).TotalSeconds;
+                            double returned = (DateTime.Parse(RunReturnedUtc, null,
+                                System.Globalization.DateTimeStyles.RoundtripKind).ToUniversalTime() - epoch).TotalSeconds;
+                            if (datasets.Count != 1 || !Int64.TryParse(datasets[0].timestamp, out timestamp) ||
+                                timestamp < Math.Floor(started) || timestamp > Math.Ceiling(returned))
+                            {
+                                throw new InvalidOperationException("Analysis did not produce a fresh reference dataset");
+                            }
+                            if (!String.IsNullOrWhiteSpace(ManagerErrors))
+                            {
+                                throw new InvalidOperationException("Reference analysis reported manager errors");
+                            }
+                        }
                         return nodes.ToArray();
                     }
                     finally
@@ -222,7 +254,8 @@ $loss = if ($null -eq $LossDb) { [double]::NaN } else { [double]$LossDb }
 $temperature = if ($null -eq $TemperatureK) { [double]::NaN } else { [double]$TemperatureK }
 $power = if ($null -eq $SourcePowerDbm) { [double]::NaN } else { [double]$SourcePowerDbm }
 $nodes = [ReferenceWorkspaceInspector]::Inspect($resolvedPath, $OpenCopy.IsPresent,
-    $RunAttenuatorAnalysis.IsPresent, $loss, $temperature, $power)
+    ($RunAttenuatorAnalysis.IsPresent -or $RunAntennaAnalysis.IsPresent),
+    $RunAntennaAnalysis.IsPresent, $loss, $temperature, $power)
 if ($CaptureRun) {
     [ordered]@{
         run_started_utc = [ReferenceWorkspaceInspector]::RunStartedUtc
