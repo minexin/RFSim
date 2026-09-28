@@ -16,6 +16,11 @@ int main() {
     near(result.source_output_w_per_hz / kt, 25.);
     near(result.intrinsic_output_w_per_hz / kt, 25.75);
     near(result.total_output_w_per_hz / kt, 50.75);
+    require(result.contributions.size() == 2 && result.contributions[0].name == "amp" &&
+                result.contributions[1].name == "pad",
+            "contribution stage order");
+    near(result.contributions[0].output_w_per_hz / kt, 25.);
+    near(result.contributions[1].output_w_per_hz / kt, 0.75);
     // Independent Friis expectation: F1=2, F2=4, G1=100.
     near(*result.noise_factor, 2. + (4. - 1.) / 100.);
     const auto cold = analyze_linear_path_noise(stages, noises, 0.);

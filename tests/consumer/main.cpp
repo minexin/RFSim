@@ -29,6 +29,10 @@ int main() {
     const auto nf = rfmodel::two_port_noise_figure_db(result.scattering[0], imported);
     const auto chain = rfmodel::analyze_linear_path_noise(
         {{"first", result.scattering[0]}, {"second", result.scattering[0]}}, {imported, imported});
+    if (chain.contributions.size() != 2 || chain.contributions[0].name != "first" ||
+        chain.contributions[1].name != "second") {
+        return 5;
+    }
     if (!chain.noise_factor || std::abs(*chain.noise_factor - 16.) > 1e-10 ||
         std::abs(chain.total_output_w_per_hz / (1.380649e-23 * 290.) - 1.) > 1e-10) {
         return 4;

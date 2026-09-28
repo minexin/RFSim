@@ -2,6 +2,11 @@
 #include "linear_path.hpp"
 
 namespace rfmodel {
+struct LinearPathNoiseContribution {
+    std::string name;
+    double output_w_per_hz;
+};
+
 struct LinearPathNoiseResult {
     SMatrix scattering;
     NoiseCorrelation intrinsic;
@@ -12,6 +17,7 @@ struct LinearPathNoiseResult {
     // Uses reference_temperature_k, independently of the actual source temperature.
     // Undefined for zero delivered signal gain (including a lossless reflecting load).
     std::optional<double> noise_factor;
+    std::vector<LinearPathNoiseContribution> contributions;
 };
 
 // One frequency; independent stages, with correlated noise allowed within each stage.
@@ -50,7 +56,13 @@ analyze_linear_path_noise(const std::vector<LinearPathStage> &stages,
     const std::vector<std::size_t> ports{0, 2 * stages.size() - 1};
     LinearPathNoiseResult result{};
     result.scattering = network.external_s(ports);
-    result.intrinsic = network.external_noise(ports, independent_noise(stage_noise));
+    const auto contributions = network.external_noise_contributions(ports, stage_noise);
+    result.intrinsic = {{2, std::vector<Complex>(4)}};
+    for (const auto &contribution : contributions) {
+        for (std::size_t index = 0; index < 4; ++index) {
+            result.intrinsic.watts_per_hz.values[index] += contribution.watts_per_hz.values[index];
+        }
+    }
     result.transducer_gain =
         transducer_power_gain(result.scattering, source_reflection, load_reflection);
 
@@ -63,8 +75,12 @@ analyze_linear_path_noise(const std::vector<LinearPathStage> &stages,
                             1. - s(1, 1) * load_reflection}};
     const SMatrix identity{2, {1., 0., 0., 1.}};
     const auto transfer = parameter_detail::solve(feedback, identity, 1.);
-    result.intrinsic_output_w_per_hz =
-        load_factor * propagate_noise(transfer, result.intrinsic).watts_per_hz(1, 1).real();
+    for (std::size_t index = 0; index < contributions.size(); ++index) {
+        const double output =
+            load_factor * propagate_noise(transfer, contributions[index]).watts_per_hz(1, 1).real();
+        result.contributions.push_back({stages[index].name, output});
+        result.intrinsic_output_w_per_hz += output;
+    }
     constexpr double boltzmann = 1.380649e-23;
     result.source_output_w_per_hz = boltzmann * source_temperature_k * result.transducer_gain;
     result.total_output_w_per_hz = result.source_output_w_per_hz + result.intrinsic_output_w_per_hz;

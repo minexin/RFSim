@@ -89,15 +89,9 @@ public:
         return result;
     }
 
-    // Intrinsic outgoing noise b=S*a+c, with globally indexed covariance of c.
-    // External ports are matched and noiseless; termination noise is not implicit.
-    NoiseCorrelation external_noise(const std::vector<std::size_t> &ports,
-                                    const NoiseCorrelation &intrinsic) const {
-        validate_external_ports(ports);
+private:
+    SMatrix noise_transfer() const {
         const auto n = boundaries_.size();
-        if (intrinsic.watts_per_hz.ports != n) {
-            throw std::invalid_argument("intrinsic noise must cover all network ports");
-        }
         SMatrix s{n, std::vector<Complex>(n * n)}, matrix = s, identity = s;
         for (const auto &block : blocks_) {
             for (std::size_t r = 0; r < block.s.ports; ++r) {
@@ -119,7 +113,19 @@ public:
             }
         }
         // a=C*b => (I-S*C)*b=c. Solve all noise excitations together.
-        const auto transfer = parameter_detail::solve(matrix, identity, 1.);
+        return parameter_detail::solve(matrix, identity, 1.);
+    }
+
+public:
+    // Intrinsic outgoing noise b=S*a+c, with globally indexed covariance of c.
+    // External ports are matched and noiseless; termination noise is not implicit.
+    NoiseCorrelation external_noise(const std::vector<std::size_t> &ports,
+                                    const NoiseCorrelation &intrinsic) const {
+        validate_external_ports(ports);
+        if (intrinsic.watts_per_hz.ports != boundaries_.size()) {
+            throw std::invalid_argument("intrinsic noise must cover all network ports");
+        }
+        const auto transfer = noise_transfer();
         const auto full = propagate_noise(transfer, intrinsic).watts_per_hz;
         SMatrix result{ports.size(), std::vector<Complex>(ports.size() * ports.size())};
         for (std::size_t r = 0; r < ports.size(); ++r) {
@@ -128,6 +134,51 @@ public:
             }
         }
         return {std::move(result)};
+    }
+
+    // Independent noise blocks in add() order. Factor network feedback once,
+    // then propagate each block to the selected external ports separately.
+    std::vector<NoiseCorrelation>
+    external_noise_contributions(const std::vector<std::size_t> &ports,
+                                 const std::vector<NoiseCorrelation> &noise_blocks) const {
+        validate_external_ports(ports);
+        if (noise_blocks.size() != blocks_.size()) {
+            throw std::invalid_argument("one noise covariance required per network block");
+        }
+        for (std::size_t index = 0; index < blocks_.size(); ++index) {
+            if (noise_blocks[index].watts_per_hz.ports != blocks_[index].s.ports) {
+                throw std::invalid_argument("noise block dimensions differ from device");
+            }
+            noise_detail::finite_matrix(noise_blocks[index].watts_per_hz);
+        }
+        const auto transfer = noise_transfer();
+        std::vector<NoiseCorrelation> result;
+        for (std::size_t index = 0; index < blocks_.size(); ++index) {
+            const auto &block = blocks_[index];
+            // Zero padding adapts the rectangular map to the square covariance API.
+            const auto size = std::max(ports.size(), block.s.ports);
+            SMatrix weights{size, std::vector<Complex>(size * size)};
+            SMatrix covariance = weights;
+            for (std::size_t row = 0; row < ports.size(); ++row) {
+                for (std::size_t column = 0; column < block.s.ports; ++column) {
+                    weights(row, column) = transfer(ports[row], block.offset + column);
+                }
+            }
+            for (std::size_t row = 0; row < block.s.ports; ++row) {
+                for (std::size_t column = 0; column < block.s.ports; ++column) {
+                    covariance(row, column) = noise_blocks[index].watts_per_hz(row, column);
+                }
+            }
+            const auto propagated = propagate_noise(weights, {covariance}).watts_per_hz;
+            SMatrix selected{ports.size(), std::vector<Complex>(ports.size() * ports.size())};
+            for (std::size_t row = 0; row < ports.size(); ++row) {
+                for (std::size_t column = 0; column < ports.size(); ++column) {
+                    selected(row, column) = propagated(row, column);
+                }
+            }
+            result.push_back({std::move(selected)});
+        }
+        return result;
     }
 
     explicit LinearNetwork(double reference_ohms = 50.0) : reference_(reference_ohms) {

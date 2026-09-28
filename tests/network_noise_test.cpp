@@ -29,6 +29,14 @@ int main() {
         near(actual.values[i] / kt, expected.values[i] / kt);
     }
     const auto reverse = net.external_noise({3, 0}, {combined}).watts_per_hz;
+    const auto contributions = net.external_noise_contributions({0, 3}, {{c1}, {c2}});
+    const auto backwards = net.external_noise_contributions({3, 0}, {{c1}, {c2}});
+    for (std::size_t i = 0; i < 4; ++i) {
+        near((contributions[0].watts_per_hz.values[i] + contributions[1].watts_per_hz.values[i]) /
+                 kt,
+             actual.values[i] / kt);
+    }
+    near(backwards[0].watts_per_hz(0, 1) / kt, contributions[0].watts_per_hz(1, 0) / kt);
     near(reverse(0, 1) / kt, actual(1, 0) / kt);
     // A mismatched but noiseless termination reflects internal noise back.
     LinearNetwork reflected;
@@ -40,6 +48,23 @@ int main() {
     // Cross-port correlation is retained, rather than summing only powers.
     near(reflected.external_noise({0}, {SMatrix{2, {1., 1., 1., 1.}}}).watts_per_hz(0, 0),
          1.25 * 1.25);
+    near(reflected.external_noise_contributions({0}, {{{2, {1., 1., 1., 1.}}}})[0].watts_per_hz(0,
+                                                                                                0),
+         1.25 * 1.25);
+    // More external outputs than ports in each independent block.
+    LinearNetwork separate;
+    separate.add({1, {0.}});
+    separate.add({1, {0.}});
+    const auto split = separate.external_noise_contributions({1, 0}, {{{1, {2.}}}, {{1, {3.}}}});
+    near(split[0].watts_per_hz(1, 1), 2.);
+    near(split[0].watts_per_hz(0, 0), 0.);
+    near(split[1].watts_per_hz(0, 0), 3.);
+    rejects<std::invalid_argument>([&] {
+        net.external_noise_contributions({0, 3}, {{c1}});
+    });
+    rejects<std::invalid_argument>([&] {
+        net.external_noise_contributions({0, 3}, {{{1, {0.}}}, {c2}});
+    });
     rejects<std::invalid_argument>([&] {
         net.external_noise({0, 3}, {SMatrix{1, {0.}}});
     });
