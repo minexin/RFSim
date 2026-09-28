@@ -16,10 +16,48 @@ DATASET = BASE + "System1_Data_Folder/System1_Data_Path1"
 NAMES = ["Source", "Attn1", "RFAmp1", "Attn2", "RFAmp2"]
 METRICS = {"CGAIN": "gain", "CNF": "noise_factor", "CND": "output_noise_w_per_hz",
            "DCP": "signal_output_w"}
+PARAMETERS = {
+    "Attn1/L": 1 + 77.7 / 290, "Attn2/L": 1 + 453.6 / 290,
+    "RFAmp1/G": 10 ** 2.5, "RFAmp2/G": 1000,
+    "RFAmp1/NF": 1 + 150 / 290, "RFAmp2/NF": 1 + 700 / 290,
+    "RFAmp1/RISO": 1e5, "RFAmp2/RISO": 1e5,
+    "RFAmp1/ZIN": 50, "RFAmp1/ZOUT": 50, "RFAmp2/ZIN": 50, "RFAmp2/ZOUT": 50,
+    "Source/Pwr": [1e-8, 1e-8], "Source/Freq": [5e9, 1e8],
+    "Source/Enable": [1, 1], "Source/SrcType": [0, 3],
+    "Source/NoiseStart": [50e6, 4500e6], "Source/NoiseStop": [250e6, 5500e6],
+    # Constant explicitly present in the vendor workspace's source-noise equation.
+    "Source/NoisePower": [1e-18, 1.3806503e-23 * 50],
+}
+
+
+def parameter_path(key):
+    part, parameter = key.split("/")
+    return BASE + "Sch1/PartList/" + part + "/ParamSet/" + parameter
+
+
+def validate_parameters(capture):
+    for key, expected in PARAMETERS.items():
+        matches = [node for node in capture["nodes"] if node["path"] == parameter_path(key)]
+        if len(matches) != 1 or matches[0].get("evaluation_error"):
+            raise ValueError("Missing, ambiguous or failed parameter: " + key)
+        actual = matches[0]["data"]
+        if isinstance(expected, list):
+            if not isinstance(actual, list) or len(actual) != len(expected):
+                raise ValueError("Unexpected parameter shape: " + key)
+            dimensions = matches[0]["dimensions"]
+            if dimensions not in ([len(expected)], [len(expected), 1]):
+                raise ValueError("Unexpected parameter dimensions: " + key)
+        else:
+            actual, expected = [actual], [expected]
+        if any(not isinstance(a, (int, float)) or not math.isfinite(a) or
+               not math.isclose(a, b, rel_tol=1e-12, abs_tol=0) for a, b in zip(actual, expected)):
+            raise ValueError("Parameter mismatch: " + key)
 
 
 def validate(capture):
     runner.validate_capture(capture, "antenna")
+    if capture.get("parameters_verified"):
+        validate_parameters(capture)
 
     def unique(path):
         nodes = [node for node in capture["nodes"] if node["path"] == path]
@@ -45,15 +83,18 @@ def validate(capture):
 
 def collect(capture):
     validate(capture)
+    validate_parameters(capture)
     paths = {DATASET, BASE + "System1/RoomTemp"}
     paths.update(DATASET + "/Eqns/VarBlock/" + key for key in ["CF", *METRICS])
+    paths.update(parameter_path(key) for key in PARAMETERS)
     result = {key: capture[key] for key in ("run_started_utc", "run_returned_utc", "manager_errors")}
     result["nodes"] = [node for node in capture["nodes"] if node["path"] in paths]
     for node in result["nodes"]:
         for key in ("methods", "variables"):
             node.pop(key, None)
     result["scope"] = "Official antenna example; matched small-signal RFModel approximation only"
-    result["condition_limit"] = "Carrier and ambient temperature verified live; device settings mapped from vendor workspace, not fully read back"
+    result["parameters_verified"] = True
+    result["condition_limit"] = "Main device/source parameters verified live; pad impedance defaults and full nonlinear/noise model equivalence remain unverified"
     return result
 
 

@@ -34,7 +34,7 @@ RFModel 使用匹配小信号链路，将放大器的前向附加噪声设为 k�
 
 ```powershell
 python scripts/reference/compare-antenna.py collect `
-  build-reference/antenna-run-001/capture.json validation/systemvue-2023-antenna.json
+  build-reference/antenna-run-002/capture.json validation/systemvue-2023-antenna-parameters.json
 python scripts/reference/compare-antenna.py compare `
   validation/systemvue-2023-antenna.json validation/systemvue-2023-antenna-comparison.json `
   --executable build-msvc/Release/reference_antenna.exe
@@ -46,3 +46,26 @@ python scripts/reference/compare-antenna.py compare `
 本轮 MSVC Debug/Release 完整 CTest 各 36/36 通过，两个配置的探针 JSON 完全一致。
 新采集比较校验测试 3/3 通过，覆盖旧数据、歧义路径、错误载频、真实数值偏差与 NaN。
 66 个 C++ 文件格式检查通过。
+
+## 参数回读复测
+
+2026-09-28 UTC 13:45:17.3676812–13:45:18.1892687 完成第二次后台采集。
+此前空值的原因是部分 PartParam 没有 Data 属性。其 GetValue() 方法可读取求值结果；
+采集器现在保留 DataEntry、data_source、evaluation_error，区分表达式与实际值。
+两级损耗、放大器 G/NF/RISO/ZIN/ZOUT，以及源的功率、类型、启用状态、频率和噪声频段
+共 19 项参数均已实际读取，并通过严格数值与形状校验。隔离度回读值 100000 是线性比值。
+
+新证据为 `systemvue-2023-antenna-parameters.json` 与
+`systemvue-2023-antenna-parameters-comparison.json`，旧首次快照仍保留。
+参数一致后重跑仍为 13/20 通过；匹配小信号近似和完整 RFAMP 的差异尚未消除。
+衰减器阻抗默认值仍返回空表达式，不能说所有默认参数都已数值确认。
+
+官方工作区的 TempKtoNoisePwr_Watts 方程明确使用 1.3806503e-23，
+50 K 源 NoisePower 实际回读为 6.903251499999993e-22 W/Hz；
+RFModel 探针使用 SI 常数得到 6.903245e-22 W/Hz。
+因此两边输入噪声基准确实存在可量化差别。此证据只说明示例方程的常数，
+不能推断 SystemVue 内部器件噪声实现；下一步应以相同源噪声密度重比，
+将输入条件差异与器件噪声差异分离，而不修改 RFModel 的 SI 常数。
+
+新采集默认必须包含上述参数才能归档，旧快照仅允许历史比较重放。
+比较校验测试增加参数失配/缺失检查，本轮 4/4 通过。

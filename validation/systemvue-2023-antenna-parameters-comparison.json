@@ -1,0 +1,187 @@
+{
+  "checks": [
+    {
+      "node": "Source",
+      "measurement": "CGAIN",
+      "rfmodel": 1,
+      "systemvue": 1,
+      "relative_error": 0.0,
+      "relative_tolerance": 1e-07,
+      "passed": true
+    },
+    {
+      "node": "Source",
+      "measurement": "CNF",
+      "rfmodel": 1,
+      "systemvue": 1,
+      "relative_error": 0.0,
+      "relative_tolerance": 1e-07,
+      "passed": true
+    },
+    {
+      "node": "Source",
+      "measurement": "CND",
+      "rfmodel": 6.903245000000001e-22,
+      "systemvue": 6.903251327418734e-22,
+      "relative_error": 9.165853064176336e-07,
+      "relative_tolerance": 1e-07,
+      "passed": false
+    },
+    {
+      "node": "Source",
+      "measurement": "DCP",
+      "rfmodel": 1e-08,
+      "systemvue": 9.999999750000036e-09,
+      "relative_error": 2.4999997076092485e-08,
+      "relative_tolerance": 1e-07,
+      "passed": true
+    },
+    {
+      "node": "Attn1",
+      "measurement": "CGAIN",
+      "rfmodel": 0.7886864291542018,
+      "systemvue": 0.7886864291542032,
+      "relative_error": 1.6892234737434594e-15,
+      "relative_tolerance": 1e-07,
+      "passed": true
+    },
+    {
+      "node": "Attn1",
+      "measurement": "CNF",
+      "rfmodel": 1.2679310344827586,
+      "systemvue": 1.2679310344829668,
+      "relative_error": 1.642659054438322e-13,
+      "relative_tolerance": 1e-07,
+      "passed": true
+    },
+    {
+      "node": "Attn1",
+      "measurement": "CND",
+      "rfmodel": 1.390524188659233e-21,
+      "systemvue": 1.3905255456272663e-21,
+      "relative_error": 9.758670292459163e-07,
+      "relative_tolerance": 1e-07,
+      "passed": false
+    },
+    {
+      "node": "Attn1",
+      "measurement": "DCP",
+      "rfmodel": 7.886864291542018e-09,
+      "systemvue": 7.886864094370453e-09,
+      "relative_error": 2.4999995281737982e-08,
+      "relative_tolerance": 1e-07,
+      "passed": true
+    },
+    {
+      "node": "RFAmp1",
+      "measurement": "CGAIN",
+      "rfmodel": 249.40454757923035,
+      "systemvue": 249.4045462247432,
+      "relative_error": 5.43088397565991e-09,
+      "relative_tolerance": 1e-07,
+      "passed": true
+    },
+    {
+      "node": "RFAmp1",
+      "measurement": "CNF",
+      "rfmodel": 1.9237574316290131,
+      "systemvue": 1.9237574349078725,
+      "relative_error": 1.7044037604280056e-09,
+      "relative_tolerance": 1e-07,
+      "passed": true
+    },
+    {
+      "node": "RFAmp1",
+      "measurement": "CND",
+      "rfmodel": 1.0946216811571572e-18,
+      "systemvue": 1.0946227716761643e-18,
+      "relative_error": 9.962509782987686e-07,
+      "relative_tolerance": 1e-07,
+      "passed": false
+    },
+    {
+      "node": "RFAmp1",
+      "measurement": "DCP",
+      "rfmodel": 2.4940454757923037e-06,
+      "systemvue": 2.4940453998963042e-06,
+      "relative_error": 3.043088127264998e-08,
+      "relative_tolerance": 1e-07,
+      "passed": true
+    },
+    {
+      "node": "Attn2",
+      "measurement": "CGAIN",
+      "rfmodel": 97.26643194994192,
+      "systemvue": 97.266430935367,
+      "relative_error": 1.0430884636361057e-08,
+      "relative_tolerance": 1e-07,
+      "passed": true
+    },
+    {
+      "node": "Attn2",
+      "measurement": "CNF",
+      "rfmodel": 1.9300289208468975,
+      "systemvue": 1.9300289241911748,
+      "relative_error": 1.7327601973293769e-09,
+      "relative_tolerance": 1e-07,
+      "passed": true
+    },
+    {
+      "node": "Attn2",
+      "measurement": "CND",
+      "rfmodel": 4.293389570416024e-19,
+      "systemvue": 4.293393826802859e-19,
+      "relative_error": 9.913804805208305e-07,
+      "relative_tolerance": 1e-07,
+      "passed": false
+    },
+    {
+      "node": "Attn2",
+      "measurement": "DCP",
+      "rfmodel": 9.726643194994192e-07,
+      "systemvue": 9.726642850370657e-07,
+      "relative_error": 3.543088197157023e-08,
+      "relative_tolerance": 1e-07,
+      "passed": true
+    },
+    {
+      "node": "RFAmp2",
+      "measurement": "CGAIN",
+      "rfmodel": 97266.4319499419,
+      "systemvue": 97266.41361783382,
+      "relative_error": 1.884731574048166e-07,
+      "relative_tolerance": 1e-07,
+      "passed": false
+    },
+    {
+      "node": "RFAmp2",
+      "measurement": "CNF",
+      "rfmodel": 1.9548452223710506,
+      "systemvue": 1.9548452260979308,
+      "relative_error": 1.906483484256402e-09,
+      "relative_tolerance": 1e-07,
+      "passed": true
+    },
+    {
+      "node": "RFAmp2",
+      "measurement": "CND",
+      "rfmodel": 4.3900350004160245e-16,
+      "systemvue": 4.390038573672381e-16,
+      "relative_error": 8.139464600290731e-07,
+      "relative_tolerance": 1e-07,
+      "passed": false
+    },
+    {
+      "node": "RFAmp2",
+      "measurement": "DCP",
+      "rfmodel": 0.0009726643194994191,
+      "systemvue": 0.0009726641118617383,
+      "relative_error": 2.1347315921289757e-07,
+      "relative_tolerance": 1e-07,
+      "passed": false
+    }
+  ],
+  "passed": false,
+  "scope": "Official antenna example; matched small-signal RFModel approximation only",
+  "condition_limit": "Main device/source parameters verified live; pad impedance defaults and full nonlinear/noise model equivalence remain unverified"
+}

@@ -45,6 +45,18 @@ class AntennaTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "Invalid"):
             antenna.compare(self.reference, actual)
 
+    def test_verified_parameters(self):
+        path = Path(__file__).resolve().parents[2] / "validation/systemvue-2023-antenna-parameters.json"
+        reference = json.loads(path.read_text(encoding="utf-8"))
+        antenna.validate(reference)
+        for node in reference["nodes"]:
+            if node["path"] == antenna.parameter_path("RFAmp2/G"):
+                node["data"] = 100
+        with self.assertRaisesRegex(ValueError, "Parameter mismatch"):
+            antenna.validate(reference)
+        with self.assertRaisesRegex(ValueError, "parameter"):
+            antenna.collect(self.reference)
+
 
 if __name__ == "__main__":
     unittest.main()

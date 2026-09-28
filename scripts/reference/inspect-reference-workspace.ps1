@@ -57,6 +57,9 @@ public static class ReferenceWorkspaceInspector
         public object data;
         public int[] dimensions;
         public string timestamp;
+        public string data_entry;
+        public string data_source;
+        public string evaluation_error;
     }
 
     private static void Visit(GENESYS.IItem item, string path, int depth, List<Node> nodes)
@@ -82,6 +85,10 @@ public static class ReferenceWorkspaceInspector
         for (int index = 0; index < variables.Length; ++index)
         {
             string name = item.GetVarName(index);
+            if (name == "DataEntry")
+            {
+                node.data_entry = Convert.ToString(item.GetVarValue(index));
+            }
             if (name == "TimeStamp")
             {
                 node.timestamp = Convert.ToString(item.GetVarValue(index));
@@ -89,6 +96,7 @@ public static class ReferenceWorkspaceInspector
             if (name == "Data")
             {
                 object value = item.GetVarValue(index);
+                node.data_source = "Data property";
                 var array = value as Array;
                 if (array != null)
                 {
@@ -111,6 +119,41 @@ public static class ReferenceWorkspaceInspector
                 {
                     node.data = value;
                 }
+            }
+        }
+        // Some PartParam objects expose only their expression, without a Data
+        // property. Read the documented evaluated value through IDispatch.
+        if (node.data == null && path.Contains("/ParamSet/") &&
+            node.methods.Contains("GetValue()"))
+        {
+            try
+            {
+                object value = item.GetType().InvokeMember("GetValue",
+                    System.Reflection.BindingFlags.InvokeMethod, null, item, new object[0]);
+                var array = value as Array;
+                if (array != null && array.Length <= 4096)
+                {
+                    node.dimensions = new int[array.Rank];
+                    for (int dimension = 0; dimension < array.Rank; ++dimension)
+                    {
+                        node.dimensions[dimension] = array.GetLength(dimension);
+                    }
+                    var entries = new List<object>();
+                    foreach (object entry in array)
+                    {
+                        entries.Add(entry is ValueType || entry is string ? entry : "unsupported");
+                    }
+                    node.data = entries.ToArray();
+                }
+                else if (value is ValueType || value is string)
+                {
+                    node.data = value;
+                }
+                node.data_source = "GetValue method";
+            }
+            catch (Exception error)
+            {
+                node.evaluation_error = error.GetBaseException().Message;
             }
         }
         nodes.Add(node);
