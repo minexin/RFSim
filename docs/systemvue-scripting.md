@@ -1,5 +1,8 @@
 # SystemVue 2023 脚本驱动边界
 
+后续进展：Python + COM 后台入口已完成首次受控四级链路采集，见
+[天线噪声对照报告](systemvue-antenna-comparison.md)。下文的失败记录保留为排障依据。
+
 核对本机安装目录 `Help/systemvue.qch` 的 2023 文档后，确定应优先用脚本驱动，
 界面仅用于处理启动或异常对话框。后台自动化不等于无需 SystemVue 进程或许可证。
 

@@ -1,0 +1,92 @@
+{
+  "run_started_utc": "2026-09-28T01:35:53.0314133Z",
+  "run_returned_utc": "2026-09-28T01:35:53.5159776Z",
+  "manager_errors": "",
+  "nodes": [
+    {
+      "path": "RFModel_AntennaNoise/RF Design/System1/RoomTemp",
+      "data": 16.85,
+      "dimensions": null,
+      "timestamp": null
+    },
+    {
+      "path": "RFModel_AntennaNoise/RF Design/System1_Data_Folder/System1_Data_Path1",
+      "data": null,
+      "dimensions": null,
+      "timestamp": "1790559353"
+    },
+    {
+      "path": "RFModel_AntennaNoise/RF Design/System1_Data_Folder/System1_Data_Path1/Eqns/VarBlock/CF",
+      "data": [
+        5000000000,
+        5000000000,
+        5000000000,
+        5000000000,
+        5000000000
+      ],
+      "dimensions": [
+        5
+      ],
+      "timestamp": null
+    },
+    {
+      "path": "RFModel_AntennaNoise/RF Design/System1_Data_Folder/System1_Data_Path1/Eqns/VarBlock/CGAIN",
+      "data": [
+        1,
+        0.7886864291542032,
+        249.4045462247432,
+        97.266430935367,
+        97266.41361783382
+      ],
+      "dimensions": [
+        5
+      ],
+      "timestamp": null
+    },
+    {
+      "path": "RFModel_AntennaNoise/RF Design/System1_Data_Folder/System1_Data_Path1/Eqns/VarBlock/CND",
+      "data": [
+        6.903251327418734e-22,
+        1.3905255456272663e-21,
+        1.0946227716761643e-18,
+        4.293393826802859e-19,
+        4.390038573672381e-16
+      ],
+      "dimensions": [
+        5
+      ],
+      "timestamp": null
+    },
+    {
+      "path": "RFModel_AntennaNoise/RF Design/System1_Data_Folder/System1_Data_Path1/Eqns/VarBlock/CNF",
+      "data": [
+        1,
+        1.2679310344829668,
+        1.9237574349078725,
+        1.9300289241911748,
+        1.9548452260979308
+      ],
+      "dimensions": [
+        5
+      ],
+      "timestamp": null
+    },
+    {
+      "path": "RFModel_AntennaNoise/RF Design/System1_Data_Folder/System1_Data_Path1/Eqns/VarBlock/DCP",
+      "data": [
+        9.999999750000036e-09,
+        7.886864094370453e-09,
+        2.4940453998963042e-06,
+        9.726642850370657e-07,
+        0.0009726641118617383
+      ],
+      "dimensions": [
+        5
+      ],
+      "timestamp": null
+    }
+  ],
+  "scope": "Official antenna example; matched small-signal RFModel approximation only",
+  "condition_limit": "Carrier and ambient temperature verified live; device settings mapped from vendor workspace, not fully read back",
+  "capture_sha256": "019c15a9513d6eb5da2c1c7088e13a5fc95b90b03fc759a906bf285040a549b3"
+}
