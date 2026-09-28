@@ -9,6 +9,7 @@ param(
     [switch]$CaptureRun
 )
 $ErrorActionPreference = 'Stop'
+[Console]::OutputEncoding = New-Object System.Text.UTF8Encoding($false)
 if ($RunAntennaAnalysis -and ($RunAttenuatorAnalysis -or $null -ne $LossDb -or
     $null -ne $TemperatureK -or $null -ne $SourcePowerDbm)) {
     throw 'Antenna reference analysis cannot use attenuator parameter overrides.'
