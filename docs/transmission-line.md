@@ -37,3 +37,7 @@ SystemVue 2023 数值对照仍待补充，不以解析测试替代兼容验收�
 2026-09-28 本地验证：MSVC Debug/Release 全套 CTest 各 38/38，安装后消费项目
 Debug/Release 各 1/1；68 个 C++ 文件通过格式检查。本次变更的 Linux/macOS
 验证由推送后的 CI 执行，本地结果不代表其已通过。
+
+后续核验：提交 `ae59183` 的 CI 运行 `36433135457` 已完成，Windows、Ubuntu、macOS
+各 Debug/Release 共六项任务全部成功，证据见
+`validation/cross-platform-ae59183.json`；这份记录仅对应该提交。

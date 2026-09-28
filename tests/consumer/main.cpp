@@ -7,9 +7,16 @@
 #include <rfmodel/power_gain.hpp>
 #include <rfmodel/linear_path_noise.hpp>
 #include <rfmodel/transmission_line.hpp>
+#include <rfmodel/multiport_devices.hpp>
 #include <cmath>
 
 int main() {
+    const rfmodel::EqualPowerDividerModel divider("divider", 4);
+    const rfmodel::QuadratureCouplerModel coupler("coupler", 0.25);
+    if (std::abs(divider.s_parameters(1e9)(1, 0) - rfmodel::Complex{0.5, 0.}) > 1e-12 ||
+        std::abs(coupler.s_parameters(1e9)(2, 0) - rfmodel::Complex{0., 0.5}) > 1e-12) {
+        return 7;
+    }
     const rfmodel::TransmissionLineModel line("quarter wave", 100., 0.25e-9);
     if (std::abs(line.s_parameters(1e9)(0, 0) - rfmodel::Complex{0.6, 0.}) > 1e-12) {
         return 6;
