@@ -1,5 +1,7 @@
 # 基础匹配传输器件
 
+独立特性阻抗引起的失配和多次反射由 [均匀传输线模型](transmission-line.md) 支持。
+
 `MatchedTransmissionModel(name, loss_db, delay_s, reference_ohms)` 实现 RFDeviceModel 和 SParameterProvider。零延时对应理想匹配衰减器，零损耗对应理想延迟线，可组合常数损耗与延时。
 
 散射矩阵对角项为零；两个传输方向均为 `10^(-loss_db/20) * exp(-j*2*pi*f*delay_s)`。频率为 Hz，延时为秒，损耗为非负 dB，参考阻抗为正实数欧姆。负损耗、负延时、非法频率被拒绝。

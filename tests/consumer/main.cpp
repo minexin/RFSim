@@ -6,9 +6,14 @@
 #include <rfmodel/linear_solver.hpp>
 #include <rfmodel/power_gain.hpp>
 #include <rfmodel/linear_path_noise.hpp>
+#include <rfmodel/transmission_line.hpp>
 #include <cmath>
 
 int main() {
+    const rfmodel::TransmissionLineModel line("quarter wave", 100., 0.25e-9);
+    if (std::abs(line.s_parameters(1e9)(0, 0) - rfmodel::Complex{0.6, 0.}) > 1e-12) {
+        return 6;
+    }
     auto result = rfmodel::analyze_linear(
         rfmodel::FrequencyGrid{{1e9}},
         {0, 1},
