@@ -6,12 +6,28 @@
 
 // Small-signal mapping of the official Antenna Noise Temperature example.
 // This is not a complete RFAMP model: matched forward noise only, no compression.
-int main() {
+int main(int argc, char **argv) {
     using namespace rfmodel;
     constexpr double frequency = 5e9;
     constexpr double boltzmann = 1.380649e-23;
     constexpr double reference_temperature = 290.;
-    constexpr double source_temperature = 50.;
+    double source_noise_density = boltzmann * 50.;
+    if (argc > 2) {
+        return 2;
+    }
+    if (argc == 2) {
+        try {
+            std::size_t consumed = 0;
+            source_noise_density = std::stod(argv[1], &consumed);
+            if (consumed != std::string(argv[1]).size() || !std::isfinite(source_noise_density) ||
+                source_noise_density <= 0 || source_noise_density > 1e-12) {
+                return 2;
+            }
+        } catch (const std::exception &) {
+            return 2;
+        }
+    }
+    const double source_temperature = source_noise_density / boltzmann;
     constexpr double source_power = 1e-8;
     const double losses[] = {1. + 77.7 / 290., 1. + 453.6 / 290.};
     const double gains[] = {std::pow(10., 2.5), 1000.};
@@ -36,8 +52,7 @@ int main() {
     std::cout << std::setprecision(17)
               << "{\"scope\":\"matched small-signal four-stage approximation\",\"nodes\":["
               << "{\"name\":\"Source\",\"gain\":1,\"noise_factor\":1,\"signal_output_w\":"
-              << source_power << ",\"output_noise_w_per_hz\":" << boltzmann * source_temperature
-              << "}";
+              << source_power << ",\"output_noise_w_per_hz\":" << source_noise_density << "}";
     double expected_gain = 1.;
     double expected_factor = 1.;
     for (std::size_t end = 1; end <= stages.size(); ++end) {

@@ -117,23 +117,43 @@ def compare(reference, actual):
             "scope": reference["scope"], "condition_limit": reference["condition_limit"]}
 
 
+def aligned_source_density(reference):
+    if reference.get("parameters_verified") is not True:
+        raise ValueError("Source alignment requires verified parameter capture")
+    validate(reference)
+    return next(node["data"][1] for node in reference["nodes"]
+                if node["path"] == parameter_path("Source/NoisePower"))
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("mode", choices=["collect", "compare"])
     parser.add_argument("input", type=Path)
     parser.add_argument("output", type=Path)
     parser.add_argument("--executable", type=Path)
+    parser.add_argument("--align-source-noise", action="store_true",
+                        help="Use captured source NoisePower, not measured source CND")
     args = parser.parse_args()
     raw = args.input.read_bytes()
     source = json.loads(raw.decode("utf-8-sig"))
     if args.mode == "collect":
+        if args.align_source_noise:
+            parser.error("Source alignment is a compare option")
         result = collect(source)
         result["capture_sha256"] = hashlib.sha256(raw).hexdigest()
     else:
         if args.executable is None:
             parser.error("compare requires --executable")
-        process = subprocess.run([str(args.executable.resolve())], capture_output=True, text=True, check=True)
+        command = [str(args.executable.resolve())]
+        density = 1.380649e-23 * 50
+        if args.align_source_noise:
+            density = aligned_source_density(source)
+            command.append(str(density))
+        process = subprocess.run(command, capture_output=True, text=True, check=True)
         result = compare(source, json.loads(process.stdout))
+        result["source_noise_input"] = {"watts_per_hz": density,
+                                      "mode": "captured_parameter" if args.align_source_noise else "SI_k_times_50K"}
+        result["reference_sha256"] = hashlib.sha256(raw).hexdigest()
     args.output.write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
     if args.mode == "compare":
         print(str(sum(check["passed"] for check in result["checks"])) + "/20 checks passed")

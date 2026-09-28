@@ -57,6 +57,18 @@ class AntennaTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "parameter"):
             antenna.collect(self.reference)
 
+    def test_source_alignment_uses_parameter_not_measurement(self):
+        path = Path(__file__).resolve().parents[2] / "validation/systemvue-2023-antenna-parameters.json"
+        reference = json.loads(path.read_text(encoding="utf-8"))
+        expected = 1.3806503e-23 * 50
+        self.assertAlmostEqual(antenna.aligned_source_density(reference) / expected, 1.)
+        for node in reference["nodes"]:
+            if node["path"].endswith("/CND"):
+                node["data"][0] *= 2
+        self.assertAlmostEqual(antenna.aligned_source_density(reference) / expected, 1.)
+        with self.assertRaisesRegex(ValueError, "verified"):
+            antenna.aligned_source_density(self.reference)
+
 
 if __name__ == "__main__":
     unittest.main()

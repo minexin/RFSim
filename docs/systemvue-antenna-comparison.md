@@ -69,3 +69,36 @@ RFModel 探针使用 SI 常数得到 6.903245e-22 W/Hz。
 
 新采集默认必须包含上述参数才能归档，旧快照仅允许历史比较重放。
 比较校验测试增加参数失配/缺失检查，本轮 4/4 通过。
+
+## 统一输入噪声密度
+
+使用同一次受控采集的 Source/NoisePower 第二分量作为 RFModel 输入，
+而不是用已经受端口处理影响的源节点 CND 反向拟合。新探针接受可选的
+`reference_antenna [source_noise_w_per_hz]`，将密度换算为等效源温度传给链路 API。
+器件物理温度、噪声因子参考温度和核心 SI 常数保持不变；默认调用保持原结果。
+
+```powershell
+python scripts/reference/compare-antenna.py compare `
+  validation/systemvue-2023-antenna-parameters.json `
+  validation/systemvue-2023-antenna-source-aligned.json `
+  --executable build-msvc/Release/reference_antenna.exe --align-source-noise
+```
+
+报告明确记录使用的输入密度、模式和参考快照 SHA256，不替换原始比较。
+该操作只重放此前实测，没有再次运行 SystemVue。容差仍为 1e-7，结果为 14/20 通过。
+
+| 节点 | 输出噪声密度误差 ppm | 判定 |
+|---|---:|---|
+| Source | 0.025000 | 通过 |
+| Attn1 | 0.607196 | 未通过 |
+| RFAmp1 | 0.848152 | 未通过 |
+| Attn2 | 0.844124 | 未通过 |
+| RFAmp2 | 0.669931 | 未通过 |
+
+末级 CGAIN/DCP 的判定和数值未变。源密度差异可以解释源节点的大部分误差，
+但不能解释剩余器件噪声及末级信号差异；后续需继续检查器件噪声基准与 RFAMP 小信号近似。
+不以输入对齐替代原始比较，也不将本结果视为完整兼容。
+
+比较工具测试 5/5 通过，其中新增测试确认输入来自参数而非测量值。
+MSVC Debug/Release 探针在统一输入下输出相同，非法密度参数被拒绝；
+默认模式重放的全部原始检查数值未变。此轮未修改核心头文件。
