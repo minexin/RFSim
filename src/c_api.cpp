@@ -5,6 +5,8 @@
 #include "rfmodel/polynomial_amplifier.hpp"
 #include "rfmodel/ideal_mixer.hpp"
 #include "rfmodel/spectrum_analysis.hpp"
+#include "rfmodel/tabulated_model.hpp"
+#include "rfmodel/network_parameters.hpp"
 #include "rfmodel/transmission_line.hpp"
 #include "rfmodel/rlgc_transmission_line.hpp"
 #include <cstdio>
@@ -15,6 +17,16 @@ struct rfmodel_network {
     size_t ports{};
 
     explicit rfmodel_network(double reference) : core(reference) {
+    }
+};
+
+struct rfmodel_touchstone {
+    size_t noise_samples;
+    rfmodel::TabulatedSParameterModel core;
+
+    rfmodel_touchstone(rfmodel::TouchstoneData data, rfmodel::OutOfBand policy)
+        : noise_samples(data.noise_samples.size()),
+          core("Touchstone C API", std::move(data), policy) {
     }
 };
 
@@ -90,6 +102,51 @@ const char *rfmodel_last_error(void) {
 
 unsigned int rfmodel_abi_version(void) {
     return 1;
+}
+
+int rfmodel_touchstone_open(const char *path_utf8, int out_of_band, rfmodel_touchstone **out) {
+    return guarded([&] {
+        require(out != nullptr);
+        *out = nullptr;
+        require(path_utf8 && path_utf8[0] && (out_of_band == 0 || out_of_band == 1));
+        const auto policy =
+            out_of_band == 0 ? rfmodel::OutOfBand::Reject : rfmodel::OutOfBand::Clamp;
+        *out = new rfmodel_touchstone(rfmodel::read_touchstone(path_utf8), policy);
+    });
+}
+
+void rfmodel_touchstone_close(rfmodel_touchstone *model) {
+    delete model;
+}
+
+int rfmodel_touchstone_get_info(const rfmodel_touchstone *model, rfmodel_touchstone_info *info) {
+    return guarded([&] {
+        require(model && info);
+        *info = {model->core.port_count(),
+                 model->core.port(0).reference_impedance.real(),
+                 model->core.minimum_frequency_hz(),
+                 model->core.maximum_frequency_hz(),
+                 model->noise_samples};
+    });
+}
+
+int rfmodel_touchstone_s(const rfmodel_touchstone *model,
+                         double frequency_hz,
+                         double reference_ohms,
+                         rfmodel_complex *values,
+                         size_t capacity) {
+    return guarded([&] {
+        require(model && values);
+        const auto ports = model->core.port_count();
+        require(capacity >= ports * ports);
+        const auto scattering =
+            rfmodel::renormalize_s(model->core.s_parameters(frequency_hz),
+                                   model->core.port(0).reference_impedance.real(),
+                                   reference_ohms);
+        for (size_t i = 0; i < scattering.values.size(); ++i) {
+            values[i] = {scattering.values[i].real(), scattering.values[i].imag()};
+        }
+    });
 }
 
 int rfmodel_network_transmit_spectrum(const rfmodel_network *network,

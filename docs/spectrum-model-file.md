@@ -61,7 +61,7 @@ wheel 到项目内独立目录后，使用安装后的 Release 动态库再次�
 linear_network 的 network 对象必填 devices、external_ports，可选 connections、terminations。
 端点及连接规则沿用线性 JSON，external_ports 必须恰有两个端口，依次为输入、输出。
 devices 只接受 id 加静态 s 或参数 model（二选一）；支持现有 transmission_line、
-rlgc_line 和 linear_amplifier 模型。频率由进入本级的当前谱线确定，包含上游非线性
+rlgc_line、linear_amplifier 和 touchstone 模型。频率由进入本级的当前谱线确定，包含上游非线性
 和混频产生的新频点；参考阻抗统一继承链路。模板不接受 frequencies_hz、s_samples、
 reference_ohms、信号激励或噪声字段，避免把原始输入频率表误用于新生成的谱线。
 
@@ -79,3 +79,9 @@ examples/mixer-linear-network.json 为 10 MHz 单音经 8 MHz LO 混频，产生
 消费者各 2/2；Python 32 项测试在安装后的 Release 动态库上通过。
 新示例通过 CLI 生成结果，格式检查通过 78 个 C/C++ 文件。未执行新的 SystemVue
 实测；本次跨平台 CI 结果尚未核验。
+
+Touchstone 级的 path 按整个频谱 JSON 文件的目录解析，直接调用 analyze_spectrum
+时可传 base_directory。数据模型在实际输入谱线上插值并转换到链路参考电阻；
+上游产生超出数据频带的谱线时默认报错，不能把这些谱线丢弃或默认为零。
+空频谱仍按前述 0 Hz 校验规则处理，带限数据文件可能因此需要显式 clamp。
+文件中的噪声段不参与确定性频谱传输。

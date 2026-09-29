@@ -12,7 +12,7 @@
         }                                                                                          \
     } while (0)
 
-int main(void) {
+int main(int argc, char **argv) {
     rfmodel_network *network = NULL;
     const rfmodel_complex pad[4] = {{0, 0}, {0.5, 0}, {0.5, 0}, {0, 0}};
     const rfmodel_complex zero = {0, 0}, one = {1, 0};
@@ -21,6 +21,26 @@ int main(void) {
     const size_t external[2] = {0, 3};
     double residual = -1;
     CHECK(rfmodel_abi_version() == 1);
+    {
+        rfmodel_touchstone *model = NULL;
+        rfmodel_touchstone_info info;
+        rfmodel_complex values[4] = {{123., 0.}};
+        CHECK(argc == 2);
+        CHECK(rfmodel_touchstone_open(argv[1], 2, &model) == RFMODEL_INVALID_ARGUMENT);
+        CHECK(model == NULL);
+        CHECK(rfmodel_touchstone_open(argv[1], 0, &model) == RFMODEL_OK);
+        CHECK(rfmodel_touchstone_get_info(model, &info) == RFMODEL_OK);
+        CHECK(info.ports == 2 && info.reference_ohms == 50. && info.noise_sample_count == 0);
+        CHECK(info.minimum_frequency_hz == 1e9 && info.maximum_frequency_hz == 3e9);
+        CHECK(rfmodel_touchstone_s(model, 2e9, 50., values, 3) == RFMODEL_INVALID_ARGUMENT);
+        CHECK(values[0].real == 123.);
+        CHECK(rfmodel_touchstone_s(model, 4e9, 50., values, 4) == RFMODEL_INVALID_ARGUMENT);
+        CHECK(values[0].real == 123.);
+        CHECK(rfmodel_touchstone_s(model, 2e9, 50., values, 4) == RFMODEL_OK);
+        CHECK(fabs(values[2].real - 0.375) < 1e-12);
+        rfmodel_touchstone_close(model);
+        rfmodel_touchstone_close(NULL);
+    }
     {
         const rfmodel_complex s = {0.2, 0.3}, c = {2., 0.}, e = {3., 0.}, gamma = {-0.1, 0.2};
         rfmodel_complex a = {123., 0.}, b = {456., 0.};

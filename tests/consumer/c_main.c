@@ -1,13 +1,25 @@
 #include <rfmodel/c_api.h>
 #include <math.h>
 
-int main(void) {
+int main(int argc, char **argv) {
     rfmodel_network *network = NULL;
     const rfmodel_complex s[4] = {{0, 0}, {0, -0.5}, {0, -0.5}, {0, 0}};
     const size_t ports[2] = {0, 1};
     rfmodel_complex result[4];
     size_t offset;
     int status;
+    {
+        rfmodel_touchstone *model = NULL;
+        rfmodel_complex reflection;
+        if (argc != 2 || rfmodel_touchstone_open(argv[1], 0, &model) != RFMODEL_OK) {
+            return 9;
+        }
+        status = rfmodel_touchstone_s(model, 1e6, 50., &reflection, 1);
+        rfmodel_touchstone_close(model);
+        if (status != RFMODEL_OK || fabs(reflection.real - 0.2) > 1e-12) {
+            return 10;
+        }
+    }
     {
         const rfmodel_complex zero_noise = {0., 0.}, intrinsic = {1., 0.}, gamma = {0.5, 0.};
         rfmodel_complex incident_noise, outgoing_noise;

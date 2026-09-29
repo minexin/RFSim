@@ -4,6 +4,7 @@
 #include <cctype>
 #include <cmath>
 #include <fstream>
+#include <filesystem>
 #include <locale>
 #include <regex>
 #include <sstream>
@@ -65,7 +66,7 @@ inline TouchstoneData read_touchstone(const std::string &path) {
         throw std::runtime_error("reader supports at most 1024 ports");
     }
     d.ports = static_cast<std::size_t>(ports);
-    std::ifstream in(path);
+    std::ifstream in(std::filesystem::u8path(path));
     if (!in) {
         throw std::runtime_error("cannot open Touchstone file: " + path);
     }

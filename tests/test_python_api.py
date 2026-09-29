@@ -87,6 +87,120 @@ class PythonApiTests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 analyze_spectrum(self.library, document)
 
+    def test_touchstone_unicode_snapshot_interpolation_and_lifetime(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "测量器件.s2p"
+            path.write_text("# GHz S RI R 75\n1 0 0 .5 0 .1 0 0 0\n"
+                            "3 0 0 .25 -.25 .3 .2 0 0\n", encoding="ascii")
+            model = self.library.touchstone(path)
+            self.assertEqual(model.info, (2, 75., 1e9, 3e9, 0))
+            with self.library.touchstone(path, out_of_band="clamp") as clamped:
+                self.assertAlmostEqual(clamped.s_parameters(4e9)[1][0], 0.25-0.25j)
+                with self.assertRaises(RFModelError):
+                    clamped.s_parameters(-1.)
+            path.unlink()
+            self.assertAlmostEqual(model.s_parameters(2e9)[1][0], 0.375-0.125j)
+            self.assertAlmostEqual(model.s_parameters(2e9)[0][1], 0.2+0.1j)
+            with self.assertRaises(RFModelError):
+                model.s_parameters(4e9)
+            with self.assertRaises(RFModelError):
+                model.s_parameters(2e9, reference_ohms=0)
+            model.close()
+            model.close()
+            with self.assertRaises(RuntimeError):
+                model.s_parameters(2e9)
+
+    def test_touchstone_reference_noise_metadata_and_errors(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "matched.s1p"
+            path.write_text("# Hz S RI R 75\n1000000 0 0\n", encoding="ascii")
+            with self.library.touchstone(path) as model:
+                self.assertEqual(model.s_parameters(1e6), ((0j,),))
+                self.assertAlmostEqual(model.s_parameters(1e6, reference_ohms=50)[0][0], 0.2)
+                reference = weakref.ref(model)
+                finalizer = model._finalizer
+            del model
+            gc.collect()
+            self.assertIsNone(reference())
+            self.assertFalse(finalizer.alive)
+            automatic = self.library.touchstone(path)
+            reference = weakref.ref(automatic)
+            finalizer = automatic._finalizer
+            del automatic
+            gc.collect()
+            self.assertIsNone(reference())
+            self.assertFalse(finalizer.alive)
+            with self.assertRaises(ValueError):
+                self.library.touchstone(path, out_of_band="extrapolate")
+            noise = Path(directory) / "noise.s2p"
+            noise.write_text("# GHz S RI R 50\n1 0 0 2 0 0 0 0 0\n1 1 0 0 .1\n",
+                             encoding="ascii")
+            with self.library.touchstone(noise) as model:
+                self.assertEqual(model.info.noise_sample_count, 1)
+            path.write_text("[Version] 2.0\n", encoding="ascii")
+            with self.assertRaises(RFModelError):
+                self.library.touchstone(path)
+
+    def test_json_touchstone_linear_and_converted_frequency_response(self):
+        examples = Path(__file__).resolve().parents[1] / "examples"
+        document = load(examples / "measured-network.json")
+        samples = analyze(self.library, document, base_directory=examples)["samples"]
+        for sample, expected in zip(samples, (0.8, 0.5, 0.2)):
+            self.assertAlmostEqual(complex(*sample["s"][1][0]), expected)
+        document = {"format": "rfmodel.spectrum-chain", "version": 1, "spacing_hz": 1e6,
+                    "input": [{"bin": 10, "amplitude": 1}], "stages": [
+                        {"id": "lo", "type": "ideal_mixer", "lo_bin": 8},
+                        {"id": "data", "type": "linear_network", "network": {
+                            "devices": [{"id": "m", "model": {
+                                "type": "touchstone", "path": "measured-pad.s2p"}}],
+                            "external_ports": [["m", 0], ["m", 1]]}}]}
+        spectrum = analyze_spectrum(self.library, document, base_directory=examples)["stages"][1]["spectrum"]
+        self.assertEqual([value["bin"] for value in spectrum], [2, 18])
+        self.assertAlmostEqual(spectrum[0]["power_w"], 0.64)
+        self.assertAlmostEqual(spectrum[1]["power_w"], 0.04)
+        document["stages"][0]["lo_bin"] = 9
+        with self.assertRaises(RFModelError):
+            analyze_spectrum(self.library, document, base_directory=examples)
+
+    def test_touchstone_cli_relative_paths_and_input_protection(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            data = root / "sample.s1p"
+            original = "# Hz S RI R 75\n1000000 0 0\n"
+            data.write_text(original, encoding="ascii")
+            document = {"format": "rfmodel.linear-network", "version": 1,
+                        "frequencies_hz": [1e6], "devices": [{"id": "data", "model": {
+                            "type": "touchstone", "path": "sample.s1p"}}],
+                        "external_ports": [["data", 0]]}
+            model_path = root / "model.json"
+            model_path.write_text(json.dumps(document), encoding="utf-8")
+            environment = dict(os.environ)
+            environment["PYTHONPATH"] = str(Path(rfmodel.__file__).resolve().parents[1])
+            command = [sys.executable, "-m", "rfmodel", str(model_path), "--library",
+                       str(Path(LIBRARY_PATH).resolve()), "--output"]
+            result_path = root / "result.json"
+            run = subprocess.run(command + [str(result_path)], env=environment,
+                                 capture_output=True, text=True)
+            self.assertEqual(run.returncode, 0, run.stderr)
+            result = json.loads(result_path.read_text(encoding="utf-8"))
+            self.assertAlmostEqual(result["samples"][0]["s"][0][0][0], 0.2)
+            run = subprocess.run(command + [str(data)], env=environment,
+                                 capture_output=True, text=True)
+            self.assertEqual(run.returncode, 1)
+            self.assertIn("must not overwrite Touchstone", run.stderr)
+            self.assertEqual(data.read_text(encoding="ascii"), original)
+            spectrum_document = {
+                "format": "rfmodel.spectrum-chain", "version": 1, "spacing_hz": 1e6,
+                "input": [{"bin": 1, "amplitude": 1}], "stages": [
+                    {"id": "linear", "type": "linear_network", "network": {
+                        "devices": document["devices"], "external_ports": [["data", 0], ["data", 1]]}}]}
+            model_path.write_text(json.dumps(spectrum_document), encoding="utf-8")
+            run = subprocess.run(command + [str(data)], env=environment,
+                                 capture_output=True, text=True)
+            self.assertEqual(run.returncode, 1)
+            self.assertIn("must not overwrite Touchstone", run.stderr)
+            self.assertEqual(data.read_text(encoding="ascii"), original)
+
     def test_native_error_preserves_network(self):
         with self.library.network() as network:
             with self.assertRaises(RFModelError) as caught:

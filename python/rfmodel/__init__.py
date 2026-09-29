@@ -27,6 +27,20 @@ class LoadedNoise(NamedTuple):
     net_into_device_w_per_hz: tuple
 
 
+class TouchstoneInfo(NamedTuple):
+    ports: int
+    reference_ohms: float
+    minimum_frequency_hz: float
+    maximum_frequency_hz: float
+    noise_sample_count: int
+
+
+class _TouchstoneInfo(ct.Structure):
+    _fields_ = [("ports", ct.c_size_t), ("reference_ohms", ct.c_double),
+                ("minimum_frequency_hz", ct.c_double), ("maximum_frequency_hz", ct.c_double),
+                ("noise_sample_count", ct.c_size_t)]
+
+
 class _Complex(ct.Structure):
     _fields_ = [("real", ct.c_double), ("imag", ct.c_double)]
 
@@ -95,6 +109,11 @@ class Library:
         signatures = {
             "rfmodel_last_error": (ct.c_char_p, []),
             "rfmodel_abi_version": (ct.c_uint, []),
+            "rfmodel_touchstone_open": (ct.c_int, [ct.c_char_p, ct.c_int, ct.POINTER(handle)]),
+            "rfmodel_touchstone_close": (None, [handle]),
+            "rfmodel_touchstone_get_info": (ct.c_int, [handle, ct.POINTER(_TouchstoneInfo)]),
+            "rfmodel_touchstone_s": (
+                ct.c_int, [handle, ct.c_double, ct.c_double, complex_pointer, size]),
             "rfmodel_network_create": (ct.c_int, [ct.c_double, ct.POINTER(handle)]),
             "rfmodel_network_destroy": (None, [handle]),
             "rfmodel_network_add": (
@@ -149,6 +168,9 @@ class Library:
 
     def network(self, reference_ohms=50.):
         return Network(self, reference_ohms)
+
+    def touchstone(self, path, *, out_of_band="reject"):
+        return Touchstone(self, path, out_of_band=out_of_band)
 
     def thermal_boundary_noise(self, reflections, temperatures_k):
         reflections, temperatures = list(reflections), list(temperatures_k)
@@ -238,6 +260,58 @@ class Library:
             _Complex.from_value(input_impedance_ohms), _Complex.from_value(output_impedance_ohms),
             float(reference_ohms), result, 4))
         return _rows(result, 2)
+
+
+class Touchstone:
+    """Owned immutable snapshot of a legacy .sNp file; context manager recommended."""
+
+    def __init__(self, library, path, *, out_of_band="reject"):
+        if out_of_band not in ("reject", "clamp"):
+            raise ValueError("out_of_band must be reject or clamp")
+        path = str(Path(path).resolve(strict=True))
+        if "\x00" in path:
+            raise ValueError("Path must not contain NUL")
+        self._library = library
+        self._lock = RLock()
+        self._handle = ct.c_void_p()
+        library._check(library._dll.rfmodel_touchstone_open(
+            path.encode("utf-8"), int(out_of_band == "clamp"), ct.byref(self._handle)))
+        self._finalizer = weakref.finalize(
+            self, library._dll.rfmodel_touchstone_close, self._handle)
+
+    def _open(self):
+        if not self._finalizer.alive:
+            raise RuntimeError("RFModel Touchstone model is closed")
+
+    def close(self):
+        with self._lock:
+            self._finalizer()
+
+    def __enter__(self):
+        with self._lock:
+            self._open()
+        return self
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        self.close()
+
+    @property
+    def info(self):
+        with self._lock:
+            self._open()
+            value = _TouchstoneInfo()
+            self._library._check(self._library._dll.rfmodel_touchstone_get_info(
+                self._handle, ct.byref(value)))
+            return TouchstoneInfo(*(getattr(value, name) for name, _ in value._fields_))
+
+    def s_parameters(self, frequency_hz, *, reference_ohms=None):
+        with self._lock:
+            info = self.info
+            reference = info.reference_ohms if reference_ohms is None else float(reference_ohms)
+            values = (_Complex * (info.ports * info.ports))()
+            self._library._check(self._library._dll.rfmodel_touchstone_s(
+                self._handle, float(frequency_hz), reference, values, len(values)))
+            return _rows(values, info.ports)
 
 
 class Network:

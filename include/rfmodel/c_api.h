@@ -17,11 +17,37 @@ extern "C" {
 #endif
 
 typedef struct rfmodel_network rfmodel_network;
+typedef struct rfmodel_touchstone rfmodel_touchstone;
+
+typedef struct rfmodel_touchstone_info {
+    size_t ports;
+    double reference_ohms;
+    double minimum_frequency_hz;
+    double maximum_frequency_hz;
+    size_t noise_sample_count;
+} rfmodel_touchstone_info;
 
 typedef struct rfmodel_complex {
     double real;
     double imag;
 } rfmodel_complex;
+
+/* Snapshot a legacy .sNp file at a UTF-8 path. out_of_band: 0 reject, 1 clamp.
+ * A failed open sets *out to NULL. close(NULL) is valid.
+ * info reports embedded noise presence; this S-only API does not evaluate noise.
+ * s interpolates real/imaginary components at the original reference, then
+ * renormalizes to the requested positive real reference. Row-major ports^2
+ * output values are written only on success. */
+RFMODEL_API int
+rfmodel_touchstone_open(const char *path_utf8, int out_of_band, rfmodel_touchstone **out);
+RFMODEL_API void rfmodel_touchstone_close(rfmodel_touchstone *model);
+RFMODEL_API int rfmodel_touchstone_get_info(const rfmodel_touchstone *model,
+                                            rfmodel_touchstone_info *info);
+RFMODEL_API int rfmodel_touchstone_s(const rfmodel_touchstone *model,
+                                     double frequency_hz,
+                                     double reference_ohms,
+                                     rfmodel_complex *values,
+                                     size_t capacity);
 
 enum rfmodel_status {
     RFMODEL_OK = 0,

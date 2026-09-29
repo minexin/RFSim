@@ -1,0 +1,9 @@
+{
+  "format": "rfmodel.linear-network",
+  "version": 1,
+  "frequencies_hz": [2000000, 10000000, 18000000],
+  "devices": [
+    {"id": "measured", "model": {"type": "touchstone", "path": "measured-pad.s2p"}}
+  ],
+  "external_ports": [["measured", 0], ["measured", 1]]
+}

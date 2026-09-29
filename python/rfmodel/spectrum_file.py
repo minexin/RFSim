@@ -22,13 +22,13 @@ def _encode(amplitudes, spacing):
     return result
 
 
-def _linear_stage(library, spacing, amplitudes, *, reference_ohms, network):
+def _linear_stage(library, spacing, amplitudes, *, reference_ohms, network, base_directory=None):
     """Evaluate the native network at every current bin, including new mixer products."""
     indices = sorted(amplitudes)
     document = dict(network, format="rfmodel.linear-network", version=1,
                     reference_ohms=reference_ohms,
                     frequencies_hz=[index * spacing for index in indices] or [0.])
-    samples = analyze(library, document)["samples"]
+    samples = analyze(library, document, base_directory=base_directory)["samples"]
     output = {}
     for index, sample in zip(indices, samples):
         # The reduced two-port includes all internal feedback at this frequency.
@@ -39,7 +39,7 @@ def _linear_stage(library, spacing, amplitudes, *, reference_ohms, network):
     return output
 
 
-def analyze_spectrum(library, document):
+def analyze_spectrum(library, document, *, base_directory=None):
     _object(document, ("format", "version", "spacing_hz", "input", "stages"),
             ("reference_ohms",))
     if (document["format"] != "rfmodel.spectrum-chain" or
@@ -92,7 +92,7 @@ def analyze_spectrum(library, document):
             for device in network["devices"]:
                 _object(device, ("id",), ("s", "model"))
             parameters = {"network": network}
-            operation = partial(_linear_stage, library)
+            operation = partial(_linear_stage, library, base_directory=base_directory)
         else:
             raise ValueError("Unsupported spectrum stage type")
         identifier = stage["id"]

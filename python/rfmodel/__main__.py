@@ -4,7 +4,7 @@ import json
 from pathlib import Path
 import sys
 from . import Library
-from .model_file import analyze, load
+from .model_file import analyze, load, referenced_touchstone_paths
 from .spectrum_file import analyze_spectrum
 
 
@@ -20,9 +20,11 @@ def main():
         document = load(args.model)
         if not isinstance(document, dict):
             raise ValueError("Model must be an object")
+        if args.output.resolve() in referenced_touchstone_paths(document, args.model.parent):
+            raise ValueError("Output must not overwrite Touchstone input data")
         operation = (analyze_spectrum if document.get("format") == "rfmodel.spectrum-chain"
                      else analyze)
-        result = operation(Library(args.library), document)
+        result = operation(Library(args.library), document, base_directory=args.model.parent)
         text = json.dumps(result, indent=2, allow_nan=False) + "\n"
         args.output.write_text(text, encoding="utf-8")
         return 0

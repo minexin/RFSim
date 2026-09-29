@@ -14,5 +14,5 @@ if(TARGET RFModel::c_api)
             COMMAND ${CMAKE_COMMAND} -E copy_if_different
             $<TARGET_FILE:RFModel::c_api> $<TARGET_FILE_DIR:c_consumer>)
     endif()
-    add_test(NAME installed_c_consumer COMMAND c_consumer)
+    add_test(NAME installed_c_consumer COMMAND c_consumer "${CMAKE_CURRENT_SOURCE_DIR}/matched.s1p")
 endif()

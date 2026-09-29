@@ -47,10 +47,49 @@ def _unique_object(pairs):
     return result
 
 
-def _parameter_samples(library, model, frequencies, reference):
+def _model_path(value, base_directory=None):
+    if not isinstance(value, str) or not value or "\x00" in value:
+        raise ValueError("Touchstone path must be a nonempty string without NUL")
+    path = Path(value)
+    if not path.is_absolute() and base_directory is not None:
+        path = Path(base_directory) / path
+    return path.resolve()
+
+
+def referenced_touchstone_paths(document, base_directory=None):
+    """Collect data inputs for CLI overwrite protection, without opening files."""
+    if not isinstance(document, dict):
+        return set()
+    networks = [document]
+    if document.get("format") == "rfmodel.spectrum-chain":
+        stages = document.get("stages", [])
+        networks = []
+        if isinstance(stages, list):
+            for stage in stages:
+                if isinstance(stage, dict):
+                    networks.append(stage.get("network", {}))
+    paths = set()
+    for network in networks:
+        devices = network.get("devices", []) if isinstance(network, dict) else []
+        if not isinstance(devices, list):
+            continue
+        for device in devices:
+            model = device.get("model") if isinstance(device, dict) else None
+            if isinstance(model, dict) and model.get("type") == "touchstone":
+                paths.add(_model_path(model.get("path"), base_directory))
+    return paths
+
+
+def _parameter_samples(library, model, frequencies, reference, base_directory=None):
     if not isinstance(model, dict):
         raise ValueError("model must be an object")
     kind = model.get("type")
+    if kind == "touchstone":
+        _object(model, ("type", "path"), ("out_of_band",))
+        with library.touchstone(_model_path(model["path"], base_directory),
+                                out_of_band=model.get("out_of_band", "reject")) as data:
+            return [data.s_parameters(frequency, reference_ohms=reference)
+                    for frequency in frequencies]
     if kind == "transmission_line":
         _object(model, ("type", "characteristic_ohms", "delay_s"), ("propagation_loss_db",))
         evaluate = library.transmission_line
@@ -106,7 +145,7 @@ def _device_noise(library, specification, matrices):
     return samples
 
 
-def analyze(library, document):
+def analyze(library, document, *, base_directory=None):
     """Evaluate explicit frequency samples, returning JSON-compatible S/noise results."""
     _object(document, ("format", "version", "frequencies_hz", "devices", "external_ports"),
             ("reference_ohms", "connections", "terminations", "temperature_k",
@@ -154,7 +193,8 @@ def analyze(library, document):
         if "s" in device:
             matrices = [_matrix(device["s"])] * len(frequencies)
         elif "model" in device:
-            matrices = _parameter_samples(library, device["model"], frequencies, reference)
+            matrices = _parameter_samples(library, device["model"], frequencies, reference,
+                                          base_directory)
         else:
             samples = device["s_samples"]
             if not isinstance(samples, list) or len(samples) != len(frequencies):

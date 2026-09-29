@@ -1,0 +1,4 @@
+! Synthetic interpolation fixture, not vendor measurement data.
+# MHz S RI R 50
+2 0 0 0.8 0 0.8 0 0 0
+18 0 0 0.2 0 0.2 0 0 0

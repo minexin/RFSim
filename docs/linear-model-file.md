@@ -180,3 +180,19 @@ examples/loaded-noise.json 为 290 K、幅度传输 0.5 的衰减器，输入接
 2026-09-29：本次 Python 专项共 29 项，在 MSVC Debug/Release 动态库上均通过，
 并通过 Release CLI 执行新示例、生成 JSON 结果。本次未运行新的 SystemVue 对照，
 也不把这些接口回归作为完整 RF Design 库兼容验收。
+
+## Touchstone 数据模型
+
+器件 model 可使用 `{"type":"touchstone","path":"device.s2p"}`，可选
+out_of_band 为 reject（默认）或 clamp。端口数从文件扩展名及数据读取；支持既有
+legacy S 数据格式，具体边界见 [Touchstone 接口](touchstone.md)。每个频点先按文件
+参考电阻插值，再重归一化到顶层 reference_ohms。文件噪声段不自动参与计算，
+器件噪声仍需通过已有字段明确指定。
+
+CLI 按 JSON 文件所在目录解析相对数据路径，与执行命令的工作目录无关。
+直接调用 analyze(library, document, base_directory=...) 可显式指定基目录；省略时
+相对路径按当前工作目录解析。load 只解析 JSON，不修改路径或打开数据文件。
+CLI 禁止输出路径覆盖被引用的 Touchstone 文件，包含频谱链路内嵌线性网络的引用。
+
+examples/measured-network.json 引用同目录 measured-pad.s2p，在 2、10、18 MHz
+得到 S21=0.8、0.5、0.2。该 .s2p 是合成回归数据，不是厂商测量或 SystemVue 导出证据。
