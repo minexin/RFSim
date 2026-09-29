@@ -219,3 +219,39 @@ python scripts/reference/summarize-antenna-power.py `
 末级增益与噪声密度均随输入功率增大而小幅下降；这是同一设备条件下的实测趋势，
 不证明完整 RFAMP 非线性模型，也不构成对残余噪声偏差的唯一解释。
 新增两项汇总回归已通过并接入六配置 CI；尚未核验这次提交的 CI 结果。
+
+## RFAMP 非线性参数回读核验
+
+对上述四个功率点的原始 capture.json 追加只读核验，不需要重启或重新运行分析。
+audit-antenna-nonlinearity.py 先验证原有器件、源和数据新鲜度条件，再核验两级
+RFAMP 各 8 项参数；结果及原始采集 SHA256 保存于
+validation/systemvue-2023-antenna-nonlinear-settings.json。
+
+四点中两级放大器参数均相同：
+
+| 参数 | DataEntry 表达式 | GetValue 实际回读 |
+|---|---:|---:|
+| OIP2 | 80 | 100000 W |
+| OIP3 | 70 | 10000 W |
+| OP1dB | 60 | 1000 W |
+| OPSAT | 63 | 1995.2623149688789 W |
+| AMtoPM | −5 | −5 |
+| AMtoPM_Mode | 0 | 0 |
+| PwrAMtoPM | 10 | 0.01 W |
+| EnablePN | 0 | 0 |
+
+功率参数的表达式与瓦数回读对应 dBm 换算；模式枚举的完整语义仍需官方帮助核对。
+该证据排除了这些设置在四点扫描间发生变化，并确认原有小信号 RFModel 探针尚未
+使用的非线性参数确实存在。不能仅凭其数值推定内部多项式阶数、压缩函数或
+AM-to-PM 曲线，也不能把已有 matched cubic amplifier 当作完整 RFAMP 替代。
+
+复核入口示例（其他功率点用重复 --capture 参数加入）：
+
+```powershell
+python scripts/reference/audit-antenna-nonlinearity.py `
+  --capture -50 build-reference/antenna-run-003/capture.json `
+  --output build-reference/nonlinear-settings-replay.json
+```
+
+工具对缺失、重复、读取失败、非有限及不符合基准的参数报错。两项回归通过并接入 CI，
+此轮未修改核心模型或兼容阈值。后续需要核对官方 RFAMP 算法定义，并设计隔离器件案例。
