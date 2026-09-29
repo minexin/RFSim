@@ -11,8 +11,16 @@
 #include <rfmodel/rlgc_transmission_line.hpp>
 #include <rfmodel/multiport_devices.hpp>
 #include <cmath>
+#include <rfmodel/fundamental_compression.hpp>
 
 int main() {
+    const rfmodel::P1dBFundamentalCompression compressed(20., 10.);
+    if (std::abs(
+            std::norm(compressed.transmit_fundamental(std::sqrt(compressed.input_p1db_watts()))) /
+                .01 -
+            1.) > 1e-12) {
+        return 11;
+    }
     const auto loaded = rfmodel::loaded_noise({1, {0.}}, {{1, {1.}}}, {0.5}, {{1, {0.}}});
     if (std::abs(loaded.net_into_device_w_per_hz[0] + 0.75) > 1e-12) {
         return 10;
