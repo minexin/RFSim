@@ -127,3 +127,6 @@ CNF、CND、DCP 四组共 20 个测量值与 antenna-run-003 完全一致；未�
 会扰动一个中间节点实测功率，确认条件诊断随之变化，而端到端 RFModel 预测
 完全不变，防止误把实测中间结果注入兼容计算。Debug/Release 上该组五项测试
 通过；本次未修改数值核心、未新增 SystemVue 采集。
+
+随后新增了独立 RFAMP 的 +0.9 dBm 无告警实测，增益/功率 2/2 通过；
+详见 [独立压缩参考](systemvue-single-compression.md)。四级链路差异仍保持未通过。

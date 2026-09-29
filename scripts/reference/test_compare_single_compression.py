@@ -1,0 +1,44 @@
+import copy
+import importlib.util
+import json
+from pathlib import Path
+import sys
+import unittest
+
+spec = importlib.util.spec_from_file_location(
+    "comparison", Path(__file__).with_name("compare-single-compression.py"))
+comparison = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(comparison)
+library_path = Path(sys.argv.pop(1)).resolve()
+
+
+class SingleCompressionTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.library = comparison.Library(library_path)
+        cls.capture = json.loads((comparison.ROOT / "validation" /
+            "systemvue-2023-single-compression-plus09-capture.json").read_text())
+
+    def test_fresh_controlled_reference(self):
+        report = comparison.compare(self.library, self.capture, .9)
+        self.assertTrue(report["passed"])
+        self.assertEqual(len(report["checks"]), 2)
+        self.assertEqual(len(report["parameters"]), 16)
+
+    def test_rejects_warning_changed_parameter_and_stale_data(self):
+        for kind in ("warning", "parameter", "timestamp", "topology"):
+            capture = copy.deepcopy(self.capture)
+            if kind == "warning":
+                capture["manager_errors"] = "(WARNING) reduced accuracy"
+            elif kind == "parameter":
+                next(n for n in capture["nodes"] if n["path"].endswith("RFAmp/ParamSet/G"))["data"] = 10
+            elif kind == "timestamp":
+                next(n for n in capture["nodes"] if n["path"].endswith("/System1_Data_Path1"))["timestamp"] = "1"
+            else:
+                capture["nodes"].append({"path": comparison.BASE + "Sch1/PartList/Unexpected"})
+            with self.subTest(kind=kind), self.assertRaises(ValueError):
+                comparison.compare(self.library, capture, .9)
+
+
+if __name__ == "__main__":
+    unittest.main()

@@ -11,6 +11,7 @@ from datetime import datetime, timezone
 
 
 DATASETS = {
+    "compression": ("RFModel_AmplifierCompression", "Designs", "System1_Data_Path1"),
     "attenuator": ("RFModel_AttenuatorNoise", "Designs", "System1_Sch1_Data_Path1"),
     "antenna": ("RFModel_AntennaNoise", "RF Design", "System1_Data_Path1"),
 }
@@ -101,7 +102,8 @@ def main():
     command = ["powershell.exe", "-NoProfile", "-NonInteractive", "-ExecutionPolicy", "RemoteSigned",
                "-File", str(Path(__file__).with_name("inspect-reference-workspace.ps1")),
                "-WorkspacePath", str(workspace), "-CaptureRun",
-               "-RunAntennaAnalysis" if args.case == "antenna" else "-RunAttenuatorAnalysis"]
+               {"antenna": "-RunAntennaAnalysis", "attenuator": "-RunAttenuatorAnalysis",
+                "compression": "-RunCompressionAnalysis"}[args.case]]
     if args.open_copy:
         command.append("-OpenCopy")
     if args.source_power_dbm is not None:

@@ -1,0 +1,130 @@
+{
+  "scope": "Independent single RFAMP with explicit 50 ohm boundaries and 100 dB reverse isolation",
+  "limitation": "Signal powers only; default higher-order/internal settings are not fully audited",
+  "source_power_dbm": 0.9,
+  "parameters": [
+    {
+      "parameter": "RFAmp/G",
+      "value": 100,
+      "data_entry": "20"
+    },
+    {
+      "parameter": "RFAmp/NF",
+      "value": 1.9952623149688795,
+      "data_entry": "3"
+    },
+    {
+      "parameter": "RFAmp/RISO",
+      "value": 10000000000,
+      "data_entry": "100"
+    },
+    {
+      "parameter": "RFAmp/ZIN",
+      "value": 50,
+      "data_entry": "50"
+    },
+    {
+      "parameter": "RFAmp/ZOUT",
+      "value": 50,
+      "data_entry": "50"
+    },
+    {
+      "parameter": "RFAmp/OIP2",
+      "value": 10,
+      "data_entry": "40"
+    },
+    {
+      "parameter": "RFAmp/OIP3",
+      "value": 1,
+      "data_entry": "30"
+    },
+    {
+      "parameter": "RFAmp/OP1dB",
+      "value": 0.1,
+      "data_entry": "20"
+    },
+    {
+      "parameter": "RFAmp/OPSAT",
+      "value": 0.1995262314968879,
+      "data_entry": "23"
+    },
+    {
+      "parameter": "Source/R",
+      "value": 50,
+      "data_entry": "50"
+    },
+    {
+      "parameter": "Out/ZO",
+      "value": 50,
+      "data_entry": "50"
+    },
+    {
+      "parameter": "Source/Freq",
+      "value": 1000000000,
+      "data_entry": "1000"
+    },
+    {
+      "parameter": "Source/Enable",
+      "value": [
+        1
+      ],
+      "data_entry": null
+    },
+    {
+      "parameter": "Source/SrcType",
+      "value": [
+        0
+      ],
+      "data_entry": null
+    },
+    {
+      "parameter": "Source/EnablePN",
+      "value": [
+        0
+      ],
+      "data_entry": null
+    },
+    {
+      "parameter": "Source/Pwr",
+      "value": 0.0012302687708123817,
+      "data_entry": "0.9"
+    }
+  ],
+  "run_started_utc": "2026-09-29T12:54:47.2266330Z",
+  "run_returned_utc": "2026-09-29T12:54:47.4625255Z",
+  "manager_errors": "",
+  "measurements": {
+    "CF": [
+      1000000000,
+      1000000000
+    ],
+    "CGAIN": [
+      1,
+      79.87468234017871
+    ],
+    "DCP": [
+      0.001230268740055662,
+      0.09826732480499789
+    ]
+  },
+  "relative_tolerance": 1e-07,
+  "passed": true,
+  "checks": [
+    {
+      "metric": "gain",
+      "rfmodel": 79.87468226464068,
+      "systemvue": 79.87468234017871,
+      "signed_relative_error": -9.457067351448245e-10,
+      "passed": true
+    },
+    {
+      "metric": "output_w",
+      "rfmodel": 0.098267327168749,
+      "systemvue": 0.09826732480499789,
+      "signed_relative_error": 2.405429389007452e-08,
+      "passed": true
+    }
+  ],
+  "capture_sha256": "74c8c3436850e3dac7cb02081994d3574877d6d5e8241e3f5178a3235fe264ad",
+  "library_sha256": "743f18c1da18458a22f61284e55671c2b51f1267bd55aaf9dcde09b43c4ee209"
+}

@@ -3,18 +3,23 @@ param(
     [switch]$OpenCopy,
     [switch]$RunAttenuatorAnalysis,
     [switch]$RunAntennaAnalysis,
+    [switch]$RunCompressionAnalysis,
     [Nullable[double]]$LossDb,
     [Nullable[double]]$TemperatureK,
     [Nullable[double]]$SourcePowerDbm,
     [switch]$CaptureRun
 )
 $ErrorActionPreference = 'Stop'
+if ($RunCompressionAnalysis -and ($RunAntennaAnalysis -or $RunAttenuatorAnalysis -or
+    $null -ne $LossDb -or $null -ne $TemperatureK)) {
+    throw 'Compression analysis cannot be combined with other case overrides.'
+}
 [Console]::OutputEncoding = New-Object System.Text.UTF8Encoding($false)
 if ($RunAntennaAnalysis -and ($RunAttenuatorAnalysis -or $null -ne $LossDb -or
     $null -ne $TemperatureK)) {
     throw 'Antenna reference analysis cannot use attenuator parameter overrides.'
 }
-if ($null -ne $SourcePowerDbm -and ((-not $RunAttenuatorAnalysis -and -not $RunAntennaAnalysis) -or
+if ($null -ne $SourcePowerDbm -and ((-not $RunAttenuatorAnalysis -and -not $RunAntennaAnalysis -and -not $RunCompressionAnalysis) -or
     [double]::IsNaN($SourcePowerDbm) -or [double]::IsInfinity($SourcePowerDbm) -or
     $SourcePowerDbm -lt -200 -or $SourcePowerDbm -gt 30)) {
     throw 'SourcePowerDbm requires RunAttenuatorAnalysis and a finite value from -200 to 30 dBm.'
@@ -176,7 +181,7 @@ public static class ReferenceWorkspaceInspector
     }
 
     public static Node[] Inspect(string path, bool open, bool run, bool antenna, double lossDb, double temperatureK,
-        double sourcePowerDbm)
+        double sourcePowerDbm, bool compression)
     {
         Console.Error.WriteLine("phase: attach-active-instance");
         object active = Marshal.GetActiveObject("Genesys.Application");
@@ -212,12 +217,23 @@ public static class ReferenceWorkspaceInspector
                         Console.Error.WriteLine("phase: inspect-reference-objects");
                         if (run)
                         {
-                            string permittedName = antenna ? "RFModel_AntennaNoise" : "RFModel_AttenuatorNoise";
+                            string permittedName = compression ? "RFModel_AmplifierCompression" :
+                                (antenna ? "RFModel_AntennaNoise" : "RFModel_AttenuatorNoise");
                             if (expectedName != permittedName || manager.GetWorkspaceCount() != 1)
                             {
                                 throw new InvalidOperationException("Analysis requires the sole dedicated reference workspace");
                             }
                             string setup = "wsdoc=Application.Manager.GetWorkspaceByIndex(0)\r\n";
+                            if (compression)
+                            {
+                                // Make previously implicit defaults explicit for the controlled experiment.
+                                string amp = "wsdoc.Designs.Sch1.PartList.RFAmp.ParamSet.";
+                                setup += amp + "G.Set(\"20\")\r\n" + amp + "NF.Set(\"3\")\r\n" +
+                                    amp + "RISO.Set(\"100\")\r\n" + amp + "ZIN.Set(\"50\")\r\n" +
+                                    amp + "ZOUT.Set(\"50\")\r\n" +
+                                    "wsdoc.Designs.Sch1.PartList.Source.ParamSet.R.Set(\"50\")\r\n" +
+                                    "wsdoc.Designs.Sch1.PartList.Out.ParamSet.ZO.Set(\"50\")\r\n";
+                            }
                             if (!Double.IsNaN(lossDb))
                             {
                                 setup += "wsdoc.Designs.Sch1.PartList.Attn.ParamSet.L.Set(\"" +
@@ -257,7 +273,9 @@ public static class ReferenceWorkspaceInspector
                         Visit(item, expectedName, 4, nodes);
                         if (run)
                         {
-                            string datasetPath = antenna
+                            string datasetPath = compression
+                                ? expectedName + "/Designs/System1_Data_Folder/System1_Data_Path1"
+                                : antenna
                                 ? expectedName + "/RF Design/System1_Data_Folder/System1_Data_Path1"
                                 : expectedName + "/Designs/System1_Data_Folder/System1_Sch1_Data_Path1";
                             var datasets = nodes.FindAll(node => node.path == datasetPath);
@@ -302,8 +320,8 @@ $loss = if ($null -eq $LossDb) { [double]::NaN } else { [double]$LossDb }
 $temperature = if ($null -eq $TemperatureK) { [double]::NaN } else { [double]$TemperatureK }
 $power = if ($null -eq $SourcePowerDbm) { [double]::NaN } else { [double]$SourcePowerDbm }
 $nodes = [ReferenceWorkspaceInspector]::Inspect($resolvedPath, $OpenCopy.IsPresent,
-    ($RunAttenuatorAnalysis.IsPresent -or $RunAntennaAnalysis.IsPresent),
-    $RunAntennaAnalysis.IsPresent, $loss, $temperature, $power)
+    ($RunAttenuatorAnalysis.IsPresent -or $RunAntennaAnalysis.IsPresent -or $RunCompressionAnalysis.IsPresent),
+    $RunAntennaAnalysis.IsPresent, $loss, $temperature, $power, $RunCompressionAnalysis.IsPresent)
 if ($CaptureRun) {
     [ordered]@{
         run_started_utc = [ReferenceWorkspaceInspector]::RunStartedUtc
