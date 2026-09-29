@@ -9,6 +9,26 @@ int main(void) {
     size_t offset;
     int status;
     {
+        const rfmodel_complex zero_noise = {0., 0.}, intrinsic = {1., 0.}, gamma = {0.5, 0.};
+        rfmodel_complex incident_noise, outgoing_noise;
+        double net;
+        if (rfmodel_loaded_noise(1,
+                                 &zero_noise,
+                                 &intrinsic,
+                                 &zero_noise,
+                                 1,
+                                 &gamma,
+                                 1,
+                                 &incident_noise,
+                                 &outgoing_noise,
+                                 1,
+                                 &net,
+                                 1) != RFMODEL_OK ||
+            fabs(net + 0.75) > 1e-12) {
+            return 8;
+        }
+    }
+    {
         const rfmodel_spectrum_bin input = {10, {1., 0.}};
         rfmodel_spectrum_bin output[2];
         size_t produced;

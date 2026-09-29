@@ -21,6 +21,12 @@ class Waves(NamedTuple):
     relative_residual: float
 
 
+class LoadedNoise(NamedTuple):
+    incident: tuple
+    outgoing: tuple
+    net_into_device_w_per_hz: tuple
+
+
 class _Complex(ct.Structure):
     _fields_ = [("real", ct.c_double), ("imag", ct.c_double)]
 
@@ -102,6 +108,12 @@ class Library:
                 ct.c_int, [handle, ct.POINTER(size), size, complex_pointer, size]),
             "rfmodel_passive_noise": (
                 ct.c_int, [size, complex_pointer, size, ct.c_double, complex_pointer, size]),
+            "rfmodel_loaded_noise": (
+                ct.c_int, [size, complex_pointer, complex_pointer, complex_pointer, size,
+                           complex_pointer, size, complex_pointer, complex_pointer, size,
+                           ct.POINTER(ct.c_double), size]),
+            "rfmodel_thermal_boundary_noise": (
+                ct.c_int, [size, complex_pointer, ct.POINTER(ct.c_double), complex_pointer, size]),
             "rfmodel_transmission_line_s": (
                 ct.c_int, [ct.c_double] * 5 + [complex_pointer, size]),
             "rfmodel_rlgc_line_s": (
@@ -133,6 +145,33 @@ class Library:
 
     def network(self, reference_ohms=50.):
         return Network(self, reference_ohms)
+
+    def thermal_boundary_noise(self, reflections, temperatures_k):
+        reflections, temperatures = list(reflections), list(temperatures_k)
+        count = len(reflections)
+        if not 1 <= count <= 1024 or len(temperatures) != count:
+            raise ValueError("Expected matching 1..1024 boundary reflections and temperatures")
+        gamma = (_Complex * count)(*[_Complex.from_value(value) for value in reflections])
+        temperature = (ct.c_double * count)(*[float(value) for value in temperatures])
+        result = (_Complex * (count * count))()
+        self._check(self._dll.rfmodel_thermal_boundary_noise(count, gamma, temperature,
+                                                           result, len(result)))
+        return _rows(result, count)
+
+    def loaded_noise(self, scattering, intrinsic, reflections, boundary_emission):
+        """Solve a=Gamma*b+e, b=S*a+c; intrinsic c and boundary e are independent."""
+        count, s = _matrix(scattering)
+        intrinsic_count, c = _matrix(intrinsic)
+        boundary_count, e = _matrix(boundary_emission)
+        reflections = list(reflections)
+        if intrinsic_count != count or boundary_count != count or len(reflections) != count:
+            raise ValueError("Loaded noise dimensions differ")
+        gamma = (_Complex * count)(*[_Complex.from_value(value) for value in reflections])
+        incident, outgoing = (_Complex * len(s))(), (_Complex * len(s))()
+        power = (ct.c_double * count)()
+        self._check(self._dll.rfmodel_loaded_noise(
+            count, s, c, e, len(s), gamma, count, incident, outgoing, len(s), power, count))
+        return LoadedNoise(_rows(incident, count), _rows(outgoing, count), tuple(power))
 
     def cubic_amplifier(self, spacing_hz, amplitudes, *, power_gain_db, input_ip3_dbm,
                         reference_ohms=50.):

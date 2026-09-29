@@ -188,6 +188,40 @@ class PythonApiTests(unittest.TestCase):
         with self.assertRaises(RFModelError):
             self.library.passive_noise([[2.]])
 
+    def test_loaded_noise_scalar_and_thermal_equilibrium(self):
+        s, gamma = 0.2+0.3j, -0.1+0.2j
+        result = self.library.loaded_noise([[s]], [[2.]], [gamma], [[3.]])
+        denominator = abs(1-s*gamma)**2
+        self.assertAlmostEqual(result.outgoing[0][0], (2.+abs(s)**2*3.)/denominator)
+        self.assertAlmostEqual(result.incident[0][0], (abs(gamma)**2*2.+3.)/denominator)
+        self.assertAlmostEqual(result.net_into_device_w_per_hz[0],
+                               result.incident[0][0].real-result.outgoing[0][0].real)
+        pad = [[0., 0.5], [0.5, 0.]]
+        intrinsic = self.library.passive_noise(pad)
+        emission = self.library.thermal_boundary_noise([0., 0.], [290., 290.])
+        equilibrium = self.library.loaded_noise(pad, intrinsic, [0., 0.], emission)
+        kt = 1.380649e-23 * 290.
+        self.assertAlmostEqual(equilibrium.outgoing[1][1]/kt, 1.)
+        self.assertAlmostEqual(equilibrium.net_into_device_w_per_hz[1]/kt, 0.)
+        self.assertEqual(self.library.thermal_boundary_noise([1.], [290.]), ((0j,),))
+
+    def test_loaded_noise_correlations_and_errors(self):
+        thru = [[0., 1.], [1., 0.]]
+        zero = [[0., 0.], [0., 0.]]
+        result = self.library.loaded_noise(thru, zero, [0., 0.], [[2., 1j], [-1j, 2.]])
+        self.assertAlmostEqual(result.outgoing[0][1], -1j)
+        self.assertAlmostEqual(result.incident[0][1], 1j)
+        with self.assertRaises(RFModelError):
+            self.library.loaded_noise(thru, zero, [1., 1.], zero)
+        with self.assertRaises(ValueError):
+            self.library.loaded_noise(thru, [[0.]], [0., 0.], zero)
+        with self.assertRaises(RFModelError):
+            self.library.loaded_noise(thru, zero, [1.1, 0.], zero)
+        with self.assertRaises(RFModelError):
+            self.library.thermal_boundary_noise([0.], [-1.])
+        with self.assertRaises(ValueError):
+            self.library.thermal_boundary_noise([0.], [])
+
     def test_correlated_noise_and_validation(self):
         with self.library.network() as network:
             network.add([[0.]])

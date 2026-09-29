@@ -41,10 +41,38 @@ net_into_device_w_per_hz[p]=C_a[p,p]−C_b[p,p]，正值表示流入器件，
 含复杂反射的单端口解析解、无损直通的冷热终端净功率守恒、复相关边界噪声、
 完全反射终端、奇异反馈和非法协方差。安装消费者直接调用新头文件。
 
-本轮只增加 C++ 核心 API。C ABI、Python、JSON 的 signal_boundaries 尚未调用它，
+现已提供 C ABI 和 Python 调用，见下节。JSON 的 signal_boundaries 尚未调用它，
 原 JSON noise_w_per_hz 仍保留匹配参考条件。没有加入内生与边界交叉相关、
 非对角连接边界、频率转换噪声或自动噪声系数换算。SystemVue 实测仍待完成。
 
 2026-09-29 本地验证：MSVC Debug/Release 全套各 43/43，最终热边界舍入保护变更
 后额外重跑 Debug 专项通过；安装消费者两配置各 2/2，78 个 C/C++ 文件通过格式检查。
 本提交跨平台 CI 仍待核验。
+
+## C 和 Python 调用
+
+C 的 rfmodel_loaded_noise 接受 N×N 的 scattering、intrinsic、boundary_emission，
+及 N 个复数 reflections，写入 N×N incident/outgoing 和 N 个净流入功率。
+矩阵逐行排列、单位 W/Hz；value_count 必须等于 N²，反射数量必须等于 N。
+两个矩阵输出共用 matrix_capacity 参数，功率缓冲区使用 power_capacity；
+全部输出指针必须有效且彼此不重叠。所有尺寸和求解验证通过后才写结果，失败不写输出。
+rfmodel_thermal_boundary_noise 接受 N 个反射和 N 个温度，输出 N×N 边界噪声矩阵。
+
+Python 示例（library 为已加载的 rfmodel.Library）：
+
+```python
+s = [[0, 0.5], [0.5, 0]]
+intrinsic = library.passive_noise(s, 290.)
+gamma = [0.2+0.1j, -0.3+0.2j]
+emitted = library.thermal_boundary_noise(gamma, [290., 0.])
+result = library.loaded_noise(s, intrinsic, gamma, emitted)
+load_absorbed = -result.net_into_device_w_per_hz[1]
+```
+
+返回 LoadedNoise 命名元组，incident/outgoing 为嵌套复数元组，净功率为实数元组。
+参数尺寸在 Python 与 C 两层校验；反射无源性、协方差和反馈可解性由 C++ 验证。
+新增符号保持 ABI 1，Python 包需配套包含这些符号的动态库。
+
+2026-09-29 C/Python 扩展验证：MSVC Debug/Release 各 43/43，安装消费者各 2/2；
+安装后 Release 动态库通过二十六项 Python 测试。新增 C 短缓冲区保留输出、
+单端口解析解、热发射及 Python 热平衡/复相关/错误尺寸测试。本次跨平台 CI 尚待核验。

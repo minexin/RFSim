@@ -102,3 +102,7 @@ output_impedance_ohms=50, reference_ohms=50)` 返回 2×2 复数 S 矩阵。
 
 非线性单向传输现可通过 cubic_amplifier 和 ideal_mixer 调用，接口约定及限制见
 [频谱接口](spectrum-api.md)。JSON 线性网络格式不随此扩展为非线性求解器。
+
+Library.loaded_noise 与 Library.thermal_boundary_noise 现支持已提取 N 端口网络的
+外部失配及边界发射噪声，返回入射、出射和净功率结果，见 [失配噪声接口](loaded-noise.md)。
+不会自动改变 JSON signal_boundaries 的噪声含义。

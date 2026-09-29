@@ -140,6 +140,26 @@ RFMODEL_API int rfmodel_network_external_noise(const rfmodel_network *network,
                                                rfmodel_complex *covariance,
                                                size_t capacity);
 
+/* All matrices have value_count=ports*ports, reflections has reflection_count=ports.
+   Output arrays must not overlap each other; nothing is written on failure. */
+RFMODEL_API int rfmodel_loaded_noise(size_t ports,
+                                     const rfmodel_complex *scattering,
+                                     const rfmodel_complex *intrinsic,
+                                     const rfmodel_complex *boundary_emission,
+                                     size_t value_count,
+                                     const rfmodel_complex *reflections,
+                                     size_t reflection_count,
+                                     rfmodel_complex *incident,
+                                     rfmodel_complex *outgoing,
+                                     size_t matrix_capacity,
+                                     double *net_into_device,
+                                     size_t power_capacity);
+RFMODEL_API int rfmodel_thermal_boundary_noise(size_t ports,
+                                               const rfmodel_complex *reflections,
+                                               const double *temperatures_k,
+                                               rfmodel_complex *covariance,
+                                               size_t capacity);
+
 #ifdef __cplusplus
 }
 #endif

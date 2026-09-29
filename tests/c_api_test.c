@@ -22,6 +22,20 @@ int main(void) {
     double residual = -1;
     CHECK(rfmodel_abi_version() == 1);
     {
+        const rfmodel_complex s = {0.2, 0.3}, c = {2., 0.}, e = {3., 0.}, gamma = {-0.1, 0.2};
+        rfmodel_complex a = {123., 0.}, b = {456., 0.};
+        double net = 789., temperature = 290.;
+        CHECK(rfmodel_loaded_noise(1, &s, &c, &e, 1, &gamma, 1, &a, &b, 1, &net, 0) ==
+              RFMODEL_INVALID_ARGUMENT);
+        CHECK(a.real == 123. && b.real == 456. && net == 789.);
+        CHECK(rfmodel_loaded_noise(1, &s, &c, &e, 1, &gamma, 1, &a, &b, 1, &net, 1) == RFMODEL_OK);
+        CHECK(fabs(b.real - 2.39 / 1.1665) < 1e-12);
+        CHECK(fabs(a.real - 3.1 / 1.1665) < 1e-12);
+        CHECK(fabs(net - (a.real - b.real)) < 1e-12);
+        CHECK(rfmodel_thermal_boundary_noise(1, &gamma, &temperature, &a, 1) == RFMODEL_OK);
+        CHECK(fabs(a.real / (1.380649e-23 * 290.) - 0.95) < 1e-12);
+    }
+    {
         rfmodel_spectrum_bin input[2] = {{10, {1., 0.}}, {10, {1., 0.}}};
         rfmodel_spectrum_bin result[16] = {{999, {123., 0.}}};
         size_t produced = 999;

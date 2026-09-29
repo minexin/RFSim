@@ -1,5 +1,6 @@
 #include "rfmodel/c_api.h"
 #include "rfmodel/network.hpp"
+#include "rfmodel/loaded_noise.hpp"
 #include "rfmodel/amplifier_model.hpp"
 #include "rfmodel/polynomial_amplifier.hpp"
 #include "rfmodel/ideal_mixer.hpp"
@@ -327,6 +328,68 @@ int rfmodel_network_external_noise(const rfmodel_network *network,
         const auto result =
             network->core.external_noise(std::vector<size_t>(ports, ports + port_count), {matrix})
                 .watts_per_hz;
+        for (size_t i = 0; i < result.values.size(); ++i) {
+            covariance[i] = {result.values[i].real(), result.values[i].imag()};
+        }
+    });
+}
+
+int rfmodel_loaded_noise(size_t ports,
+                         const rfmodel_complex *scattering,
+                         const rfmodel_complex *intrinsic,
+                         const rfmodel_complex *boundary_emission,
+                         size_t value_count,
+                         const rfmodel_complex *reflections,
+                         size_t reflection_count,
+                         rfmodel_complex *incident,
+                         rfmodel_complex *outgoing,
+                         size_t matrix_capacity,
+                         double *net_into_device,
+                         size_t power_capacity) {
+    return guarded([&] {
+        require(ports > 0 && ports <= 1024);
+        require(scattering && intrinsic && boundary_emission && reflections && incident &&
+                outgoing && net_into_device);
+        require(value_count == ports * ports && reflection_count == ports &&
+                matrix_capacity >= value_count && power_capacity >= ports);
+        rfmodel::SMatrix s{ports, std::vector<rfmodel::Complex>(value_count)}, c = s, e = s;
+        std::vector<rfmodel::Complex> gamma(ports);
+        for (size_t i = 0; i < value_count; ++i) {
+            s.values[i] = {scattering[i].real, scattering[i].imag};
+            c.values[i] = {intrinsic[i].real, intrinsic[i].imag};
+            e.values[i] = {boundary_emission[i].real, boundary_emission[i].imag};
+        }
+        for (size_t i = 0; i < ports; ++i) {
+            gamma[i] = {reflections[i].real, reflections[i].imag};
+        }
+        const auto result = rfmodel::loaded_noise(s, {c}, gamma, {e});
+        for (size_t i = 0; i < value_count; ++i) {
+            const auto a = result.incident.watts_per_hz.values[i];
+            const auto b = result.outgoing.watts_per_hz.values[i];
+            incident[i] = {a.real(), a.imag()};
+            outgoing[i] = {b.real(), b.imag()};
+        }
+        for (size_t i = 0; i < ports; ++i) {
+            net_into_device[i] = result.net_into_device_w_per_hz[i];
+        }
+    });
+}
+
+int rfmodel_thermal_boundary_noise(size_t ports,
+                                   const rfmodel_complex *reflections,
+                                   const double *temperatures_k,
+                                   rfmodel_complex *covariance,
+                                   size_t capacity) {
+    return guarded([&] {
+        require(ports > 0 && ports <= 1024 && reflections && temperatures_k && covariance);
+        require(capacity >= ports * ports);
+        std::vector<rfmodel::Complex> gamma(ports);
+        for (size_t i = 0; i < ports; ++i) {
+            gamma[i] = {reflections[i].real, reflections[i].imag};
+        }
+        const auto result = rfmodel::thermal_boundary_noise(
+                                gamma, std::vector<double>(temperatures_k, temperatures_k + ports))
+                                .watts_per_hz;
         for (size_t i = 0; i < result.values.size(); ++i) {
             covariance[i] = {result.values[i].real(), result.values[i].imag()};
         }

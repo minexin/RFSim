@@ -84,3 +84,6 @@ RFMODEL_INVALID_ARGUMENT，不再落入内部未知错误；输出矩阵保持�
 
 新增 cubic_amplifier_transmit 与 ideal_mixer_transmit 两个频谱传输入口，见
 [非线性与混频频谱接口](spectrum-api.md)。这是匹配单向器件调用，不改变线性网络求解器语义。
+
+rfmodel_loaded_noise 与 rfmodel_thermal_boundary_noise 扩展了外部失配和边界发射噪声，
+详细约定见 [失配噪声接口](loaded-noise.md)。原 network_external_noise 继续表示匹配外部条件。
