@@ -130,3 +130,43 @@ CNF、CND、DCP 四组共 20 个测量值与 antenna-run-003 完全一致；未�
 
 随后新增了独立 RFAMP 的 +0.9 dBm 无告警实测，增益/功率 2/2 通过；
 详见 [独立压缩参考](systemvue-single-compression.md)。四级链路差异仍保持未通过。
+
+## 总 RF 输入功率诊断
+
+继续检查两份近压缩点原始采集时发现，主数据集中的 `RFPwrIn` 高于前级节点
+基波 DCP。本机官方帮助 `sim/Spectrasys_Total_RF_Power_Entering_a_Part.html`
+定义该量为器件所有端口的所有输入信号功率总和；不能把它等同于前级基波功率，
+也不能把差额全部认定为前向谐波。
+
+`scripts/reference/diagnose-total-drive.py` 用已实现的原生 P1dB 函数计算总驱动
+对应的压缩功率增益，再乘以实测前级基波功率。即先计算
+`gain = |transmit_fundamental(sqrt(RFPwrIn))|² / RFPwrIn`，然后计算
+`predicted_fundamental_output = gain * preceding_DCP`。没有拟合常数。
+脚本验证原案例主要参数、数据新鲜度、元素名称映射以及末级 OP1dB。
+
+| 源功率 | 前级基波输入 W | 末级总 RF 输入 W | 原条件残差 | 总驱动条件残差 |
+| --- | --- | --- | --- | --- |
+| +10 dBm | 0.972245225605 | 0.972251372206 | +1.1654561e-6 | +6.17619e-9 |
+| +11 dBm | 1.223847639527 | 1.223857400218 | +1.8914633e-6 | +5.80639e-9 |
+
+两点剩余差异均小于 1e-8，支持“基波之外的驱动功率影响压缩”这一后续实现
+方向。**这仍是使用厂商实测输入的条件诊断**：RFModel 尚未自己算出 RFPwrIn，
+报告没有兼容通过判定，原端到端 16/20 结果不变。尚未将差额分解为谐波、
+反向信号或其他分量，也没有证明厂商内部算法完全等同。
+
+证据为 `validation/systemvue-2023-antenna-total-drive-diagnostic.json`，以及
+可用于回归的 `validation/systemvue-2023-antenna-total-drive-captures.json`。
+后者是两份精简采集的数组，每份保留原始采集 SHA256。复现命令：
+
+```powershell
+& 'C:/Program Files/Keysight/SystemVue2023/Python/python/python.exe' `
+  scripts/reference/diagnose-total-drive.py build-msvc/Release/rfmodel_c.dll `
+  build-reference/total-drive-result.json `
+  --capture 10 build-reference/antenna-power-plus10-001/capture.json `
+  --capture 11 build-reference/antenna-power-plus11-001/capture.json
+```
+
+新增 CTest total_drive_diagnostic 两项测试覆盖上述结论及功率/元素映射拒绝；
+与现有两组压缩参考测试一起通过 Debug/Release。未新增厂商采集或修改数值核心。
+下一步需建立由 RFModel 自行求得总输入功率的频谱传播，再验证条件诊断能否转为
+独立预测；不可直接把实测 RFPwrIn 写入兼容模型。

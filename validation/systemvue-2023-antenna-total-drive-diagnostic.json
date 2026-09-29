@@ -1,0 +1,36 @@
+{
+  "scope": "Conditional diagnostic using measured all-terminal total RF input power",
+  "limitation": "Does not predict total drive or distinguish harmonics, reverse waves and other signals",
+  "affects_compatibility_verdict": false,
+  "library_sha256": "743f18c1da18458a22f61284e55671c2b51f1267bd55aaf9dcde09b43c4ee209",
+  "points": [
+    {
+      "source_power_dbm": 10.0,
+      "run_started_utc": "2026-09-29T12:45:38.1903316Z",
+      "element": "RFAmp2\\RFAmpHO",
+      "fundamental_input_w": 0.9722452256053111,
+      "total_rf_input_w": 0.9722513722064118,
+      "additional_drive_w": 6.146601100653903e-06,
+      "measured_output_w": 815.7940904933004,
+      "fundamental_only_prediction_w": 815.7950412654865,
+      "total_drive_prediction_w": 815.7940955318003,
+      "fundamental_only_relative_residual": 1.1654560840845818e-06,
+      "total_drive_relative_residual": 6.176190670004189e-09,
+      "capture_sha256": "4ffc34b342c6d5065d136cb247e9d7ec90682e7d198f4b5d9abafcecf13a8dbb"
+    },
+    {
+      "source_power_dbm": 11.0,
+      "run_started_utc": "2026-09-29T12:45:55.3352573Z",
+      "element": "RFAmp2\\RFAmpHO",
+      "fundamental_input_w": 1.2238476395271998,
+      "total_rf_input_w": 1.2238574002184157,
+      "additional_drive_w": 9.76069121594314e-06,
+      "measured_output_w": 978.7563247560988,
+      "fundamental_only_prediction_w": 978.7581760377814,
+      "total_drive_prediction_w": 978.7563304391364,
+      "fundamental_only_relative_residual": 1.8914633148625626e-06,
+      "total_drive_relative_residual": 5.806386482731796e-09,
+      "capture_sha256": "fd34700f5f1642cc1d25c11566eea5ab87b21e5b0444b9254335c27ef44e47b2"
+    }
+  ]
+}
