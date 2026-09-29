@@ -59,9 +59,16 @@ def _parameter_samples(library, model, frequencies, reference):
                 ("resistance_ohms_per_m", "inductance_h_per_m", "conductance_s_per_m",
                  "capacitance_f_per_m"))
         evaluate = library.rlgc_line
+    elif kind == "linear_amplifier":
+        _object(model, ("type", "gain_db"),
+                ("gain_phase_degrees", "reverse_isolation_db", "reverse_phase_degrees",
+                 "input_impedance_ohms", "output_impedance_ohms"))
+        evaluate = library.linear_amplifier
     else:
         raise ValueError("Unknown parameter model type")
-    parameters = {key: _number(value) for key, value in model.items() if key != "type"}
+    complex_fields = {"input_impedance_ohms", "output_impedance_ohms"}
+    parameters = {key: (_complex(value) if key in complex_fields else _number(value))
+                  for key, value in model.items() if key != "type"}
     return [evaluate(frequency, reference_ohms=reference, **parameters) for frequency in frequencies]
 
 

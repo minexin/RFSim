@@ -49,7 +49,7 @@ with library.network(reference_ohms=50.) as network:
 时会注册此测试；CI 设置 `RFMODEL_REQUIRE_PYTHON_TESTS=ON`，缺少解释器即配置失败。
 
 当前封装覆盖已公开的线性网络 C ABI；[JSON 文件与批处理](linear-model-file.md)支持
-显式频率样本及参数化传输线的网络重放。其他器件、非线性及混频接口仍待扩展，完整系统分析接口尚未完成。
+显式频率样本、参数化传输线及小信号放大器的网络重放。其他器件、非线性及混频接口仍待扩展，完整系统分析接口尚未完成。
 
 2026-09-29 本地验证：Python 3.10.6，六项 Python 测试通过；加入 CTest 后 MSVC
 Debug/Release 各 42/42。通过 pip 默认隔离构建生成纯 Python wheel，并安装到
@@ -86,3 +86,12 @@ length_m, resistance_ohms_per_m=0, inductance_h_per_m=0, conductance_s_per_m=0,
 capacitance_f_per_m=0, reference_ohms=50)` 返回 2×2 复数元组。
 数值实现仍位于 C++，Python 不另写传输线方程；参数须符合对应 C++ 模型的范围。
 本版需要动态库包含两个新增模型求值符号，不能与更早的 ABI 1 构建混用。
+
+## 小信号放大器
+
+`Library.linear_amplifier(frequency_hz, *, gain_db=20, gain_phase_degrees=0,
+reverse_isolation_db=50, reverse_phase_degrees=0, input_impedance_ohms=50,
+output_impedance_ohms=50, reference_ohms=50)` 返回 2×2 复数 S 矩阵。
+两个端口阻抗接受 Python complex；所有相位单位为度，两个阻抗的默认值独立于参考阻抗。
+该接口直接调用 C++ 双向小信号模型，不含 NF、压缩和 AM/PM。
+需要动态库提供新增符号 rfmodel_linear_amplifier_s。

@@ -81,6 +81,18 @@ RFMODEL_API int rfmodel_rlgc_line_s(double frequency_hz,
                                     rfmodel_complex *values,
                                     size_t capacity);
 
+/* Bilateral small-signal two-port; no compression, automatic noise or DC blocking. */
+RFMODEL_API int rfmodel_linear_amplifier_s(double frequency_hz,
+                                           double gain_db,
+                                           double gain_phase_degrees,
+                                           double reverse_isolation_db,
+                                           double reverse_phase_degrees,
+                                           rfmodel_complex input_impedance_ohms,
+                                           rfmodel_complex output_impedance_ohms,
+                                           double reference_ohms,
+                                           rfmodel_complex *values,
+                                           size_t capacity);
+
 /* Covariance matrices use W/Hz. Outputs are written only on success. */
 RFMODEL_API int rfmodel_passive_noise(size_t ports,
                                       const rfmodel_complex *scattering,

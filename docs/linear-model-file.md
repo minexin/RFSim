@@ -58,7 +58,7 @@ samples 的每项包含 frequency_hz、s，以及请求噪声时的 noise_w_per_
 `k*290*0.75 W/Hz`。回归另覆盖复相关噪声、反射终端、格式版本、重复字段、
 非法索引及命令行失败时保留既有结果。
 
-当前文件格式覆盖显式 S 矩阵及两类传输线的线性网络扫描，尚未实现其他参数化器件、Touchstone
+当前文件格式覆盖显式 S 矩阵、两类传输线及小信号放大器的线性网络扫描，尚未实现其他参数化器件、Touchstone
 文件引用、自动重归一化、非线性或变频网表。它不是 SystemVue 工作区导入器，也不代表
 整个 RF System Analysis 工作流已经验收。
 
@@ -84,3 +84,22 @@ inductance_h_per_m、conductance_s_per_m、capacitance_f_per_m，默认均为 0�
 2026-09-29 参数模型扩展验证：MSVC Debug/Release 全套各 42/42，安装消费者各 2/2；
 Python 十三项测试在安装后的 Release 动态库上通过。包含两个模型的 JSON 数值一致性、
 解析四分之一波长响应、直流电阻极限及未知参数拒绝。跨平台及 SystemVue 实测仍待核验。
+
+## 双向小信号放大器
+
+model.type 为 `linear_amplifier` 时，必填 gain_db，可选 gain_phase_degrees（默认 0）、
+reverse_isolation_db（默认 50）、reverse_phase_degrees（默认 0）、
+input_impedance_ohms 和 output_impedance_ohms（默认都为 50 Ω，可用实部/虚部数组）。
+参考阻抗来自顶层；即使顶层参考不是 50 Ω，两个端口阻抗的默认值仍为 50 Ω，
+需要匹配到其他阻抗时须显式给出。gain_db 定义 |S21| 的幅度，不是任意失配条件下的传输功率增益。
+
+`examples/amplifier-chain.json` 将幅度 0.5 的匹配衰减器与 20 dB、90° 放大器连接，
+输出 S21=5j、S12=0.005。此模型使用现有 C++ LinearAmplifierModel，
+不包含压缩、AM/PM、NF 自动噪声或 DC 阻断；模型语义见 [放大器说明](linear-amplifier.md)。
+包含有源器件时不能使用全器件被动 temperature_k 模式；可显式提供完整的
+intrinsic_noise_samples，由核心校验与传播。这不是 SystemVue RFAMP 完整兼容实现。
+
+2026-09-29 放大器接口验证：MSVC Debug/Release 全套各 42/42，安装消费者各 2/2；
+Python 十五项测试在安装后的 Release 动态库上通过。新增案例覆盖复数阻抗映射、
+正反向相位、匹配衰减器级联、奇异阻抗错误码及有源器件拒绝被动噪声计算。
+本次跨平台 CI 及 SystemVue 新实测均未计入此验收。

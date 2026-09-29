@@ -1,0 +1,21 @@
+{
+  "format": "rfmodel.linear-network",
+  "version": 1,
+  "frequencies_hz": [1000000000, 2000000000],
+  "devices": [
+    {"id": "pad", "model": {
+      "type": "transmission_line",
+      "characteristic_ohms": 50,
+      "delay_s": 0,
+      "propagation_loss_db": 6.020599913279624
+    }},
+    {"id": "amp", "model": {
+      "type": "linear_amplifier",
+      "gain_db": 20,
+      "gain_phase_degrees": 90,
+      "reverse_isolation_db": 40
+    }}
+  ],
+  "connections": [[["pad", 1], ["amp", 0]]],
+  "external_ports": [["pad", 0], ["amp", 1]]
+}

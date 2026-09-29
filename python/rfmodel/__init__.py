@@ -85,6 +85,9 @@ class Library:
                 ct.c_int, [ct.c_double] * 5 + [complex_pointer, size]),
             "rfmodel_rlgc_line_s": (
                 ct.c_int, [ct.c_double] * 7 + [complex_pointer, size]),
+            "rfmodel_linear_amplifier_s": (
+                ct.c_int, [ct.c_double] * 5 + [_Complex, _Complex, ct.c_double,
+                                             complex_pointer, size]),
             "rfmodel_network_external_noise": (
                 ct.c_int, [handle, ct.POINTER(size), size, complex_pointer, size,
                            complex_pointer, size]),
@@ -129,6 +132,18 @@ class Library:
         self._check(self._dll.rfmodel_rlgc_line_s(
             float(frequency_hz), float(resistance_ohms_per_m), float(inductance_h_per_m),
             float(conductance_s_per_m), float(capacitance_f_per_m), float(length_m),
+            float(reference_ohms), result, 4))
+        return _rows(result, 2)
+
+    def linear_amplifier(self, frequency_hz, *, gain_db=20., gain_phase_degrees=0.,
+                         reverse_isolation_db=50., reverse_phase_degrees=0.,
+                         input_impedance_ohms=50., output_impedance_ohms=50., reference_ohms=50.):
+        """Bilateral small-signal S model; gain_db is 20*log10(abs(S21))."""
+        result = (_Complex * 4)()
+        self._check(self._dll.rfmodel_linear_amplifier_s(
+            float(frequency_hz), float(gain_db), float(gain_phase_degrees),
+            float(reverse_isolation_db), float(reverse_phase_degrees),
+            _Complex.from_value(input_impedance_ohms), _Complex.from_value(output_impedance_ohms),
             float(reference_ohms), result, 4))
         return _rows(result, 2)
 

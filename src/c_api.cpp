@@ -1,5 +1,6 @@
 #include "rfmodel/c_api.h"
 #include "rfmodel/network.hpp"
+#include "rfmodel/amplifier_model.hpp"
 #include "rfmodel/transmission_line.hpp"
 #include "rfmodel/rlgc_transmission_line.hpp"
 #include <cstdio>
@@ -28,6 +29,9 @@ template <class Action> int guarded(Action action) noexcept {
         std::snprintf(last_error, sizeof(last_error), "%s", error.what());
         return RFMODEL_INVALID_ARGUMENT;
     } catch (const std::out_of_range &error) {
+        std::snprintf(last_error, sizeof(last_error), "%s", error.what());
+        return RFMODEL_INVALID_ARGUMENT;
+    } catch (const std::domain_error &error) {
         std::snprintf(last_error, sizeof(last_error), "%s", error.what());
         return RFMODEL_INVALID_ARGUMENT;
     } catch (const std::runtime_error &error) {
@@ -182,6 +186,34 @@ int rfmodel_rlgc_line_s(double frequency_hz,
             length_m,
             reference_ohms);
         const auto matrix = model.s_parameters(frequency_hz);
+        for (size_t i = 0; i < 4; ++i) {
+            values[i] = {matrix.values[i].real(), matrix.values[i].imag()};
+        }
+    });
+}
+
+int rfmodel_linear_amplifier_s(double frequency_hz,
+                               double gain_db,
+                               double gain_phase_degrees,
+                               double reverse_isolation_db,
+                               double reverse_phase_degrees,
+                               rfmodel_complex input_impedance_ohms,
+                               rfmodel_complex output_impedance_ohms,
+                               double reference_ohms,
+                               rfmodel_complex *values,
+                               size_t capacity) {
+    return guarded([&] {
+        require(values && capacity >= 4);
+        rfmodel::LinearAmplifierParameters parameters;
+        parameters.gain_db = gain_db;
+        parameters.gain_phase_degrees = gain_phase_degrees;
+        parameters.reverse_isolation_db = reverse_isolation_db;
+        parameters.reverse_phase_degrees = reverse_phase_degrees;
+        parameters.input_impedance_ohms = {input_impedance_ohms.real, input_impedance_ohms.imag};
+        parameters.output_impedance_ohms = {output_impedance_ohms.real, output_impedance_ohms.imag};
+        parameters.reference_ohms = reference_ohms;
+        const auto matrix =
+            rfmodel::LinearAmplifierModel("C API amplifier", parameters).s_parameters(frequency_hz);
         for (size_t i = 0; i < 4; ++i) {
             values[i] = {matrix.values[i].real(), matrix.values[i].imag()};
         }

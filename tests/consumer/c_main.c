@@ -8,6 +8,14 @@ int main(void) {
     rfmodel_complex result[4];
     size_t offset;
     int status;
+    {
+        const rfmodel_complex matched = {50., 0.};
+        if (rfmodel_linear_amplifier_s(1e9, 20., 90., 50., 0., matched, matched, 50., result, 4) !=
+                RFMODEL_OK ||
+            fabs(result[2].imag - 10.) > 1e-12) {
+            return 6;
+        }
+    }
     if (rfmodel_rlgc_line_s(0., 25., 0., 0., 0., 2., 50., result, 4) != RFMODEL_OK ||
         fabs(result[2].real - 2. / 3.) > 1e-12) {
         return 4;

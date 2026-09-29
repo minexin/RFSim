@@ -21,6 +21,20 @@ int main(void) {
     const size_t external[2] = {0, 3};
     double residual = -1;
     CHECK(rfmodel_abi_version() == 1);
+    {
+        const rfmodel_complex input_z = {50., 50.}, output_z = {50., -50.};
+        const rfmodel_complex singular_z = {-50., 0.};
+        CHECK(rfmodel_linear_amplifier_s(
+                  1e9, 20., 90., 20., -90., input_z, output_z, 50., scattering, 4) == RFMODEL_OK);
+        CHECK(fabs(scattering[0].real - 0.2) < 1e-12);
+        CHECK(fabs(scattering[0].imag - 0.4) < 1e-12);
+        CHECK(fabs(scattering[2].imag - 10.) < 1e-12);
+        CHECK(fabs(scattering[1].imag + 0.1) < 1e-12);
+        CHECK(rfmodel_linear_amplifier_s(
+                  1e9, 20., 0., 20., 0., singular_z, output_z, 50., scattering, 4) ==
+              RFMODEL_INVALID_ARGUMENT);
+        CHECK(fabs(scattering[2].imag - 10.) < 1e-12);
+    }
     scattering[0].real = 123.;
     CHECK(rfmodel_transmission_line_s(1e9, 100., 0.25e-9, 0., 50., scattering, 3) ==
           RFMODEL_INVALID_ARGUMENT);

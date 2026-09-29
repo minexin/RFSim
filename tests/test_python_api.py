@@ -159,6 +159,36 @@ class PythonApiTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             analyze(self.library, document)
 
+    def test_amplifier_parameters_and_chain(self):
+        scattering = self.library.linear_amplifier(
+            1e9, gain_phase_degrees=90., reverse_isolation_db=20., reverse_phase_degrees=-90.,
+            input_impedance_ohms=50+50j, output_impedance_ohms=50-50j)
+        self.assertAlmostEqual(scattering[0][0], 0.2+0.4j)
+        self.assertAlmostEqual(scattering[1][1], 0.2-0.4j)
+        self.assertAlmostEqual(scattering[1][0], 10j)
+        self.assertAlmostEqual(scattering[0][1], -0.1j)
+        with self.assertRaises(RFModelError) as caught:
+            self.library.linear_amplifier(1., input_impedance_ohms=-50.)
+        self.assertEqual(caught.exception.status, 1)
+        document = load(Path(__file__).resolve().parents[1] / "examples/amplifier-chain.json")
+        result = analyze(self.library, document)
+        for sample in result["samples"]:
+            self.assertAlmostEqual(complex(*sample["s"][1][0]), 5j)
+            self.assertAlmostEqual(complex(*sample["s"][0][1]), 0.005)
+        # Active amplifiers must not acquire fabricated passive thermal noise.
+        document["temperature_k"] = 290.
+        with self.assertRaises(RFModelError):
+            analyze(self.library, document)
+
+    def test_json_complex_amplifier_impedance(self):
+        document = {"format": "rfmodel.linear-network", "version": 1,
+                    "frequencies_hz": [1e9], "devices": [{"id": "amp", "model": {
+                        "type": "linear_amplifier", "gain_db": 0.,
+                        "input_impedance_ohms": [50., 50.]}}],
+                    "external_ports": [["amp", 0], ["amp", 1]]}
+        result = analyze(self.library, document)
+        self.assertAlmostEqual(complex(*result["samples"][0]["s"][0][0]), 0.2+0.4j)
+
     def test_model_file_rejects_ambiguous_or_invalid_input(self):
         original = load(Path(__file__).resolve().parents[1] / "examples/linear-noise.json")
         for key, value in (("version", True), ("version", 2), ("unknown", 1),
