@@ -81,3 +81,8 @@ python scripts/reference/run-systemvue-reference.py antenna `
 上述 Python 驱动的 antenna 案例并带 --open-copy，完成 antenna-run-003 新鲜采集。
 启动记录保留在 build-reference，采集驱动自身仍不自动启动、关闭或重试实例。
 全程没有鼠标输入；分析、参数读取和结果导出均通过脚本完成。
+
+驱动现在支持 --source-power-dbm（有限数，−200 至 30 dBm）。天线案例只改变
+Pwr 向量的第一个载波项，第二项保留 −50；衰减器案例仍使用标量参数。
+天线案例仍禁止使用衰减器专用的损耗/温度覆盖。改变功率后需要向 collect 提供
+同名选项用于实际回读校验。实验结束应显式恢复 −50 dBm 并验证基准。

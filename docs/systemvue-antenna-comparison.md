@@ -163,3 +163,33 @@ python scripts/reference/compare-antenna.py compare `
 已完成 Windows、Ubuntu、macOS × Debug/Release 六个作业；核心/CLI 测试、Python
 wheel 构建和独立安装消费者步骤均成功。逐作业、逐步骤记录在
 validation/ci-b47b6da.json。CI 不安装 SystemVue，不能替代本机厂商比对。
+
+## 载波功率敏感度：−60 dBm
+
+2026-09-29 受控实验仅将源 Pwr 的第一个载波项从 −50 改为 −60 dBm，
+第二个噪声源条目保持 −50，NoisePower、频带及所有器件参数保持原值并通过回读校验。
+归档为 validation/systemvue-2023-antenna-minus60.json 及同名前缀 comparison.json。
+比较使用 RFModel 线性探针，将信号瓦数按输入功率比缩放，不改变增益、噪声或容差。
+
+结果为 16/20：末级 CGAIN 相对误差从 1.8847316e-7 降到 3.6847316e-8，
+DCP 从 2.1347316e-7 降到 6.1847314e-8，均进入原有 1e-7 容差；
+四个器件节点 CND 仍未通过，末级 CND 误差为 8.2154658e-7。
+这提供了信号偏差随功率变化的证据，但不足以唯一归因于 RFAMP 压缩或任何具体算法。
+需要更多功率点及对应器件参数验证，不能通过该实验改变模型系数或放宽噪声容差。
+
+```powershell
+python scripts/reference/run-systemvue-reference.py antenna `
+  build-reference/RFModel_AntennaNoise.wsv build-reference/new-power-run `
+  --source-power-dbm -60 --timeout 120
+python scripts/reference/compare-antenna.py collect `
+  build-reference/new-power-run/capture.json build-reference/new-power-run/validated.json `
+  --source-power-dbm -60
+```
+
+归档时的功率声明必须与实际参数相符，否则拒绝归档；比较从已校验的归档读取功率。
+旧归档缺省仍为 −50 dBm。运行结束后已恢复 −50 dBm 并重新采集，
+build-reference/antenna-power-restored-001 的 20 个测量值与 run-003 完全相同。
+本次首次连接在 COM attach 阶段失败退出，随后连接同一仍响应实例成功；未重启实例。
+采集目录分别保留失败与成功日志，没有把失败结果用于比较。
+
+比较工具 7 项及后台驱动 3 项回归通过。本次仅扩展参考脚本和证据，未修改数值核心。

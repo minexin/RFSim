@@ -36,7 +36,12 @@ def parameter_path(key):
 
 
 def validate_parameters(capture):
+    power = capture.get("source_power_dbm", -50.)
+    if isinstance(power, bool) or not isinstance(power, (int, float)) or not math.isfinite(power) or not -200 <= power <= 30:
+        raise ValueError("Invalid declared source power")
     for key, expected in PARAMETERS.items():
+        if key == "Source/Pwr":
+            expected = [10 ** ((power - 30) / 10), 1e-8]
         matches = [node for node in capture["nodes"] if node["path"] == parameter_path(key)]
         if len(matches) != 1 or matches[0].get("evaluation_error"):
             raise ValueError("Missing, ambiguous or failed parameter: " + key)
@@ -94,6 +99,8 @@ def collect(capture):
             node.pop(key, None)
     result["scope"] = "Official antenna example; matched small-signal RFModel approximation only"
     result["parameters_verified"] = True
+    if "source_power_dbm" in capture:
+        result["source_power_dbm"] = capture["source_power_dbm"]
     result["condition_limit"] = "Main device/source parameters verified live; pad impedance defaults and full nonlinear/noise model equivalence remain unverified"
     return result
 
@@ -155,17 +162,23 @@ def main():
     parser.add_argument("input", type=Path)
     parser.add_argument("output", type=Path)
     parser.add_argument("--executable", type=Path)
+    parser.add_argument("--source-power-dbm", type=float,
+                        help="Collect only: expected carrier power; verified against captured parameters")
     parser.add_argument("--align-source-noise", action="store_true",
                         help="Use captured source NoisePower, not measured source CND")
     args = parser.parse_args()
     raw = args.input.read_bytes()
     source = json.loads(raw.decode("utf-8-sig"))
     if args.mode == "collect":
+        if args.source_power_dbm is not None:
+            source["source_power_dbm"] = args.source_power_dbm
         if args.align_source_noise:
             parser.error("Source alignment is a compare option")
         result = collect(source)
         result["capture_sha256"] = hashlib.sha256(raw).hexdigest()
     else:
+        if args.source_power_dbm is not None:
+            parser.error("Source power declaration is a collect option")
         if args.executable is None:
             parser.error("compare requires --executable")
         command = [str(args.executable.resolve())]
@@ -174,7 +187,13 @@ def main():
             density = aligned_source_density(source)
             command.append(str(density))
         process = subprocess.run(command, capture_output=True, text=True, check=True)
-        result = compare(source, json.loads(process.stdout))
+        actual = json.loads(process.stdout)
+        # This probe is explicitly linear: rescale signal watts only, never noise or gain.
+        scale = 10 ** ((source.get("source_power_dbm", -50.) + 50.) / 10)
+        for node in actual["nodes"]:
+            node["signal_output_w"] *= scale
+        result = compare(source, actual)
+        result["source_power_dbm"] = source.get("source_power_dbm", -50.)
         result["source_noise_input"] = {"watts_per_hz": density,
                                       "mode": "captured_parameter" if args.align_source_noise else "SI_k_times_50K"}
         result["reference_sha256"] = hashlib.sha256(raw).hexdigest()

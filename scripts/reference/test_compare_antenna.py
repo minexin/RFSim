@@ -57,6 +57,24 @@ class AntennaTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "parameter"):
             antenna.collect(self.reference)
 
+    def test_declared_carrier_power_preserves_noise_source(self):
+        path = Path(__file__).resolve().parents[2] / "validation/systemvue-2023-antenna-parameters.json"
+        capture = json.loads(path.read_text(encoding="utf-8"))
+        capture["source_power_dbm"] = -60.
+        with self.assertRaisesRegex(ValueError, "Parameter mismatch"):
+            antenna.validate_parameters(capture)
+        source = next(node for node in capture["nodes"]
+                      if node["path"] == antenna.parameter_path("Source/Pwr"))
+        source["data"] = [1e-9, 1e-8]
+        antenna.validate_parameters(capture)
+        self.assertEqual(antenna.collect(capture)["source_power_dbm"], -60.)
+        source["data"][1] = 1e-9
+        with self.assertRaisesRegex(ValueError, "Parameter mismatch"):
+            antenna.validate_parameters(capture)
+        capture["source_power_dbm"] = float("nan")
+        with self.assertRaisesRegex(ValueError, "declared source power"):
+            antenna.validate_parameters(capture)
+
     def test_source_alignment_uses_parameter_not_measurement(self):
         path = Path(__file__).resolve().parents[2] / "validation/systemvue-2023-antenna-parameters.json"
         reference = json.loads(path.read_text(encoding="utf-8"))

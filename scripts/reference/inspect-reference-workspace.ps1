@@ -11,10 +11,10 @@ param(
 $ErrorActionPreference = 'Stop'
 [Console]::OutputEncoding = New-Object System.Text.UTF8Encoding($false)
 if ($RunAntennaAnalysis -and ($RunAttenuatorAnalysis -or $null -ne $LossDb -or
-    $null -ne $TemperatureK -or $null -ne $SourcePowerDbm)) {
+    $null -ne $TemperatureK)) {
     throw 'Antenna reference analysis cannot use attenuator parameter overrides.'
 }
-if ($null -ne $SourcePowerDbm -and (-not $RunAttenuatorAnalysis -or
+if ($null -ne $SourcePowerDbm -and ((-not $RunAttenuatorAnalysis -and -not $RunAntennaAnalysis) -or
     [double]::IsNaN($SourcePowerDbm) -or [double]::IsInfinity($SourcePowerDbm) -or
     $SourcePowerDbm -lt -200 -or $SourcePowerDbm -gt 30)) {
     throw 'SourcePowerDbm requires RunAttenuatorAnalysis and a finite value from -200 to 30 dBm.'
@@ -232,9 +232,13 @@ public static class ReferenceWorkspaceInspector
                             }
                             if (!Double.IsNaN(sourcePowerDbm))
                             {
-                                setup += "wsdoc.Designs.Sch1.PartList.Source.ParamSet.Pwr.Set(\"" +
-                                    sourcePowerDbm.ToString("R", System.Globalization.CultureInfo.InvariantCulture) +
-                                    "\")\r\n";
+                                string powerText = sourcePowerDbm.ToString("R", System.Globalization.CultureInfo.InvariantCulture);
+                                string sourcePath = antenna
+                                    ? "wsdoc.GetItemByName(\"RF Design\").GetItemByName(\"Sch1\").PartList.Source"
+                                    : "wsdoc.Designs.Sch1.PartList.Source";
+                                // Preserve the second (noise) source entry from the official case.
+                                setup += sourcePath + ".ParamSet.Pwr.Set(\"" +
+                                    (antenna ? "[" + powerText + ";-50]" : powerText) + "\")\r\n";
                             }
                             RunStartedUtc = DateTime.UtcNow.ToString("o");
                             Console.Error.WriteLine("phase: run-analysis " + RunStartedUtc);

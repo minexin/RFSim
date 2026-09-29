@@ -83,9 +83,13 @@ def main():
     parser.add_argument("workspace", type=Path)
     parser.add_argument("output_directory", type=Path)
     parser.add_argument("--timeout", type=float, default=120)
+    parser.add_argument("--source-power-dbm", type=float)
     parser.add_argument("--open-copy", action="store_true",
                         help="Open via official script API only when no workspace is loaded")
     args = parser.parse_args()
+    if args.source_power_dbm is not None and (not math.isfinite(args.source_power_dbm)
+                                             or not -200 <= args.source_power_dbm <= 30):
+        parser.error("Source power must be finite and from -200 to 30 dBm")
     if os.name != "nt":
         parser.error("SystemVue COM collection requires Windows")
     if not math.isfinite(args.timeout) or args.timeout <= 0:
@@ -100,6 +104,8 @@ def main():
                "-RunAntennaAnalysis" if args.case == "antenna" else "-RunAttenuatorAnalysis"]
     if args.open_copy:
         command.append("-OpenCopy")
+    if args.source_power_dbm is not None:
+        command.extend(["-SourcePowerDbm", str(args.source_power_dbm)])
     return execute(command, args.output_directory.resolve(), args.case, args.timeout)
 
 
