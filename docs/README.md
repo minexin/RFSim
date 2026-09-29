@@ -5,6 +5,7 @@
 - [核心接口](api.md)
 - [C ABI 线性网络接口](c-api.md)
 - [Python 线性网络接口](python-api.md)
+- [线性网络 JSON 文件与批处理](linear-model-file.md)
 - [能力边界与验收矩阵](acceptance-matrix.md)
 - [有阻抗失配的均匀传输线](transmission-line.md)
 - [分布参数 RLGC 传输线](rlgc-transmission-line.md)

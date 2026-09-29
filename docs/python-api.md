@@ -48,8 +48,8 @@ with library.network(reference_ohms=50.) as network:
 错误恢复、奇异网络、形状/非有限值/索引校验、显式及自动释放。CMake 找到 Python 3.9+
 时会注册此测试；CI 设置 `RFMODEL_REQUIRE_PYTHON_TESTS=ON`，缺少解释器即配置失败。
 
-当前封装覆盖已公开的线性网络 C ABI。器件参数模型、非线性、混频、扫频及模型文件
-加载尚未作为 Python API 暴露；可以由脚本逐频点传入 S 矩阵，但这不代表完整系统分析接口已完成。
+当前封装覆盖已公开的线性网络 C ABI；[JSON 文件与批处理](linear-model-file.md)支持
+显式频率样本的网络重放。参数化器件、非线性及混频接口仍未暴露，完整系统分析接口尚未完成。
 
 2026-09-29 本地验证：Python 3.10.6，六项 Python 测试通过；加入 CTest 后 MSVC
 Debug/Release 各 42/42。通过 pip 默认隔离构建生成纯 Python wheel，并安装到
