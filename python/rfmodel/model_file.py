@@ -81,6 +81,31 @@ def load(path):
                       object_pairs_hook=_unique_object, parse_constant=invalid_constant)
 
 
+def _device_noise(library, specification, matrices):
+    """Resolve independent device covariance; no implicit noiseless fallback."""
+    _object(specification, (), ("temperature_k", "covariance", "covariance_samples", "noiseless"))
+    if len(specification) != 1:
+        raise ValueError("Device noise must select exactly one mode")
+    ports = len(matrices[0])
+    if "temperature_k" in specification:
+        temperature = _number(specification["temperature_k"])
+        return [library.passive_noise(matrix, temperature) for matrix in matrices]
+    if "noiseless" in specification:
+        if specification["noiseless"] is not True:
+            raise ValueError("noiseless must be true")
+        return [[[0j] * ports for _ in range(ports)]] * len(matrices)
+    if "covariance" in specification:
+        samples = [_matrix(specification["covariance"])] * len(matrices)
+    else:
+        values = specification["covariance_samples"]
+        if not isinstance(values, list) or len(values) != len(matrices):
+            raise ValueError("One device noise matrix is required per frequency")
+        samples = [_matrix(value) for value in values]
+    if any(len(sample) != ports for sample in samples):
+        raise ValueError("Device noise dimensions must match its ports")
+    return samples
+
+
 def analyze(library, document):
     """Evaluate explicit frequency samples, returning JSON-compatible S/noise results."""
     _object(document, ("format", "version", "frequencies_hz", "devices", "external_ports"),
@@ -113,9 +138,14 @@ def analyze(library, document):
     devices = document["devices"]
     if not isinstance(devices, list) or not devices:
         raise ValueError("At least one device is required")
+    device_noise_mode = any(isinstance(device, dict) and "noise" in device for device in devices)
+    if device_noise_mode and (temperature is not None or noise_samples is not None):
+        raise ValueError("Device noise cannot be mixed with top-level noise modes")
     offsets, prepared, total_ports = {}, [], 0
     for device in devices:
-        _object(device, ("id",), ("s", "s_samples", "model"))
+        _object(device, ("id",), ("s", "s_samples", "model", "noise"))
+        if device_noise_mode and "noise" not in device:
+            raise ValueError("Every device must explicitly specify noise in device-noise mode")
         name = device["id"]
         if not isinstance(name, str) or not name or name in offsets:
             raise ValueError("Device IDs must be unique nonempty strings")
@@ -134,7 +164,9 @@ def analyze(library, document):
         if any(len(matrix) != ports for matrix in matrices) or total_ports + ports > 1024:
             raise ValueError("Port counts must be constant and total at most 1024")
         offsets[name] = (total_ports, ports)
-        prepared.append((total_ports, matrices))
+        device_noise = (_device_noise(library, device["noise"], matrices)
+                        if device_noise_mode else None)
+        prepared.append((total_ports, matrices, device_noise))
         total_ports += ports
 
     def endpoint(value):
@@ -166,13 +198,14 @@ def analyze(library, document):
     for index, frequency in enumerate(frequencies):
         with library.network(reference) as network:
             covariance = None
-            if temperature is not None:
+            if temperature is not None or device_noise_mode:
                 covariance = [[0j] * total_ports for _ in range(total_ports)]
-            for offset, matrices in prepared:
+            for offset, matrices, device_noise in prepared:
                 matrix = matrices[index]
                 network.add(matrix)
                 if covariance is not None:
-                    block = library.passive_noise(matrix, temperature)
+                    block = (device_noise[index] if device_noise_mode
+                             else library.passive_noise(matrix, temperature))
                     for row in range(len(matrix)):
                         for column in range(len(matrix)):
                             covariance[offset + row][offset + column] = block[row][column]

@@ -78,6 +78,10 @@ with library.network() as network:
 终端噪声、源噪声以及噪声系数换算不自动加入；不能把内生输出噪声当作完整系统总噪声。
 本版 Python 封装需要同时部署带两个新噪声符号的原生库。
 
+JSON 工作流还支持逐器件 temperature_k、固定/逐频点协方差或显式 noiseless，
+详见 [逐器件内生噪声](linear-model-file.md)。它允许混合有源和无源器件，
+仍不自动推断放大器噪声模型。
+
 ## 参数化传输线
 
 `Library.transmission_line(frequency_hz, *, characteristic_ohms, delay_s,

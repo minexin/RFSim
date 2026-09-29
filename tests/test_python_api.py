@@ -213,6 +213,45 @@ class PythonApiTests(unittest.TestCase):
         for sample in result["samples"]:
             self.assertAlmostEqual(sample["noise_w_per_hz"][1][1][0] / thermal, 0.75)
 
+    def test_device_noise_mixed_chain(self):
+        document = load(Path(__file__).resolve().parents[1] / "examples/amplifier-noise.json")
+        point = analyze(self.library, document)["samples"][0]
+        thermal = 1.380649e-23 * 290.
+        self.assertAlmostEqual(complex(*point["s"][1][0]), 5.)
+        noise = point["noise_w_per_hz"][1][1][0]
+        self.assertAlmostEqual(noise / thermal, 25.75)
+        # Matched G=100,F=2 amplifier then loss=4: Friis F=2+3/100.
+        self.assertAlmostEqual(1. + noise / (thermal * 25.), 2.03)
+        original = copy.deepcopy(document)
+        del document["devices"][1]["noise"]
+        with self.assertRaises(ValueError):
+            analyze(self.library, document)
+        document = copy.deepcopy(original)
+        document["temperature_k"] = 290.
+        with self.assertRaises(ValueError):
+            analyze(self.library, document)
+        for noise_spec in ({"noiseless": False}, {"covariance": [[1.]]}, {},
+                           {"temperature_k": 290., "noiseless": True},
+                           {"covariance_samples": []}):
+            document = copy.deepcopy(original)
+            document["devices"][0]["noise"] = noise_spec
+            with self.assertRaises(ValueError):
+                analyze(self.library, document)
+
+    def test_device_noise_frequency_samples(self):
+        document = {"format": "rfmodel.linear-network", "version": 1,
+                    "frequencies_hz": [1., 2.], "devices": [
+                        {"id": "a", "s": [[0.]], "noise": {"covariance_samples": [[[1.]], [[2.]]]}},
+                        {"id": "b", "s": [[0.]], "noise": {"noiseless": True}}],
+                    "external_ports": [["b", 0], ["a", 0]]}
+        samples = analyze(self.library, document)["samples"]
+        self.assertEqual(samples[0]["noise_w_per_hz"][1][1], [1., 0.])
+        self.assertEqual(samples[1]["noise_w_per_hz"][1][1], [2., 0.])
+        self.assertEqual(samples[1]["noise_w_per_hz"][0][0], [0., 0.])
+        document["devices"][0]["noise"] = {"covariance": [[-1.]]}
+        with self.assertRaises(RFModelError):
+            analyze(self.library, document)
+
     def test_parameter_models_and_json(self):
         document = load(Path(__file__).resolve().parents[1] / "examples/rlgc-line.json")
         samples = analyze(self.library, document)["samples"]
