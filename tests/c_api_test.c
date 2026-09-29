@@ -33,6 +33,23 @@ int main(void) {
     CHECK(rfmodel_network_connect(network, 1, 2) == RFMODEL_OK);
     CHECK(rfmodel_network_external_s(network, external, 2, scattering, 4) == RFMODEL_OK);
     CHECK(fabs(scattering[2].real - 0.25) < 1e-12);
+    {
+        const double thermal = 1.380649e-23 * 290.;
+        rfmodel_complex block[4], intrinsic[16] = {{0, 0}}, result[4] = {{123, 0}};
+        size_t i;
+        CHECK(rfmodel_passive_noise(2, pad, 4, 290., block, 4) == RFMODEL_OK);
+        CHECK(fabs(block[0].real / thermal - 0.75) < 1e-12);
+        for (i = 0; i < 4; ++i) {
+            intrinsic[i * 4 + i] = block[0];
+        }
+        CHECK(rfmodel_network_external_noise(network, external, 2, intrinsic, 16, result, 3) ==
+              RFMODEL_INVALID_ARGUMENT);
+        CHECK(result[0].real == 123);
+        CHECK(rfmodel_network_external_noise(network, external, 2, intrinsic, 16, result, 4) ==
+              RFMODEL_OK);
+        CHECK(fabs(result[3].real / thermal - 0.9375) < 1e-12);
+        CHECK(rfmodel_passive_noise(2, pad, 4, -1., block, 4) == RFMODEL_INVALID_ARGUMENT);
+    }
     CHECK(rfmodel_network_solve(network, incident, outgoing, 4, &residual) ==
           RFMODEL_INVALID_ARGUMENT);
     CHECK(rfmodel_network_terminate(network, 0, zero, one) == RFMODEL_OK);

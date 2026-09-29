@@ -15,6 +15,18 @@ int main(void) {
     if (status == RFMODEL_OK) {
         status = rfmodel_network_external_s(network, ports, 2, result, 4);
     }
+    if (status == RFMODEL_OK) {
+        rfmodel_complex covariance[4], output_noise[4];
+        status = rfmodel_passive_noise(2, s, 4, 290., covariance, 4);
+        if (status == RFMODEL_OK) {
+            status =
+                rfmodel_network_external_noise(network, ports, 2, covariance, 4, output_noise, 4);
+            if (status == RFMODEL_OK &&
+                fabs(output_noise[0].real / (1.380649e-23 * 290.) - 0.75) > 1e-12) {
+                status = RFMODEL_INTERNAL_ERROR;
+            }
+        }
+    }
     rfmodel_network_destroy(network);
     if (status != RFMODEL_OK) {
         return 2;

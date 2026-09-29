@@ -62,6 +62,23 @@ RFMODEL_API int rfmodel_network_external_s(const rfmodel_network *network,
                                            rfmodel_complex *values,
                                            size_t capacity);
 
+/* Covariance matrices use W/Hz. Outputs are written only on success. */
+RFMODEL_API int rfmodel_passive_noise(size_t ports,
+                                      const rfmodel_complex *scattering,
+                                      size_t value_count,
+                                      double temperature_k,
+                                      rfmodel_complex *covariance,
+                                      size_t capacity);
+/* Intrinsic covariance covers ALL global ports, including cross-device correlations.
+   Selected external ports are matched/noiseless. Termination noise is not automatic. */
+RFMODEL_API int rfmodel_network_external_noise(const rfmodel_network *network,
+                                               const size_t *ports,
+                                               size_t port_count,
+                                               const rfmodel_complex *intrinsic,
+                                               size_t value_count,
+                                               rfmodel_complex *covariance,
+                                               size_t capacity);
+
 #ifdef __cplusplus
 }
 #endif

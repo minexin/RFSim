@@ -85,6 +85,42 @@ class PythonApiTests(unittest.TestCase):
         with self.assertRaises(FileNotFoundError):
             Library(Path(LIBRARY_PATH).parent / "missing-rfmodel-library")
 
+    def test_cascaded_thermal_noise(self):
+        thermal = 1.380649e-23 * 290.
+        scattering = [[0, 0.5], [0.5, 0]]
+        block = self.library.passive_noise(scattering)
+        self.assertAlmostEqual(block[0][0] / thermal, 0.75)
+        covariance = [[0j] * 4 for _ in range(4)]
+        for offset in (0, 2):
+            for row in range(2):
+                for column in range(2):
+                    covariance[offset + row][offset + column] = block[row][column]
+        with self.library.network() as network:
+            network.add(scattering)
+            network.add(scattering)
+            network.connect(1, 2)
+            actual = network.external_noise([0, 3], covariance)
+            self.assertAlmostEqual(actual[1][1] / thermal, 1. - 0.25**2)
+            self.assertAlmostEqual(actual[0][0] / thermal, 1. - 0.25**2)
+        with self.assertRaises(RFModelError):
+            self.library.passive_noise([[2.]])
+
+    def test_correlated_noise_and_validation(self):
+        with self.library.network() as network:
+            network.add([[0.]])
+            network.add([[0.]])
+            covariance = [[1e-20, 0.5e-20j], [-0.5e-20j, 1e-20]]
+            result = network.external_noise([1, 0], covariance)
+            self.assertAlmostEqual(result[0][1] / 1e-20, -0.5j)
+            self.assertAlmostEqual(result[1][0] / 1e-20, 0.5j)
+            for bad in ([[1., 2.], [2., 1.]], [[1., 1j], [1j, 1.]]):
+                with self.assertRaises(RFModelError):
+                    network.external_noise([0, 1], bad)
+            with self.assertRaises(ValueError):
+                network.external_noise([0], [[1.]])
+        with self.assertRaisesRegex(RuntimeError, "closed"):
+            network.external_noise([0], [[1.]])
+
 
 if __name__ == "__main__":
     unittest.main()

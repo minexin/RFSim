@@ -42,6 +42,20 @@ def _index(value):
     return value
 
 
+def _matrix(values):
+    rows = [list(row) for row in values]
+    count = len(rows)
+    if not 1 <= count <= 1024 or any(len(row) != count for row in rows):
+        raise ValueError("Expected a square 1..1024 port matrix")
+    return count, (_Complex * (count * count))(
+        *[_Complex.from_value(value) for row in rows for value in row])
+
+
+def _rows(values, count):
+    return tuple(tuple(values[row * count + column].value() for column in range(count))
+                 for row in range(count))
+
+
 class Library:
     """Load an explicitly selected native library; never search implicit paths."""
 
@@ -65,6 +79,11 @@ class Library:
                 ct.c_int, [handle, complex_pointer, complex_pointer, size, ct.POINTER(ct.c_double)]),
             "rfmodel_network_external_s": (
                 ct.c_int, [handle, ct.POINTER(size), size, complex_pointer, size]),
+            "rfmodel_passive_noise": (
+                ct.c_int, [size, complex_pointer, size, ct.c_double, complex_pointer, size]),
+            "rfmodel_network_external_noise": (
+                ct.c_int, [handle, ct.POINTER(size), size, complex_pointer, size,
+                           complex_pointer, size]),
         }
         for name, (result, arguments) in signatures.items():
             function = getattr(self._dll, name)
@@ -80,6 +99,14 @@ class Library:
 
     def network(self, reference_ohms=50.):
         return Network(self, reference_ohms)
+
+    def passive_noise(self, scattering, temperature_k=290.):
+        """Return k*T*(I-S*S^H) in W/Hz; active matrices are rejected."""
+        count, values = _matrix(scattering)
+        result = (_Complex * len(values))()
+        self._check(self._dll.rfmodel_passive_noise(
+            count, values, len(values), float(temperature_k), result, len(result)))
+        return _rows(result, count)
 
 
 class Network:
@@ -123,12 +150,7 @@ class Network:
         """Copy a square row-major nested sequence of complex S parameters."""
         with self._lock:
             self._open()
-            rows = [list(row) for row in scattering]
-            count = len(rows)
-            if not 1 <= count <= 1024 or any(len(row) != count for row in rows):
-                raise ValueError("S parameters must be a square 1..1024 port matrix")
-            values = (_Complex * (count * count))(
-                *[_Complex.from_value(value) for row in rows for value in row])
+            count, values = _matrix(scattering)
             offset = ct.c_size_t()
             reference = self._reference if reference_ohms is None else float(reference_ohms)
             self._library._check(self._library._dll.rfmodel_network_add(
@@ -171,3 +193,20 @@ class Network:
                 self._handle, selection, count, result, len(result)))
             return tuple(tuple(result[row * count + column].value() for column in range(count))
                          for row in range(count))
+
+    def external_noise(self, ports, intrinsic):
+        """Propagate full global-port intrinsic covariance to matched external ports."""
+        with self._lock:
+            self._open()
+            count, values = _matrix(intrinsic)
+            if count != self.port_count:
+                raise ValueError("Intrinsic covariance must cover all global network ports")
+            indices = [_index(port) for port in ports]
+            output_count = len(indices)
+            if not 1 <= output_count <= 1024:
+                raise ValueError("Select 1..1024 external ports")
+            selection = (ct.c_size_t * output_count)(*indices)
+            result = (_Complex * (output_count * output_count))()
+            self._library._check(self._library._dll.rfmodel_network_external_noise(
+                self._handle, selection, output_count, values, len(values), result, len(result)))
+            return _rows(result, output_count)

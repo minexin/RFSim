@@ -144,4 +144,49 @@ int rfmodel_network_external_s(const rfmodel_network *network,
         }
     });
 }
+
+int rfmodel_passive_noise(size_t ports,
+                          const rfmodel_complex *scattering,
+                          size_t value_count,
+                          double temperature_k,
+                          rfmodel_complex *covariance,
+                          size_t capacity) {
+    return guarded([&] {
+        require(ports > 0 && ports <= 1024 && scattering && covariance);
+        require(value_count == ports * ports && capacity >= value_count);
+        rfmodel::SMatrix matrix{ports, std::vector<rfmodel::Complex>(value_count)};
+        for (size_t i = 0; i < value_count; ++i) {
+            matrix.values[i] = {scattering[i].real, scattering[i].imag};
+        }
+        const auto result = rfmodel::passive_thermal_noise(matrix, temperature_k).watts_per_hz;
+        for (size_t i = 0; i < value_count; ++i) {
+            covariance[i] = {result.values[i].real(), result.values[i].imag()};
+        }
+    });
+}
+
+int rfmodel_network_external_noise(const rfmodel_network *network,
+                                   const size_t *ports,
+                                   size_t port_count,
+                                   const rfmodel_complex *intrinsic,
+                                   size_t value_count,
+                                   rfmodel_complex *covariance,
+                                   size_t capacity) {
+    return guarded([&] {
+        require(network && ports && intrinsic && covariance && port_count > 0 &&
+                port_count <= 1024);
+        require(network->ports > 0 && value_count == network->ports * network->ports);
+        require(capacity >= port_count * port_count);
+        rfmodel::SMatrix matrix{network->ports, std::vector<rfmodel::Complex>(value_count)};
+        for (size_t i = 0; i < value_count; ++i) {
+            matrix.values[i] = {intrinsic[i].real, intrinsic[i].imag};
+        }
+        const auto result =
+            network->core.external_noise(std::vector<size_t>(ports, ports + port_count), {matrix})
+                .watts_per_hz;
+        for (size_t i = 0; i < result.values.size(); ++i) {
+            covariance[i] = {result.values[i].real(), result.values[i].imag()};
+        }
+    });
+}
 } // extern "C"

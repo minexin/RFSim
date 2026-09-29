@@ -48,7 +48,7 @@ with library.network(reference_ohms=50.) as network:
 错误恢复、奇异网络、形状/非有限值/索引校验、显式及自动释放。CMake 找到 Python 3.9+
 时会注册此测试；CI 设置 `RFMODEL_REQUIRE_PYTHON_TESTS=ON`，缺少解释器即配置失败。
 
-当前封装覆盖已公开的线性网络 C ABI。器件参数模型、噪声、非线性、混频、扫频及模型文件
+当前封装覆盖已公开的线性网络 C ABI。器件参数模型、非线性、混频、扫频及模型文件
 加载尚未作为 Python API 暴露；可以由脚本逐频点传入 S 矩阵，但这不代表完整系统分析接口已完成。
 
 2026-09-29 本地验证：Python 3.10.6，六项 Python 测试通过；加入 CTest 后 MSVC
@@ -57,3 +57,23 @@ Debug/Release 各 42/42。通过 pip 默认隔离构建生成纯 Python wheel，
 各六项测试再次通过。SystemVue 自带 setuptools 在禁用隔离构建时缺少 `_distutils_hack`，
 因此未使用该模式，也未修改其 site-packages。安装后的测试可用 `--installed` 开关，
 并通过环境变量 PYTHONPATH 指向包安装目录。本次跨平台结果待 CI 核验。
+
+## 噪声传播
+
+`Library.passive_noise(scattering, temperature_k=290.)` 返回被动器件内生噪声协方差。
+`Network.external_noise(ports, intrinsic)` 接受按全局端口排列的完整协方差，返回
+按 ports 顺序排列的输出噪声矩阵，单位 W/Hz。可表达器件内及跨器件相关噪声。
+不等长矩阵、维度错误及非半正定/非厄米矩阵会报错，函数不修改网络。
+
+```python
+with library.network() as network:
+    s = [[0, 0.5], [0.5, 0]]
+    network.add(s)
+    intrinsic = library.passive_noise(s, 290.)
+    noise = network.external_noise([0, 1], intrinsic)
+    print(noise[1][1].real)  # k * 290 * 0.75 W/Hz
+```
+
+外部端口按匹配且无噪声处理，其他端口需已经连接或设置无独立源的终端。
+终端噪声、源噪声以及噪声系数换算不自动加入；不能把内生输出噪声当作完整系统总噪声。
+本版 Python 封装需要同时部署带两个新噪声符号的原生库。
