@@ -39,6 +39,18 @@ def _linear_stage(library, spacing, amplitudes, *, reference_ohms, network, base
     return output
 
 
+def _p1db_stage(library, spacing, amplitudes, *, reference_ohms, power_gain_db, output_p1db_dbm):
+    """One RF fundamental only; never apply a single-tone model independently to multiple tones."""
+    tones = [(index, value) for index, value in amplitudes.items() if value != 0]
+    if len(tones) > 1 or (tones and tones[0][0] == 0):
+        raise ValueError("p1db_fundamental requires at most one nonzero RF tone and no DC")
+    # Even empty input must validate the native model's parameter domain.
+    index, amplitude = tones[0] if tones else (0, 0j)
+    output = library.p1db_fundamental(amplitude, power_gain_db=power_gain_db,
+                                    output_p1db_dbm=output_p1db_dbm)
+    return {index: output} if output != 0 else {}
+
+
 def analyze_spectrum(library, document, *, base_directory=None):
     _object(document, ("format", "version", "spacing_hz", "input", "stages"),
             ("reference_ohms",))
@@ -73,6 +85,10 @@ def analyze_spectrum(library, document, *, base_directory=None):
             _object(stage, ("id", "type", "power_gain_db", "input_ip3_dbm"))
             parameters = {key: _number(stage[key]) for key in ("power_gain_db", "input_ip3_dbm")}
             operation = library.cubic_amplifier
+        elif kind == "p1db_fundamental":
+            _object(stage, ("id", "type", "power_gain_db", "output_p1db_dbm"))
+            parameters = {key: _number(stage[key]) for key in ("power_gain_db", "output_p1db_dbm")}
+            operation = partial(_p1db_stage, library)
         elif kind == "ideal_mixer":
             _object(stage, ("id", "type", "lo_bin"), ("conversion_gain_db", "lo_phase_radians"))
             parameters = {"lo_bin": _index(stage["lo_bin"]),

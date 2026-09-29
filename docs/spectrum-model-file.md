@@ -26,6 +26,7 @@ stages 按数组顺序执行，数量 1–512，每级 id 为唯一非空字符�
 | type | 必填参数 | 可选参数 |
 |---|---|---|
 | cubic_amplifier | power_gain_db、input_ip3_dbm | 无 |
+| p1db_fundamental | power_gain_db、output_p1db_dbm | 无 |
 | ideal_mixer | lo_bin（正整数） | conversion_gain_db=0、lo_phase_radians=0 |
 | linear_network | network（线性网络模板） | 无 |
 
@@ -85,3 +86,21 @@ Touchstone 级的 path 按整个频谱 JSON 文件的目录解析，直接调用
 上游产生超出数据频带的谱线时默认报错，不能把这些谱线丢弃或默认为零。
 空频谱仍按前述 0 Hz 校验规则处理，带限数据文件可能因此需要显式 clamp。
 文件中的噪声段不参与确定性频谱传输。
+
+## 单音 P1dB 基波压缩级
+
+p1db_fundamental 调用原生 P1dBFundamentalCompression，仅允许至多一条非零 RF 谱线，
+拒绝多音及非零 DC。显式零幅度谱线可忽略；空输入仍验证模型参数是否合法。
+输出频率和相位保持不变，幅度按输出 P1dB 标定的主信号公式计算；超过输入 P1dB
+域时报错，不钳制功率，也不生成谐波、互调或噪声。
+
+如果上游混频器或多项式产生多个非零频点，本级会拒绝处理，不能逐音调用并把结果
+当作多音压缩。级间仍为匹配单向连接，reference_ohms 沿用公共功率波约定。
+
+examples/single-tone-compression.json 的 1 GHz 输入为 +90°、−9 dBm 单音，
+经过小信号增益 20 dB、OP1dB=10 dBm 的放大器后输出为 0.1j sqrt(W)、10 mW。
+后续 −90°、幅度 0.5 的线性网络使输出成为 0.05 sqrt(W)、2.5 mW。
+CLI 在多音或越界失败时保留已有结果文件；不会写入部分计算结果。
+
+2026-09-29：Debug/Release 动态库上的 Python 42 项测试均通过，安装后的 Release
+动态库复测也通过，包含 CLI 成功及失败保护。本轮没有修改 C++ 核心或新增 SystemVue 实测。

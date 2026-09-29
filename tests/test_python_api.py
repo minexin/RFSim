@@ -252,6 +252,54 @@ class PythonApiTests(unittest.TestCase):
             with self.library.touchstone(path, out_of_band="clamp") as model:
                 self.assertEqual(model.noise_correlation(1e9), model.noise_correlation(2e9))
 
+    def test_json_p1db_fundamental_with_linear_output(self):
+        document = load(Path(__file__).resolve().parents[1] / "examples/single-tone-compression.json")
+        result = analyze_spectrum(self.library, document)
+        first = result["stages"][0]["spectrum"][0]
+        last = result["stages"][1]["spectrum"][0]
+        self.assertEqual(first["bin"], 1000)
+        self.assertAlmostEqual(complex(*first["amplitude"]), .1j)
+        self.assertAlmostEqual(first["power_w"] / .01, 1.)
+        self.assertAlmostEqual(complex(*last["amplitude"]), .05)
+        self.assertAlmostEqual(last["power_w"] / .0025, 1.)
+        document["input"].append({"bin": 3, "amplitude": 0})
+        self.assertEqual(analyze_spectrum(self.library, document)["stages"], result["stages"])
+        document["input"] = []
+        self.assertEqual(analyze_spectrum(self.library, document)["stages"][0]["spectrum"], [])
+
+    def test_json_p1db_rejects_multitone_dc_and_overdrive(self):
+        original = load(Path(__file__).resolve().parents[1] / "examples/single-tone-compression.json")
+        for inputs in ([{"bin": 1, "amplitude": .001}, {"bin": 2, "amplitude": .001}],
+                       [{"bin": 0, "amplitude": .001}], [{"bin": 1, "amplitude": 1}]):
+            document = copy.deepcopy(original)
+            document["input"] = inputs
+            with self.subTest(inputs=inputs), self.assertRaises((ValueError, RFModelError)):
+                analyze_spectrum(self.library, document)
+        original["input"] = []
+        original["stages"][0]["power_gain_db"] = 1e308
+        with self.assertRaises(RFModelError):
+            analyze_spectrum(self.library, original)
+
+    def test_p1db_cli_preserves_output_for_multitone(self):
+        original = load(Path(__file__).resolve().parents[1] / "examples/single-tone-compression.json")
+        with tempfile.TemporaryDirectory() as directory:
+            model = Path(directory) / "model.json"
+            output = Path(directory) / "output.json"
+            model.write_text(json.dumps(original), encoding="utf-8")
+            environment = dict(os.environ)
+            environment["PYTHONPATH"] = str(Path(rfmodel.__file__).resolve().parents[1])
+            command = [sys.executable, "-m", "rfmodel", str(model), "--library",
+                       str(Path(LIBRARY_PATH).resolve()), "--output", str(output)]
+            run = subprocess.run(command, env=environment, capture_output=True, text=True)
+            self.assertEqual(run.returncode, 0, run.stderr)
+            saved = output.read_bytes()
+            original["input"].append({"bin": 2, "amplitude": .001})
+            model.write_text(json.dumps(original), encoding="utf-8")
+            run = subprocess.run(command, env=environment, capture_output=True, text=True)
+            self.assertEqual(run.returncode, 1)
+            self.assertIn("one nonzero RF tone", run.stderr)
+            self.assertEqual(output.read_bytes(), saved)
+
     def test_native_error_preserves_network(self):
         with self.library.network() as network:
             with self.assertRaises(RFModelError) as caught:

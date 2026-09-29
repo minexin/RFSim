@@ -19,7 +19,7 @@ OP1dB−GdB+1。输出波为 sqrt(G)*a*[1−(1−r)*|a|²/Pi1]。
 该模型实现的是已独立验证的低功率主信号假设，不包含谐波、互调、噪声、AM/PM、
 反向传输、失配反馈或饱和；不实现 SpectrumTransmissionProvider，不能逐音调用
 后宣称获得多音总功率压缩结果。现有 MatchedPolynomialAmplifier 保留 IIP3 标定和
-谐波/互调语义，二者不能混同。JSON 批处理的对应调用仍待接入。
+谐波/互调语义，二者不能混同。JSON 批处理通过 p1db_fundamental 级显式限制单音输入。
 
 模型公式与本机 SystemVue 帮助描述的 P1dB 以下三阶主信号行为一致，四个远低于
 P1dB 的实测点支持此假设，但尚未在靠近 P1dB 的隔离器件中完成厂商数值验证。

@@ -1,0 +1,13 @@
+{
+  "format": "rfmodel.spectrum-chain",
+  "version": 1,
+  "spacing_hz": 1000000,
+  "input": [{"bin": 1000, "amplitude": [0, 0.011220184543019636]}],
+  "stages": [
+    {"id": "amp", "type": "p1db_fundamental", "power_gain_db": 20, "output_p1db_dbm": 10},
+    {"id": "output", "type": "linear_network", "network": {
+      "devices": [{"id": "pad", "s": [[0, [0, -0.5]], [[0, -0.5], 0]]}],
+      "external_ports": [["pad", 0], ["pad", 1]]
+    }}
+  ]
+}
