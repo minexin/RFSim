@@ -110,7 +110,7 @@ def analyze(library, document):
     """Evaluate explicit frequency samples, returning JSON-compatible S/noise results."""
     _object(document, ("format", "version", "frequencies_hz", "devices", "external_ports"),
             ("reference_ohms", "connections", "terminations", "temperature_k",
-             "intrinsic_noise_samples", "signal_boundaries"))
+             "intrinsic_noise_samples", "signal_boundaries", "noise_boundaries"))
     if (document["format"] != "rfmodel.linear-network" or
             type(document["version"]) is not int or document["version"] != 1):
         raise ValueError("Unsupported model format/version")
@@ -218,6 +218,27 @@ def analyze(library, document):
         if set(signal_boundaries) != set(selected):
             raise ValueError("Signal boundaries must specify every external port")
 
+    noise_boundaries = None
+    if "noise_boundaries" in document:
+        if temperature is None and noise_samples is None and not device_noise_mode:
+            raise ValueError("Noise boundaries require explicit intrinsic device noise")
+        entries = document["noise_boundaries"]
+        if not isinstance(entries, list):
+            raise ValueError("noise_boundaries must be an array")
+        noise_boundaries = {}
+        for entry in entries:
+            _object(entry, ("port", "reflection", "temperature_k"))
+            port = endpoint(entry["port"])
+            if port not in selected or port in noise_boundaries:
+                raise ValueError("Noise boundaries must uniquely cover external ports")
+            noise_boundaries[port] = (
+                _complex(entry["reflection"]), _number(entry["temperature_k"]))
+        if set(noise_boundaries) != set(selected):
+            raise ValueError("Noise boundaries must specify every external port")
+        reflections = [noise_boundaries[port][0] for port in selected]
+        temperatures = [noise_boundaries[port][1] for port in selected]
+        boundary_emission = library.thermal_boundary_noise(reflections, temperatures)
+
     results = []
     for index, frequency in enumerate(frequencies):
         with library.network(reference) as network:
@@ -237,11 +258,21 @@ def analyze(library, document):
                 network.connect(first, second)
             for port, reflection in boundaries:
                 network.terminate(port, reflection=reflection)
-            point = {"frequency_hz": frequency, "s": _encode(network.external_s(selected))}
+            scattering = network.external_s(selected)
+            point = {"frequency_hz": frequency, "s": _encode(scattering)}
             if noise_samples is not None:
                 covariance = _matrix(noise_samples[index])
             if covariance is not None:
-                point["noise_w_per_hz"] = _encode(network.external_noise(selected, covariance))
+                intrinsic = network.external_noise(selected, covariance)
+                point["noise_w_per_hz"] = _encode(intrinsic)
+                if noise_boundaries is not None:
+                    loaded = library.loaded_noise(scattering, intrinsic, reflections,
+                                                  boundary_emission)
+                    point["loaded_noise"] = {
+                        "incident_w_per_hz": _encode(loaded.incident),
+                        "outgoing_w_per_hz": _encode(loaded.outgoing),
+                        "net_into_device_w_per_hz": list(loaded.net_into_device_w_per_hz),
+                    }
             if signal_boundaries is not None:
                 for port, (reflection, sources) in signal_boundaries.items():
                     network.terminate(port, reflection=reflection, source=sources[index])

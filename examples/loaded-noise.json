@@ -1,0 +1,13 @@
+{
+  "format": "rfmodel.linear-network",
+  "version": 1,
+  "frequencies_hz": [1000000000],
+  "devices": [
+    {"id": "pad", "s": [[0, 0.5], [0.5, 0]], "noise": {"temperature_k": 290}}
+  ],
+  "external_ports": [["pad", 0], ["pad", 1]],
+  "noise_boundaries": [
+    {"port": ["pad", 0], "reflection": 0, "temperature_k": 290},
+    {"port": ["pad", 1], "reflection": 0.5, "temperature_k": 0}
+  ]
+}

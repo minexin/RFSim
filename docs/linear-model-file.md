@@ -144,7 +144,7 @@ port、incident、outgoing、incident_power_w、outgoing_power_w、net_into_devi
 
 必须区分结果条件：s 与 noise_w_per_hz 仍以原来未施加信号边界的外部参考条件提取，
 signal 则是在给定源/负载反射下求解。noise_w_per_hz 不能直接当作这些信号边界下的
-负载总噪声，尚未计算负载失配下的噪声和源/终端热噪声。
+负载总噪声。需要加载条件下的噪声时，另行设置下面的 noise_boundaries。
 
 `examples/mismatched-signal.json` 为单位直通、源反射 0.25、负载反射 0.5，
 源波幅按频率从 1 变为 j。首频点输入入射波 8/7、输入反射波 4/7，负载吸收
@@ -152,3 +152,31 @@ signal 则是在给定源/负载反射下求解。noise_w_per_hz 不能直接当
 
 2026-09-29：Python 专项增至二十四项，覆盖反馈解析波量、全局端口功率守恒、
 逐频点源相位、边界缺失、源字段冲突及 S/噪声参考条件保持。
+
+## 外部热噪声边界与失配反馈
+
+可选顶层 noise_boundaries 为数组，每个 external_ports 中的端口必须恰好出现一次。
+每项必须明确提供 port、reflection（常数复数）和 temperature_k（非负有限温度）。
+反射幅度不得超过 1。必须同时指定已有的一种内生噪声模式；需要无噪声器件时
+显式使用器件 noise.noiseless，而不是省略器件噪声。边界热噪声彼此独立，
+其发射协方差对角元为 `k*T*(1-|reflection|²)`，并与器件内生噪声独立。
+
+每个频点增加 loaded_noise 对象，incident_w_per_hz、outgoing_w_per_hz 为完整复数
+协方差矩阵，net_into_device_w_per_hz 为入射与出射对角元之差。
+矩阵和净功率数组均严格按 external_ports 顺序；负净功率表示网络向外部端口送出
+净噪声功率密度，不能等同于含热发射负载接收的总噪声。单位均为 W/Hz。
+核心求解包含多次反射；奇异反馈会报错，不输出伪结果。
+
+noise_boundaries 与 signal_boundaries 是分别指定的分析条件，不自动继承反射参数。
+若要在同一加载条件下比较信号与噪声，应明确给出相同反射系数。原 s 和
+noise_w_per_hz 保持匹配参考条件。内部 terminations 仍为无独立热发射的反射边界；
+此接口暂不提供频变边界或相关外部噪声，相关边界可使用 C/Python loaded_noise API。
+
+examples/loaded-noise.json 为 290 K、幅度传输 0.5 的衰减器，输入接匹配 290 K 源，
+输出接反射 0.5、0 K 负载。记 q=k*290，出射对角元为 [0.8125q,q]，
+出射互相关为 0.25q，净流入为 [0.1875q,-0.75q]。测试还覆盖匹配热平衡、
+外部端口重排、信号条件独立及缺失/重复/非法边界。
+
+2026-09-29：本次 Python 专项共 29 项，在 MSVC Debug/Release 动态库上均通过，
+并通过 Release CLI 执行新示例、生成 JSON 结果。本次未运行新的 SystemVue 对照，
+也不把这些接口回归作为完整 RF Design 库兼容验收。

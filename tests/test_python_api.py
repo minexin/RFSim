@@ -406,6 +406,66 @@ class PythonApiTests(unittest.TestCase):
         self.assertEqual(point["s"], [[[0.5, 0.]]])
         self.assertAlmostEqual(point["noise_w_per_hz"][0][0][0], 1.25)
 
+    def test_json_loaded_noise_feedback_and_order(self):
+        document = load(Path(__file__).resolve().parents[1] / "examples/loaded-noise.json")
+        point = analyze(self.library, document)["samples"][0]
+        thermal = 1.380649e-23 * 290
+        loaded = point["loaded_noise"]
+        # Cold reflecting load: emitted noise is zero; b2 variance is kT,
+        # a2 variance is |Gamma|^2 kT, and b1 includes the returned noise.
+        for actual, expected in zip(loaded["net_into_device_w_per_hz"],
+                                    (0.1875 * thermal, -0.75 * thermal)):
+            self.assertAlmostEqual(actual / thermal, expected / thermal)
+        self.assertAlmostEqual(loaded["outgoing_w_per_hz"][0][0][0] / thermal, 0.8125)
+        self.assertAlmostEqual(loaded["outgoing_w_per_hz"][0][1][0] / thermal, 0.25)
+        document["external_ports"].reverse()
+        reordered = analyze(self.library, document)["samples"][0]["loaded_noise"]
+        self.assertEqual(reordered["net_into_device_w_per_hz"],
+                         list(reversed(loaded["net_into_device_w_per_hz"])))
+        for row in range(2):
+            for column in range(2):
+                self.assertEqual(reordered["outgoing_w_per_hz"][row][column],
+                                 loaded["outgoing_w_per_hz"][1-row][1-column])
+
+    def test_json_loaded_noise_equilibrium_and_signal_independence(self):
+        document = load(Path(__file__).resolve().parents[1] / "examples/loaded-noise.json")
+        for boundary in document["noise_boundaries"]:
+            boundary.update(reflection=0, temperature_k=290)
+        point = analyze(self.library, document)["samples"][0]
+        thermal = 1.380649e-23 * 290
+        for index in range(2):
+            self.assertAlmostEqual(point["loaded_noise"]["outgoing_w_per_hz"][index][index][0]
+                                   / thermal, 1)
+            self.assertAlmostEqual(point["loaded_noise"]["net_into_device_w_per_hz"][index]
+                                   / thermal, 0)
+        document["signal_boundaries"] = [
+            {"port": ["pad", 0], "reflection": 0.2, "source": 1},
+            {"port": ["pad", 1], "reflection": 0.5}]
+        with_signal = analyze(self.library, document)["samples"][0]
+        for key in ("s", "noise_w_per_hz", "loaded_noise"):
+            self.assertEqual(with_signal[key], point[key])
+
+    def test_json_loaded_noise_rejects_incomplete_or_invalid_boundaries(self):
+        original = load(Path(__file__).resolve().parents[1] / "examples/loaded-noise.json")
+        invalid = [None, [], original["noise_boundaries"][:1],
+                   [original["noise_boundaries"][0]] * 2]
+        for field, value in (("reflection", 1.1), ("temperature_k", -1),
+                             ("port", ["pad", 2]), ("extra", 0)):
+            entries = copy.deepcopy(original["noise_boundaries"])
+            entries[0][field] = value
+            invalid.append(entries)
+        entries = copy.deepcopy(original["noise_boundaries"])
+        del entries[0]["temperature_k"]
+        invalid.append(entries)
+        for entries in invalid:
+            document = copy.deepcopy(original)
+            document["noise_boundaries"] = entries
+            with self.subTest(entries=entries), self.assertRaises((ValueError, RFModelError)):
+                analyze(self.library, document)
+        del original["devices"][0]["noise"]
+        with self.assertRaises(ValueError):
+            analyze(self.library, original)
+
     def test_model_file_cli_preserves_output_on_failure(self):
         with tempfile.TemporaryDirectory() as directory:
             model = Path(directory) / "model.json"
