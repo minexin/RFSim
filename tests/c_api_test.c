@@ -22,6 +22,16 @@ int main(int argc, char **argv) {
     double residual = -1;
     CHECK(rfmodel_abi_version() == 1);
     {
+        rfmodel_complex output = {123., 456.};
+        const rfmodel_complex too_large = {1., 0.};
+        const rfmodel_complex point = {0., sqrt(pow(10., -3.9))};
+        CHECK(rfmodel_p1db_fundamental(20., 10., too_large, &output) == RFMODEL_INVALID_ARGUMENT);
+        CHECK(output.real == 123. && output.imag == 456.);
+        CHECK(rfmodel_p1db_fundamental(20., 10., point, NULL) == RFMODEL_INVALID_ARGUMENT);
+        CHECK(rfmodel_p1db_fundamental(20., 10., point, &output) == RFMODEL_OK);
+        CHECK(fabs(output.imag - .1) < 1e-12 && output.real == 0.);
+    }
+    {
         rfmodel_touchstone *model = NULL;
         rfmodel_touchstone_info info;
         rfmodel_complex values[4] = {{123., 0.}};

@@ -109,6 +109,8 @@ class Library:
         signatures = {
             "rfmodel_last_error": (ct.c_char_p, []),
             "rfmodel_abi_version": (ct.c_uint, []),
+            "rfmodel_p1db_fundamental": (
+                ct.c_int, [ct.c_double, ct.c_double, _Complex, complex_pointer]),
             "rfmodel_touchstone_open": (ct.c_int, [ct.c_char_p, ct.c_int, ct.POINTER(handle)]),
             "rfmodel_touchstone_close": (None, [handle]),
             "rfmodel_touchstone_get_info": (ct.c_int, [handle, ct.POINTER(_TouchstoneInfo)]),
@@ -170,6 +172,14 @@ class Library:
 
     def network(self, reference_ohms=50.):
         return Network(self, reference_ohms)
+
+    def p1db_fundamental(self, incident, *, power_gain_db, output_p1db_dbm):
+        """Return compressed single-tone fundamental in sqrt(W), up to P1dB only."""
+        output = _Complex()
+        self._check(self._dll.rfmodel_p1db_fundamental(
+            float(power_gain_db), float(output_p1db_dbm), _Complex.from_value(incident),
+            ct.byref(output)))
+        return output.value()
 
     def touchstone(self, path, *, out_of_band="reject"):
         return Touchstone(self, path, out_of_band=out_of_band)

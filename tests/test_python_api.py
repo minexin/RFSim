@@ -265,6 +265,22 @@ class PythonApiTests(unittest.TestCase):
                 network.solve()
             self.assertEqual(caught.exception.status, 2)
 
+    def test_p1db_fundamental_phase_calibration_and_domain(self):
+        input_power = 10 ** (-3.9)
+        phase = complex(math.cos(.7), math.sin(.7))
+        output = self.library.p1db_fundamental(
+            math.sqrt(input_power) * phase, power_gain_db=20., output_p1db_dbm=10.)
+        self.assertAlmostEqual(abs(output)**2 / .01, 1.)
+        self.assertAlmostEqual(output / abs(output), phase)
+        self.assertEqual(self.library.p1db_fundamental(
+            0, power_gain_db=20., output_p1db_dbm=10.), 0j)
+        for incident in (math.sqrt(input_power * 1.01), complex(0, float("nan"))):
+            with self.assertRaises(RFModelError) as caught:
+                self.library.p1db_fundamental(incident, power_gain_db=20., output_p1db_dbm=10.)
+            self.assertEqual(caught.exception.status, 1)
+        with self.assertRaises(RFModelError):
+            self.library.p1db_fundamental(0., power_gain_db=float("inf"), output_p1db_dbm=10.)
+
     def test_shape_indices_and_nonfinite(self):
         with self.library.network() as network:
             for matrix in ([], [[0, 1]], [[0], [1]]):

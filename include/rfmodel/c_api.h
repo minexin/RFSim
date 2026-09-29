@@ -32,6 +32,14 @@ typedef struct rfmodel_complex {
     double imag;
 } rfmodel_complex;
 
+/* Single-tone fundamental wave in sqrt(W), matched ports, no AM/PM.
+ * Rejects power above the P1dB domain; does not predict harmonics or saturation.
+ * output must be non-NULL and remains unchanged on failure. */
+RFMODEL_API int rfmodel_p1db_fundamental(double power_gain_db,
+                                         double output_p1db_dbm,
+                                         rfmodel_complex incident,
+                                         rfmodel_complex *output);
+
 /* Snapshot a legacy .sNp file at a UTF-8 path. out_of_band: 0 reject, 1 clamp.
  * A failed open sets *out to NULL. close(NULL) is valid.
  * info reports embedded noise presence; s does not implicitly evaluate noise.

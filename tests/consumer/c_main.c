@@ -9,6 +9,14 @@ int main(int argc, char **argv) {
     size_t offset;
     int status;
     {
+        const rfmodel_complex input = {0., sqrt(pow(10., -3.9))};
+        rfmodel_complex output;
+        if (rfmodel_p1db_fundamental(20., 10., input, &output) != RFMODEL_OK ||
+            fabs(output.imag - .1) > 1e-12) {
+            return 12;
+        }
+    }
+    {
         rfmodel_touchstone *model = NULL;
         rfmodel_complex reflection;
         if (argc != 2 || rfmodel_touchstone_open(argv[1], 0, &model) != RFMODEL_OK) {
