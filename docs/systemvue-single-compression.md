@@ -55,3 +55,27 @@ RFModel_AntennaNoise 工作区，先另存新项目内备份，确认文件存�
 新增 CTest `single_compression_reference` 两项测试，涵盖实测重放和告警/参数/
 时间/拓扑拒绝；本机 Debug/Release 均通过。原生链路比较五项测试、后台驱动
 三项测试也通过。现有跨平台 CI 会运行新增 CTest，此提交的远端结果尚未核验。
+
+## 反向隔离单变量对照
+
+随后新增 `--compression-riso-db 50|100` 采集参数（仅 compression case），以及
+比较脚本的 `--reverse-isolation-db 50|100`。默认仍为 100；比较必须显式声明
+50 才接受相应采集，防止错用基线参数。PowerShell 入口同样限制取值和用例。
+
+在 +0.9 dBm 源功率下只将 RISO 从 100 改为 50 dB，其余 15 项已核验参数
+完全相同。50 dB 用例输出 0.0982673248103 W，相对基线变化约 +5.4233e-11；
+增益也仅变化约 +5.4233e-11。对 RFModel 的增益残差约 −9.9994e-10、输出功率
+残差约 +2.40001e-8，2/2 通过固定 1e-7 阈值。
+
+该结果排除了“在本独立用例条件下，只改变 RISO 就会产生原链路 ppm 级误差”
+这一解释；不能排除更高增益、反馈拓扑或参数组合的影响。还需对齐天线末级
+30 dB 增益、60 dBm OP1dB 等参数，再验证同一相对压缩水平。
+
+报告和可重放精简采集分别为 `validation/systemvue-2023-single-compression-plus09-riso50.json`
+与 `validation/systemvue-2023-single-compression-plus09-riso50-capture.json`。
+恢复 100 dB 后的原始采集位于 `build-reference/compression-plus09-riso100-restored-001`，
+CF、CGAIN、DCP 共六个数值与原基线完全一致。当前工作区仍为独立放大器，
+源 +0.9 dBm、RISO=100 dB。本次没有改动数值核心。
+
+新增回归验证两组实测的差异范围、只有 RISO 改变，以及未声明 50 dB 时拒绝
+错误参数。单器件测试现共三项，MSVC Debug/Release 均通过；后台驱动三项也通过。

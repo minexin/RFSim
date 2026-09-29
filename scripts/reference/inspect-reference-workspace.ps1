@@ -7,9 +7,13 @@ param(
     [Nullable[double]]$LossDb,
     [Nullable[double]]$TemperatureK,
     [Nullable[double]]$SourcePowerDbm,
+    [ValidateSet(50, 100)][int]$CompressionRisoDb = 100,
     [switch]$CaptureRun
 )
 $ErrorActionPreference = 'Stop'
+if ($PSBoundParameters.ContainsKey('CompressionRisoDb') -and -not $RunCompressionAnalysis) {
+    throw 'CompressionRisoDb requires RunCompressionAnalysis.'
+}
 if ($RunCompressionAnalysis -and ($RunAntennaAnalysis -or $RunAttenuatorAnalysis -or
     $null -ne $LossDb -or $null -ne $TemperatureK)) {
     throw 'Compression analysis cannot be combined with other case overrides.'
@@ -181,7 +185,7 @@ public static class ReferenceWorkspaceInspector
     }
 
     public static Node[] Inspect(string path, bool open, bool run, bool antenna, double lossDb, double temperatureK,
-        double sourcePowerDbm, bool compression)
+        double sourcePowerDbm, bool compression, int compressionRisoDb)
     {
         Console.Error.WriteLine("phase: attach-active-instance");
         object active = Marshal.GetActiveObject("Genesys.Application");
@@ -229,7 +233,8 @@ public static class ReferenceWorkspaceInspector
                                 // Make previously implicit defaults explicit for the controlled experiment.
                                 string amp = "wsdoc.Designs.Sch1.PartList.RFAmp.ParamSet.";
                                 setup += amp + "G.Set(\"20\")\r\n" + amp + "NF.Set(\"3\")\r\n" +
-                                    amp + "RISO.Set(\"100\")\r\n" + amp + "ZIN.Set(\"50\")\r\n" +
+                                    amp + "RISO.Set(\"" + compressionRisoDb.ToString() + "\")\r\n" +
+                                    amp + "ZIN.Set(\"50\")\r\n" +
                                     amp + "ZOUT.Set(\"50\")\r\n" +
                                     "wsdoc.Designs.Sch1.PartList.Source.ParamSet.R.Set(\"50\")\r\n" +
                                     "wsdoc.Designs.Sch1.PartList.Out.ParamSet.ZO.Set(\"50\")\r\n";
@@ -321,7 +326,8 @@ $temperature = if ($null -eq $TemperatureK) { [double]::NaN } else { [double]$Te
 $power = if ($null -eq $SourcePowerDbm) { [double]::NaN } else { [double]$SourcePowerDbm }
 $nodes = [ReferenceWorkspaceInspector]::Inspect($resolvedPath, $OpenCopy.IsPresent,
     ($RunAttenuatorAnalysis.IsPresent -or $RunAntennaAnalysis.IsPresent -or $RunCompressionAnalysis.IsPresent),
-    $RunAntennaAnalysis.IsPresent, $loss, $temperature, $power, $RunCompressionAnalysis.IsPresent)
+    $RunAntennaAnalysis.IsPresent, $loss, $temperature, $power, $RunCompressionAnalysis.IsPresent,
+    $CompressionRisoDb)
 if ($CaptureRun) {
     [ordered]@{
         run_started_utc = [ReferenceWorkspaceInspector]::RunStartedUtc

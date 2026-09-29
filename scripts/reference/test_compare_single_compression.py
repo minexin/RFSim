@@ -39,6 +39,21 @@ class SingleCompressionTests(unittest.TestCase):
             with self.subTest(kind=kind), self.assertRaises(ValueError):
                 comparison.compare(self.library, capture, .9)
 
+    def test_reverse_isolation_control_and_required_declaration(self):
+        capture = json.loads((comparison.ROOT / "validation" /
+            "systemvue-2023-single-compression-plus09-riso50-capture.json").read_text())
+        with self.assertRaises(ValueError):
+            comparison.compare(self.library, capture, .9)
+        report = comparison.compare(self.library, capture, .9, reverse_isolation_db=50)
+        baseline = comparison.compare(self.library, self.capture, .9)
+        self.assertTrue(report["passed"])
+        for metric in ("CGAIN", "DCP"):
+            relative_change = report["measurements"][metric][1] / baseline["measurements"][metric][1] - 1
+            self.assertLess(abs(relative_change), 1e-9)
+        changed = [a["parameter"] for a, b in zip(baseline["parameters"], report["parameters"])
+                   if a["value"] != b["value"]]
+        self.assertEqual(changed, ["RFAmp/RISO"])
+
 
 if __name__ == "__main__":
     unittest.main()

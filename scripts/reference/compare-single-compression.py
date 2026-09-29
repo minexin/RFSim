@@ -25,7 +25,9 @@ PARAMETERS = {
 }
 
 
-def compare(library, capture, source_power_dbm):
+def compare(library, capture, source_power_dbm, *, reverse_isolation_db=100):
+    if reverse_isolation_db not in (50, 100):
+        raise ValueError("Expected controlled reverse isolation of 50 or 100 dB")
     if not math.isfinite(source_power_dbm) or not -200 <= source_power_dbm <= 1:
         raise ValueError("Expected finite input at or below nominal input P1dB")
     runner.validate_capture(capture, "compression")
@@ -44,7 +46,9 @@ def compare(library, capture, source_power_dbm):
         raise ValueError("Expected single-amplifier topology")
     power = 10 ** ((source_power_dbm - 30) / 10)
     verified = []
-    for key, expected in {**PARAMETERS, "Source/Pwr": power}.items():
+    expected_parameters = {**PARAMETERS, "Source/Pwr": power,
+                           "RFAmp/RISO": 10 ** (reverse_isolation_db / 10)}
+    for key, expected in expected_parameters.items():
         device, parameter = key.split("/")
         entry = node(f"Sch1/PartList/{device}/ParamSet/{parameter}")
         actual = entry["data"]
@@ -75,7 +79,8 @@ def compare(library, capture, source_power_dbm):
         checks.append({"metric": name, "rfmodel": predicted, "systemvue": observed,
                        "signed_relative_error": residual, "passed": abs(residual) <= 1e-7})
     return {
-        "scope": "Independent single RFAMP with explicit 50 ohm boundaries and 100 dB reverse isolation",
+        "scope": "Independent single RFAMP with explicit 50 ohm boundaries and controlled reverse isolation",
+        "reverse_isolation_db": reverse_isolation_db,
         "limitation": "Signal powers only; default higher-order/internal settings are not fully audited",
         "source_power_dbm": source_power_dbm, "parameters": verified,
         "run_started_utc": capture["run_started_utc"], "run_returned_utc": capture["run_returned_utc"],
@@ -90,11 +95,13 @@ def main():
     parser.add_argument("capture", type=Path)
     parser.add_argument("output", type=Path)
     parser.add_argument("--source-power-dbm", type=float, required=True)
+    parser.add_argument("--reverse-isolation-db", type=int, choices=(50, 100), default=100)
     args = parser.parse_args()
     if args.output.resolve() in (args.library.resolve(), args.capture.resolve()):
         parser.error("Output must not overwrite an input")
     raw = args.capture.read_bytes()
-    report = compare(Library(args.library.resolve()), json.loads(raw.decode("utf-8-sig")), args.source_power_dbm)
+    report = compare(Library(args.library.resolve()), json.loads(raw.decode("utf-8-sig")),
+                     args.source_power_dbm, reverse_isolation_db=args.reverse_isolation_db)
     report["capture_sha256"] = hashlib.sha256(raw).hexdigest()
     report["library_sha256"] = hashlib.sha256(args.library.read_bytes()).hexdigest()
     args.output.write_text(json.dumps(report, indent=2, allow_nan=False) + "\n", encoding="utf-8")
