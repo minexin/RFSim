@@ -2,6 +2,7 @@
 import gc
 import copy
 import json
+import math
 import os
 from pathlib import Path
 import sys
@@ -91,6 +92,39 @@ class PythonApiTests(unittest.TestCase):
             self.library.network(-1.)
         with self.assertRaises(FileNotFoundError):
             Library(Path(LIBRARY_PATH).parent / "missing-rfmodel-library")
+
+    def test_cubic_two_tone_and_compression(self):
+        tones = {10: math.sqrt(1e-5), 13: math.sqrt(1e-5)}
+        result = self.library.cubic_amplifier(1e6, tones, power_gain_db=20., input_ip3_dbm=10.)
+        self.assertAlmostEqual(abs(result[7])**2 / 1e-9, 1.)
+        self.assertAlmostEqual(abs(result[16])**2 / 1e-9, 1.)
+        power = (1. - 10**(-1./20.)) * 0.01
+        result = self.library.cubic_amplifier(
+            1e6, {10: math.sqrt(power)}, power_gain_db=20., input_ip3_dbm=10.)
+        self.assertAlmostEqual(10*math.log10(abs(result[10])**2/power), 19.)
+        self.assertEqual(self.library.cubic_amplifier(
+            1e6, {}, power_gain_db=20., input_ip3_dbm=10.), {})
+
+    def test_mixer_phase_dc_and_coherent_cancellation(self):
+        result = self.library.ideal_mixer(1e6, {10: 1.}, lo_bin=2, lo_phase_radians=math.pi/2)
+        self.assertAlmostEqual(result[8], -1j)
+        self.assertAlmostEqual(result[12], 1j)
+        result = self.library.ideal_mixer(1e6, {2: 1.}, lo_bin=2)
+        self.assertAlmostEqual(result[0], math.sqrt(2.))
+        self.assertAlmostEqual(result[4], 1.)
+        result = self.library.ideal_mixer(1e6, {1: 1., 3: -1.}, lo_bin=2)
+        self.assertNotIn(1, result)
+        self.assertAlmostEqual(self.library.ideal_mixer(1e6, {1: 1j}, lo_bin=2,
+                                                lo_phase_radians=math.pi/2)[1], 1.)
+
+    def test_spectrum_invalid_inputs(self):
+        for tones in ({-1: 1.}, {2**40: 1.}, {1.5: 1.}, {True: 1.}):
+            with self.assertRaises((ValueError, TypeError)):
+                self.library.ideal_mixer(1e6, tones, lo_bin=2)
+        for spacing, tones, lo in ((0., {1: 1.}, 2), (1e6, {0: 1j}, 2),
+                                   (1e6, {1: float("nan")}, 2), (1e6, {1: 1.}, 0)):
+            with self.assertRaises(RFModelError):
+                self.library.ideal_mixer(spacing, tones, lo_bin=lo)
 
     def test_cascaded_thermal_noise(self):
         thermal = 1.380649e-23 * 290.

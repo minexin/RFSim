@@ -31,6 +31,36 @@ enum rfmodel_status {
     RFMODEL_INTERNAL_ERROR = 4
 };
 
+typedef struct rfmodel_spectrum_bin {
+    int index;
+    rfmodel_complex amplitude;
+} rfmodel_spectrum_bin;
+
+/* Fixed sufficient output allocation for the current sparse-spectrum kernels. */
+#define RFMODEL_SPECTRUM_CAPACITY 4096
+
+/* Nonnegative integer bins, frequency=index*spacing_hz; amplitudes in sqrt(W).
+   Input bins must be unique; DC must be real. No output/count changes on error. */
+RFMODEL_API int rfmodel_cubic_amplifier_transmit(double spacing_hz,
+                                                 const rfmodel_spectrum_bin *input,
+                                                 size_t input_count,
+                                                 double power_gain_db,
+                                                 double input_ip3_dbm,
+                                                 double reference_ohms,
+                                                 rfmodel_spectrum_bin *output,
+                                                 size_t capacity,
+                                                 size_t *output_count);
+RFMODEL_API int rfmodel_ideal_mixer_transmit(double spacing_hz,
+                                             const rfmodel_spectrum_bin *input,
+                                             size_t input_count,
+                                             int lo_bin,
+                                             double conversion_gain_db,
+                                             double lo_phase_radians,
+                                             double reference_ohms,
+                                             rfmodel_spectrum_bin *output,
+                                             size_t capacity,
+                                             size_t *output_count);
+
 /* Error text belongs to this thread; valid until its next status-returning call. */
 RFMODEL_API const char *rfmodel_last_error(void);
 RFMODEL_API unsigned int rfmodel_abi_version(void);

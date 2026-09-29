@@ -22,6 +22,30 @@ int main(void) {
     double residual = -1;
     CHECK(rfmodel_abi_version() == 1);
     {
+        rfmodel_spectrum_bin input[2] = {{10, {1., 0.}}, {10, {1., 0.}}};
+        rfmodel_spectrum_bin result[16] = {{999, {123., 0.}}};
+        size_t produced = 999;
+        CHECK(rfmodel_ideal_mixer_transmit(1e6, input, 1, 2, 0., 0., 50., result, 1, &produced) ==
+              RFMODEL_INVALID_ARGUMENT);
+        CHECK(produced == 999 && result[0].index == 999 && result[0].amplitude.real == 123.);
+        CHECK(rfmodel_ideal_mixer_transmit(1e6, input, 2, 2, 0., 0., 50., result, 16, &produced) ==
+              RFMODEL_INVALID_ARGUMENT);
+        CHECK(rfmodel_ideal_mixer_transmit(1e6, input, 1, 2, 0., 0., 50., result, 16, &produced) ==
+              RFMODEL_OK);
+        CHECK(produced == 2 && result[0].index == 8 && result[1].index == 12);
+        CHECK(fabs(result[0].amplitude.real - 1.) < 1e-12);
+        input[0].amplitude.real = sqrt(1e-5);
+        input[1].index = 13;
+        input[1].amplitude.real = sqrt(1e-5);
+        CHECK(rfmodel_cubic_amplifier_transmit(
+                  1e6, input, 2, 20., 10., 50., result, 16, &produced) == RFMODEL_OK);
+        CHECK(result[0].index == 7);
+        CHECK(fabs(result[0].amplitude.real * result[0].amplitude.real / 1e-9 - 1.) < 1e-12);
+        CHECK(rfmodel_cubic_amplifier_transmit(1e6, NULL, 0, 20., 10., 50., NULL, 0, &produced) ==
+              RFMODEL_OK);
+        CHECK(produced == 0);
+    }
+    {
         const rfmodel_complex input_z = {50., 50.}, output_z = {50., -50.};
         const rfmodel_complex singular_z = {-50., 0.};
         CHECK(rfmodel_linear_amplifier_s(

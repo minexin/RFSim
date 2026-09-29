@@ -9,6 +9,16 @@ int main(void) {
     size_t offset;
     int status;
     {
+        const rfmodel_spectrum_bin input = {10, {1., 0.}};
+        rfmodel_spectrum_bin output[2];
+        size_t produced;
+        if (rfmodel_ideal_mixer_transmit(1e6, &input, 1, 2, 0., 0., 50., output, 2, &produced) !=
+                RFMODEL_OK ||
+            produced != 2 || output[0].index != 8 || fabs(output[0].amplitude.real - 1.) > 1e-12) {
+            return 7;
+        }
+    }
+    {
         const rfmodel_complex matched = {50., 0.};
         if (rfmodel_linear_amplifier_s(1e9, 20., 90., 50., 0., matched, matched, 50., result, 4) !=
                 RFMODEL_OK ||

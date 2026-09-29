@@ -95,3 +95,6 @@ output_impedance_ohms=50, reference_ohms=50)` 返回 2×2 复数 S 矩阵。
 两个端口阻抗接受 Python complex；所有相位单位为度，两个阻抗的默认值独立于参考阻抗。
 该接口直接调用 C++ 双向小信号模型，不含 NF、压缩和 AM/PM。
 需要动态库提供新增符号 rfmodel_linear_amplifier_s。
+
+非线性单向传输现可通过 cubic_amplifier 和 ideal_mixer 调用，接口约定及限制见
+[频谱接口](spectrum-api.md)。JSON 线性网络格式不随此扩展为非线性求解器。

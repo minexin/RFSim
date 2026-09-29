@@ -42,6 +42,27 @@ def _index(value):
     return value
 
 
+class _SpectrumBin(ct.Structure):
+    _fields_ = [("index", ct.c_int), ("amplitude", _Complex)]
+
+
+def _bin(value):
+    if isinstance(value, bool):
+        raise TypeError("Frequency bin must be an integer")
+    value = operator.index(value)
+    if not 0 <= value <= 2147483647:
+        raise ValueError("Frequency bin outside nonnegative signed 32-bit range")
+    return value
+
+
+def _spectrum(amplitudes):
+    entries = list(amplitudes.items())
+    if len(entries) > 2048:
+        raise ValueError("Spectrum input exceeds 2048 bins")
+    return (_SpectrumBin * len(entries))(
+        *[_SpectrumBin(_bin(index), _Complex.from_value(value)) for index, value in entries])
+
+
 def _matrix(values):
     rows = [list(row) for row in values]
     count = len(rows)
@@ -88,6 +109,12 @@ class Library:
             "rfmodel_linear_amplifier_s": (
                 ct.c_int, [ct.c_double] * 5 + [_Complex, _Complex, ct.c_double,
                                              complex_pointer, size]),
+            "rfmodel_cubic_amplifier_transmit": (
+                ct.c_int, [ct.c_double, ct.POINTER(_SpectrumBin), size] + [ct.c_double] * 3 +
+                [ct.POINTER(_SpectrumBin), size, ct.POINTER(size)]),
+            "rfmodel_ideal_mixer_transmit": (
+                ct.c_int, [ct.c_double, ct.POINTER(_SpectrumBin), size, ct.c_int] +
+                [ct.c_double] * 3 + [ct.POINTER(_SpectrumBin), size, ct.POINTER(size)]),
             "rfmodel_network_external_noise": (
                 ct.c_int, [handle, ct.POINTER(size), size, complex_pointer, size,
                            complex_pointer, size]),
@@ -106,6 +133,28 @@ class Library:
 
     def network(self, reference_ohms=50.):
         return Network(self, reference_ohms)
+
+    def cubic_amplifier(self, spacing_hz, amplitudes, *, power_gain_db, input_ip3_dbm,
+                        reference_ohms=50.):
+        """Transmit sparse RMS power waves through a matched negative-cubic amplifier."""
+        incident = _spectrum(amplitudes)
+        output = (_SpectrumBin * 4096)()
+        count = ct.c_size_t()
+        self._check(self._dll.rfmodel_cubic_amplifier_transmit(
+            float(spacing_hz), incident, len(incident), float(power_gain_db),
+            float(input_ip3_dbm), float(reference_ohms), output, len(output), ct.byref(count)))
+        return {output[i].index: output[i].amplitude.value() for i in range(count.value)}
+
+    def ideal_mixer(self, spacing_hz, amplitudes, *, lo_bin, conversion_gain_db=0.,
+                     lo_phase_radians=0., reference_ohms=50.):
+        """Return both sidebands including coherent folding through zero frequency."""
+        incident = _spectrum(amplitudes)
+        output = (_SpectrumBin * 4096)()
+        count = ct.c_size_t()
+        self._check(self._dll.rfmodel_ideal_mixer_transmit(
+            float(spacing_hz), incident, len(incident), _bin(lo_bin), float(conversion_gain_db),
+            float(lo_phase_radians), float(reference_ohms), output, len(output), ct.byref(count)))
+        return {output[i].index: output[i].amplitude.value() for i in range(count.value)}
 
     def passive_noise(self, scattering, temperature_k=290.):
         """Return k*T*(I-S*S^H) in W/Hz; active matrices are rejected."""

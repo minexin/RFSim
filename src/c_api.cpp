@@ -1,6 +1,8 @@
 #include "rfmodel/c_api.h"
 #include "rfmodel/network.hpp"
 #include "rfmodel/amplifier_model.hpp"
+#include "rfmodel/polynomial_amplifier.hpp"
+#include "rfmodel/ideal_mixer.hpp"
 #include "rfmodel/transmission_line.hpp"
 #include "rfmodel/rlgc_transmission_line.hpp"
 #include <cstdio>
@@ -34,6 +36,9 @@ template <class Action> int guarded(Action action) noexcept {
     } catch (const std::domain_error &error) {
         std::snprintf(last_error, sizeof(last_error), "%s", error.what());
         return RFMODEL_INVALID_ARGUMENT;
+    } catch (const std::length_error &error) {
+        std::snprintf(last_error, sizeof(last_error), "%s", error.what());
+        return RFMODEL_INVALID_ARGUMENT;
     } catch (const std::runtime_error &error) {
         std::snprintf(last_error, sizeof(last_error), "%s", error.what());
         return RFMODEL_SOLVER_ERROR;
@@ -48,6 +53,32 @@ void require(bool condition) {
         throw std::invalid_argument("null pointer, invalid count or insufficient buffer");
     }
 }
+
+rfmodel::PowerWaveSpectrum
+read_spectrum(double spacing, const rfmodel_spectrum_bin *input, size_t count) {
+    require(count <= 2048 && (input || count == 0));
+    rfmodel::PowerWaveSpectrum spectrum{spacing, {}};
+    for (size_t i = 0; i < count; ++i) {
+        const auto inserted = spectrum.amplitudes.emplace(
+            input[i].index, rfmodel::Complex{input[i].amplitude.real, input[i].amplitude.imag});
+        require(inserted.second);
+    }
+    rfmodel::validate_power_wave_spectrum(spectrum);
+    return spectrum;
+}
+
+void write_spectrum(const rfmodel::PowerWaveSpectrum &spectrum,
+                    rfmodel_spectrum_bin *output,
+                    size_t capacity,
+                    size_t *count) {
+    require(count && capacity >= spectrum.amplitudes.size());
+    require(output || spectrum.amplitudes.empty());
+    size_t index = 0;
+    for (const auto &entry : spectrum.amplitudes) {
+        output[index++] = {entry.first, {entry.second.real(), entry.second.imag()}};
+    }
+    *count = index;
+}
 } // namespace
 
 extern "C" {
@@ -57,6 +88,43 @@ const char *rfmodel_last_error(void) {
 
 unsigned int rfmodel_abi_version(void) {
     return 1;
+}
+
+int rfmodel_cubic_amplifier_transmit(double spacing_hz,
+                                     const rfmodel_spectrum_bin *input,
+                                     size_t input_count,
+                                     double power_gain_db,
+                                     double input_ip3_dbm,
+                                     double reference_ohms,
+                                     rfmodel_spectrum_bin *output,
+                                     size_t capacity,
+                                     size_t *output_count) {
+    return guarded([&] {
+        require(output_count != nullptr);
+        const auto incident = read_spectrum(spacing_hz, input, input_count);
+        const auto model = rfmodel::MatchedPolynomialAmplifier::from_iip3(
+            "C API cubic amplifier", power_gain_db, input_ip3_dbm, reference_ohms);
+        write_spectrum(model.transmit(incident), output, capacity, output_count);
+    });
+}
+
+int rfmodel_ideal_mixer_transmit(double spacing_hz,
+                                 const rfmodel_spectrum_bin *input,
+                                 size_t input_count,
+                                 int lo_bin,
+                                 double conversion_gain_db,
+                                 double lo_phase_radians,
+                                 double reference_ohms,
+                                 rfmodel_spectrum_bin *output,
+                                 size_t capacity,
+                                 size_t *output_count) {
+    return guarded([&] {
+        require(output_count != nullptr);
+        const auto incident = read_spectrum(spacing_hz, input, input_count);
+        const rfmodel::IdealRealMixer model(
+            "C API mixer", lo_bin, conversion_gain_db, lo_phase_radians, reference_ohms);
+        write_spectrum(model.transmit(incident), output, capacity, output_count);
+    });
 }
 
 int rfmodel_network_create(double reference, rfmodel_network **out) {

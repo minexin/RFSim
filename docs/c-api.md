@@ -81,3 +81,6 @@ C++ 传输线模型并写入四个逐行排列的 S 参数。参数顺序及 SI 
 阻抗及参考阻抗，输出四项 S 参数；仅小信号双向模型，不自动添加放大器噪声。
 奇异阻抗（如输入阻抗为负参考阻抗）对应 domain_error，现统一转换为
 RFMODEL_INVALID_ARGUMENT，不再落入内部未知错误；输出矩阵保持不变。
+
+新增 cubic_amplifier_transmit 与 ideal_mixer_transmit 两个频谱传输入口，见
+[非线性与混频频谱接口](spectrum-api.md)。这是匹配单向器件调用，不改变线性网络求解器语义。
