@@ -28,4 +28,39 @@ Attenuator 对应 ATTN_Linear、ATTN_NonLinear、AttnPwr、MOD_DSA、SDATA_NL、
 1. 提取 RFAMP 引用的 Gain and Impedance、Port Parameter Types、Noise Parameters 和 RFAMP_HO 公式，确定增益归一化、反射、反向隔离和噪声定义。避免直接猜测失配时的 S21。
 2. 建立器件参数到 S 矩阵及噪声协方差的适配层；验证匹配、复阻抗、有限反向隔离、DC 和多频点用例。通用理想器件保留自身明确的数学定义。
 3. 对官方 OP1dB、OPSAT、OIP2/OIP3 的独立设置建立单音压缩及双音互调参考，再实现对应非线性拟合、AM/PM 和高阶行为。
+
+## 2026-09-29 压缩路径核对与解析诊断
+
+重新读取本机 systemvue.qch 的 rfdesign/RFAMP.html、
+sim/Gain_Compression_and_Intermod_Generation.html、
+sim/Input_vs_Output_1_dB_Compression.html 和 sim/AM_to_AM_and_AM_to_PM.html。
+官方说明区分主信号压缩和互调生成：主信号在 P1dB 以下采用三阶多项式，以上采用
+双曲正切；高阶奇数系数由 OP1dB、OPSAT、OIP3 经专有算法生成，部分偶数阶截点
+采用经验估计。饱和时还限制输入音调贡献以约束总输出谱功率。
+帮助并未公开完整系数生成公式，不能宣称现有单一三阶多项式完整复现该模型。
+RFAMP 参数表明确 AMtoPM_Mode=0 为 Off，因此当前采集中的 −5 参数并不表示
+该案例已启用 AM-to-PM。先前模式枚举待确认项由本次帮助核对解除。
+
+据 1 dB 点的定义构造一个独立、无拟合系数的低功率假设：令小信号功率增益为 G，
+输出 1 dB 点为 Po1，r=10^(-1/20)，则 Pi1=Po1/(G*r²)。
+主信号输出功率假设为 `G*Pi*[1-(1-r)*Pi/Pi1]²`，仅用于 0<Pi≤Pi1。
+该式在 Pi1 处严格给出 Po1，并在小信号极限恢复 G；它不是高阶互调或饱和模型。
+
+diagnose-antenna-compression.py 将两级上述主信号模型和既有衰减器串接，使用采集
+核验过的 OP1dB，不从观测误差拟合系数；原始采集哈希必须与参数报告相符。
+四个功率点的末级增益残差均约 +2.0e-8，见
+validation/systemvue-2023-antenna-compression-diagnostic.json。
+这强烈支持低功率主信号压缩解释了当前功率相关变化；剩余常量残差仍未定因，
+也没有解释噪声密度误差。原始兼容报告、线性核心及容差均保持不变。
+
+```powershell
+python scripts/reference/diagnose-antenna-compression.py `
+  validation/systemvue-2023-antenna-power-sweep.json `
+  validation/systemvue-2023-antenna-nonlinear-settings.json `
+  build-reference/compression-diagnostic.json
+```
+
+解析单点、低功率极限和越界拒绝回归通过，已接入 CI。下一步应将独立可校准的
+主信号压缩行为纳入明确命名的模型接口，并通过接近 P1dB 的隔离器件实测验证；
+不能将这四个远低于压缩点的样本当作深压缩、互调或噪声兼容验收。
 4. 将每个模型的解析测试与 SystemVue 导出的结果分开记录。参考自动化尚未成功执行时，保持 `systemvue_comparison: not_executed`，不把自洽回归标成产品兼容。

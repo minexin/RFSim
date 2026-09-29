@@ -1,0 +1,41 @@
+{
+  "hypothesis": "Matched cascaded fundamental cubic calibrated only from G and OP1dB",
+  "not_implemented": [
+    "saturation",
+    "intermodulation",
+    "AM/PM",
+    "noise",
+    "mismatch"
+  ],
+  "limitation": "Agreement cannot establish proprietary RFAMP algorithm equivalence",
+  "points": [
+    {
+      "source_power_dbm": -70.0,
+      "predicted_gain": 97266.43178607411,
+      "systemvue_gain": 97266.42984074543,
+      "signed_relative_gain_residual": 2.0000000766629e-08
+    },
+    {
+      "source_power_dbm": -60.0,
+      "predicted_gain": 97266.4303112638,
+      "systemvue_gain": 97266.42836593512,
+      "signed_relative_gain_residual": 2.000000121071821e-08
+    },
+    {
+      "source_power_dbm": -50.0,
+      "predicted_gain": 97266.41556316159,
+      "systemvue_gain": 97266.41361783382,
+      "signed_relative_gain_residual": 1.9999994771424667e-08
+    },
+    {
+      "source_power_dbm": -40.0,
+      "predicted_gain": 97266.26808220179,
+      "systemvue_gain": 97266.26613688306,
+      "signed_relative_gain_residual": 1.999993215484608e-08
+    }
+  ],
+  "input_sha256": [
+    "a7b069e27015ede138c1d3ef5bccd8c3a8d6074ba4941235dc3cb0e394d6e021",
+    "fe12c5946a8d90a85fbd851c56ce9599e0a1c6db77517d4be226a81705e6f407"
+  ]
+}

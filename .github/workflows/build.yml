@@ -33,6 +33,8 @@ jobs:
         run: python scripts/reference/test_summarize_antenna_power.py
       - name: Test antenna nonlinear parameter audit
         run: python scripts/reference/test_audit_antenna_nonlinearity.py
+      - name: Test compression diagnostic
+        run: python scripts/reference/test_diagnose_antenna_compression.py
       - name: Configure
         run: cmake -S . -B build -DCMAKE_BUILD_TYPE=${{ matrix.configuration }} -DCMAKE_CXX_EXTENSIONS=OFF -DRFMODEL_REQUIRE_PYTHON_TESTS=ON
       - name: Build
