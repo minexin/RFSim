@@ -114,6 +114,8 @@ class Library:
             "rfmodel_touchstone_get_info": (ct.c_int, [handle, ct.POINTER(_TouchstoneInfo)]),
             "rfmodel_touchstone_s": (
                 ct.c_int, [handle, ct.c_double, ct.c_double, complex_pointer, size]),
+            "rfmodel_touchstone_noise": (
+                ct.c_int, [handle, ct.c_double, ct.c_double, ct.c_double, complex_pointer, size]),
             "rfmodel_network_create": (ct.c_int, [ct.c_double, ct.POINTER(handle)]),
             "rfmodel_network_destroy": (None, [handle]),
             "rfmodel_network_add": (
@@ -311,6 +313,18 @@ class Touchstone:
             values = (_Complex * (info.ports * info.ports))()
             self._library._check(self._library._dll.rfmodel_touchstone_s(
                 self._handle, float(frequency_hz), reference, values, len(values)))
+            return _rows(values, info.ports)
+
+
+    def noise_correlation(self, frequency_hz, *, reference_ohms=None, reference_temperature_k=290.):
+        """Read embedded noise as W/Hz covariance; missing/invalid data is an error."""
+        with self._lock:
+            info = self.info
+            reference = info.reference_ohms if reference_ohms is None else float(reference_ohms)
+            values = (_Complex * (info.ports * info.ports))()
+            self._library._check(self._library._dll.rfmodel_touchstone_noise(
+                self._handle, float(frequency_hz), reference, float(reference_temperature_k),
+                values, len(values)))
             return _rows(values, info.ports)
 
 

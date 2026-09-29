@@ -201,6 +201,57 @@ class PythonApiTests(unittest.TestCase):
             self.assertIn("must not overwrite Touchstone", run.stderr)
             self.assertEqual(data.read_text(encoding="ascii"), original)
 
+    def test_touchstone_noise_snapshot_reference_and_json(self):
+        examples = Path(__file__).resolve().parents[1] / "examples"
+        kt = 1.380649e-23 * 290
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "noise.s2p"
+            path.write_bytes((examples / "noisy-amplifier.s2p").read_bytes())
+            with self.library.touchstone(path) as model:
+                path.unlink()
+                original = model.noise_correlation(2e9)
+                self.assertAlmostEqual(original[0][0] / kt, 1)
+                self.assertAlmostEqual(original[1][1] / kt, 4)
+                changed = model.noise_correlation(2e9, reference_ohms=50)
+                # T=sqrt(.96)*[[1,0],[-.4,1]] for this unilateral network.
+                self.assertAlmostEqual(changed[0][0] / kt, .96)
+                self.assertAlmostEqual(changed[0][1] / kt, -.384)
+                self.assertAlmostEqual(changed[1][1] / kt, 3.9936)
+                doubled = model.noise_correlation(2e9, reference_temperature_k=580)
+                self.assertAlmostEqual(doubled[1][1] / kt, 8)
+                with self.assertRaises(RFModelError):
+                    model.noise_correlation(2e9, reference_temperature_k=0)
+        document = load(examples / "measured-noise.json")
+        for sample in analyze(self.library, document, base_directory=examples)["samples"]:
+            for row in range(2):
+                for column in range(2):
+                    actual = complex(*sample["noise_w_per_hz"][row][column])
+                    self.assertAlmostEqual(actual / kt, changed[row][column] / kt)
+        for noise in ({"touchstone": False}, {"touchstone": True, "noiseless": True}):
+            document["devices"][0]["noise"] = noise
+            with self.assertRaises(ValueError):
+                analyze(self.library, document, base_directory=examples)
+
+    def test_touchstone_noise_missing_invalid_and_separate_domain(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "noise.s2p"
+            network = "# GHz S RI R 50\n1 0 0 2 0 0 0 0 0\n3 0 0 2 0 0 0 0 0\n"
+            path.write_text(network, encoding="ascii")
+            with self.library.touchstone(path) as model:
+                with self.assertRaises(RFModelError):
+                    model.noise_correlation(2e9)
+            path.write_text(network + "2 3 0 0 0\n", encoding="ascii")
+            with self.library.touchstone(path) as model:
+                with self.assertRaises(RFModelError):
+                    model.noise_correlation(2e9)
+            path.write_text(network + "2 3 0 0 1\n", encoding="ascii")
+            with self.library.touchstone(path) as model:
+                model.s_parameters(1e9)
+                with self.assertRaises(RFModelError):
+                    model.noise_correlation(1e9)
+            with self.library.touchstone(path, out_of_band="clamp") as model:
+                self.assertEqual(model.noise_correlation(1e9), model.noise_correlation(2e9))
+
     def test_native_error_preserves_network(self):
         with self.library.network() as network:
             with self.assertRaises(RFModelError) as caught:

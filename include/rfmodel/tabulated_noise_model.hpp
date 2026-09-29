@@ -48,7 +48,13 @@ public:
                                                const std::string &path,
                                                OutOfBand policy = OutOfBand::Reject,
                                                double reference_temperature_k = 290.) {
-        auto data = read_touchstone(path);
+        return from_data(std::move(name), read_touchstone(path), policy, reference_temperature_k);
+    }
+
+    static TabulatedNoiseModel from_data(std::string name,
+                                         TouchstoneData data,
+                                         OutOfBand policy = OutOfBand::Reject,
+                                         double reference_temperature_k = 290.) {
         if (data.noise_samples.empty()) {
             throw std::invalid_argument("Touchstone file contains no noise data");
         }

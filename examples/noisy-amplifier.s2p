@@ -1,0 +1,6 @@
+! Synthetic unilateral amplifier: Fmin=10*log10(2), GammaOpt=0, Rn/Z0=0.5.
+# GHz S RI R 75
+1 0 0 2 0 0 0 0 0
+3 0 0 2 0 0 0 0 0
+1 3.010299956639812 0 0 0.5
+3 3.010299956639812 0 0 0.5

@@ -1,0 +1,12 @@
+{
+  "format": "rfmodel.linear-network",
+  "version": 1,
+  "reference_ohms": 50,
+  "frequencies_hz": [1000000000, 2000000000, 3000000000],
+  "devices": [{
+    "id": "amp",
+    "model": {"type": "touchstone", "path": "noisy-amplifier.s2p"},
+    "noise": {"touchstone": true, "reference_temperature_k": 290}
+  }],
+  "external_ports": [["amp", 0], ["amp", 1]]
+}

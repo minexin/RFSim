@@ -80,16 +80,34 @@ def referenced_touchstone_paths(document, base_directory=None):
     return paths
 
 
+def _touchstone_samples(library, model, frequencies, reference, base_directory, noise=None):
+    _object(model, ("type", "path"), ("out_of_band",))
+    if model["type"] != "touchstone":
+        raise ValueError("Embedded noise requires a Touchstone model")
+    temperature = 290.
+    if noise is not None:
+        _object(noise, ("touchstone",), ("reference_temperature_k",))
+        if noise["touchstone"] is not True:
+            raise ValueError("noise.touchstone must be true")
+        temperature = _number(noise.get("reference_temperature_k", 290.))
+    with library.touchstone(_model_path(model["path"], base_directory),
+                            out_of_band=model.get("out_of_band", "reject")) as data:
+        matrices = [data.s_parameters(frequency, reference_ohms=reference)
+                    for frequency in frequencies]
+        covariance = None
+        if noise is not None:
+            covariance = [data.noise_correlation(frequency, reference_ohms=reference,
+                                               reference_temperature_k=temperature)
+                          for frequency in frequencies]
+    return matrices, covariance
+
+
 def _parameter_samples(library, model, frequencies, reference, base_directory=None):
     if not isinstance(model, dict):
         raise ValueError("model must be an object")
     kind = model.get("type")
     if kind == "touchstone":
-        _object(model, ("type", "path"), ("out_of_band",))
-        with library.touchstone(_model_path(model["path"], base_directory),
-                                out_of_band=model.get("out_of_band", "reject")) as data:
-            return [data.s_parameters(frequency, reference_ohms=reference)
-                    for frequency in frequencies]
+        return _touchstone_samples(library, model, frequencies, reference, base_directory)[0]
     if kind == "transmission_line":
         _object(model, ("type", "characteristic_ohms", "delay_s"), ("propagation_loss_db",))
         evaluate = library.transmission_line
@@ -190,7 +208,12 @@ def analyze(library, document, *, base_directory=None):
             raise ValueError("Device IDs must be unique nonempty strings")
         if sum(key in device for key in ("s", "s_samples", "model")) != 1:
             raise ValueError("Choose exactly one of s, s_samples or model")
-        if "s" in device:
+        embedded_noise = isinstance(device.get("noise"), dict) and "touchstone" in device["noise"]
+        device_noise = None
+        if embedded_noise:
+            matrices, device_noise = _touchstone_samples(
+                library, device.get("model"), frequencies, reference, base_directory, device["noise"])
+        elif "s" in device:
             matrices = [_matrix(device["s"])] * len(frequencies)
         elif "model" in device:
             matrices = _parameter_samples(library, device["model"], frequencies, reference,
@@ -204,8 +227,8 @@ def analyze(library, document, *, base_directory=None):
         if any(len(matrix) != ports for matrix in matrices) or total_ports + ports > 1024:
             raise ValueError("Port counts must be constant and total at most 1024")
         offsets[name] = (total_ports, ports)
-        device_noise = (_device_noise(library, device["noise"], matrices)
-                        if device_noise_mode else None)
+        if device_noise_mode and not embedded_noise:
+            device_noise = _device_noise(library, device["noise"], matrices)
         prepared.append((total_ports, matrices, device_noise))
         total_ports += ports
 

@@ -25,7 +25,7 @@ int main(int argc, char **argv) {
         rfmodel_touchstone *model = NULL;
         rfmodel_touchstone_info info;
         rfmodel_complex values[4] = {{123., 0.}};
-        CHECK(argc == 2);
+        CHECK(argc == 3);
         CHECK(rfmodel_touchstone_open(argv[1], 2, &model) == RFMODEL_INVALID_ARGUMENT);
         CHECK(model == NULL);
         CHECK(rfmodel_touchstone_open(argv[1], 0, &model) == RFMODEL_OK);
@@ -38,6 +38,15 @@ int main(int argc, char **argv) {
         CHECK(values[0].real == 123.);
         CHECK(rfmodel_touchstone_s(model, 2e9, 50., values, 4) == RFMODEL_OK);
         CHECK(fabs(values[2].real - 0.375) < 1e-12);
+        rfmodel_touchstone_close(model);
+        CHECK(rfmodel_touchstone_open(argv[2], 0, &model) == RFMODEL_OK);
+        values[0].real = 123.;
+        CHECK(rfmodel_touchstone_noise(model, 2e9, 50., 290., values, 3) ==
+              RFMODEL_INVALID_ARGUMENT);
+        CHECK(values[0].real == 123.);
+        CHECK(rfmodel_touchstone_noise(model, 2e9, 50., 290., values, 4) == RFMODEL_OK);
+        CHECK(fabs(values[0].real / (1.380649e-23 * 290.) - .96) < 1e-12);
+        CHECK(fabs(values[1].real / (1.380649e-23 * 290.) + .384) < 1e-12);
         rfmodel_touchstone_close(model);
         rfmodel_touchstone_close(NULL);
     }

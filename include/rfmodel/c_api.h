@@ -34,7 +34,7 @@ typedef struct rfmodel_complex {
 
 /* Snapshot a legacy .sNp file at a UTF-8 path. out_of_band: 0 reject, 1 clamp.
  * A failed open sets *out to NULL. close(NULL) is valid.
- * info reports embedded noise presence; this S-only API does not evaluate noise.
+ * info reports embedded noise presence; s does not implicitly evaluate noise.
  * s interpolates real/imaginary components at the original reference, then
  * renormalizes to the requested positive real reference. Row-major ports^2
  * output values are written only on success. */
@@ -56,6 +56,17 @@ enum rfmodel_status {
     RFMODEL_OUT_OF_MEMORY = 3,
     RFMODEL_INTERNAL_ERROR = 4
 };
+
+/* Evaluate embedded noise covariance in W/Hz at the requested wave reference.
+ * reference_temperature_k is the positive NF reference temperature, not physical
+ * device temperature. Missing/invalid noise data is an error, never zero noise.
+ * Uses the snapshot and range policy selected at open; failure leaves values unchanged. */
+RFMODEL_API int rfmodel_touchstone_noise(const rfmodel_touchstone *model,
+                                         double frequency_hz,
+                                         double reference_ohms,
+                                         double reference_temperature_k,
+                                         rfmodel_complex *values,
+                                         size_t capacity);
 
 typedef struct rfmodel_spectrum_bin {
     int index;

@@ -15,6 +15,15 @@ int main(int argc, char **argv) {
             return 9;
         }
         status = rfmodel_touchstone_s(model, 1e6, 50., &reflection, 1);
+        {
+            rfmodel_complex absent_noise = {123., 0.};
+            if (rfmodel_touchstone_noise(model, 1e6, 50., 290., &absent_noise, 1) !=
+                    RFMODEL_INVALID_ARGUMENT ||
+                absent_noise.real != 123.) {
+                rfmodel_touchstone_close(model);
+                return 11;
+            }
+        }
         rfmodel_touchstone_close(model);
         if (status != RFMODEL_OK || fabs(reflection.real - 0.2) > 1e-12) {
             return 10;

@@ -107,12 +107,14 @@ Python 十五项测试在安装后的 Release 动态库上通过。新增案例�
 
 ## 逐器件内生噪声
 
-器件可增加 noise 字段，四选一：
+器件可增加 noise 字段，选择一种模式：
 
 - `{"temperature_k": 290}`：对该器件每个频点调用被动热噪声计算，器件须无源；
 - `{"covariance": 矩阵}`：在各频点复用 W/Hz 内生协方差；
 - `{"covariance_samples": [矩阵, ...]}`：与 frequencies_hz 逐点对应；
 - `{"noiseless": true}`：显式设置零内生噪声，不暗示真实器件物理无噪声。
+- `{"touchstone": true, "reference_temperature_k": 290}`：仅用于 Touchstone 模型，
+  显式导入同一文件快照的内嵌噪声；reference_temperature_k 可省略，默认 290 K。
 
 矩阵行列使用器件局部端口顺序，尺寸必须匹配。只要一个器件使用 noise，就要求
 所有器件明确设置，且不允许同时设置顶层 temperature_k 或 intrinsic_noise_samples。
@@ -187,7 +189,7 @@ examples/loaded-noise.json 为 290 K、幅度传输 0.5 的衰减器，输入接
 out_of_band 为 reject（默认）或 clamp。端口数从文件扩展名及数据读取；支持既有
 legacy S 数据格式，具体边界见 [Touchstone 接口](touchstone.md)。每个频点先按文件
 参考电阻插值，再重归一化到顶层 reference_ohms。文件噪声段不自动参与计算，
-器件噪声仍需通过已有字段明确指定。
+使用 noise.touchstone=true 显式导入，或通过其他噪声模式指定。
 
 CLI 按 JSON 文件所在目录解析相对数据路径，与执行命令的工作目录无关。
 直接调用 analyze(library, document, base_directory=...) 可显式指定基目录；省略时
@@ -196,3 +198,10 @@ CLI 禁止输出路径覆盖被引用的 Touchstone 文件，包含频谱链路�
 
 examples/measured-network.json 引用同目录 measured-pad.s2p，在 2、10、18 MHz
 得到 S21=0.8、0.5、0.2。该 .s2p 是合成回归数据，不是厂商测量或 SystemVue 导出证据。
+
+examples/measured-noise.json 引用合成 noisy-amplifier.s2p：文件参考为 75 Ω，
+单向 S21=2，NFmin=10*log10(2)，GammaOpt=0，Rn/Z0=0.5。
+原始内生协方差为 diag(1,4)*kT0；顶层参考为 50 Ω 时，输出矩阵为
+`[[0.96,-0.384],[-0.384,3.9936]]*kT0`，展示与 S 同步转换的互相关。
+S 和噪声从同一次打开的快照取得，文件修改不会造成一次分析内两套输入混用。
+逐器件模式仍要求全部器件明确指定噪声，不能混合顶层噪声模式。

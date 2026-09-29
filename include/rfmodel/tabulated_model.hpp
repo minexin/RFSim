@@ -51,5 +51,10 @@ public:
     double maximum_frequency_hz() const {
         return data_.frequencies_hz.back();
     }
+
+    // Immutable owned snapshot; the reference is valid for this model's lifetime.
+    const TouchstoneData &data() const noexcept {
+        return data_;
+    }
 };
 } // namespace rfmodel

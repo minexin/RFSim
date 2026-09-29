@@ -6,6 +6,8 @@
 #include "rfmodel/ideal_mixer.hpp"
 #include "rfmodel/spectrum_analysis.hpp"
 #include "rfmodel/tabulated_model.hpp"
+#include "rfmodel/tabulated_noise_model.hpp"
+#include "rfmodel/noise_renormalization.hpp"
 #include "rfmodel/network_parameters.hpp"
 #include "rfmodel/transmission_line.hpp"
 #include "rfmodel/rlgc_transmission_line.hpp"
@@ -22,11 +24,12 @@ struct rfmodel_network {
 
 struct rfmodel_touchstone {
     size_t noise_samples;
+    rfmodel::OutOfBand policy;
     rfmodel::TabulatedSParameterModel core;
 
-    rfmodel_touchstone(rfmodel::TouchstoneData data, rfmodel::OutOfBand policy)
-        : noise_samples(data.noise_samples.size()),
-          core("Touchstone C API", std::move(data), policy) {
+    rfmodel_touchstone(rfmodel::TouchstoneData data, rfmodel::OutOfBand range_policy)
+        : noise_samples(data.noise_samples.size()), policy(range_policy),
+          core("Touchstone C API", std::move(data), range_policy) {
     }
 };
 
@@ -127,6 +130,29 @@ int rfmodel_touchstone_get_info(const rfmodel_touchstone *model, rfmodel_touchst
                  model->core.minimum_frequency_hz(),
                  model->core.maximum_frequency_hz(),
                  model->noise_samples};
+    });
+}
+
+int rfmodel_touchstone_noise(const rfmodel_touchstone *model,
+                             double frequency_hz,
+                             double reference_ohms,
+                             double reference_temperature_k,
+                             rfmodel_complex *values,
+                             size_t capacity) {
+    return guarded([&] {
+        require(model && values);
+        const auto ports = model->core.port_count();
+        require(capacity >= ports * ports);
+        const auto noisy = rfmodel::TabulatedNoiseModel::from_data(
+            "Touchstone noise C API", model->core.data(), model->policy, reference_temperature_k);
+        const auto covariance = rfmodel::renormalize_noise(noisy.s_parameters(frequency_hz),
+                                                           noisy.noise_correlation(frequency_hz),
+                                                           noisy.port(0).reference_impedance.real(),
+                                                           reference_ohms)
+                                    .watts_per_hz;
+        for (size_t i = 0; i < covariance.values.size(); ++i) {
+            values[i] = {covariance.values[i].real(), covariance.values[i].imag()};
+        }
     });
 }
 

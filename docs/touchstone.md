@@ -41,12 +41,37 @@ Python reference_ohms 省略时使用文件参考电阻。先在原始参考下�
 Python 句柄支持 with、显式 close 及回收释放，关闭后访问报错。
 核心文件读取现在以 UTF-8 路径构造 C++17 filesystem 路径，支持 Windows 中文路径。
 
-这是 S 参数接口，内嵌噪声只通过 info.noise_sample_count 提示存在。
-没有通过该接口导入 NFmin/GammaOpt/Rn 或生成噪声协方差；需要带噪分析时必须
-另行指定噪声模型。Touchstone 2、逐端口参考阻抗等原有边界仍然存在。
+s_parameters 仅返回 S 参数，内嵌噪声需显式调用下面的噪声接口。
+Touchstone 2、逐端口参考阻抗等原有边界仍然存在。
 
 2026-09-29 接口验证：MSVC Debug/Release 全套各 43/43，安装后的独立 C/C++ 消费者
 各 2/2；Python 36 项测试在安装后的 Release 动态库上通过。新增用例覆盖中文路径、
 非互易复数插值、文件快照寿命、端点钳制、75→50 Ω 转换、内嵌噪声提示、非法格式、
 JSON 相对路径、混频后频率查询及输入防覆盖。CLI 合成数据示例也已生成结果。
 此次未新增 SystemVue 导出数据对照，跨平台 CI 结果尚未核验。
+
+## 内嵌噪声接口与参考转换
+
+`rfmodel_touchstone_noise` 与 Python `model.noise_correlation(frequency_hz,
+reference_ohms=None, reference_temperature_k=290.)` 从已打开的数据快照生成 W/Hz
+内生协方差。reference_temperature_k 是 NF 参数定义所用的正参考温度，不是器件物理温度。
+省略 reference_ohms 时使用文件参考。源和终端噪声不包含在返回矩阵中。
+
+每个原始噪声频点先插值得到 S，再由 NFmin/GammaOpt/Rn 转换到协方差；查询频点在
+协方差矩阵之间作凸线性插值，不直接插值 NFmin 或 GammaOpt。S 与噪声频带分别检查，
+默认均须覆盖查询频率；clamp 对两个表分别取端点。缺失或物理不一致噪声段会报错，
+不会返回零矩阵。此接口每次从同一快照构建并验证噪声表，不重新打开源文件。
+
+目标波参考不同时，S 与协方差一起转换。核心 noise_renormalization.hpp 对
+`b=S*a+c` 使用 `gamma=(Rold-Rnew)/(Rold+Rnew)`，
+`T=sqrt(1-gamma²)*(I+gamma*S)^-1`，得到 `Cnew=T*Cold*T^H`。
+实现通过线性方程求解构造 T；奇异变换、非法参考或非 PSD 协方差明确报错。
+这不是只给噪声矩阵乘参考电阻比值，也不改变物理器件噪声温度。
+
+解析验证包括无源热噪声的一致性、参考变换往返、固定实际源阻抗下噪声系数不变，
+以及单向放大器从 75 Ω 到 50 Ω 转换后新增的端口互相关。
+
+2026-09-29 噪声接口验证：Debug/Release 全套各 44/44；补充 C 短缓冲区检查后，
+两个配置的 C API、噪声参考转换和 Python 专项复测通过。安装消费者各 2/2，
+安装后的 Release 动态库通过 38 项 Python 测试；measured-noise.json 通过 CLI。
+80 个 C/C++ 文件格式检查通过。示例仍是合成数据，尚无本功能的 SystemVue 实测对照。
