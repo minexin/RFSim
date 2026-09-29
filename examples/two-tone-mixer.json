@@ -1,0 +1,14 @@
+{
+  "format": "rfmodel.spectrum-chain",
+  "version": 1,
+  "spacing_hz": 1000000,
+  "reference_ohms": 50,
+  "input": [
+    {"bin": 10, "amplitude": 0.0031622776601683794},
+    {"bin": 13, "amplitude": 0.0031622776601683794}
+  ],
+  "stages": [
+    {"id": "amp", "type": "cubic_amplifier", "power_gain_db": 20, "input_ip3_dbm": 10},
+    {"id": "mixer", "type": "ideal_mixer", "lo_bin": 8, "conversion_gain_db": 0}
+  ]
+}

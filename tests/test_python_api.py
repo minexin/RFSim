@@ -19,6 +19,7 @@ else:
 from rfmodel import Library, RFModelError
 import rfmodel
 from rfmodel.model_file import analyze, load
+from rfmodel.spectrum_file import analyze_spectrum
 
 
 class PythonApiTests(unittest.TestCase):
@@ -125,6 +126,47 @@ class PythonApiTests(unittest.TestCase):
                                    (1e6, {1: float("nan")}, 2), (1e6, {1: 1.}, 0)):
             with self.assertRaises(RFModelError):
                 self.library.ideal_mixer(spacing, tones, lo_bin=lo)
+
+    def test_spectrum_file_chain(self):
+        document = load(Path(__file__).resolve().parents[1] / "examples/two-tone-mixer.json")
+        result = analyze_spectrum(self.library, document)
+        amp = {item["bin"]: item for item in result["stages"][0]["spectrum"]}
+        mixer = {item["bin"]: item for item in result["stages"][1]["spectrum"]}
+        self.assertAlmostEqual(amp[7]["power_w"] / 1e-9, 1.)
+        self.assertAlmostEqual(mixer[1]["power_w"] / 1e-9, 1.)
+        self.assertAlmostEqual(mixer[2]["power_w"] / amp[10]["power_w"], 1.)
+        self.assertEqual(mixer[1]["frequency_hz"], 1e6)
+        for key, value in (("spacing_hz", 0), ("version", True), ("stages", [])):
+            bad = copy.deepcopy(document)
+            bad[key] = value
+            with self.assertRaises(ValueError):
+                analyze_spectrum(self.library, bad)
+        for change in ("duplicate", "dc", "stage", "unknown"):
+            bad = copy.deepcopy(document)
+            if change == "duplicate":
+                bad["input"].append(bad["input"][0])
+            elif change == "dc":
+                bad["input"] = [{"bin": 0, "amplitude": [0, 1]}]
+            elif change == "stage":
+                bad["stages"][1]["id"] = "amp"
+            else:
+                bad["stages"][0]["noise_figure"] = 3
+            with self.assertRaises(ValueError):
+                analyze_spectrum(self.library, bad)
+
+    def test_spectrum_cli(self):
+        with tempfile.TemporaryDirectory() as directory:
+            output = Path(directory) / "spectrum.json"
+            model = Path(__file__).resolve().parents[1] / "examples/two-tone-mixer.json"
+            environment = dict(os.environ)
+            environment["PYTHONPATH"] = str(Path(rfmodel.__file__).resolve().parents[1])
+            run = subprocess.run([sys.executable, "-m", "rfmodel", str(model), "--library",
+                                  str(Path(LIBRARY_PATH).resolve()), "--output", str(output)],
+                                 env=environment, capture_output=True, text=True)
+            self.assertEqual(run.returncode, 0, run.stderr)
+            result = json.loads(output.read_text(encoding="utf-8"))
+            self.assertEqual(result["format"], "rfmodel.spectrum-results")
+            self.assertEqual([stage["id"] for stage in result["stages"]], ["amp", "mixer"])
 
     def test_cascaded_thermal_noise(self):
         thermal = 1.380649e-23 * 290.

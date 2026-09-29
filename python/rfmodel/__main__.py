@@ -1,10 +1,11 @@
-"""python -m rfmodel: execute a linear-network model file."""
+"""python -m rfmodel: execute a linear network or matched spectrum chain."""
 import argparse
 import json
 from pathlib import Path
 import sys
 from . import Library
 from .model_file import analyze, load
+from .spectrum_file import analyze_spectrum
 
 
 def main():
@@ -16,7 +17,12 @@ def main():
     try:
         if args.output.resolve() in (args.model.resolve(), args.library.resolve()):
             raise ValueError("Output must not overwrite the model or native library")
-        result = analyze(Library(args.library), load(args.model))
+        document = load(args.model)
+        if not isinstance(document, dict):
+            raise ValueError("Model must be an object")
+        operation = (analyze_spectrum if document.get("format") == "rfmodel.spectrum-chain"
+                     else analyze)
+        result = operation(Library(args.library), document)
         text = json.dumps(result, indent=2, allow_nan=False) + "\n"
         args.output.write_text(text, encoding="utf-8")
         return 0
