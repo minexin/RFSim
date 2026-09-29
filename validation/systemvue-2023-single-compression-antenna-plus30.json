@@ -1,0 +1,132 @@
+{
+  "scope": "Independent single RFAMP with explicit 50 ohm boundaries and controlled reverse isolation",
+  "reverse_isolation_db": 50,
+  "profile": "antenna",
+  "limitation": "Signal powers only; default higher-order/internal settings are not fully audited",
+  "source_power_dbm": 30.0,
+  "parameters": [
+    {
+      "parameter": "RFAmp/G",
+      "value": 1000,
+      "data_entry": "30"
+    },
+    {
+      "parameter": "RFAmp/NF",
+      "value": 3.413793103448276,
+      "data_entry": "5.3323719669859386"
+    },
+    {
+      "parameter": "RFAmp/RISO",
+      "value": 100000,
+      "data_entry": "50"
+    },
+    {
+      "parameter": "RFAmp/ZIN",
+      "value": 50,
+      "data_entry": "50"
+    },
+    {
+      "parameter": "RFAmp/ZOUT",
+      "value": 50,
+      "data_entry": "50"
+    },
+    {
+      "parameter": "RFAmp/OIP2",
+      "value": 100000,
+      "data_entry": "80"
+    },
+    {
+      "parameter": "RFAmp/OIP3",
+      "value": 10000,
+      "data_entry": "70"
+    },
+    {
+      "parameter": "RFAmp/OP1dB",
+      "value": 1000,
+      "data_entry": "60"
+    },
+    {
+      "parameter": "RFAmp/OPSAT",
+      "value": 1995.2623149688789,
+      "data_entry": "63"
+    },
+    {
+      "parameter": "Source/R",
+      "value": 50,
+      "data_entry": "50"
+    },
+    {
+      "parameter": "Out/ZO",
+      "value": 50,
+      "data_entry": "50"
+    },
+    {
+      "parameter": "Source/Freq",
+      "value": 5000000000,
+      "data_entry": "5000"
+    },
+    {
+      "parameter": "Source/Enable",
+      "value": [
+        1
+      ],
+      "data_entry": null
+    },
+    {
+      "parameter": "Source/SrcType",
+      "value": [
+        0
+      ],
+      "data_entry": null
+    },
+    {
+      "parameter": "Source/EnablePN",
+      "value": [
+        0
+      ],
+      "data_entry": null
+    },
+    {
+      "parameter": "Source/Pwr",
+      "value": 1,
+      "data_entry": "30"
+    }
+  ],
+  "run_started_utc": "2026-09-29T13:02:56.0980629Z",
+  "run_returned_utc": "2026-09-29T13:02:56.3476695Z",
+  "manager_errors": "",
+  "measurements": {
+    "CF": [
+      5000000000,
+      5000000000
+    ],
+    "CGAIN": [
+      1,
+      834.6970269339936
+    ],
+    "DCP": [
+      0.9999999750000002,
+      834.6970060665681
+    ]
+  },
+  "relative_tolerance": 1e-07,
+  "passed": true,
+  "checks": [
+    {
+      "metric": "gain",
+      "rfmodel": 834.6970270464801,
+      "systemvue": 834.6970269339936,
+      "signed_relative_error": 1.347633116211e-10,
+      "passed": true
+    },
+    {
+      "metric": "output_w",
+      "rfmodel": 834.6970270464801,
+      "systemvue": 834.6970060665681,
+      "signed_relative_error": 2.513476382581814e-08,
+      "passed": true
+    }
+  ],
+  "capture_sha256": "964401565a7adb9923a27f1004d746f8de0eaf3e554237a4b16c65338c0ea860",
+  "library_sha256": "743f18c1da18458a22f61284e55671c2b51f1267bd55aaf9dcde09b43c4ee209"
+}

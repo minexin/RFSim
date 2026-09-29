@@ -25,10 +25,13 @@ PARAMETERS = {
 }
 
 
-def compare(library, capture, source_power_dbm, *, reverse_isolation_db=100):
+def compare(library, capture, source_power_dbm, *, reverse_isolation_db=100, profile="sample"):
+    if profile not in ("sample", "antenna"):
+        raise ValueError("Unknown compression profile")
+    gain_db, output_p1db_dbm, frequency = (30, 60, 5e9) if profile == "antenna" else (20, 20, 1e9)
     if reverse_isolation_db not in (50, 100):
         raise ValueError("Expected controlled reverse isolation of 50 or 100 dB")
-    if not math.isfinite(source_power_dbm) or not -200 <= source_power_dbm <= 1:
+    if not math.isfinite(source_power_dbm) or not -200 <= source_power_dbm <= output_p1db_dbm - gain_db + 1:
         raise ValueError("Expected finite input at or below nominal input P1dB")
     runner.validate_capture(capture, "compression")
 
@@ -48,6 +51,11 @@ def compare(library, capture, source_power_dbm, *, reverse_isolation_db=100):
     verified = []
     expected_parameters = {**PARAMETERS, "Source/Pwr": power,
                            "RFAmp/RISO": 10 ** (reverse_isolation_db / 10)}
+    if profile == "antenna":
+        expected_parameters.update({"RFAmp/G": 1000., "RFAmp/NF": 1 + 700 / 290,
+                                    "RFAmp/OIP2": 1e5, "RFAmp/OIP3": 1e4,
+                                    "RFAmp/OP1dB": 1000., "RFAmp/OPSAT": 10 ** 3.3,
+                                    "Source/Freq": frequency})
     for key, expected in expected_parameters.items():
         device, parameter = key.split("/")
         entry = node(f"Sch1/PartList/{device}/ParamSet/{parameter}")
@@ -68,10 +76,10 @@ def compare(library, capture, source_power_dbm, *, reverse_isolation_db=100):
                 or any(not isinstance(v, (int, float)) or not math.isfinite(v) or v <= 0 for v in data)):
             raise ValueError("Invalid two-node measurement: " + name)
         measurements[name] = data
-    if measurements["CF"] != [1e9, 1e9]:
+    if measurements["CF"] != [frequency, frequency]:
         raise ValueError("Unexpected carrier frequency")
-    output = abs(library.p1db_fundamental(math.sqrt(power), power_gain_db=20,
-                                         output_p1db_dbm=20)) ** 2
+    output = abs(library.p1db_fundamental(math.sqrt(power), power_gain_db=gain_db,
+                                         output_p1db_dbm=output_p1db_dbm)) ** 2
     checks = []
     for name, predicted, observed in (("gain", output / power, measurements["CGAIN"][1]),
                                        ("output_w", output, measurements["DCP"][1])):
@@ -81,6 +89,7 @@ def compare(library, capture, source_power_dbm, *, reverse_isolation_db=100):
     return {
         "scope": "Independent single RFAMP with explicit 50 ohm boundaries and controlled reverse isolation",
         "reverse_isolation_db": reverse_isolation_db,
+        "profile": profile,
         "limitation": "Signal powers only; default higher-order/internal settings are not fully audited",
         "source_power_dbm": source_power_dbm, "parameters": verified,
         "run_started_utc": capture["run_started_utc"], "run_returned_utc": capture["run_returned_utc"],
@@ -96,12 +105,13 @@ def main():
     parser.add_argument("output", type=Path)
     parser.add_argument("--source-power-dbm", type=float, required=True)
     parser.add_argument("--reverse-isolation-db", type=int, choices=(50, 100), default=100)
+    parser.add_argument("--profile", choices=("sample", "antenna"), default="sample")
     args = parser.parse_args()
     if args.output.resolve() in (args.library.resolve(), args.capture.resolve()):
         parser.error("Output must not overwrite an input")
     raw = args.capture.read_bytes()
     report = compare(Library(args.library.resolve()), json.loads(raw.decode("utf-8-sig")),
-                     args.source_power_dbm, reverse_isolation_db=args.reverse_isolation_db)
+                     args.source_power_dbm, reverse_isolation_db=args.reverse_isolation_db, profile=args.profile)
     report["capture_sha256"] = hashlib.sha256(raw).hexdigest()
     report["library_sha256"] = hashlib.sha256(args.library.read_bytes()).hexdigest()
     args.output.write_text(json.dumps(report, indent=2, allow_nan=False) + "\n", encoding="utf-8")

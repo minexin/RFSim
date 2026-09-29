@@ -56,6 +56,10 @@ RFModel_AntennaNoise 工作区，先另存新项目内备份，确认文件存�
 时间/拓扑拒绝；本机 Debug/Release 均通过。原生链路比较五项测试、后台驱动
 三项测试也通过。现有跨平台 CI 会运行新增 CTest，此提交的远端结果尚未核验。
 
+采集器现支持明确的 `--compression-profile sample|antenna`。每次运行都会重新
+写入该参数组的 G、NF、OP1dB、OPSAT、OIP2、OIP3 和源频率，以保证切换后不遗留
+前一实验的参数；原默认 sample 行为保持不变。
+
 ## 反向隔离单变量对照
 
 随后新增 `--compression-riso-db 50|100` 采集参数（仅 compression case），以及
@@ -79,3 +83,26 @@ CF、CGAIN、DCP 共六个数值与原基线完全一致。当前工作区仍为
 
 新增回归验证两组实测的差异范围、只有 RISO 改变，以及未声明 50 dB 时拒绝
 错误参数。单器件测试现共三项，MSVC Debug/Release 均通过；后台驱动三项也通过。
+
+## 天线末级主要参数的独立拓扑对照
+
+使用 `--compression-profile antenna --compression-riso-db 50 --source-power-dbm 30`
+采集，并用 `compare-single-compression.py ... --profile antenna --reverse-isolation-db 50
+--source-power-dbm 30` 比较。显式回读核验 G=30 dB、NF=10log10(1+700/290) dB、
+OP1dB=60 dBm、OPSAT=63 dBm、OIP2=80 dBm、OIP3=70 dBm、频率 5 GHz，
+以及 50 ohm 边界、50 dB 反向隔离和单音源状态，共 16 项。
+
+这次输入 30 dBm，低于名义输入 P1dB 1 dB，得到无告警新数据。SystemVue
+输出为 834.697006067 W，RFModel 预测 834.697027046 W；增益相对误差
++1.34763e-10，功率相对误差 +2.51348e-8，在原 1e-7 阈值下 2/2 通过。
+报告与精简采集为 validation 下 `systemvue-2023-single-compression-antenna-plus30.json`
+及 `systemvue-2023-single-compression-antenna-plus30-capture.json`。
+
+对齐这组主要参数仍未复现四级链路误差，但本实验没有对齐所有内部设置，
+也未精确复用链路末级的入射波功率。不能宣称已经定位根因，不能据此删除
+原失败报告。接下来应核查链路频谱/反向传播及剩余内部设置，并匹配末级实际输入。
+
+实验后显式恢复 sample、100 dB 隔离和 +0.9 dBm 源功率，16 项参数（包括
+DataEntry）及六个测量值均与原基线完全一致。恢复采集位于
+`build-reference/compression-sample-restored-002`。参数组选择和 OP1dB 不一致拒绝
+加入回归；单器件测试现四项，Debug/Release 均通过，后台驱动三项通过。

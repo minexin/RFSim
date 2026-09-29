@@ -54,6 +54,21 @@ class SingleCompressionTests(unittest.TestCase):
                    if a["value"] != b["value"]]
         self.assertEqual(changed, ["RFAmp/RISO"])
 
+    def test_antenna_parameter_profile_requires_explicit_selection(self):
+        capture = json.loads((comparison.ROOT / "validation" /
+            "systemvue-2023-single-compression-antenna-plus30-capture.json").read_text())
+        with self.assertRaises(ValueError):
+            comparison.compare(self.library, capture, 30, reverse_isolation_db=50)
+        report = comparison.compare(self.library, capture, 30,
+                                    reverse_isolation_db=50, profile="antenna")
+        self.assertTrue(report["passed"])
+        self.assertEqual(report["measurements"]["CF"], [5e9, 5e9])
+        self.assertEqual(report["profile"], "antenna")
+        changed = copy.deepcopy(capture)
+        next(n for n in changed["nodes"] if n["path"].endswith("RFAmp/ParamSet/OP1dB"))["data"] = .1
+        with self.assertRaises(ValueError):
+            comparison.compare(self.library, changed, 30, reverse_isolation_db=50, profile="antenna")
+
 
 if __name__ == "__main__":
     unittest.main()
