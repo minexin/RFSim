@@ -47,6 +47,24 @@ def _unique_object(pairs):
     return result
 
 
+def _parameter_samples(library, model, frequencies, reference):
+    if not isinstance(model, dict):
+        raise ValueError("model must be an object")
+    kind = model.get("type")
+    if kind == "transmission_line":
+        _object(model, ("type", "characteristic_ohms", "delay_s"), ("propagation_loss_db",))
+        evaluate = library.transmission_line
+    elif kind == "rlgc_line":
+        _object(model, ("type", "length_m"),
+                ("resistance_ohms_per_m", "inductance_h_per_m", "conductance_s_per_m",
+                 "capacitance_f_per_m"))
+        evaluate = library.rlgc_line
+    else:
+        raise ValueError("Unknown parameter model type")
+    parameters = {key: _number(value) for key, value in model.items() if key != "type"}
+    return [evaluate(frequency, reference_ohms=reference, **parameters) for frequency in frequencies]
+
+
 def load(path):
     """Read UTF-8 JSON, rejecting duplicate keys and nonstandard NaN/Infinity."""
     def invalid_constant(value):
@@ -90,14 +108,16 @@ def analyze(library, document):
         raise ValueError("At least one device is required")
     offsets, prepared, total_ports = {}, [], 0
     for device in devices:
-        _object(device, ("id",), ("s", "s_samples"))
+        _object(device, ("id",), ("s", "s_samples", "model"))
         name = device["id"]
         if not isinstance(name, str) or not name or name in offsets:
             raise ValueError("Device IDs must be unique nonempty strings")
-        if ("s" in device) == ("s_samples" in device):
-            raise ValueError("Choose exactly one of s or s_samples")
+        if sum(key in device for key in ("s", "s_samples", "model")) != 1:
+            raise ValueError("Choose exactly one of s, s_samples or model")
         if "s" in device:
             matrices = [_matrix(device["s"])] * len(frequencies)
+        elif "model" in device:
+            matrices = _parameter_samples(library, device["model"], frequencies, reference)
         else:
             samples = device["s_samples"]
             if not isinstance(samples, list) or len(samples) != len(frequencies):

@@ -81,6 +81,10 @@ class Library:
                 ct.c_int, [handle, ct.POINTER(size), size, complex_pointer, size]),
             "rfmodel_passive_noise": (
                 ct.c_int, [size, complex_pointer, size, ct.c_double, complex_pointer, size]),
+            "rfmodel_transmission_line_s": (
+                ct.c_int, [ct.c_double] * 5 + [complex_pointer, size]),
+            "rfmodel_rlgc_line_s": (
+                ct.c_int, [ct.c_double] * 7 + [complex_pointer, size]),
             "rfmodel_network_external_noise": (
                 ct.c_int, [handle, ct.POINTER(size), size, complex_pointer, size,
                            complex_pointer, size]),
@@ -107,6 +111,26 @@ class Library:
         self._check(self._dll.rfmodel_passive_noise(
             count, values, len(values), float(temperature_k), result, len(result)))
         return _rows(result, count)
+
+    def transmission_line(self, frequency_hz, *, characteristic_ohms, delay_s,
+                          propagation_loss_db=0., reference_ohms=50.):
+        """Evaluate the C++ uniform line model; delay in seconds, loss in dB."""
+        result = (_Complex * 4)()
+        self._check(self._dll.rfmodel_transmission_line_s(
+            float(frequency_hz), float(characteristic_ohms), float(delay_s),
+            float(propagation_loss_db), float(reference_ohms), result, 4))
+        return _rows(result, 2)
+
+    def rlgc_line(self, frequency_hz, *, length_m, resistance_ohms_per_m=0.,
+                  inductance_h_per_m=0., conductance_s_per_m=0., capacitance_f_per_m=0.,
+                  reference_ohms=50.):
+        """Evaluate the distributed C++ RLGC line, using per-metre coefficients."""
+        result = (_Complex * 4)()
+        self._check(self._dll.rfmodel_rlgc_line_s(
+            float(frequency_hz), float(resistance_ohms_per_m), float(inductance_h_per_m),
+            float(conductance_s_per_m), float(capacitance_f_per_m), float(length_m),
+            float(reference_ohms), result, 4))
+        return _rows(result, 2)
 
 
 class Network:

@@ -137,6 +137,28 @@ class PythonApiTests(unittest.TestCase):
         for sample in result["samples"]:
             self.assertAlmostEqual(sample["noise_w_per_hz"][1][1][0] / thermal, 0.75)
 
+    def test_parameter_models_and_json(self):
+        document = load(Path(__file__).resolve().parents[1] / "examples/rlgc-line.json")
+        samples = analyze(self.library, document)["samples"]
+        self.assertAlmostEqual(complex(*samples[1]["s"][0][0]), 0.6)
+        self.assertAlmostEqual(complex(*samples[1]["s"][1][0]), -0.8j)
+        self.assertAlmostEqual(complex(*samples[2]["s"][1][0]), -1.)
+        document["devices"][0]["model"] = {
+            "type": "transmission_line", "characteristic_ohms": 100., "delay_s": 2e-9}
+        equivalent = analyze(self.library, document)["samples"]
+        for actual, expected in zip(samples, equivalent):
+            for row in range(2):
+                for column in range(2):
+                    self.assertAlmostEqual(complex(*actual["s"][row][column]),
+                                           complex(*expected["s"][row][column]))
+        dc = self.library.rlgc_line(0., length_m=2., resistance_ohms_per_m=25.)
+        self.assertAlmostEqual(dc[1][0], 2. / 3.)
+        with self.assertRaises(RFModelError):
+            self.library.rlgc_line(1., length_m=-1.)
+        document["devices"][0]["model"]["unknown"] = 1
+        with self.assertRaises(ValueError):
+            analyze(self.library, document)
+
     def test_model_file_rejects_ambiguous_or_invalid_input(self):
         original = load(Path(__file__).resolve().parents[1] / "examples/linear-noise.json")
         for key, value in (("version", True), ("version", 2), ("unknown", 1),

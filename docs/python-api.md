@@ -49,7 +49,7 @@ with library.network(reference_ohms=50.) as network:
 时会注册此测试；CI 设置 `RFMODEL_REQUIRE_PYTHON_TESTS=ON`，缺少解释器即配置失败。
 
 当前封装覆盖已公开的线性网络 C ABI；[JSON 文件与批处理](linear-model-file.md)支持
-显式频率样本的网络重放。参数化器件、非线性及混频接口仍未暴露，完整系统分析接口尚未完成。
+显式频率样本及参数化传输线的网络重放。其他器件、非线性及混频接口仍待扩展，完整系统分析接口尚未完成。
 
 2026-09-29 本地验证：Python 3.10.6，六项 Python 测试通过；加入 CTest 后 MSVC
 Debug/Release 各 42/42。通过 pip 默认隔离构建生成纯 Python wheel，并安装到
@@ -77,3 +77,12 @@ with library.network() as network:
 外部端口按匹配且无噪声处理，其他端口需已经连接或设置无独立源的终端。
 终端噪声、源噪声以及噪声系数换算不自动加入；不能把内生输出噪声当作完整系统总噪声。
 本版 Python 封装需要同时部署带两个新噪声符号的原生库。
+
+## 参数化传输线
+
+`Library.transmission_line(frequency_hz, *, characteristic_ohms, delay_s,
+propagation_loss_db=0, reference_ohms=50)` 和 `Library.rlgc_line(frequency_hz, *,
+length_m, resistance_ohms_per_m=0, inductance_h_per_m=0, conductance_s_per_m=0,
+capacitance_f_per_m=0, reference_ohms=50)` 返回 2×2 复数元组。
+数值实现仍位于 C++，Python 不另写传输线方程；参数须符合对应 C++ 模型的范围。
+本版需要动态库包含两个新增模型求值符号，不能与更早的 ABI 1 构建混用。

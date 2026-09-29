@@ -1,0 +1,19 @@
+{
+  "format": "rfmodel.linear-network",
+  "version": 1,
+  "reference_ohms": 50,
+  "frequencies_hz": [0, 125000000, 250000000],
+  "devices": [
+    {
+      "id": "line",
+      "model": {
+        "type": "rlgc_line",
+        "length_m": 0.2,
+        "inductance_h_per_m": 0.000001,
+        "capacitance_f_per_m": 0.0000000001
+      }
+    }
+  ],
+  "external_ports": [["line", 0], ["line", 1]],
+  "temperature_k": 290
+}

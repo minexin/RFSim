@@ -8,6 +8,14 @@ int main(void) {
     rfmodel_complex result[4];
     size_t offset;
     int status;
+    if (rfmodel_rlgc_line_s(0., 25., 0., 0., 0., 2., 50., result, 4) != RFMODEL_OK ||
+        fabs(result[2].real - 2. / 3.) > 1e-12) {
+        return 4;
+    }
+    if (rfmodel_transmission_line_s(1e9, 100., 0.25e-9, 0., 50., result, 4) != RFMODEL_OK ||
+        fabs(result[0].real - 0.6) > 1e-12) {
+        return 5;
+    }
     if (rfmodel_abi_version() != 1 || rfmodel_network_create(50., &network) != RFMODEL_OK) {
         return 1;
     }

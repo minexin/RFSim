@@ -1,5 +1,7 @@
 #include "rfmodel/c_api.h"
 #include "rfmodel/network.hpp"
+#include "rfmodel/transmission_line.hpp"
+#include "rfmodel/rlgc_transmission_line.hpp"
 #include <cstdio>
 #include <new>
 
@@ -140,6 +142,47 @@ int rfmodel_network_external_s(const rfmodel_network *network,
         const auto matrix =
             network->core.external_s(std::vector<size_t>(ports, ports + port_count));
         for (size_t i = 0; i < matrix.values.size(); ++i) {
+            values[i] = {matrix.values[i].real(), matrix.values[i].imag()};
+        }
+    });
+}
+
+int rfmodel_transmission_line_s(double frequency_hz,
+                                double characteristic_ohms,
+                                double delay_s,
+                                double propagation_loss_db,
+                                double reference_ohms,
+                                rfmodel_complex *values,
+                                size_t capacity) {
+    return guarded([&] {
+        require(values && capacity >= 4);
+        const rfmodel::TransmissionLineModel model(
+            "C API line", characteristic_ohms, delay_s, propagation_loss_db, reference_ohms);
+        const auto matrix = model.s_parameters(frequency_hz);
+        for (size_t i = 0; i < 4; ++i) {
+            values[i] = {matrix.values[i].real(), matrix.values[i].imag()};
+        }
+    });
+}
+
+int rfmodel_rlgc_line_s(double frequency_hz,
+                        double resistance_ohms_per_m,
+                        double inductance_h_per_m,
+                        double conductance_s_per_m,
+                        double capacitance_f_per_m,
+                        double length_m,
+                        double reference_ohms,
+                        rfmodel_complex *values,
+                        size_t capacity) {
+    return guarded([&] {
+        require(values && capacity >= 4);
+        const rfmodel::RlgcTransmissionLineModel model(
+            "C API RLGC line",
+            {resistance_ohms_per_m, inductance_h_per_m, conductance_s_per_m, capacitance_f_per_m},
+            length_m,
+            reference_ohms);
+        const auto matrix = model.s_parameters(frequency_hz);
+        for (size_t i = 0; i < 4; ++i) {
             values[i] = {matrix.values[i].real(), matrix.values[i].imag()};
         }
     });

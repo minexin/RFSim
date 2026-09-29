@@ -62,6 +62,25 @@ RFMODEL_API int rfmodel_network_external_s(const rfmodel_network *network,
                                            rfmodel_complex *values,
                                            size_t capacity);
 
+/* Two-port parameter models, four row-major output elements. All units are SI
+   except propagation_loss_db. Reference impedance is real and positive. */
+RFMODEL_API int rfmodel_transmission_line_s(double frequency_hz,
+                                            double characteristic_ohms,
+                                            double delay_s,
+                                            double propagation_loss_db,
+                                            double reference_ohms,
+                                            rfmodel_complex *values,
+                                            size_t capacity);
+RFMODEL_API int rfmodel_rlgc_line_s(double frequency_hz,
+                                    double resistance_ohms_per_m,
+                                    double inductance_h_per_m,
+                                    double conductance_s_per_m,
+                                    double capacitance_f_per_m,
+                                    double length_m,
+                                    double reference_ohms,
+                                    rfmodel_complex *values,
+                                    size_t capacity);
+
 /* Covariance matrices use W/Hz. Outputs are written only on success. */
 RFMODEL_API int rfmodel_passive_noise(size_t ports,
                                       const rfmodel_complex *scattering,
