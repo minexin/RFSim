@@ -35,6 +35,20 @@ class NativeCompressionComparisonTests(unittest.TestCase):
         self.assertEqual(len(failures), 1)
         self.assertEqual(failures[0]["metric"], "gain")
 
+    def test_local_diagnostic_does_not_replace_end_to_end_inputs(self):
+        original = comparison.compare(self.library, self.sweep, self.settings)
+        sweep = copy.deepcopy(self.sweep)
+        sweep["points"][0]["nodes"][3]["signal_output_w"] *= 1.01
+        changed = comparison.compare(self.library, sweep, self.settings)
+        # End-to-end predictions never consume measured intermediate powers.
+        self.assertEqual([c["rfmodel"] for c in original["checks"]],
+                         [c["rfmodel"] for c in changed["checks"]])
+        local_before = original["local_signal_diagnostic"]["points"][0]["stages"][-1]
+        local_after = changed["local_signal_diagnostic"]["points"][0]["stages"][-1]
+        self.assertNotEqual(local_before["predicted_output_from_measured_input_w"],
+                            local_after["predicted_output_from_measured_input_w"])
+        self.assertFalse(changed["local_signal_diagnostic"]["affects_compatibility_verdict"])
+
     def test_near_compression_gap_remains_visible(self):
         validation = comparison.ROOT / "validation"
         sweep = json.loads((validation / "systemvue-2023-antenna-near-compression-sweep.json").read_text())
@@ -48,6 +62,10 @@ class NativeCompressionComparisonTests(unittest.TestCase):
         # Guard against silently weakening the comparator to conceal the observed gap.
         self.assertEqual(report["relative_tolerance"], 1e-7)
         self.assertTrue(all(check["signed_relative_error"] > 1e-6 for check in failures))
+        for point in report["local_signal_diagnostic"]["points"]:
+            self.assertGreater(point["stages"][-1]["signed_relative_output_residual"], 1e-6)
+            for stage in point["stages"][:-1]:
+                self.assertLess(abs(stage["signed_relative_output_residual"]), 1e-7)
 
     def test_rejects_inconsistent_evidence(self):
         for modification in ("hash", "power", "order", "empty"):

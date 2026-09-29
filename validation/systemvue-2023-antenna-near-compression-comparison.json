@@ -192,6 +192,82 @@
       "passed": false
     }
   ],
+  "local_signal_diagnostic": {
+    "scope": "Each native stage receives the measured preceding-node signal power",
+    "assumption": "Preceding-node delivered power represents matched incident wave power",
+    "limitation": "Not an isolated-device experiment; does not resolve reverse waves or mismatch",
+    "affects_compatibility_verdict": false,
+    "points": [
+      {
+        "source_power_dbm": 10.0,
+        "capture_sha256": "4ffc34b342c6d5065d136cb247e9d7ec90682e7d198f4b5d9abafcecf13a8dbb",
+        "stages": [
+          {
+            "node": "Attn1",
+            "measured_input_w": 0.009999999750000032,
+            "measured_output_w": 0.007886864094370451,
+            "predicted_output_from_measured_input_w": 0.007886864094370437,
+            "signed_relative_output_residual": -1.7763568394002505e-15
+          },
+          {
+            "node": "RFAmp1",
+            "measured_input_w": 0.007886864094370451,
+            "measured_output_w": 2.4929708737066125,
+            "predicted_output_from_measured_input_w": 2.4929708861654536,
+            "signed_relative_output_residual": 4.9975878990693445e-09
+          },
+          {
+            "node": "Attn2",
+            "measured_input_w": 2.4929708737066125,
+            "measured_output_w": 0.9722452256053111,
+            "predicted_output_from_measured_input_w": 0.9722452304665378,
+            "signed_relative_output_residual": 5.00000063574646e-09
+          },
+          {
+            "node": "RFAmp2",
+            "measured_input_w": 0.9722452256053111,
+            "measured_output_w": 815.7940904933004,
+            "predicted_output_from_measured_input_w": 815.7950412654865,
+            "signed_relative_output_residual": 1.1654560840845818e-06
+          }
+        ]
+      },
+      {
+        "source_power_dbm": 11.0,
+        "capture_sha256": "fd34700f5f1642cc1d25c11566eea5ab87b21e5b0444b9254335c27ef44e47b2",
+        "stages": [
+          {
+            "node": "Attn1",
+            "measured_input_w": 0.012589253803210361,
+            "measured_output_w": 0.009928973627769951,
+            "predicted_output_from_measured_input_w": 0.009928973627769934,
+            "signed_relative_output_residual": -1.7763568394002505e-15
+          },
+          {
+            "node": "RFAmp1",
+            "measured_input_w": 0.009928973627769951,
+            "measured_output_w": 3.1381141700092803,
+            "predicted_output_from_measured_input_w": 3.138114185690319,
+            "signed_relative_output_residual": 4.996962399417271e-09
+          },
+          {
+            "node": "Attn2",
+            "measured_input_w": 3.1381141700092803,
+            "measured_output_w": 1.2238476395271998,
+            "predicted_output_from_measured_input_w": 1.2238476456464378,
+            "signed_relative_output_residual": 4.99999974756804e-09
+          },
+          {
+            "node": "RFAmp2",
+            "measured_input_w": 1.2238476395271998,
+            "measured_output_w": 978.7563247560988,
+            "predicted_output_from_measured_input_w": 978.7581760377814,
+            "signed_relative_output_residual": 1.8914633148625626e-06
+          }
+        ]
+      }
+    ]
+  },
   "input_sha256": {
     "library": "743f18c1da18458a22f61284e55671c2b51f1267bd55aaf9dcde09b43c4ee209",
     "sweep": "377f27ea29fc6effc3720f7a56622069cbc7c46c7f6b0c8f031c969ff5f6f7a6",

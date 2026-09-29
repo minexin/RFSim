@@ -44,6 +44,27 @@ def model(power_w, parameters):
     }
 
 
+def local_signal_diagnostic(library, document, nodes):
+    """Condition each stage on measured preceding power, assuming matched waves."""
+    records = []
+    for index, stage in enumerate(document["stages"], 1):
+        measured_input = nodes[index - 1]["signal_output_w"]
+        measured_output = nodes[index]["signal_output_w"]
+        local_document = dict(document)
+        local_document["input"] = [{"bin": 1, "amplitude": [math.sqrt(measured_input), 0]}]
+        local_document["stages"] = [stage]
+        result = analyze_spectrum(library, local_document)
+        predicted = result["stages"][0]["spectrum"][0]["power_w"]
+        records.append({
+            "node": stage["id"],
+            "measured_input_w": measured_input,
+            "measured_output_w": measured_output,
+            "predicted_output_from_measured_input_w": predicted,
+            "signed_relative_output_residual": predicted / measured_output - 1,
+        })
+    return records
+
+
 def compare(library, sweep, settings):
     settings_by_hash = {point["capture_sha256"]: point for point in settings["points"]}
     hashes = [point["capture_sha256"] for point in sweep["points"]]
@@ -52,6 +73,7 @@ def compare(library, sweep, settings):
             set(hashes) != set(settings_by_hash)):
         raise ValueError("Expected unique matching capture sets")
     checks = []
+    local_points = []
     for point in sweep["points"]:
         setting = settings_by_hash[point["capture_sha256"]]
         if setting["source_power_dbm"] != point["source_power_dbm"]:
@@ -66,7 +88,8 @@ def compare(library, sweep, settings):
                       for entry in setting["parameters"]}
         if len(parameters) != len(setting["parameters"]):
             raise ValueError("Duplicate nonlinear parameter")
-        result = analyze_spectrum(library, model(power, parameters))
+        document = model(power, parameters)
+        result = analyze_spectrum(library, document)
         powers = [power]
         for stage in result["stages"]:
             spectrum = stage["spectrum"]
@@ -86,12 +109,25 @@ def compare(library, sweep, settings):
                     "signed_relative_error": residual,
                     "passed": math.isfinite(native) and abs(residual) <= RELATIVE_TOLERANCE,
                 })
+        # This diagnostic must never feed back into the end-to-end checks above.
+        local_points.append({
+            "source_power_dbm": point["source_power_dbm"],
+            "capture_sha256": point["capture_sha256"],
+            "stages": local_signal_diagnostic(library, document, point["nodes"]),
+        })
     return {
         "scope": "Native JSON matched single-tone compression chain versus archived SystemVue signals",
         "excluded": ["noise", "saturation", "intermodulation", "AM/PM", "mismatch"],
         "limitation": "Results apply only to the captured powers and signal metrics, not full RFAMP compatibility",
         "relative_tolerance": RELATIVE_TOLERANCE,
         "passed": all(check["passed"] for check in checks), "checks": checks,
+        "local_signal_diagnostic": {
+            "scope": "Each native stage receives the measured preceding-node signal power",
+            "assumption": "Preceding-node delivered power represents matched incident wave power",
+            "limitation": "Not an isolated-device experiment; does not resolve reverse waves or mismatch",
+            "affects_compatibility_verdict": False,
+            "points": local_points,
+        },
     }
 
 
