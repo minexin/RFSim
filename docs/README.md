@@ -5,4 +5,5 @@
 - [核心接口](api.md)
 - [能力边界与验收矩阵](acceptance-matrix.md)
 - [有阻抗失配的均匀传输线](transmission-line.md)
+- [分布参数 RLGC 传输线](rlgc-transmission-line.md)
 - [理想功分/合路器和正交耦合器](multiport-devices.md)

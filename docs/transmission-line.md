@@ -1,5 +1,7 @@
 # 有阻抗失配的均匀传输线
 
+按单位长度 R、L、G、C 建模的传输线见 [分布参数模型](rlgc-transmission-line.md)。
+
 `rfmodel/transmission_line.hpp` 中的 `TransmissionLineModel` 实现
 `RFDeviceModel` 和 `SParameterProvider`，可以直接接入现有线性网络、频率扫描和
 被动热噪声计算。两个端口使用相同的正实数参考阻抗，线的特性阻抗独立指定。
