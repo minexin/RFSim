@@ -1,0 +1,380 @@
+{
+  "scope": "Native JSON matched single-tone compression chain versus archived SystemVue signals",
+  "excluded": [
+    "noise",
+    "saturation",
+    "intermodulation",
+    "AM/PM",
+    "mismatch"
+  ],
+  "limitation": "These low-power points do not validate behavior near P1dB or full RFAMP compatibility",
+  "relative_tolerance": 1e-07,
+  "passed": true,
+  "checks": [
+    {
+      "source_power_dbm": -70.0,
+      "node": "Source",
+      "metric": "gain",
+      "rfmodel": 1.0,
+      "systemvue": 1,
+      "signed_relative_error": 0.0,
+      "passed": true
+    },
+    {
+      "source_power_dbm": -70.0,
+      "node": "Source",
+      "metric": "signal_output_w",
+      "rfmodel": 1e-10,
+      "systemvue": 9.999999750000029e-11,
+      "signed_relative_error": 2.499999784966178e-08,
+      "passed": true
+    },
+    {
+      "source_power_dbm": -70.0,
+      "node": "Attn1",
+      "metric": "gain",
+      "rfmodel": 0.7886864291542021,
+      "systemvue": 0.7886864291542033,
+      "signed_relative_error": -1.5543122344752192e-15,
+      "passed": true
+    },
+    {
+      "source_power_dbm": -70.0,
+      "node": "Attn1",
+      "metric": "signal_output_w",
+      "rfmodel": 7.886864291542021e-11,
+      "systemvue": 7.886864094370448e-11,
+      "signed_relative_error": 2.4999996295349547e-08,
+      "passed": true
+    },
+    {
+      "source_power_dbm": -70.0,
+      "node": "RFAmp1",
+      "metric": "gain",
+      "rfmodel": 249.40454757815584,
+      "systemvue": 249.404546331133,
+      "signed_relative_error": 5.000000413701855e-09,
+      "passed": true
+    },
+    {
+      "source_power_dbm": -70.0,
+      "node": "RFAmp1",
+      "metric": "signal_output_w",
+      "rfmodel": 2.4940454757815585e-08,
+      "systemvue": 2.4940454009602005e-08,
+      "signed_relative_error": 2.999999848540824e-08,
+      "passed": true
+    },
+    {
+      "source_power_dbm": -70.0,
+      "node": "Attn2",
+      "metric": "gain",
+      "rfmodel": 97.26643194952283,
+      "systemvue": 97.26643097685844,
+      "signed_relative_error": 1.000000082740371e-08,
+      "passed": true
+    },
+    {
+      "source_power_dbm": -70.0,
+      "node": "Attn2",
+      "metric": "signal_output_w",
+      "rfmodel": 9.726643194952283e-09,
+      "systemvue": 9.726642854519795e-09,
+      "signed_relative_error": 3.499999867706549e-08,
+      "passed": true
+    },
+    {
+      "source_power_dbm": -70.0,
+      "node": "RFAmp2",
+      "metric": "gain",
+      "rfmodel": 97266.43178607414,
+      "systemvue": 97266.42984074543,
+      "signed_relative_error": 2.000000121071821e-08,
+      "passed": true
+    },
+    {
+      "source_power_dbm": -70.0,
+      "node": "RFAmp2",
+      "metric": "signal_output_w",
+      "rfmodel": 9.726643178607414e-06,
+      "systemvue": 9.726642740908497e-06,
+      "signed_relative_error": 4.4999999282424596e-08,
+      "passed": true
+    },
+    {
+      "source_power_dbm": -60.0,
+      "node": "Source",
+      "metric": "gain",
+      "rfmodel": 1.0,
+      "systemvue": 1,
+      "signed_relative_error": 0.0,
+      "passed": true
+    },
+    {
+      "source_power_dbm": -60.0,
+      "node": "Source",
+      "metric": "signal_output_w",
+      "rfmodel": 1e-09,
+      "systemvue": 9.999999750000032e-10,
+      "signed_relative_error": 2.4999997627617176e-08,
+      "passed": true
+    },
+    {
+      "source_power_dbm": -60.0,
+      "node": "Attn1",
+      "metric": "gain",
+      "rfmodel": 0.7886864291542018,
+      "systemvue": 0.7886864291542033,
+      "signed_relative_error": -1.7763568394002505e-15,
+      "passed": true
+    },
+    {
+      "source_power_dbm": -60.0,
+      "node": "Attn1",
+      "metric": "signal_output_w",
+      "rfmodel": 7.886864291542019e-10,
+      "systemvue": 7.88686409437045e-10,
+      "signed_relative_error": 2.4999995851260337e-08,
+      "passed": true
+    },
+    {
+      "source_power_dbm": -60.0,
+      "node": "RFAmp1",
+      "metric": "gain",
+      "rfmodel": 249.404547568484,
+      "systemvue": 249.404546321461,
+      "signed_relative_error": 5.00000107983567e-09,
+      "passed": true
+    },
+    {
+      "source_power_dbm": -60.0,
+      "node": "RFAmp1",
+      "metric": "signal_output_w",
+      "rfmodel": 2.49404547568484e-07,
+      "systemvue": 2.4940454008634813e-07,
+      "signed_relative_error": 2.9999998707452846e-08,
+      "passed": true
+    },
+    {
+      "source_power_dbm": -60.0,
+      "node": "Attn2",
+      "metric": "gain",
+      "rfmodel": 97.26643194575085,
+      "systemvue": 97.26643097308644,
+      "signed_relative_error": 1.0000001049448315e-08,
+      "passed": true
+    },
+    {
+      "source_power_dbm": -60.0,
+      "node": "Attn2",
+      "metric": "signal_output_w",
+      "rfmodel": 9.726643194575086e-08,
+      "systemvue": 9.726642854142597e-08,
+      "signed_relative_error": 3.4999998899110096e-08,
+      "passed": true
+    },
+    {
+      "source_power_dbm": -60.0,
+      "node": "RFAmp2",
+      "metric": "gain",
+      "rfmodel": 97266.43031126382,
+      "systemvue": 97266.42836593512,
+      "signed_relative_error": 2.000000121071821e-08,
+      "passed": true
+    },
+    {
+      "source_power_dbm": -60.0,
+      "node": "RFAmp2",
+      "metric": "signal_output_w",
+      "rfmodel": 9.726643031126382e-05,
+      "systemvue": 9.726642593427472e-05,
+      "signed_relative_error": 4.4999999282424596e-08,
+      "passed": true
+    },
+    {
+      "source_power_dbm": -50.0,
+      "node": "Source",
+      "metric": "gain",
+      "rfmodel": 1.0,
+      "systemvue": 1,
+      "signed_relative_error": 0.0,
+      "passed": true
+    },
+    {
+      "source_power_dbm": -50.0,
+      "node": "Source",
+      "metric": "signal_output_w",
+      "rfmodel": 1e-08,
+      "systemvue": 9.999999750000036e-09,
+      "signed_relative_error": 2.4999997183527967e-08,
+      "passed": true
+    },
+    {
+      "source_power_dbm": -50.0,
+      "node": "Attn1",
+      "metric": "gain",
+      "rfmodel": 0.7886864291542018,
+      "systemvue": 0.7886864291542032,
+      "signed_relative_error": -1.6653345369377348e-15,
+      "passed": true
+    },
+    {
+      "source_power_dbm": -50.0,
+      "node": "Attn1",
+      "metric": "signal_output_w",
+      "rfmodel": 7.886864291542018e-09,
+      "systemvue": 7.886864094370453e-09,
+      "signed_relative_error": 2.4999995185126522e-08,
+      "passed": true
+    },
+    {
+      "source_power_dbm": -50.0,
+      "node": "RFAmp1",
+      "metric": "gain",
+      "rfmodel": 249.40454747176605,
+      "systemvue": 249.4045462247432,
+      "signed_relative_error": 5.000000413701855e-09,
+      "passed": true
+    },
+    {
+      "source_power_dbm": -50.0,
+      "node": "RFAmp1",
+      "metric": "signal_output_w",
+      "rfmodel": 2.4940454747176607e-06,
+      "systemvue": 2.4940453998963042e-06,
+      "signed_relative_error": 2.9999997819274427e-08,
+      "passed": true
+    },
+    {
+      "source_power_dbm": -50.0,
+      "node": "Attn2",
+      "metric": "gain",
+      "rfmodel": 97.26643190803141,
+      "systemvue": 97.266430935367,
+      "signed_relative_error": 1.0000001049448315e-08,
+      "passed": true
+    },
+    {
+      "source_power_dbm": -50.0,
+      "node": "Attn2",
+      "metric": "signal_output_w",
+      "rfmodel": 9.72664319080314e-07,
+      "systemvue": 9.726642850370657e-07,
+      "signed_relative_error": 3.499999823297628e-08,
+      "passed": true
+    },
+    {
+      "source_power_dbm": -50.0,
+      "node": "RFAmp2",
+      "metric": "gain",
+      "rfmodel": 97266.41556316159,
+      "systemvue": 97266.41361783382,
+      "signed_relative_error": 1.9999994771424667e-08,
+      "passed": true
+    },
+    {
+      "source_power_dbm": -50.0,
+      "node": "RFAmp2",
+      "metric": "signal_output_w",
+      "rfmodel": 0.0009726641556316159,
+      "systemvue": 0.0009726641118617383,
+      "signed_relative_error": 4.4999992399041844e-08,
+      "passed": true
+    },
+    {
+      "source_power_dbm": -40.0,
+      "node": "Source",
+      "metric": "gain",
+      "rfmodel": 1.0,
+      "systemvue": 1,
+      "signed_relative_error": 0.0,
+      "passed": true
+    },
+    {
+      "source_power_dbm": -40.0,
+      "node": "Source",
+      "metric": "signal_output_w",
+      "rfmodel": 1e-07,
+      "systemvue": 9.999999750000032e-08,
+      "signed_relative_error": 2.499999740557257e-08,
+      "passed": true
+    },
+    {
+      "source_power_dbm": -40.0,
+      "node": "Attn1",
+      "metric": "gain",
+      "rfmodel": 0.7886864291542018,
+      "systemvue": 0.7886864291542032,
+      "signed_relative_error": -1.6653345369377348e-15,
+      "passed": true
+    },
+    {
+      "source_power_dbm": -40.0,
+      "node": "Attn1",
+      "metric": "signal_output_w",
+      "rfmodel": 7.886864291542018e-08,
+      "systemvue": 7.88686409437045e-08,
+      "signed_relative_error": 2.4999995629215732e-08,
+      "passed": true
+    },
+    {
+      "source_power_dbm": -40.0,
+      "node": "RFAmp1",
+      "metric": "gain",
+      "rfmodel": 249.4045465045873,
+      "systemvue": 249.40454525756465,
+      "signed_relative_error": 4.99999974756804e-09,
+      "passed": true
+    },
+    {
+      "source_power_dbm": -40.0,
+      "node": "RFAmp1",
+      "metric": "signal_output_w",
+      "rfmodel": 2.494045465045873e-05,
+      "systemvue": 2.494045390224518e-05,
+      "signed_relative_error": 2.999999715314061e-08,
+      "passed": true
+    },
+    {
+      "source_power_dbm": -40.0,
+      "node": "Attn2",
+      "metric": "gain",
+      "rfmodel": 97.26643153083685,
+      "systemvue": 97.26643055817256,
+      "signed_relative_error": 9.99999993922529e-09,
+      "passed": true
+    },
+    {
+      "source_power_dbm": -40.0,
+      "node": "Attn2",
+      "metric": "signal_output_w",
+      "rfmodel": 9.726643153083685e-06,
+      "systemvue": 9.72664281265121e-06,
+      "signed_relative_error": 3.499999756684247e-08,
+      "passed": true
+    },
+    {
+      "source_power_dbm": -40.0,
+      "node": "RFAmp2",
+      "metric": "gain",
+      "rfmodel": 97266.26808220176,
+      "systemvue": 97266.26613688306,
+      "signed_relative_error": 1.9999931932801474e-08,
+      "passed": true
+    },
+    {
+      "source_power_dbm": -40.0,
+      "node": "RFAmp2",
+      "metric": "signal_output_w",
+      "rfmodel": 0.009726626808220175,
+      "systemvue": 0.009726626370522672,
+      "signed_relative_error": 4.4999929782463255e-08,
+      "passed": true
+    }
+  ],
+  "input_sha256": {
+    "library": "743f18c1da18458a22f61284e55671c2b51f1267bd55aaf9dcde09b43c4ee209",
+    "sweep": "a7b069e27015ede138c1d3ef5bccd8c3a8d6074ba4941235dc3cb0e394d6e021",
+    "settings": "fe12c5946a8d90a85fbd851c56ce9599e0a1c6db77517d4be226a81705e6f407"
+  }
+}

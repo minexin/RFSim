@@ -50,3 +50,33 @@ Python 封装调用同一个 C++ 核心，错误以 RFModelError 返回。该符
 
 2026-09-29 接口验证：Debug/Release 全套各 45/45，安装消费者各 2/2，
 安装后的 Release 动态库通过 Python 39 项测试。未新增厂商实测。
+
+## 原生 JSON 链路与归档 SystemVue 信号比较
+
+2026-09-29：新增 `scripts/reference/compare-antenna-compression.py`，通过公开
+Python → C ABI → C++ 路径执行两级线性衰减器和两级 `p1db_fundamental`。
+输入为已归档的四点功率扫描及非线性参数审计；通过 capture SHA256 关联两者，
+核验源功率、节点顺序、OP1dB 和 AM/PM 关闭条件。衰减和增益沿用天线案例的
+固定参数映射；此脚本不是任意工作区的自动模型提取器。
+
+```powershell
+& 'C:/Program Files/Keysight/SystemVue2023/Python/python/python.exe' `
+  scripts/reference/compare-antenna-compression.py `
+  build-msvc/Release/rfmodel_c.dll `
+  validation/systemvue-2023-antenna-power-sweep.json `
+  validation/systemvue-2023-antenna-nonlinear-settings.json `
+  build-reference/native-compression-result.json
+```
+
+报告 `validation/systemvue-2023-antenna-native-compression.json` 记录动态库及两个
+输入文件的 SHA256。四点（−70、−60、−50、−40 dBm）× 五节点 × 增益/信号功率
+共 40/40 项通过，固定相对阈值仍为 1e-7。增益最大相对误差约 2.0000001e-8，
+信号功率最大相对误差约 4.4999999e-8。没有用实测输出拟合校正系数。
+
+新增 CTest `native_compression_reference` 包含三项测试：归档结果比较、篡改测量
+必须失败、不一致证据必须拒绝；由现有三平台 CI 的 CTest 步骤执行。
+本机 Debug/Release 均通过该测试及 Python API 的 42 项测试。本次没有修改
+C++ 核心或重新采集 SystemVue，也未核验此提交的远端 CI。
+
+这是信号子集的独立报告，不替换包含噪声的原始兼容报告。低功率吻合不能证明
+靠近 P1dB、饱和、多音互调、AM/PM、失配或噪声已兼容；这些仍须独立验证。
