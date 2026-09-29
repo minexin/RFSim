@@ -1,0 +1,11 @@
+{
+  "format": "rfmodel.linear-network",
+  "version": 1,
+  "frequencies_hz": [1000000000, 2000000000],
+  "devices": [{"id": "thru", "s": [[0, 1], [1, 0]]}],
+  "external_ports": [["thru", 0], ["thru", 1]],
+  "signal_boundaries": [
+    {"port": ["thru", 0], "reflection": 0.25, "source_samples": [1, [0, 1]]},
+    {"port": ["thru", 1], "reflection": 0.5}
+  ]
+}

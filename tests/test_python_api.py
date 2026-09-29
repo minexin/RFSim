@@ -213,6 +213,42 @@ class PythonApiTests(unittest.TestCase):
         for sample in result["samples"]:
             self.assertAlmostEqual(sample["noise_w_per_hz"][1][1][0] / thermal, 0.75)
 
+    def test_json_signal_feedback_and_power(self):
+        document = load(Path(__file__).resolve().parents[1] / "examples/mismatched-signal.json")
+        result = analyze(self.library, document)
+        for index, phase in enumerate((1., 1j)):
+            point = result["samples"][index]
+            ports = point["signal"]["ports"]
+            self.assertAlmostEqual(complex(*ports[0]["incident"]), phase*8/7)
+            self.assertAlmostEqual(complex(*ports[0]["outgoing"]), phase*4/7)
+            self.assertAlmostEqual(ports[1]["net_into_device_w"], -48/49)
+            self.assertAlmostEqual(sum(port["net_into_device_w"] for port in ports), 0.)
+            self.assertLess(point["signal"]["relative_residual"], 1e-12)
+            self.assertEqual(point["s"], [[[0., 0.], [1., 0.]], [[1., 0.], [0., 0.]]])
+        bad = copy.deepcopy(document)
+        bad["signal_boundaries"].pop()
+        with self.assertRaises(ValueError):
+            analyze(self.library, bad)
+        bad = copy.deepcopy(document)
+        bad["signal_boundaries"][0]["source"] = 1.
+        with self.assertRaises(ValueError):
+            analyze(self.library, bad)
+        bad = copy.deepcopy(document)
+        bad["signal_boundaries"][0]["source_samples"] = [1.]
+        with self.assertRaises(ValueError):
+            analyze(self.library, bad)
+
+    def test_json_signal_keeps_noise_reference_conditions(self):
+        document = load(Path(__file__).resolve().parents[1] / "examples/linear-noise.json")
+        original = analyze(self.library, document)
+        document["signal_boundaries"] = [
+            {"port": ["pad", 0], "source": 1.},
+            {"port": ["phase", 1], "reflection": 0.5}]
+        result = analyze(self.library, document)
+        self.assertEqual(original["samples"][0]["noise_w_per_hz"],
+                         result["samples"][0]["noise_w_per_hz"])
+        self.assertEqual(len(result["samples"][0]["signal"]["ports"]), 4)
+
     def test_device_noise_mixed_chain(self):
         document = load(Path(__file__).resolve().parents[1] / "examples/amplifier-noise.json")
         point = analyze(self.library, document)["samples"][0]

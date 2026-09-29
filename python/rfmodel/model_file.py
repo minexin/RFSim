@@ -110,7 +110,7 @@ def analyze(library, document):
     """Evaluate explicit frequency samples, returning JSON-compatible S/noise results."""
     _object(document, ("format", "version", "frequencies_hz", "devices", "external_ports"),
             ("reference_ohms", "connections", "terminations", "temperature_k",
-             "intrinsic_noise_samples"))
+             "intrinsic_noise_samples", "signal_boundaries"))
     if (document["format"] != "rfmodel.linear-network" or
             type(document["version"]) is not int or document["version"] != 1):
         raise ValueError("Unsupported model format/version")
@@ -194,6 +194,30 @@ def analyze(library, document):
         boundaries.append((endpoint(termination["port"]),
                            _complex(termination.get("reflection", 0.))))
 
+    signal_boundaries = None
+    if "signal_boundaries" in document:
+        entries = document["signal_boundaries"]
+        if not isinstance(entries, list):
+            raise ValueError("signal_boundaries must be an array")
+        signal_boundaries = {}
+        for entry in entries:
+            _object(entry, ("port",), ("reflection", "source", "source_samples"))
+            port = endpoint(entry["port"])
+            if port not in selected or port in signal_boundaries:
+                raise ValueError("Signal boundaries must uniquely cover external ports")
+            if "source" in entry and "source_samples" in entry:
+                raise ValueError("Choose source or source_samples")
+            if "source_samples" in entry:
+                samples = entry["source_samples"]
+                if not isinstance(samples, list) or len(samples) != len(frequencies):
+                    raise ValueError("One source amplitude is required per frequency")
+                sources = [_complex(value) for value in samples]
+            else:
+                sources = [_complex(entry.get("source", 0.))] * len(frequencies)
+            signal_boundaries[port] = (_complex(entry.get("reflection", 0.)), sources)
+        if set(signal_boundaries) != set(selected):
+            raise ValueError("Signal boundaries must specify every external port")
+
     results = []
     for index, frequency in enumerate(frequencies):
         with library.network(reference) as network:
@@ -218,6 +242,27 @@ def analyze(library, document):
                 covariance = _matrix(noise_samples[index])
             if covariance is not None:
                 point["noise_w_per_hz"] = _encode(network.external_noise(selected, covariance))
+            if signal_boundaries is not None:
+                for port, (reflection, sources) in signal_boundaries.items():
+                    network.terminate(port, reflection=reflection, source=sources[index])
+                waves = network.solve()
+                port_waves = []
+                for name, (offset, count) in offsets.items():
+                    for local in range(count):
+                        incident = waves.incident[offset + local]
+                        outgoing = waves.outgoing[offset + local]
+                        incident_power, outgoing_power = abs(incident)**2, abs(outgoing)**2
+                        if not all(math.isfinite(value) for value in
+                                   (incident_power, outgoing_power, incident_power-outgoing_power)):
+                            raise ValueError("Signal port power overflow")
+                        port_waves.append({"port": [name, local],
+                                           "incident": [incident.real, incident.imag],
+                                           "outgoing": [outgoing.real, outgoing.imag],
+                                           "incident_power_w": incident_power,
+                                           "outgoing_power_w": outgoing_power,
+                                           "net_into_device_w": incident_power-outgoing_power})
+                point["signal"] = {"ports": port_waves,
+                                   "relative_residual": waves.relative_residual}
             results.append(point)
     return {"format": "rfmodel.linear-results", "version": 1,
             "reference_ohms": reference, "external_ports": externals, "samples": results}
