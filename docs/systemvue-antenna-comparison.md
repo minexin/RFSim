@@ -124,3 +124,42 @@ MSVC Debug/Release 探针在统一输入下输出相同，非法密度参数被�
 
 本轮比较校验测试 6/6 通过，Debug/Release 探针输出一致，66 个 C++ 文件格式检查通过。
 重放命令与上一节相同，只需将输出文件改为上述预算报告名。
+
+## 2026-09-29 后台复测与跨平台验证
+
+本机 SystemVue 2023.0.0.11903 在无已有实例时以隐藏窗口方式启动，随后由
+run-systemvue-reference.py 连接 COM，只打开 build-reference 内的天线工程副本。
+分析时间为 UTC 08:12:36.5209524–08:12:37.4433842，Manager 错误列表为空，
+数据集时间戳及 19 项器件/源参数校验通过。原始输出保存在
+build-reference/antenna-run-003，未上传厂商工作区。
+
+归档为 validation/systemvue-2023-antenna-run-003.json；该文件保留采集 SHA256。
+统一输入噪声后的比较为 validation/systemvue-2023-antenna-run-003-comparison.json。
+全部 20 个 SystemVue 测量数值与上一份统一源密度报告完全相同，仍为 14/20 通过，
+相对容差保持 1e-7。此次重跑证明偏差可重复，尚不能据此确定偏差原因。
+
+| 未通过项 | 相对误差 |
+|---|---:|
+| Attn1 CND | 6.0719622e-7 |
+| RFAmp1 CND | 8.4815160e-7 |
+| Attn2 CND | 8.4412359e-7 |
+| RFAmp2 CND | 6.6993137e-7 |
+| RFAmp2 CGAIN | 1.8847316e-7 |
+| RFAmp2 DCP | 2.1347316e-7 |
+
+```powershell
+python scripts/reference/compare-antenna.py compare `
+  validation/systemvue-2023-antenna-run-003.json `
+  build-reference/antenna-run-003-replay.json `
+  --executable build-msvc/Release/reference_antenna.exe --align-source-noise
+```
+
+预期退出码为 1，表示报告中仍有差异，不能当作采集失败，也不能标记兼容验收通过。
+下一步需要受控参数变化来区分器件噪声基准和 RFAMP 近似的影响，不能对上述误差
+添加经验修正。此次案例也不覆盖新增 Touchstone 噪声导入或完整 RF Design 库。
+
+实现提交 b47b6daad4f0b619cb38c0ae5a5119eaee72271d 的
+[GitHub Actions](https://github.com/minexin/RFSim/actions/runs/36541004349)
+已完成 Windows、Ubuntu、macOS × Debug/Release 六个作业；核心/CLI 测试、Python
+wheel 构建和独立安装消费者步骤均成功。逐作业、逐步骤记录在
+validation/ci-b47b6da.json。CI 不安装 SystemVue，不能替代本机厂商比对。

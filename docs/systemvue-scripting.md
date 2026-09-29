@@ -74,5 +74,10 @@ python scripts/reference/run-systemvue-reference.py antenna `
 
 2026-09-28：后台驱动测试 3/3、既有采集比较测试 9/9 通过，新增测试接入三平台 CI。
 在本机无 SystemVue 实例时实测返回 collector_failed/退出码 1，保留 COM 错误日志，
-未误报成功。尚未通过该新入口完成四级工程的新鲜数据采集，不把失败路径测试
-当作参考仿真验收。
+未误报成功。该段是初始失败路径验证，后续已完成新鲜数据采集，见上方对照报告。
+
+2026-09-29：在没有 SystemVue 进程时，通过已确认的本机
+`C:/Program Files/Keysight/SystemVue2023/Bin/SystemVue.exe` 启动隐藏实例，再执行
+上述 Python 驱动的 antenna 案例并带 --open-copy，完成 antenna-run-003 新鲜采集。
+启动记录保留在 build-reference，采集驱动自身仍不自动启动、关闭或重试实例。
+全程没有鼠标输入；分析、参数读取和结果导出均通过脚本完成。

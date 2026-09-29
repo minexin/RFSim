@@ -1,0 +1,427 @@
+{
+  "verified_utc": "2026-09-29T08:14:50.2254151Z",
+  "head_sha": "b47b6daad4f0b619cb38c0ae5a5119eaee72271d",
+  "run_url": "https://github.com/minexin/RFSim/actions/runs/36541004349",
+  "jobs": [
+    {
+      "name": "build (windows-latest, Debug)",
+      "conclusion": "success",
+      "steps": [
+        {
+          "name": "Set up job",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test reference inventory tools",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test reference result validation",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test background reference runner",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test antenna reference validation",
+          "conclusion": "success"
+        },
+        {
+          "name": "Configure",
+          "conclusion": "success"
+        },
+        {
+          "name": "Build",
+          "conclusion": "success"
+        },
+        {
+          "name": "Build Python distribution",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test core and CLI",
+          "conclusion": "success"
+        },
+        {
+          "name": "Install package",
+          "conclusion": "success"
+        },
+        {
+          "name": "Configure independent consumer",
+          "conclusion": "success"
+        },
+        {
+          "name": "Build independent consumer",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test installed package",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "name": "build (ubuntu-latest, Release)",
+      "conclusion": "success",
+      "steps": [
+        {
+          "name": "Set up job",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test reference inventory tools",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test reference result validation",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test background reference runner",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test antenna reference validation",
+          "conclusion": "success"
+        },
+        {
+          "name": "Configure",
+          "conclusion": "success"
+        },
+        {
+          "name": "Build",
+          "conclusion": "success"
+        },
+        {
+          "name": "Build Python distribution",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test core and CLI",
+          "conclusion": "success"
+        },
+        {
+          "name": "Install package",
+          "conclusion": "success"
+        },
+        {
+          "name": "Configure independent consumer",
+          "conclusion": "success"
+        },
+        {
+          "name": "Build independent consumer",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test installed package",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "name": "build (ubuntu-latest, Debug)",
+      "conclusion": "success",
+      "steps": [
+        {
+          "name": "Set up job",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test reference inventory tools",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test reference result validation",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test background reference runner",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test antenna reference validation",
+          "conclusion": "success"
+        },
+        {
+          "name": "Configure",
+          "conclusion": "success"
+        },
+        {
+          "name": "Build",
+          "conclusion": "success"
+        },
+        {
+          "name": "Build Python distribution",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test core and CLI",
+          "conclusion": "success"
+        },
+        {
+          "name": "Install package",
+          "conclusion": "success"
+        },
+        {
+          "name": "Configure independent consumer",
+          "conclusion": "success"
+        },
+        {
+          "name": "Build independent consumer",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test installed package",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "name": "build (macos-latest, Release)",
+      "conclusion": "success",
+      "steps": [
+        {
+          "name": "Set up job",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test reference inventory tools",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test reference result validation",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test background reference runner",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test antenna reference validation",
+          "conclusion": "success"
+        },
+        {
+          "name": "Configure",
+          "conclusion": "success"
+        },
+        {
+          "name": "Build",
+          "conclusion": "success"
+        },
+        {
+          "name": "Build Python distribution",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test core and CLI",
+          "conclusion": "success"
+        },
+        {
+          "name": "Install package",
+          "conclusion": "success"
+        },
+        {
+          "name": "Configure independent consumer",
+          "conclusion": "success"
+        },
+        {
+          "name": "Build independent consumer",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test installed package",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "name": "build (windows-latest, Release)",
+      "conclusion": "success",
+      "steps": [
+        {
+          "name": "Set up job",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test reference inventory tools",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test reference result validation",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test background reference runner",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test antenna reference validation",
+          "conclusion": "success"
+        },
+        {
+          "name": "Configure",
+          "conclusion": "success"
+        },
+        {
+          "name": "Build",
+          "conclusion": "success"
+        },
+        {
+          "name": "Build Python distribution",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test core and CLI",
+          "conclusion": "success"
+        },
+        {
+          "name": "Install package",
+          "conclusion": "success"
+        },
+        {
+          "name": "Configure independent consumer",
+          "conclusion": "success"
+        },
+        {
+          "name": "Build independent consumer",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test installed package",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "name": "build (macos-latest, Debug)",
+      "conclusion": "success",
+      "steps": [
+        {
+          "name": "Set up job",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test reference inventory tools",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test reference result validation",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test background reference runner",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test antenna reference validation",
+          "conclusion": "success"
+        },
+        {
+          "name": "Configure",
+          "conclusion": "success"
+        },
+        {
+          "name": "Build",
+          "conclusion": "success"
+        },
+        {
+          "name": "Build Python distribution",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test core and CLI",
+          "conclusion": "success"
+        },
+        {
+          "name": "Install package",
+          "conclusion": "success"
+        },
+        {
+          "name": "Configure independent consumer",
+          "conclusion": "success"
+        },
+        {
+          "name": "Build independent consumer",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test installed package",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "conclusion": "success"
+        }
+      ]
+    }
+  ]
+}
