@@ -30,9 +30,11 @@ jobs:
       - name: Test antenna reference validation
         run: python scripts/reference/test_compare_antenna.py
       - name: Configure
-        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=${{ matrix.configuration }} -DCMAKE_CXX_EXTENSIONS=OFF
+        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=${{ matrix.configuration }} -DCMAKE_CXX_EXTENSIONS=OFF -DRFMODEL_REQUIRE_PYTHON_TESTS=ON
       - name: Build
         run: cmake --build build --config ${{ matrix.configuration }} --parallel 2
+      - name: Build Python distribution
+        run: python -m pip wheel ./python --no-deps --wheel-dir python-dist
       - name: Test core and CLI
         run: ctest --test-dir build -C ${{ matrix.configuration }} --output-on-failure
       - name: Install package
