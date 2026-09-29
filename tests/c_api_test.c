@@ -92,6 +92,24 @@ int main(void) {
     CHECK(rfmodel_network_add(network, 2, pad, 4, 50, &offset) == RFMODEL_OK && offset == 2);
     CHECK(rfmodel_network_connect(network, 1, 2) == RFMODEL_OK);
     CHECK(rfmodel_network_external_s(network, external, 2, scattering, 4) == RFMODEL_OK);
+    {
+        const rfmodel_spectrum_bin input = {7, {0., 2.}};
+        rfmodel_spectrum_bin output = {999, {123., 0.}};
+        size_t produced = 999;
+        CHECK(rfmodel_network_transmit_spectrum(
+                  network, external, 2, 1e6, &input, 1, &output, 0, &produced) ==
+              RFMODEL_INVALID_ARGUMENT);
+        CHECK(produced == 999 && output.index == 999 && output.amplitude.real == 123.);
+        CHECK(rfmodel_network_transmit_spectrum(
+                  network, external, 2, 1e6, &input, 1, &output, 1, &produced) == RFMODEL_OK);
+        CHECK(produced == 1 && output.index == 7 && fabs(output.amplitude.imag - 0.5) < 1e-12);
+        CHECK(rfmodel_network_transmit_spectrum(
+                  network, external, 2, 1e6, NULL, 0, NULL, 0, &produced) == RFMODEL_OK);
+        CHECK(produced == 0);
+        CHECK(rfmodel_network_transmit_spectrum(
+                  network, external, 1, 1e6, NULL, 0, NULL, 0, &produced) ==
+              RFMODEL_INVALID_ARGUMENT);
+    }
     CHECK(fabs(scattering[2].real - 0.25) < 1e-12);
     {
         const double thermal = 1.380649e-23 * 290.;

@@ -106,6 +106,10 @@ class Library:
                 ct.c_int, [handle, complex_pointer, complex_pointer, size, ct.POINTER(ct.c_double)]),
             "rfmodel_network_external_s": (
                 ct.c_int, [handle, ct.POINTER(size), size, complex_pointer, size]),
+            "rfmodel_network_transmit_spectrum": (
+                ct.c_int, [handle, ct.POINTER(size), size, ct.c_double,
+                           ct.POINTER(_SpectrumBin), size, ct.POINTER(_SpectrumBin),
+                           size, ct.POINTER(size)]),
             "rfmodel_passive_noise": (
                 ct.c_int, [size, complex_pointer, size, ct.c_double, complex_pointer, size]),
             "rfmodel_loaded_noise": (
@@ -320,6 +324,22 @@ class Network:
                 self._handle, selection, count, result, len(result)))
             return tuple(tuple(result[row * count + column].value() for column in range(count))
                          for row in range(count))
+
+    def transmit_spectrum(self, spacing_hz, amplitudes, external_ports):
+        """Transmit fixed-S network with matched external input/output ports."""
+        with self._lock:
+            self._open()
+            indices = [_index(port) for port in external_ports]
+            if len(indices) != 2:
+                raise ValueError("Select exactly two external ports, input then output")
+            selection = (ct.c_size_t * 2)(*indices)
+            incident = _spectrum(amplitudes)
+            output = (_SpectrumBin * 4096)()
+            count = ct.c_size_t()
+            self._library._check(self._library._dll.rfmodel_network_transmit_spectrum(
+                self._handle, selection, 2, float(spacing_hz), incident, len(incident),
+                output, len(output), ct.byref(count)))
+            return {output[i].index: output[i].amplitude.value() for i in range(count.value)}
 
     def external_noise(self, ports, intrinsic):
         """Propagate full global-port intrinsic covariance to matched external ports."""

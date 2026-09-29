@@ -1,0 +1,25 @@
+{
+  "format": "rfmodel.spectrum-chain",
+  "version": 1,
+  "spacing_hz": 1000000,
+  "input": [{"bin": 10, "amplitude": 1}],
+  "stages": [
+    {"id": "mixer", "type": "ideal_mixer", "lo_bin": 8},
+    {
+      "id": "output_network",
+      "type": "linear_network",
+      "network": {
+        "devices": [
+          {"id": "pad", "s": [[0, 0.5], [0.5, 0]]},
+          {"id": "line", "model": {
+            "type": "transmission_line",
+            "characteristic_ohms": 50,
+            "delay_s": 0.00000003125
+          }}
+        ],
+        "connections": [[["pad", 1], ["line", 0]]],
+        "external_ports": [["pad", 0], ["line", 1]]
+      }
+    }
+  ]
+}

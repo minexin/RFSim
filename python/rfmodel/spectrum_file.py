@@ -1,6 +1,7 @@
 """Versioned matched forward spectrum chains; native kernels perform transmission."""
 import math
-from .model_file import _object, _number, _complex
+from functools import partial
+from .model_file import _object, _number, _complex, _matrix, analyze
 
 
 def _index(value):
@@ -19,6 +20,23 @@ def _encode(amplitudes, spacing):
         result.append({"bin": index, "frequency_hz": frequency,
                        "amplitude": [amplitude.real, amplitude.imag], "power_w": power})
     return result
+
+
+def _linear_stage(library, spacing, amplitudes, *, reference_ohms, network):
+    """Evaluate the native network at every current bin, including new mixer products."""
+    indices = sorted(amplitudes)
+    document = dict(network, format="rfmodel.linear-network", version=1,
+                    reference_ohms=reference_ohms,
+                    frequencies_hz=[index * spacing for index in indices] or [0.])
+    samples = analyze(library, document)["samples"]
+    output = {}
+    for index, sample in zip(indices, samples):
+        # The reduced two-port includes all internal feedback at this frequency.
+        # Native transmission enforces real DC and finite complex wave amplitudes.
+        with library.network(reference_ohms) as reduced:
+            reduced.add(_matrix(sample["s"]))
+            output.update(reduced.transmit_spectrum(spacing, {index: amplitudes[index]}, [0, 1]))
+    return output
 
 
 def analyze_spectrum(library, document):
@@ -63,6 +81,18 @@ def analyze_spectrum(library, document):
             if parameters["lo_bin"] == 0:
                 raise ValueError("LO bin must be positive")
             operation = library.ideal_mixer
+        elif kind == "linear_network":
+            _object(stage, ("id", "type", "network"))
+            network = stage["network"]
+            _object(network, ("devices", "external_ports"), ("connections", "terminations"))
+            if not isinstance(network["external_ports"], list) or len(network["external_ports"]) != 2:
+                raise ValueError("Linear spectrum network requires two external ports")
+            if not isinstance(network["devices"], list):
+                raise ValueError("Linear spectrum devices must be an array")
+            for device in network["devices"]:
+                _object(device, ("id",), ("s", "model"))
+            parameters = {"network": network}
+            operation = partial(_linear_stage, library)
         else:
             raise ValueError("Unsupported spectrum stage type")
         identifier = stage["id"]

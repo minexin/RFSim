@@ -40,6 +40,53 @@ class PythonApiTests(unittest.TestCase):
             self.assertAlmostEqual(waves.outgoing[3], -0.2j)
             self.assertLess(waves.relative_residual, 1e-12)
 
+    def test_network_spectrum_internal_feedback_and_dc(self):
+        with self.library.network() as network:
+            network.add([[0, 0.5], [0.5, 0.2]])
+            network.add([[0.3, 0.4], [0.4, 0]])
+            network.connect(1, 2)
+            result = network.transmit_spectrum(1e6, {7: 2j, 0: 1}, [0, 3])
+            self.assertAlmostEqual(result[7], 0.4j / 0.94)
+            self.assertAlmostEqual(result[0], 0.2 / 0.94)
+            self.assertEqual(network.transmit_spectrum(1e6, {}, [0, 3]), {})
+            with self.assertRaises(RFModelError):
+                network.transmit_spectrum(1e6, {}, [0, 0])
+            with self.assertRaises(ValueError):
+                network.transmit_spectrum(1e6, {1: 1}, [0])
+        with self.assertRaises(RuntimeError):
+            network.transmit_spectrum(1e6, {1: 1}, [0, 3])
+        with self.library.network() as network:
+            network.add([[0, 1j], [1j, 0]])
+            with self.assertRaises(RFModelError):
+                network.transmit_spectrum(1e6, {0: 1}, [0, 1])
+
+    def test_json_mixer_linear_network_frequency_evaluation(self):
+        document = load(Path(__file__).resolve().parents[1] / "examples/mixer-linear-network.json")
+        result = analyze_spectrum(self.library, document)
+        spectrum = result["stages"][1]["spectrum"]
+        self.assertEqual([entry["bin"] for entry in spectrum], [2, 18])
+        for entry in spectrum:
+            phase = -2 * math.pi * entry["frequency_hz"] * 31.25e-9
+            expected = 0.5 * complex(math.cos(phase), math.sin(phase))
+            self.assertAlmostEqual(complex(*entry["amplitude"]), expected)
+            self.assertAlmostEqual(entry["power_w"], 0.25)
+        document["input"] = []
+        self.assertEqual(analyze_spectrum(self.library, document)["stages"][1]["spectrum"], [])
+
+    def test_json_linear_spectrum_rejects_ambiguous_contracts(self):
+        original = load(Path(__file__).resolve().parents[1] / "examples/mixer-linear-network.json")
+        for field, value in (("frequencies_hz", [1e6]), ("reference_ohms", 75),
+                             ("noise_boundaries", []), ("external_ports", [["pad", 0]])):
+            document = copy.deepcopy(original)
+            document["stages"][1]["network"][field] = value
+            with self.subTest(field=field), self.assertRaises(ValueError):
+                analyze_spectrum(self.library, document)
+        for field, value in (("noise", {"noiseless": True}), ("s_samples", [])):
+            document = copy.deepcopy(original)
+            document["stages"][1]["network"]["devices"][0][field] = value
+            with self.assertRaises(ValueError):
+                analyze_spectrum(self.library, document)
+
     def test_native_error_preserves_network(self):
         with self.library.network() as network:
             with self.assertRaises(RFModelError) as caught:

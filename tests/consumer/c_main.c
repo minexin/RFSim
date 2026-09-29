@@ -73,6 +73,17 @@ int main(void) {
             }
         }
     }
+    if (status == RFMODEL_OK) {
+        const rfmodel_spectrum_bin input = {1, {2., 0.}};
+        rfmodel_spectrum_bin output;
+        size_t produced = 0;
+        status = rfmodel_network_transmit_spectrum(
+            network, ports, 2, 1e6, &input, 1, &output, 1, &produced);
+        if (status == RFMODEL_OK &&
+            (produced != 1 || output.index != 1 || fabs(output.amplitude.imag + 1.) > 1e-12)) {
+            status = RFMODEL_INTERNAL_ERROR;
+        }
+    }
     rfmodel_network_destroy(network);
     if (status != RFMODEL_OK) {
         return 2;

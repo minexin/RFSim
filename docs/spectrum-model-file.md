@@ -27,6 +27,7 @@ stages 按数组顺序执行，数量 1–512，每级 id 为唯一非空字符�
 |---|---|---|
 | cubic_amplifier | power_gain_db、input_ip3_dbm | 无 |
 | ideal_mixer | lo_bin（正整数） | conversion_gain_db=0、lo_phase_radians=0 |
+| linear_network | network（线性网络模板） | 无 |
 
 全部级共用频率间隔及参考阻抗，不自动插值、滤波或改变参考阻抗。未知字段、未知器件、
 重复键、重复 ID、非有限数以及错误参数均拒绝处理。没有脚本表达式执行。
@@ -44,7 +45,7 @@ frequency_hz、amplitude（实虚数组）、power_w。按 bin 升序输出，�
 
 ## 范围与验证
 
-仅支持匹配单向链路：没有失配反馈、非线性网络连接、谐波平衡、变频噪声、LO 端口
+仅支持级间匹配的单向链路：线性级内部可求解反射，但没有级间失配反馈、非线性网络连接、谐波平衡、变频噪声、LO 端口
 加载和多阶 LO 杂散。三阶模型不能替代深压缩 PA 饱和模型；理想实混频器保留上下边带，
 不会自动选取 IF。限制继承 [频谱接口](spectrum-api.md)。完整非线性网表仍待实现。
 
@@ -54,3 +55,27 @@ frequency_hz、amplitude（实虚数组）、power_w。按 bin 升序输出，�
 2026-09-29 验证：Debug/Release 动态库上的 Python 专项各二十项通过；生成并安装
 wheel 到项目内独立目录后，使用安装后的 Release 动态库再次通过二十项测试。
 本轮未修改 C++ 数值核心，没有重复全套 C++ 回归；跨平台结果尚未核验。
+
+## 线性网络级
+
+linear_network 的 network 对象必填 devices、external_ports，可选 connections、terminations。
+端点及连接规则沿用线性 JSON，external_ports 必须恰有两个端口，依次为输入、输出。
+devices 只接受 id 加静态 s 或参数 model（二选一）；支持现有 transmission_line、
+rlgc_line 和 linear_amplifier 模型。频率由进入本级的当前谱线确定，包含上游非线性
+和混频产生的新频点；参考阻抗统一继承链路。模板不接受 frequencies_hz、s_samples、
+reference_ohms、信号激励或噪声字段，避免把原始输入频率表误用于新生成的谱线。
+
+每个频点通过原生网络求解提取等效二端口，再调用原生频谱传输；匹配外部条件下
+输出为 S21*a。内部连接和反射终端参与求解，级间反射不参与。非实数 DC 输出会报错。
+空频谱仍在 0 Hz 校验网络模板，但输出为空。内部终端没有独立源或热发射。
+
+examples/mixer-linear-network.json 为 10 MHz 单音经 8 MHz LO 混频，产生 2/18 MHz，
+随后通过幅度 0.5 衰减器和 31.25 ns 延迟线。两个输出功率均为 0.25 W，
+相位分别为 −π/8 与 −9π/8，验证在变频后的实际频率求值，而非复用输入频率响应。
+
+本功能仍是匹配单向频谱分析，不代表完整 RF System Analysis 或 SystemVue 器件兼容。
+
+2026-09-29 线性级接口验证：MSVC Debug/Release 全套各 43/43，安装后独立 C/C++
+消费者各 2/2；Python 32 项测试在安装后的 Release 动态库上通过。
+新示例通过 CLI 生成结果，格式检查通过 78 个 C/C++ 文件。未执行新的 SystemVue
+实测；本次跨平台 CI 结果尚未核验。

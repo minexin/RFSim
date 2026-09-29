@@ -36,6 +36,20 @@ typedef struct rfmodel_spectrum_bin {
     rfmodel_complex amplitude;
 } rfmodel_spectrum_bin;
 
+/* Transmit through a fixed-S network, with matched external source/load.
+ * external_ports has exactly two entries, ordered input then output.
+ * Internal reflections are solved. Frequency-dependent models must be rebuilt
+ * per frequency. Output follows the spectrum buffer contract below. */
+RFMODEL_API int rfmodel_network_transmit_spectrum(const rfmodel_network *network,
+                                                  const size_t *external_ports,
+                                                  size_t external_count,
+                                                  double spacing_hz,
+                                                  const rfmodel_spectrum_bin *input,
+                                                  size_t input_count,
+                                                  rfmodel_spectrum_bin *output,
+                                                  size_t capacity,
+                                                  size_t *output_count);
+
 /* Fixed sufficient output allocation for the current sparse-spectrum kernels. */
 #define RFMODEL_SPECTRUM_CAPACITY 4096
 

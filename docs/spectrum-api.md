@@ -49,6 +49,19 @@ AM/PM 或自动噪声。混频器由固定 LO 驱动，保留和频、差频、�
 JSON 线性网表不接受这些器件；新增独立的 [单向频谱链路格式](spectrum-model-file.md)
 可重放放大器和混频器级联。一般非线性网表及 SystemVue 对照仍待完成。
 
+## 线性网络频谱传输
+
+新增 C 函数 rfmodel_network_transmit_spectrum 与 Python
+`network.transmit_spectrum(spacing_hz, amplitudes, external_ports)`。
+external_ports 必须恰有两个元素，依次为输入和输出；端口外部匹配，内部网络反射
+由 C++ transmit_linear_spectrum 求解。网络句柄存储的 S 参数在该次调用的所有谱线上
+保持不变，调用者需要自行按频率重建模型。JSON linear_network 级已经实现逐频点求值。
+
+输出使用相同频率网格和功率波单位，并保持复数相位。输入 DC 必须为实数，
+若传输后 DC 有超出舍入容差的虚部则报错。空输入仍验证外部端口和网络拓扑。
+沿用当前频谱输入数量限制、输出缓冲区及失败时输出保持不变的约定。
+此增量 ABI 1 接口要求使用同版本更新后的 Python 包和动态库。
+
 2026-09-29 本地验证：MSVC Debug/Release 全套各 42/42，安装消费者各 2/2，
 安装后的 Release 动态库通过十八项 Python 测试。Debug 初次运行中相位测试采用
 精确比较而失败，改为浮点容差比较后全套通过；数值核心未为该测试添加修正。

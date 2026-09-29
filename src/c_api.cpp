@@ -4,6 +4,7 @@
 #include "rfmodel/amplifier_model.hpp"
 #include "rfmodel/polynomial_amplifier.hpp"
 #include "rfmodel/ideal_mixer.hpp"
+#include "rfmodel/spectrum_analysis.hpp"
 #include "rfmodel/transmission_line.hpp"
 #include "rfmodel/rlgc_transmission_line.hpp"
 #include <cstdio>
@@ -89,6 +90,29 @@ const char *rfmodel_last_error(void) {
 
 unsigned int rfmodel_abi_version(void) {
     return 1;
+}
+
+int rfmodel_network_transmit_spectrum(const rfmodel_network *network,
+                                      const size_t *external_ports,
+                                      size_t external_count,
+                                      double spacing_hz,
+                                      const rfmodel_spectrum_bin *input,
+                                      size_t input_count,
+                                      rfmodel_spectrum_bin *output,
+                                      size_t capacity,
+                                      size_t *output_count) {
+    return guarded([&] {
+        require(network && external_ports && external_count == 2 && output_count);
+        const auto incident = read_spectrum(spacing_hz, input, input_count);
+        const std::vector<size_t> selection(external_ports, external_ports + external_count);
+        // Validate the topology even for empty input; no silently accepted bad ports.
+        network->core.external_s(selection);
+        const auto transmitted = rfmodel::transmit_linear_spectrum(
+            incident, selection, network->core.reference_impedance_ohms(), [&](double) {
+                return network->core;
+            });
+        write_spectrum(transmitted, output, capacity, output_count);
+    });
 }
 
 int rfmodel_cubic_amplifier_transmit(double spacing_hz,
