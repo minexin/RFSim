@@ -6,6 +6,45 @@
 int main() {
     using namespace rfmodel;
     constexpr double thermal = 1.380649e-23 * 290.;
+    // Unequal quadrature branches: 25% real, 50% negative-quadrature, 25% dissipated.
+    const std::vector<Complex> gains{0.5, Complex{0., -std::sqrt(0.5)}};
+    IsolatedPowerDividerModel weighted("weighted", gains, 75.);
+    const auto weighted_s = weighted.s_parameters(1e9);
+    near(weighted_s(0, 2), gains[1]);
+    near(weighted.port(2).reference_impedance, 75.);
+    const auto weighted_noise = passive_thermal_noise(weighted_s, 290.).watts_per_hz;
+    near(weighted_noise(0, 0) / thermal, 0.25);
+    near(weighted_noise(1, 1) / thermal, 0.75);
+    near(weighted_noise(2, 2) / thermal, 0.5);
+    near(weighted_noise(1, 2) / thermal, Complex{0., -0.5 * std::sqrt(0.5)});
+    // Matched coherent combining requires the conjugate phases at branch inputs.
+    LinearNetwork coherent(75.);
+    coherent.add(weighted_s, 75.);
+    coherent.terminate(0);
+    coherent.terminate(1, 0., std::conj(gains[0]) / std::sqrt(0.75));
+    coherent.terminate(2, 0., std::conj(gains[1]) / std::sqrt(0.75));
+    near(std::norm(coherent.solve().outgoing[0]), 0.75);
+    // Orthogonal excitation goes entirely into the isolation network.
+    LinearNetwork null_input(75.);
+    null_input.add(weighted_s, 75.);
+    null_input.terminate(0);
+    null_input.terminate(1, 0., gains[1]);
+    null_input.terminate(2, 0., -gains[0]);
+    near(null_input.solve().outgoing[0], 0.);
+    IsolatedPowerDividerModel zero("absorbing", {0., 0.});
+    near(passive_thermal_noise(zero.s_parameters(0.), 290.).watts_per_hz(0, 0) / thermal, 1.);
+    rejects<std::invalid_argument>([] {
+        IsolatedPowerDividerModel bad("bad", {0.8, 0.8});
+    });
+    rejects<std::invalid_argument>([] {
+        IsolatedPowerDividerModel bad("bad", {1.1, 0.});
+    });
+    rejects<std::invalid_argument>([] {
+        IsolatedPowerDividerModel bad("bad", {0.5});
+    });
+    rejects<std::invalid_argument>([] {
+        IsolatedPowerDividerModel bad("bad", {0.5, std::numeric_limits<double>::quiet_NaN()});
+    });
     EqualPowerDividerModel divider("splitter", 2);
     const auto s = divider.s_parameters(1e9);
     near(s(1, 0), std::sqrt(0.5));

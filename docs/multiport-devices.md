@@ -1,6 +1,6 @@
 # 理想功分/合路器和正交耦合器
 
-`rfmodel/multiport_devices.hpp` 提供两个实现 `RFDeviceModel` 和
+`rfmodel/multiport_devices.hpp` 提供三个实现 `RFDeviceModel` 和
 `SParameterProvider` 的多端口器件。矩阵可直接交给 `LinearNetwork`，支持带反射负载的
 任意网络连接；热噪声由已有 `passive_thermal_noise(s, temperature_k)` 显式组合。
 所有端口采用同一个正实数参考阻抗，频率为非负有限 Hz。
@@ -17,6 +17,19 @@
 因此零额外损耗不代表整个多端口无耗，也不能用一个互易、匹配、无损的三端口模型
 同时满足这些约束。双支路零额外损耗在温度 T 下的内生噪声为：
 公共端零、两个支路各 `kT/2`、支路间相关项 `-kT/2`。
+
+## 可配置幅相的隔离功分器
+
+`IsolatedPowerDividerModel(name, branch_transmissions, reference_ohms=50)` 接受
+2–64 个复数波幅传输系数，依次对应公共端 0 到各支路的 S 参数。反向系数相同，
+不会取共轭；其余矩阵元素为零。各支路功率之和必须不超过 1（仅允许双精度求和误差），
+不符合无源条件时拒绝构造，不自动归一化。零传输支路允许存在。
+
+该接口支持不等功率分配及独立输出相位。相干合路需在输入波中补偿相位，不能只相加功率。
+若传输向量为 v，则支路噪声子矩阵为 `kT*(I-v*v^H)`，公共端噪声为
+`kT*(1-sum(abs(v)^2))`；复相位会产生复数跨端口噪声相关项。
+
+SystemVue 参数映射的已知差异见 [多端口模型评估](systemvue-multiport-assessment.md)。
 
 ## 四端口正交耦合器
 
@@ -59,3 +72,6 @@ RF Design 目录条目仍保持未验收，不能由这些解析测试推导出�
 
 2026-09-28：MSVC Debug/Release 全套 CTest 各 39/39，安装消费测试各 1/1，
 70 个 C++ 文件通过格式检查。本次多端口实现的跨平台 CI 需在推送后另行核验。
+
+2026-09-29：新增复数支路系数模型，验证不等功率、相位补偿合路、正交输入吸收、
+复数噪声相关及无源约束。MSVC Debug/Release 全套仍各 39/39 通过。

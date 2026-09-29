@@ -1,6 +1,7 @@
 #pragma once
 #include "device_model.hpp"
 #include <cmath>
+#include <limits>
 
 namespace rfmodel {
 namespace multiport_detail {
@@ -42,6 +43,38 @@ public:
     }
 };
 } // namespace multiport_detail
+
+// Reciprocal, matched divider with independently specified complex branch gains.
+// These are forward/reverse S amplitudes, not powers or conjugated receive weights.
+class IsolatedPowerDividerModel final : public multiport_detail::ConstantModel {
+public:
+    IsolatedPowerDividerModel(std::string name,
+                              const std::vector<Complex> &branch_transmissions,
+                              double reference_ohms = 50.)
+        : ConstantModel(std::move(name), reference_ohms) {
+        if (branch_transmissions.size() < 2 || branch_transmissions.size() > 64) {
+            throw std::invalid_argument("invalid isolated divider branch count");
+        }
+        double total_power = 0.;
+        for (const auto amplitude : branch_transmissions) {
+            if (!std::isfinite(amplitude.real()) || !std::isfinite(amplitude.imag()) ||
+                std::abs(amplitude) > 1.) {
+                throw std::invalid_argument("invalid passive branch transmission");
+            }
+            total_power += std::norm(amplitude);
+        }
+        // Permit only the rounding incurred while summing up to 64 unit-norm terms.
+        if (total_power > 1. + 64. * std::numeric_limits<double>::epsilon()) {
+            throw std::invalid_argument("divider branch powers exceed available input power");
+        }
+        const auto ports = branch_transmissions.size() + 1;
+        scattering_ = {ports, std::vector<Complex>(ports * ports)};
+        for (std::size_t branch = 1; branch < ports; ++branch) {
+            scattering_(branch, 0) = branch_transmissions[branch - 1];
+            scattering_(0, branch) = branch_transmissions[branch - 1];
+        }
+    }
+};
 
 // Port 0 is common; ports 1..N are matched, mutually isolated branches.
 // The isolation network dissipates differential-mode inputs even at zero excess loss.

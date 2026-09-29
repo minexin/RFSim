@@ -11,6 +11,10 @@
 #include <cmath>
 
 int main() {
+    const rfmodel::IsolatedPowerDividerModel phased("phased", {0.5, rfmodel::Complex{0., -0.5}});
+    if (std::abs(phased.s_parameters(1e9)(2, 0) - rfmodel::Complex{0., -0.5}) > 1e-12) {
+        return 8;
+    }
     const rfmodel::EqualPowerDividerModel divider("divider", 4);
     const rfmodel::QuadratureCouplerModel coupler("coupler", 0.25);
     if (std::abs(divider.s_parameters(1e9)(1, 0) - rfmodel::Complex{0.5, 0.}) > 1e-12 ||
