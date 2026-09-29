@@ -29,7 +29,7 @@ $sourceDirectories = @('include', 'src', 'tests') | ForEach-Object {
     Join-Path $projectRoot $_
 }
 $sourceFiles = @(Get-ChildItem -LiteralPath $sourceDirectories -Recurse -File |
-    Where-Object { $_.Extension -in '.hpp', '.cpp' } |
+    Where-Object { $_.Extension -in '.hpp', '.cpp', '.h', '.c' } |
     Sort-Object FullName |
     Select-Object -ExpandProperty FullName)
 

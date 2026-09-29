@@ -9,6 +9,20 @@ target_include_directories(rfmodel INTERFACE
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:include>)
 include(GNUInstallDirs)
+option(RFMODEL_BUILD_C_API "Build the shared C ABI for linear networks" ON)
+if(RFMODEL_BUILD_C_API)
+    enable_language(C)
+    add_library(rfmodel_c SHARED src/c_api.cpp)
+    add_library(RFModel::c_api ALIAS rfmodel_c)
+    set_target_properties(rfmodel_c PROPERTIES EXPORT_NAME c_api CXX_VISIBILITY_PRESET hidden
+        DEBUG_POSTFIX d)
+    target_compile_definitions(rfmodel_c PRIVATE RFMODEL_C_API_BUILD)
+    target_link_libraries(rfmodel_c PUBLIC RFModel::rfmodel)
+    install(TARGETS rfmodel_c EXPORT RFModelTargets
+        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR})
+endif()
 include(CMakePackageConfigHelpers)
 install(TARGETS rfmodel EXPORT RFModelTargets)
 install(DIRECTORY include/rfmodel DESTINATION include)
@@ -29,6 +43,11 @@ target_link_libraries(rfmodel_cli PRIVATE RFModel::rfmodel)
 install(TARGETS rfmodel_cli RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
 endif()
 if(BUILD_TESTING)
+if(RFMODEL_BUILD_C_API)
+    add_executable(c_api_test tests/c_api_test.c)
+    target_link_libraries(c_api_test PRIVATE RFModel::c_api)
+    add_test(NAME c_api_test COMMAND c_api_test)
+endif()
 if(RFMODEL_BUILD_CLI)
 add_test(NAME cli_export COMMAND ${CMAKE_COMMAND}
     -DCLI=$<TARGET_FILE:rfmodel_cli> -DFIXTURES=${CMAKE_CURRENT_SOURCE_DIR}/tests
