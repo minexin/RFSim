@@ -6,12 +6,17 @@
 #include <rfmodel/linear_solver.hpp>
 #include <rfmodel/power_gain.hpp>
 #include <rfmodel/linear_path_noise.hpp>
+#include <rfmodel/loaded_noise.hpp>
 #include <rfmodel/transmission_line.hpp>
 #include <rfmodel/rlgc_transmission_line.hpp>
 #include <rfmodel/multiport_devices.hpp>
 #include <cmath>
 
 int main() {
+    const auto loaded = rfmodel::loaded_noise({1, {0.}}, {{1, {1.}}}, {0.5}, {{1, {0.}}});
+    if (std::abs(loaded.net_into_device_w_per_hz[0] + 0.75) > 1e-12) {
+        return 10;
+    }
     const rfmodel::RlgcTransmissionLineModel distributed("distributed", {25., 0., 0., 0.}, 2.);
     if (std::abs(distributed.s_parameters(0.)(1, 0) - rfmodel::Complex{2. / 3., 0.}) > 1e-12) {
         return 9;
