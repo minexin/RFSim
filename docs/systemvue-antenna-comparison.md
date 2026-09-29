@@ -193,3 +193,29 @@ build-reference/antenna-power-restored-001 的 20 个测量值与 run-003 完全
 采集目录分别保留失败与成功日志，没有把失败结果用于比较。
 
 比较工具 7 项及后台驱动 3 项回归通过。本次仅扩展参考脚本和证据，未修改数值核心。
+
+## 四点载波扫描
+
+继续采集 −70 和 −40 dBm，所有既定器件参数和噪声源回读校验通过。
+归档分别为 validation/systemvue-2023-antenna-minus70.json、
+validation/systemvue-2023-antenna-minus40.json；对应 comparison 文件分别为 16/20、
+14/20 通过。恢复 −50 dBm 后，20 个测量值再次与 run-003 完全一致，
+恢复记录保存在 build-reference/antenna-power-restored-002。
+
+新增 summarize-antenna-power.py 对四份已验证采集按功率排序，以最低输入功率的
+SystemVue 结果为参考，报告逐节点增益和噪声密度变化，并保留数据哈希及运行时间。
+它验证只有载波源功率变化，拒绝重复功率、重复采集、未验证参数和噪声源变化。
+结果为 validation/systemvue-2023-antenna-power-sweep.json，不修改兼容容差或核心模型。
+
+```powershell
+python scripts/reference/summarize-antenna-power.py `
+  validation/systemvue-2023-antenna-minus70.json `
+  validation/systemvue-2023-antenna-minus60.json `
+  validation/systemvue-2023-antenna-run-003.json `
+  validation/systemvue-2023-antenna-minus40.json `
+  --output build-reference/antenna-power-summary.json
+```
+
+末级增益与噪声密度均随输入功率增大而小幅下降；这是同一设备条件下的实测趋势，
+不证明完整 RFAMP 非线性模型，也不构成对残余噪声偏差的唯一解释。
+新增两项汇总回归已通过并接入六配置 CI；尚未核验这次提交的 CI 结果。

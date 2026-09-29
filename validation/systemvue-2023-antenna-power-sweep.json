@@ -1,0 +1,278 @@
+{
+  "scope": "SystemVue antenna carrier-power sensitivity; no fitted model correction",
+  "baseline_source_power_dbm": -70.0,
+  "parameter_contract": "Only carrier Pwr[0] varies; other captured parameters validated",
+  "limitation": "Observed power dependence does not uniquely identify RFAMP compression",
+  "points": [
+    {
+      "source_power_dbm": -70.0,
+      "source_power_w": 1e-10,
+      "capture_sha256": "fcafc77ac5ef2abf5846ed74925af910d6eb65627864b62e992d097efc54c85f",
+      "run_started_utc": "2026-09-29T10:47:45.6265951Z",
+      "nodes": [
+        {
+          "name": "Source",
+          "gain": 1,
+          "gain_change_db_from_lowest_power": 0.0,
+          "gain_change_fraction_from_lowest_power": 0.0,
+          "noise_density_w_per_hz": 6.903251327418734e-22,
+          "noise_density_change_fraction_from_lowest_power": 0.0,
+          "signal_output_w": 9.999999750000029e-11,
+          "signal_transducer_gain": 0.9999999750000028,
+          "noise_factor": 1
+        },
+        {
+          "name": "Attn1",
+          "gain": 0.7886864291542033,
+          "gain_change_db_from_lowest_power": 0.0,
+          "gain_change_fraction_from_lowest_power": 0.0,
+          "noise_density_w_per_hz": 1.3905255456272663e-21,
+          "noise_density_change_fraction_from_lowest_power": 0.0,
+          "signal_output_w": 7.886864094370448e-11,
+          "signal_transducer_gain": 0.7886864094370448,
+          "noise_factor": 1.2679310344829666
+        },
+        {
+          "name": "RFAmp1",
+          "gain": 249.404546331133,
+          "gain_change_db_from_lowest_power": 0.0,
+          "gain_change_fraction_from_lowest_power": 0.0,
+          "noise_density_w_per_hz": 1.0946227721431059e-18,
+          "noise_density_change_fraction_from_lowest_power": 0.0,
+          "signal_output_w": 2.4940454009602005e-08,
+          "signal_transducer_gain": 249.40454009602004,
+          "noise_factor": 1.9237574349078752
+        },
+        {
+          "name": "Attn2",
+          "gain": 97.26643097685844,
+          "gain_change_db_from_lowest_power": 0.0,
+          "gain_change_fraction_from_lowest_power": 0.0,
+          "noise_density_w_per_hz": 4.293393828623904e-19,
+          "noise_density_change_fraction_from_lowest_power": 0.0,
+          "signal_output_w": 9.726642854519795e-09,
+          "signal_transducer_gain": 97.26642854519795,
+          "noise_factor": 1.9300289241885016
+        },
+        {
+          "name": "RFAmp2",
+          "gain": 97266.42984074543,
+          "gain_change_db_from_lowest_power": 0.0,
+          "gain_change_fraction_from_lowest_power": 0.0,
+          "noise_density_w_per_hz": 4.390039305829489e-16,
+          "noise_density_change_fraction_from_lowest_power": 0.0,
+          "signal_output_w": 9.726642740908497e-06,
+          "signal_transducer_gain": 97266.42740908496,
+          "noise_factor": 1.9548452260849645
+        }
+      ]
+    },
+    {
+      "source_power_dbm": -60.0,
+      "source_power_w": 1e-09,
+      "capture_sha256": "e0cb30a8579a978aa03e5383a2b12f0740eb8e1d35697328a4779218c51a45bf",
+      "run_started_utc": "2026-09-29T10:45:39.6917544Z",
+      "nodes": [
+        {
+          "name": "Source",
+          "gain": 1,
+          "gain_change_db_from_lowest_power": 0.0,
+          "gain_change_fraction_from_lowest_power": 0.0,
+          "noise_density_w_per_hz": 6.903251327418734e-22,
+          "noise_density_change_fraction_from_lowest_power": 0.0,
+          "signal_output_w": 9.999999750000032e-10,
+          "signal_transducer_gain": 0.999999975000003,
+          "noise_factor": 1
+        },
+        {
+          "name": "Attn1",
+          "gain": 0.7886864291542033,
+          "gain_change_db_from_lowest_power": 0.0,
+          "gain_change_fraction_from_lowest_power": 0.0,
+          "noise_density_w_per_hz": 1.3905255456272663e-21,
+          "noise_density_change_fraction_from_lowest_power": 0.0,
+          "signal_output_w": 7.88686409437045e-10,
+          "signal_transducer_gain": 0.7886864094370449,
+          "noise_factor": 1.2679310344829666
+        },
+        {
+          "name": "RFAmp1",
+          "gain": 249.404546321461,
+          "gain_change_db_from_lowest_power": -1.6842075636426384e-10,
+          "gain_change_fraction_from_lowest_power": -3.878031229476164e-11,
+          "noise_density_w_per_hz": 1.0946227721006537e-18,
+          "noise_density_change_fraction_from_lowest_power": -3.878242171850843e-11,
+          "signal_output_w": 2.4940454008634813e-07,
+          "signal_transducer_gain": 249.4045400863481,
+          "noise_factor": 1.923757434907873
+        },
+        {
+          "name": "Attn2",
+          "gain": 97.26643097308644,
+          "gain_change_db_from_lowest_power": -1.6841979203679724e-10,
+          "gain_change_fraction_from_lowest_power": -3.878009025015672e-11,
+          "noise_density_w_per_hz": 4.2933938284583423e-19,
+          "noise_density_change_fraction_from_lowest_power": -3.8561931425817875e-11,
+          "signal_output_w": 9.726642854142597e-08,
+          "signal_transducer_gain": 97.26642854142597,
+          "noise_factor": 1.930028924188742
+        },
+        {
+          "name": "RFAmp2",
+          "gain": 97266.42836593512,
+          "gain_change_db_from_lowest_power": -6.58502616387635e-08,
+          "gain_change_fraction_from_lowest_power": -1.5162582966965488e-08,
+          "noise_density_w_per_hz": 4.3900392392695626e-16,
+          "noise_density_change_fraction_from_lowest_power": -1.5161578659217412e-08,
+          "signal_output_w": 9.726642593427472e-05,
+          "signal_transducer_gain": 97266.42593427471,
+          "noise_factor": 1.9548452260860965
+        }
+      ]
+    },
+    {
+      "source_power_dbm": -50.0,
+      "source_power_w": 1e-08,
+      "capture_sha256": "f894e9695d76f12da6a1f5bb68a1de3ff64565d1e7f69c1bb9f93d124a06e7d1",
+      "run_started_utc": "2026-09-29T08:12:36.5209524Z",
+      "nodes": [
+        {
+          "name": "Source",
+          "gain": 1,
+          "gain_change_db_from_lowest_power": 0.0,
+          "gain_change_fraction_from_lowest_power": 0.0,
+          "noise_density_w_per_hz": 6.903251327418734e-22,
+          "noise_density_change_fraction_from_lowest_power": 0.0,
+          "signal_output_w": 9.999999750000036e-09,
+          "signal_transducer_gain": 0.9999999750000036,
+          "noise_factor": 1
+        },
+        {
+          "name": "Attn1",
+          "gain": 0.7886864291542032,
+          "gain_change_db_from_lowest_power": -4.821637332766436e-16,
+          "gain_change_fraction_from_lowest_power": -1.1102230246251565e-16,
+          "noise_density_w_per_hz": 1.3905255456272663e-21,
+          "noise_density_change_fraction_from_lowest_power": 0.0,
+          "signal_output_w": 7.886864094370453e-09,
+          "signal_transducer_gain": 0.7886864094370453,
+          "noise_factor": 1.2679310344829668
+        },
+        {
+          "name": "RFAmp1",
+          "gain": 249.4045462247432,
+          "gain_change_db_from_lowest_power": -1.8525926402498523e-09,
+          "gain_change_fraction_from_lowest_power": -4.2657521959199585e-10,
+          "noise_density_w_per_hz": 1.0946227716761643e-18,
+          "noise_density_change_fraction_from_lowest_power": -4.2657755106034756e-10,
+          "signal_output_w": 2.4940453998963042e-06,
+          "signal_transducer_gain": 249.40453998963042,
+          "noise_factor": 1.9237574349078725
+        },
+        {
+          "name": "Attn2",
+          "gain": 97.266430935367,
+          "gain_change_db_from_lowest_power": -1.8525926402498523e-09,
+          "gain_change_fraction_from_lowest_power": -4.2657521959199585e-10,
+          "noise_density_w_per_hz": 4.293393826802859e-19,
+          "noise_density_change_fraction_from_lowest_power": -4.2415038148391204e-10,
+          "signal_output_w": 9.726642850370657e-07,
+          "signal_transducer_gain": 97.26642850370656,
+          "noise_factor": 1.9300289241911748
+        },
+        {
+          "name": "RFAmp2",
+          "gain": 97266.41361783382,
+          "gain_change_db_from_lowest_power": -7.243528514560233e-07,
+          "gain_change_fraction_from_lowest_power": -1.6678839387385125e-07,
+          "noise_density_w_per_hz": 4.390038573672381e-16,
+          "noise_density_change_fraction_from_lowest_power": -1.6677689129718232e-07,
+          "signal_output_w": 0.0009726641118617383,
+          "signal_transducer_gain": 97266.41118617383,
+          "noise_factor": 1.9548452260979308
+        }
+      ]
+    },
+    {
+      "source_power_dbm": -40.0,
+      "source_power_w": 1e-07,
+      "capture_sha256": "ebee9d72399fbb023c61ffdc78010b784263c01c8951be6bfe66c57ee29918f8",
+      "run_started_utc": "2026-09-29T10:47:54.3722971Z",
+      "nodes": [
+        {
+          "name": "Source",
+          "gain": 1,
+          "gain_change_db_from_lowest_power": 0.0,
+          "gain_change_fraction_from_lowest_power": 0.0,
+          "noise_density_w_per_hz": 6.903251327418734e-22,
+          "noise_density_change_fraction_from_lowest_power": 0.0,
+          "signal_output_w": 9.999999750000032e-08,
+          "signal_transducer_gain": 0.9999999750000033,
+          "noise_factor": 1
+        },
+        {
+          "name": "Attn1",
+          "gain": 0.7886864291542032,
+          "gain_change_db_from_lowest_power": -4.821637332766436e-16,
+          "gain_change_fraction_from_lowest_power": -1.1102230246251565e-16,
+          "noise_density_w_per_hz": 1.3905255456272663e-21,
+          "noise_density_change_fraction_from_lowest_power": 0.0,
+          "signal_output_w": 7.88686409437045e-08,
+          "signal_transducer_gain": 0.7886864094370449,
+          "noise_factor": 1.2679310344829668
+        },
+        {
+          "name": "RFAmp1",
+          "gain": 249.40454525756465,
+          "gain_change_db_from_lowest_power": -1.8694318747482995e-08,
+          "gain_change_fraction_from_lowest_power": -4.304525957898875e-09,
+          "noise_density_w_per_hz": 1.0946227674312703e-18,
+          "noise_density_change_fraction_from_lowest_power": -4.304529066523344e-09,
+          "signal_output_w": 2.494045390224518e-05,
+          "signal_transducer_gain": 249.40453902245181,
+          "noise_factor": 1.9237574349078719
+        },
+        {
+          "name": "Attn2",
+          "gain": 97.26643055817256,
+          "gain_change_db_from_lowest_power": -1.8694319229646733e-08,
+          "gain_change_fraction_from_lowest_power": -4.304526068921177e-09,
+          "noise_density_w_per_hz": 4.293393810247999e-19,
+          "noise_density_change_fraction_from_lowest_power": -4.280041765447606e-09,
+          "signal_output_w": 9.72664281265121e-06,
+          "signal_transducer_gain": 97.26642812651211,
+          "noise_factor": 1.930028924215494
+        },
+        {
+          "name": "RFAmp2",
+          "gain": 97266.26613688306,
+          "gain_change_db_from_lowest_power": -7.309381462932247e-06,
+          "gain_change_fraction_from_lowest_power": -1.683045863232202e-06,
+          "noise_density_w_per_hz": 4.390031917709236e-16,
+          "noise_density_change_fraction_from_lowest_power": -1.6829280419239367e-06,
+          "signal_output_w": 0.009726626370522672,
+          "signal_transducer_gain": 97266.26370522672,
+          "noise_factor": 1.9548452262177798
+        }
+      ]
+    }
+  ],
+  "inputs": [
+    {
+      "file": "systemvue-2023-antenna-minus70.json",
+      "sha256": "8ba99fe46ee5ae917bd8cb48b55e4ab1b3bb2f16467a9e4db367eace99a63c39"
+    },
+    {
+      "file": "systemvue-2023-antenna-minus60.json",
+      "sha256": "93d46fa3831c99afedb3c3fb55720d38dbdc65631db7be56bc3db8de1647594e"
+    },
+    {
+      "file": "systemvue-2023-antenna-run-003.json",
+      "sha256": "6ae3074b1d3ea411e176cf291f3a306a4aaba8efa29a3b385a107015e5f2a241"
+    },
+    {
+      "file": "systemvue-2023-antenna-minus40.json",
+      "sha256": "3842ac40688f30144f238293ecaf178a2593062cdf6f939cd01827094bc932b1"
+    }
+  ]
+}
