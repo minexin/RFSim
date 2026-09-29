@@ -89,7 +89,7 @@ def compare(library, sweep, settings):
     return {
         "scope": "Native JSON matched single-tone compression chain versus archived SystemVue signals",
         "excluded": ["noise", "saturation", "intermodulation", "AM/PM", "mismatch"],
-        "limitation": "These low-power points do not validate behavior near P1dB or full RFAMP compatibility",
+        "limitation": "Results apply only to the captured powers and signal metrics, not full RFAMP compatibility",
         "relative_tolerance": RELATIVE_TOLERANCE,
         "passed": all(check["passed"] for check in checks), "checks": checks,
     }

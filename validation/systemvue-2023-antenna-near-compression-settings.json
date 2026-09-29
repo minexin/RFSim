@@ -1,0 +1,244 @@
+{
+  "scope": "Verified RFAMP nonlinear settings across captured carrier powers",
+  "limitation": "Parameter values do not establish the internal RFAMP transfer law",
+  "points": [
+    {
+      "source_power_dbm": 10.0,
+      "run_started_utc": "2026-09-29T12:45:38.1903316Z",
+      "parameters": [
+        {
+          "device": "RFAmp1",
+          "parameter": "OIP2",
+          "value": 100000,
+          "data_entry": "80",
+          "data_source": "Data property"
+        },
+        {
+          "device": "RFAmp1",
+          "parameter": "OIP3",
+          "value": 10000,
+          "data_entry": "70",
+          "data_source": "Data property"
+        },
+        {
+          "device": "RFAmp1",
+          "parameter": "OP1dB",
+          "value": 1000,
+          "data_entry": "60",
+          "data_source": "Data property"
+        },
+        {
+          "device": "RFAmp1",
+          "parameter": "OPSAT",
+          "value": 1995.2623149688789,
+          "data_entry": "63",
+          "data_source": "Data property"
+        },
+        {
+          "device": "RFAmp1",
+          "parameter": "AMtoPM",
+          "value": -5,
+          "data_entry": "-5",
+          "data_source": "Data property"
+        },
+        {
+          "device": "RFAmp1",
+          "parameter": "AMtoPM_Mode",
+          "value": 0,
+          "data_entry": "0",
+          "data_source": "Data property"
+        },
+        {
+          "device": "RFAmp1",
+          "parameter": "PwrAMtoPM",
+          "value": 0.01,
+          "data_entry": "10",
+          "data_source": "Data property"
+        },
+        {
+          "device": "RFAmp1",
+          "parameter": "EnablePN",
+          "value": 0,
+          "data_entry": "0",
+          "data_source": "Data property"
+        },
+        {
+          "device": "RFAmp2",
+          "parameter": "OIP2",
+          "value": 100000,
+          "data_entry": "80",
+          "data_source": "Data property"
+        },
+        {
+          "device": "RFAmp2",
+          "parameter": "OIP3",
+          "value": 10000,
+          "data_entry": "70",
+          "data_source": "Data property"
+        },
+        {
+          "device": "RFAmp2",
+          "parameter": "OP1dB",
+          "value": 1000,
+          "data_entry": "60",
+          "data_source": "Data property"
+        },
+        {
+          "device": "RFAmp2",
+          "parameter": "OPSAT",
+          "value": 1995.2623149688789,
+          "data_entry": "63",
+          "data_source": "Data property"
+        },
+        {
+          "device": "RFAmp2",
+          "parameter": "AMtoPM",
+          "value": -5,
+          "data_entry": "-5",
+          "data_source": "Data property"
+        },
+        {
+          "device": "RFAmp2",
+          "parameter": "AMtoPM_Mode",
+          "value": 0,
+          "data_entry": "0",
+          "data_source": "Data property"
+        },
+        {
+          "device": "RFAmp2",
+          "parameter": "PwrAMtoPM",
+          "value": 0.01,
+          "data_entry": "10",
+          "data_source": "Data property"
+        },
+        {
+          "device": "RFAmp2",
+          "parameter": "EnablePN",
+          "value": 0,
+          "data_entry": "0",
+          "data_source": "Data property"
+        }
+      ],
+      "capture_sha256": "4ffc34b342c6d5065d136cb247e9d7ec90682e7d198f4b5d9abafcecf13a8dbb"
+    },
+    {
+      "source_power_dbm": 11.0,
+      "run_started_utc": "2026-09-29T12:45:55.3352573Z",
+      "parameters": [
+        {
+          "device": "RFAmp1",
+          "parameter": "OIP2",
+          "value": 100000,
+          "data_entry": "80",
+          "data_source": "Data property"
+        },
+        {
+          "device": "RFAmp1",
+          "parameter": "OIP3",
+          "value": 10000,
+          "data_entry": "70",
+          "data_source": "Data property"
+        },
+        {
+          "device": "RFAmp1",
+          "parameter": "OP1dB",
+          "value": 1000,
+          "data_entry": "60",
+          "data_source": "Data property"
+        },
+        {
+          "device": "RFAmp1",
+          "parameter": "OPSAT",
+          "value": 1995.2623149688789,
+          "data_entry": "63",
+          "data_source": "Data property"
+        },
+        {
+          "device": "RFAmp1",
+          "parameter": "AMtoPM",
+          "value": -5,
+          "data_entry": "-5",
+          "data_source": "Data property"
+        },
+        {
+          "device": "RFAmp1",
+          "parameter": "AMtoPM_Mode",
+          "value": 0,
+          "data_entry": "0",
+          "data_source": "Data property"
+        },
+        {
+          "device": "RFAmp1",
+          "parameter": "PwrAMtoPM",
+          "value": 0.01,
+          "data_entry": "10",
+          "data_source": "Data property"
+        },
+        {
+          "device": "RFAmp1",
+          "parameter": "EnablePN",
+          "value": 0,
+          "data_entry": "0",
+          "data_source": "Data property"
+        },
+        {
+          "device": "RFAmp2",
+          "parameter": "OIP2",
+          "value": 100000,
+          "data_entry": "80",
+          "data_source": "Data property"
+        },
+        {
+          "device": "RFAmp2",
+          "parameter": "OIP3",
+          "value": 10000,
+          "data_entry": "70",
+          "data_source": "Data property"
+        },
+        {
+          "device": "RFAmp2",
+          "parameter": "OP1dB",
+          "value": 1000,
+          "data_entry": "60",
+          "data_source": "Data property"
+        },
+        {
+          "device": "RFAmp2",
+          "parameter": "OPSAT",
+          "value": 1995.2623149688789,
+          "data_entry": "63",
+          "data_source": "Data property"
+        },
+        {
+          "device": "RFAmp2",
+          "parameter": "AMtoPM",
+          "value": -5,
+          "data_entry": "-5",
+          "data_source": "Data property"
+        },
+        {
+          "device": "RFAmp2",
+          "parameter": "AMtoPM_Mode",
+          "value": 0,
+          "data_entry": "0",
+          "data_source": "Data property"
+        },
+        {
+          "device": "RFAmp2",
+          "parameter": "PwrAMtoPM",
+          "value": 0.01,
+          "data_entry": "10",
+          "data_source": "Data property"
+        },
+        {
+          "device": "RFAmp2",
+          "parameter": "EnablePN",
+          "value": 0,
+          "data_entry": "0",
+          "data_source": "Data property"
+        }
+      ],
+      "capture_sha256": "fd34700f5f1642cc1d25c11566eea5ab87b21e5b0444b9254335c27ef44e47b2"
+    }
+  ]
+}

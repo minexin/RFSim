@@ -35,6 +35,20 @@ class NativeCompressionComparisonTests(unittest.TestCase):
         self.assertEqual(len(failures), 1)
         self.assertEqual(failures[0]["metric"], "gain")
 
+    def test_near_compression_gap_remains_visible(self):
+        validation = comparison.ROOT / "validation"
+        sweep = json.loads((validation / "systemvue-2023-antenna-near-compression-sweep.json").read_text())
+        settings = json.loads((validation / "systemvue-2023-antenna-near-compression-settings.json").read_text())
+        report = comparison.compare(self.library, sweep, settings)
+        self.assertFalse(report["passed"])
+        self.assertEqual(len(report["checks"]), 20)
+        failures = [check for check in report["checks"] if not check["passed"]]
+        self.assertEqual(len(failures), 4)
+        self.assertEqual({check["node"] for check in failures}, {"RFAmp2"})
+        # Guard against silently weakening the comparator to conceal the observed gap.
+        self.assertEqual(report["relative_tolerance"], 1e-7)
+        self.assertTrue(all(check["signed_relative_error"] > 1e-6 for check in failures))
+
     def test_rejects_inconsistent_evidence(self):
         for modification in ("hash", "power", "order", "empty"):
             sweep = copy.deepcopy(self.sweep)

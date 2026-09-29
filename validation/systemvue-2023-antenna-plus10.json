@@ -1,0 +1,325 @@
+{
+  "run_started_utc": "2026-09-29T12:45:38.1903316Z",
+  "run_returned_utc": "2026-09-29T12:45:38.6931434Z",
+  "manager_errors": "",
+  "nodes": [
+    {
+      "path": "RFModel_AntennaNoise/RF Design/Sch1/PartList/Attn1/ParamSet/L",
+      "data": 1.2679310344827586,
+      "dimensions": null,
+      "timestamp": null,
+      "data_entry": "L1",
+      "data_source": "Data property",
+      "evaluation_error": null
+    },
+    {
+      "path": "RFModel_AntennaNoise/RF Design/Sch1/PartList/Attn2/ParamSet/L",
+      "data": 2.564137931034483,
+      "dimensions": null,
+      "timestamp": null,
+      "data_entry": "L2",
+      "data_source": "Data property",
+      "evaluation_error": null
+    },
+    {
+      "path": "RFModel_AntennaNoise/RF Design/Sch1/PartList/RFAmp1/ParamSet/G",
+      "data": 316.22776601683796,
+      "dimensions": null,
+      "timestamp": null,
+      "data_entry": "25",
+      "data_source": "Data property",
+      "evaluation_error": null
+    },
+    {
+      "path": "RFModel_AntennaNoise/RF Design/Sch1/PartList/RFAmp1/ParamSet/NF",
+      "data": 1.5172413793103448,
+      "dimensions": null,
+      "timestamp": null,
+      "data_entry": "NF1",
+      "data_source": "Data property",
+      "evaluation_error": null
+    },
+    {
+      "path": "RFModel_AntennaNoise/RF Design/Sch1/PartList/RFAmp1/ParamSet/RISO",
+      "data": 100000,
+      "dimensions": null,
+      "timestamp": null,
+      "data_entry": "50",
+      "data_source": "Data property",
+      "evaluation_error": null
+    },
+    {
+      "path": "RFModel_AntennaNoise/RF Design/Sch1/PartList/RFAmp1/ParamSet/ZIN",
+      "data": 50,
+      "dimensions": null,
+      "timestamp": null,
+      "data_entry": "50",
+      "data_source": "Data property",
+      "evaluation_error": null
+    },
+    {
+      "path": "RFModel_AntennaNoise/RF Design/Sch1/PartList/RFAmp1/ParamSet/ZOUT",
+      "data": 50,
+      "dimensions": null,
+      "timestamp": null,
+      "data_entry": "50",
+      "data_source": "Data property",
+      "evaluation_error": null
+    },
+    {
+      "path": "RFModel_AntennaNoise/RF Design/Sch1/PartList/RFAmp2/ParamSet/G",
+      "data": 1000,
+      "dimensions": null,
+      "timestamp": null,
+      "data_entry": "30",
+      "data_source": "Data property",
+      "evaluation_error": null
+    },
+    {
+      "path": "RFModel_AntennaNoise/RF Design/Sch1/PartList/RFAmp2/ParamSet/NF",
+      "data": 3.413793103448276,
+      "dimensions": null,
+      "timestamp": null,
+      "data_entry": "NF2",
+      "data_source": "Data property",
+      "evaluation_error": null
+    },
+    {
+      "path": "RFModel_AntennaNoise/RF Design/Sch1/PartList/RFAmp2/ParamSet/RISO",
+      "data": 100000,
+      "dimensions": null,
+      "timestamp": null,
+      "data_entry": "50",
+      "data_source": "Data property",
+      "evaluation_error": null
+    },
+    {
+      "path": "RFModel_AntennaNoise/RF Design/Sch1/PartList/RFAmp2/ParamSet/ZIN",
+      "data": 50,
+      "dimensions": null,
+      "timestamp": null,
+      "data_entry": "50",
+      "data_source": "Data property",
+      "evaluation_error": null
+    },
+    {
+      "path": "RFModel_AntennaNoise/RF Design/Sch1/PartList/RFAmp2/ParamSet/ZOUT",
+      "data": 50,
+      "dimensions": null,
+      "timestamp": null,
+      "data_entry": "50",
+      "data_source": "Data property",
+      "evaluation_error": null
+    },
+    {
+      "path": "RFModel_AntennaNoise/RF Design/Sch1/PartList/Source/ParamSet/Enable",
+      "data": [
+        1,
+        1
+      ],
+      "dimensions": [
+        2
+      ],
+      "timestamp": null,
+      "data_entry": null,
+      "data_source": "Data property",
+      "evaluation_error": null
+    },
+    {
+      "path": "RFModel_AntennaNoise/RF Design/Sch1/PartList/Source/ParamSet/Freq",
+      "data": [
+        5000000000,
+        100000000
+      ],
+      "dimensions": [
+        2,
+        1
+      ],
+      "timestamp": null,
+      "data_entry": "[5000;100]",
+      "data_source": "Data property",
+      "evaluation_error": null
+    },
+    {
+      "path": "RFModel_AntennaNoise/RF Design/Sch1/PartList/Source/ParamSet/NoisePower",
+      "data": [
+        1e-18,
+        6.903251499999993e-22
+      ],
+      "dimensions": [
+        2
+      ],
+      "timestamp": null,
+      "data_entry": "[-150;AntNoisePwr_dBm]",
+      "data_source": "Data property",
+      "evaluation_error": null
+    },
+    {
+      "path": "RFModel_AntennaNoise/RF Design/Sch1/PartList/Source/ParamSet/NoiseStart",
+      "data": [
+        50000000,
+        4500000000
+      ],
+      "dimensions": [
+        2,
+        1
+      ],
+      "timestamp": null,
+      "data_entry": "[50;4500]",
+      "data_source": "Data property",
+      "evaluation_error": null
+    },
+    {
+      "path": "RFModel_AntennaNoise/RF Design/Sch1/PartList/Source/ParamSet/NoiseStop",
+      "data": [
+        250000000,
+        5500000000
+      ],
+      "dimensions": [
+        2,
+        1
+      ],
+      "timestamp": null,
+      "data_entry": "[250;5500]",
+      "data_source": "Data property",
+      "evaluation_error": null
+    },
+    {
+      "path": "RFModel_AntennaNoise/RF Design/Sch1/PartList/Source/ParamSet/Pwr",
+      "data": [
+        0.01,
+        1e-08
+      ],
+      "dimensions": [
+        2,
+        1
+      ],
+      "timestamp": null,
+      "data_entry": "[10;-50]",
+      "data_source": "Data property",
+      "evaluation_error": null
+    },
+    {
+      "path": "RFModel_AntennaNoise/RF Design/Sch1/PartList/Source/ParamSet/SrcType",
+      "data": [
+        0,
+        3
+      ],
+      "dimensions": [
+        2
+      ],
+      "timestamp": null,
+      "data_entry": null,
+      "data_source": "Data property",
+      "evaluation_error": null
+    },
+    {
+      "path": "RFModel_AntennaNoise/RF Design/System1/RoomTemp",
+      "data": 16.85,
+      "dimensions": null,
+      "timestamp": null,
+      "data_entry": "16.85",
+      "data_source": "Data property",
+      "evaluation_error": null
+    },
+    {
+      "path": "RFModel_AntennaNoise/RF Design/System1_Data_Folder/System1_Data_Path1",
+      "data": null,
+      "dimensions": null,
+      "timestamp": "1790685938",
+      "data_entry": null,
+      "data_source": null,
+      "evaluation_error": null
+    },
+    {
+      "path": "RFModel_AntennaNoise/RF Design/System1_Data_Folder/System1_Data_Path1/Eqns/VarBlock/CF",
+      "data": [
+        5000000000,
+        5000000000,
+        5000000000,
+        5000000000,
+        5000000000
+      ],
+      "dimensions": [
+        5
+      ],
+      "timestamp": null,
+      "data_entry": null,
+      "data_source": "Data property",
+      "evaluation_error": null
+    },
+    {
+      "path": "RFModel_AntennaNoise/RF Design/System1_Data_Folder/System1_Data_Path1/Eqns/VarBlock/CGAIN",
+      "data": [
+        1,
+        0.7886864291542034,
+        249.2970936030878,
+        97.22452499114394,
+        81579.41108881506
+      ],
+      "dimensions": [
+        5
+      ],
+      "timestamp": null,
+      "data_entry": null,
+      "data_source": "Data property",
+      "evaluation_error": null
+    },
+    {
+      "path": "RFModel_AntennaNoise/RF Design/System1_Data_Folder/System1_Data_Path1/Eqns/VarBlock/CND",
+      "data": [
+        6.903251327418734e-22,
+        1.3905255456272663e-21,
+        1.094151168056873e-18,
+        4.29155459806549e-19,
+        3.6820625452576947e-16
+      ],
+      "dimensions": [
+        5
+      ],
+      "timestamp": null,
+      "data_entry": null,
+      "data_source": "Data property",
+      "evaluation_error": null
+    },
+    {
+      "path": "RFModel_AntennaNoise/RF Design/System1_Data_Folder/System1_Data_Path1/Eqns/VarBlock/CNF",
+      "data": [
+        1,
+        1.2679310344829666,
+        1.9237574349073625,
+        1.9300316273427767,
+        1.954858625273957
+      ],
+      "dimensions": [
+        5
+      ],
+      "timestamp": null,
+      "data_entry": null,
+      "data_source": "Data property",
+      "evaluation_error": null
+    },
+    {
+      "path": "RFModel_AntennaNoise/RF Design/System1_Data_Folder/System1_Data_Path1/Eqns/VarBlock/DCP",
+      "data": [
+        0.009999999750000032,
+        0.007886864094370451,
+        2.4929708737066125,
+        0.9722452256053111,
+        815.7940904933004
+      ],
+      "dimensions": [
+        5
+      ],
+      "timestamp": null,
+      "data_entry": null,
+      "data_source": "Data property",
+      "evaluation_error": null
+    }
+  ],
+  "scope": "Official antenna example; matched small-signal RFModel approximation only",
+  "parameters_verified": true,
+  "source_power_dbm": 10.0,
+  "condition_limit": "Main device/source parameters verified live; pad impedance defaults and full nonlinear/noise model equivalence remain unverified",
+  "capture_sha256": "4ffc34b342c6d5065d136cb247e9d7ec90682e7d198f4b5d9abafcecf13a8dbb"
+}
