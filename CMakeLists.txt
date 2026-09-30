@@ -76,6 +76,9 @@ if(RFMODEL_BUILD_C_API)
         add_test(NAME limited_single_tone_reference COMMAND ${Python3_EXECUTABLE}
             ${CMAKE_CURRENT_SOURCE_DIR}/scripts/reference/test_compare_limited_single_tone.py
             $<TARGET_FILE:rfmodel_c>)
+        add_test(NAME two_tone_reference COMMAND ${Python3_EXECUTABLE}
+            ${CMAKE_CURRENT_SOURCE_DIR}/scripts/reference/test_compare_two_tone.py
+            $<TARGET_FILE:rfmodel_c>)
         add_test(NAME total_drive_diagnostic COMMAND ${Python3_EXECUTABLE}
             ${CMAKE_CURRENT_SOURCE_DIR}/scripts/reference/test_diagnose_total_drive.py
             $<TARGET_FILE:rfmodel_c>)

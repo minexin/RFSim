@@ -25,6 +25,19 @@ class SingleCompressionTests(unittest.TestCase):
         self.assertEqual(len(report["checks"]), 2)
         self.assertEqual(len(report["parameters"]), 16)
 
+    def test_single_source_enum_scalar_and_array_forms(self):
+        capture = copy.deepcopy(self.capture)
+        for name in ("Enable", "SrcType", "EnablePN"):
+            entry = next(n for n in capture["nodes"] if n["path"].endswith("Source/ParamSet/" + name))
+            entry["data"] = entry["data"][0]
+            entry["dimensions"] = None
+        self.assertTrue(comparison.compare(self.library, capture, .9)["passed"])
+        entry = next(n for n in capture["nodes"] if n["path"].endswith("Source/ParamSet/Enable"))
+        for invalid in ([1, 1], True, [True], 0, [0], "1", float("nan")):
+            entry["data"] = invalid
+            with self.subTest(invalid=invalid), self.assertRaises(ValueError):
+                comparison.compare(self.library, capture, .9)
+
     def test_rejects_warning_changed_parameter_and_stale_data(self):
         for kind in ("warning", "parameter", "timestamp", "topology"):
             capture = copy.deepcopy(self.capture)

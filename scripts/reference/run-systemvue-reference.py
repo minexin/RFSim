@@ -104,11 +104,17 @@ def main():
     parser.add_argument("--compression-riso-db", type=int, choices=(50, 100))
     parser.add_argument("--compression-profile", choices=("sample", "antenna", "limiter"))
     parser.add_argument("--compression-opsat-dbm", type=int, choices=(22, 23, 26))
+    parser.add_argument("--compression-two-tone", action="store_true",
+                        help="Sample profile with equal-power 1.0/1.1 GHz CW tones; source power is per tone")
     parser.add_argument("--compression-diagnostic", action="store_true",
                         help="Preserve the known over-P1dB warning for diagnosis, never compatibility acceptance")
     parser.add_argument("--open-copy", action="store_true",
                         help="Open via official script API only when no workspace is loaded")
     args = parser.parse_args()
+    if args.compression_two_tone and (args.case != "compression" or
+            args.compression_profile not in (None, "sample") or args.compression_diagnostic or
+            args.source_power_dbm is None or args.compression_opsat_dbm is not None):
+        parser.error("Two-tone requires sample compression, explicit per-tone power and no diagnostic/OPSAT override")
     if args.compression_diagnostic and (args.case != "compression" or args.compression_profile not in (None, "sample")):
         parser.error("Compression diagnostic requires sample-profile compression case")
     if args.compression_riso_db is not None and args.case != "compression":
@@ -146,6 +152,8 @@ def main():
         command.extend(["-CompressionOpsatDbm", str(args.compression_opsat_dbm)])
     if args.compression_diagnostic:
         command.append("-PreserveManagerMessages")
+    if args.compression_two_tone:
+        command.append("-CompressionTwoTone")
     return execute(command, args.output_directory.resolve(), args.case, args.timeout,
                    compression_diagnostic=args.compression_diagnostic)
 

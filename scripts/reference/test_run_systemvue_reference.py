@@ -16,6 +16,23 @@ spec.loader.exec_module(runner)
 
 
 class RunnerTests(unittest.TestCase):
+    def test_two_tone_rejects_ambiguous_or_incompatible_options(self):
+        cases = (("antenna", ["--source-power-dbm", "-30"]),
+                 ("attenuator", ["--source-power-dbm", "-30"]),
+                 ("compression", []),
+                 ("compression", ["--source-power-dbm", "-30", "--compression-profile", "limiter"]),
+                 ("compression", ["--source-power-dbm", "-30", "--compression-profile", "antenna"]),
+                 ("compression", ["--source-power-dbm", "-30", "--compression-opsat-dbm", "23"]),
+                 ("compression", ["--source-power-dbm", "-30", "--compression-diagnostic"]))
+        for case, extra in cases:
+            arguments = ["runner", case, "unused.wsv", "unused-output", "--compression-two-tone", *extra]
+            with self.subTest(case=case, extra=extra), patch.object(sys, "argv", arguments), \
+                    patch.object(runner, "execute") as execute, contextlib.redirect_stderr(io.StringIO()):
+                with self.assertRaises(SystemExit) as failure:
+                    runner.main()
+                self.assertEqual(failure.exception.code, 2)
+                execute.assert_not_called()
+
     def test_diagnostic_capture_preserves_warning_and_excludes_acceptance(self):
         root = Path(__file__).resolve().parents[2]
         fixture = root / "validation/systemvue-2023-single-saturation-diagnostic-captures.json"

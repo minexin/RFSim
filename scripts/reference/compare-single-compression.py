@@ -74,7 +74,13 @@ def inspect_capture(capture, source_power_dbm, *, reverse_isolation_db=100, prof
         entry = node(f"Sch1/PartList/{device}/ParamSet/{parameter}")
         actual = entry["data"]
         if isinstance(expected, list):
-            valid = actual == expected
+            # Untouched enum defaults use GetValue's one-element array; Set
+            # expressions return the same single source state as a Data scalar.
+            # Accept only those two representations, never additional sources.
+            values = actual if isinstance(actual, list) else [actual]
+            valid = (len(values) == len(expected)
+                     and all(isinstance(v, (int, float)) and not isinstance(v, bool)
+                             and math.isfinite(v) and v == e for v, e in zip(values, expected)))
         else:
             valid = (isinstance(actual, (int, float)) and not isinstance(actual, bool)
                      and math.isfinite(actual) and math.isclose(actual, expected, rel_tol=1e-12))

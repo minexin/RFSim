@@ -11,9 +11,14 @@ param(
     [ValidateSet('sample', 'antenna', 'limiter')][string]$CompressionProfile = 'sample',
     [ValidateSet(22, 23, 26)][int]$CompressionOpsatDbm = 23,
     [switch]$PreserveManagerMessages,
+    [switch]$CompressionTwoTone,
     [switch]$CaptureRun
 )
 $ErrorActionPreference = 'Stop'
+if ($CompressionTwoTone -and (-not $RunCompressionAnalysis -or $CompressionProfile -ne 'sample' -or
+    $PreserveManagerMessages -or $null -eq $SourcePowerDbm -or $PSBoundParameters.ContainsKey('CompressionOpsatDbm'))) {
+    throw 'CompressionTwoTone requires sample compression, explicit per-tone power and no diagnostic/OPSAT override.'
+}
 if ($PreserveManagerMessages -and (-not $RunCompressionAnalysis -or $CompressionProfile -ne 'sample')) {
     throw 'PreserveManagerMessages requires sample-profile RunCompressionAnalysis.'
 }
@@ -199,7 +204,7 @@ public static class ReferenceWorkspaceInspector
 
     public static Node[] Inspect(string path, bool open, bool run, bool antenna, double lossDb, double temperatureK,
         double sourcePowerDbm, bool compression, int compressionRisoDb, string compressionProfile,
-        int compressionOpsatDbm, bool preserveManagerMessages)
+        int compressionOpsatDbm, bool preserveManagerMessages, bool compressionTwoTone)
     {
         Console.Error.WriteLine("phase: attach-active-instance");
         object active = Marshal.GetActiveObject("Genesys.Application");
@@ -266,6 +271,20 @@ public static class ReferenceWorkspaceInspector
                                     amp + "ZOUT.Set(\"50\")\r\n" +
                                     "wsdoc.Designs.Sch1.PartList.Source.ParamSet.R.Set(\"50\")\r\n" +
                                     "wsdoc.Designs.Sch1.PartList.Out.ParamSet.ZO.Set(\"50\")\r\n";
+                                string source = "wsdoc.Designs.Sch1.PartList.Source.ParamSet.";
+                                // Set both modes explicitly so a later single-tone run restores all arrays.
+                                setup += source + "Name.Set(\"" + (compressionTwoTone ? "=[\"\"Source1\"\",\"\"Source2\"\"]" : "Source1") + "\")\r\n" +
+                                    source + "Enable.Set(\"" + (compressionTwoTone ? "[1;1]" : "[1]") + "\")\r\n" +
+                                    source + "SrcType.Set(\"" + (compressionTwoTone ? "[0;0]" : "[0]") + "\")\r\n" +
+                                    source + "EnablePN.Set(\"" + (compressionTwoTone ? "[0;0]" : "[0]") + "\")\r\n" +
+                                    source + "MultiCarrier.Set(\"" + (compressionTwoTone ? "[0;0]" : "[0]") + "\")\r\n" +
+                                    source + "Phase.Set(\"" + (compressionTwoTone ? "[0;0]" : "[0]") + "\")\r\n" +
+                                    source + "BW.Set(\"" + (compressionTwoTone ? "[1;1]" : "1") + "\")\r\n";
+                                if (compressionTwoTone) {
+                                    setup += source + "Freq.Set(\"[1000;1100]\")\r\n";
+                                }
+                                setup += "wsdoc.Designs.System1.Path0.PathFreq.Set(\"" +
+                                    (compressionTwoTone ? "1000" : "") + "\")\r\n";
                             }
                             if (!Double.IsNaN(lossDb))
                             {
@@ -287,7 +306,8 @@ public static class ReferenceWorkspaceInspector
                                     : "wsdoc.Designs.Sch1.PartList.Source";
                                 // Preserve the second (noise) source entry from the official case.
                                 setup += sourcePath + ".ParamSet.Pwr.Set(\"" +
-                                    (antenna ? "[" + powerText + ";-50]" : powerText) + "\")\r\n";
+                                    (antenna ? "[" + powerText + ";-50]" : compressionTwoTone
+                                        ? "[" + powerText + ";" + powerText + "]" : powerText) + "\")\r\n";
                             }
                             RunStartedUtc = DateTime.UtcNow.ToString("o");
                             Console.Error.WriteLine("phase: run-analysis " + RunStartedUtc);
@@ -355,7 +375,8 @@ $power = if ($null -eq $SourcePowerDbm) { [double]::NaN } else { [double]$Source
 $nodes = [ReferenceWorkspaceInspector]::Inspect($resolvedPath, $OpenCopy.IsPresent,
     ($RunAttenuatorAnalysis.IsPresent -or $RunAntennaAnalysis.IsPresent -or $RunCompressionAnalysis.IsPresent),
     $RunAntennaAnalysis.IsPresent, $loss, $temperature, $power, $RunCompressionAnalysis.IsPresent,
-    $CompressionRisoDb, $CompressionProfile, $CompressionOpsatDbm, $PreserveManagerMessages.IsPresent)
+    $CompressionRisoDb, $CompressionProfile, $CompressionOpsatDbm, $PreserveManagerMessages.IsPresent,
+    $CompressionTwoTone.IsPresent)
 if ($CaptureRun) {
     [ordered]@{
         run_started_utc = [ReferenceWorkspaceInspector]::RunStartedUtc
