@@ -9,6 +9,17 @@ int main(int argc, char **argv) {
     size_t offset;
     int status;
     {
+        const rfmodel_spectrum_bin bins[] = {{10, {.001, 0.}}, {20, {.002, 0.}}};
+        const rfmodel_incident_spectrum port = {1e6, bins, 2};
+        rfmodel_complex output;
+        double total;
+        if (rfmodel_p1db_spectral_fundamental(20., 10., &port, 1, 0, 10, &output, &total) !=
+                RFMODEL_OK ||
+            fabs(total / 5e-6 - 1.) > 1e-12 || output.real <= 0. || output.real >= .01) {
+            return 14;
+        }
+    }
+    {
         const rfmodel_complex input = {0., sqrt(pow(10., -3.9))};
         rfmodel_complex output;
         if (rfmodel_p1db_fundamental(20., 10., input, &output) != RFMODEL_OK ||

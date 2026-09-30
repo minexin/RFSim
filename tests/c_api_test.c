@@ -22,6 +22,22 @@ int main(int argc, char **argv) {
     double residual = -1;
     CHECK(rfmodel_abi_version() == 1);
     {
+        const rfmodel_spectrum_bin bins[] = {{10, {0., .001}}, {20, {.002, 0.}}};
+        const rfmodel_incident_spectrum port = {1e6, bins, 2};
+        rfmodel_complex output = {123., 456.};
+        double total = 789.;
+        CHECK(rfmodel_p1db_spectral_fundamental(20., 10., &port, 1, 1, 10, &output, &total) ==
+              RFMODEL_INVALID_ARGUMENT);
+        CHECK(output.real == 123. && output.imag == 456. && total == 789.);
+        CHECK(rfmodel_p1db_spectral_fundamental(20., 10., &port, 1, 0, 10, &output, NULL) ==
+              RFMODEL_INVALID_ARGUMENT);
+        CHECK(output.real == 123. && output.imag == 456. && total == 789.);
+        CHECK(rfmodel_p1db_spectral_fundamental(20., 10., &port, 1, 0, 10, &output, &total) ==
+              RFMODEL_OK);
+        CHECK(fabs(total / 5e-6 - 1.) < 1e-12);
+        CHECK(output.real == 0. && output.imag > 0. && output.imag < .01);
+    }
+    {
         rfmodel_complex output = {123., 456.};
         const rfmodel_complex too_large = {1., 0.};
         const rfmodel_complex point = {0., sqrt(pow(10., -3.9))};

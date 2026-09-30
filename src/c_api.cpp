@@ -134,6 +134,31 @@ int rfmodel_p1db_driven_fundamental(double power_gain_db,
     });
 }
 
+int rfmodel_p1db_spectral_fundamental(double power_gain_db,
+                                      double output_p1db_dbm,
+                                      const rfmodel_incident_spectrum *ports,
+                                      size_t port_count,
+                                      size_t fundamental_port,
+                                      int fundamental_bin,
+                                      rfmodel_complex *output,
+                                      double *total_incident_power_w) {
+    return guarded([&] {
+        require(ports && port_count > 0 && port_count <= 1024 && output && total_incident_power_w);
+        std::vector<rfmodel::PowerWaveSpectrum> inputs;
+        inputs.reserve(port_count);
+        for (size_t port = 0; port < port_count; ++port) {
+            inputs.push_back(
+                read_spectrum(ports[port].spacing_hz, ports[port].bins, ports[port].count));
+        }
+        const rfmodel::P1dBFundamentalCompression model(power_gain_db, output_p1db_dbm);
+        const auto result =
+            model.transmit_fundamental_from_spectra(inputs, fundamental_port, fundamental_bin);
+        const double total = rfmodel::incident_rf_power_watts(inputs);
+        *output = {result.real(), result.imag()};
+        *total_incident_power_w = total;
+    });
+}
+
 int rfmodel_touchstone_open(const char *path_utf8, int out_of_band, rfmodel_touchstone **out) {
     return guarded([&] {
         require(out != nullptr);

@@ -227,3 +227,25 @@ auto output = model.transmit_fundamental_from_spectra(inputs, 0, 10);
 
 当前频谱重载为 C++ 接口；C/Python 仍可使用上一节的显式总功率接口。Debug/Release
 全套各 48/48 通过，补充谐波解析断言后定向复验通过；安装消费者各 2/2 通过。
+
+### C 和 Python 端口频谱入口
+
+新增 C 结构 `rfmodel_incident_spectrum`（spacing_hz、bins、count）及函数
+`rfmodel_p1db_spectral_fundamental`。每个结构对应一个物理端口，函数校验全部
+输入后返回所选基波波幅和总输入功率。两个输出指针均必须非空，失败时均不改写。
+每端口最多 2048 个 bin，重复 bin 拒绝；端口数、DC 和总功率限制与 C++ 一致。
+
+Python 使用 `(spacing_hz, amplitudes)` 的端口列表，返回 `DrivenFundamental`：
+
+```python
+result = library.p1db_spectral_fundamental(
+    [(1e6, {10: .001j, 20: .002}), (2e6, {5: -.003j})],
+    fundamental_port=0, fundamental_bin=10,
+    power_gain_db=20., output_p1db_dbm=10.)
+print(result.amplitude, result.total_incident_power_w)  # 总功率 14e-6 W
+```
+
+该接口不生成新的谐波、不进行非线性反馈求解；输入频谱仍须由上游器件和网络
+求得。JSON 单音级行为不变。新 C 符号属于 ABI 1 增量扩展，Python 和动态库需
+配套更新。Debug/Release 全套各 48/48 通过，安装消费者各 2/2，安装 Release
+动态库上的 Python 44 项测试通过。未新增厂商实测，远端 CI 待核验。

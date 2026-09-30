@@ -346,6 +346,27 @@ class PythonApiTests(unittest.TestCase):
                 self.library.p1db_fundamental(
                     incident, power_gain_db=20, output_p1db_dbm=10, total_incident_power_w=invalid)
 
+    def test_spectral_fundamental_total_drive(self):
+        arguments = dict(fundamental_port=0, fundamental_bin=10,
+                         power_gain_db=20, output_p1db_dbm=10)
+        result = self.library.p1db_spectral_fundamental(
+            [(1e6, {10: .001j, 20: .002}), (2e6, {5: -.003j})], **arguments)
+        self.assertAlmostEqual(result.total_incident_power_w, 14e-6)
+        expected = self.library.p1db_fundamental(.001j, power_gain_db=20,
+            output_p1db_dbm=10, total_incident_power_w=14e-6)
+        self.assertAlmostEqual(result.amplitude, expected)
+        self.assertEqual(self.library.p1db_spectral_fundamental(
+            [(1e6, {})], **arguments).amplitude, 0j)
+        for ports in ([(1e6, {0: .001})], [(0, {})], [(1e6, {10: 1})]):
+            with self.subTest(ports=ports), self.assertRaises(RFModelError):
+                self.library.p1db_spectral_fundamental(ports, **arguments)
+        with self.assertRaises(ValueError):
+            self.library.p1db_spectral_fundamental([], **arguments)
+        with self.assertRaises(RFModelError):
+            self.library.p1db_spectral_fundamental(
+                [(1e6, {})], fundamental_port=1, fundamental_bin=10,
+                power_gain_db=20, output_p1db_dbm=10)
+
     def test_shape_indices_and_nonfinite(self):
         with self.library.network() as network:
             for matrix in ([], [[0, 1]], [[0], [1]]):

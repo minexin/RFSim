@@ -91,6 +91,25 @@ typedef struct rfmodel_spectrum_bin {
     rfmodel_complex amplitude;
 } rfmodel_spectrum_bin;
 
+typedef struct rfmodel_incident_spectrum {
+    double spacing_hz;
+    const rfmodel_spectrum_bin *bins;
+    size_t count;
+} rfmodel_incident_spectrum;
+
+/* One incident spectrum per physical port, 1..1024 ports, at most 2048 bins each.
+ * Same-port coherent paths must already be combined. Nonzero DC is rejected.
+ * Select an RF bin > 0 on fundamental_port; absent bin returns zero after validation.
+ * No harmonic generation or feedback solve. Both outputs are required and unchanged on failure. */
+RFMODEL_API int rfmodel_p1db_spectral_fundamental(double power_gain_db,
+                                                  double output_p1db_dbm,
+                                                  const rfmodel_incident_spectrum *ports,
+                                                  size_t port_count,
+                                                  size_t fundamental_port,
+                                                  int fundamental_bin,
+                                                  rfmodel_complex *output,
+                                                  double *total_incident_power_w);
+
 /* Transmit through a fixed-S network, with matched external source/load.
  * external_ports has exactly two entries, ordered input then output.
  * Internal reflections are solved. Frequency-dependent models must be rebuilt

@@ -66,6 +66,16 @@ class _SpectrumBin(ct.Structure):
     _fields_ = [("index", ct.c_int), ("amplitude", _Complex)]
 
 
+class _IncidentSpectrum(ct.Structure):
+    _fields_ = [("spacing_hz", ct.c_double), ("bins", ct.POINTER(_SpectrumBin)),
+                ("count", ct.c_size_t)]
+
+
+class DrivenFundamental(NamedTuple):
+    amplitude: complex
+    total_incident_power_w: float
+
+
 def _bin(value):
     if isinstance(value, bool):
         raise TypeError("Frequency bin must be an integer")
@@ -113,6 +123,9 @@ class Library:
                 ct.c_int, [ct.c_double, ct.c_double, _Complex, complex_pointer]),
             "rfmodel_p1db_driven_fundamental": (
                 ct.c_int, [ct.c_double, ct.c_double, _Complex, ct.c_double, complex_pointer]),
+            "rfmodel_p1db_spectral_fundamental": (
+                ct.c_int, [ct.c_double, ct.c_double, ct.POINTER(_IncidentSpectrum), size,
+                           size, ct.c_int, complex_pointer, ct.POINTER(ct.c_double)]),
             "rfmodel_touchstone_open": (ct.c_int, [ct.c_char_p, ct.c_int, ct.POINTER(handle)]),
             "rfmodel_touchstone_close": (None, [handle]),
             "rfmodel_touchstone_get_info": (ct.c_int, [handle, ct.POINTER(_TouchstoneInfo)]),
@@ -190,6 +203,25 @@ class Library:
 
     def touchstone(self, path, *, out_of_band="reject"):
         return Touchstone(self, path, out_of_band=out_of_band)
+
+    def p1db_spectral_fundamental(self, ports, *, fundamental_port, fundamental_bin,
+                                  power_gain_db, output_p1db_dbm):
+        """Each port is (spacing_hz, bin-to-amplitude mapping); return amplitude and total W."""
+        ports = list(ports)
+        if not 1 <= len(ports) <= 1024:
+            raise ValueError("Expected 1..1024 incident port spectra")
+        fundamental_port = _index(fundamental_port)
+        fundamental_bin = _bin(fundamental_bin)
+        # Keep each ctypes array alive until the native call has consumed its pointer.
+        buffers = [_spectrum(amplitudes) for _, amplitudes in ports]
+        descriptors = (_IncidentSpectrum * len(ports))(
+            *[_IncidentSpectrum(float(spacing), buffer, len(buffer))
+              for (spacing, _), buffer in zip(ports, buffers)])
+        output, total = _Complex(), ct.c_double()
+        self._check(self._dll.rfmodel_p1db_spectral_fundamental(
+            float(power_gain_db), float(output_p1db_dbm), descriptors, len(ports),
+            fundamental_port, fundamental_bin, ct.byref(output), ct.byref(total)))
+        return DrivenFundamental(output.value(), total.value)
 
     def thermal_boundary_noise(self, reflections, temperatures_k):
         reflections, temperatures = list(reflections), list(temperatures_k)
