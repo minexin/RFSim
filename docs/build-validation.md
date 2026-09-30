@@ -1,6 +1,22 @@
 # 构建与当前验证状态
 
-最新跨平台记录：提交 `d312947299cfca10e948c76d0230f711685a3432` 的 [CI 35802872861](https://github.com/minexin/RFSim/actions/runs/35802872861) 在 Windows/MSVC 19.51、Ubuntu/GCC 13.3、macOS/AppleClang 21 的 Debug/Release 六个配置均通过核心测试 24/24、安装后消费者测试 1/1。机器可读摘要与原始测试结论行见 `validation/cross-platform-d312947.json`。消费者测试仅调用基本线性分析，不代表所有新增噪声 API 的安装后行为已覆盖。下方较早的 14 项记录保留为历史证据。
+## 2026-09-30 CI 链接修复
+
+提交 `f7d3d8e` 的 [CI 36657646147](https://github.com/minexin/RFSim/actions/runs/36657646147)
+在 Ubuntu Debug 链接 C 测试时失败：`undefined reference to symbol 'sqrt@@GLIBC_2.2.5'`，
+并报告 `libm.so.6: DSO missing from command line`。其余五个配置成功。
+C 测试直接使用数学函数，不能依赖共享 RFModel 库的间接数学库依赖。
+现为 `c_api_test` 和独立安装消费者 `c_consumer` 添加 Unix 平台的私有 `m` 链接。
+修复未改变数值实现或测试容差；远端六配置结果须以修复提交的新 CI 为准。
+
+每阶段推送后检查对应提交的 CI；存在失败时优先修复，并在六配置通过前保留
+“跨平台验证未完成”状态。本机 MSVC 通过不能代替 Linux/macOS 验收。
+SystemVue 对照已经有采集与已知差异记录，详见 systemvue-reference.md 和
+intercept-amplifier.md；这些结果不表示完整兼容。下方记录均为早期阶段历史。
+
+## 历史验证记录
+
+提交 `d312947299cfca10e948c76d0230f711685a3432` 的 [CI 35802872861](https://github.com/minexin/RFSim/actions/runs/35802872861) 在 Windows/MSVC 19.51、Ubuntu/GCC 13.3、macOS/AppleClang 21 的 Debug/Release 六个配置均通过核心测试 24/24、安装后消费者测试 1/1。机器可读摘要与原始测试结论行见 `validation/cross-platform-d312947.json`。消费者测试仅调用基本线性分析，不代表所有新增噪声 API 的安装后行为已覆盖。下方较早的 14 项记录保留为历史证据。
 
 本机已确认安装 Visual Studio 2022 Build Tools，MSVC 19.44.35228（工具目录 14.44.35207），Windows SDK 10.0.26100.0，以及 Visual Studio 自带的 CMake/CTest。它们没有加入当前 PowerShell 的 PATH；此前“没有可用工具链”的判断不准确。
 
@@ -30,7 +46,7 @@ MSVC x64 Debug 和 Release 均构建成功，CTest 各 31/31 通过。测试使�
 - 三平台运行已验证，见下方远端 CI 记录；范围限于所列提交与现有测试。
 - 新增 network.hpp 已验证单频同参考阻抗的网络反馈求解，范围见 network.md；频率扫描已通过端到端回归（interpolation.md）；复杂参考阻抗尚未完成。
 - Touchstone 已验证基础 RI/MA/DB 转换和单位换算，完整限制见 touchstone.md；插值已纳入扫描回归；标量噪声和 Friis 级联已纳入测试（noise.md），不代表完整网络噪声能力。
-- SystemVue 2023 对照验证尚未执行，v0.1 和长期目标均未完成。
+- 此历史阶段尚未执行 SystemVue 2023 对照；当前已开始对照，v0.1 和长期目标仍未完成。
 
 ## 跨平台 CI 实证
 

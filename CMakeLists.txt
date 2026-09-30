@@ -46,6 +46,10 @@ if(BUILD_TESTING)
 if(RFMODEL_BUILD_C_API)
     add_executable(c_api_test tests/c_api_test.c)
     target_link_libraries(c_api_test PRIVATE RFModel::c_api)
+    if(UNIX)
+        # C callers using math functions must link libm explicitly on Unix.
+        target_link_libraries(c_api_test PRIVATE m)
+    endif()
     add_test(NAME c_api_test COMMAND c_api_test "${CMAKE_CURRENT_SOURCE_DIR}/tests/sweep.s2p"
         "${CMAKE_CURRENT_SOURCE_DIR}/examples/noisy-amplifier.s2p")
     option(RFMODEL_REQUIRE_PYTHON_TESTS "Require Python binding tests during configuration" OFF)

@@ -9,6 +9,9 @@ if(TARGET RFModel::c_api)
     enable_language(C)
     add_executable(c_consumer c_main.c)
     target_link_libraries(c_consumer PRIVATE RFModel::c_api)
+    if(UNIX)
+        target_link_libraries(c_consumer PRIVATE m)
+    endif()
     if(WIN32)
         add_custom_command(TARGET c_consumer POST_BUILD
             COMMAND ${CMAKE_COMMAND} -E copy_if_different
