@@ -120,6 +120,20 @@ int rfmodel_p1db_fundamental(double power_gain_db,
     });
 }
 
+int rfmodel_p1db_driven_fundamental(double power_gain_db,
+                                    double output_p1db_dbm,
+                                    rfmodel_complex incident,
+                                    double total_incident_power_w,
+                                    rfmodel_complex *output) {
+    return guarded([&] {
+        require(output != nullptr);
+        const rfmodel::P1dBFundamentalCompression model(power_gain_db, output_p1db_dbm);
+        const auto result =
+            model.transmit_fundamental({incident.real, incident.imag}, total_incident_power_w);
+        *output = {result.real(), result.imag()};
+    });
+}
+
 int rfmodel_touchstone_open(const char *path_utf8, int out_of_band, rfmodel_touchstone **out) {
     return guarded([&] {
         require(out != nullptr);

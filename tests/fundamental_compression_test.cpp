@@ -14,6 +14,24 @@ int main() {
     near(10. * std::log10(std::norm(output) / input), 19.);
     near(model.transmit_fundamental({}), {});
     near(model.transmit_fundamental(1e-12) / 1e-12, 10.);
+    const auto partial_wave = std::sqrt(input / 4.) * phase;
+    const auto driven = model.transmit_fundamental(partial_wave, input);
+    near(std::norm(driven) / .0025, 1.);
+    near(driven / std::abs(driven), phase);
+    near(model.transmit_fundamental({}, input), {});
+    near(model.transmit_fundamental(partial_wave, std::norm(partial_wave)),
+         model.transmit_fundamental(partial_wave));
+    for (double invalid : {-1.,
+                           input / 8.,
+                           std::numeric_limits<double>::infinity(),
+                           std::numeric_limits<double>::quiet_NaN()}) {
+        rejects<std::invalid_argument>([&] {
+            model.transmit_fundamental(partial_wave, invalid);
+        });
+    }
+    rejects<std::out_of_range>([&] {
+        model.transmit_fundamental(partial_wave, input * 1.01);
+    });
     const auto half = model.transmit_fundamental(std::sqrt(input / 2.));
     near(half / (10. * std::sqrt(input / 2.)), (1. + std::pow(10., -.05)) / 2.);
     rejects<std::out_of_range>([&] {

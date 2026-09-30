@@ -15,6 +15,14 @@ int main(int argc, char **argv) {
             fabs(output.imag - .1) > 1e-12) {
             return 12;
         }
+        {
+            const rfmodel_complex partial = {0., input.imag / 2.};
+            if (rfmodel_p1db_driven_fundamental(20., 10., partial, pow(10., -3.9), &output) !=
+                    RFMODEL_OK ||
+                fabs(output.imag - .05) > 1e-12) {
+                return 13;
+            }
+        }
     }
     {
         rfmodel_touchstone *model = NULL;

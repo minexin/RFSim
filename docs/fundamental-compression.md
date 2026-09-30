@@ -170,3 +170,30 @@ CNF、CND、DCP 四组共 20 个测量值与 antenna-run-003 完全一致；未�
 与现有两组压缩参考测试一起通过 Debug/Release。未新增厂商采集或修改数值核心。
 下一步需建立由 RFModel 自行求得总输入功率的频谱传播，再验证条件诊断能否转为
 独立预测；不可直接把实测 RFPwrIn 写入兼容模型。
+
+## 总功率驱动的公开接口
+
+2026-09-30：C++ 新增 `transmit_fundamental(incident, total_incident_power_w)` 重载，
+C 新增 `rfmodel_p1db_driven_fundamental`；Python 的 `p1db_fundamental` 新增可选
+`total_incident_power_w`。不提供该参数时仍使用基波自身的功率。
+
+```python
+output = library.p1db_fundamental(
+    0.001j, power_gain_db=20., output_p1db_dbm=10.,
+    total_incident_power_w=1e-4)
+```
+
+总功率单位为 W，必须有限、非负、包含指定基波的功率，且不超过输入 P1dB。
+包含关系和 P1dB 边界允许 16 倍浮点 epsilon 的相对舍入误差。压缩增益由总功率
+决定，基波相位保持；基波为零时输出为零，但仍检查总功率。其他信号的波形、
+相位及其传播必须由调用者另行计算。本接口不产生谐波/互调，不是完整多音模型，
+也不会从一个标量重建完整频谱。JSON 单音级仍只使用自身基波功率。
+
+总功率诊断脚本改用该原生接口，归档报告同步记录新动态库散列。该报告仍使用
+实测总功率，不能代表 RFModel 自主计算链路总驱动。C ABI 保持版本 1 的增量扩展，
+Python 与动态库需配套更新；C 失败保持输出不变。
+
+验证：MSVC Debug/Release 全套各 48/48；安装后独立 C/C++ 消费者各 2/2；
+安装 Release 动态库通过 Python 43 项测试。测试覆盖 P1dB 总驱动下的部分基波、
+相位、单音等价、零基波、总功率不足、负值、非有限及越界。此次未新增 SystemVue
+采集，远端跨平台 CI 尚未核验。

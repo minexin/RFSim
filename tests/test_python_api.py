@@ -329,6 +329,23 @@ class PythonApiTests(unittest.TestCase):
         with self.assertRaises(RFModelError):
             self.library.p1db_fundamental(0., power_gain_db=float("inf"), output_p1db_dbm=10.)
 
+    def test_p1db_total_drive_calibration_and_domain(self):
+        total = 10 ** (-3.9)
+        incident = complex(0, math.sqrt(total / 4))
+        output = self.library.p1db_fundamental(
+            incident, power_gain_db=20, output_p1db_dbm=10, total_incident_power_w=total)
+        self.assertAlmostEqual(output, .05j)
+        self.assertAlmostEqual(self.library.p1db_fundamental(
+            incident, power_gain_db=20, output_p1db_dbm=10,
+            total_incident_power_w=abs(incident)**2), self.library.p1db_fundamental(
+                incident, power_gain_db=20, output_p1db_dbm=10))
+        self.assertEqual(self.library.p1db_fundamental(
+            0, power_gain_db=20, output_p1db_dbm=10, total_incident_power_w=total), 0j)
+        for invalid in (-1, total / 8, total * 1.01, float("inf"), float("nan")):
+            with self.subTest(total=invalid), self.assertRaises(RFModelError):
+                self.library.p1db_fundamental(
+                    incident, power_gain_db=20, output_p1db_dbm=10, total_incident_power_w=invalid)
+
     def test_shape_indices_and_nonfinite(self):
         with self.library.network() as network:
             for matrix in ([], [[0, 1]], [[0], [1]]):

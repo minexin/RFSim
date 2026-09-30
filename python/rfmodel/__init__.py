@@ -111,6 +111,8 @@ class Library:
             "rfmodel_abi_version": (ct.c_uint, []),
             "rfmodel_p1db_fundamental": (
                 ct.c_int, [ct.c_double, ct.c_double, _Complex, complex_pointer]),
+            "rfmodel_p1db_driven_fundamental": (
+                ct.c_int, [ct.c_double, ct.c_double, _Complex, ct.c_double, complex_pointer]),
             "rfmodel_touchstone_open": (ct.c_int, [ct.c_char_p, ct.c_int, ct.POINTER(handle)]),
             "rfmodel_touchstone_close": (None, [handle]),
             "rfmodel_touchstone_get_info": (ct.c_int, [handle, ct.POINTER(_TouchstoneInfo)]),
@@ -173,12 +175,17 @@ class Library:
     def network(self, reference_ohms=50.):
         return Network(self, reference_ohms)
 
-    def p1db_fundamental(self, incident, *, power_gain_db, output_p1db_dbm):
-        """Return compressed single-tone fundamental in sqrt(W), up to P1dB only."""
+    def p1db_fundamental(self, incident, *, power_gain_db, output_p1db_dbm,
+                         total_incident_power_w=None):
+        """Return fundamental in sqrt(W), optionally compressed by total incident RF power."""
         output = _Complex()
-        self._check(self._dll.rfmodel_p1db_fundamental(
-            float(power_gain_db), float(output_p1db_dbm), _Complex.from_value(incident),
-            ct.byref(output)))
+        arguments = (float(power_gain_db), float(output_p1db_dbm), _Complex.from_value(incident))
+        if total_incident_power_w is None:
+            status = self._dll.rfmodel_p1db_fundamental(*arguments, ct.byref(output))
+        else:
+            status = self._dll.rfmodel_p1db_driven_fundamental(
+                *arguments, float(total_incident_power_w), ct.byref(output))
+        self._check(status)
         return output.value()
 
     def touchstone(self, path, *, out_of_band="reject"):

@@ -48,9 +48,9 @@ def diagnose(library, capture, source_power_dbm):
         raise ValueError("Total drive is below the measured fundamental")
     baseline_output = abs(library.p1db_fundamental(
         math.sqrt(fundamental), power_gain_db=30, output_p1db_dbm=60)) ** 2
-    compressed_gain = abs(library.p1db_fundamental(
-        math.sqrt(total), power_gain_db=30, output_p1db_dbm=60)) ** 2 / total
-    predicted = compressed_gain * fundamental
+    predicted = abs(library.p1db_fundamental(
+        math.sqrt(fundamental), power_gain_db=30, output_p1db_dbm=60,
+        total_incident_power_w=total)) ** 2
     return {
         "source_power_dbm": source_power_dbm,
         "run_started_utc": capture["run_started_utc"],

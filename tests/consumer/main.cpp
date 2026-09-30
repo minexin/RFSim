@@ -15,6 +15,11 @@
 
 int main() {
     const rfmodel::P1dBFundamentalCompression compressed(20., 10.);
+    const auto driven = compressed.transmit_fundamental(
+        std::sqrt(compressed.input_p1db_watts() / 4.), compressed.input_p1db_watts());
+    if (std::abs(std::norm(driven) / .0025 - 1.) > 1e-12) {
+        return 12;
+    }
     if (std::abs(
             std::norm(compressed.transmit_fundamental(std::sqrt(compressed.input_p1db_watts()))) /
                 .01 -

@@ -40,6 +40,16 @@ RFMODEL_API int rfmodel_p1db_fundamental(double power_gain_db,
                                          rfmodel_complex incident,
                                          rfmodel_complex *output);
 
+/* Fundamental-only response driven by total incident RF power (W).
+ * Total power must include |incident|^2 and remain at or below input P1dB.
+ * Caller is responsible for solving other frequencies/ports. No harmonic generation.
+ * output must be non-NULL and remains unchanged on failure. */
+RFMODEL_API int rfmodel_p1db_driven_fundamental(double power_gain_db,
+                                                double output_p1db_dbm,
+                                                rfmodel_complex incident,
+                                                double total_incident_power_w,
+                                                rfmodel_complex *output);
+
 /* Snapshot a legacy .sNp file at a UTF-8 path. out_of_band: 0 reject, 1 clamp.
  * A failed open sets *out to NULL. close(NULL) is valid.
  * info reports embedded noise presence; s does not implicitly evaluate noise.

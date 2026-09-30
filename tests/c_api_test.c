@@ -30,6 +30,17 @@ int main(int argc, char **argv) {
         CHECK(rfmodel_p1db_fundamental(20., 10., point, NULL) == RFMODEL_INVALID_ARGUMENT);
         CHECK(rfmodel_p1db_fundamental(20., 10., point, &output) == RFMODEL_OK);
         CHECK(fabs(output.imag - .1) < 1e-12 && output.real == 0.);
+        {
+            const double total = pow(10., -3.9);
+            const rfmodel_complex partial = {0., sqrt(total / 4.)};
+            CHECK(rfmodel_p1db_driven_fundamental(20., 10., partial, total, &output) == RFMODEL_OK);
+            CHECK(fabs(output.imag - .05) < 1e-12 && output.real == 0.);
+            CHECK(rfmodel_p1db_driven_fundamental(20., 10., partial, total / 8., &output) ==
+                  RFMODEL_INVALID_ARGUMENT);
+            CHECK(fabs(output.imag - .05) < 1e-12 && output.real == 0.);
+            CHECK(rfmodel_p1db_driven_fundamental(20., 10., partial, total, NULL) ==
+                  RFMODEL_INVALID_ARGUMENT);
+        }
     }
     {
         rfmodel_touchstone *model = NULL;
