@@ -15,6 +15,13 @@
 
 int main() {
     const rfmodel::P1dBFundamentalCompression compressed(20., 10.);
+    const std::vector<rfmodel::PowerWaveSpectrum> rf_inputs{{1e6, {{10, .001}, {20, .002}}},
+                                                            {1e6, {{10, .003}}}};
+    if (std::abs(rfmodel::incident_rf_power_watts(rf_inputs) / 14e-6 - 1.) > 1e-12 ||
+        std::abs(compressed.transmit_fundamental_from_spectra(rf_inputs, 0, 10) -
+                 compressed.transmit_fundamental(.001, 14e-6)) > 1e-12) {
+        return 14;
+    }
     const auto driven = compressed.transmit_fundamental(
         std::sqrt(compressed.input_p1db_watts() / 4.), compressed.input_p1db_watts());
     if (std::abs(std::norm(driven) / .0025 - 1.) > 1e-12) {

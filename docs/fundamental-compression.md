@@ -197,3 +197,33 @@ Python 与动态库需配套更新；C 失败保持输出不变。
 安装 Release 动态库通过 Python 43 项测试。测试覆盖 P1dB 总驱动下的部分基波、
 相位、单音等价、零基波、总功率不足、负值、非有限及越界。此次未新增 SystemVue
 采集，远端跨平台 CI 尚未核验。
+
+## 从端口频谱汇总驱动功率
+
+2026-09-30：C++ 新增 `incident_rf_power_watts(ports)` 和
+`transmit_fundamental_from_spectra(ports, fundamental_port, fundamental_bin)`。
+每个 PowerWaveSpectrum 表示一个物理端口的入射波，单位 sqrt(W)。核心验证
+1..1024 个端口及各频谱，并以补偿求和累计所有 RF bin 的平方模，再驱动压缩。
+不同物理端口即使同频也按功率相加；同一端口同频的相干路径必须先由波求解器
+合并振幅，不能作为不同端口重复传入。端口可以使用不同频率网格。
+
+所选基波 bin 必须大于零；不存在的基波输出零，但其他端口的总功率仍须合法。
+非零 DC 被拒绝，调用者必须明确处理 DC 阻断或另选含偏置的模型，避免暗中把
+直流计入 RF 压缩。零 DC 项允许。功率溢出、非法网格及超 P1dB 输入均拒绝。
+
+```cpp
+std::vector<rfmodel::PowerWaveSpectrum> inputs{
+    {1e6, {{10, .001}, {20, .002}}},
+    {1e6, {{10, .003}}}
+};
+auto output = model.transmit_fundamental_from_spectra(inputs, 0, 10);
+```
+
+回归中，原生前级多项式 `v_out = v_in - 100 v_in^3` 在 50 ohm 下由 .005 sqrt(W)
+单音自行产生 .0040625 sqrt(W) 基波和 −.0003125 sqrt(W) 三次谐波；后级根据两者
+功率和计算压缩，输出比仅使用基波驱动更小。这里没有使用厂商实测输入或拟合值。
+这验证了前向频谱与总功率压缩的连接，尚未实现 SystemVue 四级案例的完整谐波/
+反向传播求解，也没有改变既有兼容报告。
+
+当前频谱重载为 C++ 接口；C/Python 仍可使用上一节的显式总功率接口。Debug/Release
+全套各 48/48 通过，补充谐波解析断言后定向复验通过；安装消费者各 2/2 通过。

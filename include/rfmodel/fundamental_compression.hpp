@@ -1,5 +1,6 @@
 #pragma once
 #include "device_model.hpp"
+#include "power_wave_spectrum.hpp"
 #include <cmath>
 #include <limits>
 
@@ -29,6 +30,21 @@ public:
 
     Complex transmit_fundamental(Complex incident) const {
         return transmit_fundamental(incident, std::norm(incident));
+    }
+
+    // Select a fundamental while other RF bins and physical ports contribute drive.
+    // This does not generate output spectra or solve a nonlinear feedback network.
+    Complex transmit_fundamental_from_spectra(const std::vector<PowerWaveSpectrum> &ports,
+                                              std::size_t fundamental_port,
+                                              int fundamental_bin) const {
+        if (fundamental_port >= ports.size() || fundamental_bin <= 0) {
+            throw std::invalid_argument("invalid fundamental port or RF bin");
+        }
+        const double total = incident_rf_power_watts(ports);
+        const auto &amplitudes = ports[fundamental_port].amplitudes;
+        const auto found = amplitudes.find(fundamental_bin);
+        const auto incident = found == amplitudes.end() ? Complex{} : found->second;
+        return transmit_fundamental(incident, total);
     }
 
     // The caller supplies total incident RF power, including this fundamental.
