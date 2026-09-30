@@ -1,0 +1,3442 @@
+[
+  {
+    "run_started_utc": "2026-09-30T02:39:13.7313168Z",
+    "run_returned_utc": "2026-09-30T02:39:13.9556931Z",
+    "manager_errors": "",
+    "nodes": [
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/PartLib",
+        "methods": "^GetPartList(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [],
+        "data": null,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": null,
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Out",
+        "methods": "^SetCustomValue(BSTR,Variant*,BSTR,BSTR,Bool,Bool)^ChangeModel(BSTR)^ChangeModelWithIdentifier(BSTR,BSTR)^ChangeSymbol(BSTR)^DeleteParams()^AddToPartLibrary(BSTR)^BSTR = GetAutoDesignator()^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "Category:BSTR",
+          "Description:BSTR",
+          "Footprint:BSTR",
+          "LayoutUse:Long",
+          "Model:BSTR",
+          "Netlist:BSTR",
+          "ParentPartName:BSTR",
+          "SectionNum:Long",
+          "ShortSymbol:BSTR",
+          "SimOverride:Long",
+          "Symbol:BSTR"
+        ],
+        "data": null,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": null,
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Out/ParamSet/PORT",
+        "methods": "^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "DataEntry:BSTR",
+          "Description:BSTR",
+          "Show:Byte",
+          "Unit:Long",
+          "Validate:Long",
+          "Data:Double"
+        ],
+        "data": 2,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "2",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Out/ParamSet/ZO",
+        "methods": "^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "DataEntry:BSTR",
+          "Description:BSTR",
+          "Unit:Long",
+          "Validate:Long",
+          "Data:Double"
+        ],
+        "data": 50,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "50",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Page",
+        "methods": "^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [],
+        "data": null,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": null,
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/RFAmp",
+        "methods": "^SetCustomValue(BSTR,Variant*,BSTR,BSTR,Bool,Bool)^ChangeModel(BSTR)^ChangeModelWithIdentifier(BSTR,BSTR)^ChangeSymbol(BSTR)^DeleteParams()^AddToPartLibrary(BSTR)^BSTR = GetAutoDesignator()^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "Category:BSTR",
+          "Description:BSTR",
+          "Footprint:BSTR",
+          "LayoutUse:Long",
+          "Model:BSTR",
+          "Netlist:BSTR",
+          "ParentPartName:BSTR",
+          "SectionNum:Long",
+          "ShortSymbol:BSTR",
+          "SimOverride:Long",
+          "Symbol:BSTR"
+        ],
+        "data": null,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": null,
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/RFAmp/ParamSet/FC",
+        "methods": "^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "DataEntry:BSTR",
+          "Default:Byte",
+          "Description:BSTR",
+          "Show:Byte",
+          "Unit:Long",
+          "Validate:Long",
+          "Data:BSTR"
+        ],
+        "data": "",
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/RFAmp/ParamSet/G",
+        "methods": "^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "DataEntry:BSTR",
+          "Description:BSTR",
+          "Unit:Long",
+          "Validate:Long",
+          "Data:Double"
+        ],
+        "data": 100,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "20",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/RFAmp/ParamSet/NF",
+        "methods": "^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "DataEntry:BSTR",
+          "Description:BSTR",
+          "Unit:Long",
+          "Validate:Long",
+          "Data:Double"
+        ],
+        "data": 1.9952623149688795,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "3",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/RFAmp/ParamSet/OIP2",
+        "methods": "^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "DataEntry:BSTR",
+          "Description:BSTR",
+          "Show:Byte",
+          "Unit:Long",
+          "Validate:Long",
+          "Data:Double"
+        ],
+        "data": 10,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "40",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/RFAmp/ParamSet/OIP3",
+        "methods": "^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "DataEntry:BSTR",
+          "Description:BSTR",
+          "Show:Byte",
+          "Unit:Long",
+          "Validate:Long",
+          "Data:Double"
+        ],
+        "data": 1,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "30",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/RFAmp/ParamSet/OP1dB",
+        "methods": "^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "DataEntry:BSTR",
+          "Description:BSTR",
+          "Unit:Long",
+          "Validate:Long",
+          "Data:Double"
+        ],
+        "data": 0.1,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "20",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/RFAmp/ParamSet/OPSAT",
+        "methods": "^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "DataEntry:BSTR",
+          "Description:BSTR",
+          "Show:Byte",
+          "Unit:Long",
+          "Validate:Long",
+          "Data:Double"
+        ],
+        "data": 0.15848931924611143,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "22",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/RFAmp/ParamSet/RISO",
+        "methods": "^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "DataEntry:BSTR",
+          "Description:BSTR",
+          "Show:Byte",
+          "Unit:Long",
+          "Validate:Long",
+          "Data:Double"
+        ],
+        "data": 10000000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "100",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/RFAmp/ParamSet/SLOPE",
+        "methods": "^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "DataEntry:BSTR",
+          "Default:Byte",
+          "Description:BSTR",
+          "Show:Byte",
+          "Unit:Long",
+          "Validate:Long",
+          "Data:BSTR"
+        ],
+        "data": "",
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/RFAmp/ParamSet/ZIN",
+        "methods": "^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "DataEntry:BSTR",
+          "Description:BSTR",
+          "Show:Byte",
+          "Unit:Long",
+          "Validate:Long",
+          "Data:Double"
+        ],
+        "data": 50,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "50",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/RFAmp/ParamSet/ZOUT",
+        "methods": "^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "DataEntry:BSTR",
+          "Description:BSTR",
+          "Show:Byte",
+          "Unit:Long",
+          "Validate:Long",
+          "Data:Double"
+        ],
+        "data": 50,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "50",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source",
+        "methods": "^SetCustomValue(BSTR,Variant*,BSTR,BSTR,Bool,Bool)^ChangeModel(BSTR)^ChangeModelWithIdentifier(BSTR,BSTR)^ChangeSymbol(BSTR)^DeleteParams()^AddToPartLibrary(BSTR)^BSTR = GetAutoDesignator()^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "Category:BSTR",
+          "Description:BSTR",
+          "Footprint:BSTR",
+          "MathLang:Byte",
+          "Model:BSTR",
+          "ModelID:BSTR",
+          "Netlist:BSTR",
+          "ParentPartName:BSTR",
+          "SectionNum:Long",
+          "ShortSymbol:BSTR",
+          "Symbol:BSTR"
+        ],
+        "data": null,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": null,
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/AutoDesc",
+        "methods": "^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "Data:Array of Long",
+          "Description:BSTR",
+          "Show:Byte",
+          "Validate:Long"
+        ],
+        "data": [
+          1
+        ],
+        "dimensions": [
+          1
+        ],
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/BW",
+        "methods": "^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "DataEntry:BSTR",
+          "Description:BSTR",
+          "Show:Byte",
+          "Unit:Long",
+          "Validate:Long",
+          "Data:Double"
+        ],
+        "data": 1000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "1",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/Carriers",
+        "methods": "^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "DataEntry:BSTR",
+          "Description:BSTR",
+          "Show:Byte",
+          "Validate:Long",
+          "Data:Double"
+        ],
+        "data": 2,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "2",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/Dataset",
+        "methods": "^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "DataEntry:BSTR",
+          "Description:BSTR",
+          "EqnLang:Long",
+          "Show:Byte",
+          "Validate:Long",
+          "Data:BSTR"
+        ],
+        "data": "GSM",
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "GSM",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/Descrip",
+        "methods": "^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "DataEntry:BSTR",
+          "Description:BSTR",
+          "EqnLang:Long",
+          "Show:Byte",
+          "Validate:Long",
+          "Data:BSTR"
+        ],
+        "data": "1000 MHz at RFPwrIn dBm",
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "1000 MHz at RFPwrIn dBm",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/Enable",
+        "methods": "^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "Data:Array of Long",
+          "Description:BSTR",
+          "Show:Byte",
+          "Validate:Long"
+        ],
+        "data": [
+          1
+        ],
+        "dimensions": [
+          1
+        ],
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/EnablePN",
+        "methods": "^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "Data:Array of Long",
+          "Description:BSTR",
+          "Show:Byte",
+          "Validate:Long"
+        ],
+        "data": [
+          0
+        ],
+        "dimensions": [
+          1
+        ],
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/FOff",
+        "methods": "^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "DataEntry:BSTR",
+          "Description:BSTR",
+          "Show:Byte",
+          "Unit:Long",
+          "Validate:Long",
+          "Data:Double"
+        ],
+        "data": 50000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "50",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/Freq",
+        "methods": "^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "DataEntry:BSTR",
+          "Description:BSTR",
+          "Show:Byte",
+          "Unit:Long",
+          "Validate:Long",
+          "Data:Double"
+        ],
+        "data": 1000000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "1000",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/MultiCarrier",
+        "methods": "^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "Data:Array of Long",
+          "Description:BSTR",
+          "Show:Byte",
+          "Validate:Long"
+        ],
+        "data": [
+          0
+        ],
+        "dimensions": [
+          1
+        ],
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/Name",
+        "methods": "^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "DataEntry:BSTR",
+          "Description:BSTR",
+          "EqnLang:Long",
+          "Show:Byte",
+          "Validate:Long",
+          "Data:BSTR"
+        ],
+        "data": "Source1",
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "Source1",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/NoisePoints",
+        "methods": "^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "DataEntry:BSTR",
+          "Description:BSTR",
+          "Show:Byte",
+          "Validate:Long",
+          "Data:Double"
+        ],
+        "data": 10,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "10",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/NoisePower",
+        "methods": "^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "DataEntry:BSTR",
+          "Description:BSTR",
+          "Show:Byte",
+          "Unit:Long",
+          "Validate:Long",
+          "Data:Double"
+        ],
+        "data": 1e-18,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "-150",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/NoiseStart",
+        "methods": "^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "DataEntry:BSTR",
+          "Description:BSTR",
+          "Show:Byte",
+          "Unit:Long",
+          "Validate:Long",
+          "Data:Double"
+        ],
+        "data": 50000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "50",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/NoiseStop",
+        "methods": "^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "DataEntry:BSTR",
+          "Description:BSTR",
+          "Show:Byte",
+          "Unit:Long",
+          "Validate:Long",
+          "Data:Double"
+        ],
+        "data": 250000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "250",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/PNFreq",
+        "methods": "^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "DataEntry:BSTR",
+          "Description:BSTR",
+          "Show:Byte",
+          "Unit:Long",
+          "Validate:Long",
+          "Data:Array of Double"
+        ],
+        "data": [
+          1000,
+          10000,
+          100000,
+          1000000
+        ],
+        "dimensions": [
+          4,
+          1
+        ],
+        "timestamp": null,
+        "data_entry": "[1e-3;0.01;0.1;1]",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/PNIndex",
+        "methods": "^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "Data:Array of Long",
+          "Description:BSTR",
+          "Show:Byte",
+          "Validate:Long"
+        ],
+        "data": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "dimensions": [
+          4
+        ],
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/PNPwr",
+        "methods": "^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "DataEntry:BSTR",
+          "Description:BSTR",
+          "Show:Byte",
+          "Unit:Long",
+          "Validate:Long",
+          "Data:Array of Double"
+        ],
+        "data": [
+          1e-07,
+          1e-09,
+          1e-10,
+          3.1622776601683794e-11
+        ],
+        "dimensions": [
+          4,
+          1
+        ],
+        "timestamp": null,
+        "data_entry": "[-70;-90;-100;-105]",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/PORT",
+        "methods": "^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "DataEntry:BSTR",
+          "Default:Byte",
+          "Description:BSTR",
+          "Validate:Long",
+          "Data:Double"
+        ],
+        "data": 1,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "1",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/POff",
+        "methods": "^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "DataEntry:BSTR",
+          "Description:BSTR",
+          "Show:Byte",
+          "Unit:Long",
+          "Validate:Long",
+          "Data:Double"
+        ],
+        "data": 1,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "0",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/PhOff",
+        "methods": "^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "DataEntry:BSTR",
+          "Description:BSTR",
+          "Show:Byte",
+          "Unit:Long",
+          "Validate:Long",
+          "Data:Double"
+        ],
+        "data": 0,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "0",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/Phase",
+        "methods": "^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "DataEntry:BSTR",
+          "Description:BSTR",
+          "Show:Byte",
+          "Unit:Long",
+          "Validate:Long",
+          "Data:Double"
+        ],
+        "data": 0,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "0",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/Pts",
+        "methods": "^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "DataEntry:BSTR",
+          "Description:BSTR",
+          "Show:Byte",
+          "Validate:Long",
+          "Data:Double"
+        ],
+        "data": 2,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "2",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/Pwr",
+        "methods": "^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "DataEntry:BSTR",
+          "Description:BSTR",
+          "Show:Byte",
+          "Unit:Long",
+          "Validate:Long",
+          "Data:Double"
+        ],
+        "data": 0.001,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "0",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/R",
+        "methods": "^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "DataEntry:BSTR",
+          "Description:BSTR",
+          "Show:Byte",
+          "Unit:Long",
+          "Validate:Long",
+          "Data:Double"
+        ],
+        "data": 50,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "50",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/RefClk",
+        "methods": "^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "DataEntry:BSTR",
+          "Description:BSTR",
+          "EqnLang:Long",
+          "Show:Byte",
+          "Validate:Long",
+          "Data:BSTR"
+        ],
+        "data": "",
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/Show",
+        "methods": "^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "Data:Array of Long",
+          "Description:BSTR",
+          "Show:Byte",
+          "Validate:Long"
+        ],
+        "data": [
+          1
+        ],
+        "dimensions": [
+          1
+        ],
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/SrcType",
+        "methods": "^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "Data:Array of Long",
+          "Description:BSTR",
+          "Show:Byte",
+          "Validate:Long"
+        ],
+        "data": [
+          0
+        ],
+        "dimensions": [
+          1
+        ],
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/System1_Data/Eqns/VarBlock/F2",
+        "methods": "^----------^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "ByAnalysis:Byte",
+          "Data:Array of Double",
+          "PlotType:BSTR",
+          "Unit:Long"
+        ],
+        "data": [
+          0.005,
+          400000000.005,
+          800000000.005,
+          999500000,
+          999600000,
+          999700000,
+          999800000,
+          999900000,
+          999999999.5,
+          1000000000,
+          1000000000.5,
+          1000100000,
+          1000200000,
+          1000300000,
+          1000400000,
+          1000500000,
+          1200000000.005,
+          1600000000.005,
+          2000000000.005,
+          2400000000.005,
+          2800000000.005,
+          3200000000.005,
+          3600000000.005,
+          4000000000,
+          0,
+          0.001,
+          0.004,
+          0.005,
+          400000000.005,
+          800000000.005,
+          999500000,
+          999600000,
+          999700000,
+          999800000,
+          999900000,
+          999999998.499,
+          999999998.5,
+          999999999.499,
+          999999999.5,
+          1000000000,
+          1000000000.5,
+          1000000000.501,
+          1000000001.5,
+          1000000001.501,
+          1000100000,
+          1000200000,
+          1000300000,
+          1000400000,
+          1000500000,
+          1200000000.005,
+          1600000000.005,
+          1999999998.999,
+          1999999999,
+          2000000000.005,
+          2000000001,
+          2000000001.001,
+          2400000000.005,
+          2800000000.005,
+          2999999998.499,
+          2999999998.5,
+          3000000001.5,
+          3000000001.501,
+          3200000000.005,
+          3600000000.005,
+          4000000000,
+          0,
+          999999999.5,
+          1000000000.5,
+          999999998.5,
+          1000000001.5,
+          1999999999,
+          2000000001,
+          2999999998.5,
+          3000000001.5
+        ],
+        "dimensions": [
+          74
+        ],
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/System1_Data/Eqns/VarBlock/ID2",
+        "methods": "^----------^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "ByAnalysis:Byte",
+          "Data:Array of Long"
+        ],
+        "data": [
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          84,
+          83,
+          83,
+          86,
+          86,
+          85,
+          85,
+          87,
+          87
+        ],
+        "dimensions": [
+          74
+        ],
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/System1_Data/Eqns/VarBlock/IDName",
+        "methods": "^----------^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "ByAnalysis:Byte",
+          "Data:Array of BSTR",
+          "Description:BSTR",
+          "IndepValue:BSTR"
+        ],
+        "data": [
+          "Node Total from 'Out'",
+          "Node Total from 'RFAmp'",
+          "Node Noise from 'Out'",
+          "Node Noise from 'RFAmp'",
+          "{1}D[(Source.Source1)],Source,RFAmp",
+          "{0}[DC((Source.Source1)-(Source.Source1))],RFAmp",
+          "{2}[2x(Source.Source1)],RFAmp",
+          "{3}[-(Source.Source1)+2x(Source.Source1)],RFAmp",
+          "{4}[3x(Source.Source1)],RFAmp",
+          "Node Total from 'RFAmp'",
+          "Node Total from 'Source'",
+          "Node Noise from 'RFAmp'",
+          "Node Noise from 'Source'",
+          "{1}D[(Source.Source1)],Source",
+          "{2}[2x(Source.Source1)],RFAmp,RFAmp",
+          "{3}[-(Source.Source1)+2x(Source.Source1)],RFAmp,RFAmp",
+          "{4}[3x(Source.Source1)],RFAmp,RFAmp"
+        ],
+        "dimensions": [
+          17
+        ],
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/System1_Data/Eqns/VarBlock/IDNo",
+        "methods": "^----------^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "ByAnalysis:Byte",
+          "Data:Array of Long",
+          "Description:BSTR"
+        ],
+        "data": [
+          0,
+          6,
+          3,
+          9,
+          83,
+          84,
+          85,
+          86,
+          87,
+          12,
+          18,
+          15,
+          21,
+          90,
+          91,
+          92,
+          93
+        ],
+        "dimensions": [
+          17
+        ],
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/System1_Data/Eqns/VarBlock/P2",
+        "methods": "^----------^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "ByAnalysis:Byte",
+          "Data:Array of Double",
+          "IndepValue:BSTR",
+          "Unit:Long"
+        ],
+        "data": [
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829157e-13,
+          6.668230199829017e-13,
+          6.668230199829157e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          0.00039588426248455004,
+          1.0000000048935069e-33,
+          1.0000000048935069e-33,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829151e-13,
+          0.0007045265277995799,
+          0.0007045265277995797,
+          0.08417422754031914,
+          0.08417422754031911,
+          0.08417422754031914,
+          0.0007045265277995797,
+          0.0007045265277995799,
+          6.668230199829151e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829016e-13,
+          0.00019794213190909812,
+          0.00019794213190909812,
+          0.00019794213190909812,
+          6.668230199829016e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829016e-13,
+          7.8280725903796e-05,
+          7.8280725903796e-05,
+          6.668230199829016e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          0.00039588426248455004,
+          0.08346970101251955,
+          0.08346970101251955,
+          0.0007045265271327568,
+          0.0007045265271327568,
+          0.00019794213124227507,
+          0.00019794213124227507,
+          7.828072523697296e-05,
+          7.828072523697296e-05
+        ],
+        "dimensions": [
+          74
+        ],
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/System1_Data_Folder/System1_Data_Path1",
+        "methods": "^ExportS(BSTR)^DeleteAnalysisVars()^----------^Object* = GetLibrary(BSTR,BSTR)^CreateLibrary(BSTR,BSTR)^GetRegisteredModels(Variant*)^ExportToLibrary(BSTR)^ImportFromLibrary(BSTR,BSTR,BSTR)^OpenWindow()^CloseWindow()^SelectAll()^SelectNone()^AddProperty(Object)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "Selected:Byte",
+          "TimeStamp:BSTR",
+          "FullPath:BSTR"
+        ],
+        "data": null,
+        "dimensions": null,
+        "timestamp": "1790735953",
+        "data_entry": null,
+        "data_source": null,
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/System1_Data_Folder/System1_Data_Path1/Eqns/VarBlock/CF",
+        "methods": "^----------^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "ByAnalysis:Byte",
+          "Data:Array of Double",
+          "Description:BSTR",
+          "EqnLang:Long",
+          "IndepValue:BSTR",
+          "PathInfo:BSTR",
+          "Unit:Long"
+        ],
+        "data": [
+          1000000000,
+          1000000000
+        ],
+        "dimensions": [
+          2
+        ],
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/System1_Data_Folder/System1_Data_Path1/Eqns/VarBlock/CGAIN",
+        "methods": "^----------^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "ByAnalysis:Byte",
+          "Data:Array of Double",
+          "Description:BSTR",
+          "EqnLang:Long",
+          "IndepValue:BSTR",
+          "PathInfo:BSTR",
+          "Unit:Long"
+        ],
+        "data": [
+          1,
+          83.46970059517102
+        ],
+        "dimensions": [
+          2
+        ],
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/System1_Data_Folder/System1_Data_Path1/Eqns/VarBlock/DCP",
+        "methods": "^----------^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "ByAnalysis:Byte",
+          "Data:Array of Double",
+          "Description:BSTR",
+          "EqnLang:Long",
+          "IndepValue:BSTR",
+          "PathInfo:BSTR",
+          "Unit:Long"
+        ],
+        "data": [
+          0.001,
+          0.08346970059517102
+        ],
+        "dimensions": [
+          2
+        ],
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": "Data property",
+        "evaluation_error": null
+      }
+    ],
+    "source_power_dbm": 0,
+    "raw_capture_sha256": "359653f410bdbaefb71e00696d01d57422c4bf2daf53f13446ec0c486d475511",
+    "output_saturation_dbm": 22
+  },
+  {
+    "run_started_utc": "2026-09-30T01:59:54.6923590Z",
+    "run_returned_utc": "2026-09-30T01:59:54.9259635Z",
+    "manager_errors": "",
+    "nodes": [
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/PartLib",
+        "data": null,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": null,
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Out",
+        "data": null,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": null,
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Out/ParamSet/PORT",
+        "data": 2,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "2",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Out/ParamSet/ZO",
+        "data": 50,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "50",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Page",
+        "data": null,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": null,
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/RFAmp",
+        "data": null,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": null,
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/RFAmp/ParamSet/FC",
+        "data": "",
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/RFAmp/ParamSet/G",
+        "data": 100,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "20",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/RFAmp/ParamSet/NF",
+        "data": 1.9952623149688795,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "3",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/RFAmp/ParamSet/OIP2",
+        "data": 10,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "40",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/RFAmp/ParamSet/OIP3",
+        "data": 1,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "30",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/RFAmp/ParamSet/OP1dB",
+        "data": 0.1,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "20",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/RFAmp/ParamSet/OPSAT",
+        "data": 0.1995262314968879,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "23",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/RFAmp/ParamSet/RISO",
+        "data": 10000000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "100",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/RFAmp/ParamSet/SLOPE",
+        "data": "",
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/RFAmp/ParamSet/ZIN",
+        "data": 50,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "50",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/RFAmp/ParamSet/ZOUT",
+        "data": 50,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "50",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source",
+        "data": null,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": null,
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/AutoDesc",
+        "data": [
+          1
+        ],
+        "dimensions": [
+          1
+        ],
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/BW",
+        "data": 1000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "1",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/Carriers",
+        "data": 2,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "2",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/Dataset",
+        "data": "GSM",
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "GSM",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/Descrip",
+        "data": "1000 MHz at RFPwrIn dBm",
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "1000 MHz at RFPwrIn dBm",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/Enable",
+        "data": [
+          1
+        ],
+        "dimensions": [
+          1
+        ],
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/EnablePN",
+        "data": [
+          0
+        ],
+        "dimensions": [
+          1
+        ],
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/FOff",
+        "data": 50000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "50",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/Freq",
+        "data": 1000000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "1000",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/MultiCarrier",
+        "data": [
+          0
+        ],
+        "dimensions": [
+          1
+        ],
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/Name",
+        "data": "Source1",
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "Source1",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/NoisePoints",
+        "data": 10,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "10",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/NoisePower",
+        "data": 1e-18,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "-150",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/NoiseStart",
+        "data": 50000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "50",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/NoiseStop",
+        "data": 250000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "250",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/PNFreq",
+        "data": [
+          1000,
+          10000,
+          100000,
+          1000000
+        ],
+        "dimensions": [
+          4,
+          1
+        ],
+        "timestamp": null,
+        "data_entry": "[1e-3;0.01;0.1;1]",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/PNIndex",
+        "data": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "dimensions": [
+          4
+        ],
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/PNPwr",
+        "data": [
+          1e-07,
+          1e-09,
+          1e-10,
+          3.1622776601683794e-11
+        ],
+        "dimensions": [
+          4,
+          1
+        ],
+        "timestamp": null,
+        "data_entry": "[-70;-90;-100;-105]",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/PORT",
+        "data": 1,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "1",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/POff",
+        "data": 1,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "0",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/PhOff",
+        "data": 0,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "0",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/Phase",
+        "data": 0,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "0",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/Pts",
+        "data": 2,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "2",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/Pwr",
+        "data": 0.001,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "0",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/R",
+        "data": 50,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "50",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/RefClk",
+        "data": "",
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/Show",
+        "data": [
+          1
+        ],
+        "dimensions": [
+          1
+        ],
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/SrcType",
+        "data": [
+          0
+        ],
+        "dimensions": [
+          1
+        ],
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/System1_Data/Eqns/VarBlock/F2",
+        "data": [
+          0.005,
+          400000000.005,
+          800000000.005,
+          999500000,
+          999600000,
+          999700000,
+          999800000,
+          999900000,
+          999999999.5,
+          1000000000,
+          1000000000.5,
+          1000100000,
+          1000200000,
+          1000300000,
+          1000400000,
+          1000500000,
+          1200000000.005,
+          1600000000.005,
+          2000000000.005,
+          2400000000.005,
+          2800000000.005,
+          3200000000.005,
+          3600000000.005,
+          4000000000,
+          0,
+          0.001,
+          0.004,
+          0.005,
+          400000000.005,
+          800000000.005,
+          999500000,
+          999600000,
+          999700000,
+          999800000,
+          999900000,
+          999999998.499,
+          999999998.5,
+          999999999.499,
+          999999999.5,
+          1000000000,
+          1000000000.5,
+          1000000000.501,
+          1000000001.5,
+          1000000001.501,
+          1000100000,
+          1000200000,
+          1000300000,
+          1000400000,
+          1000500000,
+          1200000000.005,
+          1600000000.005,
+          1999999998.999,
+          1999999999,
+          2000000000.005,
+          2000000001,
+          2000000001.001,
+          2400000000.005,
+          2800000000.005,
+          2999999998.499,
+          2999999998.5,
+          3000000001.5,
+          3000000001.501,
+          3200000000.005,
+          3600000000.005,
+          4000000000,
+          0,
+          999999999.5,
+          1000000000.5,
+          999999998.5,
+          1000000001.5,
+          1999999999,
+          2000000001,
+          2999999998.5,
+          3000000001.5
+        ],
+        "dimensions": [
+          74
+        ],
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/System1_Data/Eqns/VarBlock/ID2",
+        "data": [
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          84,
+          83,
+          83,
+          86,
+          86,
+          85,
+          85,
+          87,
+          87
+        ],
+        "dimensions": [
+          74
+        ],
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/System1_Data/Eqns/VarBlock/IDName",
+        "data": [
+          "Node Total from 'Out'",
+          "Node Total from 'RFAmp'",
+          "Node Noise from 'Out'",
+          "Node Noise from 'RFAmp'",
+          "{1}D[(Source.Source1)],Source,RFAmp",
+          "{0}[DC((Source.Source1)-(Source.Source1))],RFAmp",
+          "{2}[2x(Source.Source1)],RFAmp",
+          "{3}[-(Source.Source1)+2x(Source.Source1)],RFAmp",
+          "{4}[3x(Source.Source1)],RFAmp",
+          "Node Total from 'RFAmp'",
+          "Node Total from 'Source'",
+          "Node Noise from 'RFAmp'",
+          "Node Noise from 'Source'",
+          "{1}D[(Source.Source1)],Source",
+          "{2}[2x(Source.Source1)],RFAmp,RFAmp",
+          "{3}[-(Source.Source1)+2x(Source.Source1)],RFAmp,RFAmp",
+          "{4}[3x(Source.Source1)],RFAmp,RFAmp"
+        ],
+        "dimensions": [
+          17
+        ],
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/System1_Data/Eqns/VarBlock/IDNo",
+        "data": [
+          0,
+          6,
+          3,
+          9,
+          83,
+          84,
+          85,
+          86,
+          87,
+          12,
+          18,
+          15,
+          21,
+          90,
+          91,
+          92,
+          93
+        ],
+        "dimensions": [
+          17
+        ],
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/System1_Data/Eqns/VarBlock/P2",
+        "data": [
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829157e-13,
+          6.668230199829017e-13,
+          6.668230199829157e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          0.00042940787030146515,
+          1.0000000048935069e-33,
+          1.0000000048935069e-33,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829151e-13,
+          0.0007958844030532681,
+          0.0007958844030532679,
+          0.08426558541557283,
+          0.08426558541557277,
+          0.08426558541557283,
+          0.0007958844030532679,
+          0.0007958844030532681,
+          6.668230199829151e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829016e-13,
+          0.00021470393581755567,
+          0.00021470393581755567,
+          0.00021470393581755567,
+          6.668230199829016e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829016e-13,
+          8.843160093198361e-05,
+          8.843160093198361e-05,
+          6.668230199829016e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          0.00042940787030146515,
+          0.08346970101251955,
+          0.08346970101251955,
+          0.000795884402386445,
+          0.000795884402386445,
+          0.00021470393515073263,
+          0.00021470393515073263,
+          8.843160026516058e-05,
+          8.843160026516058e-05
+        ],
+        "dimensions": [
+          74
+        ],
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/System1_Data_Folder/System1_Data_Path1",
+        "data": null,
+        "dimensions": null,
+        "timestamp": "1790733594",
+        "data_entry": null,
+        "data_source": null,
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/System1_Data_Folder/System1_Data_Path1/Eqns/VarBlock/CF",
+        "data": [
+          1000000000,
+          1000000000
+        ],
+        "dimensions": [
+          2
+        ],
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/System1_Data_Folder/System1_Data_Path1/Eqns/VarBlock/CGAIN",
+        "data": [
+          1,
+          83.46970059517102
+        ],
+        "dimensions": [
+          2
+        ],
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/System1_Data_Folder/System1_Data_Path1/Eqns/VarBlock/DCP",
+        "data": [
+          0.001,
+          0.08346970059517102
+        ],
+        "dimensions": [
+          2
+        ],
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": "Data property",
+        "evaluation_error": null
+      }
+    ],
+    "source_power_dbm": 0,
+    "raw_capture_sha256": "c6088c618f5e24008b710f23d53b4679c42e03200833ca989ccb16a283260b38",
+    "output_saturation_dbm": 23
+  },
+  {
+    "run_started_utc": "2026-09-30T02:37:28.5874564Z",
+    "run_returned_utc": "2026-09-30T02:37:28.8309369Z",
+    "manager_errors": "",
+    "nodes": [
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/PartLib",
+        "methods": "^GetPartList(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [],
+        "data": null,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": null,
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Out",
+        "methods": "^SetCustomValue(BSTR,Variant*,BSTR,BSTR,Bool,Bool)^ChangeModel(BSTR)^ChangeModelWithIdentifier(BSTR,BSTR)^ChangeSymbol(BSTR)^DeleteParams()^AddToPartLibrary(BSTR)^BSTR = GetAutoDesignator()^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "Category:BSTR",
+          "Description:BSTR",
+          "Footprint:BSTR",
+          "LayoutUse:Long",
+          "Model:BSTR",
+          "Netlist:BSTR",
+          "ParentPartName:BSTR",
+          "SectionNum:Long",
+          "ShortSymbol:BSTR",
+          "SimOverride:Long",
+          "Symbol:BSTR"
+        ],
+        "data": null,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": null,
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Out/ParamSet/PORT",
+        "methods": "^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "DataEntry:BSTR",
+          "Description:BSTR",
+          "Show:Byte",
+          "Unit:Long",
+          "Validate:Long",
+          "Data:Double"
+        ],
+        "data": 2,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "2",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Out/ParamSet/ZO",
+        "methods": "^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "DataEntry:BSTR",
+          "Description:BSTR",
+          "Unit:Long",
+          "Validate:Long",
+          "Data:Double"
+        ],
+        "data": 50,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "50",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Page",
+        "methods": "^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [],
+        "data": null,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": null,
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/RFAmp",
+        "methods": "^SetCustomValue(BSTR,Variant*,BSTR,BSTR,Bool,Bool)^ChangeModel(BSTR)^ChangeModelWithIdentifier(BSTR,BSTR)^ChangeSymbol(BSTR)^DeleteParams()^AddToPartLibrary(BSTR)^BSTR = GetAutoDesignator()^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "Category:BSTR",
+          "Description:BSTR",
+          "Footprint:BSTR",
+          "LayoutUse:Long",
+          "Model:BSTR",
+          "Netlist:BSTR",
+          "ParentPartName:BSTR",
+          "SectionNum:Long",
+          "ShortSymbol:BSTR",
+          "SimOverride:Long",
+          "Symbol:BSTR"
+        ],
+        "data": null,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": null,
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/RFAmp/ParamSet/FC",
+        "methods": "^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "DataEntry:BSTR",
+          "Default:Byte",
+          "Description:BSTR",
+          "Show:Byte",
+          "Unit:Long",
+          "Validate:Long",
+          "Data:BSTR"
+        ],
+        "data": "",
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/RFAmp/ParamSet/G",
+        "methods": "^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "DataEntry:BSTR",
+          "Description:BSTR",
+          "Unit:Long",
+          "Validate:Long",
+          "Data:Double"
+        ],
+        "data": 100,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "20",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/RFAmp/ParamSet/NF",
+        "methods": "^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "DataEntry:BSTR",
+          "Description:BSTR",
+          "Unit:Long",
+          "Validate:Long",
+          "Data:Double"
+        ],
+        "data": 1.9952623149688795,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "3",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/RFAmp/ParamSet/OIP2",
+        "methods": "^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "DataEntry:BSTR",
+          "Description:BSTR",
+          "Show:Byte",
+          "Unit:Long",
+          "Validate:Long",
+          "Data:Double"
+        ],
+        "data": 10,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "40",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/RFAmp/ParamSet/OIP3",
+        "methods": "^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "DataEntry:BSTR",
+          "Description:BSTR",
+          "Show:Byte",
+          "Unit:Long",
+          "Validate:Long",
+          "Data:Double"
+        ],
+        "data": 1,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "30",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/RFAmp/ParamSet/OP1dB",
+        "methods": "^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "DataEntry:BSTR",
+          "Description:BSTR",
+          "Unit:Long",
+          "Validate:Long",
+          "Data:Double"
+        ],
+        "data": 0.1,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "20",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/RFAmp/ParamSet/OPSAT",
+        "methods": "^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "DataEntry:BSTR",
+          "Description:BSTR",
+          "Show:Byte",
+          "Unit:Long",
+          "Validate:Long",
+          "Data:Double"
+        ],
+        "data": 0.3981071705534973,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "26",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/RFAmp/ParamSet/RISO",
+        "methods": "^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "DataEntry:BSTR",
+          "Description:BSTR",
+          "Show:Byte",
+          "Unit:Long",
+          "Validate:Long",
+          "Data:Double"
+        ],
+        "data": 10000000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "100",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/RFAmp/ParamSet/SLOPE",
+        "methods": "^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "DataEntry:BSTR",
+          "Default:Byte",
+          "Description:BSTR",
+          "Show:Byte",
+          "Unit:Long",
+          "Validate:Long",
+          "Data:BSTR"
+        ],
+        "data": "",
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/RFAmp/ParamSet/ZIN",
+        "methods": "^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "DataEntry:BSTR",
+          "Description:BSTR",
+          "Show:Byte",
+          "Unit:Long",
+          "Validate:Long",
+          "Data:Double"
+        ],
+        "data": 50,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "50",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/RFAmp/ParamSet/ZOUT",
+        "methods": "^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "DataEntry:BSTR",
+          "Description:BSTR",
+          "Show:Byte",
+          "Unit:Long",
+          "Validate:Long",
+          "Data:Double"
+        ],
+        "data": 50,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "50",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source",
+        "methods": "^SetCustomValue(BSTR,Variant*,BSTR,BSTR,Bool,Bool)^ChangeModel(BSTR)^ChangeModelWithIdentifier(BSTR,BSTR)^ChangeSymbol(BSTR)^DeleteParams()^AddToPartLibrary(BSTR)^BSTR = GetAutoDesignator()^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "Category:BSTR",
+          "Description:BSTR",
+          "Footprint:BSTR",
+          "MathLang:Byte",
+          "Model:BSTR",
+          "ModelID:BSTR",
+          "Netlist:BSTR",
+          "ParentPartName:BSTR",
+          "SectionNum:Long",
+          "ShortSymbol:BSTR",
+          "Symbol:BSTR"
+        ],
+        "data": null,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": null,
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/AutoDesc",
+        "methods": "^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "Data:Array of Long",
+          "Description:BSTR",
+          "Show:Byte",
+          "Validate:Long"
+        ],
+        "data": [
+          1
+        ],
+        "dimensions": [
+          1
+        ],
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/BW",
+        "methods": "^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "DataEntry:BSTR",
+          "Description:BSTR",
+          "Show:Byte",
+          "Unit:Long",
+          "Validate:Long",
+          "Data:Double"
+        ],
+        "data": 1000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "1",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/Carriers",
+        "methods": "^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "DataEntry:BSTR",
+          "Description:BSTR",
+          "Show:Byte",
+          "Validate:Long",
+          "Data:Double"
+        ],
+        "data": 2,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "2",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/Dataset",
+        "methods": "^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "DataEntry:BSTR",
+          "Description:BSTR",
+          "EqnLang:Long",
+          "Show:Byte",
+          "Validate:Long",
+          "Data:BSTR"
+        ],
+        "data": "GSM",
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "GSM",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/Descrip",
+        "methods": "^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "DataEntry:BSTR",
+          "Description:BSTR",
+          "EqnLang:Long",
+          "Show:Byte",
+          "Validate:Long",
+          "Data:BSTR"
+        ],
+        "data": "1000 MHz at RFPwrIn dBm",
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "1000 MHz at RFPwrIn dBm",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/Enable",
+        "methods": "^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "Data:Array of Long",
+          "Description:BSTR",
+          "Show:Byte",
+          "Validate:Long"
+        ],
+        "data": [
+          1
+        ],
+        "dimensions": [
+          1
+        ],
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/EnablePN",
+        "methods": "^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "Data:Array of Long",
+          "Description:BSTR",
+          "Show:Byte",
+          "Validate:Long"
+        ],
+        "data": [
+          0
+        ],
+        "dimensions": [
+          1
+        ],
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/FOff",
+        "methods": "^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "DataEntry:BSTR",
+          "Description:BSTR",
+          "Show:Byte",
+          "Unit:Long",
+          "Validate:Long",
+          "Data:Double"
+        ],
+        "data": 50000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "50",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/Freq",
+        "methods": "^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "DataEntry:BSTR",
+          "Description:BSTR",
+          "Show:Byte",
+          "Unit:Long",
+          "Validate:Long",
+          "Data:Double"
+        ],
+        "data": 1000000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "1000",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/MultiCarrier",
+        "methods": "^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "Data:Array of Long",
+          "Description:BSTR",
+          "Show:Byte",
+          "Validate:Long"
+        ],
+        "data": [
+          0
+        ],
+        "dimensions": [
+          1
+        ],
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/Name",
+        "methods": "^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "DataEntry:BSTR",
+          "Description:BSTR",
+          "EqnLang:Long",
+          "Show:Byte",
+          "Validate:Long",
+          "Data:BSTR"
+        ],
+        "data": "Source1",
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "Source1",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/NoisePoints",
+        "methods": "^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "DataEntry:BSTR",
+          "Description:BSTR",
+          "Show:Byte",
+          "Validate:Long",
+          "Data:Double"
+        ],
+        "data": 10,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "10",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/NoisePower",
+        "methods": "^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "DataEntry:BSTR",
+          "Description:BSTR",
+          "Show:Byte",
+          "Unit:Long",
+          "Validate:Long",
+          "Data:Double"
+        ],
+        "data": 1e-18,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "-150",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/NoiseStart",
+        "methods": "^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "DataEntry:BSTR",
+          "Description:BSTR",
+          "Show:Byte",
+          "Unit:Long",
+          "Validate:Long",
+          "Data:Double"
+        ],
+        "data": 50000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "50",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/NoiseStop",
+        "methods": "^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "DataEntry:BSTR",
+          "Description:BSTR",
+          "Show:Byte",
+          "Unit:Long",
+          "Validate:Long",
+          "Data:Double"
+        ],
+        "data": 250000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "250",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/PNFreq",
+        "methods": "^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "DataEntry:BSTR",
+          "Description:BSTR",
+          "Show:Byte",
+          "Unit:Long",
+          "Validate:Long",
+          "Data:Array of Double"
+        ],
+        "data": [
+          1000,
+          10000,
+          100000,
+          1000000
+        ],
+        "dimensions": [
+          4,
+          1
+        ],
+        "timestamp": null,
+        "data_entry": "[1e-3;0.01;0.1;1]",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/PNIndex",
+        "methods": "^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "Data:Array of Long",
+          "Description:BSTR",
+          "Show:Byte",
+          "Validate:Long"
+        ],
+        "data": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "dimensions": [
+          4
+        ],
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/PNPwr",
+        "methods": "^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "DataEntry:BSTR",
+          "Description:BSTR",
+          "Show:Byte",
+          "Unit:Long",
+          "Validate:Long",
+          "Data:Array of Double"
+        ],
+        "data": [
+          1e-07,
+          1e-09,
+          1e-10,
+          3.1622776601683794e-11
+        ],
+        "dimensions": [
+          4,
+          1
+        ],
+        "timestamp": null,
+        "data_entry": "[-70;-90;-100;-105]",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/PORT",
+        "methods": "^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "DataEntry:BSTR",
+          "Default:Byte",
+          "Description:BSTR",
+          "Validate:Long",
+          "Data:Double"
+        ],
+        "data": 1,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "1",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/POff",
+        "methods": "^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "DataEntry:BSTR",
+          "Description:BSTR",
+          "Show:Byte",
+          "Unit:Long",
+          "Validate:Long",
+          "Data:Double"
+        ],
+        "data": 1,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "0",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/PhOff",
+        "methods": "^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "DataEntry:BSTR",
+          "Description:BSTR",
+          "Show:Byte",
+          "Unit:Long",
+          "Validate:Long",
+          "Data:Double"
+        ],
+        "data": 0,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "0",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/Phase",
+        "methods": "^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "DataEntry:BSTR",
+          "Description:BSTR",
+          "Show:Byte",
+          "Unit:Long",
+          "Validate:Long",
+          "Data:Double"
+        ],
+        "data": 0,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "0",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/Pts",
+        "methods": "^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "DataEntry:BSTR",
+          "Description:BSTR",
+          "Show:Byte",
+          "Validate:Long",
+          "Data:Double"
+        ],
+        "data": 2,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "2",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/Pwr",
+        "methods": "^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "DataEntry:BSTR",
+          "Description:BSTR",
+          "Show:Byte",
+          "Unit:Long",
+          "Validate:Long",
+          "Data:Double"
+        ],
+        "data": 0.001,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "0",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/R",
+        "methods": "^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "DataEntry:BSTR",
+          "Description:BSTR",
+          "Show:Byte",
+          "Unit:Long",
+          "Validate:Long",
+          "Data:Double"
+        ],
+        "data": 50,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "50",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/RefClk",
+        "methods": "^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "DataEntry:BSTR",
+          "Description:BSTR",
+          "EqnLang:Long",
+          "Show:Byte",
+          "Validate:Long",
+          "Data:BSTR"
+        ],
+        "data": "",
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/Show",
+        "methods": "^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "Data:Array of Long",
+          "Description:BSTR",
+          "Show:Byte",
+          "Validate:Long"
+        ],
+        "data": [
+          1
+        ],
+        "dimensions": [
+          1
+        ],
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/SrcType",
+        "methods": "^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "Data:Array of Long",
+          "Description:BSTR",
+          "Show:Byte",
+          "Validate:Long"
+        ],
+        "data": [
+          0
+        ],
+        "dimensions": [
+          1
+        ],
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/System1_Data/Eqns/VarBlock/F2",
+        "methods": "^----------^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "ByAnalysis:Byte",
+          "Data:Array of Double",
+          "PlotType:BSTR",
+          "Unit:Long"
+        ],
+        "data": [
+          0.005,
+          400000000.005,
+          800000000.005,
+          999500000,
+          999600000,
+          999700000,
+          999800000,
+          999900000,
+          999999999.5,
+          1000000000,
+          1000000000.5,
+          1000100000,
+          1000200000,
+          1000300000,
+          1000400000,
+          1000500000,
+          1200000000.005,
+          1600000000.005,
+          2000000000.005,
+          2400000000.005,
+          2800000000.005,
+          3200000000.005,
+          3600000000.005,
+          4000000000,
+          0,
+          0.001,
+          0.004,
+          0.005,
+          400000000.005,
+          800000000.005,
+          999500000,
+          999600000,
+          999700000,
+          999800000,
+          999900000,
+          999999998.499,
+          999999998.5,
+          999999999.499,
+          999999999.5,
+          1000000000,
+          1000000000.5,
+          1000000000.501,
+          1000000001.5,
+          1000000001.501,
+          1000100000,
+          1000200000,
+          1000300000,
+          1000400000,
+          1000500000,
+          1200000000.005,
+          1600000000.005,
+          1999999998.999,
+          1999999999,
+          2000000000.005,
+          2000000001,
+          2000000001.001,
+          2400000000.005,
+          2800000000.005,
+          2999999998.499,
+          2999999998.5,
+          3000000001.5,
+          3000000001.501,
+          3200000000.005,
+          3600000000.005,
+          4000000000,
+          0,
+          999999999.5,
+          1000000000.5,
+          999999998.5,
+          1000000001.5,
+          1999999999,
+          2000000001,
+          2999999998.5,
+          3000000001.5
+        ],
+        "dimensions": [
+          74
+        ],
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/System1_Data/Eqns/VarBlock/ID2",
+        "methods": "^----------^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "ByAnalysis:Byte",
+          "Data:Array of Long"
+        ],
+        "data": [
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          85,
+          84,
+          84,
+          87,
+          87,
+          86,
+          86,
+          88,
+          88
+        ],
+        "dimensions": [
+          74
+        ],
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/System1_Data/Eqns/VarBlock/IDName",
+        "methods": "^----------^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "ByAnalysis:Byte",
+          "Data:Array of BSTR",
+          "Description:BSTR",
+          "IndepValue:BSTR"
+        ],
+        "data": [
+          "Node Total from 'Out'",
+          "Node Total from 'RFAmp'",
+          "Node Noise from 'Out'",
+          "Node Noise from 'RFAmp'",
+          "{1}D[(Source.Source1)],Source,RFAmp",
+          "{0}[DC((Source.Source1)-(Source.Source1))],RFAmp",
+          "{2}[2x(Source.Source1)],RFAmp",
+          "{3}[-(Source.Source1)+2x(Source.Source1)],RFAmp",
+          "{4}[3x(Source.Source1)],RFAmp",
+          "Node Total from 'RFAmp'",
+          "Node Total from 'Source'",
+          "Node Noise from 'RFAmp'",
+          "Node Noise from 'Source'",
+          "{1}D[(Source.Source1)],Source",
+          "{2}[2x(Source.Source1)],RFAmp,RFAmp",
+          "{3}[-(Source.Source1)+2x(Source.Source1)],RFAmp,RFAmp",
+          "{4}[3x(Source.Source1)],RFAmp,RFAmp"
+        ],
+        "dimensions": [
+          17
+        ],
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/System1_Data/Eqns/VarBlock/IDNo",
+        "methods": "^----------^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "ByAnalysis:Byte",
+          "Data:Array of Long",
+          "Description:BSTR"
+        ],
+        "data": [
+          0,
+          6,
+          3,
+          9,
+          84,
+          85,
+          86,
+          87,
+          88,
+          12,
+          18,
+          15,
+          21,
+          91,
+          92,
+          93,
+          94
+        ],
+        "dimensions": [
+          17
+        ],
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/System1_Data/Eqns/VarBlock/P2",
+        "methods": "^----------^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "ByAnalysis:Byte",
+          "Data:Array of Double",
+          "IndepValue:BSTR",
+          "Unit:Long"
+        ],
+        "data": [
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829157e-13,
+          6.668230199829017e-13,
+          6.668230199829157e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          0.0004760008690547431,
+          1.0000000048935069e-33,
+          1.0000000048935069e-33,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829151e-13,
+          0.0009288735839788764,
+          0.0009288735839788762,
+          0.08439857459649842,
+          0.08439857459649838,
+          0.08439857459649842,
+          0.0009288735839788762,
+          0.0009288735839788764,
+          6.668230199829151e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829016e-13,
+          0.0002380004351941947,
+          0.0002380004351941947,
+          0.0002380004351941947,
+          6.668230199829016e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829016e-13,
+          0.00010320817659038456,
+          0.00010320817659038456,
+          6.668230199829016e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          6.668230199829017e-13,
+          0.0004760008690547431,
+          0.08346970101251955,
+          0.08346970101251955,
+          0.0009288735833120534,
+          0.0009288735833120534,
+          0.00023800043452737164,
+          0.00023800043452737164,
+          0.00010320817592356152,
+          0.00010320817592356152
+        ],
+        "dimensions": [
+          74
+        ],
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/System1_Data_Folder/System1_Data_Path1",
+        "methods": "^ExportS(BSTR)^DeleteAnalysisVars()^----------^Object* = GetLibrary(BSTR,BSTR)^CreateLibrary(BSTR,BSTR)^GetRegisteredModels(Variant*)^ExportToLibrary(BSTR)^ImportFromLibrary(BSTR,BSTR,BSTR)^OpenWindow()^CloseWindow()^SelectAll()^SelectNone()^AddProperty(Object)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "Selected:Byte",
+          "TimeStamp:BSTR",
+          "FullPath:BSTR"
+        ],
+        "data": null,
+        "dimensions": null,
+        "timestamp": "1790735848",
+        "data_entry": null,
+        "data_source": null,
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/System1_Data_Folder/System1_Data_Path1/Eqns/VarBlock/CF",
+        "methods": "^----------^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "ByAnalysis:Byte",
+          "Data:Array of Double",
+          "Description:BSTR",
+          "EqnLang:Long",
+          "IndepValue:BSTR",
+          "PathInfo:BSTR",
+          "Unit:Long"
+        ],
+        "data": [
+          1000000000,
+          1000000000
+        ],
+        "dimensions": [
+          2
+        ],
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/System1_Data_Folder/System1_Data_Path1/Eqns/VarBlock/CGAIN",
+        "methods": "^----------^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "ByAnalysis:Byte",
+          "Data:Array of Double",
+          "Description:BSTR",
+          "EqnLang:Long",
+          "IndepValue:BSTR",
+          "PathInfo:BSTR",
+          "Unit:Long"
+        ],
+        "data": [
+          1,
+          83.46970059517102
+        ],
+        "dimensions": [
+          2
+        ],
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/System1_Data_Folder/System1_Data_Path1/Eqns/VarBlock/DCP",
+        "methods": "^----------^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^",
+        "variables": [
+          "ByAnalysis:Byte",
+          "Data:Array of Double",
+          "Description:BSTR",
+          "EqnLang:Long",
+          "IndepValue:BSTR",
+          "PathInfo:BSTR",
+          "Unit:Long"
+        ],
+        "data": [
+          0.001,
+          0.08346970059517102
+        ],
+        "dimensions": [
+          2
+        ],
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": "Data property",
+        "evaluation_error": null
+      }
+    ],
+    "source_power_dbm": 0,
+    "raw_capture_sha256": "b702968f012c962a5dd9531550c4b9f03b42fc3cf8e124ac34623bf7e064666f",
+    "output_saturation_dbm": 26
+  }
+]

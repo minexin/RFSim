@@ -111,3 +111,51 @@ IIP3=10 dBm、1 GHz、100 dB 反向隔离），并复用此前 +0.9 dBm 原始�
 
 谐波回归新增五点一致性及单独扰动 H3 后一致性失效的检查，共五项 Python 测试。
 本机 MSVC Debug/Release 全套 CTest 各 49/49 通过，其中包含这些诊断回归。
+
+## OPSAT 受控扫描
+
+2026-09-30：固定输入 0 dBm、G=20 dB、OP1dB=20 dBm、OIP2=40 dBm、
+OIP3=30 dBm、RISO=100 dB，其余参数同 sample，仅改变 OPSAT：
+
+| OPSAT dBm | H2 推导的输入功率比例 | H3 推导的输入功率比例 | 基波判据 | 谐波判据 |
+| --- | --- | --- | --- | --- |
+| 22 | 0.889813758586 | 0.889813758586 | 2/2 通过 | 0/2 通过 |
+| 23 | 0.926723119709 | 0.926723119709 | 2/2 通过 | 0/2 通过 |
+| 26 | 0.975705764106 | 0.975705764106 | 2/2 通过 | 0/2 通过 |
+
+23 dBm 点复用前述 0 dBm 输入采集；22、26 dBm 为新采集。逐项验证 16 个参数，
+两组新采集相对基准只改变 OPSAT。升高 OPSAT 后谐波抑制减弱，H2/H3 仍支持同一
+输入功率比例。当前 P1dB 基波模型保持通过，而截点谐波模型保持失败，说明仅靠
+基波通过无法证明失真生成兼容。OPSAT 已被证实是待实现输入限制模型的必要参数；
+本次没有将反推比例写入数值核心，也未声称已经得到限制公式。
+
+尝试 OPSAT=30 dBm 时，SystemVue 给出相对 P1dB 过大、建议范围为 21.4–28.1 dBm
+的 INFO；28 dBm 时仍给出相对 P1dB 过大的 INFO。采集器继续执行“任何 manager
+消息均不纳入参考验收”的现有规则，两次尝试以 collector_failed 结束，未产生
+可验收 capture。原始 stderr/status 分别保留在 build-reference 下的
+compression-opsat30-zero-001 和 compression-opsat28-zero-001。
+这表示参考数据准入未通过，不能据此声称仿真崩溃或数值必然错误。
+
+报告与精简采集分别为 validation/systemvue-2023-harmonic-saturation.json、
+validation/systemvue-2023-harmonic-saturation-captures.json，均保留原始采集散列。
+采集器的 `--compression-opsat-dbm` 限定 sample 压缩案例及 22/23/26 dBm；
+比较脚本用 `--output-saturation-dbm` 显式声明，未声明时仍要求原 23 dBm。
+天线参数组不接受此覆盖。复现示例（每次使用新的输出目录）：
+
+```powershell
+& 'C:/Program Files/Keysight/SystemVue2023/Python/python/python.exe' `
+  scripts/reference/run-systemvue-reference.py compression `
+  build-reference/RFModel_AmplifierCompression.wsv build-reference/opsat26-new `
+  --source-power-dbm 0 --compression-profile sample --compression-opsat-dbm 26
+& 'C:/Program Files/Keysight/SystemVue2023/Python/python/python.exe' `
+  scripts/reference/compare-single-harmonics.py build-msvc/Release/rfmodel_c.dll `
+  build-reference/opsat26-new/capture.json build-reference/opsat26-new/comparison.json `
+  --source-power-dbm 0 --output-saturation-dbm 26
+```
+
+比较命令返回 1 表示保留已知谐波差异。采集后已显式恢复 OPSAT=23 dBm、输入
+−30 dBm 并复验 H2/H3 与原基准完全一致，记录为
+build-reference/compression-opsat23-minus30-restored-001。
+本机后台运行器 4 项测试通过；Debug/Release 的独立压缩和谐波 CTest 各 2/2
+通过，内部共 10 项 Python 测试，覆盖参数覆盖边界、采集可重放性、缩减趋势及
+原预测/阈值未改变。其他平台以对应提交 CI 为准。

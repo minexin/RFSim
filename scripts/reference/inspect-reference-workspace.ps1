@@ -9,9 +9,14 @@ param(
     [Nullable[double]]$SourcePowerDbm,
     [ValidateSet(50, 100)][int]$CompressionRisoDb = 100,
     [ValidateSet('sample', 'antenna')][string]$CompressionProfile = 'sample',
+    [ValidateSet(22, 23, 26)][int]$CompressionOpsatDbm = 23,
     [switch]$CaptureRun
 )
 $ErrorActionPreference = 'Stop'
+if ($PSBoundParameters.ContainsKey('CompressionOpsatDbm') -and
+    (-not $RunCompressionAnalysis -or $CompressionProfile -ne 'sample')) {
+    throw 'CompressionOpsatDbm requires sample-profile RunCompressionAnalysis.'
+}
 if ($PSBoundParameters.ContainsKey('CompressionProfile') -and -not $RunCompressionAnalysis) {
     throw 'CompressionProfile requires RunCompressionAnalysis.'
 }
@@ -189,7 +194,8 @@ public static class ReferenceWorkspaceInspector
     }
 
     public static Node[] Inspect(string path, bool open, bool run, bool antenna, double lossDb, double temperatureK,
-        double sourcePowerDbm, bool compression, int compressionRisoDb, string compressionProfile)
+        double sourcePowerDbm, bool compression, int compressionRisoDb, string compressionProfile,
+        int compressionOpsatDbm)
     {
         Console.Error.WriteLine("phase: attach-active-instance");
         object active = Marshal.GetActiveObject("Genesys.Application");
@@ -242,7 +248,7 @@ public static class ReferenceWorkspaceInspector
                                 setup += amp + "G.Set(\"" + (antennaProfile ? "30" : "20") + "\")\r\n" +
                                     amp + "NF.Set(\"" + nf + "\")\r\n" +
                                     amp + "OP1dB.Set(\"" + (antennaProfile ? "60" : "20") + "\")\r\n" +
-                                    amp + "OPSAT.Set(\"" + (antennaProfile ? "63" : "23") + "\")\r\n" +
+                                    amp + "OPSAT.Set(\"" + (antennaProfile ? "63" : compressionOpsatDbm.ToString()) + "\")\r\n" +
                                     amp + "OIP2.Set(\"" + (antennaProfile ? "80" : "40") + "\")\r\n" +
                                     amp + "OIP3.Set(\"" + (antennaProfile ? "70" : "30") + "\")\r\n" +
                                     "wsdoc.Designs.Sch1.PartList.Source.ParamSet.Freq.Set(\"" +
@@ -341,7 +347,7 @@ $power = if ($null -eq $SourcePowerDbm) { [double]::NaN } else { [double]$Source
 $nodes = [ReferenceWorkspaceInspector]::Inspect($resolvedPath, $OpenCopy.IsPresent,
     ($RunAttenuatorAnalysis.IsPresent -or $RunAntennaAnalysis.IsPresent -or $RunCompressionAnalysis.IsPresent),
     $RunAntennaAnalysis.IsPresent, $loss, $temperature, $power, $RunCompressionAnalysis.IsPresent,
-    $CompressionRisoDb, $CompressionProfile)
+    $CompressionRisoDb, $CompressionProfile, $CompressionOpsatDbm)
 if ($CaptureRun) {
     [ordered]@{
         run_started_utc = [ReferenceWorkspaceInspector]::RunStartedUtc

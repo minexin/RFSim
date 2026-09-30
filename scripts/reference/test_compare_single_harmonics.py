@@ -34,6 +34,42 @@ class HarmonicTests(unittest.TestCase):
                 node["data"] = [value + 1000 for value in node["data"]]
         self.assertTrue(harmonics.compare(self.library, capture, -30)["passed"])
 
+    def test_saturation_sweep_is_controlled_and_not_a_prediction_correction(self):
+        captures = json.loads((harmonics.single.ROOT / "validation" /
+            "systemvue-2023-harmonic-saturation-captures.json").read_text())
+        baseline = next(c for c in captures if c["output_saturation_dbm"] == 23)
+        reference = harmonics.compare(self.library, baseline, 0)
+        ratios = {}
+        for capture in captures:
+            saturation = capture["output_saturation_dbm"]
+            self.assertNotIn(saturation, ratios)
+            if saturation != 23:
+                with self.assertRaises(ValueError):
+                    harmonics.compare(self.library, capture, 0)
+            report = harmonics.compare(self.library, capture, 0, output_saturation_dbm=saturation)
+            changed = [a["parameter"] for a, b in zip(reference["parameters"], report["parameters"])
+                       if a["value"] != b["value"]]
+            self.assertEqual(changed, [] if saturation == 23 else ["RFAmp/OPSAT"])
+            fundamental = harmonics.single.compare(self.library, capture, 0,
+                                                   output_saturation_dbm=saturation)
+            self.assertTrue(fundamental["passed"])
+            self.assertFalse(report["passed"])
+            self.assertEqual([c["rfmodel_power_w"] for c in reference["checks"]],
+                             [c["rfmodel_power_w"] for c in report["checks"]])
+            diagnostic = report["effective_drive_diagnostic"]
+            self.assertFalse(diagnostic["affects_compatibility_verdict"])
+            self.assertLess(abs(diagnostic["relative_disagreement"]), 1e-12)
+            ratios[saturation] = diagnostic["from_h2"]
+        self.assertEqual(set(ratios), {22, 23, 26})
+        self.assertLess(ratios[22], ratios[23])
+        self.assertLess(ratios[23], ratios[26])
+        for invalid in (28, 30, float("nan")):
+            with self.assertRaises(ValueError):
+                harmonics.compare(self.library, baseline, 0, output_saturation_dbm=invalid)
+        with self.assertRaises(ValueError):
+            harmonics.single.compare(self.library, baseline, 0,
+                                     output_saturation_dbm=26, profile="antenna")
+
     def test_common_drive_evidence_across_power_sweep(self):
         powers = set()
         diagnostics = {}

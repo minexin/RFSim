@@ -12,8 +12,9 @@ single = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(single)
 
 
-def compare(library, capture, source_power_dbm):
-    verified = single.compare(library, capture, source_power_dbm)
+def compare(library, capture, source_power_dbm, *, output_saturation_dbm=None):
+    verified = single.compare(library, capture, source_power_dbm,
+                              output_saturation_dbm=output_saturation_dbm)
     base = single.BASE + "System1_Data/Eqns/VarBlock/"
 
     def vector(name):
@@ -82,11 +83,13 @@ def main():
     parser.add_argument("capture", type=Path)
     parser.add_argument("output", type=Path)
     parser.add_argument("--source-power-dbm", type=float, required=True)
+    parser.add_argument("--output-saturation-dbm", type=int, choices=(22, 23, 26))
     args = parser.parse_args()
     if args.output.resolve() in (args.library.resolve(), args.capture.resolve()):
         parser.error("Output must not overwrite inputs")
     raw = args.capture.read_bytes()
-    report = compare(single.Library(args.library.resolve()), json.loads(raw.decode("utf-8-sig")), args.source_power_dbm)
+    report = compare(single.Library(args.library.resolve()), json.loads(raw.decode("utf-8-sig")),
+                     args.source_power_dbm, output_saturation_dbm=args.output_saturation_dbm)
     report["capture_sha256"] = hashlib.sha256(raw).hexdigest()
     report["library_sha256"] = hashlib.sha256(args.library.read_bytes()).hexdigest()
     args.output.write_text(json.dumps(report, indent=2, allow_nan=False) + "\n", encoding="utf-8")

@@ -87,6 +87,7 @@ def main():
     parser.add_argument("--source-power-dbm", type=float)
     parser.add_argument("--compression-riso-db", type=int, choices=(50, 100))
     parser.add_argument("--compression-profile", choices=("sample", "antenna"))
+    parser.add_argument("--compression-opsat-dbm", type=int, choices=(22, 23, 26))
     parser.add_argument("--open-copy", action="store_true",
                         help="Open via official script API only when no workspace is loaded")
     args = parser.parse_args()
@@ -94,6 +95,9 @@ def main():
         parser.error("Reverse isolation override requires compression case")
     if args.compression_profile is not None and args.case != "compression":
         parser.error("Compression profile requires compression case")
+    if args.compression_opsat_dbm is not None and (
+            args.case != "compression" or args.compression_profile == "antenna"):
+        parser.error("Saturation override requires sample-profile compression case")
     if args.source_power_dbm is not None and (not math.isfinite(args.source_power_dbm)
                                              or not -200 <= args.source_power_dbm <= 30):
         parser.error("Source power must be finite and from -200 to 30 dBm")
@@ -118,6 +122,8 @@ def main():
         command.extend(["-CompressionRisoDb", str(args.compression_riso_db)])
     if args.compression_profile is not None:
         command.extend(["-CompressionProfile", args.compression_profile])
+    if args.compression_opsat_dbm is not None:
+        command.extend(["-CompressionOpsatDbm", str(args.compression_opsat_dbm)])
     return execute(command, args.output_directory.resolve(), args.case, args.timeout)
 
 

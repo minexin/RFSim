@@ -25,9 +25,13 @@ PARAMETERS = {
 }
 
 
-def compare(library, capture, source_power_dbm, *, reverse_isolation_db=100, profile="sample"):
+def compare(library, capture, source_power_dbm, *, reverse_isolation_db=100, profile="sample",
+            output_saturation_dbm=None):
     if profile not in ("sample", "antenna"):
         raise ValueError("Unknown compression profile")
+    if output_saturation_dbm is not None and (
+            profile != "sample" or output_saturation_dbm not in (22, 23, 26)):
+        raise ValueError("Expected controlled sample-profile saturation of 22, 23 or 26 dBm")
     gain_db, output_p1db_dbm, frequency = (30, 60, 5e9) if profile == "antenna" else (20, 20, 1e9)
     if reverse_isolation_db not in (50, 100):
         raise ValueError("Expected controlled reverse isolation of 50 or 100 dB")
@@ -56,6 +60,8 @@ def compare(library, capture, source_power_dbm, *, reverse_isolation_db=100, pro
                                     "RFAmp/OIP2": 1e5, "RFAmp/OIP3": 1e4,
                                     "RFAmp/OP1dB": 1000., "RFAmp/OPSAT": 10 ** 3.3,
                                     "Source/Freq": frequency})
+    if output_saturation_dbm is not None:
+        expected_parameters["RFAmp/OPSAT"] = 10 ** ((output_saturation_dbm - 30) / 10)
     for key, expected in expected_parameters.items():
         device, parameter = key.split("/")
         entry = node(f"Sch1/PartList/{device}/ParamSet/{parameter}")
@@ -106,12 +112,14 @@ def main():
     parser.add_argument("--source-power-dbm", type=float, required=True)
     parser.add_argument("--reverse-isolation-db", type=int, choices=(50, 100), default=100)
     parser.add_argument("--profile", choices=("sample", "antenna"), default="sample")
+    parser.add_argument("--output-saturation-dbm", type=int, choices=(22, 23, 26))
     args = parser.parse_args()
     if args.output.resolve() in (args.library.resolve(), args.capture.resolve()):
         parser.error("Output must not overwrite an input")
     raw = args.capture.read_bytes()
     report = compare(Library(args.library.resolve()), json.loads(raw.decode("utf-8-sig")),
-                     args.source_power_dbm, reverse_isolation_db=args.reverse_isolation_db, profile=args.profile)
+                     args.source_power_dbm, reverse_isolation_db=args.reverse_isolation_db,
+                     profile=args.profile, output_saturation_dbm=args.output_saturation_dbm)
     report["capture_sha256"] = hashlib.sha256(raw).hexdigest()
     report["library_sha256"] = hashlib.sha256(args.library.read_bytes()).hexdigest()
     args.output.write_text(json.dumps(report, indent=2, allow_nan=False) + "\n", encoding="utf-8")

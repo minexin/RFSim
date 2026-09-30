@@ -1,4 +1,6 @@
 import importlib.util
+import contextlib
+import io
 import json
 from pathlib import Path
 import subprocess
@@ -14,6 +16,18 @@ spec.loader.exec_module(runner)
 
 
 class RunnerTests(unittest.TestCase):
+    def test_saturation_override_rejects_other_cases_and_profiles(self):
+        for case, extra in (("antenna", []), ("attenuator", []),
+                            ("compression", ["--compression-profile", "antenna"])):
+            arguments = ["runner", case, "unused.wsv", "unused-output",
+                         "--compression-opsat-dbm", "26", *extra]
+            with self.subTest(case=case), patch.object(sys, "argv", arguments), \
+                    patch.object(runner, "execute") as execute, contextlib.redirect_stderr(io.StringIO()):
+                with self.assertRaises(SystemExit) as failure:
+                    runner.main()
+                self.assertEqual(failure.exception.code, 2)
+                execute.assert_not_called()
+
     def test_success_and_stale_rejection(self):
         root = Path(__file__).resolve().parents[2]
         sample = json.loads((root / "validation/systemvue-2023-attenuator-1db.json").read_text())
