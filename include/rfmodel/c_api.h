@@ -138,6 +138,19 @@ RFMODEL_API int rfmodel_cubic_amplifier_transmit(double spacing_hz,
                                                  rfmodel_spectrum_bin *output,
                                                  size_t capacity,
                                                  size_t *output_count);
+
+/* y(t) = sum coefficients[n] * v(t)^n, voltage coefficients, degree 0..9.
+ * Input/output are RMS power waves at reference_ohms; DC is retained.
+ * Uses the same spectrum buffer contract as the cubic amplifier. */
+RFMODEL_API int rfmodel_polynomial_amplifier_transmit(double spacing_hz,
+                                                      const rfmodel_spectrum_bin *input,
+                                                      size_t input_count,
+                                                      const double *coefficients,
+                                                      size_t coefficient_count,
+                                                      double reference_ohms,
+                                                      rfmodel_spectrum_bin *output,
+                                                      size_t capacity,
+                                                      size_t *output_count);
 RFMODEL_API int rfmodel_ideal_mixer_transmit(double spacing_hz,
                                              const rfmodel_spectrum_bin *input,
                                              size_t input_count,

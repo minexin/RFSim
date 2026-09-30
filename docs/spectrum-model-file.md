@@ -104,3 +104,31 @@ CLI 在多音或越界失败时保留已有结果文件；不会写入部分计�
 
 2026-09-29：Debug/Release 动态库上的 Python 42 项测试均通过，安装后的 Release
 动态库复测也通过，包含 CLI 成功及失败保护。本轮没有修改 C++ 核心或新增 SystemVue 实测。
+
+## 通用电压多项式
+
+`polynomial_amplifier` 级使用 `voltage_coefficients` 数组，长度 1..10，依次为
+零阶至最高阶（最多九阶）的实数有限系数。计算关系为
+`v_out(t) = sum(c[n] * v_in(t)^n)`，系数单位为 V_out / V_in^n；输入输出仍使用
+公共 reference_ohms 下的 RMS 功率波，不能把系数误当作功率多项式系数。
+
+```json
+{"id":"square","type":"polynomial_amplifier","voltage_coefficients":[0,0,1]}
+```
+
+新例子 `examples/square-law-spectrum.json` 输入 10 MHz、0.1 sqrt(W)，参考阻抗
+50 ohm，平方律输出 DC 为 0.0707106781 sqrt(W)、5 mW，20 MHz 为 0.05 sqrt(W)、
+2.5 mW。DC、偶次/奇次谐波、和差频均保留；不会自动删除偏置或带外频点。
+如需后接只接受 RF 的压缩接口，必须显式处理非零 DC。通用多项式没有隐含饱和
+或 P1dB 钳位，也不代表已经还原 SystemVue RFAMP 的内部高阶拟合。
+
+C 入口为 `rfmodel_polynomial_amplifier_transmit`，Python 为
+`library.polynomial_amplifier(spacing_hz, amplitudes, voltage_coefficients=[...], reference_ohms=50)`。
+二者复用已有 C++ MatchedPolynomialAmplifier；保留其稀疏卷积工作量、频率索引
+和输出容量限制，超限失败而非截断。C 系数指针必须非空、数量 1..10，输出沿用
+频谱缓冲区约定；容量不足时不覆盖已有输出元素。
+
+2026-09-30：新增平方律单音相位、双音差频、空输入常量偏置、非法系数、JSON
+结果和 C 缓冲区测试。Debug 全套中发现的测试路径变量错误已修正，Python 定向
+复验通过，其余 47 项原运行通过；Release 全套 48/48。安装消费者 Debug/Release
+各 2/2，安装 Release 动态库 Python 46 项通过。无新增 SystemVue 实测。

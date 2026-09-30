@@ -268,6 +268,26 @@ int rfmodel_cubic_amplifier_transmit(double spacing_hz,
     });
 }
 
+int rfmodel_polynomial_amplifier_transmit(double spacing_hz,
+                                          const rfmodel_spectrum_bin *input,
+                                          size_t input_count,
+                                          const double *coefficients,
+                                          size_t coefficient_count,
+                                          double reference_ohms,
+                                          rfmodel_spectrum_bin *output,
+                                          size_t capacity,
+                                          size_t *output_count) {
+    return guarded([&] {
+        require(output_count && coefficients && coefficient_count > 0 && coefficient_count <= 10);
+        const auto incident = read_spectrum(spacing_hz, input, input_count);
+        const rfmodel::MatchedPolynomialAmplifier model(
+            "C API polynomial amplifier",
+            std::vector<double>(coefficients, coefficients + coefficient_count),
+            reference_ohms);
+        write_spectrum(model.transmit(incident), output, capacity, output_count);
+    });
+}
+
 int rfmodel_ideal_mixer_transmit(double spacing_hz,
                                  const rfmodel_spectrum_bin *input,
                                  size_t input_count,

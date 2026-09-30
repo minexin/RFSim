@@ -22,6 +22,23 @@ int main(int argc, char **argv) {
     double residual = -1;
     CHECK(rfmodel_abi_version() == 1);
     {
+        const rfmodel_spectrum_bin input = {10, {.1, 0.}};
+        const double coefficients[] = {0., 0., 1.};
+        rfmodel_spectrum_bin output[2] = {{123, {456., 0.}}, {789, {0., 0.}}};
+        size_t written = 999;
+        CHECK(rfmodel_polynomial_amplifier_transmit(
+                  1e6, &input, 1, coefficients, 3, 50., output, 1, &written) ==
+              RFMODEL_INVALID_ARGUMENT);
+        CHECK(output[0].index == 123 && output[0].amplitude.real == 456.);
+        CHECK(rfmodel_polynomial_amplifier_transmit(
+                  1e6, &input, 1, NULL, 3, 50., output, 2, &written) == RFMODEL_INVALID_ARGUMENT);
+        CHECK(rfmodel_polynomial_amplifier_transmit(
+                  1e6, &input, 1, coefficients, 3, 50., output, 2, &written) == RFMODEL_OK);
+        CHECK(written == 2 && output[0].index == 0 && output[1].index == 20);
+        CHECK(fabs(output[0].amplitude.real - sqrt(50.) * .01) < 1e-12);
+        CHECK(fabs(output[1].amplitude.real - .05) < 1e-12);
+    }
+    {
         const rfmodel_spectrum_bin bins[] = {{10, {0., .001}}, {20, {.002, 0.}}};
         const rfmodel_incident_spectrum port = {1e6, bins, 2};
         rfmodel_complex output = {123., 456.};

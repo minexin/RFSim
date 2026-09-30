@@ -367,6 +367,37 @@ class PythonApiTests(unittest.TestCase):
                 [(1e6, {})], fundamental_port=1, fundamental_bin=10,
                 power_gain_db=20, output_p1db_dbm=10)
 
+    def test_polynomial_even_harmonics_and_difference_frequency(self):
+        result = self.library.polynomial_amplifier(
+            1e6, {10: .1j}, voltage_coefficients=[0, 0, 1])
+        self.assertEqual(set(result), {0, 20})
+        self.assertAlmostEqual(result[0], math.sqrt(50) * .01)
+        self.assertAlmostEqual(result[20], -.05)
+        mixed = self.library.polynomial_amplifier(
+            1e6, {10: .1, 13: .1}, voltage_coefficients=[0, 0, 1])
+        self.assertEqual(set(mixed), {0, 3, 20, 23, 26})
+        for index, expected in {0: math.sqrt(50) * .02, 3: .1, 20: .05, 23: .1, 26: .05}.items():
+            self.assertAlmostEqual(mixed[index], expected)
+        bias = self.library.polynomial_amplifier(1e6, {}, voltage_coefficients=[.5])
+        self.assertAlmostEqual(bias[0], .5 / math.sqrt(50))
+        for coefficients in ([], [0] * 11):
+            with self.assertRaises(ValueError):
+                self.library.polynomial_amplifier(1e6, {}, voltage_coefficients=coefficients)
+        with self.assertRaises(RFModelError):
+            self.library.polynomial_amplifier(1e6, {}, voltage_coefficients=[float("nan")])
+
+    def test_json_square_law_spectrum(self):
+        from rfmodel.spectrum_file import analyze_spectrum
+        document = load(Path(__file__).resolve().parents[1] / "examples/square-law-spectrum.json")
+        result = analyze_spectrum(self.library, document)
+        spectrum = {entry["bin"]: entry for entry in result["stages"][0]["spectrum"]}
+        self.assertEqual(set(spectrum), {0, 20})
+        self.assertAlmostEqual(spectrum[0]["power_w"], .005)
+        self.assertAlmostEqual(spectrum[20]["power_w"], .0025)
+        document["stages"][0]["voltage_coefficients"] = "0,0,1"
+        with self.assertRaises(ValueError):
+            analyze_spectrum(self.library, document)
+
     def test_shape_indices_and_nonfinite(self):
         with self.library.network() as network:
             for matrix in ([], [[0, 1]], [[0], [1]]):

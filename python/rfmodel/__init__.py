@@ -166,6 +166,9 @@ class Library:
             "rfmodel_cubic_amplifier_transmit": (
                 ct.c_int, [ct.c_double, ct.POINTER(_SpectrumBin), size] + [ct.c_double] * 3 +
                 [ct.POINTER(_SpectrumBin), size, ct.POINTER(size)]),
+            "rfmodel_polynomial_amplifier_transmit": (
+                ct.c_int, [ct.c_double, ct.POINTER(_SpectrumBin), size, ct.POINTER(ct.c_double),
+                           size, ct.c_double, ct.POINTER(_SpectrumBin), size, ct.POINTER(size)]),
             "rfmodel_ideal_mixer_transmit": (
                 ct.c_int, [ct.c_double, ct.POINTER(_SpectrumBin), size, ct.c_int] +
                 [ct.c_double] * 3 + [ct.POINTER(_SpectrumBin), size, ct.POINTER(size)]),
@@ -259,6 +262,21 @@ class Library:
         self._check(self._dll.rfmodel_cubic_amplifier_transmit(
             float(spacing_hz), incident, len(incident), float(power_gain_db),
             float(input_ip3_dbm), float(reference_ohms), output, len(output), ct.byref(count)))
+        return {output[i].index: output[i].amplitude.value() for i in range(count.value)}
+
+    def polynomial_amplifier(self, spacing_hz, amplitudes, *, voltage_coefficients,
+                             reference_ohms=50.):
+        """Evaluate voltage polynomial degree 0..9; return all generated bins including DC."""
+        coefficients = list(voltage_coefficients)
+        if not 1 <= len(coefficients) <= 10:
+            raise ValueError("Expected 1..10 voltage coefficients")
+        native_coefficients = (ct.c_double * len(coefficients))(*map(float, coefficients))
+        incident = _spectrum(amplitudes)
+        output = (_SpectrumBin * 4096)()
+        count = ct.c_size_t()
+        self._check(self._dll.rfmodel_polynomial_amplifier_transmit(
+            float(spacing_hz), incident, len(incident), native_coefficients, len(coefficients),
+            float(reference_ohms), output, len(output), ct.byref(count)))
         return {output[i].index: output[i].amplitude.value() for i in range(count.value)}
 
     def ideal_mixer(self, spacing_hz, amplitudes, *, lo_bin, conversion_gain_db=0.,

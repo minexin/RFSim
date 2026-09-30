@@ -9,6 +9,17 @@ int main(int argc, char **argv) {
     size_t offset;
     int status;
     {
+        const double coefficients[] = {.5};
+        rfmodel_spectrum_bin output;
+        size_t written;
+        if (rfmodel_polynomial_amplifier_transmit(
+                1e6, NULL, 0, coefficients, 1, 50., &output, 1, &written) != RFMODEL_OK ||
+            written != 1 || output.index != 0 ||
+            fabs(output.amplitude.real - .5 / sqrt(50.)) > 1e-12) {
+            return 15;
+        }
+    }
+    {
         const rfmodel_spectrum_bin bins[] = {{10, {.001, 0.}}, {20, {.002, 0.}}};
         const rfmodel_incident_spectrum port = {1e6, bins, 2};
         rfmodel_complex output;
