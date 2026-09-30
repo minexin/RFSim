@@ -23,6 +23,34 @@ int main(int argc, char **argv) {
     CHECK(rfmodel_abi_version() == 1);
     {
         const rfmodel_spectrum_bin input[] = {{10, {.001, 0.}}, {11, {.001, 0.}}};
+        rfmodel_amplifier_component output[32] = {{99, 98, {123., 456.}}};
+        rfmodel_amplifier_drive drive = {321., 654.};
+        size_t written = 777;
+        CHECK(rfmodel_multitone_amplifier_evaluate(
+                  1e8, input, 2, 20., 20., 23., 20., 10., 50., output, 1, &written, &drive) ==
+              RFMODEL_INVALID_ARGUMENT);
+        CHECK(written == 777 && drive.total_input_power_w == 321. &&
+              drive.limited_input_power_w == 654.);
+        CHECK(output[0].order == 99 && output[0].index == 98 && output[0].amplitude.real == 123.);
+        CHECK(rfmodel_multitone_amplifier_evaluate(
+                  1e8, input, 2, 20., 20., 23., 20., 10., 50., output, 32, &written, NULL) ==
+              RFMODEL_INVALID_ARGUMENT);
+        CHECK(written == 777 && output[0].order == 99);
+        CHECK(rfmodel_multitone_amplifier_evaluate(
+                  1e8, input, 2, 20., 20., 23., 20., 10., 50., output, 32, &written, &drive) ==
+              RFMODEL_OK);
+        CHECK(written == 14 && fabs(drive.total_input_power_w / 2e-6 - 1.) < 1e-12);
+        CHECK(output[2].order == 2 && output[2].index == 1);
+        CHECK(fabs(output[2].amplitude.real * output[2].amplitude.real / 1e-9 - 1.) < 1e-12);
+        CHECK(output[6].order == 3 && output[6].index == 9);
+        CHECK(fabs(output[6].amplitude.real / -1e-6 - 1.) < 1e-12);
+        CHECK(rfmodel_multitone_amplifier_evaluate(
+                  1e8, NULL, 0, 20., 20., 23., 20., 10., 50., NULL, 0, &written, &drive) ==
+              RFMODEL_OK);
+        CHECK(written == 0 && drive.total_input_power_w == 0. && drive.limited_input_power_w == 0.);
+    }
+    {
+        const rfmodel_spectrum_bin input[] = {{10, {.001, 0.}}, {11, {.001, 0.}}};
         rfmodel_spectrum_bin output[3] = {{99, {123., 0.}}};
         size_t written = 777;
         CHECK(rfmodel_single_tone_amplifier_transmit(

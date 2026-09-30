@@ -79,6 +79,9 @@ if(RFMODEL_BUILD_C_API)
         add_test(NAME two_tone_reference COMMAND ${Python3_EXECUTABLE}
             ${CMAKE_CURRENT_SOURCE_DIR}/scripts/reference/test_compare_two_tone.py
             $<TARGET_FILE:rfmodel_c>)
+        add_test(NAME multitone_amplifier_reference COMMAND ${Python3_EXECUTABLE}
+            ${CMAKE_CURRENT_SOURCE_DIR}/scripts/reference/test_compare_multitone_amplifier.py
+            $<TARGET_FILE:rfmodel_c>)
         add_test(NAME total_drive_diagnostic COMMAND ${Python3_EXECUTABLE}
             ${CMAKE_CURRENT_SOURCE_DIR}/scripts/reference/test_diagnose_total_drive.py
             $<TARGET_FILE:rfmodel_c>)
@@ -195,6 +198,9 @@ add_test(NAME saturating_fundamental_test COMMAND saturating_fundamental_test)
 add_executable(single_tone_amplifier_test tests/single_tone_amplifier_test.cpp)
 target_link_libraries(single_tone_amplifier_test PRIVATE rfmodel)
 add_test(NAME single_tone_amplifier_test COMMAND single_tone_amplifier_test)
+add_executable(multitone_amplifier_test tests/multitone_amplifier_test.cpp)
+target_link_libraries(multitone_amplifier_test PRIVATE rfmodel)
+add_test(NAME multitone_amplifier_test COMMAND multitone_amplifier_test)
 add_executable(ideal_mixer_test tests/ideal_mixer_test.cpp)
 target_link_libraries(ideal_mixer_test PRIVATE rfmodel)
 add_test(NAME ideal_mixer_test COMMAND ideal_mixer_test)

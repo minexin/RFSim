@@ -102,6 +102,39 @@ typedef struct rfmodel_spectrum_bin {
     rfmodel_complex amplitude;
 } rfmodel_spectrum_bin;
 
+/* order: 1 calibrated direct response, 2 quadratic, 3 cubic products.
+ * Different orders at the same bin stay separate; no implicit coherent sum. */
+typedef struct rfmodel_amplifier_component {
+    int order;
+    int index;
+    rfmodel_complex amplitude;
+} rfmodel_amplifier_component;
+
+typedef struct rfmodel_amplifier_drive {
+    double total_input_power_w;
+    double limited_input_power_w;
+} rfmodel_amplifier_drive;
+
+/* Total-drive limited RF components; nonzero DC rejected, generated DC blocked.
+ * Caller-owned non-overlapping outputs, sorted by order then bin. At most 10240
+ * components. output_count and drive must be non-NULL; output can be NULL only
+ * for an empty result. All outputs remain unchanged on any failure, including
+ * insufficient capacity. Phase convention is positive quadratic/negative cubic;
+ * this is not a validated full SystemVue multitone response. */
+RFMODEL_API int rfmodel_multitone_amplifier_evaluate(double spacing_hz,
+                                                     const rfmodel_spectrum_bin *input,
+                                                     size_t input_count,
+                                                     double power_gain_db,
+                                                     double output_p1db_dbm,
+                                                     double output_saturation_dbm,
+                                                     double input_ip2_dbm,
+                                                     double input_ip3_dbm,
+                                                     double reference_ohms,
+                                                     rfmodel_amplifier_component *output,
+                                                     size_t capacity,
+                                                     size_t *output_count,
+                                                     rfmodel_amplifier_drive *drive);
+
 typedef struct rfmodel_incident_spectrum {
     double spacing_hz;
     const rfmodel_spectrum_bin *bins;

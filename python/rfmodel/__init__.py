@@ -66,6 +66,23 @@ class _SpectrumBin(ct.Structure):
     _fields_ = [("index", ct.c_int), ("amplitude", _Complex)]
 
 
+class _AmplifierComponent(ct.Structure):
+    _fields_ = [("order", ct.c_int), ("index", ct.c_int), ("amplitude", _Complex)]
+
+
+class _AmplifierDrive(ct.Structure):
+    _fields_ = [("total_input_power_w", ct.c_double), ("limited_input_power_w", ct.c_double)]
+
+
+class LimitedAmplifierResponse(NamedTuple):
+    """Separate RF families; overlapping bins are not implicitly summed."""
+    direct: dict
+    second_order: dict
+    third_order: dict
+    total_input_power_w: float
+    limited_input_power_w: float
+
+
 class _IncidentSpectrum(ct.Structure):
     _fields_ = [("spacing_hz", ct.c_double), ("bins", ct.POINTER(_SpectrumBin)),
                 ("count", ct.c_size_t)]
@@ -180,6 +197,9 @@ class Library:
             "rfmodel_single_tone_amplifier_transmit": (
                 ct.c_int, [ct.c_double, ct.POINTER(_SpectrumBin), size] + [ct.c_double] * 6 +
                 [ct.POINTER(_SpectrumBin), size, ct.POINTER(size)]),
+            "rfmodel_multitone_amplifier_evaluate": (
+                ct.c_int, [ct.c_double, ct.POINTER(_SpectrumBin), size] + [ct.c_double] * 6 +
+                [ct.POINTER(_AmplifierComponent), size, ct.POINTER(size), ct.POINTER(_AmplifierDrive)]),
             "rfmodel_network_external_noise": (
                 ct.c_int, [handle, ct.POINTER(size), size, complex_pointer, size,
                            complex_pointer, size]),
@@ -307,6 +327,21 @@ class Library:
             float(output_p1db_dbm), float(output_saturation_dbm), float(input_ip2_dbm),
             float(input_ip3_dbm), float(reference_ohms), output, len(output), ct.byref(count)))
         return {output[i].index: output[i].amplitude.value() for i in range(count.value)}
+
+    def multitone_amplifier(self, spacing_hz, amplitudes, *, power_gain_db, output_p1db_dbm,
+                            output_saturation_dbm, input_ip2_dbm, input_ip3_dbm, reference_ohms=50.):
+        """Return direct, quadratic and cubic RF families with common total-power limiting."""
+        incident = _spectrum(amplitudes)
+        output = (_AmplifierComponent * 10240)()
+        count, drive = ct.c_size_t(), _AmplifierDrive()
+        self._check(self._dll.rfmodel_multitone_amplifier_evaluate(
+            float(spacing_hz), incident, len(incident), float(power_gain_db),
+            float(output_p1db_dbm), float(output_saturation_dbm), float(input_ip2_dbm),
+            float(input_ip3_dbm), float(reference_ohms), output, len(output), ct.byref(count), ct.byref(drive)))
+        families = [{}, {}, {}]
+        for component in output[:count.value]:
+            families[component.order - 1][component.index] = component.amplitude.value()
+        return LimitedAmplifierResponse(*families, drive.total_input_power_w, drive.limited_input_power_w)
 
     def polynomial_amplifier(self, spacing_hz, amplitudes, *, voltage_coefficients,
                              reference_ohms=50.):

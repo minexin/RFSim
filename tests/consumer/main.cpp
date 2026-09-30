@@ -14,8 +14,15 @@
 #include <rfmodel/fundamental_compression.hpp>
 #include <rfmodel/saturating_fundamental.hpp>
 #include <rfmodel/single_tone_amplifier.hpp>
+#include <rfmodel/multitone_amplifier.hpp>
 
 int main() {
+    const rfmodel::MultiToneLimitedAmplifier multitone(20., 20., 23., 20., 10.);
+    const auto families = multitone.evaluate({1e8, {{10, .001}, {11, .001}}});
+    if (std::abs(std::norm(families.third_order.amplitudes.at(9)) / 1e-12 - 1.) > 1e-12 ||
+        families.direct.amplitudes.size() != 2 || !families.third_order.amplitudes.count(10)) {
+        return 20;
+    }
     const rfmodel::SingleToneLimitedAmplifier single_tone(20., 20., 23., 20., 10.);
     const auto single_tone_output = single_tone.transmit({1e6, {{10, .001}}});
     if (single_tone_output.amplitudes.size() != 3 ||

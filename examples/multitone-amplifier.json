@@ -1,0 +1,17 @@
+{
+  "format": "rfmodel.amplifier-components",
+  "version": 1,
+  "spacing_hz": 100000000,
+  "reference_ohms": 50,
+  "input": [
+    {"bin": 10, "amplitude": [0.022387211385683396, 0]},
+    {"bin": 11, "amplitude": [0.022387211385683396, 0]}
+  ],
+  "parameters": {
+    "power_gain_db": 20,
+    "output_p1db_dbm": 20,
+    "output_saturation_dbm": 23,
+    "input_ip2_dbm": 20,
+    "input_ip3_dbm": 10
+  }
+}

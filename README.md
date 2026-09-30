@@ -29,4 +29,8 @@ Windows 本机可运行 `scripts/build-msvc.ps1` 自动定位已有 VS 工具链
 
 新增 [链路噪声接口](docs/linear-path-noise.md) 支持源/负载失配、器件内相关噪声和源噪声/器件噪声分解。
 
+[多音放大器接口](docs/multitone-amplifier.md) 已提供总 RF 功率限幅以及直接、二阶、
+三阶分谱结果，贯通 C++/C/Python/JSON；等功率双音的指定功率点已对照，完整
+重叠谱合并、级联、相位和噪声语义仍待验证。
+
 [长期路线](docs/roadmap.md) · [兼容矩阵](docs/systemvue-2023-matrix.md) · [线性分析输出契约](docs/linear-analysis-compatibility.md)

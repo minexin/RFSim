@@ -20,6 +20,7 @@ from rfmodel import Library, RFModelError
 import rfmodel
 from rfmodel.model_file import analyze, load
 from rfmodel.spectrum_file import analyze_spectrum
+from rfmodel.amplifier_file import analyze_amplifier
 
 
 class PythonApiTests(unittest.TestCase):
@@ -296,6 +297,54 @@ class PythonApiTests(unittest.TestCase):
         document["stages"][0]["output_saturation_dbm"] = 19
         with self.assertRaises(RFModelError):
             analyze_spectrum(self.library, document)
+
+    def test_multitone_families_json_and_cli(self):
+        arguments = dict(power_gain_db=20, output_p1db_dbm=20, output_saturation_dbm=23,
+                         input_ip2_dbm=20, input_ip3_dbm=10)
+        response = self.library.multitone_amplifier(1e8, {10: .001j, 11: .002}, **arguments)
+        self.assertEqual(set(response.direct), {10, 11})
+        self.assertAlmostEqual(response.total_input_power_w / 5e-6, 1.)
+        self.assertAlmostEqual(response.third_order[9] / 2e-6, 1.)
+        self.assertIn(10, response.third_order)
+        self.assertNotIn(0, response.second_order)
+        self.assertEqual(self.library.multitone_amplifier(1e8, {}, **arguments).direct, {})
+        path = Path(__file__).resolve().parents[1] / "examples/multitone-amplifier.json"
+        document = load(path)
+        result = analyze_amplifier(self.library, document)
+        self.assertLess(result["limited_input_power_w"], result["total_input_power_w"])
+        direct = self.library.multitone_amplifier(1e8,
+            {row["bin"]: complex(*row["amplitude"]) for row in document["input"]}, **arguments)
+        for family in ("direct", "second_order", "third_order"):
+            self.assertEqual({row["bin"]: complex(*row["amplitude"]) for row in result[family]},
+                             getattr(direct, family))
+        with tempfile.TemporaryDirectory() as directory:
+            output = Path(directory) / "result.json"
+            env = dict(os.environ, PYTHONPATH=str(Path(rfmodel.__file__).resolve().parent.parent))
+            process = subprocess.run([sys.executable, "-m", "rfmodel", str(path),
+                "--library", str(Path(LIBRARY_PATH).resolve()), "--output", str(output)],
+                env=env, capture_output=True, text=True)
+            self.assertEqual(process.returncode, 0, process.stderr)
+            self.assertEqual(json.loads(output.read_text()), result)
+
+    def test_multitone_rejects_invalid_input_and_schema(self):
+        path = Path(__file__).resolve().parents[1] / "examples/multitone-amplifier.json"
+        for mutation in ("DC", "duplicate", "spacing", "version", "unknown", "invalid_empty"):
+            document = load(path)
+            if mutation == "DC":
+                document["input"][0]["bin"] = 0
+            elif mutation == "duplicate":
+                document["input"][1]["bin"] = 10
+            elif mutation == "spacing":
+                document["spacing_hz"] = 0
+            elif mutation == "version":
+                document["version"] = True
+            elif mutation == "unknown":
+                document["parameters"]["merge_carriers"] = True
+            else:
+                document["input"] = []
+                document["parameters"]["output_saturation_dbm"] = 19
+            with self.subTest(mutation=mutation), self.assertRaises((ValueError, RFModelError)):
+                analyze_amplifier(self.library, document)
 
     def test_limited_single_tone_api_and_json(self):
         arguments = dict(power_gain_db=20, output_p1db_dbm=20, output_saturation_dbm=23,

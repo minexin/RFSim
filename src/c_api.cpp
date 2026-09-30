@@ -2,6 +2,7 @@
 #include "rfmodel/fundamental_compression.hpp"
 #include "rfmodel/saturating_fundamental.hpp"
 #include "rfmodel/single_tone_amplifier.hpp"
+#include "rfmodel/multitone_amplifier.hpp"
 #include "rfmodel/network.hpp"
 #include "rfmodel/loaded_noise.hpp"
 #include "rfmodel/amplifier_model.hpp"
@@ -351,6 +352,47 @@ int rfmodel_single_tone_amplifier_transmit(double spacing_hz,
                                                         input_ip3_dbm,
                                                         reference_ohms);
         write_spectrum(model.transmit(incident), output, capacity, output_count);
+    });
+}
+
+int rfmodel_multitone_amplifier_evaluate(double spacing_hz,
+                                         const rfmodel_spectrum_bin *input,
+                                         size_t input_count,
+                                         double power_gain_db,
+                                         double output_p1db_dbm,
+                                         double output_saturation_dbm,
+                                         double input_ip2_dbm,
+                                         double input_ip3_dbm,
+                                         double reference_ohms,
+                                         rfmodel_amplifier_component *output,
+                                         size_t capacity,
+                                         size_t *output_count,
+                                         rfmodel_amplifier_drive *drive) {
+    return guarded([&] {
+        require(output_count && drive);
+        const auto incident = read_spectrum(spacing_hz, input, input_count);
+        const rfmodel::MultiToneLimitedAmplifier model(power_gain_db,
+                                                       output_p1db_dbm,
+                                                       output_saturation_dbm,
+                                                       input_ip2_dbm,
+                                                       input_ip3_dbm,
+                                                       reference_ohms);
+        const auto response = model.evaluate(incident);
+        const auto required = response.direct.amplitudes.size() +
+                              response.second_order.amplitudes.size() +
+                              response.third_order.amplitudes.size();
+        require(capacity >= required && (output || required == 0));
+        const rfmodel::PowerWaveSpectrum *families[] = {
+            &response.direct, &response.second_order, &response.third_order};
+        size_t written = 0;
+        for (int order = 1; order <= 3; ++order) {
+            for (const auto &entry : families[order - 1]->amplitudes) {
+                output[written++] = {
+                    order, entry.first, {entry.second.real(), entry.second.imag()}};
+            }
+        }
+        *output_count = written;
+        *drive = {response.total_input_power_w, response.limited_input_power_w};
     });
 }
 

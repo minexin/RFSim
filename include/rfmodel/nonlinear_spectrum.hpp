@@ -32,6 +32,17 @@ public:
         }
     }
 
+    MemorylessPolynomial homogeneous_component(std::size_t order) const {
+        if (order > 9) {
+            throw std::invalid_argument("polynomial component order exceeds nine");
+        }
+        std::vector<double> selected(order + 1, 0.);
+        if (order < coefficients_.size()) {
+            selected[order] = coefficients_[order];
+        }
+        return MemorylessPolynomial(std::move(selected));
+    }
+
     RealVoltageSpectrum evaluate(const RealVoltageSpectrum &input) const {
         if (!std::isfinite(input.spacing_hz) || input.spacing_hz <= 0 ||
             input.positive_frequency_coefficients.size() > 2048) {

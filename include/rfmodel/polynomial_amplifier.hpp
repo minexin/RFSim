@@ -64,6 +64,13 @@ public:
         return model;
     }
 
+    MatchedPolynomialAmplifier homogeneous_component(std::size_t order) const {
+        auto selected = *this;
+        selected.polynomial_ = polynomial_.homogeneous_component(order);
+        selected.linear_gain_ = order == 1 ? linear_gain_ : 0.;
+        return selected;
+    }
+
     std::string name() const override {
         return name_;
     }

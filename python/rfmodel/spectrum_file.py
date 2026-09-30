@@ -56,17 +56,7 @@ def _p1db_stage(library, spacing, amplitudes, *, reference_ohms, power_gain_db, 
     return {index: output} if output != 0 else {}
 
 
-def analyze_spectrum(library, document, *, base_directory=None):
-    _object(document, ("format", "version", "spacing_hz", "input", "stages"),
-            ("reference_ohms",))
-    if (document["format"] != "rfmodel.spectrum-chain" or
-            type(document["version"]) is not int or document["version"] != 1):
-        raise ValueError("Unsupported spectrum format/version")
-    spacing = _number(document["spacing_hz"])
-    reference = _number(document.get("reference_ohms", 50.))
-    if spacing <= 0 or reference <= 0:
-        raise ValueError("Spacing and reference impedance must be positive")
-    entries = document["input"]
+def _decode(entries, spacing):
     if not isinstance(entries, list) or len(entries) > 2048:
         raise ValueError("Input must be an array of at most 2048 bins")
     amplitudes = {}
@@ -78,6 +68,20 @@ def analyze_spectrum(library, document, *, base_directory=None):
         if not math.isfinite(index * spacing):
             raise ValueError("Input frequency overflow")
         amplitudes[index] = amplitude
+    return amplitudes
+
+
+def analyze_spectrum(library, document, *, base_directory=None):
+    _object(document, ("format", "version", "spacing_hz", "input", "stages"),
+            ("reference_ohms",))
+    if (document["format"] != "rfmodel.spectrum-chain" or
+            type(document["version"]) is not int or document["version"] != 1):
+        raise ValueError("Unsupported spectrum format/version")
+    spacing = _number(document["spacing_hz"])
+    reference = _number(document.get("reference_ohms", 50.))
+    if spacing <= 0 or reference <= 0:
+        raise ValueError("Spacing and reference impedance must be positive")
+    amplitudes = _decode(document["input"], spacing)
     stages = document["stages"]
     if not isinstance(stages, list) or not 1 <= len(stages) <= 512:
         raise ValueError("Expected 1..512 stages")
