@@ -1,0 +1,126 @@
+{
+  "scope": "Direct generated H2/H3 power samples of the isolated sample-profile RFAMP",
+  "limitation": "Flat 1 Hz input tone case only; no spectrum-density integration or full RFAMP equivalence",
+  "source_power_dbm": -30.0,
+  "run_started_utc": "2026-09-30T01:45:20.8258567Z",
+  "parameters": [
+    {
+      "parameter": "RFAmp/G",
+      "value": 100,
+      "data_entry": "20"
+    },
+    {
+      "parameter": "RFAmp/NF",
+      "value": 1.9952623149688795,
+      "data_entry": "3"
+    },
+    {
+      "parameter": "RFAmp/RISO",
+      "value": 10000000000,
+      "data_entry": "100"
+    },
+    {
+      "parameter": "RFAmp/ZIN",
+      "value": 50,
+      "data_entry": "50"
+    },
+    {
+      "parameter": "RFAmp/ZOUT",
+      "value": 50,
+      "data_entry": "50"
+    },
+    {
+      "parameter": "RFAmp/OIP2",
+      "value": 10,
+      "data_entry": "40"
+    },
+    {
+      "parameter": "RFAmp/OIP3",
+      "value": 1,
+      "data_entry": "30"
+    },
+    {
+      "parameter": "RFAmp/OP1dB",
+      "value": 0.1,
+      "data_entry": "20"
+    },
+    {
+      "parameter": "RFAmp/OPSAT",
+      "value": 0.1995262314968879,
+      "data_entry": "23"
+    },
+    {
+      "parameter": "Source/R",
+      "value": 50,
+      "data_entry": "50"
+    },
+    {
+      "parameter": "Out/ZO",
+      "value": 50,
+      "data_entry": "50"
+    },
+    {
+      "parameter": "Source/Freq",
+      "value": 1000000000,
+      "data_entry": "1000"
+    },
+    {
+      "parameter": "Source/Enable",
+      "value": [
+        1
+      ],
+      "data_entry": null
+    },
+    {
+      "parameter": "Source/SrcType",
+      "value": [
+        0
+      ],
+      "data_entry": null
+    },
+    {
+      "parameter": "Source/EnablePN",
+      "value": [
+        0
+      ],
+      "data_entry": null
+    },
+    {
+      "parameter": "Source/Pwr",
+      "value": 1e-06,
+      "data_entry": "-30"
+    }
+  ],
+  "relative_tolerance": 1e-07,
+  "checks": [
+    {
+      "harmonic": 2,
+      "identity": "{2}[2x(Source.Source1)],RFAmp",
+      "spectrum_id": 86,
+      "frequency_bounds_hz": [
+        1999999999.0,
+        2000000001.0
+      ],
+      "systemvue_power_w": 2.4999998749987547e-10,
+      "rfmodel_power_w": 2.5e-10,
+      "signed_relative_error": 5.000050062875516e-08,
+      "passed": true
+    },
+    {
+      "harmonic": 3,
+      "identity": "{4}[3x(Source.Source1)],RFAmp",
+      "spectrum_id": 88,
+      "frequency_bounds_hz": [
+        2999999998.5,
+        3000000001.5
+      ],
+      "systemvue_power_w": 1.1111110277766699e-13,
+      "rfmodel_power_w": 1.1111111111111112e-13,
+      "signed_relative_error": 7.500100274171473e-08,
+      "passed": true
+    }
+  ],
+  "passed": true,
+  "capture_sha256": "c6abee4e71c5e9be80869a09d181f1fec3c512d2b71027230602d0a1c4419f73",
+  "library_sha256": "b15f90e289d286ebfc841385a6022aa46876fb02cb656e66799560bd2f037b43"
+}

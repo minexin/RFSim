@@ -43,3 +43,43 @@ output = library.intercept_amplifier(
 2026-09-30 验证：MSVC Debug/Release 全套各 48/48，独立安装消费者各 2/2，
 安装 Release 动态库 Python 47 项通过。本次没有新增 SystemVue 实测，厂商
 偶次失真及其与独立 P1dB 标定的组合仍待比较；不据此修改已有兼容结果。
+
+## SystemVue 独立器件谐波比较
+
+2026-09-30：新增 −30 dBm 单音采集（sample 参数组，20 dB 增益、IIP2=20 dBm、
+IIP3=10 dBm、1 GHz、100 dB 反向隔离），并复用此前 +0.9 dBm 原始采集。
+当前 SystemVue 参考实例保留 −30 dBm sample 状态。首次采集发现进程已退出，
+连接失败日志保留在 compression-minus30-harmonics-001；确认进程不存在后启动
+新实例，成功采集为 build-reference/compression-minus30-harmonics-002。
+
+本机官方帮助 `sim/Node_Measurements.html` 定义 P[NetName] 为各独立频谱的
+功率向量；F/ID 为其索引，IDNo/IDName 将不稳定的编号映射到来源和传播路径。
+比较脚本 `scripts/reference/compare-single-harmonics.py` 据此选择直接由 RFAmp
+生成、仅经过一次 RFAmp 的 H2/H3，排除总谱、噪声谱和反向传播谱。
+对于当前 1 Hz 单音，检查谐波的两个边界频率、平坦功率值，再取一个功率值比较，
+不重复求和两个绘图端点，不作谱密度积分。其他谱形和带宽尚不支持。
+
+| 输入功率 | H2 相对误差 | H3 相对误差 | 原阈值 1e-7 |
+| --- | --- | --- | --- |
+| −30 dBm | +5.00005e-8 | +7.50010e-8 | 2/2 通过 |
+| +0.9 dBm | +0.3235834 | +0.5227443 | 0/2 通过 |
+
+小信号 H2/H3 的实测功率分别为 2.499999875e-10 W、1.111111028e-13 W，
+支持截点标定关系。近压缩点的低阶模型高估失真，说明还需要压缩区的失真生成
+模型；不能仅在输出基波上应用 P1dB 压缩后宣称完整 RFAMP 已兼容。
+这两份报告只比较谐波，不将内部调用的参数校验/基波比较作为额外通过声明。
+
+报告为 validation 下 `systemvue-2023-single-harmonics-minus30.json` 和
+`systemvue-2023-single-harmonics-plus09.json`。精简可重放采集数组为
+`systemvue-2023-single-harmonic-captures.json`，保留原始采集散列。复现命令：
+
+```powershell
+& 'C:/Program Files/Keysight/SystemVue2023/Python/python/python.exe' `
+  scripts/reference/compare-single-harmonics.py build-msvc/Release/rfmodel_c.dll `
+  build-reference/compression-minus30-harmonics-002/capture.json `
+  build-reference/harmonic-comparison.json --source-power-dbm -30
+```
+
+新增 CTest single_harmonic_reference 三项测试验证低功率通过、近压缩点失败、
+谱 ID 重编号仍可识别，以及错误身份、谱形、频率或陈旧数据拒绝。Debug/Release
+均通过定向测试，现有 CI 的 CTest 步骤自动包含它；本次未改动数值核心。

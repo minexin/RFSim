@@ -63,6 +63,9 @@ if(RFMODEL_BUILD_C_API)
         add_test(NAME single_compression_reference COMMAND ${Python3_EXECUTABLE}
             ${CMAKE_CURRENT_SOURCE_DIR}/scripts/reference/test_compare_single_compression.py
             $<TARGET_FILE:rfmodel_c>)
+        add_test(NAME single_harmonic_reference COMMAND ${Python3_EXECUTABLE}
+            ${CMAKE_CURRENT_SOURCE_DIR}/scripts/reference/test_compare_single_harmonics.py
+            $<TARGET_FILE:rfmodel_c>)
         add_test(NAME total_drive_diagnostic COMMAND ${Python3_EXECUTABLE}
             ${CMAKE_CURRENT_SOURCE_DIR}/scripts/reference/test_diagnose_total_drive.py
             $<TARGET_FILE:rfmodel_c>)

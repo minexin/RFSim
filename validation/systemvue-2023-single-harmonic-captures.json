@@ -1,0 +1,1676 @@
+[
+  {
+    "run_started_utc": "2026-09-30T01:45:20.8258567Z",
+    "run_returned_utc": "2026-09-30T01:45:21.0775639Z",
+    "manager_errors": "",
+    "nodes": [
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/PartLib",
+        "data": null,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": null,
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Out",
+        "data": null,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": null,
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Out/ParamSet/PORT",
+        "data": 2,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "2",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Out/ParamSet/ZO",
+        "data": 50,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "50",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Page",
+        "data": null,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": null,
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/RFAmp",
+        "data": null,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": null,
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/RFAmp/ParamSet/FC",
+        "data": "",
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/RFAmp/ParamSet/G",
+        "data": 100,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "20",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/RFAmp/ParamSet/NF",
+        "data": 1.9952623149688795,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "3",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/RFAmp/ParamSet/OIP2",
+        "data": 10,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "40",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/RFAmp/ParamSet/OIP3",
+        "data": 1,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "30",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/RFAmp/ParamSet/OP1dB",
+        "data": 0.1,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "20",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/RFAmp/ParamSet/OPSAT",
+        "data": 0.1995262314968879,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "23",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/RFAmp/ParamSet/RISO",
+        "data": 10000000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "100",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/RFAmp/ParamSet/SLOPE",
+        "data": "",
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/RFAmp/ParamSet/ZIN",
+        "data": 50,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "50",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/RFAmp/ParamSet/ZOUT",
+        "data": 50,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "50",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source",
+        "data": null,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": null,
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/AutoDesc",
+        "data": [
+          1
+        ],
+        "dimensions": [
+          1
+        ],
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/BW",
+        "data": 1000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "1",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/Carriers",
+        "data": 2,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "2",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/Dataset",
+        "data": "GSM",
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "GSM",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/Descrip",
+        "data": "1000 MHz at RFPwrIn dBm",
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "1000 MHz at RFPwrIn dBm",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/Enable",
+        "data": [
+          1
+        ],
+        "dimensions": [
+          1
+        ],
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/EnablePN",
+        "data": [
+          0
+        ],
+        "dimensions": [
+          1
+        ],
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/FOff",
+        "data": 50000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "50",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/Freq",
+        "data": 1000000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "1000",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/MultiCarrier",
+        "data": [
+          0
+        ],
+        "dimensions": [
+          1
+        ],
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/Name",
+        "data": "Source1",
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "Source1",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/NoisePoints",
+        "data": 10,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "10",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/NoisePower",
+        "data": 1e-18,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "-150",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/NoiseStart",
+        "data": 50000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "50",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/NoiseStop",
+        "data": 250000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "250",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/PNFreq",
+        "data": [
+          1000,
+          10000,
+          100000,
+          1000000
+        ],
+        "dimensions": [
+          4,
+          1
+        ],
+        "timestamp": null,
+        "data_entry": "[1e-3;0.01;0.1;1]",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/PNIndex",
+        "data": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "dimensions": [
+          4
+        ],
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/PNPwr",
+        "data": [
+          1e-07,
+          1e-09,
+          1e-10,
+          3.1622776601683794e-11
+        ],
+        "dimensions": [
+          4,
+          1
+        ],
+        "timestamp": null,
+        "data_entry": "[-70;-90;-100;-105]",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/PORT",
+        "data": 1,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "1",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/POff",
+        "data": 1,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "0",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/PhOff",
+        "data": 0,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "0",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/Phase",
+        "data": 0,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "0",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/Pts",
+        "data": 2,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "2",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/Pwr",
+        "data": 1e-06,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "-30",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/R",
+        "data": 50,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "50",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/RefClk",
+        "data": "",
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/Show",
+        "data": [
+          1
+        ],
+        "dimensions": [
+          1
+        ],
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/SrcType",
+        "data": [
+          0
+        ],
+        "dimensions": [
+          1
+        ],
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/System1_Data/Eqns/VarBlock/F2",
+        "data": [
+          0.005,
+          400000000.005,
+          800000000.005,
+          999500000,
+          999600000,
+          999700000,
+          999800000,
+          999900000,
+          999999999.5,
+          1000000000,
+          1000000000.5,
+          1000100000,
+          1000200000,
+          1000300000,
+          1000400000,
+          1000500000,
+          1200000000.005,
+          1600000000.005,
+          2000000000.005,
+          2400000000.005,
+          2800000000.005,
+          3200000000.005,
+          3600000000.005,
+          4000000000,
+          0,
+          0.001,
+          0.004,
+          0.005,
+          400000000.005,
+          800000000.005,
+          999500000,
+          999600000,
+          999700000,
+          999800000,
+          999900000,
+          999999998.499,
+          999999998.5,
+          999999999.499,
+          999999999.5,
+          1000000000,
+          1000000000.5,
+          1000000000.501,
+          1000000001.5,
+          1000000001.501,
+          1000100000,
+          1000200000,
+          1000300000,
+          1000400000,
+          1000500000,
+          1200000000.005,
+          1600000000.005,
+          1999999998.999,
+          1999999999,
+          2000000000.005,
+          2000000001,
+          2000000001.001,
+          2400000000.005,
+          2800000000.005,
+          2999999998.499,
+          2999999998.5,
+          3000000001.5,
+          3000000001.501,
+          3200000000.005,
+          3600000000.005,
+          4000000000,
+          0,
+          999999999.5,
+          1000000000.5,
+          999999998.5,
+          1000000001.5,
+          1999999999,
+          2000000001,
+          2999999998.5,
+          3000000001.5
+        ],
+        "dimensions": [
+          74
+        ],
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/System1_Data/Eqns/VarBlock/ID2",
+        "data": [
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          85,
+          84,
+          84,
+          87,
+          87,
+          86,
+          86,
+          88,
+          88
+        ],
+        "dimensions": [
+          74
+        ],
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/System1_Data/Eqns/VarBlock/IDName",
+        "data": [
+          "Node Total from 'Out'",
+          "Node Total from 'RFAmp'",
+          "Node Noise from 'Out'",
+          "Node Noise from 'RFAmp'",
+          "{1}D[(Source.Source1)],Source,RFAmp",
+          "{0}[DC((Source.Source1)-(Source.Source1))],RFAmp",
+          "{2}[2x(Source.Source1)],RFAmp",
+          "{3}[-(Source.Source1)+2x(Source.Source1)],RFAmp",
+          "{4}[3x(Source.Source1)],RFAmp",
+          "Node Total from 'RFAmp'",
+          "Node Total from 'Source'",
+          "Node Noise from 'RFAmp'",
+          "Node Noise from 'Source'",
+          "{1}D[(Source.Source1)],Source",
+          "{2}[2x(Source.Source1)],RFAmp,RFAmp",
+          "{3}[-(Source.Source1)+2x(Source.Source1)],RFAmp,RFAmp",
+          "{4}[3x(Source.Source1)],RFAmp,RFAmp"
+        ],
+        "dimensions": [
+          17
+        ],
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/System1_Data/Eqns/VarBlock/IDNo",
+        "data": [
+          0,
+          6,
+          3,
+          9,
+          84,
+          85,
+          86,
+          87,
+          88,
+          12,
+          18,
+          15,
+          21,
+          91,
+          92,
+          93,
+          94
+        ],
+        "dimensions": [
+          17
+        ],
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/System1_Data/Eqns/VarBlock/P2",
+        "data": [
+          7.987422943166479e-13,
+          7.987422943166479e-13,
+          7.987422943166479e-13,
+          7.987422943166479e-13,
+          7.987422943166479e-13,
+          7.987422943166479e-13,
+          7.987422943166479e-13,
+          7.987422943166479e-13,
+          7.987422943166475e-13,
+          7.987422943166479e-13,
+          7.987422943166475e-13,
+          7.987422943166479e-13,
+          7.987422943166479e-13,
+          7.987422943166479e-13,
+          7.987422943166479e-13,
+          7.987422943166479e-13,
+          7.987422943166479e-13,
+          7.987422943166479e-13,
+          7.987422943166479e-13,
+          7.987422943166479e-13,
+          7.987422943166479e-13,
+          7.987422943166479e-13,
+          7.987422943166479e-13,
+          7.987422943166479e-13,
+          4.99999974999751e-10,
+          1.0000000048935076e-33,
+          1.0000000048935076e-33,
+          7.987422943166479e-13,
+          7.987422943166479e-13,
+          7.987422943166479e-13,
+          7.987422943166479e-13,
+          7.987422943166479e-13,
+          7.987422943166479e-13,
+          7.987422943166479e-13,
+          7.987422943166479e-13,
+          7.987422943166473e-13,
+          1.79874221931565e-12,
+          1.7987422193156501e-12,
+          9.998272355573066e-05,
+          9.998272355573061e-05,
+          9.998272355573066e-05,
+          1.7987422193156501e-12,
+          1.79874221931565e-12,
+          7.987422943166473e-13,
+          7.987422943166479e-13,
+          7.987422943166479e-13,
+          7.987422943166479e-13,
+          7.987422943166479e-13,
+          7.987422943166479e-13,
+          7.987422943166479e-13,
+          7.987422943166479e-13,
+          7.987422943166482e-13,
+          2.5079872979419207e-10,
+          2.5079872979419207e-10,
+          2.5079872979419207e-10,
+          7.987422943166482e-13,
+          7.987422943166479e-13,
+          7.987422943166479e-13,
+          7.987422943166482e-13,
+          9.098533970943148e-13,
+          9.098533970943148e-13,
+          7.987422943166482e-13,
+          7.987422943166479e-13,
+          7.987422943166479e-13,
+          7.987422943166479e-13,
+          4.99999974999751e-10,
+          9.998272175698845e-05,
+          9.998272175698845e-05,
+          9.999999249990031e-13,
+          9.999999249990031e-13,
+          2.4999998749987547e-10,
+          2.4999998749987547e-10,
+          1.1111110277766699e-13,
+          1.1111110277766699e-13
+        ],
+        "dimensions": [
+          74
+        ],
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/System1_Data_Folder/System1_Data_Path1",
+        "data": null,
+        "dimensions": null,
+        "timestamp": "1790732721",
+        "data_entry": null,
+        "data_source": null,
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/System1_Data_Folder/System1_Data_Path1/Eqns/VarBlock/CF",
+        "data": [
+          1000000000,
+          1000000000
+        ],
+        "dimensions": [
+          2
+        ],
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/System1_Data_Folder/System1_Data_Path1/Eqns/VarBlock/CGAIN",
+        "data": [
+          1,
+          99.98272375664294
+        ],
+        "dimensions": [
+          2
+        ],
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/System1_Data_Folder/System1_Data_Path1/Eqns/VarBlock/DCP",
+        "data": [
+          9.999999749999998e-07,
+          9.998272125707482e-05
+        ],
+        "dimensions": [
+          2
+        ],
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": "Data property",
+        "evaluation_error": null
+      }
+    ],
+    "source_power_dbm": -30,
+    "raw_capture_sha256": "c6abee4e71c5e9be80869a09d181f1fec3c512d2b71027230602d0a1c4419f73"
+  },
+  {
+    "run_started_utc": "2026-09-29T12:54:47.2266330Z",
+    "run_returned_utc": "2026-09-29T12:54:47.4625255Z",
+    "manager_errors": "",
+    "nodes": [
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/PartLib",
+        "data": null,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": null,
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Out",
+        "data": null,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": null,
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Out/ParamSet/PORT",
+        "data": 2,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "2",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Out/ParamSet/ZO",
+        "data": 50,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "50",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Page",
+        "data": null,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": null,
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/RFAmp",
+        "data": null,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": null,
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/RFAmp/ParamSet/FC",
+        "data": "",
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/RFAmp/ParamSet/G",
+        "data": 100,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "20",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/RFAmp/ParamSet/NF",
+        "data": 1.9952623149688795,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "3",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/RFAmp/ParamSet/OIP2",
+        "data": 10,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "40",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/RFAmp/ParamSet/OIP3",
+        "data": 1,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "30",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/RFAmp/ParamSet/OP1dB",
+        "data": 0.1,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "20",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/RFAmp/ParamSet/OPSAT",
+        "data": 0.1995262314968879,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "23",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/RFAmp/ParamSet/RISO",
+        "data": 10000000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "100",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/RFAmp/ParamSet/SLOPE",
+        "data": "",
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/RFAmp/ParamSet/ZIN",
+        "data": 50,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "50",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/RFAmp/ParamSet/ZOUT",
+        "data": 50,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "50",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source",
+        "data": null,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": null,
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/AutoDesc",
+        "data": [
+          1
+        ],
+        "dimensions": [
+          1
+        ],
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/BW",
+        "data": 1000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "1",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/Carriers",
+        "data": 2,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "2",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/Dataset",
+        "data": "GSM",
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "GSM",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/Descrip",
+        "data": "1000 MHz at RFPwrIn dBm",
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "1000 MHz at RFPwrIn dBm",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/Enable",
+        "data": [
+          1
+        ],
+        "dimensions": [
+          1
+        ],
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/EnablePN",
+        "data": [
+          0
+        ],
+        "dimensions": [
+          1
+        ],
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/FOff",
+        "data": 50000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "50",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/Freq",
+        "data": 1000000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "1000",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/MultiCarrier",
+        "data": [
+          0
+        ],
+        "dimensions": [
+          1
+        ],
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/Name",
+        "data": "Source1",
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "Source1",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/NoisePoints",
+        "data": 10,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "10",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/NoisePower",
+        "data": 1e-18,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "-150",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/NoiseStart",
+        "data": 50000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "50",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/NoiseStop",
+        "data": 250000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "250",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/PNFreq",
+        "data": [
+          1000,
+          10000,
+          100000,
+          1000000
+        ],
+        "dimensions": [
+          4,
+          1
+        ],
+        "timestamp": null,
+        "data_entry": "[1e-3;0.01;0.1;1]",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/PNIndex",
+        "data": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "dimensions": [
+          4
+        ],
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/PNPwr",
+        "data": [
+          1e-07,
+          1e-09,
+          1e-10,
+          3.1622776601683794e-11
+        ],
+        "dimensions": [
+          4,
+          1
+        ],
+        "timestamp": null,
+        "data_entry": "[-70;-90;-100;-105]",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/PORT",
+        "data": 1,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "1",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/POff",
+        "data": 1,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "0",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/PhOff",
+        "data": 0,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "0",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/Phase",
+        "data": 0,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "0",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/Pts",
+        "data": 2,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "2",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/Pwr",
+        "data": 0.0012302687708123817,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "0.9",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/R",
+        "data": 50,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "50",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/RefClk",
+        "data": "",
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "",
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/Show",
+        "data": [
+          1
+        ],
+        "dimensions": [
+          1
+        ],
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/Sch1/PartList/Source/ParamSet/SrcType",
+        "data": [
+          0
+        ],
+        "dimensions": [
+          1
+        ],
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/System1_Data/Eqns/VarBlock/F2",
+        "data": [
+          0.005,
+          400000000.005,
+          800000000.005,
+          999500000,
+          999600000,
+          999700000,
+          999800000,
+          999900000,
+          999999999.5,
+          1000000000,
+          1000000000.5,
+          1000100000,
+          1000200000,
+          1000300000,
+          1000400000,
+          1000500000,
+          1200000000.005,
+          1600000000.005,
+          2000000000.005,
+          2400000000.005,
+          2800000000.005,
+          3200000000.005,
+          3600000000.005,
+          4000000000,
+          0,
+          0.001,
+          0.004,
+          0.005,
+          400000000.005,
+          800000000.005,
+          999500000,
+          999600000,
+          999700000,
+          999800000,
+          999900000,
+          999999998.499,
+          999999998.5,
+          999999999.499,
+          999999999.5,
+          1000000000,
+          1000000000.5,
+          1000000000.501,
+          1000000001.5,
+          1000000001.501,
+          1000100000,
+          1000200000,
+          1000300000,
+          1000400000,
+          1000500000,
+          1200000000.005,
+          1600000000.005,
+          1999999998.999,
+          1999999999,
+          2000000000.005,
+          2000000001,
+          2000000001.001,
+          2400000000.005,
+          2800000000.005,
+          2999999998.499,
+          2999999998.5,
+          3000000001.5,
+          3000000001.501,
+          3200000000.005,
+          3600000000.005,
+          4000000000,
+          0,
+          999999999.5,
+          1000000000.5,
+          999999998.5,
+          1000000001.5,
+          1999999999,
+          2000000001,
+          2999999998.5,
+          3000000001.5
+        ],
+        "dimensions": [
+          74
+        ],
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/System1_Data/Eqns/VarBlock/ID2",
+        "data": [
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          85,
+          84,
+          84,
+          87,
+          87,
+          86,
+          86,
+          88,
+          88
+        ],
+        "dimensions": [
+          74
+        ],
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/System1_Data/Eqns/VarBlock/IDName",
+        "data": [
+          "Node Total from 'Out'",
+          "Node Total from 'RFAmp'",
+          "Node Noise from 'Out'",
+          "Node Noise from 'RFAmp'",
+          "{1}D[(Source.Source1)],Source,RFAmp",
+          "{0}[DC((Source.Source1)-(Source.Source1))],RFAmp",
+          "{2}[2x(Source.Source1)],RFAmp",
+          "{3}[-(Source.Source1)+2x(Source.Source1)],RFAmp",
+          "{4}[3x(Source.Source1)],RFAmp",
+          "Node Total from 'RFAmp'",
+          "Node Total from 'Source'",
+          "Node Noise from 'RFAmp'",
+          "Node Noise from 'Source'",
+          "{1}D[(Source.Source1)],Source",
+          "{2}[2x(Source.Source1)],RFAmp,RFAmp",
+          "{3}[-(Source.Source1)+2x(Source.Source1)],RFAmp,RFAmp",
+          "{4}[3x(Source.Source1)],RFAmp,RFAmp"
+        ],
+        "dimensions": [
+          17
+        ],
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/System1_Data/Eqns/VarBlock/IDNo",
+        "data": [
+          0,
+          6,
+          3,
+          9,
+          84,
+          85,
+          86,
+          87,
+          88,
+          12,
+          18,
+          15,
+          21,
+          91,
+          92,
+          93,
+          94
+        ],
+        "dimensions": [
+          17
+        ],
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/System1_Data/Eqns/VarBlock/P2",
+        "data": [
+          6.381031102808661e-13,
+          6.381031102808661e-13,
+          6.381031102808661e-13,
+          6.381031102808661e-13,
+          6.381031102808661e-13,
+          6.381031102808661e-13,
+          6.381031102808661e-13,
+          6.381031102808661e-13,
+          6.381031102808829e-13,
+          6.381031102808661e-13,
+          6.381031102808829e-13,
+          6.381031102808661e-13,
+          6.381031102808661e-13,
+          6.381031102808661e-13,
+          6.381031102808661e-13,
+          6.381031102808661e-13,
+          6.381031102808661e-13,
+          6.381031102808661e-13,
+          6.381031102808661e-13,
+          6.381031102808661e-13,
+          6.381031102808661e-13,
+          6.381031102808661e-13,
+          6.381031102808661e-13,
+          6.381031102808661e-13,
+          0.0005717664739673033,
+          1.0000000048935076e-33,
+          1.0000000048935076e-33,
+          6.381031102808661e-13,
+          6.381031102808661e-13,
+          6.381031102808661e-13,
+          6.381031102808661e-13,
+          6.381031102808661e-13,
+          6.381031102808661e-13,
+          6.381031102808661e-13,
+          6.381031102808661e-13,
+          6.381031102808827e-13,
+          0.0012228495371675318,
+          0.0012228495371675314,
+          0.09949017483350205,
+          0.09949017483350207,
+          0.09949017483350205,
+          0.0012228495371675314,
+          0.0012228495371675318,
+          6.381031102808827e-13,
+          6.381031102808661e-13,
+          6.381031102808661e-13,
+          6.381031102808661e-13,
+          6.381031102808661e-13,
+          6.381031102808661e-13,
+          6.381031102808661e-13,
+          6.381031102808661e-13,
+          6.381031102808659e-13,
+          0.0002858832376217548,
+          0.0002858832376217548,
+          0.0002858832376217548,
+          6.381031102808659e-13,
+          6.381031102808661e-13,
+          6.381031102808661e-13,
+          6.381031102808659e-13,
+          0.00013587217136359523,
+          0.00013587217136359523,
+          6.381031102808659e-13,
+          6.381031102808661e-13,
+          6.381031102808661e-13,
+          6.381031102808661e-13,
+          0.0005717664739673033,
+          0.09826732529633456,
+          0.09826732529633456,
+          0.0012228495365294286,
+          0.0012228495365294286,
+          0.00028588323698365174,
+          0.00028588323698365174,
+          0.0001358721707254921,
+          0.0001358721707254921
+        ],
+        "dimensions": [
+          74
+        ],
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/System1_Data_Folder/System1_Data_Path1",
+        "data": null,
+        "dimensions": null,
+        "timestamp": "1790686487",
+        "data_entry": null,
+        "data_source": null,
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/System1_Data_Folder/System1_Data_Path1/Eqns/VarBlock/CF",
+        "data": [
+          1000000000,
+          1000000000
+        ],
+        "dimensions": [
+          2
+        ],
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/System1_Data_Folder/System1_Data_Path1/Eqns/VarBlock/CGAIN",
+        "data": [
+          1,
+          79.87468234017871
+        ],
+        "dimensions": [
+          2
+        ],
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": "Data property",
+        "evaluation_error": null
+      },
+      {
+        "path": "RFModel_AmplifierCompression/Designs/System1_Data_Folder/System1_Data_Path1/Eqns/VarBlock/DCP",
+        "data": [
+          0.001230268740055662,
+          0.09826732480499789
+        ],
+        "dimensions": [
+          2
+        ],
+        "timestamp": null,
+        "data_entry": null,
+        "data_source": "Data property",
+        "evaluation_error": null
+      }
+    ],
+    "source_power_dbm": 0.9,
+    "raw_capture_sha256": "74c8c3436850e3dac7cb02081994d3574877d6d5e8241e3f5178a3235fe264ad"
+  }
+]

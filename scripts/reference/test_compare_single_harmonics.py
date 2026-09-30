@@ -1,0 +1,58 @@
+import copy
+import importlib.util
+import json
+from pathlib import Path
+import sys
+import unittest
+
+spec = importlib.util.spec_from_file_location("harmonics", Path(__file__).with_name("compare-single-harmonics.py"))
+harmonics = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(harmonics)
+library_path = Path(sys.argv.pop(1)).resolve()
+
+
+class HarmonicTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.library = harmonics.single.Library(library_path)
+        cls.captures = json.loads((harmonics.single.ROOT / "validation" /
+            "systemvue-2023-single-harmonic-captures.json").read_text())
+
+    def test_low_power_agreement_and_compression_gap(self):
+        low = harmonics.compare(self.library, self.captures[0], -30)
+        high = harmonics.compare(self.library, self.captures[1], .9)
+        self.assertTrue(low["passed"])
+        self.assertFalse(high["passed"])
+        self.assertEqual(len(low["checks"]), 2)
+        self.assertGreater(high["checks"][0]["signed_relative_error"], .3)
+        self.assertGreater(high["checks"][1]["signed_relative_error"], .5)
+
+    def test_spectrum_ids_are_not_fixed_numbers(self):
+        capture = copy.deepcopy(self.captures[0])
+        for node in capture["nodes"]:
+            if node["path"].endswith(("/IDNo", "/ID2")):
+                node["data"] = [value + 1000 for value in node["data"]]
+        self.assertTrue(harmonics.compare(self.library, capture, -30)["passed"])
+
+    def test_rejects_ambiguous_identity_or_nonflat_spectrum(self):
+        for kind in ("identity", "flat", "frequency", "stale"):
+            capture = copy.deepcopy(self.captures[0])
+            base = harmonics.single.BASE + "System1_Data/Eqns/VarBlock/"
+            vectors = {n["path"][len(base):]: n for n in capture["nodes"] if n["path"].startswith(base)}
+            identity = next(i for i, name in zip(vectors["IDNo"]["data"], vectors["IDName"]["data"])
+                            if "[2x(Source.Source1)],RFAmp" in name and not name.endswith("RFAmp,RFAmp"))
+            index = vectors["ID2"]["data"].index(identity)
+            if kind == "identity":
+                vectors["IDName"]["data"] = ["wrong" for _ in vectors["IDName"]["data"]]
+            elif kind == "flat":
+                vectors["P2"]["data"][index] *= 2
+            elif kind == "frequency":
+                vectors["F2"]["data"][index] += 1
+            else:
+                next(n for n in capture["nodes"] if n["path"].endswith("/System1_Data_Path1"))["timestamp"] = "1"
+            with self.subTest(kind=kind), self.assertRaises(ValueError):
+                harmonics.compare(self.library, capture, -30)
+
+
+if __name__ == "__main__":
+    unittest.main()
