@@ -12,8 +12,14 @@
 #include <rfmodel/multiport_devices.hpp>
 #include <cmath>
 #include <rfmodel/fundamental_compression.hpp>
+#include <rfmodel/saturating_fundamental.hpp>
 
 int main() {
+    const rfmodel::SaturatingFundamentalCompression saturation(20., 20., 23.);
+    if (std::abs(std::norm(saturation.transmit_fundamental(.1)) / .19922937036162172 - 1.) >
+        1e-12) {
+        return 18;
+    }
     const rfmodel::P1dBFundamentalCompression compressed(20., 10.);
     const std::vector<rfmodel::PowerWaveSpectrum> rf_inputs{{1e6, {{10, .001}, {20, .002}}},
                                                             {1e6, {{10, .003}}}};

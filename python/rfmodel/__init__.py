@@ -119,6 +119,8 @@ class Library:
         signatures = {
             "rfmodel_last_error": (ct.c_char_p, []),
             "rfmodel_abi_version": (ct.c_uint, []),
+            "rfmodel_saturating_fundamental": (
+                ct.c_int, [ct.c_double, ct.c_double, ct.c_double, _Complex, ct.c_double, complex_pointer]),
             "rfmodel_p1db_fundamental": (
                 ct.c_int, [ct.c_double, ct.c_double, _Complex, complex_pointer]),
             "rfmodel_p1db_driven_fundamental": (
@@ -205,6 +207,18 @@ class Library:
             status = self._dll.rfmodel_p1db_driven_fundamental(
                 *arguments, float(total_incident_power_w), ct.byref(output))
         self._check(status)
+        return output.value()
+
+    def saturating_fundamental(self, incident, *, power_gain_db, output_p1db_dbm,
+                              output_saturation_dbm, total_incident_power_w=None):
+        """Cubic / incremental-tanh fundamental response; no harmonic or AM/PM prediction."""
+        incident = complex(incident)
+        total = (incident.real * incident.real + incident.imag * incident.imag
+                 if total_incident_power_w is None else float(total_incident_power_w))
+        output = _Complex()
+        self._check(self._dll.rfmodel_saturating_fundamental(
+            float(power_gain_db), float(output_p1db_dbm), float(output_saturation_dbm),
+            _Complex.from_value(incident), total, ct.byref(output)))
         return output.value()
 
     def touchstone(self, path, *, out_of_band="reject"):

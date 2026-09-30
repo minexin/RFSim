@@ -22,6 +22,21 @@ int main(int argc, char **argv) {
     double residual = -1;
     CHECK(rfmodel_abi_version() == 1);
     {
+        rfmodel_complex output = {123., 456.};
+        const rfmodel_complex input = {0., .1};
+        CHECK(rfmodel_saturating_fundamental(20., 20., 20., input, .01, &output) ==
+              RFMODEL_INVALID_ARGUMENT);
+        CHECK(output.real == 123. && output.imag == 456.);
+        CHECK(rfmodel_saturating_fundamental(20., 20., 23., input, .001, &output) ==
+              RFMODEL_INVALID_ARGUMENT);
+        CHECK(output.real == 123. && output.imag == 456.);
+        CHECK(rfmodel_saturating_fundamental(20., 20., 23., input, .01, NULL) ==
+              RFMODEL_INVALID_ARGUMENT);
+        CHECK(rfmodel_saturating_fundamental(20., 20., 23., input, .01, &output) == RFMODEL_OK);
+        CHECK(output.real == 0. &&
+              fabs(output.imag * output.imag / .19922937036162172 - 1.) < 1e-12);
+    }
+    {
         const rfmodel_spectrum_bin input = {10, {.1, 0.}};
         const double coefficients[] = {0., 0., 1.};
         rfmodel_spectrum_bin output[2] = {{123, {456., 0.}}, {789, {0., 0.}}};

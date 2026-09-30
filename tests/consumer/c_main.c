@@ -9,6 +9,14 @@ int main(int argc, char **argv) {
     size_t offset;
     int status;
     {
+        const rfmodel_complex input = {0., .1};
+        rfmodel_complex output;
+        if (rfmodel_saturating_fundamental(20., 20., 23., input, .01, &output) != RFMODEL_OK ||
+            fabs(output.imag * output.imag / .19922937036162172 - 1.) > 1e-12) {
+            return 17;
+        }
+    }
+    {
         const rfmodel_spectrum_bin input = {10, {.001, 0.}};
         rfmodel_spectrum_bin output[4];
         size_t written;

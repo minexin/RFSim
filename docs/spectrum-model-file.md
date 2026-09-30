@@ -1,5 +1,8 @@
 # 匹配单向频谱链路 JSON v1
 
+新增 `saturating_fundamental` 单音级，支持独立 OP1dB/OPSAT，参数、示例与
+SystemVue 诊断范围见 [饱和基波模型](saturating-fundamental.md)。
+
 `rfmodel.spectrum-chain` 保存公共频率网格、输入功率波及按顺序执行的器件。
 它与线性网络文件分开，避免把含频率转换的处理误当作单频 S 参数网络。
 所有器件传输均调用 C++ 核心；Python 只做解析、校验和顺序编排。

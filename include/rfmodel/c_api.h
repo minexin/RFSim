@@ -50,6 +50,17 @@ RFMODEL_API int rfmodel_p1db_driven_fundamental(double power_gain_db,
                                                 double total_incident_power_w,
                                                 rfmodel_complex *output);
 
+/* Cubic below P1dB, incremental tanh above, phase-preserving fundamental only.
+ * OPSAT must exceed OP1dB. Total finite power includes |incident|^2.
+ * No harmonic generation, AM/PM or nonlinear feedback solution.
+ * output must be non-NULL and remains unchanged on failure. */
+RFMODEL_API int rfmodel_saturating_fundamental(double power_gain_db,
+                                               double output_p1db_dbm,
+                                               double output_saturation_dbm,
+                                               rfmodel_complex incident,
+                                               double total_incident_power_w,
+                                               rfmodel_complex *output);
+
 /* Snapshot a legacy .sNp file at a UTF-8 path. out_of_band: 0 reject, 1 clamp.
  * A failed open sets *out to NULL. close(NULL) is valid.
  * info reports embedded noise presence; s does not implicitly evaluate noise.

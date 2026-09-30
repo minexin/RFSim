@@ -1,5 +1,9 @@
 # SystemVue 饱和区诊断与未成立的候选模型
 
+后续进展：本文“整体 tanh”假设继续作为未吻合记录保留。新推导的增量 tanh
+基波模型在新增交叉验证点上吻合，已接入 C++/C/Python/JSON，见
+[饱和基波模型](saturating-fundamental.md)。厂商警告和诊断证据边界仍保留。
+
 2026-09-30，固定 sample 参数组：增益 20 dB、OP1dB=20 dBm、OPSAT=23 dBm、
 OIP2=40 dBm、OIP3=30 dBm、RISO=100 dB、端口 50 ohm、频率 1 GHz。
 新增输入 +3、+6、+10 dBm 的独立 RFAMP 采集，逐项验证 16 个参数、拓扑、

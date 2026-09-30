@@ -39,15 +39,20 @@ def _linear_stage(library, spacing, amplitudes, *, reference_ohms, network, base
     return output
 
 
-def _p1db_stage(library, spacing, amplitudes, *, reference_ohms, power_gain_db, output_p1db_dbm):
+def _p1db_stage(library, spacing, amplitudes, *, reference_ohms, power_gain_db, output_p1db_dbm,
+                output_saturation_dbm=None):
     """One RF fundamental only; never apply a single-tone model independently to multiple tones."""
     tones = [(index, value) for index, value in amplitudes.items() if value != 0]
     if len(tones) > 1 or (tones and tones[0][0] == 0):
-        raise ValueError("p1db_fundamental requires at most one nonzero RF tone and no DC")
+        raise ValueError("Fundamental compression requires at most one nonzero RF tone and no DC")
     # Even empty input must validate the native model's parameter domain.
     index, amplitude = tones[0] if tones else (0, 0j)
-    output = library.p1db_fundamental(amplitude, power_gain_db=power_gain_db,
-                                    output_p1db_dbm=output_p1db_dbm)
+    if output_saturation_dbm is None:
+        output = library.p1db_fundamental(amplitude, power_gain_db=power_gain_db,
+                                         output_p1db_dbm=output_p1db_dbm)
+    else:
+        output = library.saturating_fundamental(amplitude, power_gain_db=power_gain_db,
+            output_p1db_dbm=output_p1db_dbm, output_saturation_dbm=output_saturation_dbm)
     return {index: output} if output != 0 else {}
 
 
@@ -100,6 +105,11 @@ def analyze_spectrum(library, document, *, base_directory=None):
         elif kind == "p1db_fundamental":
             _object(stage, ("id", "type", "power_gain_db", "output_p1db_dbm"))
             parameters = {key: _number(stage[key]) for key in ("power_gain_db", "output_p1db_dbm")}
+            operation = partial(_p1db_stage, library)
+        elif kind == "saturating_fundamental":
+            keys = ("power_gain_db", "output_p1db_dbm", "output_saturation_dbm")
+            _object(stage, ("id", "type", *keys))
+            parameters = {key: _number(stage[key]) for key in keys}
             operation = partial(_p1db_stage, library)
         elif kind == "ideal_mixer":
             _object(stage, ("id", "type", "lo_bin"), ("conversion_gain_db", "lo_phase_radians"))

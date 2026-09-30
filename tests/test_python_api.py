@@ -267,6 +267,36 @@ class PythonApiTests(unittest.TestCase):
         document["input"] = []
         self.assertEqual(analyze_spectrum(self.library, document)["stages"][0]["spectrum"], [])
 
+    def test_saturating_fundamental_phase_drive_and_json(self):
+        arguments = dict(power_gain_db=20., output_p1db_dbm=20., output_saturation_dbm=23.)
+        output = self.library.saturating_fundamental(.1j, **arguments)
+        self.assertEqual(output.real, 0.)
+        self.assertAlmostEqual(abs(output)**2 / .19922937036162172, 1., places=12)
+        partial = self.library.saturating_fundamental(.05j, total_incident_power_w=.01, **arguments)
+        self.assertAlmostEqual(partial / output, .5)
+        self.assertEqual(self.library.saturating_fundamental(0, **arguments), 0)
+        low = self.library.p1db_fundamental(.001j, power_gain_db=20., output_p1db_dbm=20.)
+        self.assertEqual(self.library.saturating_fundamental(.001j, **arguments), low)
+        document = load(Path(__file__).resolve().parents[1] / "examples/single-tone-saturation.json")
+        result = analyze_spectrum(self.library, document)["stages"][0]["spectrum"]
+        self.assertEqual(len(result), 1)
+        self.assertAlmostEqual(complex(*result[0]["amplitude"]), output)
+        for invalid in (20., 19., float("nan")):
+            with self.assertRaises(RFModelError):
+                self.library.saturating_fundamental(.1, **dict(arguments, output_saturation_dbm=invalid))
+        with self.assertRaises(RFModelError):
+            self.library.saturating_fundamental(.1, total_incident_power_w=.001, **arguments)
+        for inputs in ([{"bin": 0, "amplitude": .1}],
+                       [{"bin": 1, "amplitude": .1}, {"bin": 2, "amplitude": .1}]):
+            changed = copy.deepcopy(document)
+            changed["input"] = inputs
+            with self.assertRaises(ValueError):
+                analyze_spectrum(self.library, changed)
+        document["input"] = []
+        document["stages"][0]["output_saturation_dbm"] = 19
+        with self.assertRaises(RFModelError):
+            analyze_spectrum(self.library, document)
+
     def test_json_p1db_rejects_multitone_dc_and_overdrive(self):
         original = load(Path(__file__).resolve().parents[1] / "examples/single-tone-compression.json")
         for inputs in ([{"bin": 1, "amplitude": .001}, {"bin": 2, "amplitude": .001}],

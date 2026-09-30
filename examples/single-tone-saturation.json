@@ -1,0 +1,10 @@
+{
+  "format": "rfmodel.spectrum-chain",
+  "version": 1,
+  "spacing_hz": 1000000,
+  "input": [{"bin": 1000, "amplitude": [0, 0.1]}],
+  "stages": [
+    {"id": "amp", "type": "saturating_fundamental", "power_gain_db": 20,
+     "output_p1db_dbm": 20, "output_saturation_dbm": 23}
+  ]
+}

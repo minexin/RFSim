@@ -1,0 +1,712 @@
+{
+  "scope": "Native cubic / incremental-tanh fundamental diagnostics",
+  "eligible_for_compatibility": false,
+  "relative_tolerance": 1e-07,
+  "limitation": "Warning-bearing measurements cannot establish strict RFAMP compatibility; harmonics are not modeled",
+  "coefficients_fitted_to_capture": false,
+  "reports": [
+    {
+      "source_power_dbm": -30,
+      "output_saturation_dbm": 23,
+      "raw_capture_sha256": "c6abee4e71c5e9be80869a09d181f1fec3c512d2b71027230602d0a1c4419f73",
+      "run_started_utc": "2026-09-30T01:45:20.8258567Z",
+      "run_returned_utc": "2026-09-30T01:45:21.0775639Z",
+      "parameters": [
+        {
+          "parameter": "RFAmp/G",
+          "value": 100,
+          "data_entry": "20"
+        },
+        {
+          "parameter": "RFAmp/NF",
+          "value": 1.9952623149688795,
+          "data_entry": "3"
+        },
+        {
+          "parameter": "RFAmp/RISO",
+          "value": 10000000000,
+          "data_entry": "100"
+        },
+        {
+          "parameter": "RFAmp/ZIN",
+          "value": 50,
+          "data_entry": "50"
+        },
+        {
+          "parameter": "RFAmp/ZOUT",
+          "value": 50,
+          "data_entry": "50"
+        },
+        {
+          "parameter": "RFAmp/OIP2",
+          "value": 10,
+          "data_entry": "40"
+        },
+        {
+          "parameter": "RFAmp/OIP3",
+          "value": 1,
+          "data_entry": "30"
+        },
+        {
+          "parameter": "RFAmp/OP1dB",
+          "value": 0.1,
+          "data_entry": "20"
+        },
+        {
+          "parameter": "RFAmp/OPSAT",
+          "value": 0.1995262314968879,
+          "data_entry": "23"
+        },
+        {
+          "parameter": "Source/R",
+          "value": 50,
+          "data_entry": "50"
+        },
+        {
+          "parameter": "Out/ZO",
+          "value": 50,
+          "data_entry": "50"
+        },
+        {
+          "parameter": "Source/Freq",
+          "value": 1000000000,
+          "data_entry": "1000"
+        },
+        {
+          "parameter": "Source/Enable",
+          "value": [
+            1
+          ],
+          "data_entry": null
+        },
+        {
+          "parameter": "Source/SrcType",
+          "value": [
+            0
+          ],
+          "data_entry": null
+        },
+        {
+          "parameter": "Source/EnablePN",
+          "value": [
+            0
+          ],
+          "data_entry": null
+        },
+        {
+          "parameter": "Source/Pwr",
+          "value": 1e-06,
+          "data_entry": "-30"
+        }
+      ],
+      "manager_messages": "",
+      "rfmodel_output_w": 9.998272425612475e-05,
+      "systemvue_output_w": 9.998272125707482e-05,
+      "signed_relative_error": 2.9995682160333104e-08,
+      "within_diagnostic_tolerance": true
+    },
+    {
+      "source_power_dbm": 0.9,
+      "output_saturation_dbm": 23,
+      "raw_capture_sha256": "74c8c3436850e3dac7cb02081994d3574877d6d5e8241e3f5178a3235fe264ad",
+      "run_started_utc": "2026-09-29T12:54:47.2266330Z",
+      "run_returned_utc": "2026-09-29T12:54:47.4625255Z",
+      "parameters": [
+        {
+          "parameter": "RFAmp/G",
+          "value": 100,
+          "data_entry": "20"
+        },
+        {
+          "parameter": "RFAmp/NF",
+          "value": 1.9952623149688795,
+          "data_entry": "3"
+        },
+        {
+          "parameter": "RFAmp/RISO",
+          "value": 10000000000,
+          "data_entry": "100"
+        },
+        {
+          "parameter": "RFAmp/ZIN",
+          "value": 50,
+          "data_entry": "50"
+        },
+        {
+          "parameter": "RFAmp/ZOUT",
+          "value": 50,
+          "data_entry": "50"
+        },
+        {
+          "parameter": "RFAmp/OIP2",
+          "value": 10,
+          "data_entry": "40"
+        },
+        {
+          "parameter": "RFAmp/OIP3",
+          "value": 1,
+          "data_entry": "30"
+        },
+        {
+          "parameter": "RFAmp/OP1dB",
+          "value": 0.1,
+          "data_entry": "20"
+        },
+        {
+          "parameter": "RFAmp/OPSAT",
+          "value": 0.1995262314968879,
+          "data_entry": "23"
+        },
+        {
+          "parameter": "Source/R",
+          "value": 50,
+          "data_entry": "50"
+        },
+        {
+          "parameter": "Out/ZO",
+          "value": 50,
+          "data_entry": "50"
+        },
+        {
+          "parameter": "Source/Freq",
+          "value": 1000000000,
+          "data_entry": "1000"
+        },
+        {
+          "parameter": "Source/Enable",
+          "value": [
+            1
+          ],
+          "data_entry": null
+        },
+        {
+          "parameter": "Source/SrcType",
+          "value": [
+            0
+          ],
+          "data_entry": null
+        },
+        {
+          "parameter": "Source/EnablePN",
+          "value": [
+            0
+          ],
+          "data_entry": null
+        },
+        {
+          "parameter": "Source/Pwr",
+          "value": 0.0012302687708123817,
+          "data_entry": "0.9"
+        }
+      ],
+      "manager_messages": "",
+      "rfmodel_output_w": 0.098267327168749,
+      "systemvue_output_w": 0.09826732480499789,
+      "signed_relative_error": 2.405429389007452e-08,
+      "within_diagnostic_tolerance": true
+    },
+    {
+      "source_power_dbm": 3,
+      "output_saturation_dbm": 23,
+      "raw_capture_sha256": "3b2092b45e480ff4206f0990f7ce2449f4eef065af0ce16dfdc249b85314d000",
+      "run_started_utc": "2026-09-30T03:03:00.0032052Z",
+      "run_returned_utc": "2026-09-30T03:03:00.2469082Z",
+      "parameters": [
+        {
+          "parameter": "RFAmp/G",
+          "value": 100,
+          "data_entry": "20"
+        },
+        {
+          "parameter": "RFAmp/NF",
+          "value": 1.9952623149688795,
+          "data_entry": "3"
+        },
+        {
+          "parameter": "RFAmp/RISO",
+          "value": 10000000000,
+          "data_entry": "100"
+        },
+        {
+          "parameter": "RFAmp/ZIN",
+          "value": 50,
+          "data_entry": "50"
+        },
+        {
+          "parameter": "RFAmp/ZOUT",
+          "value": 50,
+          "data_entry": "50"
+        },
+        {
+          "parameter": "RFAmp/OIP2",
+          "value": 10,
+          "data_entry": "40"
+        },
+        {
+          "parameter": "RFAmp/OIP3",
+          "value": 1,
+          "data_entry": "30"
+        },
+        {
+          "parameter": "RFAmp/OP1dB",
+          "value": 0.1,
+          "data_entry": "20"
+        },
+        {
+          "parameter": "RFAmp/OPSAT",
+          "value": 0.1995262314968879,
+          "data_entry": "23"
+        },
+        {
+          "parameter": "Source/R",
+          "value": 50,
+          "data_entry": "50"
+        },
+        {
+          "parameter": "Out/ZO",
+          "value": 50,
+          "data_entry": "50"
+        },
+        {
+          "parameter": "Source/Freq",
+          "value": 1000000000,
+          "data_entry": "1000"
+        },
+        {
+          "parameter": "Source/Enable",
+          "value": [
+            1
+          ],
+          "data_entry": null
+        },
+        {
+          "parameter": "Source/SrcType",
+          "value": [
+            0
+          ],
+          "data_entry": null
+        },
+        {
+          "parameter": "Source/EnablePN",
+          "value": [
+            0
+          ],
+          "data_entry": null
+        },
+        {
+          "parameter": "Source/Pwr",
+          "value": 0.0019952623149688794,
+          "data_entry": "3"
+        }
+      ],
+      "manager_messages": " (WARNING) Part 'RFAmp' has been driven past the input 1 dB compression point of 1 dBm. The total input power is 3.00 dBm. Current element gain compression is 1.55 dB. Spectrum and measurements have less accuracy.\n",
+      "rfmodel_output_w": 0.1397742959777572,
+      "systemvue_output_w": 0.13977429301508024,
+      "signed_relative_error": 2.1196150612468045e-08,
+      "within_diagnostic_tolerance": true
+    },
+    {
+      "source_power_dbm": 6,
+      "output_saturation_dbm": 23,
+      "raw_capture_sha256": "e1e2e1b1e58a3eb68cacf105ce145fe9069135f136e943e4edfe0174aa4d16c1",
+      "run_started_utc": "2026-09-30T03:04:04.9656451Z",
+      "run_returned_utc": "2026-09-30T03:04:05.1866403Z",
+      "parameters": [
+        {
+          "parameter": "RFAmp/G",
+          "value": 100,
+          "data_entry": "20"
+        },
+        {
+          "parameter": "RFAmp/NF",
+          "value": 1.9952623149688795,
+          "data_entry": "3"
+        },
+        {
+          "parameter": "RFAmp/RISO",
+          "value": 10000000000,
+          "data_entry": "100"
+        },
+        {
+          "parameter": "RFAmp/ZIN",
+          "value": 50,
+          "data_entry": "50"
+        },
+        {
+          "parameter": "RFAmp/ZOUT",
+          "value": 50,
+          "data_entry": "50"
+        },
+        {
+          "parameter": "RFAmp/OIP2",
+          "value": 10,
+          "data_entry": "40"
+        },
+        {
+          "parameter": "RFAmp/OIP3",
+          "value": 1,
+          "data_entry": "30"
+        },
+        {
+          "parameter": "RFAmp/OP1dB",
+          "value": 0.1,
+          "data_entry": "20"
+        },
+        {
+          "parameter": "RFAmp/OPSAT",
+          "value": 0.1995262314968879,
+          "data_entry": "23"
+        },
+        {
+          "parameter": "Source/R",
+          "value": 50,
+          "data_entry": "50"
+        },
+        {
+          "parameter": "Out/ZO",
+          "value": 50,
+          "data_entry": "50"
+        },
+        {
+          "parameter": "Source/Freq",
+          "value": 1000000000,
+          "data_entry": "1000"
+        },
+        {
+          "parameter": "Source/Enable",
+          "value": [
+            1
+          ],
+          "data_entry": null
+        },
+        {
+          "parameter": "Source/SrcType",
+          "value": [
+            0
+          ],
+          "data_entry": null
+        },
+        {
+          "parameter": "Source/EnablePN",
+          "value": [
+            0
+          ],
+          "data_entry": null
+        },
+        {
+          "parameter": "Source/Pwr",
+          "value": 0.0039810717055349725,
+          "data_entry": "6"
+        }
+      ],
+      "manager_messages": " (WARNING) Part 'RFAmp' has been driven past the input saturation point of 3 dBm. The total input power is 6.00 dBm. Current element gain compression is 3.28 dB. Spectrum and measurements have less accuracy.\n",
+      "rfmodel_output_w": 0.18701148519068198,
+      "systemvue_output_w": 0.18701148330743375,
+      "signed_relative_error": 1.007022776278177e-08,
+      "within_diagnostic_tolerance": true
+    },
+    {
+      "source_power_dbm": 10,
+      "output_saturation_dbm": 23,
+      "raw_capture_sha256": "a936d3d7328b779c4cce03685f1de14997306a9d2358fe2f55771e8d5e2014e6",
+      "run_started_utc": "2026-09-30T03:04:37.1335234Z",
+      "run_returned_utc": "2026-09-30T03:04:37.3607993Z",
+      "parameters": [
+        {
+          "parameter": "RFAmp/G",
+          "value": 100,
+          "data_entry": "20"
+        },
+        {
+          "parameter": "RFAmp/NF",
+          "value": 1.9952623149688795,
+          "data_entry": "3"
+        },
+        {
+          "parameter": "RFAmp/RISO",
+          "value": 10000000000,
+          "data_entry": "100"
+        },
+        {
+          "parameter": "RFAmp/ZIN",
+          "value": 50,
+          "data_entry": "50"
+        },
+        {
+          "parameter": "RFAmp/ZOUT",
+          "value": 50,
+          "data_entry": "50"
+        },
+        {
+          "parameter": "RFAmp/OIP2",
+          "value": 10,
+          "data_entry": "40"
+        },
+        {
+          "parameter": "RFAmp/OIP3",
+          "value": 1,
+          "data_entry": "30"
+        },
+        {
+          "parameter": "RFAmp/OP1dB",
+          "value": 0.1,
+          "data_entry": "20"
+        },
+        {
+          "parameter": "RFAmp/OPSAT",
+          "value": 0.1995262314968879,
+          "data_entry": "23"
+        },
+        {
+          "parameter": "Source/R",
+          "value": 50,
+          "data_entry": "50"
+        },
+        {
+          "parameter": "Out/ZO",
+          "value": 50,
+          "data_entry": "50"
+        },
+        {
+          "parameter": "Source/Freq",
+          "value": 1000000000,
+          "data_entry": "1000"
+        },
+        {
+          "parameter": "Source/Enable",
+          "value": [
+            1
+          ],
+          "data_entry": null
+        },
+        {
+          "parameter": "Source/SrcType",
+          "value": [
+            0
+          ],
+          "data_entry": null
+        },
+        {
+          "parameter": "Source/EnablePN",
+          "value": [
+            0
+          ],
+          "data_entry": null
+        },
+        {
+          "parameter": "Source/Pwr",
+          "value": 0.01,
+          "data_entry": "10"
+        }
+      ],
+      "manager_messages": " (WARNING) Part 'RFAmp' has been driven past the input saturation point of 3 dBm. The total input power is 10.00 dBm. Current element gain compression is 7.01 dB. Spectrum and measurements have less accuracy.\n",
+      "rfmodel_output_w": 0.19922937036162172,
+      "systemvue_output_w": 0.1992293693273625,
+      "signed_relative_error": 5.191298946272127e-09,
+      "within_diagnostic_tolerance": true
+    },
+    {
+      "source_power_dbm": 2,
+      "output_saturation_dbm": 23,
+      "raw_capture_sha256": "584e449b4f53d2e4d9d877733bdfa2f22c0dcf348f0413915650ae26409b0cef",
+      "run_started_utc": "2026-09-30T03:16:07.7490404Z",
+      "run_returned_utc": "2026-09-30T03:16:08.0693912Z",
+      "parameters": [
+        {
+          "parameter": "RFAmp/G",
+          "value": 100,
+          "data_entry": "20"
+        },
+        {
+          "parameter": "RFAmp/NF",
+          "value": 1.9952623149688795,
+          "data_entry": "3"
+        },
+        {
+          "parameter": "RFAmp/RISO",
+          "value": 10000000000,
+          "data_entry": "100"
+        },
+        {
+          "parameter": "RFAmp/ZIN",
+          "value": 50,
+          "data_entry": "50"
+        },
+        {
+          "parameter": "RFAmp/ZOUT",
+          "value": 50,
+          "data_entry": "50"
+        },
+        {
+          "parameter": "RFAmp/OIP2",
+          "value": 10,
+          "data_entry": "40"
+        },
+        {
+          "parameter": "RFAmp/OIP3",
+          "value": 1,
+          "data_entry": "30"
+        },
+        {
+          "parameter": "RFAmp/OP1dB",
+          "value": 0.1,
+          "data_entry": "20"
+        },
+        {
+          "parameter": "RFAmp/OPSAT",
+          "value": 0.1995262314968879,
+          "data_entry": "23"
+        },
+        {
+          "parameter": "Source/R",
+          "value": 50,
+          "data_entry": "50"
+        },
+        {
+          "parameter": "Out/ZO",
+          "value": 50,
+          "data_entry": "50"
+        },
+        {
+          "parameter": "Source/Freq",
+          "value": 1000000000,
+          "data_entry": "1000"
+        },
+        {
+          "parameter": "Source/Enable",
+          "value": [
+            1
+          ],
+          "data_entry": null
+        },
+        {
+          "parameter": "Source/SrcType",
+          "value": [
+            0
+          ],
+          "data_entry": null
+        },
+        {
+          "parameter": "Source/EnablePN",
+          "value": [
+            0
+          ],
+          "data_entry": null
+        },
+        {
+          "parameter": "Source/Pwr",
+          "value": 0.0015848931924611136,
+          "data_entry": "2"
+        }
+      ],
+      "manager_messages": " (WARNING) Part 'RFAmp' has been driven past the input 1 dB compression point of 1 dBm. The total input power is 2.00 dBm. Current element gain compression is 1.25 dB. Spectrum and measurements have less accuracy.\n",
+      "rfmodel_output_w": 0.1189701487537945,
+      "systemvue_output_w": 0.11897014595793862,
+      "signed_relative_error": 2.3500482893012986e-08,
+      "within_diagnostic_tolerance": true
+    },
+    {
+      "source_power_dbm": 8,
+      "output_saturation_dbm": 26,
+      "raw_capture_sha256": "ed88ced9da55beba696beb7bfcecf7e1d55aeafd536932e66dc6cd423f9484f6",
+      "run_started_utc": "2026-09-30T03:16:39.0176910Z",
+      "run_returned_utc": "2026-09-30T03:16:39.2643568Z",
+      "parameters": [
+        {
+          "parameter": "RFAmp/G",
+          "value": 100,
+          "data_entry": "20"
+        },
+        {
+          "parameter": "RFAmp/NF",
+          "value": 1.9952623149688795,
+          "data_entry": "3"
+        },
+        {
+          "parameter": "RFAmp/RISO",
+          "value": 10000000000,
+          "data_entry": "100"
+        },
+        {
+          "parameter": "RFAmp/ZIN",
+          "value": 50,
+          "data_entry": "50"
+        },
+        {
+          "parameter": "RFAmp/ZOUT",
+          "value": 50,
+          "data_entry": "50"
+        },
+        {
+          "parameter": "RFAmp/OIP2",
+          "value": 10,
+          "data_entry": "40"
+        },
+        {
+          "parameter": "RFAmp/OIP3",
+          "value": 1,
+          "data_entry": "30"
+        },
+        {
+          "parameter": "RFAmp/OP1dB",
+          "value": 0.1,
+          "data_entry": "20"
+        },
+        {
+          "parameter": "RFAmp/OPSAT",
+          "value": 0.3981071705534973,
+          "data_entry": "26"
+        },
+        {
+          "parameter": "Source/R",
+          "value": 50,
+          "data_entry": "50"
+        },
+        {
+          "parameter": "Out/ZO",
+          "value": 50,
+          "data_entry": "50"
+        },
+        {
+          "parameter": "Source/Freq",
+          "value": 1000000000,
+          "data_entry": "1000"
+        },
+        {
+          "parameter": "Source/Enable",
+          "value": [
+            1
+          ],
+          "data_entry": null
+        },
+        {
+          "parameter": "Source/SrcType",
+          "value": [
+            0
+          ],
+          "data_entry": null
+        },
+        {
+          "parameter": "Source/EnablePN",
+          "value": [
+            0
+          ],
+          "data_entry": null
+        },
+        {
+          "parameter": "Source/Pwr",
+          "value": 0.006309573444801934,
+          "data_entry": "8"
+        }
+      ],
+      "manager_messages": " (WARNING) Part 'RFAmp' has been driven past the input saturation point of 6 dBm. The total input power is 8.00 dBm. Current element gain compression is 3.23 dB. Spectrum and measurements have less accuracy.\n",
+      "rfmodel_output_w": 0.30003209636579486,
+      "systemvue_output_w": 0.300032091503005,
+      "signed_relative_error": 1.620756573394999e-08,
+      "within_diagnostic_tolerance": true
+    }
+  ],
+  "all_within_diagnostic_tolerance": true,
+  "captures_sha256": "5e1d0791bf4ab1d2a7e5343d55375080e81edd3d3812771631c4654fb7c92e80",
+  "library_sha256": "94dc760702dbcb90a99cacc30276eb0236fa8bcca28fd749129eaaaae362d21f"
+}

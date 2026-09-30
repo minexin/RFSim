@@ -1,5 +1,6 @@
 #include "rfmodel/c_api.h"
 #include "rfmodel/fundamental_compression.hpp"
+#include "rfmodel/saturating_fundamental.hpp"
 #include "rfmodel/network.hpp"
 #include "rfmodel/loaded_noise.hpp"
 #include "rfmodel/amplifier_model.hpp"
@@ -106,6 +107,22 @@ const char *rfmodel_last_error(void) {
 
 unsigned int rfmodel_abi_version(void) {
     return 1;
+}
+
+int rfmodel_saturating_fundamental(double power_gain_db,
+                                   double output_p1db_dbm,
+                                   double output_saturation_dbm,
+                                   rfmodel_complex incident,
+                                   double total_incident_power_w,
+                                   rfmodel_complex *output) {
+    return guarded([&] {
+        require(output != nullptr);
+        const rfmodel::SaturatingFundamentalCompression model(
+            power_gain_db, output_p1db_dbm, output_saturation_dbm);
+        const auto result =
+            model.transmit_fundamental({incident.real, incident.imag}, total_incident_power_w);
+        *output = {result.real(), result.imag()};
+    });
 }
 
 int rfmodel_p1db_fundamental(double power_gain_db,

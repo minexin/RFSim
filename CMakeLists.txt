@@ -70,6 +70,9 @@ if(RFMODEL_BUILD_C_API)
         add_test(NAME single_harmonic_reference COMMAND ${Python3_EXECUTABLE}
             ${CMAKE_CURRENT_SOURCE_DIR}/scripts/reference/test_compare_single_harmonics.py
             $<TARGET_FILE:rfmodel_c>)
+        add_test(NAME saturation_reference_diagnostic COMMAND ${Python3_EXECUTABLE}
+            ${CMAKE_CURRENT_SOURCE_DIR}/scripts/reference/test_compare_saturating_fundamental.py
+            $<TARGET_FILE:rfmodel_c>)
         add_test(NAME total_drive_diagnostic COMMAND ${Python3_EXECUTABLE}
             ${CMAKE_CURRENT_SOURCE_DIR}/scripts/reference/test_diagnose_total_drive.py
             $<TARGET_FILE:rfmodel_c>)
@@ -180,6 +183,9 @@ add_test(NAME polynomial_amplifier_test COMMAND polynomial_amplifier_test)
 add_executable(fundamental_compression_test tests/fundamental_compression_test.cpp)
 target_link_libraries(fundamental_compression_test PRIVATE rfmodel)
 add_test(NAME fundamental_compression_test COMMAND fundamental_compression_test)
+add_executable(saturating_fundamental_test tests/saturating_fundamental_test.cpp)
+target_link_libraries(saturating_fundamental_test PRIVATE rfmodel)
+add_test(NAME saturating_fundamental_test COMMAND saturating_fundamental_test)
 add_executable(ideal_mixer_test tests/ideal_mixer_test.cpp)
 target_link_libraries(ideal_mixer_test PRIVATE rfmodel)
 add_test(NAME ideal_mixer_test COMMAND ideal_mixer_test)
