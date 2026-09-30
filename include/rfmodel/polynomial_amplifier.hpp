@@ -41,6 +41,29 @@ public:
         return MatchedPolynomialAmplifier(std::move(name), {0., gain, 0., cubic}, reference_ohms);
     }
 
+    // Equal-tone extrapolated IIP2/IIP3. Positive quadratic, negative cubic;
+    // intercept magnitudes alone do not determine these phase/sign choices.
+    static MatchedPolynomialAmplifier from_intercepts(std::string name,
+                                                      double power_gain_db,
+                                                      double input_ip2_dbm,
+                                                      double input_ip3_dbm,
+                                                      double reference_ohms = 50.) {
+        auto model = from_iip3(std::move(name), power_gain_db, input_ip3_dbm, reference_ohms);
+        if (!std::isfinite(input_ip2_dbm)) {
+            throw std::invalid_argument("nonfinite input IP2");
+        }
+        const double ip2 = std::pow(10., (input_ip2_dbm - 30.) / 10.);
+        const double ip3 = std::pow(10., (input_ip3_dbm - 30.) / 10.);
+        const double quadratic =
+            model.linear_gain_ / std::sqrt(2. * reference_ohms) / std::sqrt(ip2);
+        const double cubic = -(2. / 3.) * (model.linear_gain_ / reference_ohms) / ip3;
+        if (!std::isfinite(ip2) || ip2 <= 0 || !std::isfinite(quadratic) || quadratic <= 0) {
+            throw std::overflow_error("quadratic amplifier coefficient range exceeded");
+        }
+        model.polynomial_ = MemorylessPolynomial({0., model.linear_gain_, quadratic, cubic});
+        return model;
+    }
+
     std::string name() const override {
         return name_;
     }

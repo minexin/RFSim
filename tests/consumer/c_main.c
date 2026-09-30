@@ -9,6 +9,17 @@ int main(int argc, char **argv) {
     size_t offset;
     int status;
     {
+        const rfmodel_spectrum_bin input = {10, {.001, 0.}};
+        rfmodel_spectrum_bin output[4];
+        size_t written;
+        if (rfmodel_intercept_amplifier_transmit(
+                1e6, &input, 1, 20., 20., 10., 50., output, 4, &written) != RFMODEL_OK ||
+            written != 4 || output[2].index != 20 ||
+            fabs(output[2].amplitude.real / sqrt(2.5e-10) - 1.) > 1e-12) {
+            return 16;
+        }
+    }
+    {
         const double coefficients[] = {.5};
         rfmodel_spectrum_bin output;
         size_t written;

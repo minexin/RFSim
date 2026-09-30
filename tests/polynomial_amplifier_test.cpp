@@ -29,6 +29,28 @@ int main() {
         near(other.amplitudes.at(entry.first), entry.second);
     }
     const NonlinearTransmissionProvider &provider = amplifier;
+    const auto both = MatchedPolynomialAmplifier::from_intercepts("IP2/IP3", 20., 20., 10.);
+    const auto mixed =
+        both.transmit({1e6, {{10, std::sqrt(tone_power)}, {13, std::sqrt(tone_power)}}});
+    near(std::norm(mixed.amplitudes.at(23)) / (100. * tone_power * tone_power / .1), 1.);
+    near(mixed.amplitudes.at(3), mixed.amplitudes.at(23));
+    near(mixed.amplitudes.at(7), tones.amplitudes.at(7));
+    const auto single = both.transmit({1e6, {{10, std::sqrt(tone_power)}}});
+    near(std::norm(single.amplitudes.at(20)) / (100. * tone_power * tone_power / (.1 * 4.)), 1.);
+    const auto alternate_intercepts =
+        MatchedPolynomialAmplifier::from_intercepts("75", 20., 20., 10., 75.);
+    const auto other_mixed = alternate_intercepts.transmit(
+        {1e6, {{10, std::sqrt(tone_power)}, {13, std::sqrt(tone_power)}}});
+    for (const auto &entry : mixed.amplitudes) {
+        near(entry.second, other_mixed.amplitudes.at(entry.first));
+    }
+    rejects<std::invalid_argument>([] {
+        MatchedPolynomialAmplifier::from_intercepts(
+            "bad", 20., std::numeric_limits<double>::quiet_NaN(), 10.);
+    });
+    rejects<std::overflow_error>([] {
+        MatchedPolynomialAmplifier::from_intercepts("bad", 20., -1e308, 10.);
+    });
     require(!provider.transmit({1e6, {{10, .001}}}).amplitudes.empty(), "nonlinear provider");
     rejects<std::invalid_argument>([] {
         MatchedPolynomialAmplifier::from_iip3("bad", 20., 10., 0.);

@@ -151,6 +151,19 @@ RFMODEL_API int rfmodel_polynomial_amplifier_transmit(double spacing_hz,
                                                       rfmodel_spectrum_bin *output,
                                                       size_t capacity,
                                                       size_t *output_count);
+
+/* Equal-tone extrapolated IIP2/IIP3; positive quadratic and negative cubic.
+ * Generates DC and all products; no independent P1dB/saturation calibration. */
+RFMODEL_API int rfmodel_intercept_amplifier_transmit(double spacing_hz,
+                                                     const rfmodel_spectrum_bin *input,
+                                                     size_t input_count,
+                                                     double power_gain_db,
+                                                     double input_ip2_dbm,
+                                                     double input_ip3_dbm,
+                                                     double reference_ohms,
+                                                     rfmodel_spectrum_bin *output,
+                                                     size_t capacity,
+                                                     size_t *output_count);
 RFMODEL_API int rfmodel_ideal_mixer_transmit(double spacing_hz,
                                              const rfmodel_spectrum_bin *input,
                                              size_t input_count,

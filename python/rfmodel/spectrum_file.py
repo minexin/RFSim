@@ -85,6 +85,11 @@ def analyze_spectrum(library, document, *, base_directory=None):
             _object(stage, ("id", "type", "power_gain_db", "input_ip3_dbm"))
             parameters = {key: _number(stage[key]) for key in ("power_gain_db", "input_ip3_dbm")}
             operation = library.cubic_amplifier
+        elif kind == "intercept_amplifier":
+            _object(stage, ("id", "type", "power_gain_db", "input_ip2_dbm", "input_ip3_dbm"))
+            parameters = {key: _number(stage[key])
+                          for key in ("power_gain_db", "input_ip2_dbm", "input_ip3_dbm")}
+            operation = library.intercept_amplifier
         elif kind == "polynomial_amplifier":
             _object(stage, ("id", "type", "voltage_coefficients"))
             coefficients = stage["voltage_coefficients"]

@@ -169,6 +169,9 @@ class Library:
             "rfmodel_polynomial_amplifier_transmit": (
                 ct.c_int, [ct.c_double, ct.POINTER(_SpectrumBin), size, ct.POINTER(ct.c_double),
                            size, ct.c_double, ct.POINTER(_SpectrumBin), size, ct.POINTER(size)]),
+            "rfmodel_intercept_amplifier_transmit": (
+                ct.c_int, [ct.c_double, ct.POINTER(_SpectrumBin), size] + [ct.c_double] * 4 +
+                [ct.POINTER(_SpectrumBin), size, ct.POINTER(size)]),
             "rfmodel_ideal_mixer_transmit": (
                 ct.c_int, [ct.c_double, ct.POINTER(_SpectrumBin), size, ct.c_int] +
                 [ct.c_double] * 3 + [ct.POINTER(_SpectrumBin), size, ct.POINTER(size)]),
@@ -262,6 +265,18 @@ class Library:
         self._check(self._dll.rfmodel_cubic_amplifier_transmit(
             float(spacing_hz), incident, len(incident), float(power_gain_db),
             float(input_ip3_dbm), float(reference_ohms), output, len(output), ct.byref(count)))
+        return {output[i].index: output[i].amplitude.value() for i in range(count.value)}
+
+    def intercept_amplifier(self, spacing_hz, amplitudes, *, power_gain_db, input_ip2_dbm,
+                            input_ip3_dbm, reference_ohms=50.):
+        """Positive quadratic/negative cubic calibrated from equal-tone input intercepts."""
+        incident = _spectrum(amplitudes)
+        output = (_SpectrumBin * 4096)()
+        count = ct.c_size_t()
+        self._check(self._dll.rfmodel_intercept_amplifier_transmit(
+            float(spacing_hz), incident, len(incident), float(power_gain_db),
+            float(input_ip2_dbm), float(input_ip3_dbm), float(reference_ohms),
+            output, len(output), ct.byref(count)))
         return {output[i].index: output[i].amplitude.value() for i in range(count.value)}
 
     def polynomial_amplifier(self, spacing_hz, amplitudes, *, voltage_coefficients,

@@ -398,6 +398,27 @@ class PythonApiTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             analyze_spectrum(self.library, document)
 
+    def test_intercept_amplifier_analytic_products_and_json(self):
+        power = 1e-5
+        wave = math.sqrt(power)
+        expected_im2 = 100 * power**2 / .1
+        result = self.library.intercept_amplifier(
+            1e6, {10: wave, 13: wave}, power_gain_db=20, input_ip2_dbm=20, input_ip3_dbm=10)
+        self.assertAlmostEqual(abs(result[23])**2 / expected_im2, 1.)
+        self.assertAlmostEqual(abs(result[3])**2 / expected_im2, 1.)
+        self.assertAlmostEqual(abs(result[7])**2 / (100 * power**3 / .01**2), 1.)
+        document = {"format": "rfmodel.spectrum-chain", "version": 1, "spacing_hz": 1e6,
+                    "input": [{"bin": 10, "amplitude": wave}, {"bin": 13, "amplitude": wave}],
+                    "stages": [{"id": "amp", "type": "intercept_amplifier", "power_gain_db": 20,
+                                "input_ip2_dbm": 20, "input_ip3_dbm": 10}]}
+        encoded = analyze_spectrum(self.library, document)["stages"][0]["spectrum"]
+        self.assertEqual({entry["bin"] for entry in encoded}, set(result))
+        for entry in encoded:
+            self.assertAlmostEqual(complex(*entry["amplitude"]), result[entry["bin"]])
+        with self.assertRaises(RFModelError):
+            self.library.intercept_amplifier(1e6, {}, power_gain_db=20,
+                                             input_ip2_dbm=float("nan"), input_ip3_dbm=10)
+
     def test_shape_indices_and_nonfinite(self):
         with self.library.network() as network:
             for matrix in ([], [[0, 1]], [[0], [1]]):

@@ -288,6 +288,29 @@ int rfmodel_polynomial_amplifier_transmit(double spacing_hz,
     });
 }
 
+int rfmodel_intercept_amplifier_transmit(double spacing_hz,
+                                         const rfmodel_spectrum_bin *input,
+                                         size_t input_count,
+                                         double power_gain_db,
+                                         double input_ip2_dbm,
+                                         double input_ip3_dbm,
+                                         double reference_ohms,
+                                         rfmodel_spectrum_bin *output,
+                                         size_t capacity,
+                                         size_t *output_count) {
+    return guarded([&] {
+        require(output_count != nullptr);
+        const auto incident = read_spectrum(spacing_hz, input, input_count);
+        const auto model =
+            rfmodel::MatchedPolynomialAmplifier::from_intercepts("C API intercept amplifier",
+                                                                 power_gain_db,
+                                                                 input_ip2_dbm,
+                                                                 input_ip3_dbm,
+                                                                 reference_ohms);
+        write_spectrum(model.transmit(incident), output, capacity, output_count);
+    });
+}
+
 int rfmodel_ideal_mixer_transmit(double spacing_hz,
                                  const rfmodel_spectrum_bin *input,
                                  size_t input_count,

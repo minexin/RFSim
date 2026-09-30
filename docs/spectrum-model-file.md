@@ -105,6 +105,11 @@ CLI 在多音或越界失败时保留已有结果文件；不会写入部分计�
 2026-09-29：Debug/Release 动态库上的 Python 42 项测试均通过，安装后的 Release
 动态库复测也通过，包含 CLI 成功及失败保护。本轮没有修改 C++ 核心或新增 SystemVue 实测。
 
+双音输入截点也可通过 `intercept_amplifier` 级直接指定，必需字段为
+`power_gain_db`、`input_ip2_dbm`、`input_ip3_dbm`；详见
+[IIP2/IIP3 标定模型](intercept-amplifier.md)。该级保留 DC 与全部低阶产物，
+不另外接受 P1dB 或饱和参数。
+
 ## 通用电压多项式
 
 `polynomial_amplifier` 级使用 `voltage_coefficients` 数组，长度 1..10，依次为
