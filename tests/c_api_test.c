@@ -22,6 +22,24 @@ int main(int argc, char **argv) {
     double residual = -1;
     CHECK(rfmodel_abi_version() == 1);
     {
+        const rfmodel_spectrum_bin input[] = {{10, {.001, 0.}}, {11, {.001, 0.}}};
+        rfmodel_spectrum_bin output[3] = {{99, {123., 0.}}};
+        size_t written = 777;
+        CHECK(rfmodel_single_tone_amplifier_transmit(
+                  1e6, input, 1, 20., 20., 23., 20., 10., 50., output, 2, &written) ==
+              RFMODEL_INVALID_ARGUMENT);
+        CHECK(written == 777 && output[0].index == 99 && output[0].amplitude.real == 123.);
+        CHECK(rfmodel_single_tone_amplifier_transmit(
+                  1e6, input, 2, 20., 20., 23., 20., 10., 50., output, 3, &written) ==
+              RFMODEL_INVALID_ARGUMENT);
+        CHECK(output[0].index == 99);
+        CHECK(rfmodel_single_tone_amplifier_transmit(
+                  1e6, input, 1, 20., 20., 23., 20., 10., 50., output, 3, &written) == RFMODEL_OK);
+        CHECK(written == 3 && output[0].index == 10 && output[1].index == 20 &&
+              output[2].index == 30);
+        CHECK(fabs(output[1].amplitude.real * output[1].amplitude.real / 2.5e-10 - 1.) < 1e-12);
+    }
+    {
         rfmodel_complex output = {123., 456.};
         const rfmodel_complex input = {0., .1};
         CHECK(rfmodel_saturating_fundamental(20., 20., 20., input, .01, &output) ==

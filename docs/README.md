@@ -8,6 +8,7 @@
 - [Python 线性网络接口](python-api.md)
 - [C/Python 非线性与混频频谱接口](spectrum-api.md)
 - [基波压缩与饱和模型](saturating-fundamental.md)
+- [单音基波与限幅谐波模型](single-tone-amplifier.md)
 - [匹配单向频谱链路文件](spectrum-model-file.md)
 - [线性网络 JSON 文件与批处理](linear-model-file.md)
 - [能力边界与验收矩阵](acceptance-matrix.md)

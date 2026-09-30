@@ -23,16 +23,17 @@ PARAMETERS = {
     "Source/R": 50., "Out/ZO": 50., "Source/Freq": 1e9,
     "Source/Enable": [1], "Source/SrcType": [0], "Source/EnablePN": [0],
 }
+PROFILES = {"sample": (20, 20, 1e9), "antenna": (30, 60, 5e9), "limiter": (10, 15, 1e9)}
 
 
 def inspect_capture(capture, source_power_dbm, *, reverse_isolation_db=100, profile="sample",
                     output_saturation_dbm=None, compression_diagnostic=False):
-    if profile not in ("sample", "antenna"):
+    if profile not in PROFILES:
         raise ValueError("Unknown compression profile")
     if output_saturation_dbm is not None and (
             profile != "sample" or output_saturation_dbm not in (22, 23, 26)):
         raise ValueError("Expected controlled sample-profile saturation of 22, 23 or 26 dBm")
-    gain_db, output_p1db_dbm, frequency = (30, 60, 5e9) if profile == "antenna" else (20, 20, 1e9)
+    gain_db, output_p1db_dbm, frequency = PROFILES[profile]
     if reverse_isolation_db not in (50, 100):
         raise ValueError("Expected controlled reverse isolation of 50 or 100 dB")
     if compression_diagnostic and profile != "sample":
@@ -65,6 +66,9 @@ def inspect_capture(capture, source_power_dbm, *, reverse_isolation_db=100, prof
                                     "Source/Freq": frequency})
     if output_saturation_dbm is not None:
         expected_parameters["RFAmp/OPSAT"] = 10 ** ((output_saturation_dbm - 30) / 10)
+    if profile == "limiter":
+        expected_parameters.update({"RFAmp/G": 10., "RFAmp/OP1dB": 10 ** (-1.5),
+                                    "RFAmp/OPSAT": 10 ** (-1.2)})
     for key, expected in expected_parameters.items():
         device, parameter = key.split("/")
         entry = node(f"Sch1/PartList/{device}/ParamSet/{parameter}")
@@ -102,7 +106,7 @@ def compare(library, capture, source_power_dbm, *, reverse_isolation_db=100, pro
             output_saturation_dbm=None):
     verified = inspect_capture(capture, source_power_dbm, reverse_isolation_db=reverse_isolation_db,
                                profile=profile, output_saturation_dbm=output_saturation_dbm)
-    gain_db, output_p1db_dbm = (30, 60) if profile == "antenna" else (20, 20)
+    gain_db, output_p1db_dbm, _ = PROFILES[profile]
     power = 10 ** ((source_power_dbm - 30) / 10)
     measurements = verified["measurements"]
     output = abs(library.p1db_fundamental(math.sqrt(power), power_gain_db=gain_db,
@@ -126,7 +130,7 @@ def main():
     parser.add_argument("output", type=Path)
     parser.add_argument("--source-power-dbm", type=float, required=True)
     parser.add_argument("--reverse-isolation-db", type=int, choices=(50, 100), default=100)
-    parser.add_argument("--profile", choices=("sample", "antenna"), default="sample")
+    parser.add_argument("--profile", choices=PROFILES, default="sample")
     parser.add_argument("--output-saturation-dbm", type=int, choices=(22, 23, 26))
     args = parser.parse_args()
     if args.output.resolve() in (args.library.resolve(), args.capture.resolve()):

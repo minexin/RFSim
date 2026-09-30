@@ -8,7 +8,7 @@ param(
     [Nullable[double]]$TemperatureK,
     [Nullable[double]]$SourcePowerDbm,
     [ValidateSet(50, 100)][int]$CompressionRisoDb = 100,
-    [ValidateSet('sample', 'antenna')][string]$CompressionProfile = 'sample',
+    [ValidateSet('sample', 'antenna', 'limiter')][string]$CompressionProfile = 'sample',
     [ValidateSet(22, 23, 26)][int]$CompressionOpsatDbm = 23,
     [switch]$PreserveManagerMessages,
     [switch]$CaptureRun
@@ -247,12 +247,16 @@ public static class ReferenceWorkspaceInspector
                                 // Make previously implicit defaults explicit for the controlled experiment.
                                 string amp = "wsdoc.Designs.Sch1.PartList.RFAmp.ParamSet.";
                                 bool antennaProfile = compressionProfile == "antenna";
+                                bool limiterProfile = compressionProfile == "limiter";
+                                string gain = antennaProfile ? "30" : limiterProfile ? "10" : "20";
+                                string p1db = antennaProfile ? "60" : limiterProfile ? "15" : "20";
+                                string saturation = antennaProfile ? "63" : limiterProfile ? "18" : compressionOpsatDbm.ToString();
                                 string nf = antennaProfile ? (10 * Math.Log10(1 + 700.0 / 290.0)).ToString(
                                     "R", System.Globalization.CultureInfo.InvariantCulture) : "3";
-                                setup += amp + "G.Set(\"" + (antennaProfile ? "30" : "20") + "\")\r\n" +
+                                setup += amp + "G.Set(\"" + gain + "\")\r\n" +
                                     amp + "NF.Set(\"" + nf + "\")\r\n" +
-                                    amp + "OP1dB.Set(\"" + (antennaProfile ? "60" : "20") + "\")\r\n" +
-                                    amp + "OPSAT.Set(\"" + (antennaProfile ? "63" : compressionOpsatDbm.ToString()) + "\")\r\n" +
+                                    amp + "OP1dB.Set(\"" + p1db + "\")\r\n" +
+                                    amp + "OPSAT.Set(\"" + saturation + "\")\r\n" +
                                     amp + "OIP2.Set(\"" + (antennaProfile ? "80" : "40") + "\")\r\n" +
                                     amp + "OIP3.Set(\"" + (antennaProfile ? "70" : "30") + "\")\r\n" +
                                     "wsdoc.Designs.Sch1.PartList.Source.ParamSet.Freq.Set(\"" +

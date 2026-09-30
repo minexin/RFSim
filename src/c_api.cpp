@@ -1,6 +1,7 @@
 #include "rfmodel/c_api.h"
 #include "rfmodel/fundamental_compression.hpp"
 #include "rfmodel/saturating_fundamental.hpp"
+#include "rfmodel/single_tone_amplifier.hpp"
 #include "rfmodel/network.hpp"
 #include "rfmodel/loaded_noise.hpp"
 #include "rfmodel/amplifier_model.hpp"
@@ -324,6 +325,31 @@ int rfmodel_intercept_amplifier_transmit(double spacing_hz,
                                                                  input_ip2_dbm,
                                                                  input_ip3_dbm,
                                                                  reference_ohms);
+        write_spectrum(model.transmit(incident), output, capacity, output_count);
+    });
+}
+
+int rfmodel_single_tone_amplifier_transmit(double spacing_hz,
+                                           const rfmodel_spectrum_bin *input,
+                                           size_t input_count,
+                                           double power_gain_db,
+                                           double output_p1db_dbm,
+                                           double output_saturation_dbm,
+                                           double input_ip2_dbm,
+                                           double input_ip3_dbm,
+                                           double reference_ohms,
+                                           rfmodel_spectrum_bin *output,
+                                           size_t capacity,
+                                           size_t *output_count) {
+    return guarded([&] {
+        require(output_count != nullptr);
+        const auto incident = read_spectrum(spacing_hz, input, input_count);
+        const rfmodel::SingleToneLimitedAmplifier model(power_gain_db,
+                                                        output_p1db_dbm,
+                                                        output_saturation_dbm,
+                                                        input_ip2_dbm,
+                                                        input_ip3_dbm,
+                                                        reference_ohms);
         write_spectrum(model.transmit(incident), output, capacity, output_count);
     });
 }

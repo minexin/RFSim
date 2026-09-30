@@ -39,7 +39,8 @@ class RunnerTests(unittest.TestCase):
 
     def test_saturation_override_rejects_other_cases_and_profiles(self):
         for case, extra in (("antenna", []), ("attenuator", []),
-                            ("compression", ["--compression-profile", "antenna"])):
+                            ("compression", ["--compression-profile", "antenna"]),
+                            ("compression", ["--compression-profile", "limiter"])):
             arguments = ["runner", case, "unused.wsv", "unused-output",
                          "--compression-opsat-dbm", "26", *extra]
             with self.subTest(case=case), patch.object(sys, "argv", arguments), \
@@ -51,7 +52,8 @@ class RunnerTests(unittest.TestCase):
 
     def test_diagnostic_option_rejects_other_cases_and_profiles(self):
         for case, extra in (("antenna", []), ("attenuator", []),
-                            ("compression", ["--compression-profile", "antenna"])):
+                            ("compression", ["--compression-profile", "antenna"]),
+                            ("compression", ["--compression-profile", "limiter"])):
             arguments = ["runner", case, "unused.wsv", "unused-output", "--compression-diagnostic", *extra]
             with self.subTest(case=case), patch.object(sys, "argv", arguments), \
                     patch.object(runner, "execute") as execute, contextlib.redirect_stderr(io.StringIO()):

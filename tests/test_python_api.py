@@ -297,6 +297,31 @@ class PythonApiTests(unittest.TestCase):
         with self.assertRaises(RFModelError):
             analyze_spectrum(self.library, document)
 
+    def test_limited_single_tone_api_and_json(self):
+        arguments = dict(power_gain_db=20, output_p1db_dbm=20, output_saturation_dbm=23,
+                         input_ip2_dbm=20, input_ip3_dbm=10)
+        low = self.library.single_tone_amplifier(1e6, {10: .001j}, **arguments)
+        self.assertEqual(set(low), {10, 20, 30})
+        self.assertAlmostEqual(abs(low[20])**2 / 2.5e-10, 1., places=12)
+        self.assertLess(low[20].real, 0)
+        self.assertGreater(low[30].imag, 0)
+        self.assertEqual(self.library.single_tone_amplifier(1e6, {}, **arguments), {})
+        document = load(Path(__file__).resolve().parents[1] / "examples/limited-single-tone.json")
+        response = analyze_spectrum(self.library, document)["stages"][0]["spectrum"]
+        direct = self.library.single_tone_amplifier(1e6, {1000: complex(*document["input"][0]["amplitude"])},
+                                                    **arguments)
+        self.assertEqual({row["bin"]: complex(*row["amplitude"]) for row in response}, direct)
+        unlimited = self.library.intercept_amplifier(1e6, {1000: .03162277660168379j},
+            power_gain_db=20, input_ip2_dbm=20, input_ip3_dbm=10)
+        self.assertLess(abs(direct[2000]), abs(unlimited[2000]))
+        for invalid in ({0: .1}, {10: .1, 20: .2}):
+            with self.assertRaises(RFModelError):
+                self.library.single_tone_amplifier(1e6, invalid, **arguments)
+        document["input"] = []
+        document["stages"][0]["output_saturation_dbm"] = 19
+        with self.assertRaises(RFModelError):
+            analyze_spectrum(self.library, document)
+
     def test_json_p1db_rejects_multitone_dc_and_overdrive(self):
         original = load(Path(__file__).resolve().parents[1] / "examples/single-tone-compression.json")
         for inputs in ([{"bin": 1, "amplitude": .001}, {"bin": 2, "amplitude": .001}],

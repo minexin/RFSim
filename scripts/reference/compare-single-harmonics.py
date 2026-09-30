@@ -12,9 +12,14 @@ single = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(single)
 
 
-def compare(library, capture, source_power_dbm, *, output_saturation_dbm=None):
+def compare(library, capture, source_power_dbm, *, output_saturation_dbm=None, profile="sample"):
     verified = single.compare(library, capture, source_power_dbm,
-                              output_saturation_dbm=output_saturation_dbm)
+                              output_saturation_dbm=output_saturation_dbm, profile=profile)
+    parameters = {entry["parameter"]: entry["value"] for entry in verified["parameters"]}
+    gain_db = 10 * math.log10(parameters["RFAmp/G"])
+    input_ip2_dbm = 30 + 10 * math.log10(parameters["RFAmp/OIP2"]) - gain_db
+    input_ip3_dbm = 30 + 10 * math.log10(parameters["RFAmp/OIP3"]) - gain_db
+    frequency = parameters["Source/Freq"]
     base = single.BASE + "System1_Data/Eqns/VarBlock/"
 
     def vector(name):
@@ -33,8 +38,8 @@ def compare(library, capture, source_power_dbm, *, output_saturation_dbm=None):
     if not len(frequencies) == len(powers) == len(ids):
         raise ValueError("Mismatched spectrum arrays")
     native = library.intercept_amplifier(
-        1e9, {1: math.sqrt(10 ** ((source_power_dbm - 30) / 10))},
-        power_gain_db=20, input_ip2_dbm=20, input_ip3_dbm=10)
+        frequency, {1: math.sqrt(10 ** ((source_power_dbm - 30) / 10))},
+        power_gain_db=gain_db, input_ip2_dbm=input_ip2_dbm, input_ip3_dbm=input_ip3_dbm)
     checks = []
     for harmonic in (2, 3):
         pattern = r"\{\d+\}\[" + str(harmonic) + r"x\(Source\.Source1\)\],RFAmp"
@@ -44,7 +49,7 @@ def compare(library, capture, source_power_dbm, *, output_saturation_dbm=None):
             raise ValueError("Expected exactly one direct generated harmonic")
         identifier, name = matches[0]
         points = [(f, p) for f, p, i in zip(frequencies, powers, ids) if i == identifier]
-        expected_frequencies = [harmonic * 1e9 - harmonic / 2., harmonic * 1e9 + harmonic / 2.]
+        expected_frequencies = [harmonic * frequency - harmonic / 2., harmonic * frequency + harmonic / 2.]
         if len(points) != 2 or [point[0] for point in points] != expected_frequencies:
             raise ValueError("Expected the two boundaries of the 1 Hz tone's harmonic spectrum")
         if any(not isinstance(p, (float, int)) or not math.isfinite(p) or p <= 0 for _, p in points):
@@ -63,7 +68,8 @@ def compare(library, capture, source_power_dbm, *, output_saturation_dbm=None):
     ratios = [(check["systemvue_power_w"] / check["rfmodel_power_w"]) ** (1 / check["harmonic"])
               for check in checks]
     return {
-        "scope": "Direct generated H2/H3 power samples of the isolated sample-profile RFAMP",
+        "scope": "Direct generated H2/H3 power samples of the isolated controlled RFAMP",
+        "profile": profile,
         "limitation": "Flat 1 Hz input tone case only; no spectrum-density integration or full RFAMP equivalence",
         "source_power_dbm": source_power_dbm, "run_started_utc": capture["run_started_utc"],
         "parameters": verified["parameters"], "relative_tolerance": 1e-7,
@@ -84,12 +90,13 @@ def main():
     parser.add_argument("output", type=Path)
     parser.add_argument("--source-power-dbm", type=float, required=True)
     parser.add_argument("--output-saturation-dbm", type=int, choices=(22, 23, 26))
+    parser.add_argument("--profile", choices=single.PROFILES, default="sample")
     args = parser.parse_args()
     if args.output.resolve() in (args.library.resolve(), args.capture.resolve()):
         parser.error("Output must not overwrite inputs")
     raw = args.capture.read_bytes()
     report = compare(single.Library(args.library.resolve()), json.loads(raw.decode("utf-8-sig")),
-                     args.source_power_dbm, output_saturation_dbm=args.output_saturation_dbm)
+                     args.source_power_dbm, output_saturation_dbm=args.output_saturation_dbm, profile=args.profile)
     report["capture_sha256"] = hashlib.sha256(raw).hexdigest()
     report["library_sha256"] = hashlib.sha256(args.library.read_bytes()).hexdigest()
     args.output.write_text(json.dumps(report, indent=2, allow_nan=False) + "\n", encoding="utf-8")

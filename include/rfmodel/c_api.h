@@ -175,6 +175,22 @@ RFMODEL_API int rfmodel_intercept_amplifier_transmit(double spacing_hz,
                                                      rfmodel_spectrum_bin *output,
                                                      size_t capacity,
                                                      size_t *output_count);
+/* One nonzero RF tone only. Independent saturated fundamental and soft-limited H2/H3.
+ * DC is blocked; nonzero DC/multitone input is rejected. Empirical limiter offsets
+ * are -4 dB from OP1dB-G and -1 dB from OPSAT-G. Not a full RFAMP/feedback model.
+ * Uses the same spectrum buffer/count contract as the other transmit functions. */
+RFMODEL_API int rfmodel_single_tone_amplifier_transmit(double spacing_hz,
+                                                       const rfmodel_spectrum_bin *input,
+                                                       size_t input_count,
+                                                       double power_gain_db,
+                                                       double output_p1db_dbm,
+                                                       double output_saturation_dbm,
+                                                       double input_ip2_dbm,
+                                                       double input_ip3_dbm,
+                                                       double reference_ohms,
+                                                       rfmodel_spectrum_bin *output,
+                                                       size_t capacity,
+                                                       size_t *output_count);
 RFMODEL_API int rfmodel_ideal_mixer_transmit(double spacing_hz,
                                              const rfmodel_spectrum_bin *input,
                                              size_t input_count,

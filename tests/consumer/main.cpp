@@ -13,8 +13,15 @@
 #include <cmath>
 #include <rfmodel/fundamental_compression.hpp>
 #include <rfmodel/saturating_fundamental.hpp>
+#include <rfmodel/single_tone_amplifier.hpp>
 
 int main() {
+    const rfmodel::SingleToneLimitedAmplifier single_tone(20., 20., 23., 20., 10.);
+    const auto single_tone_output = single_tone.transmit({1e6, {{10, .001}}});
+    if (single_tone_output.amplitudes.size() != 3 ||
+        std::abs(std::norm(single_tone_output.amplitudes.at(20)) / 2.5e-10 - 1.) > 1e-12) {
+        return 19;
+    }
     const rfmodel::SaturatingFundamentalCompression saturation(20., 20., 23.);
     if (std::abs(std::norm(saturation.transmit_fundamental(.1)) / .19922937036162172 - 1.) >
         1e-12) {

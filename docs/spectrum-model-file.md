@@ -1,5 +1,8 @@
 # 匹配单向频谱链路 JSON v1
 
+新增 `single_tone_amplifier` 将独立基波与限幅 H2/H3 组合，参数、边界及九组
+参考结果见 [单音限幅放大器](single-tone-amplifier.md)。
+
 新增 `saturating_fundamental` 单音级，支持独立 OP1dB/OPSAT，参数、示例与
 SystemVue 诊断范围见 [饱和基波模型](saturating-fundamental.md)。
 

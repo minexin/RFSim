@@ -163,3 +163,7 @@ build-reference/compression-opsat23-minus30-restored-001。
 后续已加入显式饱和诊断模式，用于保留厂商准确性警告并研究超过 P1dB 的响应；
 默认验收仍拒绝警告。候选连续 tanh 模型与三个实测点存在 1.2%–6.2% 差异，
 未纳入数值核心，详见 [饱和区诊断](systemvue-saturation-diagnostic.md)。
+
+后续已实现独立 [饱和基波](saturating-fundamental.md)，并用同一组已识别的输入
+限幅偏移形成 [单音限幅放大器](single-tone-amplifier.md)。九组基波/H2/H3 功率
+共 27 项通过 1e-7，包含新增参数组交叉验证；本文未限幅模型的差异继续保留。

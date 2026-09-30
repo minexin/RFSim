@@ -9,6 +9,17 @@ int main(int argc, char **argv) {
     size_t offset;
     int status;
     {
+        const rfmodel_spectrum_bin input = {10, {.001, 0.}};
+        rfmodel_spectrum_bin output[3];
+        size_t written;
+        if (rfmodel_single_tone_amplifier_transmit(
+                1e6, &input, 1, 20., 20., 23., 20., 10., 50., output, 3, &written) != RFMODEL_OK ||
+            written != 3 || output[1].index != 20 ||
+            fabs(output[1].amplitude.real * output[1].amplitude.real / 2.5e-10 - 1.) > 1e-12) {
+            return 19;
+        }
+    }
+    {
         const rfmodel_complex input = {0., .1};
         rfmodel_complex output;
         if (rfmodel_saturating_fundamental(20., 20., 23., input, .01, &output) != RFMODEL_OK ||
