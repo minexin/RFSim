@@ -7,7 +7,10 @@
 并报告 `libm.so.6: DSO missing from command line`。其余五个配置成功。
 C 测试直接使用数学函数，不能依赖共享 RFModel 库的间接数学库依赖。
 现为 `c_api_test` 和独立安装消费者 `c_consumer` 添加 Unix 平台的私有 `m` 链接。
-修复未改变数值实现或测试容差；远端六配置结果须以修复提交的新 CI 为准。
+修复未改变数值实现或测试容差。修复提交 `4491dc4` 的
+[CI 36659958933](https://github.com/minexin/RFSim/actions/runs/36659958933) 已确认
+Windows、Ubuntu、macOS 的 Debug/Release 六配置全部成功，包括核心与 CLI 测试、
+安装和独立 C/C++ 消费者验证。机器可读记录为 validation/ci-4491dc4.json。
 
 每阶段推送后检查对应提交的 CI；存在失败时优先修复，并在六配置通过前保留
 “跨平台验证未完成”状态。本机 MSVC 通过不能代替 Linux/macOS 验收。
