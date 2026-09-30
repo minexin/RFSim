@@ -159,3 +159,7 @@ build-reference/compression-opsat23-minus30-restored-001。
 本机后台运行器 4 项测试通过；Debug/Release 的独立压缩和谐波 CTest 各 2/2
 通过，内部共 10 项 Python 测试，覆盖参数覆盖边界、采集可重放性、缩减趋势及
 原预测/阈值未改变。其他平台以对应提交 CI 为准。
+
+后续已加入显式饱和诊断模式，用于保留厂商准确性警告并研究超过 P1dB 的响应；
+默认验收仍拒绝警告。候选连续 tanh 模型与三个实测点存在 1.2%–6.2% 差异，
+未纳入数值核心，详见 [饱和区诊断](systemvue-saturation-diagnostic.md)。

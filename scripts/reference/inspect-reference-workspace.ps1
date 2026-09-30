@@ -10,9 +10,13 @@ param(
     [ValidateSet(50, 100)][int]$CompressionRisoDb = 100,
     [ValidateSet('sample', 'antenna')][string]$CompressionProfile = 'sample',
     [ValidateSet(22, 23, 26)][int]$CompressionOpsatDbm = 23,
+    [switch]$PreserveManagerMessages,
     [switch]$CaptureRun
 )
 $ErrorActionPreference = 'Stop'
+if ($PreserveManagerMessages -and (-not $RunCompressionAnalysis -or $CompressionProfile -ne 'sample')) {
+    throw 'PreserveManagerMessages requires sample-profile RunCompressionAnalysis.'
+}
 if ($PSBoundParameters.ContainsKey('CompressionOpsatDbm') -and
     (-not $RunCompressionAnalysis -or $CompressionProfile -ne 'sample')) {
     throw 'CompressionOpsatDbm requires sample-profile RunCompressionAnalysis.'
@@ -195,7 +199,7 @@ public static class ReferenceWorkspaceInspector
 
     public static Node[] Inspect(string path, bool open, bool run, bool antenna, double lossDb, double temperatureK,
         double sourcePowerDbm, bool compression, int compressionRisoDb, string compressionProfile,
-        int compressionOpsatDbm)
+        int compressionOpsatDbm, bool preserveManagerMessages)
     {
         Console.Error.WriteLine("phase: attach-active-instance");
         object active = Marshal.GetActiveObject("Genesys.Application");
@@ -315,7 +319,7 @@ public static class ReferenceWorkspaceInspector
                             {
                                 throw new InvalidOperationException("Analysis did not produce a fresh reference dataset");
                             }
-                            if (!String.IsNullOrWhiteSpace(ManagerErrors))
+                            if (!String.IsNullOrWhiteSpace(ManagerErrors) && !preserveManagerMessages)
                             {
                                 throw new InvalidOperationException("Reference analysis reported manager errors");
                             }
@@ -347,7 +351,7 @@ $power = if ($null -eq $SourcePowerDbm) { [double]::NaN } else { [double]$Source
 $nodes = [ReferenceWorkspaceInspector]::Inspect($resolvedPath, $OpenCopy.IsPresent,
     ($RunAttenuatorAnalysis.IsPresent -or $RunAntennaAnalysis.IsPresent -or $RunCompressionAnalysis.IsPresent),
     $RunAntennaAnalysis.IsPresent, $loss, $temperature, $power, $RunCompressionAnalysis.IsPresent,
-    $CompressionRisoDb, $CompressionProfile, $CompressionOpsatDbm)
+    $CompressionRisoDb, $CompressionProfile, $CompressionOpsatDbm, $PreserveManagerMessages.IsPresent)
 if ($CaptureRun) {
     [ordered]@{
         run_started_utc = [ReferenceWorkspaceInspector]::RunStartedUtc

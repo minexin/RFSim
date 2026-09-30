@@ -35,6 +35,8 @@ jobs:
         run: python scripts/reference/test_audit_antenna_nonlinearity.py
       - name: Test compression diagnostic
         run: python scripts/reference/test_diagnose_antenna_compression.py
+      - name: Test saturation warning diagnostic
+        run: python scripts/reference/test_diagnose_single_saturation.py
       - name: Configure
         run: cmake -S . -B build -DCMAKE_BUILD_TYPE=${{ matrix.configuration }} -DCMAKE_CXX_EXTENSIONS=OFF -DRFMODEL_REQUIRE_PYTHON_TESTS=ON
       - name: Build

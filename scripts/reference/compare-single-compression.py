@@ -25,8 +25,8 @@ PARAMETERS = {
 }
 
 
-def compare(library, capture, source_power_dbm, *, reverse_isolation_db=100, profile="sample",
-            output_saturation_dbm=None):
+def inspect_capture(capture, source_power_dbm, *, reverse_isolation_db=100, profile="sample",
+                    output_saturation_dbm=None, compression_diagnostic=False):
     if profile not in ("sample", "antenna"):
         raise ValueError("Unknown compression profile")
     if output_saturation_dbm is not None and (
@@ -35,9 +35,12 @@ def compare(library, capture, source_power_dbm, *, reverse_isolation_db=100, pro
     gain_db, output_p1db_dbm, frequency = (30, 60, 5e9) if profile == "antenna" else (20, 20, 1e9)
     if reverse_isolation_db not in (50, 100):
         raise ValueError("Expected controlled reverse isolation of 50 or 100 dB")
-    if not math.isfinite(source_power_dbm) or not -200 <= source_power_dbm <= output_p1db_dbm - gain_db + 1:
-        raise ValueError("Expected finite input at or below nominal input P1dB")
-    runner.validate_capture(capture, "compression")
+    if compression_diagnostic and profile != "sample":
+        raise ValueError("Compression diagnostic requires sample profile")
+    maximum_input = 30 if compression_diagnostic else output_p1db_dbm - gain_db + 1
+    if not math.isfinite(source_power_dbm) or not -200 <= source_power_dbm <= maximum_input:
+        raise ValueError("Input outside controlled reference range")
+    runner.validate_capture(capture, "compression", allow_compression_warning=compression_diagnostic)
 
     def node(path):
         matches = [entry for entry in capture["nodes"] if entry["path"] == BASE + path]
@@ -84,6 +87,24 @@ def compare(library, capture, source_power_dbm, *, reverse_isolation_db=100, pro
         measurements[name] = data
     if measurements["CF"] != [frequency, frequency]:
         raise ValueError("Unexpected carrier frequency")
+    return {
+        "scope": "Independent single RFAMP with explicit 50 ohm boundaries and controlled reverse isolation",
+        "reverse_isolation_db": reverse_isolation_db, "profile": profile,
+        "limitation": "Signal powers only; default higher-order/internal settings are not fully audited",
+        "source_power_dbm": source_power_dbm, "parameters": verified,
+        "run_started_utc": capture["run_started_utc"], "run_returned_utc": capture["run_returned_utc"],
+        "manager_errors": capture["manager_errors"], "measurements": measurements,
+        "eligible_for_compatibility": not compression_diagnostic,
+    }
+
+
+def compare(library, capture, source_power_dbm, *, reverse_isolation_db=100, profile="sample",
+            output_saturation_dbm=None):
+    verified = inspect_capture(capture, source_power_dbm, reverse_isolation_db=reverse_isolation_db,
+                               profile=profile, output_saturation_dbm=output_saturation_dbm)
+    gain_db, output_p1db_dbm = (30, 60) if profile == "antenna" else (20, 20)
+    power = 10 ** ((source_power_dbm - 30) / 10)
+    measurements = verified["measurements"]
     output = abs(library.p1db_fundamental(math.sqrt(power), power_gain_db=gain_db,
                                          output_p1db_dbm=output_p1db_dbm)) ** 2
     checks = []
@@ -93,13 +114,7 @@ def compare(library, capture, source_power_dbm, *, reverse_isolation_db=100, pro
         checks.append({"metric": name, "rfmodel": predicted, "systemvue": observed,
                        "signed_relative_error": residual, "passed": abs(residual) <= 1e-7})
     return {
-        "scope": "Independent single RFAMP with explicit 50 ohm boundaries and controlled reverse isolation",
-        "reverse_isolation_db": reverse_isolation_db,
-        "profile": profile,
-        "limitation": "Signal powers only; default higher-order/internal settings are not fully audited",
-        "source_power_dbm": source_power_dbm, "parameters": verified,
-        "run_started_utc": capture["run_started_utc"], "run_returned_utc": capture["run_returned_utc"],
-        "manager_errors": capture["manager_errors"], "measurements": measurements,
+        **verified,
         "relative_tolerance": 1e-7, "passed": all(check["passed"] for check in checks), "checks": checks,
     }
 

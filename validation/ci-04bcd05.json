@@ -1,0 +1,986 @@
+{
+  "conclusion": "success",
+  "headSha": "04bcd05bfeeabd50083d63a14b0f1dc125870dcf",
+  "jobs": [
+    {
+      "completedAt": "2026-09-30T02:44:03Z",
+      "conclusion": "success",
+      "databaseId": 109715926310,
+      "name": "build (ubuntu-latest, Debug)",
+      "startedAt": "2026-09-30T02:43:17Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-09-30T02:43:18Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-09-30T02:43:17Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:43:19Z",
+          "conclusion": "success",
+          "name": "Run actions/checkout@v4",
+          "number": 2,
+          "startedAt": "2026-09-30T02:43:18Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:43:19Z",
+          "conclusion": "success",
+          "name": "Test reference inventory tools",
+          "number": 3,
+          "startedAt": "2026-09-30T02:43:19Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:43:19Z",
+          "conclusion": "success",
+          "name": "Test reference result validation",
+          "number": 4,
+          "startedAt": "2026-09-30T02:43:19Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:43:19Z",
+          "conclusion": "success",
+          "name": "Test background reference runner",
+          "number": 5,
+          "startedAt": "2026-09-30T02:43:19Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:43:19Z",
+          "conclusion": "success",
+          "name": "Test antenna reference validation",
+          "number": 6,
+          "startedAt": "2026-09-30T02:43:19Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:43:19Z",
+          "conclusion": "success",
+          "name": "Test antenna power sweep validation",
+          "number": 7,
+          "startedAt": "2026-09-30T02:43:19Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:43:20Z",
+          "conclusion": "success",
+          "name": "Test antenna nonlinear parameter audit",
+          "number": 8,
+          "startedAt": "2026-09-30T02:43:19Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:43:20Z",
+          "conclusion": "success",
+          "name": "Test compression diagnostic",
+          "number": 9,
+          "startedAt": "2026-09-30T02:43:20Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:43:25Z",
+          "conclusion": "success",
+          "name": "Configure",
+          "number": 10,
+          "startedAt": "2026-09-30T02:43:20Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:43:51Z",
+          "conclusion": "success",
+          "name": "Build",
+          "number": 11,
+          "startedAt": "2026-09-30T02:43:25Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:43:57Z",
+          "conclusion": "success",
+          "name": "Build Python distribution",
+          "number": 12,
+          "startedAt": "2026-09-30T02:43:51Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:43:59Z",
+          "conclusion": "success",
+          "name": "Test core and CLI",
+          "number": 13,
+          "startedAt": "2026-09-30T02:43:57Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:43:59Z",
+          "conclusion": "success",
+          "name": "Install package",
+          "number": 14,
+          "startedAt": "2026-09-30T02:43:59Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:43:59Z",
+          "conclusion": "success",
+          "name": "Configure independent consumer",
+          "number": 15,
+          "startedAt": "2026-09-30T02:43:59Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:44:01Z",
+          "conclusion": "success",
+          "name": "Build independent consumer",
+          "number": 16,
+          "startedAt": "2026-09-30T02:43:59Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:44:01Z",
+          "conclusion": "success",
+          "name": "Test installed package",
+          "number": 17,
+          "startedAt": "2026-09-30T02:44:01Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:44:01Z",
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@v4",
+          "number": 34,
+          "startedAt": "2026-09-30T02:44:01Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:44:01Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 35,
+          "startedAt": "2026-09-30T02:44:01Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/minexin/RFSim/actions/runs/36661128528/job/109715926310"
+    },
+    {
+      "completedAt": "2026-09-30T02:44:43Z",
+      "conclusion": "success",
+      "databaseId": 109715926427,
+      "name": "build (macos-latest, Release)",
+      "startedAt": "2026-09-30T02:43:24Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-09-30T02:43:25Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-09-30T02:43:25Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:43:28Z",
+          "conclusion": "success",
+          "name": "Run actions/checkout@v4",
+          "number": 2,
+          "startedAt": "2026-09-30T02:43:25Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:43:29Z",
+          "conclusion": "success",
+          "name": "Test reference inventory tools",
+          "number": 3,
+          "startedAt": "2026-09-30T02:43:28Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:43:29Z",
+          "conclusion": "success",
+          "name": "Test reference result validation",
+          "number": 4,
+          "startedAt": "2026-09-30T02:43:29Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:43:30Z",
+          "conclusion": "success",
+          "name": "Test background reference runner",
+          "number": 5,
+          "startedAt": "2026-09-30T02:43:29Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:43:30Z",
+          "conclusion": "success",
+          "name": "Test antenna reference validation",
+          "number": 6,
+          "startedAt": "2026-09-30T02:43:30Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:43:30Z",
+          "conclusion": "success",
+          "name": "Test antenna power sweep validation",
+          "number": 7,
+          "startedAt": "2026-09-30T02:43:30Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:43:30Z",
+          "conclusion": "success",
+          "name": "Test antenna nonlinear parameter audit",
+          "number": 8,
+          "startedAt": "2026-09-30T02:43:30Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:43:30Z",
+          "conclusion": "success",
+          "name": "Test compression diagnostic",
+          "number": 9,
+          "startedAt": "2026-09-30T02:43:30Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:43:38Z",
+          "conclusion": "success",
+          "name": "Configure",
+          "number": 10,
+          "startedAt": "2026-09-30T02:43:30Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:44:26Z",
+          "conclusion": "success",
+          "name": "Build",
+          "number": 11,
+          "startedAt": "2026-09-30T02:43:38Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:44:30Z",
+          "conclusion": "success",
+          "name": "Build Python distribution",
+          "number": 12,
+          "startedAt": "2026-09-30T02:44:26Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:44:33Z",
+          "conclusion": "success",
+          "name": "Test core and CLI",
+          "number": 13,
+          "startedAt": "2026-09-30T02:44:30Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:44:33Z",
+          "conclusion": "success",
+          "name": "Install package",
+          "number": 14,
+          "startedAt": "2026-09-30T02:44:33Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:44:34Z",
+          "conclusion": "success",
+          "name": "Configure independent consumer",
+          "number": 15,
+          "startedAt": "2026-09-30T02:44:33Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:44:38Z",
+          "conclusion": "success",
+          "name": "Build independent consumer",
+          "number": 16,
+          "startedAt": "2026-09-30T02:44:34Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:44:38Z",
+          "conclusion": "success",
+          "name": "Test installed package",
+          "number": 17,
+          "startedAt": "2026-09-30T02:44:38Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:44:41Z",
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@v4",
+          "number": 34,
+          "startedAt": "2026-09-30T02:44:38Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:44:42Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 35,
+          "startedAt": "2026-09-30T02:44:41Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/minexin/RFSim/actions/runs/36661128528/job/109715926427"
+    },
+    {
+      "completedAt": "2026-09-30T02:44:16Z",
+      "conclusion": "success",
+      "databaseId": 109715926468,
+      "name": "build (macos-latest, Debug)",
+      "startedAt": "2026-09-30T02:43:23Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-09-30T02:43:25Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-09-30T02:43:24Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:43:28Z",
+          "conclusion": "success",
+          "name": "Run actions/checkout@v4",
+          "number": 2,
+          "startedAt": "2026-09-30T02:43:25Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:43:29Z",
+          "conclusion": "success",
+          "name": "Test reference inventory tools",
+          "number": 3,
+          "startedAt": "2026-09-30T02:43:28Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:43:29Z",
+          "conclusion": "success",
+          "name": "Test reference result validation",
+          "number": 4,
+          "startedAt": "2026-09-30T02:43:29Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:43:29Z",
+          "conclusion": "success",
+          "name": "Test background reference runner",
+          "number": 5,
+          "startedAt": "2026-09-30T02:43:29Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:43:29Z",
+          "conclusion": "success",
+          "name": "Test antenna reference validation",
+          "number": 6,
+          "startedAt": "2026-09-30T02:43:29Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:43:30Z",
+          "conclusion": "success",
+          "name": "Test antenna power sweep validation",
+          "number": 7,
+          "startedAt": "2026-09-30T02:43:29Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:43:30Z",
+          "conclusion": "success",
+          "name": "Test antenna nonlinear parameter audit",
+          "number": 8,
+          "startedAt": "2026-09-30T02:43:30Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:43:30Z",
+          "conclusion": "success",
+          "name": "Test compression diagnostic",
+          "number": 9,
+          "startedAt": "2026-09-30T02:43:30Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:43:38Z",
+          "conclusion": "success",
+          "name": "Configure",
+          "number": 10,
+          "startedAt": "2026-09-30T02:43:30Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:44:05Z",
+          "conclusion": "success",
+          "name": "Build",
+          "number": 11,
+          "startedAt": "2026-09-30T02:43:38Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:44:08Z",
+          "conclusion": "success",
+          "name": "Build Python distribution",
+          "number": 12,
+          "startedAt": "2026-09-30T02:44:05Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:44:10Z",
+          "conclusion": "success",
+          "name": "Test core and CLI",
+          "number": 13,
+          "startedAt": "2026-09-30T02:44:08Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:44:10Z",
+          "conclusion": "success",
+          "name": "Install package",
+          "number": 14,
+          "startedAt": "2026-09-30T02:44:10Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:44:11Z",
+          "conclusion": "success",
+          "name": "Configure independent consumer",
+          "number": 15,
+          "startedAt": "2026-09-30T02:44:10Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:44:12Z",
+          "conclusion": "success",
+          "name": "Build independent consumer",
+          "number": 16,
+          "startedAt": "2026-09-30T02:44:11Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:44:12Z",
+          "conclusion": "success",
+          "name": "Test installed package",
+          "number": 17,
+          "startedAt": "2026-09-30T02:44:12Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:44:13Z",
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@v4",
+          "number": 34,
+          "startedAt": "2026-09-30T02:44:12Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:44:13Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 35,
+          "startedAt": "2026-09-30T02:44:13Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/minexin/RFSim/actions/runs/36661128528/job/109715926468"
+    },
+    {
+      "completedAt": "2026-09-30T02:45:10Z",
+      "conclusion": "success",
+      "databaseId": 109715926472,
+      "name": "build (windows-latest, Release)",
+      "startedAt": "2026-09-30T02:43:17Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-09-30T02:43:18Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-09-30T02:43:17Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:43:26Z",
+          "conclusion": "success",
+          "name": "Run actions/checkout@v4",
+          "number": 2,
+          "startedAt": "2026-09-30T02:43:18Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:43:28Z",
+          "conclusion": "success",
+          "name": "Test reference inventory tools",
+          "number": 3,
+          "startedAt": "2026-09-30T02:43:26Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:43:28Z",
+          "conclusion": "success",
+          "name": "Test reference result validation",
+          "number": 4,
+          "startedAt": "2026-09-30T02:43:28Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:43:29Z",
+          "conclusion": "success",
+          "name": "Test background reference runner",
+          "number": 5,
+          "startedAt": "2026-09-30T02:43:28Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:43:29Z",
+          "conclusion": "success",
+          "name": "Test antenna reference validation",
+          "number": 6,
+          "startedAt": "2026-09-30T02:43:29Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:43:29Z",
+          "conclusion": "success",
+          "name": "Test antenna power sweep validation",
+          "number": 7,
+          "startedAt": "2026-09-30T02:43:29Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:43:29Z",
+          "conclusion": "success",
+          "name": "Test antenna nonlinear parameter audit",
+          "number": 8,
+          "startedAt": "2026-09-30T02:43:29Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:43:30Z",
+          "conclusion": "success",
+          "name": "Test compression diagnostic",
+          "number": 9,
+          "startedAt": "2026-09-30T02:43:29Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:43:47Z",
+          "conclusion": "success",
+          "name": "Configure",
+          "number": 10,
+          "startedAt": "2026-09-30T02:43:30Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:44:46Z",
+          "conclusion": "success",
+          "name": "Build",
+          "number": 11,
+          "startedAt": "2026-09-30T02:43:47Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:44:54Z",
+          "conclusion": "success",
+          "name": "Build Python distribution",
+          "number": 12,
+          "startedAt": "2026-09-30T02:44:46Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:44:58Z",
+          "conclusion": "success",
+          "name": "Test core and CLI",
+          "number": 13,
+          "startedAt": "2026-09-30T02:44:54Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:44:58Z",
+          "conclusion": "success",
+          "name": "Install package",
+          "number": 14,
+          "startedAt": "2026-09-30T02:44:58Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:45:02Z",
+          "conclusion": "success",
+          "name": "Configure independent consumer",
+          "number": 15,
+          "startedAt": "2026-09-30T02:44:58Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:45:07Z",
+          "conclusion": "success",
+          "name": "Build independent consumer",
+          "number": 16,
+          "startedAt": "2026-09-30T02:45:02Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:45:07Z",
+          "conclusion": "success",
+          "name": "Test installed package",
+          "number": 17,
+          "startedAt": "2026-09-30T02:45:07Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:45:09Z",
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@v4",
+          "number": 34,
+          "startedAt": "2026-09-30T02:45:07Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:45:09Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 35,
+          "startedAt": "2026-09-30T02:45:09Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/minexin/RFSim/actions/runs/36661128528/job/109715926472"
+    },
+    {
+      "completedAt": "2026-09-30T02:44:15Z",
+      "conclusion": "success",
+      "databaseId": 109715926508,
+      "name": "build (ubuntu-latest, Release)",
+      "startedAt": "2026-09-30T02:43:17Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-09-30T02:43:18Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-09-30T02:43:18Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:43:19Z",
+          "conclusion": "success",
+          "name": "Run actions/checkout@v4",
+          "number": 2,
+          "startedAt": "2026-09-30T02:43:18Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:43:20Z",
+          "conclusion": "success",
+          "name": "Test reference inventory tools",
+          "number": 3,
+          "startedAt": "2026-09-30T02:43:19Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:43:20Z",
+          "conclusion": "success",
+          "name": "Test reference result validation",
+          "number": 4,
+          "startedAt": "2026-09-30T02:43:20Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:43:20Z",
+          "conclusion": "success",
+          "name": "Test background reference runner",
+          "number": 5,
+          "startedAt": "2026-09-30T02:43:20Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:43:20Z",
+          "conclusion": "success",
+          "name": "Test antenna reference validation",
+          "number": 6,
+          "startedAt": "2026-09-30T02:43:20Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:43:20Z",
+          "conclusion": "success",
+          "name": "Test antenna power sweep validation",
+          "number": 7,
+          "startedAt": "2026-09-30T02:43:20Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:43:20Z",
+          "conclusion": "success",
+          "name": "Test antenna nonlinear parameter audit",
+          "number": 8,
+          "startedAt": "2026-09-30T02:43:20Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:43:20Z",
+          "conclusion": "success",
+          "name": "Test compression diagnostic",
+          "number": 9,
+          "startedAt": "2026-09-30T02:43:20Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:43:21Z",
+          "conclusion": "success",
+          "name": "Configure",
+          "number": 10,
+          "startedAt": "2026-09-30T02:43:20Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:44:04Z",
+          "conclusion": "success",
+          "name": "Build",
+          "number": 11,
+          "startedAt": "2026-09-30T02:43:21Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:44:07Z",
+          "conclusion": "success",
+          "name": "Build Python distribution",
+          "number": 12,
+          "startedAt": "2026-09-30T02:44:04Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:44:08Z",
+          "conclusion": "success",
+          "name": "Test core and CLI",
+          "number": 13,
+          "startedAt": "2026-09-30T02:44:07Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:44:08Z",
+          "conclusion": "success",
+          "name": "Install package",
+          "number": 14,
+          "startedAt": "2026-09-30T02:44:08Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:44:09Z",
+          "conclusion": "success",
+          "name": "Configure independent consumer",
+          "number": 15,
+          "startedAt": "2026-09-30T02:44:08Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:44:12Z",
+          "conclusion": "success",
+          "name": "Build independent consumer",
+          "number": 16,
+          "startedAt": "2026-09-30T02:44:09Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:44:12Z",
+          "conclusion": "success",
+          "name": "Test installed package",
+          "number": 17,
+          "startedAt": "2026-09-30T02:44:12Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:44:12Z",
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@v4",
+          "number": 34,
+          "startedAt": "2026-09-30T02:44:12Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:44:12Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 35,
+          "startedAt": "2026-09-30T02:44:12Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/minexin/RFSim/actions/runs/36661128528/job/109715926508"
+    },
+    {
+      "completedAt": "2026-09-30T02:44:37Z",
+      "conclusion": "success",
+      "databaseId": 109715926509,
+      "name": "build (windows-latest, Debug)",
+      "startedAt": "2026-09-30T02:43:17Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-09-30T02:43:18Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-09-30T02:43:18Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:43:24Z",
+          "conclusion": "success",
+          "name": "Run actions/checkout@v4",
+          "number": 2,
+          "startedAt": "2026-09-30T02:43:18Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:43:26Z",
+          "conclusion": "success",
+          "name": "Test reference inventory tools",
+          "number": 3,
+          "startedAt": "2026-09-30T02:43:24Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:43:26Z",
+          "conclusion": "success",
+          "name": "Test reference result validation",
+          "number": 4,
+          "startedAt": "2026-09-30T02:43:26Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:43:27Z",
+          "conclusion": "success",
+          "name": "Test background reference runner",
+          "number": 5,
+          "startedAt": "2026-09-30T02:43:26Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:43:27Z",
+          "conclusion": "success",
+          "name": "Test antenna reference validation",
+          "number": 6,
+          "startedAt": "2026-09-30T02:43:27Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:43:27Z",
+          "conclusion": "success",
+          "name": "Test antenna power sweep validation",
+          "number": 7,
+          "startedAt": "2026-09-30T02:43:27Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:43:28Z",
+          "conclusion": "success",
+          "name": "Test antenna nonlinear parameter audit",
+          "number": 8,
+          "startedAt": "2026-09-30T02:43:27Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:43:28Z",
+          "conclusion": "success",
+          "name": "Test compression diagnostic",
+          "number": 9,
+          "startedAt": "2026-09-30T02:43:28Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:43:41Z",
+          "conclusion": "success",
+          "name": "Configure",
+          "number": 10,
+          "startedAt": "2026-09-30T02:43:28Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:44:14Z",
+          "conclusion": "success",
+          "name": "Build",
+          "number": 11,
+          "startedAt": "2026-09-30T02:43:41Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:44:22Z",
+          "conclusion": "success",
+          "name": "Build Python distribution",
+          "number": 12,
+          "startedAt": "2026-09-30T02:44:14Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:44:26Z",
+          "conclusion": "success",
+          "name": "Test core and CLI",
+          "number": 13,
+          "startedAt": "2026-09-30T02:44:22Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:44:26Z",
+          "conclusion": "success",
+          "name": "Install package",
+          "number": 14,
+          "startedAt": "2026-09-30T02:44:26Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:44:30Z",
+          "conclusion": "success",
+          "name": "Configure independent consumer",
+          "number": 15,
+          "startedAt": "2026-09-30T02:44:26Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:44:33Z",
+          "conclusion": "success",
+          "name": "Build independent consumer",
+          "number": 16,
+          "startedAt": "2026-09-30T02:44:30Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:44:33Z",
+          "conclusion": "success",
+          "name": "Test installed package",
+          "number": 17,
+          "startedAt": "2026-09-30T02:44:33Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:44:35Z",
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@v4",
+          "number": 34,
+          "startedAt": "2026-09-30T02:44:33Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-30T02:44:35Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 35,
+          "startedAt": "2026-09-30T02:44:35Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/minexin/RFSim/actions/runs/36661128528/job/109715926509"
+    }
+  ],
+  "status": "completed",
+  "url": "https://github.com/minexin/RFSim/actions/runs/36661128528"
+}

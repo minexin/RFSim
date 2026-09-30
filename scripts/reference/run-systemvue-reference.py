@@ -17,11 +17,22 @@ DATASETS = {
 }
 
 
-def validate_capture(capture, case):
+def validate_capture(capture, case, *, allow_compression_warning=False):
+    if allow_compression_warning and case != "compression":
+        raise ValueError("Compression warning diagnosis requires compression case")
     name, folder, dataset = DATASETS[case]
     target = "/".join((name, folder, "System1_Data_Folder", dataset))
-    if capture["manager_errors"]:
-        raise ValueError("SystemVue reported analysis errors")
+    messages = capture["manager_errors"]
+    if messages:
+        number = r"[+-]?\d+(?:\.\d+)?"
+        warning = (r"\s*\(WARNING\) Part 'RFAmp' has been driven past the input "
+                   r"(?:1 dB compression|saturation) point of "
+                   + number + r" dBm\. The total input power is " + number
+                   + r" dBm\. Current element gain compression is " + number
+                   + r" dB\. Spectrum and measurements have less accuracy\.\s*")
+        if not (allow_compression_warning and case == "compression"
+                and isinstance(messages, str) and re.fullmatch(warning, messages)):
+            raise ValueError("SystemVue reported analysis errors or unaccepted warnings")
     times = []
     for key in ("run_started_utc", "run_returned_utc"):
         value = capture[key]
@@ -37,7 +48,9 @@ def validate_capture(capture, case):
         raise ValueError("Stale reference dataset")
 
 
-def execute(command, output_directory, case, timeout_seconds):
+def execute(command, output_directory, case, timeout_seconds, *, compression_diagnostic=False):
+    if compression_diagnostic and case != "compression":
+        raise ValueError("Compression diagnostic requires compression case")
     # Exclusive directory creation prevents replacing previous evidence.
     output_directory.mkdir(parents=True, exist_ok=False)
     status = {"case": case, "started_utc": datetime.now(timezone.utc).isoformat(),
@@ -67,9 +80,12 @@ def execute(command, output_directory, case, timeout_seconds):
             save()
             return 1
         capture = json.loads((output_directory / "capture.json").read_text(encoding="utf-8-sig"))
-        validate_capture(capture, case)
-        status["state"] = "captured"
-        status["detail"] = "Fresh dataset captured; numeric compatibility is not yet evaluated."
+        validate_capture(capture, case, allow_compression_warning=compression_diagnostic)
+        status["state"] = "captured_diagnostic" if compression_diagnostic else "captured"
+        status["eligible_for_compatibility"] = not compression_diagnostic
+        status["detail"] = ("Diagnostic capture only; preserve warning and exclude from compatibility acceptance."
+                            if compression_diagnostic else
+                            "Fresh dataset captured; numeric compatibility is not yet evaluated.")
         save()
         return 0
     except (OSError, ValueError, KeyError, TypeError) as error:
@@ -88,9 +104,13 @@ def main():
     parser.add_argument("--compression-riso-db", type=int, choices=(50, 100))
     parser.add_argument("--compression-profile", choices=("sample", "antenna"))
     parser.add_argument("--compression-opsat-dbm", type=int, choices=(22, 23, 26))
+    parser.add_argument("--compression-diagnostic", action="store_true",
+                        help="Preserve the known over-P1dB warning for diagnosis, never compatibility acceptance")
     parser.add_argument("--open-copy", action="store_true",
                         help="Open via official script API only when no workspace is loaded")
     args = parser.parse_args()
+    if args.compression_diagnostic and (args.case != "compression" or args.compression_profile == "antenna"):
+        parser.error("Compression diagnostic requires sample-profile compression case")
     if args.compression_riso_db is not None and args.case != "compression":
         parser.error("Reverse isolation override requires compression case")
     if args.compression_profile is not None and args.case != "compression":
@@ -124,7 +144,10 @@ def main():
         command.extend(["-CompressionProfile", args.compression_profile])
     if args.compression_opsat_dbm is not None:
         command.extend(["-CompressionOpsatDbm", str(args.compression_opsat_dbm)])
-    return execute(command, args.output_directory.resolve(), args.case, args.timeout)
+    if args.compression_diagnostic:
+        command.append("-PreserveManagerMessages")
+    return execute(command, args.output_directory.resolve(), args.case, args.timeout,
+                   compression_diagnostic=args.compression_diagnostic)
 
 
 if __name__ == "__main__":

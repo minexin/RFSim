@@ -16,11 +16,43 @@ spec.loader.exec_module(runner)
 
 
 class RunnerTests(unittest.TestCase):
+    def test_diagnostic_capture_preserves_warning_and_excludes_acceptance(self):
+        root = Path(__file__).resolve().parents[2]
+        fixture = root / "validation/systemvue-2023-single-saturation-diagnostic-captures.json"
+        capture = json.loads(fixture.read_text())[0]
+        with tempfile.TemporaryDirectory() as directory:
+            for diagnostic in (False, True):
+                output = Path(directory) / str(diagnostic)
+                command = [sys.executable, "-c",
+                           "import json,sys; from pathlib import Path; "
+                           "print(json.dumps(json.loads(Path(sys.argv[1]).read_text())[0]))", str(fixture)]
+                self.assertEqual(runner.execute(command, output, "compression", 10,
+                                               compression_diagnostic=diagnostic), 0 if diagnostic else 1)
+                status = json.loads((output / "status.json").read_text())
+                self.assertEqual(status["state"], "captured_diagnostic" if diagnostic else "failed")
+                self.assertEqual(json.loads((output / "capture.json").read_text()), capture)
+                if diagnostic:
+                    self.assertFalse(status["eligible_for_compatibility"])
+            with self.assertRaises(ValueError):
+                runner.execute([], Path(directory) / "wrong-case", "antenna", 10,
+                               compression_diagnostic=True)
+
     def test_saturation_override_rejects_other_cases_and_profiles(self):
         for case, extra in (("antenna", []), ("attenuator", []),
                             ("compression", ["--compression-profile", "antenna"])):
             arguments = ["runner", case, "unused.wsv", "unused-output",
                          "--compression-opsat-dbm", "26", *extra]
+            with self.subTest(case=case), patch.object(sys, "argv", arguments), \
+                    patch.object(runner, "execute") as execute, contextlib.redirect_stderr(io.StringIO()):
+                with self.assertRaises(SystemExit) as failure:
+                    runner.main()
+                self.assertEqual(failure.exception.code, 2)
+                execute.assert_not_called()
+
+    def test_diagnostic_option_rejects_other_cases_and_profiles(self):
+        for case, extra in (("antenna", []), ("attenuator", []),
+                            ("compression", ["--compression-profile", "antenna"])):
+            arguments = ["runner", case, "unused.wsv", "unused-output", "--compression-diagnostic", *extra]
             with self.subTest(case=case), patch.object(sys, "argv", arguments), \
                     patch.object(runner, "execute") as execute, contextlib.redirect_stderr(io.StringIO()):
                 with self.assertRaises(SystemExit) as failure:
