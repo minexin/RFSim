@@ -57,12 +57,22 @@ def compare(library, capture, source_power_dbm):
                        "frequency_bounds_hz": expected_frequencies, "systemvue_power_w": observed,
                        "rfmodel_power_w": predicted, "signed_relative_error": residual,
                        "passed": abs(residual) <= 1e-7})
+    # If H_n scales as P_in^n, this root is its conditional effective drive ratio.
+    # It is inferred from measured harmonics, never fed back into the native prediction.
+    ratios = [(check["systemvue_power_w"] / check["rfmodel_power_w"]) ** (1 / check["harmonic"])
+              for check in checks]
     return {
         "scope": "Direct generated H2/H3 power samples of the isolated sample-profile RFAMP",
         "limitation": "Flat 1 Hz input tone case only; no spectrum-density integration or full RFAMP equivalence",
         "source_power_dbm": source_power_dbm, "run_started_utc": capture["run_started_utc"],
         "parameters": verified["parameters"], "relative_tolerance": 1e-7,
         "checks": checks, "passed": all(check["passed"] for check in checks),
+        "effective_drive_diagnostic": {
+            "scope": "Power ratios inferred independently from measured H2 and H3; not a fitted predictor",
+            "from_h2": ratios[0], "from_h3": ratios[1],
+            "relative_disagreement": ratios[1] / ratios[0] - 1,
+            "affects_compatibility_verdict": False,
+        },
     }
 
 

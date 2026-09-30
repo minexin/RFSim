@@ -1,7 +1,7 @@
 {
   "scope": "Direct generated H2/H3 power samples of the isolated sample-profile RFAMP",
   "limitation": "Flat 1 Hz input tone case only; no spectrum-density integration or full RFAMP equivalence",
-  "source_power_dbm": -30.0,
+  "source_power_dbm": -30,
   "run_started_utc": "2026-09-30T01:45:20.8258567Z",
   "parameters": [
     {
@@ -121,6 +121,13 @@
     }
   ],
   "passed": true,
+  "effective_drive_diagnostic": {
+    "scope": "Power ratios inferred independently from measured H2 and H3; not a fitted predictor",
+    "from_h2": 0.9999999749997506,
+    "from_h3": 0.999999974999667,
+    "relative_disagreement": -8.359979375427429e-14,
+    "affects_compatibility_verdict": false
+  },
   "capture_sha256": "c6abee4e71c5e9be80869a09d181f1fec3c512d2b71027230602d0a1c4419f73",
   "library_sha256": "b15f90e289d286ebfc841385a6022aa46876fb02cb656e66799560bd2f037b43"
 }

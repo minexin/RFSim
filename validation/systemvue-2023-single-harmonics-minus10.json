@@ -1,8 +1,8 @@
 {
   "scope": "Direct generated H2/H3 power samples of the isolated sample-profile RFAMP",
   "limitation": "Flat 1 Hz input tone case only; no spectrum-density integration or full RFAMP equivalence",
-  "source_power_dbm": 0.9,
-  "run_started_utc": "2026-09-29T12:54:47.2266330Z",
+  "source_power_dbm": -10,
+  "run_started_utc": "2026-09-30T01:59:50.0679017Z",
   "parameters": [
     {
       "parameter": "RFAmp/G",
@@ -87,8 +87,8 @@
     },
     {
       "parameter": "Source/Pwr",
-      "value": 0.0012302687708123817,
-      "data_entry": "0.9"
+      "value": 0.0001,
+      "data_entry": "-10"
     }
   ],
   "relative_tolerance": 1e-07,
@@ -96,38 +96,38 @@
     {
       "harmonic": 2,
       "identity": "{2}[2x(Source.Source1)],RFAmp",
-      "spectrum_id": 86,
+      "spectrum_id": 85,
       "frequency_bounds_hz": [
         1999999999.0,
         2000000001.0
       ],
-      "systemvue_power_w": 0.00028588323698365174,
-      "rfmodel_power_w": 0.00037839031210905154,
-      "signed_relative_error": 0.3235834185363231,
-      "passed": false
+      "systemvue_power_w": 2.4999998749987403e-06,
+      "rfmodel_power_w": 2.5000000000000006e-06,
+      "signed_relative_error": 5.0000506623959495e-08,
+      "passed": true
     },
     {
       "harmonic": 3,
       "identity": "{4}[3x(Source.Source1)],RFAmp",
-      "spectrum_id": 88,
+      "spectrum_id": 87,
       "frequency_bounds_hz": [
         2999999998.5,
         3000000001.5
       ],
-      "systemvue_power_w": 0.0001358721707254921,
-      "rfmodel_power_w": 0.00020689857074031827,
-      "signed_relative_error": 0.5227442796827291,
-      "passed": false
+      "systemvue_power_w": 1.1111110277766634e-07,
+      "rfmodel_power_w": 1.1111111111111114e-07,
+      "signed_relative_error": 7.500100873691906e-08,
+      "passed": true
     }
   ],
-  "passed": false,
+  "passed": true,
   "effective_drive_diagnostic": {
     "scope": "Power ratios inferred independently from measured H2 and H3; not a fitted predictor",
-    "from_h2": 0.8692092534489075,
-    "from_h3": 0.8692092534488427,
-    "relative_disagreement": -7.460698725481052e-14,
+    "from_h2": 0.9999999749997477,
+    "from_h3": 0.999999974999665,
+    "relative_disagreement": -8.271161533457416e-14,
     "affects_compatibility_verdict": false
   },
-  "capture_sha256": "74c8c3436850e3dac7cb02081994d3574877d6d5e8241e3f5178a3235fe264ad",
+  "capture_sha256": "75ac5d7c68107c6a6c7b965ad8d444751b489be449abc991c61f1cc0f5e36a65",
   "library_sha256": "b15f90e289d286ebfc841385a6022aa46876fb02cb656e66799560bd2f037b43"
 }
