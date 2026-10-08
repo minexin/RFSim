@@ -3,6 +3,7 @@
 #include "rfmodel/saturating_fundamental.hpp"
 #include "rfmodel/single_tone_amplifier.hpp"
 #include "rfmodel/multitone_amplifier.hpp"
+#include "rfmodel/term_propagation.hpp"
 #include "rfmodel/network.hpp"
 #include "rfmodel/loaded_noise.hpp"
 #include "rfmodel/amplifier_model.hpp"
@@ -393,6 +394,43 @@ int rfmodel_multitone_amplifier_evaluate(double spacing_hz,
         }
         *output_count = written;
         *drive = {response.total_input_power_w, response.limited_input_power_w};
+    });
+}
+
+int rfmodel_network_transmit_terms(const rfmodel_network *network,
+                                   const size_t *external_ports,
+                                   size_t external_count,
+                                   double spacing_hz,
+                                   const rfmodel_amplifier_term *input,
+                                   size_t input_count,
+                                   rfmodel_amplifier_term *output,
+                                   size_t capacity,
+                                   size_t *output_count) {
+    return guarded([&] {
+        require(network && external_ports && external_count == 2 && output_count &&
+                input_count <= 4096 && (input || input_count == 0) && capacity >= input_count &&
+                (output || input_count == 0));
+        std::vector<rfmodel::AmplifierMixingTerm> terms;
+        for (size_t i = 0; i < input_count; ++i) {
+            const auto &term = input[i];
+            terms.push_back({term.order,
+                             term.index,
+                             {term.contributors[0], term.contributors[1], term.contributors[2]},
+                             {term.amplitude.real, term.amplitude.imag}});
+        }
+        const std::vector<size_t> ports(external_ports, external_ports + external_count);
+        const auto result = rfmodel::transmit_linear_terms(
+            spacing_hz, terms, ports, network->core.reference_impedance_ohms(), [&](double) {
+                return network->core;
+            });
+        for (size_t i = 0; i < result.size(); ++i) {
+            const auto &term = result[i];
+            output[i] = {term.order,
+                         term.bin,
+                         {term.contributors[0], term.contributors[1], term.contributors[2]},
+                         {term.amplitude.real(), term.amplitude.imag()}};
+        }
+        *output_count = result.size();
     });
 }
 

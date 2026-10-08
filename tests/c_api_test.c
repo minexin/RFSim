@@ -22,6 +22,31 @@ int main(int argc, char **argv) {
     double residual = -1;
     CHECK(rfmodel_abi_version() == 1);
     {
+        rfmodel_network *term_network = NULL;
+        rfmodel_amplifier_term terms[] = {{3, 10, {-11, 10, 11}, {1., 0.}},
+                                          {3, 10, {-10, 10, 10}, {-1., 0.}}};
+        rfmodel_amplifier_term output[2] = {{99, 98, {97, 0, 0}, {123., 0.}}};
+        const size_t ports[] = {0, 1};
+        size_t written = 777, first;
+        CHECK(rfmodel_network_create(50., &term_network) == RFMODEL_OK);
+        CHECK(rfmodel_network_add(term_network, 2, pad, 4, 50., &first) == RFMODEL_OK);
+        CHECK(rfmodel_network_transmit_terms(
+                  term_network, ports, 2, 1e8, terms, 2, output, 1, &written) ==
+              RFMODEL_INVALID_ARGUMENT);
+        CHECK(written == 777 && output[0].order == 99 && output[0].amplitude.real == 123.);
+        terms[1].contributors[0] = -9;
+        CHECK(rfmodel_network_transmit_terms(
+                  term_network, ports, 2, 1e8, terms, 2, output, 2, &written) ==
+              RFMODEL_INVALID_ARGUMENT);
+        CHECK(written == 777 && output[0].order == 99);
+        terms[1].contributors[0] = -10;
+        CHECK(rfmodel_network_transmit_terms(
+                  term_network, ports, 2, 1e8, terms, 2, output, 2, &written) == RFMODEL_OK);
+        CHECK(written == 2 && output[0].contributors[0] == -11 && output[1].contributors[0] == -10);
+        CHECK(output[0].amplitude.real == .5 && output[1].amplitude.real == -.5);
+        rfmodel_network_destroy(term_network);
+    }
+    {
         const rfmodel_spectrum_bin input[] = {{10, {.001, 0.}}, {11, {.001, 0.}}};
         rfmodel_amplifier_term terms[32] = {{99, 98, {97, 96, 95}, {123., 456.}}};
         rfmodel_amplifier_drive drive = {321., 654.};

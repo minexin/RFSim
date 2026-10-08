@@ -10,6 +10,7 @@
 - [基波压缩与饱和模型](saturating-fundamental.md)
 - [单音基波与限幅谐波模型](single-tone-amplifier.md)
 - [多音总功率限幅与分阶输出接口](multitone-amplifier.md)
+- [互调来源项在线性后级中的传播](term-propagation.md)
 - [匹配单向频谱链路文件](spectrum-model-file.md)
 - [线性网络 JSON 文件与批处理](linear-model-file.md)
 - [能力边界与验收矩阵](acceptance-matrix.md)

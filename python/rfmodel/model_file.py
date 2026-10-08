@@ -61,8 +61,9 @@ def referenced_touchstone_paths(document, base_directory=None):
     if not isinstance(document, dict):
         return set()
     networks = [document]
-    if document.get("format") == "rfmodel.spectrum-chain":
-        stages = document.get("stages", [])
+    if document.get("format") in ("rfmodel.spectrum-chain", "rfmodel.amplifier-components"):
+        field = "post_stages" if document.get("format") == "rfmodel.amplifier-components" else "stages"
+        stages = document.get(field, [])
         networks = []
         if isinstance(stages, list):
             for stage in stages:

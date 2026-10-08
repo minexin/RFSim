@@ -1,0 +1,39 @@
+{
+  "format": "rfmodel.amplifier-components",
+  "version": 1,
+  "spacing_hz": 100000000,
+  "reference_ohms": 50,
+  "include_terms": true,
+  "input": [
+    {"bin": 10, "amplitude": [0.022387211385683396, 0]},
+    {"bin": 11, "amplitude": [0.022387211385683396, 0]}
+  ],
+  "parameters": {
+    "power_gain_db": 20,
+    "output_p1db_dbm": 20,
+    "output_saturation_dbm": 23,
+    "input_ip2_dbm": 20,
+    "input_ip3_dbm": 10
+  },
+  "post_stages": [
+    {
+      "id": "cable",
+      "type": "linear_network",
+      "network": {
+        "devices": [{"id": "line", "model": {
+          "type": "transmission_line", "characteristic_ohms": 50,
+          "delay_s": 0.0000000001, "propagation_loss_db": 6
+        }}],
+        "external_ports": [["line", 0], ["line", 1]]
+      }
+    },
+    {
+      "id": "pad",
+      "type": "linear_network",
+      "network": {
+        "devices": [{"id": "pad", "s": [[0, 0.5], [0.5, 0]]}],
+        "external_ports": [["pad", 0], ["pad", 1]]
+      }
+    }
+  ]
+}

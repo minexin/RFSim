@@ -9,6 +9,24 @@ int main(int argc, char **argv) {
     size_t offset;
     int status;
     {
+        rfmodel_network *term_network = NULL;
+        const rfmodel_amplifier_term input = {1, 10, {10, 0, 0}, {1., 0.}};
+        rfmodel_amplifier_term output;
+        size_t written, first;
+        if (rfmodel_network_create(50., &term_network) != RFMODEL_OK ||
+            rfmodel_network_add(term_network, 2, s, 4, 50., &first) != RFMODEL_OK ||
+            rfmodel_network_transmit_terms(
+                term_network, ports, 2, 1e8, &input, 1, &output, 1, &written) != RFMODEL_OK) {
+            rfmodel_network_destroy(term_network);
+            return 22;
+        }
+        rfmodel_network_destroy(term_network);
+        if (written != 1 || output.contributors[0] != 10 ||
+            fabs(output.amplitude.imag + .5) > 1e-12) {
+            return 22;
+        }
+    }
+    {
         const rfmodel_spectrum_bin input[] = {{10, {.001, 0.}}, {11, {.001, 0.}}};
         rfmodel_amplifier_term terms[32];
         rfmodel_amplifier_drive drive;

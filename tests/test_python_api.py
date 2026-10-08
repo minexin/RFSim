@@ -326,6 +326,74 @@ class PythonApiTests(unittest.TestCase):
             self.assertEqual(process.returncode, 0, process.stderr)
             self.assertEqual(json.loads(output.read_text()), result)
 
+    def test_term_network_preserves_cancellation_and_zero(self):
+        terms = (rfmodel.AmplifierMixingTerm(3, 10, (-11, 10, 11), 1),
+                 rfmodel.AmplifierMixingTerm(3, 10, (-10, 10, 10), -1))
+        for gain in (0, .5j):
+            with self.library.network() as network:
+                network.add([[0, gain], [gain, 0]])
+                output = network.transmit_terms(1e8, terms, [0, 1])
+                self.assertEqual([t.contributors for t in output], [t.contributors for t in terms])
+                self.assertEqual([t.amplitude for t in output], [gain, -gain])
+                self.assertEqual(network.transmit_terms(1e8, [], [0, 1]), ())
+                for bad in ([terms[0], terms[0]], [terms[0]._replace(contributors=(-11, 10, 10))]):
+                    with self.assertRaises(RFModelError):
+                        network.transmit_terms(1e8, bad, [0, 1])
+                with self.assertRaises(ValueError):
+                    network.transmit_terms(1e8, [terms[0]._replace(order=True)], [0, 1])
+            with self.assertRaises(RuntimeError):
+                network.transmit_terms(1e8, terms, [0, 1])
+
+    def test_amplifier_linear_post_stages_and_input_protection(self):
+        document = load(Path(__file__).resolve().parents[1] / "examples/multitone-amplifier.json")
+        document["include_terms"] = True
+        line = {"devices": [{"id": "line", "model": {"type": "transmission_line",
+                 "characteristic_ohms": 50, "delay_s": 1e-10, "propagation_loss_db": 6}}],
+                "external_ports": [["line", 0], ["line", 1]]}
+        stop = {"devices": [{"id": "stop", "s": [[0, 0], [0, 0]]}],
+                "external_ports": [["stop", 0], ["stop", 1]]}
+        document["post_stages"] = [{"id": "delay", "type": "linear_network", "network": line},
+                                   {"id": "notch", "type": "linear_network", "network": stop}]
+        result = analyze_amplifier(self.library, document)
+        first, last = result["post_stages"]
+        self.assertEqual(last["path"], ["delay", "notch"])
+        self.assertEqual(len(last["terms"]), 16)
+        for original, transmitted in zip(result["terms"], first["terms"]):
+            phase = -2 * math.pi * original["frequency_hz"] * 1e-10
+            gain = 10**(-6/20) * complex(math.cos(phase), math.sin(phase))
+            self.assertAlmostEqual(complex(*transmitted["amplitude"]) / complex(*original["amplitude"]), gain)
+            self.assertEqual(transmitted["contributors"], original["contributors"])
+        self.assertTrue(all(t["power_w"] == 0 for t in last["terms"]))
+        for mutation in ("terms", "duplicate", "nonlinear", "noise"):
+            bad = copy.deepcopy(document)
+            if mutation == "terms":
+                bad["include_terms"] = False
+            elif mutation == "duplicate":
+                bad["post_stages"][1]["id"] = "delay"
+            elif mutation == "nonlinear":
+                bad["post_stages"][0]["type"] = "single_tone_amplifier"
+            else:
+                bad["post_stages"][0]["network"]["devices"][0]["noise"] = {"noiseless": True}
+            with self.subTest(mutation=mutation), self.assertRaises(ValueError):
+                analyze_amplifier(self.library, bad)
+        with tempfile.TemporaryDirectory() as directory:
+            source, touchstone = Path(directory) / "model.json", Path(directory) / "input.s2p"
+            original = b"# Hz S RI R 50\n100000000 0 0 1 0 1 0 0 0\n"
+            touchstone.write_bytes(original)
+            document["post_stages"][0]["network"]["devices"][0]["model"] = {
+                "type": "touchstone", "path": "input.s2p", "out_of_band": "clamp"}
+            source.write_text(json.dumps(document))
+            env = dict(os.environ, PYTHONPATH=str(Path(rfmodel.__file__).resolve().parent.parent))
+            output = Path(directory) / "output.json"
+            command = [sys.executable, "-m", "rfmodel", str(source), "--library", str(Path(LIBRARY_PATH).resolve()), "--output"]
+            good = subprocess.run(command + [str(output)], env=env, capture_output=True, text=True)
+            self.assertEqual(good.returncode, 0, good.stderr)
+            self.assertEqual(len(json.loads(output.read_text())["post_stages"]), 2)
+            bad = subprocess.run(command + [str(touchstone)], env=env, capture_output=True, text=True)
+            self.assertNotEqual(bad.returncode, 0)
+            self.assertIn("Touchstone", bad.stderr)
+            self.assertEqual(touchstone.read_bytes(), original)
+
     def test_multitone_term_provenance_and_json(self):
         arguments = dict(power_gain_db=20, output_p1db_dbm=20, output_saturation_dbm=23,
                          input_ip2_dbm=20, input_ip3_dbm=10)

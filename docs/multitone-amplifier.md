@@ -144,3 +144,6 @@ python scripts/reference/compare-amplifier-terms.py build-msvc/Release/rfmodel_c
 本次 Debug 全套 57/57 在 2026-09-30 完成，2026-10-08 继续完成 Release 清理
 重建与 57/57 测试；期间数值实现未再更改。两种配置的独立安装消费者各 2/2
 通过，C++ 格式检查覆盖 88 个文件。跨平台结果绑定后续提交 CI。
+
+来源项可继续经过 [线性后级](term-propagation.md)，通过可选 post_stages 输出
+逐级快照；尚不隐式定义重叠项的总功率测量，也不接入第二个非线性级。

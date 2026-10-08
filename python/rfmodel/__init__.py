@@ -221,6 +221,9 @@ class Library:
             "rfmodel_multitone_amplifier_terms": (
                 ct.c_int, [ct.c_double, ct.POINTER(_SpectrumBin), size] + [ct.c_double] * 6 +
                 [ct.POINTER(_AmplifierTerm), size, ct.POINTER(size), ct.POINTER(_AmplifierDrive)]),
+            "rfmodel_network_transmit_terms": (
+                ct.c_int, [handle, ct.POINTER(size), size, ct.c_double,
+                           ct.POINTER(_AmplifierTerm), size, ct.POINTER(_AmplifierTerm), size, ct.POINTER(size)]),
             "rfmodel_network_external_noise": (
                 ct.c_int, [handle, ct.POINTER(size), size, complex_pointer, size,
                            complex_pointer, size]),
@@ -609,6 +612,32 @@ class Network:
                 self._handle, selection, 2, float(spacing_hz), incident, len(incident),
                 output, len(output), ct.byref(count)))
             return {output[i].index: output[i].amplitude.value() for i in range(count.value)}
+
+    def transmit_terms(self, spacing_hz, terms, external_ports):
+        """Preserve local mixing identities through this fixed-S network."""
+        terms = list(terms)
+        if len(terms) > 4096:
+            raise ValueError("At most 4096 mixing terms")
+        incident = (_AmplifierTerm * len(terms))()
+        for index, term in enumerate(terms):
+            if type(term.order) is not int or not 1 <= term.order <= 3 or len(term.contributors) != term.order:
+                raise ValueError("Expected order 1..3 and exactly order contributors")
+            contributors = list(term.contributors)
+            if any(type(c) is not int or not -2147483647 <= c <= 2147483647 for c in contributors):
+                raise ValueError("Contributors must be signed integer bins")
+            incident[index] = _AmplifierTerm(term.order, _bin(term.bin),
+                (ct.c_int * 3)(*(contributors + [0] * (3 - term.order))), _Complex.from_value(term.amplitude))
+        with self._lock:
+            self._open()
+            indices = [_index(port) for port in external_ports]
+            if len(indices) != 2:
+                raise ValueError("Select exactly two external ports")
+            selection = (ct.c_size_t * 2)(*indices)
+            output, count = (_AmplifierTerm * len(terms))(), ct.c_size_t()
+            self._library._check(self._library._dll.rfmodel_network_transmit_terms(
+                self._handle, selection, 2, float(spacing_hz), incident, len(terms), output, len(output), ct.byref(count)))
+            return tuple(AmplifierMixingTerm(t.order, t.index, tuple(t.contributors[:t.order]), t.amplitude.value())
+                         for t in output[:count.value])
 
     def external_noise(self, ports, intrinsic):
         """Propagate full global-port intrinsic covariance to matched external ports."""

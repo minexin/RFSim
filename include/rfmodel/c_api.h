@@ -124,6 +124,20 @@ typedef struct rfmodel_amplifier_term {
     rfmodel_complex amplitude;
 } rfmodel_amplifier_term;
 
+/* Propagate local mixing identities through a fixed-S network with matched
+ * selected external ports. Preserve input order and zero terms. Duplicate or
+ * inconsistent identities reject. Max 4096 terms / 2048 distinct frequencies.
+ * Caller-owned non-overlapping arrays; output/count unchanged on failure. */
+RFMODEL_API int rfmodel_network_transmit_terms(const rfmodel_network *network,
+                                               const size_t *external_ports,
+                                               size_t external_count,
+                                               double spacing_hz,
+                                               const rfmodel_amplifier_term *input,
+                                               size_t input_count,
+                                               rfmodel_amplifier_term *output,
+                                               size_t capacity,
+                                               size_t *output_count);
+
 /* Like evaluate, but preserve individual quadratic/cubic mixing combinations.
  * Sorted by order, output bin, then contributors. At most 4096 returned terms;
  * resource exhaustion rejects the whole operation. Same atomic output contract. */

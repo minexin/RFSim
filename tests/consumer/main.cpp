@@ -15,10 +15,21 @@
 #include <rfmodel/saturating_fundamental.hpp>
 #include <rfmodel/single_tone_amplifier.hpp>
 #include <rfmodel/multitone_amplifier.hpp>
+#include <rfmodel/term_propagation.hpp>
 
 int main() {
     const rfmodel::MultiToneLimitedAmplifier multitone(20., 20., 23., 20., 10.);
     const auto traced = multitone.evaluate_terms({1e8, {{10, .001}, {11, .001}}});
+    const auto propagated =
+        rfmodel::transmit_linear_terms(1e8, traced.terms, {0, 1}, 50., [](double) {
+            rfmodel::LinearNetwork network;
+            network.add({2, {0., .5, .5, 0.}});
+            return network;
+        });
+    if (propagated.size() != traced.terms.size() ||
+        std::abs(propagated[7].amplitude / traced.terms[7].amplitude - .5) > 1e-12) {
+        return 22;
+    }
     if (traced.terms.size() != 16 || traced.terms[7].contributors[0] != -11 ||
         std::abs(traced.terms[7].amplitude / -2e-6 - 1.) > 1e-12) {
         return 21;
