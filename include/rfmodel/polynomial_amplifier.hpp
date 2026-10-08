@@ -64,6 +64,10 @@ public:
         return model;
     }
 
+    double voltage_coefficient(std::size_t order) const {
+        return polynomial_.coefficient(order);
+    }
+
     MatchedPolynomialAmplifier homogeneous_component(std::size_t order) const {
         auto selected = *this;
         selected.polynomial_ = polynomial_.homogeneous_component(order);

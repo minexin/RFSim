@@ -396,6 +396,42 @@ int rfmodel_multitone_amplifier_evaluate(double spacing_hz,
     });
 }
 
+int rfmodel_multitone_amplifier_terms(double spacing_hz,
+                                      const rfmodel_spectrum_bin *input,
+                                      size_t input_count,
+                                      double power_gain_db,
+                                      double output_p1db_dbm,
+                                      double output_saturation_dbm,
+                                      double input_ip2_dbm,
+                                      double input_ip3_dbm,
+                                      double reference_ohms,
+                                      rfmodel_amplifier_term *output,
+                                      size_t capacity,
+                                      size_t *output_count,
+                                      rfmodel_amplifier_drive *drive) {
+    return guarded([&] {
+        require(output_count && drive);
+        const auto incident = read_spectrum(spacing_hz, input, input_count);
+        const rfmodel::MultiToneLimitedAmplifier model(power_gain_db,
+                                                       output_p1db_dbm,
+                                                       output_saturation_dbm,
+                                                       input_ip2_dbm,
+                                                       input_ip3_dbm,
+                                                       reference_ohms);
+        const auto response = model.evaluate_terms(incident);
+        require(capacity >= response.terms.size() && (output || response.terms.empty()));
+        size_t written = 0;
+        for (const auto &term : response.terms) {
+            output[written++] = {term.order,
+                                 term.bin,
+                                 {term.contributors[0], term.contributors[1], term.contributors[2]},
+                                 {term.amplitude.real(), term.amplitude.imag()}};
+        }
+        *output_count = written;
+        *drive = {response.total_input_power_w, response.limited_input_power_w};
+    });
+}
+
 int rfmodel_ideal_mixer_transmit(double spacing_hz,
                                  const rfmodel_spectrum_bin *input,
                                  size_t input_count,

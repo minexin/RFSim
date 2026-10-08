@@ -10,6 +10,19 @@ int main(int argc, char **argv) {
     int status;
     {
         const rfmodel_spectrum_bin input[] = {{10, {.001, 0.}}, {11, {.001, 0.}}};
+        rfmodel_amplifier_term terms[32];
+        rfmodel_amplifier_drive drive;
+        size_t written;
+        if (rfmodel_multitone_amplifier_terms(
+                1e8, input, 2, 20., 20., 23., 20., 10., 50., terms, 32, &written, &drive) !=
+                RFMODEL_OK ||
+            written != 16 || terms[7].contributors[0] != -11 ||
+            fabs(terms[7].amplitude.real / -2e-6 - 1.) > 1e-12) {
+            return 21;
+        }
+    }
+    {
+        const rfmodel_spectrum_bin input[] = {{10, {.001, 0.}}, {11, {.001, 0.}}};
         rfmodel_amplifier_component output[32];
         rfmodel_amplifier_drive drive;
         size_t written;

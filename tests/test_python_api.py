@@ -326,6 +326,36 @@ class PythonApiTests(unittest.TestCase):
             self.assertEqual(process.returncode, 0, process.stderr)
             self.assertEqual(json.loads(output.read_text()), result)
 
+    def test_multitone_term_provenance_and_json(self):
+        arguments = dict(power_gain_db=20, output_p1db_dbm=20, output_saturation_dbm=23,
+                         input_ip2_dbm=20, input_ip3_dbm=10)
+        traced = self.library.multitone_amplifier_terms(1e8, {10: .001j, 11: .002}, **arguments)
+        self.assertEqual(len(traced.terms), 16)
+        self.assertAlmostEqual(traced.total_input_power_w / 5e-6, 1., places=12)
+        carrier = [t for t in traced.terms if t.order == 3 and t.bin == 10]
+        self.assertEqual([t.contributors for t in carrier], [(-11, 10, 11), (-10, 10, 10)])
+        self.assertAlmostEqual(carrier[0].amplitude / -8e-6j, 1.)
+        self.assertAlmostEqual(carrier[1].amplitude / -1e-6j, 1.)
+        document = load(Path(__file__).resolve().parents[1] / "examples/multitone-amplifier.json")
+        self.assertNotIn("terms", analyze_amplifier(self.library, document))
+        document["include_terms"] = True
+        result = analyze_amplifier(self.library, document)
+        self.assertEqual(len(result["terms"]), 16)
+        self.assertTrue(all(sum(t["contributors"]) == t["bin"] for t in result["terms"]))
+        with tempfile.TemporaryDirectory() as directory:
+            source, output = Path(directory) / "model.json", Path(directory) / "result.json"
+            source.write_text(json.dumps(document))
+            env = dict(os.environ, PYTHONPATH=str(Path(rfmodel.__file__).resolve().parent.parent))
+            process = subprocess.run([sys.executable, "-m", "rfmodel", str(source),
+                "--library", str(Path(LIBRARY_PATH).resolve()), "--output", str(output)],
+                env=env, capture_output=True, text=True)
+            self.assertEqual(process.returncode, 0, process.stderr)
+            self.assertEqual(json.loads(output.read_text()), result)
+        for invalid in (1, "true", None):
+            document["include_terms"] = invalid
+            with self.assertRaises(ValueError):
+                analyze_amplifier(self.library, document)
+
     def test_multitone_rejects_invalid_input_and_schema(self):
         path = Path(__file__).resolve().parents[1] / "examples/multitone-amplifier.json"
         for mutation in ("DC", "duplicate", "spacing", "version", "unknown", "invalid_empty"):

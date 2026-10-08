@@ -102,8 +102,7 @@ def limiter_ratio(power):
     return (limited / amplitude) ** 2
 
 
-def compare(library, capture, power_dbm):
-    power, parameters = inspect(capture, power_dbm)
+def spectrum_observer(capture):
     identifiers, names = vector(capture, "IDNo"), vector(capture, "IDName")
     if len(identifiers) != len(names) or len(set(identifiers)) != len(identifiers):
         raise ValueError("Invalid spectrum identity map")
@@ -128,6 +127,13 @@ def compare(library, capture, power_dbm):
         if not math.isclose(points[0][1], points[1][1], rel_tol=1e-12):
             raise ValueError("Non-flat product spectrum")
         return points[0][1], name, bounds
+
+    return observed
+
+
+def compare(library, capture, power_dbm):
+    power, parameters = inspect(capture, power_dbm)
+    observed = spectrum_observer(capture)
 
     native = library.intercept_amplifier(1e8, {10: math.sqrt(power), 11: math.sqrt(power)},
         power_gain_db=20, input_ip2_dbm=20, input_ip3_dbm=10)

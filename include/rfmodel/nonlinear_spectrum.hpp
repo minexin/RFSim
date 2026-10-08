@@ -32,6 +32,13 @@ public:
         }
     }
 
+    double coefficient(std::size_t order) const {
+        if (order > 9) {
+            throw std::invalid_argument("polynomial coefficient order exceeds nine");
+        }
+        return order < coefficients_.size() ? coefficients_[order] : 0.;
+    }
+
     MemorylessPolynomial homogeneous_component(std::size_t order) const {
         if (order > 9) {
             throw std::invalid_argument("polynomial component order exceeds nine");

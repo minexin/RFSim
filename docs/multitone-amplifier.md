@@ -81,8 +81,8 @@ python scripts/reference/compare-multitone-amplifier.py build-msvc/Release/rfmod
 下的原始差异。改动观测功率不会改变模型预测，未知告警或过期数据仍被拒绝。
 
 此项只验证等功率、零相位双音下的指定功率分量。不等功率/相位的解析测试
-验证代码约定，不能代替 SystemVue 相位或不等功率对照。载频处重叠项的观测
-语义、来源逐项追踪、完整级联/反馈、非线性噪声、高阶和 AM/PM 仍未完成。
+验证代码约定，不能代替 SystemVue 相位或不等功率对照。载频处重叠项的相位/
+合并语义、跨级来源追踪、完整级联/反馈、非线性噪声、高阶和 AM/PM 仍未完成。
 单音接口保持原来的多音拒绝行为。
 
 上一轮 SystemVue 采集进程仍未返回，本轮不向它重复提交命令；新增模型和
@@ -94,3 +94,53 @@ validation/systemvue-2023-native-multitone.json。
 不等功率的解析相位关系、参考阻抗归一化、单音一致性、重叠载波保留、饱和
 极限、空输入及错误处理、C 输出原子性和 JSON/CLI 往返；88 个 C/C++ 文件
 通过格式检查。跨平台结果以本提交 CI 为准。
+
+## 2026-10-08：本级混频来源追踪
+
+`evaluate_terms(incident)` 返回 `TracedAmplifierResponse`，保留每个本级生成组合。
+每项含 order、bin、contributors 和复幅度。contributors 是升序的带符号输入
+bin，多次出现表示乘方，负号表示共轭；各项之和等于输出 bin。直接响应只有
+一个正 contributor；二阶/三阶结果不包含 DC 或负频率镜像。
+
+例如 bin 10 处的 `[-11,10,11]`（交叉调制）和 `[-10,10,10]`（自身三阶项）
+独立返回，即使输出频率相同。展开使用无序二/三元组合及 1/2/3/6 的排列重数，
+不通过相减较大的聚合谱提取弱失真。三类分谱接口不变，单阶项按复幅度合并可
+重建该阶聚合谱；这只是现有相位约定下的恒等关系，并非真实器件相位验证。
+
+C 入口 `rfmodel_multitone_amplifier_terms` 参数与 evaluate 一致，输出项为
+`rfmodel_amplifier_term {order,index,contributors[3],amplitude}`；只用前 order 个
+contributor，其他槽补零。按阶次、输出 bin、contributors 排序；容量不足或
+异常时数组/count/drive 全部保持不变。Python 同名方法省去 `rfmodel_` 前缀，
+返回 `TracedAmplifierResponse` 和含元组 contributors 的 `AmplifierMixingTerm`。
+JSON 输入可选 `include_terms: true`，输出增加 terms 数组；省略时保持旧结果。
+该选项只接受布尔值。
+
+来源展开最多返回 4096 项、检查 1000 万个组合，另受已有聚合卷积资源限制；
+超过任一限制整体报错，不静默截断。因来源项可能远多于聚合 bin，某些输入
+可以聚合求解但无法在当前来源预算下展开。来源只表示本级输入 bin，不包含
+跨器件传播历史；级联需另行保留原始源身份和传播路径，不能将 bin 当全局 ID。
+
+新的比较器 compare-amplifier-terms.py 按完整来源表达式匹配 SystemVue IDName，
+并检查预期 16 个 RF 项全部存在。三组等功率双音共 48 个功率点在 1e-7 阈值
+内通过，最大相对差异约 7.50e-8，包含此前未单独检验的 12 个载频三阶项。
+−30 dBm 每音下，自身项约 1e-12 W、交叉项约 4e-12 W；该差异来自排列重数，
+未按观测拟合修正。报告为 validation/systemvue-2023-amplifier-terms.json，保存
+原始/精简采集及 DLL 散列。仍未验证合并后载频、测量通道功率或来源项相位。
+
+```powershell
+python scripts/reference/compare-amplifier-terms.py build-msvc/Release/rfmodel_c.dll `
+  validation/systemvue-2023-two-tone-captures.json build-reference/terms-replay.json
+```
+
+新增回归检查不等功率复相位、三音频率碰撞的分项重建、资源限制、C 输出
+原子性、安装消费者、JSON/CLI，以及改动某个载频项只使该项失败、来源错误
+不能仅按频率匹配。沿用之前完成的三组参考，无需重新启动 SystemVue。
+
+2026-10-08 核对旧采集日志：003 调用已于 2026-09-30 09:27:56 UTC 返回，最终
+被采集器以未生成新鲜数据拒绝；旧 runner 的 timeout_unresolved 状态文件没有
+自动追踪后续退出。当前 SystemVue 已不存在，该次采集仍无有效结果。后续新
+采集应重新核对实例和专用工程，不能复用这次超时输出作为参考。
+
+本次 Debug 全套 57/57 在 2026-09-30 完成，2026-10-08 继续完成 Release 清理
+重建与 57/57 测试；期间数值实现未再更改。两种配置的独立安装消费者各 2/2
+通过，C++ 格式检查覆盖 88 个文件。跨平台结果绑定后续提交 CI。

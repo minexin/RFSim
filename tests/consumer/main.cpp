@@ -18,6 +18,11 @@
 
 int main() {
     const rfmodel::MultiToneLimitedAmplifier multitone(20., 20., 23., 20., 10.);
+    const auto traced = multitone.evaluate_terms({1e8, {{10, .001}, {11, .001}}});
+    if (traced.terms.size() != 16 || traced.terms[7].contributors[0] != -11 ||
+        std::abs(traced.terms[7].amplitude / -2e-6 - 1.) > 1e-12) {
+        return 21;
+    }
     const auto families = multitone.evaluate({1e8, {{10, .001}, {11, .001}}});
     if (std::abs(std::norm(families.third_order.amplitudes.at(9)) / 1e-12 - 1.) > 1e-12 ||
         families.direct.amplitudes.size() != 2 || !families.third_order.amplitudes.count(10)) {

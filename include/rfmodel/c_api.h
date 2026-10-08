@@ -115,6 +115,32 @@ typedef struct rfmodel_amplifier_drive {
     double limited_input_power_w;
 } rfmodel_amplifier_drive;
 
+/* Local generating input bins, ascending signed order. Negative means conjugate;
+ * only the first order entries are used, with zero padding to three entries. */
+typedef struct rfmodel_amplifier_term {
+    int order;
+    int index;
+    int contributors[3];
+    rfmodel_complex amplitude;
+} rfmodel_amplifier_term;
+
+/* Like evaluate, but preserve individual quadratic/cubic mixing combinations.
+ * Sorted by order, output bin, then contributors. At most 4096 returned terms;
+ * resource exhaustion rejects the whole operation. Same atomic output contract. */
+RFMODEL_API int rfmodel_multitone_amplifier_terms(double spacing_hz,
+                                                  const rfmodel_spectrum_bin *input,
+                                                  size_t input_count,
+                                                  double power_gain_db,
+                                                  double output_p1db_dbm,
+                                                  double output_saturation_dbm,
+                                                  double input_ip2_dbm,
+                                                  double input_ip3_dbm,
+                                                  double reference_ohms,
+                                                  rfmodel_amplifier_term *output,
+                                                  size_t capacity,
+                                                  size_t *output_count,
+                                                  rfmodel_amplifier_drive *drive);
+
 /* Total-drive limited RF components; nonzero DC rejected, generated DC blocked.
  * Caller-owned non-overlapping outputs, sorted by order then bin. At most 10240
  * components. output_count and drive must be non-NULL; output can be NULL only

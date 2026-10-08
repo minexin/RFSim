@@ -8,6 +8,58 @@ int main() {
     const Complex a = std::polar(.001, .3);
     const Complex b = std::polar(.002, -.7);
     const auto low = model.evaluate({1e8, {{10, a}, {11, b}}});
+    const auto traced = model.evaluate_terms({1e8, {{10, a}, {11, b}}});
+    require(traced.terms.size() == 16, "two tones require sixteen separate RF terms");
+    std::map<int, Complex> reconstructed[3];
+    int carrier_terms = 0;
+    for (const auto &term : traced.terms) {
+        reconstructed[term.order - 1][term.bin] += term.amplitude;
+        int sum = 0;
+        for (int i = 0; i < term.order; ++i) {
+            sum += term.contributors[i];
+        }
+        require(sum == term.bin, "contributors must reproduce output frequency");
+        if (term.order == 3 && term.bin == 10) {
+            ++carrier_terms;
+            if (term.contributors[0] == -11) {
+                near(term.amplitude, -2000. * a * std::norm(b));
+            } else {
+                near(term.amplitude, -1000. * a * std::norm(a));
+            }
+        }
+    }
+    require(carrier_terms == 2, "self and cross modulation must remain separate");
+    const PowerWaveSpectrum *families[] = {&low.direct, &low.second_order, &low.third_order};
+    for (int order = 0; order < 3; ++order) {
+        for (const auto &entry : families[order]->amplitudes) {
+            near(reconstructed[order].at(entry.first), entry.second);
+        }
+    }
+    const PowerWaveSpectrum colliding{1e6, {{10, a}, {20, b}, {30, .001 * std::polar(1., 1.1)}}};
+    const auto colliding_terms = model.evaluate_terms(colliding);
+    const auto colliding_families = model.evaluate(colliding);
+    std::map<int, Complex> sum_by_order[3];
+    for (const auto &term : colliding_terms.terms) {
+        sum_by_order[term.order - 1][term.bin] += term.amplitude;
+    }
+    const PowerWaveSpectrum *colliding_outputs[] = {&colliding_families.direct,
+                                                    &colliding_families.second_order,
+                                                    &colliding_families.third_order};
+    for (int order = 0; order < 3; ++order) {
+        for (const auto &entry : colliding_outputs[order]->amplitudes) {
+            near(sum_by_order[order].at(entry.first), entry.second);
+        }
+    }
+    PowerWaveSpectrum many{1e6, {}};
+    for (int bin = 100; bin < 130; ++bin) {
+        many.amplitudes[bin] = .00001;
+    }
+    // Aggregate output is bounded, but provenance can have far more terms.
+    model.evaluate(many);
+    rejects<std::length_error>([&] {
+        model.evaluate_terms(many);
+    });
+    require(model.evaluate_terms({1e6, {}}).terms.empty(), "empty provenance must be empty");
     near(low.total_input_power_w, 5e-6);
     near(low.limited_input_power_w, 5e-6);
     // Independent analytic phase/amplitude laws with unequal input powers.

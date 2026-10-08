@@ -82,6 +82,9 @@ if(RFMODEL_BUILD_C_API)
         add_test(NAME multitone_amplifier_reference COMMAND ${Python3_EXECUTABLE}
             ${CMAKE_CURRENT_SOURCE_DIR}/scripts/reference/test_compare_multitone_amplifier.py
             $<TARGET_FILE:rfmodel_c>)
+        add_test(NAME amplifier_term_reference COMMAND ${Python3_EXECUTABLE}
+            ${CMAKE_CURRENT_SOURCE_DIR}/scripts/reference/test_compare_amplifier_terms.py
+            $<TARGET_FILE:rfmodel_c>)
         add_test(NAME total_drive_diagnostic COMMAND ${Python3_EXECUTABLE}
             ${CMAKE_CURRENT_SOURCE_DIR}/scripts/reference/test_diagnose_total_drive.py
             $<TARGET_FILE:rfmodel_c>)

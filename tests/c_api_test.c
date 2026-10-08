@@ -23,6 +23,30 @@ int main(int argc, char **argv) {
     CHECK(rfmodel_abi_version() == 1);
     {
         const rfmodel_spectrum_bin input[] = {{10, {.001, 0.}}, {11, {.001, 0.}}};
+        rfmodel_amplifier_term terms[32] = {{99, 98, {97, 96, 95}, {123., 456.}}};
+        rfmodel_amplifier_drive drive = {321., 654.};
+        size_t written = 777;
+        CHECK(rfmodel_multitone_amplifier_terms(
+                  1e8, input, 2, 20., 20., 23., 20., 10., 50., terms, 15, &written, &drive) ==
+              RFMODEL_INVALID_ARGUMENT);
+        CHECK(written == 777 && drive.total_input_power_w == 321. && terms[0].order == 99 &&
+              terms[0].contributors[2] == 95 && terms[0].amplitude.real == 123.);
+        CHECK(rfmodel_multitone_amplifier_terms(
+                  1e8, input, 2, 20., 20., 23., 20., 10., 50., terms, 32, &written, &drive) ==
+              RFMODEL_OK);
+        CHECK(written == 16 && terms[7].order == 3 && terms[7].index == 10);
+        CHECK(terms[7].contributors[0] == -11 && terms[7].contributors[1] == 10 &&
+              terms[7].contributors[2] == 11);
+        CHECK(fabs(terms[7].amplitude.real / -2e-6 - 1.) < 1e-12);
+        CHECK(terms[8].contributors[0] == -10 &&
+              fabs(terms[8].amplitude.real / -1e-6 - 1.) < 1e-12);
+        CHECK(rfmodel_multitone_amplifier_terms(
+                  1e8, NULL, 0, 20., 20., 23., 20., 10., 50., NULL, 0, &written, &drive) ==
+              RFMODEL_OK);
+        CHECK(written == 0 && drive.total_input_power_w == 0.);
+    }
+    {
+        const rfmodel_spectrum_bin input[] = {{10, {.001, 0.}}, {11, {.001, 0.}}};
         rfmodel_amplifier_component output[32] = {{99, 98, {123., 456.}}};
         rfmodel_amplifier_drive drive = {321., 654.};
         size_t written = 777;
