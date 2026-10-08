@@ -18,6 +18,20 @@ class TwoToneTests(unittest.TestCase):
         cls.captures = json.loads((comparison.single.ROOT / "validation" /
                                   "systemvue-2023-two-tone-captures.json").read_text())
 
+    def test_unequal_source_parameters_use_ordered_powers_and_total_limit(self):
+        # Parameter-only fixture: no spectrum observations are changed or compared.
+        capture = copy.deepcopy(self.captures[0])
+        comparison.node(capture, "Sch1/PartList/Source/ParamSet/Pwr")["data"] = [1e-6, 1e-7]
+        power, _ = comparison.inspect(capture, -30, second_power_dbm=-40)
+        self.assertAlmostEqual(power, 1e-6)
+        with self.assertRaises(ValueError):
+            comparison.inspect(capture, -40, second_power_dbm=-30)
+        with self.assertRaises(ValueError):
+            comparison.inspect(capture, -30)
+        for second in (float("nan"), float("inf"), True, -201, 30):
+            with self.subTest(second=second), self.assertRaises(ValueError):
+                comparison.inspect(capture, -30, second_power_dbm=second)
+
     def test_measured_small_signal_passes_and_compression_gaps_remain(self):
         reports = [comparison.compare(self.library, c, c["source_power_dbm_per_tone"])
                    for c in self.captures]

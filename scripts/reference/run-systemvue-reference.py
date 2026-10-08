@@ -105,12 +105,18 @@ def main():
     parser.add_argument("--compression-profile", choices=("sample", "antenna", "limiter"))
     parser.add_argument("--compression-opsat-dbm", type=int, choices=(22, 23, 26))
     parser.add_argument("--compression-two-tone", action="store_true",
-                        help="Sample profile with equal-power 1.0/1.1 GHz CW tones; source power is per tone")
+                        help="Sample profile with 1.0/1.1 GHz CW tones; defaults to equal powers")
+    parser.add_argument("--compression-second-power-dbm", type=float,
+                        help="Second CW tone power; requires --compression-two-tone")
     parser.add_argument("--compression-diagnostic", action="store_true",
                         help="Preserve the known over-P1dB warning for diagnosis, never compatibility acceptance")
     parser.add_argument("--open-copy", action="store_true",
                         help="Open via official script API only when no workspace is loaded")
     args = parser.parse_args()
+    if args.compression_second_power_dbm is not None and (
+            not args.compression_two_tone or not math.isfinite(args.compression_second_power_dbm)
+            or not -200 <= args.compression_second_power_dbm <= 30):
+        parser.error("Second power requires two-tone mode and a finite value from -200 to 30 dBm")
     if args.compression_two_tone and (args.case != "compression" or
             args.compression_profile not in (None, "sample") or args.compression_diagnostic or
             args.source_power_dbm is None or args.compression_opsat_dbm is not None):
@@ -154,6 +160,8 @@ def main():
         command.append("-PreserveManagerMessages")
     if args.compression_two_tone:
         command.append("-CompressionTwoTone")
+    if args.compression_second_power_dbm is not None:
+        command.extend(["-CompressionSecondPowerDbm", str(args.compression_second_power_dbm)])
     return execute(command, args.output_directory.resolve(), args.case, args.timeout,
                    compression_diagnostic=args.compression_diagnostic)
 

@@ -12,9 +12,15 @@ param(
     [ValidateSet(22, 23, 26)][int]$CompressionOpsatDbm = 23,
     [switch]$PreserveManagerMessages,
     [switch]$CompressionTwoTone,
+    [Nullable[double]]$CompressionSecondPowerDbm,
     [switch]$CaptureRun
 )
 $ErrorActionPreference = 'Stop'
+if ($null -ne $CompressionSecondPowerDbm -and (-not $CompressionTwoTone -or
+    [double]::IsNaN($CompressionSecondPowerDbm) -or [double]::IsInfinity($CompressionSecondPowerDbm) -or
+    $CompressionSecondPowerDbm -lt -200 -or $CompressionSecondPowerDbm -gt 30)) {
+    throw 'CompressionSecondPowerDbm requires two-tone mode and a finite value from -200 to 30 dBm.'
+}
 if ($CompressionTwoTone -and (-not $RunCompressionAnalysis -or $CompressionProfile -ne 'sample' -or
     $PreserveManagerMessages -or $null -eq $SourcePowerDbm -or $PSBoundParameters.ContainsKey('CompressionOpsatDbm'))) {
     throw 'CompressionTwoTone requires sample compression, explicit per-tone power and no diagnostic/OPSAT override.'
@@ -204,7 +210,7 @@ public static class ReferenceWorkspaceInspector
 
     public static Node[] Inspect(string path, bool open, bool run, bool antenna, double lossDb, double temperatureK,
         double sourcePowerDbm, bool compression, int compressionRisoDb, string compressionProfile,
-        int compressionOpsatDbm, bool preserveManagerMessages, bool compressionTwoTone)
+        int compressionOpsatDbm, bool preserveManagerMessages, bool compressionTwoTone, double secondPowerDbm)
     {
         Console.Error.WriteLine("phase: attach-active-instance");
         object active = Marshal.GetActiveObject("Genesys.Application");
@@ -301,13 +307,15 @@ public static class ReferenceWorkspaceInspector
                             if (!Double.IsNaN(sourcePowerDbm))
                             {
                                 string powerText = sourcePowerDbm.ToString("R", System.Globalization.CultureInfo.InvariantCulture);
+                                string secondPowerText = Double.IsNaN(secondPowerDbm) ? powerText :
+                                    secondPowerDbm.ToString("R", System.Globalization.CultureInfo.InvariantCulture);
                                 string sourcePath = antenna
                                     ? "wsdoc.GetItemByName(\"RF Design\").GetItemByName(\"Sch1\").PartList.Source"
                                     : "wsdoc.Designs.Sch1.PartList.Source";
                                 // Preserve the second (noise) source entry from the official case.
                                 setup += sourcePath + ".ParamSet.Pwr.Set(\"" +
                                     (antenna ? "[" + powerText + ";-50]" : compressionTwoTone
-                                        ? "[" + powerText + ";" + powerText + "]" : powerText) + "\")\r\n";
+                                        ? "[" + powerText + ";" + secondPowerText + "]" : powerText) + "\")\r\n";
                             }
                             RunStartedUtc = DateTime.UtcNow.ToString("o");
                             Console.Error.WriteLine("phase: run-analysis " + RunStartedUtc);
@@ -372,11 +380,12 @@ public static class ReferenceWorkspaceInspector
 $loss = if ($null -eq $LossDb) { [double]::NaN } else { [double]$LossDb }
 $temperature = if ($null -eq $TemperatureK) { [double]::NaN } else { [double]$TemperatureK }
 $power = if ($null -eq $SourcePowerDbm) { [double]::NaN } else { [double]$SourcePowerDbm }
+$secondPower = if ($null -eq $CompressionSecondPowerDbm) { [double]::NaN } else { [double]$CompressionSecondPowerDbm }
 $nodes = [ReferenceWorkspaceInspector]::Inspect($resolvedPath, $OpenCopy.IsPresent,
     ($RunAttenuatorAnalysis.IsPresent -or $RunAntennaAnalysis.IsPresent -or $RunCompressionAnalysis.IsPresent),
     $RunAntennaAnalysis.IsPresent, $loss, $temperature, $power, $RunCompressionAnalysis.IsPresent,
     $CompressionRisoDb, $CompressionProfile, $CompressionOpsatDbm, $PreserveManagerMessages.IsPresent,
-    $CompressionTwoTone.IsPresent)
+    $CompressionTwoTone.IsPresent, $secondPower)
 if ($CaptureRun) {
     [ordered]@{
         run_started_utc = [ReferenceWorkspaceInspector]::RunStartedUtc

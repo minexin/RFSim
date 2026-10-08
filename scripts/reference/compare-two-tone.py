@@ -44,8 +44,15 @@ def vector(capture, name):
     return data
 
 
-def inspect(capture, power_dbm):
-    if not math.isfinite(power_dbm) or not -200 <= power_dbm <= 1 - 10 * math.log10(2):
+def inspect(capture, power_dbm, *, second_power_dbm=None):
+    second = power_dbm if second_power_dbm is None else second_power_dbm
+    for value in (power_dbm, second):
+        if (isinstance(value, bool) or not isinstance(value, (int, float))
+                or not math.isfinite(value) or not -200 <= value <= 30):
+            raise ValueError("Tone powers must be finite numbers from -200 to 30 dBm")
+    power = 10 ** ((power_dbm - 30) / 10)
+    second_power = 10 ** ((second - 30) / 10)
+    if power + second_power > 10 ** ((1 - 30) / 10):
         raise ValueError("Total two-tone input must not exceed sample input P1dB")
     single.runner.validate_capture(capture, "compression")
     times = [datetime.fromisoformat(re.sub(r"(\.\d{6})\d+Z$", r"\1Z", capture[key])[:-1]
@@ -59,8 +66,7 @@ def inspect(capture, power_dbm):
              and n["path"].split("/")[-1] not in ("Page", "PartLib")]
     if sorted(parts) != ["Out", "RFAmp", "Source"]:
         raise ValueError("Expected isolated RFAMP topology")
-    power = 10 ** ((power_dbm - 30) / 10)
-    expected = {**single.PARAMETERS, "Source/Pwr": [power, power],
+    expected = {**single.PARAMETERS, "Source/Pwr": [power, second_power],
                 "Source/Freq": [1e9, 1.1e9], "Source/Enable": [1, 1],
                 "Source/SrcType": [0, 0], "Source/EnablePN": [0, 0],
                 "Source/MultiCarrier": [0, 0], "Source/Phase": [0, 0],

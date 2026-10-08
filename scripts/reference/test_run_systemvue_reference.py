@@ -16,6 +16,37 @@ spec.loader.exec_module(runner)
 
 
 class RunnerTests(unittest.TestCase):
+    @unittest.skipUnless(sys.platform == "win32", "Valid COM launch requires Windows paths")
+    def test_second_tone_power_reaches_collector_command(self):
+        # Only replace process launch; parsing, path guards and command construction are real.
+        root = Path(__file__).resolve().parents[2]
+        (root / "build-reference").mkdir(exist_ok=True)
+        with tempfile.TemporaryDirectory(dir=root / "build-reference") as directory:
+            workspace = Path(directory) / "RFModel_AmplifierCompression.wsv"
+            workspace.touch()
+            arguments = ["runner", "compression", str(workspace), str(Path(directory) / "output"),
+                         "--compression-two-tone", "--source-power-dbm", "-3",
+                         "--compression-second-power-dbm", "-12"]
+            with patch.object(sys, "argv", arguments), patch.object(runner, "execute", return_value=0) as execute:
+                self.assertEqual(runner.main(), 0)
+            command = execute.call_args.args[0]
+            self.assertEqual(command[command.index("-SourcePowerDbm") + 1], "-3.0")
+            self.assertEqual(command[command.index("-CompressionSecondPowerDbm") + 1], "-12.0")
+
+    def test_second_power_rejects_invalid_or_single_tone_requests(self):
+        cases = [["--compression-second-power-dbm", "-12"]]
+        cases.extend([["--compression-two-tone", "--compression-second-power-dbm=" + value]
+                      for value in ("nan", "inf", "-201", "31")])
+        for options in cases:
+            arguments = ["runner", "compression", "unused.wsv", "unused-output",
+                         "--source-power-dbm", "-3", *options]
+            with self.subTest(options=options), patch.object(sys, "argv", arguments):
+                with patch.object(runner, "execute") as execute, contextlib.redirect_stderr(io.StringIO()):
+                    with self.assertRaises(SystemExit) as failure:
+                        runner.main()
+                    self.assertEqual(failure.exception.code, 2)
+                    execute.assert_not_called()
+
     def test_two_tone_rejects_ambiguous_or_incompatible_options(self):
         cases = (("antenna", ["--source-power-dbm", "-30"]),
                  ("attenuator", ["--source-power-dbm", "-30"]),

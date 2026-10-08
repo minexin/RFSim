@@ -147,3 +147,6 @@ python scripts/reference/compare-amplifier-terms.py build-msvc/Release/rfmodel_c
 
 来源项可继续经过 [线性后级](term-propagation.md)，通过可选 post_stages 输出
 逐级快照；尚不隐式定义重叠项的总功率测量，也不接入第二个非线性级。
+
+后续 [不等功率双音交叉验证](systemvue-unequal-two-tone.md) 用四组真实采集验证
+64 个来源项功率，最大相对差异 7.5001004e-8；无需改动本模型。

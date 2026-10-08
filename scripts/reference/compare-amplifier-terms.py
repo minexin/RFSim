@@ -28,18 +28,35 @@ def expression(contributors):
     return "".join(pieces)
 
 
+def source_powers(capture):
+    if "source_powers_dbm" in capture:
+        if "source_power_dbm_per_tone" in capture:
+            raise ValueError("Ambiguous source power metadata")
+        pair = capture["source_powers_dbm"]
+    elif "source_power_dbm_per_tone" in capture:
+        pair = [capture["source_power_dbm_per_tone"]] * 2
+    else:
+        raise ValueError("Missing ordered source powers")
+    if not isinstance(pair, list) or len(pair) != 2:
+        raise ValueError("Exactly two ordered source powers required")
+    if any(isinstance(p, bool) or not isinstance(p, (int, float)) or not math.isfinite(p) for p in pair):
+        raise ValueError("Source powers must be finite numbers")
+    return tuple(pair)
+
+
 def compare(library, captures):
     if not isinstance(captures, list) or not captures:
         raise ValueError("Nonempty controlled sweep required")
     reports, seen = [], set()
     for capture in captures:
-        power_dbm = capture["source_power_dbm_per_tone"]
-        if power_dbm in seen:
-            raise ValueError("Duplicate per-tone power")
-        seen.add(power_dbm)
-        power, parameters = two_tone.inspect(capture, power_dbm)
+        powers_dbm = source_powers(capture)
+        if powers_dbm in seen:
+            raise ValueError("Duplicate ordered power pair")
+        seen.add(powers_dbm)
+        power, parameters = two_tone.inspect(capture, powers_dbm[0], second_power_dbm=powers_dbm[1])
+        second_power = 10 ** ((powers_dbm[1] - 30) / 10)
         observed = two_tone.spectrum_observer(capture)
-        traced = library.multitone_amplifier_terms(1e8, {10: math.sqrt(power), 11: math.sqrt(power)},
+        traced = library.multitone_amplifier_terms(1e8, {10: math.sqrt(power), 11: math.sqrt(second_power)},
             power_gain_db=20, output_p1db_dbm=20, output_saturation_dbm=23, input_ip2_dbm=20, input_ip3_dbm=10)
         keys = [(term.order, term.contributors) for term in traced.terms]
         if len(keys) != len(EXPECTED) or set(keys) != EXPECTED:
@@ -57,11 +74,11 @@ def compare(library, captures):
                            "carrier_overlap": term.order == 3 and term.bin in (10, 11),
                            "systemvue_power_w": measured, "rfmodel_power_w": predicted,
                            "signed_relative_error": error, "passed": abs(error) <= 1e-7})
-        reports.append({"source_power_dbm_per_tone": power_dbm, "parameters": parameters,
+        reports.append({"source_powers_dbm": list(powers_dbm), "parameters": parameters,
                         "raw_capture_sha256": capture["raw_capture_sha256"],
                         "run_started_utc": capture["run_started_utc"],
                         "manager_messages": capture["manager_errors"], "checks": checks})
-    return {"scope": "Sixteen separately identified direct/second/third-order RF terms per equal-tone case",
+    return {"scope": "Sixteen separately identified direct/second/third-order RF terms per controlled two-tone case",
             "limitation": "Individual powers only; no measured phases, coherent carrier sums or multi-stage provenance",
             "relative_tolerance": 1e-7, "reports": reports,
             "passed": all(c["passed"] for r in reports for c in r["checks"])}
