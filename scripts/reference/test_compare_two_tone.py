@@ -32,6 +32,27 @@ class TwoToneTests(unittest.TestCase):
             with self.subTest(second=second), self.assertRaises(ValueError):
                 comparison.inspect(capture, -30, second_power_dbm=second)
 
+    def test_independent_profile_has_its_own_parameters_and_input_limit(self):
+        capture = copy.deepcopy(self.captures[0])
+        replacements = {"RFAmp/G": 10.0, "RFAmp/OP1dB": 10 ** -1.5,
+                        "RFAmp/OPSAT": 10 ** -1.2, "Source/Pwr": [10 ** -2.5, 10 ** -4.5]}
+        for name, value in replacements.items():
+            device, parameter = name.split("/")
+            comparison.node(capture, f"Sch1/PartList/{device}/ParamSet/{parameter}")["data"] = value
+        power, parameters = comparison.inspect(capture, 5, second_power_dbm=-15, profile="limiter")
+        self.assertAlmostEqual(power, 0.0031622776601683794)
+        self.assertEqual(next(p["value"] for p in parameters if p["parameter"] == "RFAmp/G"), 10)
+        for profile in ("sample", "antenna", "unknown"):
+            with self.subTest(profile=profile), self.assertRaises(ValueError):
+                comparison.inspect(capture, 5, second_power_dbm=-15, profile=profile)
+        comparison.node(capture, "Sch1/PartList/Source/ParamSet/Pwr")["data"] = [10 ** -2.4, 10 ** -4.5]
+        with self.assertRaisesRegex(ValueError, "input P1dB"):
+            comparison.inspect(capture, 6, second_power_dbm=-15, profile="limiter")
+        comparison.node(capture, "Sch1/PartList/Source/ParamSet/Pwr")["data"] = [10 ** -2.5, 10 ** -4.5]
+        comparison.node(capture, "Sch1/PartList/RFAmp/ParamSet/G")["data"] = 100
+        with self.assertRaises(ValueError):
+            comparison.inspect(capture, 5, second_power_dbm=-15, profile="limiter")
+
     def test_measured_small_signal_passes_and_compression_gaps_remain(self):
         reports = [comparison.compare(self.library, c, c["source_power_dbm_per_tone"])
                    for c in self.captures]

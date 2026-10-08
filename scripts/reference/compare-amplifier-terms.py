@@ -50,14 +50,24 @@ def compare(library, captures):
     reports, seen = [], set()
     for capture in captures:
         powers_dbm = source_powers(capture)
-        if powers_dbm in seen:
-            raise ValueError("Duplicate ordered power pair")
-        seen.add(powers_dbm)
-        power, parameters = two_tone.inspect(capture, powers_dbm[0], second_power_dbm=powers_dbm[1])
+        profile = capture.get("profile", "sample")
+        power, parameters = two_tone.inspect(capture, powers_dbm[0],
+                                             second_power_dbm=powers_dbm[1], profile=profile)
+        identity = (profile, *powers_dbm)
+        if identity in seen:
+            raise ValueError("Duplicate profile and ordered power pair")
+        seen.add(identity)
         second_power = 10 ** ((powers_dbm[1] - 30) / 10)
         observed = two_tone.spectrum_observer(capture)
-        traced = library.multitone_amplifier_terms(1e8, {10: math.sqrt(power), 11: math.sqrt(second_power)},
-            power_gain_db=20, output_p1db_dbm=20, output_saturation_dbm=23, input_ip2_dbm=20, input_ip3_dbm=10)
+        verified = {p["parameter"]: p["value"] for p in parameters}
+        gain_db = 10 * math.log10(verified["RFAmp/G"])
+        traced = library.multitone_amplifier_terms(
+            1e8, {10: math.sqrt(power), 11: math.sqrt(second_power)},
+            power_gain_db=gain_db,
+            output_p1db_dbm=30 + 10 * math.log10(verified["RFAmp/OP1dB"]),
+            output_saturation_dbm=30 + 10 * math.log10(verified["RFAmp/OPSAT"]),
+            input_ip2_dbm=30 + 10 * math.log10(verified["RFAmp/OIP2"]) - gain_db,
+            input_ip3_dbm=30 + 10 * math.log10(verified["RFAmp/OIP3"]) - gain_db)
         keys = [(term.order, term.contributors) for term in traced.terms]
         if len(keys) != len(EXPECTED) or set(keys) != EXPECTED:
             raise ValueError("Incomplete or duplicate native mixing identities")
@@ -74,7 +84,7 @@ def compare(library, captures):
                            "carrier_overlap": term.order == 3 and term.bin in (10, 11),
                            "systemvue_power_w": measured, "rfmodel_power_w": predicted,
                            "signed_relative_error": error, "passed": abs(error) <= 1e-7})
-        reports.append({"source_powers_dbm": list(powers_dbm), "parameters": parameters,
+        reports.append({"profile": profile, "source_powers_dbm": list(powers_dbm), "parameters": parameters,
                         "raw_capture_sha256": capture["raw_capture_sha256"],
                         "run_started_utc": capture["run_started_utc"],
                         "manager_messages": capture["manager_errors"], "checks": checks})

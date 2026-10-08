@@ -105,7 +105,7 @@ def main():
     parser.add_argument("--compression-profile", choices=("sample", "antenna", "limiter"))
     parser.add_argument("--compression-opsat-dbm", type=int, choices=(22, 23, 26))
     parser.add_argument("--compression-two-tone", action="store_true",
-                        help="Sample profile with 1.0/1.1 GHz CW tones; defaults to equal powers")
+                        help="Sample/limiter profile with 1.0/1.1 GHz CW tones; defaults to equal powers")
     parser.add_argument("--compression-second-power-dbm", type=float,
                         help="Second CW tone power; requires --compression-two-tone")
     parser.add_argument("--compression-diagnostic", action="store_true",
@@ -118,9 +118,9 @@ def main():
             or not -200 <= args.compression_second_power_dbm <= 30):
         parser.error("Second power requires two-tone mode and a finite value from -200 to 30 dBm")
     if args.compression_two_tone and (args.case != "compression" or
-            args.compression_profile not in (None, "sample") or args.compression_diagnostic or
+            args.compression_profile not in (None, "sample", "limiter") or args.compression_diagnostic or
             args.source_power_dbm is None or args.compression_opsat_dbm is not None):
-        parser.error("Two-tone requires sample compression, explicit per-tone power and no diagnostic/OPSAT override")
+        parser.error("Two-tone requires sample/limiter compression, explicit first-tone power and no diagnostic/OPSAT override")
     if args.compression_diagnostic and (args.case != "compression" or args.compression_profile not in (None, "sample")):
         parser.error("Compression diagnostic requires sample-profile compression case")
     if args.compression_riso_db is not None and args.case != "compression":

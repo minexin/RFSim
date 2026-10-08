@@ -73,6 +73,31 @@ class MixingTermTests(unittest.TestCase):
             with self.subTest(pair=pair), self.assertRaises(ValueError):
                 comparison.compare(self.library, [capture])
 
+    def test_independent_profile_matches_48_measured_terms(self):
+        captures = json.loads((comparison.two_tone.single.ROOT / "validation" /
+                               "systemvue-2023-limiter-two-tone-captures.json").read_text())
+        report = comparison.compare(self.library, captures)
+        self.assertTrue(report["passed"])
+        self.assertEqual(len(report["reports"]), 3)
+        self.assertTrue(all(r["profile"] == "limiter" and len(r["checks"]) == 16
+                            for r in report["reports"]))
+        small = captures[0]
+        for profile in ("sample", "antenna", "unknown"):
+            changed = copy.deepcopy(small)
+            changed["profile"] = profile
+            with self.subTest(profile=profile), self.assertRaises(ValueError):
+                comparison.compare(self.library, [changed])
+
+    def test_equal_power_pair_in_distinct_profiles_is_not_a_duplicate(self):
+        root = comparison.two_tone.single.ROOT / "validation"
+        sample = json.loads((root / "systemvue-2023-unequal-two-tone-captures.json").read_text())[0]
+        limiter = json.loads((root / "systemvue-2023-limiter-two-tone-captures.json").read_text())[0]
+        report = comparison.compare(self.library, [sample, limiter])
+        self.assertTrue(report["passed"])
+        self.assertEqual([r["profile"] for r in report["reports"]], ["sample", "limiter"])
+        with self.assertRaises(ValueError):
+            comparison.compare(self.library, [limiter, limiter])
+
     def test_changed_overlap_power_fails_without_changing_other_terms(self):
         capture = copy.deepcopy(self.captures[-1])
         identities = comparison.two_tone.vector(capture, "IDNo")

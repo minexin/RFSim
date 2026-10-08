@@ -44,7 +44,11 @@ def vector(capture, name):
     return data
 
 
-def inspect(capture, power_dbm, *, second_power_dbm=None):
+def inspect(capture, power_dbm, *, second_power_dbm=None, profile="sample"):
+    if profile not in ("sample", "limiter"):
+        raise ValueError("Two-tone requires a controlled sample or limiter profile")
+    gain_db, output_p1db_dbm, _ = single.PROFILES[profile]
+    maximum_input_dbm = output_p1db_dbm - gain_db + 1
     second = power_dbm if second_power_dbm is None else second_power_dbm
     for value in (power_dbm, second):
         if (isinstance(value, bool) or not isinstance(value, (int, float))
@@ -52,8 +56,8 @@ def inspect(capture, power_dbm, *, second_power_dbm=None):
             raise ValueError("Tone powers must be finite numbers from -200 to 30 dBm")
     power = 10 ** ((power_dbm - 30) / 10)
     second_power = 10 ** ((second - 30) / 10)
-    if power + second_power > 10 ** ((1 - 30) / 10):
-        raise ValueError("Total two-tone input must not exceed sample input P1dB")
+    if power + second_power > 10 ** ((maximum_input_dbm - 30) / 10):
+        raise ValueError("Total two-tone input must not exceed profile input P1dB")
     single.runner.validate_capture(capture, "compression")
     times = [datetime.fromisoformat(re.sub(r"(\.\d{6})\d+Z$", r"\1Z", capture[key])[:-1]
                                    + "+00:00").timestamp()
@@ -71,6 +75,10 @@ def inspect(capture, power_dbm, *, second_power_dbm=None):
                 "Source/SrcType": [0, 0], "Source/EnablePN": [0, 0],
                 "Source/MultiCarrier": [0, 0], "Source/Phase": [0, 0],
                 "Source/BW": [1e6, 1e6], "Source/Name": ["Source1", "Source2"]}
+
+    if profile == "limiter":
+        expected.update({"RFAmp/G": 10.0, "RFAmp/OP1dB": 10 ** -1.5,
+                         "RFAmp/OPSAT": 10 ** -1.2})
 
     def equal(actual, wanted):
         if isinstance(wanted, str):

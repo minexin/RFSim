@@ -21,9 +21,9 @@ if ($null -ne $CompressionSecondPowerDbm -and (-not $CompressionTwoTone -or
     $CompressionSecondPowerDbm -lt -200 -or $CompressionSecondPowerDbm -gt 30)) {
     throw 'CompressionSecondPowerDbm requires two-tone mode and a finite value from -200 to 30 dBm.'
 }
-if ($CompressionTwoTone -and (-not $RunCompressionAnalysis -or $CompressionProfile -ne 'sample' -or
+if ($CompressionTwoTone -and (-not $RunCompressionAnalysis -or $CompressionProfile -notin @('sample', 'limiter') -or
     $PreserveManagerMessages -or $null -eq $SourcePowerDbm -or $PSBoundParameters.ContainsKey('CompressionOpsatDbm'))) {
-    throw 'CompressionTwoTone requires sample compression, explicit per-tone power and no diagnostic/OPSAT override.'
+    throw 'CompressionTwoTone requires sample/limiter compression, explicit first-tone power and no diagnostic/OPSAT override.'
 }
 if ($PreserveManagerMessages -and (-not $RunCompressionAnalysis -or $CompressionProfile -ne 'sample')) {
     throw 'PreserveManagerMessages requires sample-profile RunCompressionAnalysis.'

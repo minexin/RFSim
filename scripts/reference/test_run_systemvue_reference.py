@@ -26,10 +26,11 @@ class RunnerTests(unittest.TestCase):
             workspace.touch()
             arguments = ["runner", "compression", str(workspace), str(Path(directory) / "output"),
                          "--compression-two-tone", "--source-power-dbm", "-3",
-                         "--compression-second-power-dbm", "-12"]
+                         "--compression-second-power-dbm", "-12", "--compression-profile", "limiter"]
             with patch.object(sys, "argv", arguments), patch.object(runner, "execute", return_value=0) as execute:
                 self.assertEqual(runner.main(), 0)
             command = execute.call_args.args[0]
+            self.assertEqual(command[command.index("-CompressionProfile") + 1], "limiter")
             self.assertEqual(command[command.index("-SourcePowerDbm") + 1], "-3.0")
             self.assertEqual(command[command.index("-CompressionSecondPowerDbm") + 1], "-12.0")
 
@@ -51,7 +52,6 @@ class RunnerTests(unittest.TestCase):
         cases = (("antenna", ["--source-power-dbm", "-30"]),
                  ("attenuator", ["--source-power-dbm", "-30"]),
                  ("compression", []),
-                 ("compression", ["--source-power-dbm", "-30", "--compression-profile", "limiter"]),
                  ("compression", ["--source-power-dbm", "-30", "--compression-profile", "antenna"]),
                  ("compression", ["--source-power-dbm", "-30", "--compression-opsat-dbm", "23"]),
                  ("compression", ["--source-power-dbm", "-30", "--compression-diagnostic"]))
