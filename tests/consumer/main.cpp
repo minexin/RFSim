@@ -1,3 +1,4 @@
+#include "rfmodel/amplifier_linearization.hpp"
 #include "rfmodel/conversion_operating_point.hpp"
 #include "rfmodel/mixer_linearization.hpp"
 #include "rfmodel/phase_noise.hpp"
@@ -40,6 +41,20 @@
 #include <rfmodel/term_propagation.hpp>
 
 int main() {
+    {
+        const rfmodel::SaturatingFundamentalCompression model(20., 20., 23.);
+        const auto point =
+            rfmodel::linearize_saturating_amplifier(1., {{0, 1}, {1, 1}}, {.01, 0.}, model);
+        const double gain =
+            10. * (1. - (1. - std::pow(10., -.05)) * .0001 / model.input_p1db_watts());
+        const auto response = model.gain_response(.0001);
+        if (std::abs(point.outgoing[1] - rfmodel::Complex{.01 * gain, 0.}) > 1e-12 ||
+            std::abs(point.jacobian.direct()(1, 0) + point.jacobian.conjugate()(1, 0) -
+                     response.radial_amplitude_slope) > 1e-12) {
+            return 103;
+        }
+    }
+
     {
         const std::vector<rfmodel::ConversionChannel> channels{{0, 0}, {1, 0}, {2, 0}};
         const auto zero = rfmodel::conversion_detail::zero(3);

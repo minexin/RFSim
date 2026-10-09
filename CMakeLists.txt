@@ -395,3 +395,7 @@ add_test(NAME affine_conversion_test COMMAND affine_conversion_test)
 add_executable(conversion_operating_point_test tests/conversion_operating_point_test.cpp)
 target_link_libraries(conversion_operating_point_test PRIVATE rfmodel)
 add_test(NAME conversion_operating_point_test COMMAND conversion_operating_point_test)
+
+add_executable(amplifier_linearization_test tests/amplifier_linearization_test.cpp)
+target_link_libraries(amplifier_linearization_test PRIVATE rfmodel)
+add_test(NAME amplifier_linearization_test COMMAND amplifier_linearization_test)

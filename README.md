@@ -97,3 +97,5 @@ Windows 本机可运行 `scripts/build-msvc.ps1` 自动定位已有 VS 工具链
 [绝对波仿射网络](docs/affine-conversion.md)将给定工作点混频器接入物理网络，检查工作点一致性并保留 RF/LO 相关噪声。
 
 [自动非线性工作点](docs/conversion-operating-point.md)支持固定器件方程、阻尼 Newton、物理反馈和收敛噪声；双线性混频器已接入 C/Python/JSON，提供可运行网络示例。
+
+[压缩放大器工作点 C++ 适配](docs/amplifier-linearization.md)保留公共总驱动的跨频点导数，并可参与非线性反馈与收敛噪声求解。

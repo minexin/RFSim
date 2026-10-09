@@ -56,6 +56,23 @@ public:
         return gain;
     }
 
+    // Derivative of r*g(r*r) with respect to the common RF amplitude r.
+    // Its tangential (phase) derivative remains g. The response is C1 at P1dB.
+    FundamentalGainResponse gain_response(double total_incident_power_w) const {
+        const double gain = amplitude_gain(total_incident_power_w);
+        if (total_incident_power_w <= input_p1db_watts()) {
+            return below_p1db_.gain_response(total_incident_power_w);
+        }
+        const double drive = std::sqrt(total_incident_power_w);
+        const double argument = amplitude_slope_ * ((drive - input_anchor_) / output_headroom_);
+        // sech^2(u) = 4*exp(-2u)/(1+exp(-2u))^2. Unlike 1-tanh(u)^2,
+        // this retains representable small slopes after tanh has rounded to 1.
+        const double exponential = std::exp(-2. * argument);
+        const double denominator = 1. + exponential;
+        const double radial = amplitude_slope_ * (4. * exponential / (denominator * denominator));
+        return {gain, radial, radial - gain};
+    }
+
     Complex transmit_fundamental(Complex incident) const {
         return transmit_fundamental(incident, std::norm(incident));
     }

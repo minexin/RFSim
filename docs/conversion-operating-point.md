@@ -118,3 +118,5 @@ python -m rfmodel examples/nonlinear-mixer-feedback.json --library build-msvc/Re
 独立 Python 3.12 加载本阶段 wheel 和安装后的 Release DLL，13 组共 264 项回归通过：新增自动工作点 13、仿射 11、混频线性化 13、共享相噪 13、相噪 13、通道测量 11、加载噪声 9、变频 NF 12、转换网络 13、单器件变频 11、API 85、相干系统 51、线性噪声 9。
 
 新增验证包括独立傅里叶卷积/复导数、实际 LO 幅度变化、多解初值、反射 IF 自动求解、收敛点 NF、共享相噪、线性退化的加载/额外噪声、C 描述符与输出别名拒绝、错误时输出不变，以及 CLI 不收敛保护已有文件。SystemVue 实测尚未恢复。
+
+压缩放大器已有[公共基波 C++ 适配](amplifier-linearization.md)，可通过通用回调加入求解；其专用跨语言入口与高阶项仍待接入。

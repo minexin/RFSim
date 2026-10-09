@@ -5,6 +5,14 @@
 #include <limits>
 
 namespace rfmodel {
+struct FundamentalGainResponse {
+    double amplitude_gain;
+    double radial_amplitude_slope;
+    // 2*P*dg/dP, retained explicitly to avoid subtracting near-equal slopes
+    // in the small-drive limit. Tangential amplitude slope equals gain.
+    double radial_gain_difference;
+};
+
 // Fundamental response with optional total RF drive. No harmonic generation or saturation.
 class P1dBFundamentalCompression {
     double amplitude_gain_;
@@ -38,6 +46,13 @@ public:
             throw std::out_of_range("fundamental compression input exceeds P1dB");
         }
         return amplitude_gain_ * (1. - (1. - std::pow(10., -1. / 20.)) * ratio);
+    }
+
+    FundamentalGainResponse gain_response(double total_incident_power_w) const {
+        const double gain = amplitude_gain(total_incident_power_w);
+        const double ratio = total_incident_power_w / input_p1db_w_;
+        const double difference = -2. * (1. - std::pow(10., -.05)) * ratio * amplitude_gain_;
+        return {gain, gain + difference, difference};
     }
 
     Complex transmit_fundamental(Complex incident) const {
