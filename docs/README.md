@@ -3,6 +3,7 @@
 - [M1 建设目标](m1-goal.md)
 - [总体架构](architecture.md)
 - [核心接口](api.md)
+- [理想无损 Chebyshev I 滤波器](chebyshev-filter.md)
 - [理想无损 Butterworth 滤波器](butterworth-filter.md)
 - [理想无源器件的 C/Python/JSON 接口](passive-model-interfaces.md)
 - [独立复参考阻抗与功率波](power-wave-references.md)

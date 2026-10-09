@@ -142,6 +142,37 @@ def _parameter_samples(library, model, frequencies, reference, base_directory=No
             )
             for frequency in frequencies
         ]
+    if kind == "chebyshev_lossless":
+        response = model.get("response")
+        if response in ("lowpass", "highpass"):
+            edges = ("passband_hz",)
+        elif response in ("bandpass", "bandstop"):
+            edges = ("lower_passband_hz", "upper_passband_hz")
+        else:
+            raise ValueError("Unknown Chebyshev response")
+        _object(
+            model,
+            ("type", "response", "order") + edges,
+            ("ripple_db", "passband_attenuation_db", "input_stopband"),
+        )
+        if type(model["order"]) is not int or not 2 <= model["order"] <= 64:
+            raise ValueError("Chebyshev prototype order must be an integer in 2..64")
+        parameters = {key: _number(model[key]) for key in edges}
+        parameters["ripple_db"] = _number(model.get("ripple_db", 0.1))
+        parameters["passband_attenuation_db"] = _number(
+            model.get("passband_attenuation_db", parameters["ripple_db"])
+        )
+        return [
+            library.chebyshev_filter(
+                frequency,
+                response=response,
+                order=model["order"],
+                input_stopband=model.get("input_stopband", "open"),
+                reference_ohms=reference,
+                **parameters,
+            )
+            for frequency in frequencies
+        ]
     if kind in ("resistor", "inductor", "capacitor"):
         value_field = {
             "resistor": "resistance_ohms",

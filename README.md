@@ -75,3 +75,5 @@ Windows 本机可运行 `scripts/build-msvc.ps1` 自动定位已有 VS 工具链
 [理想无源器件参数化入口](docs/passive-model-interfaces.md)覆盖 R/L/C、匹配衰减与延迟、等功率/复分支隔离功分器和正交耦合器；可用于线性及相干网络 JSON，示例为 examples/passive-rc-network.json。
 
 [理想无损 Butterworth 滤波器](docs/butterworth-filter.md) 已提供低通、高通、带通、带阻的复 S 参数和 C++/C/Python/JSON 接口；厂商 IL/Amax 等非理想参数与实测兼容仍待完成。
+
+[理想无损 Chebyshev I 滤波器](docs/chebyshev-filter.md) 新增四类响应、独立纹波与边缘衰减、奇偶阶反射及 C++/C/Python/JSON 接口；SystemVue 非理想参数及实测仍待完成。

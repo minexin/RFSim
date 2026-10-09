@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "reference": "SystemVue 2023 installed help",
+  "source_qch": "C:/Program Files/Keysight/SystemVue2023/Help/systemvue.qch",
+  "read_date": "2026-10-09",
+  "sources": [
+    {
+      "path": "rfdesign/LPF_CHEBY.html",
+      "sha256_decompressed_html": "64cdb7b74db9790ab6b55841fb5972af60073f65bd0402e1326ace61f116e8d2",
+      "type_parameter_listed": true
+    },
+    {
+      "path": "rfdesign/HPF_CHEBY.html",
+      "sha256_decompressed_html": "104b2f8148b7d9e81eea24cdac97b8a11b8e9e9b231339d9d893e20853290cac",
+      "type_parameter_listed": true
+    },
+    {
+      "path": "rfdesign/BPF_CHEBY.html",
+      "sha256_decompressed_html": "90279bbc61ae4dae97d62440adca81047aa108e746902259988e8eaf27495d83",
+      "type_parameter_listed": true
+    },
+    {
+      "path": "rfdesign/BSF_CHEBY.html",
+      "sha256_decompressed_html": "6b8846d708dca3620afabf80c573589475a857976e030e495e09590c2a192438",
+      "type_parameter_listed": false
+    }
+  ],
+  "parameter_facts": {
+    "prototype_order_min": 2,
+    "default_ripple_db": 0.1,
+    "default_passband_attenuation_db": 0.1,
+    "nominal_lossless_edge_attenuation": "ripple value"
+  },
+  "independent_algorithm_reference": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.cheby1.html",
+  "implemented_scope": "Lossless reciprocal type-I scattering response, prototype orders 2..64, ripple>0, edge attenuation>=ripple",
+  "pending_vendor_compatibility": [
+    "complex S-parameter measurements",
+    "IL/Amax/Z1/Z2/Ta semantics",
+    "Apass below ripple or zero ripple",
+    "exact vendor even-order reflection topology"
+  ],
+  "vendor_numerical_validation": "not performed for this stage"
+}

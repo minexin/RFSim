@@ -8,7 +8,7 @@
 | Linear Analysis | N 端口网络、等效 S、F/S/ZPORT 与 W/Hz 相关噪声扫描结果 | 复/独立参考阻抗、CS 归一化对照、DC 线性化与完整后处理 |
 | RF System Analysis | 线性频率扫描、功率原语、源/LO 相干的线性—混频—基波压缩前馈图与谱快照 JSON/CLI | 路径/预算语义、频谱、压缩、噪声与变频联合分析 |
 | 终端、衰减器、延迟线 | 反射边界、理想匹配损耗和延迟 | 器件级噪声、型号参数与官方模块逐项对照 |
-| Filter/Cable/Coupler/Splitter | 表格 S、理想无损四类 Butterworth、匹配延迟、隔离功分与正交耦合原语 | 非理想参数、其他滤波原型、完整目录与厂商行为对照 |
+| Filter/Cable/Coupler/Splitter | 表格 S、理想无损四类 Butterworth/Chebyshev I、匹配延迟、隔离功分与正交耦合原语 | 非理想参数、其他滤波原型、完整目录与厂商行为对照 |
 | LNA/PA 小信号与噪声 | 静态 S 原语、标量噪声/Friis | 专用器件、噪声参数转换与官方数值对照 |
 | 非线性/PHD | 十一阶多项式、显式 IP/IMN 转换、P1dB/饱和与共同限幅、C++/C/Python/JSON 来源传播 | 多端口限幅、重叠谱/来源语义、AM-PM、高阶标定、网络迭代、PHD；饱和参考带警告，仅用于诊断 |
 | Mixer | 固定 LO 理想实数混频、上下边带及 DC/相位处理；RF/LO 相干组批处理与多端口合路 C++/C/Python | LO 驱动、转换矩阵、杂散、泄漏与变频噪声 |

@@ -63,6 +63,8 @@ if(RFMODEL_BUILD_C_API)
             ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_python_api.py $<TARGET_FILE:rfmodel_c>)
         add_test(NAME linear_noise_analysis_file_test COMMAND ${Python3_EXECUTABLE}
             ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_linear_noise_analysis.py $<TARGET_FILE:rfmodel_c>)
+        add_test(NAME chebyshev_filter_file_test COMMAND ${Python3_EXECUTABLE}
+            ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_chebyshev_filter.py $<TARGET_FILE:rfmodel_c>)
         add_test(NAME butterworth_filter_file_test COMMAND ${Python3_EXECUTABLE}
             ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_butterworth_filter.py $<TARGET_FILE:rfmodel_c>)
         add_test(NAME passive_model_file_test COMMAND ${Python3_EXECUTABLE}
@@ -333,3 +335,7 @@ add_test(NAME power_wave_noise_test COMMAND power_wave_noise_test)
 add_executable(butterworth_filter_test tests/butterworth_filter_test.cpp)
 target_link_libraries(butterworth_filter_test PRIVATE rfmodel)
 add_test(NAME butterworth_filter_test COMMAND butterworth_filter_test)
+
+add_executable(chebyshev_filter_test tests/chebyshev_filter_test.cpp)
+target_link_libraries(chebyshev_filter_test PRIVATE rfmodel)
+add_test(NAME chebyshev_filter_test COMMAND chebyshev_filter_test)

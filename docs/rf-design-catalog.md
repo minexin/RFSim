@@ -44,3 +44,5 @@ python scripts/reference/test_extract_rf_models.py
 已有 R/L/C、匹配衰减/延迟、隔离功分器和正交耦合器核心现提供[统一 C/Python/JSON 入口](passive-model-interfaces.md)，可形成参数化 RC 和相干网络案例。这是 RFModel 原语层的工程覆盖，未完成厂商模型参数及实测对照；原目录条目的 assessment 不因此自动升级。
 
 新增[理想无损 Butterworth 原型](butterworth-filter.md)，四类频率变换已贯通接口。该实现尚无滤波器实测证据，未升级 LPF_BUTTER/HPF_BUTTER/BPF_BUTTER/BSF_BUTTER 的兼容评定。
+
+新增[理想无损 Chebyshev I](chebyshev-filter.md) 四类参数化响应及接口，含独立纹波和带边衰减。仅完成解析/工程回归，LPF_CHEBY/HPF_CHEBY/BPF_CHEBY/BSF_CHEBY 的厂商行为评定仍待实测。

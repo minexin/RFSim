@@ -1,3 +1,4 @@
+#include "rfmodel/chebyshev_filter.hpp"
 #include "rfmodel/butterworth_filter.hpp"
 #include "rfmodel/power_wave_noise.hpp"
 #include <rfmodel/power_wave_reference.hpp>
@@ -33,6 +34,13 @@
 #include <rfmodel/term_propagation.hpp>
 
 int main() {
+    {
+        rfmodel::ChebyshevFilterModel filter("filter", {});
+        if (std::abs(filter.s_parameters(0.)(1, 0) - 1.) > 1e-12) {
+            return 89;
+        }
+    }
+
     {
         rfmodel::ButterworthFilterModel filter("filter", {});
         if (std::abs(filter.s_parameters(0.)(1, 0) - 1.) > 1e-12) {

@@ -104,6 +104,33 @@ RFMODEL_API int rfmodel_butterworth_s(double frequency_hz,
                                       rfmodel_complex *output,
                                       size_t capacity);
 
+typedef enum rfmodel_chebyshev_response {
+    RFMODEL_CHEBYSHEV_LOWPASS = 0,
+    RFMODEL_CHEBYSHEV_HIGHPASS = 1,
+    RFMODEL_CHEBYSHEV_BANDPASS = 2,
+    RFMODEL_CHEBYSHEV_BANDSTOP = 3
+} rfmodel_chebyshev_response;
+
+typedef struct rfmodel_chebyshev_parameters {
+    rfmodel_chebyshev_response response;
+    size_t order;                   /* Prototype order 2..64; band transforms double it. */
+    double lower_passband_hz;       /* Single edge for low/high pass. */
+    double upper_passband_hz;       /* Must be 0 for low/high pass. */
+    double ripple_db;               /* Strictly positive. */
+    double passband_attenuation_db; /* At least ripple_db. */
+    int input_stopband_open;        /* Exactly 0 (short) or 1 (open). */
+    double reference_ohms;
+} rfmodel_chebyshev_parameters;
+
+/* Lossless reciprocal Chebyshev type-I response; even orders retain DC ripple.
+ * No insertion-loss or Amax approximation.
+ * Four row-major entries. Output must not overlap parameters and is unchanged
+ * on failure. Frequencies are Hz, reference is common positive real ohms. */
+RFMODEL_API int rfmodel_chebyshev_s(double frequency_hz,
+                                    const rfmodel_chebyshev_parameters *parameters,
+                                    rfmodel_complex *output,
+                                    size_t capacity);
+
 typedef enum rfmodel_ideal_element {
     RFMODEL_IDEAL_RESISTOR = 0,
     RFMODEL_IDEAL_INDUCTOR = 1,

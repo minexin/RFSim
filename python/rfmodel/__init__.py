@@ -235,6 +235,19 @@ class _ButterworthParameters(ct.Structure):
     ]
 
 
+class _ChebyshevParameters(ct.Structure):
+    _fields_ = [
+        ("response", ct.c_int),
+        ("order", ct.c_size_t),
+        ("lower_passband_hz", ct.c_double),
+        ("upper_passband_hz", ct.c_double),
+        ("ripple_db", ct.c_double),
+        ("passband_attenuation_db", ct.c_double),
+        ("input_stopband_open", ct.c_int),
+        ("reference_ohms", ct.c_double),
+    ]
+
+
 class NoiseParameters(NamedTuple):
     minimum_noise_figure_db: float
     optimum_source_reflection: complex
@@ -493,6 +506,9 @@ class Library:
                            size, ct.POINTER(size)]),
             "rfmodel_butterworth_s": (
                 ct.c_int, [ct.c_double, ct.POINTER(_ButterworthParameters), complex_pointer, size],
+            ),
+            "rfmodel_chebyshev_s": (
+                ct.c_int, [ct.c_double, ct.POINTER(_ChebyshevParameters), complex_pointer, size],
             ),
             "rfmodel_ideal_rlc_s": (
                 ct.c_int, [ct.c_double, ct.c_int, ct.c_int, ct.c_double, ct.c_double,
@@ -1320,6 +1336,57 @@ class Library:
         output = (_Complex * 4)()
         self._check(
             self._dll.rfmodel_butterworth_s(float(frequency_hz), ct.byref(parameters), output, 4)
+        )
+        return _rows(output, 2)
+
+    def chebyshev_filter(
+        self,
+        frequency_hz,
+        *,
+        response,
+        order,
+        passband_hz=None,
+        lower_passband_hz=None,
+        upper_passband_hz=None,
+        ripple_db=0.1,
+        passband_attenuation_db=None,
+        input_stopband="open",
+        reference_ohms=50.0,
+    ):
+        """Lossless reciprocal type-I filter; even orders retain passband DC ripple."""
+        kinds = {"lowpass": 0, "highpass": 1, "bandpass": 2, "bandstop": 3}
+        if response not in kinds or input_stopband not in ("open", "short"):
+            raise ValueError("Unknown Chebyshev response or stopband topology")
+        order = _index(order)
+        if not 2 <= order <= 64:
+            raise ValueError("Chebyshev prototype order must be 2..64")
+        if response in ("lowpass", "highpass"):
+            if (
+                passband_hz is None
+                or lower_passband_hz is not None
+                or upper_passband_hz is not None
+            ):
+                raise ValueError("Low/high pass requires only passband_hz")
+            low, high = float(passband_hz), 0.0
+        else:
+            if passband_hz is not None or lower_passband_hz is None or upper_passband_hz is None:
+                raise ValueError("Band filters require lower/upper_passband_hz")
+            low, high = float(lower_passband_hz), float(upper_passband_hz)
+        if passband_attenuation_db is None:
+            passband_attenuation_db = ripple_db
+        parameters = _ChebyshevParameters(
+            kinds[response],
+            order,
+            low,
+            high,
+            float(ripple_db),
+            float(passband_attenuation_db),
+            int(input_stopband == "open"),
+            float(reference_ohms),
+        )
+        output = (_Complex * 4)()
+        self._check(
+            self._dll.rfmodel_chebyshev_s(float(frequency_hz), ct.byref(parameters), output, 4)
         )
         return _rows(output, 2)
 

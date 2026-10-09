@@ -1,0 +1,38 @@
+{
+  "format": "rfmodel.linear-network",
+  "version": 1,
+  "reference_ohms": 50,
+  "temperature_k": 290,
+  "frequencies_hz": [
+    0,
+    80000000.0,
+    90000000.0,
+    94868329.80505139,
+    100000000.0,
+    110000000.0,
+    200000000.0
+  ],
+  "devices": [
+    {
+      "id": "filter",
+      "model": {
+        "type": "chebyshev_lossless",
+        "response": "bandpass",
+        "order": 3,
+        "lower_passband_hz": 90000000.0,
+        "upper_passband_hz": 100000000.0,
+        "ripple_db": 0.1
+      }
+    }
+  ],
+  "external_ports": [
+    [
+      "filter",
+      0
+    ],
+    [
+      "filter",
+      1
+    ]
+  ]
+}

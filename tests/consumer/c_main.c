@@ -3,6 +3,16 @@
 
 int main(int argc, char **argv) {
     {
+        rfmodel_chebyshev_parameters parameters = {
+            RFMODEL_CHEBYSHEV_LOWPASS, 3, 1e9, 0., 1., 1., 1, 50.};
+        rfmodel_complex output[4];
+        if (rfmodel_chebyshev_s(0., &parameters, output, 4) != RFMODEL_OK ||
+            fabs(output[2].real - 1.) > 1e-12) {
+            return 89;
+        }
+    }
+
+    {
         rfmodel_butterworth_parameters parameters = {
             RFMODEL_BUTTERWORTH_LOWPASS, 3, 1e9, 0., 3.010299956639812, 1, 50.};
         rfmodel_complex output[4];

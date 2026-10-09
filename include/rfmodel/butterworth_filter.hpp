@@ -1,5 +1,6 @@
 #pragma once
 #include "device_model.hpp"
+#include "filter_frequency.hpp"
 #include <algorithm>
 #include <cmath>
 #include <limits>
@@ -29,58 +30,6 @@ class ButterworthFilterModel final : public RFDeviceModel, public SParameterProv
     ButterworthFilterParameters parameters_;
     double log_frequency_scale_;
 
-    struct MappedFrequency {
-        double sign;
-        double log_magnitude;
-    };
-
-    static double log_sum(double a, double b) {
-        const double high = std::max(a, b), low = std::min(a, b);
-        return high + std::log1p(std::exp(low - high));
-    }
-
-    MappedFrequency mapped_frequency(double frequency) const {
-        const auto kind = parameters_.response;
-        const double infinity = std::numeric_limits<double>::infinity();
-        if (frequency == 0.) {
-            const bool pass =
-                kind == ButterworthResponse::Lowpass || kind == ButterworthResponse::Bandstop;
-            return {pass ? 1. : -1., pass ? -infinity : infinity};
-        }
-        const double low = parameters_.lower_passband_hz;
-        if (kind == ButterworthResponse::Lowpass) {
-            return {1., std::log(frequency) - std::log(low)};
-        }
-        if (kind == ButterworthResponse::Highpass) {
-            return {-1., std::log(low) - std::log(frequency)};
-        }
-        const double high = parameters_.upper_passband_hz;
-        const double bandwidth = high - low;
-        double sign, magnitude;
-        // y=(f^2-low*high)/(bandwidth*f). Differences avoid cancellation for
-        // narrow bands; logarithms outside the band avoid overflow.
-        if (frequency < low) {
-            sign = -1.;
-            magnitude = log_sum(std::log(low - frequency) - std::log(bandwidth),
-                                std::log(low) - std::log(frequency) + std::log(high - frequency) -
-                                    std::log(bandwidth));
-        } else if (frequency > high) {
-            sign = 1.;
-            magnitude = log_sum(std::log(frequency - low) - std::log(bandwidth),
-                                std::log(low) - std::log(frequency) + std::log(frequency - high) -
-                                    std::log(bandwidth));
-        } else {
-            const double y = (frequency - low) / bandwidth -
-                             (low / frequency) * ((high - frequency) / bandwidth);
-            sign = y < 0. ? -1. : 1.;
-            magnitude = y == 0. ? -infinity : std::log(std::abs(y));
-        }
-        if (kind == ButterworthResponse::Bandstop) {
-            return {-sign, -magnitude}; // Lowpass variable is -1/y.
-        }
-        return {sign, magnitude};
-    }
-
 public:
     ButterworthFilterModel(std::string name, ButterworthFilterParameters parameters)
         : name_(std::move(name)), parameters_(parameters) {
@@ -99,18 +48,8 @@ public:
             !std::isfinite(parameters_.reference_ohms) || parameters_.reference_ohms <= 0.) {
             throw std::invalid_argument("invalid Butterworth ladder parameters");
         }
-        constexpr double db_scale = 0.2302585092994045684;
-        const double x = parameters_.passband_attenuation_db * db_scale;
-        double logarithm;
-        if (x < 1e-4) {
-            logarithm = std::log(parameters_.passband_attenuation_db) + std::log(db_scale);
-            if (x > 0.) {
-                logarithm += std::log(std::expm1(x) / x);
-            }
-        } else {
-            logarithm = x > 700. ? x : std::log(std::expm1(x));
-        }
-        log_frequency_scale_ = logarithm / (2. * double(parameters_.order));
+        log_frequency_scale_ = detail::log_excess_power(parameters_.passband_attenuation_db) /
+                               (2. * double(parameters_.order));
     }
 
     std::string name() const override {
@@ -132,7 +71,11 @@ public:
         if (!std::isfinite(frequency_hz) || frequency_hz < 0.) {
             throw std::invalid_argument("invalid Butterworth frequency");
         }
-        const auto mapped = mapped_frequency(frequency_hz);
+        const auto mapped =
+            detail::map_filter_frequency(static_cast<FilterResponse>(parameters_.response),
+                                         parameters_.lower_passband_hz,
+                                         parameters_.upper_passband_hz,
+                                         frequency_hz);
         const double log_omega = mapped.log_magnitude + log_frequency_scale_;
         const Complex phase{0., mapped.sign};
         SMatrix result{2, {0., 1., 1., 0.}};
