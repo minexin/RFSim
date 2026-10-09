@@ -28,6 +28,113 @@ class PythonApiTests(unittest.TestCase):
     def setUpClass(cls):
         cls.library = Library(LIBRARY_PATH)
 
+    def test_power_wave_load_and_physical_parameters(self):
+        load_impedance = 37 - 12j
+        for old in (50, 75 + 20j):
+            scattering = [[(load_impedance - complex(old).conjugate()) / (load_impedance + old)]]
+            for new in (25, 80 - 17j):
+                result = self.library.renormalize_power_waves(scattering, [old], [new])
+                expected = (load_impedance - complex(new).conjugate()) / (load_impedance + new)
+                self.assertAlmostEqual(result.scattering[0][0], expected)
+                self.assertIsNone(result.noise_correlation)
+                z = self.library.power_wave_parameters(result.scattering, [new])
+                y = self.library.power_wave_parameters(result.scattering, [new], admittance=True)
+                self.assertAlmostEqual(z[0][0], load_impedance)
+                self.assertAlmostEqual(y[0][0], 1 / load_impedance)
+
+    def test_power_wave_noise_and_roundtrip(self):
+        scattering = ((0.1j, 0.3), (0.4j, -0.1))
+        old, new = [50, 50], [25 + 10j, 100 - 15j]
+        noise = self.library.passive_noise(scattering, 290)
+        result = self.library.renormalize_power_waves(scattering, old, new, noise=noise)
+        expected = self.library.passive_noise(result.scattering, 290)
+        restored = self.library.renormalize_power_waves(
+            result.scattering, new, old, noise=result.noise_correlation
+        )
+        for row in range(2):
+            for column in range(2):
+                self.assertAlmostEqual(restored.scattering[row][column], scattering[row][column])
+                self.assertLess(
+                    abs(result.noise_correlation[row][column] - expected[row][column]), 1e-34
+                )
+                self.assertLess(
+                    abs(restored.noise_correlation[row][column] - noise[row][column]), 1e-34
+                )
+        thru = self.library.renormalize_power_waves([[0, 1], [1, 0]], old, new)
+        self.assertAlmostEqual(thru.scattering[0][1], 100 / sum(new))
+        self.assertAlmostEqual(thru.scattering[1][0], 100 / sum(new))
+
+    def test_power_wave_validation(self):
+        convert = self.library.renormalize_power_waves
+        for refs in ([], [50, 50]):
+            with self.assertRaises(ValueError):
+                convert([[0]], [50], refs)
+            with self.assertRaises(ValueError):
+                self.library.power_wave_parameters([[0]], refs)
+        for ref in (0, -1, 1j, math.nan, complex(50, math.inf)):
+            with self.subTest(ref=ref), self.assertRaises((ValueError, RFModelError)):
+                convert([[0]], [50], [ref])
+        with self.assertRaises(ValueError):
+            convert([[0]], [50], [75], noise=[[1, 0], [0, 1]])
+        with self.assertRaises(RFModelError):
+            convert([[0]], [50], [75], noise=[[-1]])
+        with self.assertRaises(RFModelError):
+            self.library.power_wave_parameters([[1]], [50])
+        with self.assertRaises(TypeError):
+            self.library.power_wave_parameters([[0]], [50], admittance=1)
+
+    def test_linear_complex_output_references(self):
+        document = load(Path(__file__).resolve().parents[1] / "examples/linear-noise.json")
+        document["external_ports"].reverse()
+        document["output_reference_samples_ohms"] = [[[25, 10], [100, -15]], [[75, -5], [30, 12]]]
+        result = analyze(self.library, document)
+        self.assertEqual(result["external_ports"], document["external_ports"])
+        for index, point in enumerate(result["samples"]):
+            self.assertEqual(point["wave_definition"], "power")
+            self.assertEqual(
+                point["port_impedances_ohms"], document["output_reference_samples_ohms"][index]
+            )
+            scattering = [[complex(*v) for v in row] for row in point["s"]]
+            expected = self.library.passive_noise(scattering, 290)
+            for row in range(2):
+                for column in range(2):
+                    actual = complex(*point["noise_w_per_hz"][row][column])
+                    self.assertLess(abs(actual - expected[row][column]), 1e-34)
+        del document["output_reference_samples_ohms"]
+        baseline = analyze(self.library, document)
+        self.assertNotIn("wave_definition", baseline["samples"][0])
+        document["output_reference_impedances_ohms"] = [50, 50]
+        converted = analyze(self.library, document)
+        for first, second in zip(baseline["samples"], converted["samples"]):
+            self.assertEqual(first["s"], second["s"])
+
+    def test_linear_output_reference_boundaries_and_validation(self):
+        original = load(Path(__file__).resolve().parents[1] / "examples/loaded-noise.json")
+        original["signal_boundaries"] = [{"port": ["pad", 0], "source": 1}, {"port": ["pad", 1]}]
+        baseline = analyze(self.library, original)["samples"][0]
+        document = copy.deepcopy(original)
+        document["output_reference_impedances_ohms"] = [[25, 10], [100, -15]]
+        point = analyze(self.library, document)["samples"][0]
+        for key in ("signal", "loaded_noise"):
+            self.assertEqual(point[key].pop("reference_ohms"), 50)
+            self.assertEqual(point[key], baseline[key])
+        invalid = [
+            {"output_reference_samples_ohms": None},
+            {"output_reference_samples_ohms": []},
+            {"output_reference_samples_ohms": [[50]]},
+            {"output_reference_impedances_ohms": None},
+            {"output_reference_impedances_ohms": [0, 50]},
+            {"output_reference_impedances_ohms": [[50, math.nan], 50]},
+            {
+                "output_reference_impedances_ohms": [50, 50],
+                "output_reference_samples_ohms": [[50, 50]],
+            },
+        ]
+        for fields in invalid:
+            document = dict(original, **fields)
+            with self.subTest(fields=fields), self.assertRaises(ValueError):
+                analyze(self.library, document)
+
     def test_intermod_levels_and_explicit_signs(self):
         convert = self.library.polynomial_coefficients_from_intermod_levels
         for reference in (50.0, 75.0):

@@ -223,6 +223,11 @@ class CoherentPolynomialResponse(NamedTuple):
     terms: tuple
 
 
+class PowerWaveReferenceResult(NamedTuple):
+    scattering: tuple
+    noise_correlation: tuple | None
+
+
 class CoherentHighOrderAmplifierResponse(NamedTuple):
     inputs: tuple
     terms: tuple
@@ -460,6 +465,15 @@ class Library:
                 ct.c_int, [handle, ct.POINTER(size), size, ct.c_double,
                            ct.POINTER(_SpectrumBin), size, ct.POINTER(_SpectrumBin),
                            size, ct.POINTER(size)]),
+            "rfmodel_power_wave_renormalize": (
+                ct.c_int,
+                [size, complex_pointer, size, complex_pointer, complex_pointer,
+                 complex_pointer, complex_pointer, complex_pointer, size],
+            ),
+            "rfmodel_power_wave_s_to_parameters": (
+                ct.c_int,
+                [size, complex_pointer, size, complex_pointer, ct.c_int, complex_pointer, size],
+            ),
             "rfmodel_passive_noise": (
                 ct.c_int, [size, complex_pointer, size, ct.c_double, complex_pointer, size]),
             "rfmodel_loaded_noise": (
@@ -1204,6 +1218,55 @@ class Library:
             float(spacing_hz), incident, len(incident), _bin(lo_bin), float(conversion_gain_db),
             float(lo_phase_radians), float(reference_ohms), output, len(output), ct.byref(count)))
         return {output[i].index: output[i].amplitude.value() for i in range(count.value)}
+
+    def renormalize_power_waves(self, scattering, old_references, new_references, *, noise=None):
+        """Change per-port complex power-wave references, optionally with W/Hz covariance."""
+        ports, native = _matrix(scattering)
+        old, new = list(old_references), list(new_references)
+        if len(old) != ports or len(new) != ports:
+            raise ValueError("One old and new reference is required per port")
+        old_values = (_Complex * ports)(*[_Complex.from_value(z) for z in old])
+        new_values = (_Complex * ports)(*[_Complex.from_value(z) for z in new])
+        native_noise, output_noise = None, None
+        if noise is not None:
+            noise_ports, native_noise = _matrix(noise)
+            if noise_ports != ports:
+                raise ValueError("Noise covariance must match the scattering dimensions")
+            output_noise = (_Complex * (ports * ports))()
+        output = (_Complex * (ports * ports))()
+        self._check(
+            self._dll.rfmodel_power_wave_renormalize(
+                ports,
+                native,
+                ports * ports,
+                old_values,
+                new_values,
+                native_noise,
+                output,
+                output_noise,
+                ports * ports,
+            )
+        )
+        return PowerWaveReferenceResult(
+            _rows(output, ports), _rows(output_noise, ports) if output_noise is not None else None
+        )
+
+    def power_wave_parameters(self, scattering, references, *, admittance=False):
+        """Return physical Z or Y from per-port complex Kurokawa power-wave S."""
+        ports, native = _matrix(scattering)
+        values = list(references)
+        if len(values) != ports:
+            raise ValueError("One reference is required per port")
+        if type(admittance) is not bool:
+            raise TypeError("admittance must be bool")
+        encoded = (_Complex * ports)(*[_Complex.from_value(z) for z in values])
+        output = (_Complex * (ports * ports))()
+        self._check(
+            self._dll.rfmodel_power_wave_s_to_parameters(
+                ports, native, ports * ports, encoded, int(admittance), output, ports * ports
+            )
+        )
+        return _rows(output, ports)
 
     def passive_noise(self, scattering, temperature_k=290.):
         """Return k*T*(I-S*S^H) in W/Hz; active matrices are rejected."""

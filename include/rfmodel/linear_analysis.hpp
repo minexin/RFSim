@@ -1,5 +1,6 @@
 #pragma once
 #include "sweep.hpp"
+#include "power_wave_reference.hpp"
 
 namespace rfmodel {
 // Shapes: frequencies[M], scattering[M][N,N], port_impedances[M][N].
@@ -16,7 +17,8 @@ inline LinearAnalysisResult analyze_linear(
     const FrequencyGrid &grid,
     const std::vector<std::size_t> &external_ports,
     const std::function<LinearNetwork(double)> &build,
-    const std::function<NoiseCorrelation(double, const LinearNetwork &)> &intrinsic_noise = {}) {
+    const std::function<NoiseCorrelation(double, const LinearNetwork &)> &intrinsic_noise = {},
+    const std::function<std::vector<Complex>(double)> &output_references = {}) {
     if (grid.hz.empty() || external_ports.empty() || !build) {
         throw std::invalid_argument("empty linear analysis request");
     }
@@ -31,14 +33,27 @@ inline LinearAnalysisResult analyze_linear(
         try {
             auto network = build(f);
             auto matrix = network.external_s(external_ports);
+            std::vector<Complex> references(external_ports.size(),
+                                            network.reference_impedance_ohms());
+            NoiseCorrelation noise;
             if (intrinsic_noise) {
-                result.noise_correlation.push_back(
-                    network.external_noise(external_ports, intrinsic_noise(f, network)));
+                noise = network.external_noise(external_ports, intrinsic_noise(f, network));
+            }
+            if (output_references) {
+                auto requested = output_references(f);
+                const auto transform = renormalize_power_waves(matrix, references, requested);
+                if (intrinsic_noise) {
+                    noise = propagate_noise(transform.noise_transfer, noise);
+                }
+                matrix = transform.scattering;
+                references = std::move(requested);
+            }
+            if (intrinsic_noise) {
+                result.noise_correlation.push_back(std::move(noise));
             }
             result.frequencies_hz.push_back(f);
             result.scattering.push_back(std::move(matrix));
-            result.port_impedances_ohms.emplace_back(external_ports.size(),
-                                                     network.reference_impedance_ohms());
+            result.port_impedances_ohms.push_back(std::move(references));
         } catch (const std::exception &error) {
             throw std::runtime_error("linear analysis failed at " + std::to_string(f) +
                                      " Hz: " + error.what());

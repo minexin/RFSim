@@ -3,6 +3,17 @@
 
 int main(int argc, char **argv) {
     {
+        const rfmodel_complex scattering = {0., 0.}, original = {50., 0.}, reference = {75., 20.};
+        rfmodel_complex output, impedance;
+        if (rfmodel_power_wave_renormalize(
+                1, &scattering, 1, &original, &reference, NULL, &output, NULL, 1) != RFMODEL_OK ||
+            rfmodel_power_wave_s_to_parameters(1, &output, 1, &reference, 0, &impedance, 1) !=
+                RFMODEL_OK ||
+            fabs(impedance.real - 50.) > 1e-11) {
+            return 86;
+        }
+    }
+    {
         const double levels[] = {0., -40., -60.};
         const int signs[] = {1, -1};
         double coefficients[4];

@@ -1,3 +1,4 @@
+#include <rfmodel/power_wave_reference.hpp>
 #include <rfmodel/intermod_levels.hpp>
 #include <rfmodel/coherent_highorder_amplifier.hpp>
 #include <rfmodel/polynomial_intercepts.hpp>
@@ -30,6 +31,13 @@
 #include <rfmodel/term_propagation.hpp>
 
 int main() {
+    const auto references = rfmodel::renormalize_power_waves(
+        rfmodel::SMatrix{1, {0.}}, {50.}, {rfmodel::Complex{75., 20.}});
+    const auto impedance =
+        rfmodel::s_to_z(references.scattering, std::vector<rfmodel::Complex>{{75., 20.}});
+    if (std::abs(impedance(0, 0) - 50.) > 1e-11) {
+        return 86;
+    }
     const auto im_coefficients =
         rfmodel::polynomial_coefficients_from_intermod_levels(10., {0., -40., -60.}, {1, -1});
     if (im_coefficients.size() != 4 || im_coefficients[3] >= 0.) {

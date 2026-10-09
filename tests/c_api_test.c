@@ -14,6 +14,51 @@
 
 int main(int argc, char **argv) {
     {
+        rfmodel_complex s = {0., 0.}, old_reference = {50., 0.}, new_reference = {75., 20.};
+        rfmodel_complex covariance = {1., 0.}, output = {17., 18.}, noise = {19., 20.};
+        rfmodel_complex saved_output = output, saved_noise = noise, impedance;
+        CHECK(rfmodel_power_wave_renormalize(
+                  1, &s, 1, &old_reference, &new_reference, &covariance, &output, &noise, 0) !=
+              RFMODEL_OK);
+        CHECK(memcmp(&output, &saved_output, sizeof(output)) == 0);
+        CHECK(memcmp(&noise, &saved_noise, sizeof(noise)) == 0);
+        covariance.real = -1.;
+        CHECK(rfmodel_power_wave_renormalize(
+                  1, &s, 1, &old_reference, &new_reference, &covariance, &output, &noise, 1) !=
+              RFMODEL_OK);
+        CHECK(memcmp(&output, &saved_output, sizeof(output)) == 0);
+        CHECK(memcmp(&noise, &saved_noise, sizeof(noise)) == 0);
+        covariance.real = 1.;
+        CHECK(rfmodel_power_wave_renormalize(
+                  1, &s, 1, &old_reference, &new_reference, &covariance, &output, &output, 1) !=
+              RFMODEL_OK);
+        CHECK(memcmp(&output, &saved_output, sizeof(output)) == 0);
+        CHECK(rfmodel_power_wave_renormalize(
+                  1, &s, 1, &old_reference, &new_reference, &covariance, &s, &noise, 1) !=
+              RFMODEL_OK);
+        CHECK(s.real == 0. && s.imag == 0.);
+        CHECK(rfmodel_power_wave_renormalize(
+                  1, &s, 1, &old_reference, &new_reference, &covariance, &output, &noise, 1) ==
+              RFMODEL_OK);
+        CHECK(fabs(output.real + 2725. / 16025.) < 1e-13);
+        CHECK(fabs(output.imag - 3000. / 16025.) < 1e-13);
+        CHECK(fabs(noise.real - 15000. / 16025.) < 1e-13 && fabs(noise.imag) < 1e-13);
+        CHECK(rfmodel_power_wave_s_to_parameters(1, &output, 1, &new_reference, 0, &impedance, 1) ==
+              RFMODEL_OK);
+        CHECK(fabs(impedance.real - 50.) < 1e-11 && fabs(impedance.imag) < 1e-11);
+        CHECK(rfmodel_power_wave_s_to_parameters(1, &output, 1, &new_reference, 1, &impedance, 1) ==
+              RFMODEL_OK);
+        CHECK(fabs(impedance.real - .02) < 1e-13 && fabs(impedance.imag) < 1e-13);
+        CHECK(rfmodel_power_wave_renormalize(
+                  1, &s, 1, &old_reference, &old_reference, NULL, &output, NULL, 1) == RFMODEL_OK);
+        CHECK(output.real == 0. && output.imag == 0.);
+        s.real = 1.;
+        saved_output = output;
+        CHECK(rfmodel_power_wave_s_to_parameters(1, &s, 1, &old_reference, 0, &output, 1) !=
+              RFMODEL_OK);
+        CHECK(memcmp(&output, &saved_output, sizeof(output)) == 0);
+    }
+    {
         double levels[3] = {0., -40., -60.};
         int signs[2] = {1, -1};
         double output[4] = {7., 8., 9., 10.}, saved[4];

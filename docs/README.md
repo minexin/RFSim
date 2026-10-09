@@ -3,6 +3,7 @@
 - [M1 建设目标](m1-goal.md)
 - [总体架构](architecture.md)
 - [核心接口](api.md)
+- [独立复参考阻抗与功率波](power-wave-references.md)
 - [外部边界反馈下的噪声](loaded-noise.md)
 - [C ABI 线性网络接口](c-api.md)
 - [Python 线性网络接口](python-api.md)

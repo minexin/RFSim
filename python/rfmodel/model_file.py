@@ -171,7 +171,8 @@ def analyze(library, document, *, base_directory=None):
     """Evaluate explicit frequency samples, returning JSON-compatible S/noise results."""
     _object(document, ("format", "version", "frequencies_hz", "devices", "external_ports"),
             ("reference_ohms", "connections", "terminations", "temperature_k",
-             "intrinsic_noise_samples", "signal_boundaries", "noise_boundaries"))
+             "intrinsic_noise_samples", "signal_boundaries", "noise_boundaries",
+             "output_reference_impedances_ohms", "output_reference_samples_ohms"))
     if (document["format"] != "rfmodel.linear-network" or
             type(document["version"]) is not int or document["version"] != 1):
         raise ValueError("Unsupported model format/version")
@@ -250,6 +251,31 @@ def analyze(library, document, *, base_directory=None):
     if not all(isinstance(value, list) for value in (connections, terminations, externals)):
         raise ValueError("Connections, terminations and external_ports must be arrays")
     selected = [endpoint(port) for port in externals]
+    output_references = None
+    if (
+        "output_reference_impedances_ohms" in document
+        and "output_reference_samples_ohms" in document
+    ):
+        raise ValueError("Choose constant or sampled output references")
+    if "output_reference_impedances_ohms" in document:
+        output_references = [document["output_reference_impedances_ohms"]] * len(frequencies)
+    elif "output_reference_samples_ohms" in document:
+        output_references = document["output_reference_samples_ohms"]
+    if (
+        "output_reference_impedances_ohms" in document
+        or "output_reference_samples_ohms" in document
+    ):
+        if not isinstance(output_references, list) or len(output_references) != len(frequencies):
+            raise ValueError("One output reference array is required per frequency")
+        decoded = []
+        for values in output_references:
+            if not isinstance(values, list) or len(values) != len(selected):
+                raise ValueError("One output reference impedance is required per external port")
+            values = [_complex(value) for value in values]
+            if any(value.real <= 0 for value in values):
+                raise ValueError("Output references require positive real parts")
+            decoded.append(values)
+        output_references = decoded
     pairs = []
     for pair in connections:
         if not isinstance(pair, list) or len(pair) != 2:
@@ -361,6 +387,27 @@ def analyze(library, document, *, base_directory=None):
                                            "net_into_device_w": incident_power-outgoing_power})
                 point["signal"] = {"ports": port_waves,
                                    "relative_residual": waves.relative_residual}
+            if output_references is not None:
+                references = output_references[index]
+                converted = library.renormalize_power_waves(
+                    scattering,
+                    [reference] * len(selected),
+                    references,
+                    noise=intrinsic if covariance is not None else None,
+                )
+                point["s"] = _encode(converted.scattering)
+                point["port_impedances_ohms"] = [[value.real, value.imag] for value in references]
+                point["wave_definition"] = "power"
+                if converted.noise_correlation is not None:
+                    point["noise_w_per_hz"] = _encode(converted.noise_correlation)
+                for boundary_result in ("signal", "loaded_noise"):
+                    if boundary_result in point:
+                        point[boundary_result]["reference_ohms"] = reference
             results.append(point)
-    return {"format": "rfmodel.linear-results", "version": 1,
-            "reference_ohms": reference, "external_ports": externals, "samples": results}
+    return {
+        "format": "rfmodel.linear-results",
+        "version": 1,
+        "reference_ohms": reference,
+        "external_ports": externals,
+        "samples": results,
+    }

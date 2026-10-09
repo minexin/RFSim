@@ -20,7 +20,9 @@ python -m rfmodel examples/linear-noise.json `
 |---|---|
 | format | 必须为 `rfmodel.linear-network` |
 | version | 整数 1，其他版本明确拒绝 |
-| reference_ohms | 所有端口共用的正实参考阻抗，默认 50 |
+| reference_ohms | 内部网络共用的正实参考阻抗，默认 50 |
+| output_reference_impedances_ohms | 可选，长度 N 的各外端口输出复参考阻抗 |
+| output_reference_samples_ohms | 可选，M×N 的逐频率输出复参考阻抗；与上项互斥 |
 | frequencies_hz | 1–10000 个严格递增、非负、有限的频率，单位 Hz |
 | devices | 非空器件数组，按其排列顺序分配全局端口，总端口不超过 1024 |
 | connections | 可选，每项为两个端点的数组 |
@@ -205,3 +207,7 @@ examples/measured-noise.json 引用合成 noisy-amplifier.s2p：文件参考为 
 `[[0.96,-0.384],[-0.384,3.9936]]*kT0`，展示与 S 同步转换的互相关。
 S 和噪声从同一次打开的快照取得，文件修改不会造成一次分析内两套输入混用。
 逐器件模式仍要求全部器件明确指定噪声，不能混合顶层噪声模式。
+
+## 逐端口复参考输出
+
+2026-10-09：上述两个 output_reference 字段要求实部严格为正，并按 external_ports 排列。请求后各 sample 的 s 与 noise_w_per_hz 一起变换，新增 port_impedances_ohms 与 wave_definition="power"。signal 和 loaded_noise 保留实际边界求解的公共参考，新增各自的 reference_ohms。默认输出保持原格式。完整定义、限制及示例见[功率波参考说明](power-wave-references.md)。

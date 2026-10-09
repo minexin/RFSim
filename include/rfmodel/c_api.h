@@ -79,6 +79,32 @@ rfmodel_polynomial_coefficients_from_intermod_levels(double power_gain_db,
                                                      size_t capacity,
                                                      size_t *coefficient_count);
 
+/* Per-port complex Kurokawa power-wave references, Re(Z)>0.
+ * Row-major ports^2 scattering/noise matrices; each reference array has ports
+ * entries. Noise input and output must be both NULL or both non-NULL.
+ * Outputs must not overlap inputs or one another; read-only inputs may alias.
+ * Outputs remain unchanged on every failure. */
+RFMODEL_API int rfmodel_power_wave_renormalize(size_t ports,
+                                               const rfmodel_complex *scattering,
+                                               size_t value_count,
+                                               const rfmodel_complex *old_references,
+                                               const rfmodel_complex *new_references,
+                                               const rfmodel_complex *intrinsic_noise,
+                                               rfmodel_complex *new_scattering,
+                                               rfmodel_complex *new_noise,
+                                               size_t capacity);
+
+/* admittance=0 selects physical Z (ohm); admittance=1 selects Y (siemens).
+ * References use the same power-wave convention. Singular conversions fail.
+ * Output must not overlap inputs and remains unchanged on failure. */
+RFMODEL_API int rfmodel_power_wave_s_to_parameters(size_t ports,
+                                                   const rfmodel_complex *scattering,
+                                                   size_t value_count,
+                                                   const rfmodel_complex *references,
+                                                   int admittance,
+                                                   rfmodel_complex *output,
+                                                   size_t capacity);
+
 typedef struct rfmodel_source_coherence {
     const char *source_id;
     const char *reference_clock;

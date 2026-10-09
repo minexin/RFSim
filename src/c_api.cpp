@@ -1,3 +1,4 @@
+#include "rfmodel/power_wave_reference.hpp"
 #include "rfmodel/intermod_levels.hpp"
 #include "rfmodel/coherent_highorder_amplifier.hpp"
 #include "rfmodel/polynomial_intercepts.hpp"
@@ -1519,6 +1520,91 @@ int rfmodel_linear_amplifier_s(double frequency_hz,
             rfmodel::LinearAmplifierModel("C API amplifier", parameters).s_parameters(frequency_hz);
         for (size_t i = 0; i < 4; ++i) {
             values[i] = {matrix.values[i].real(), matrix.values[i].imag()};
+        }
+    });
+}
+
+int rfmodel_power_wave_renormalize(size_t ports,
+                                   const rfmodel_complex *scattering,
+                                   size_t value_count,
+                                   const rfmodel_complex *old_references,
+                                   const rfmodel_complex *new_references,
+                                   const rfmodel_complex *intrinsic_noise,
+                                   rfmodel_complex *new_scattering,
+                                   rfmodel_complex *new_noise,
+                                   size_t capacity) {
+    return guarded([&] {
+        require(ports >= 1 && ports <= 1024 && value_count == ports * ports);
+        require(scattering && old_references && new_references && new_scattering);
+        require((intrinsic_noise == nullptr) == (new_noise == nullptr) && capacity >= value_count);
+        require(capacity <= std::numeric_limits<size_t>::max() / sizeof(rfmodel_complex));
+        const std::array<const void *, 6> pointers{
+            scattering, old_references, new_references, intrinsic_noise, new_scattering, new_noise};
+        const size_t matrix_bytes = value_count * sizeof(rfmodel_complex);
+        const size_t output_bytes = capacity * sizeof(rfmodel_complex);
+        const std::array<size_t, 6> sizes{matrix_bytes,
+                                          ports * sizeof(rfmodel_complex),
+                                          ports * sizeof(rfmodel_complex),
+                                          intrinsic_noise ? matrix_bytes : 0,
+                                          output_bytes,
+                                          new_noise ? output_bytes : 0};
+        for (size_t i = 4; i < pointers.size(); ++i) {
+            for (size_t j = 0; j < i; ++j) {
+                disjoint(pointers[i], sizes[i], pointers[j], sizes[j]);
+            }
+        }
+        rfmodel::SMatrix matrix{ports, std::vector<rfmodel::Complex>(value_count)}, noise = matrix;
+        std::vector<rfmodel::Complex> old_values, new_values;
+        for (size_t i = 0; i < ports; ++i) {
+            old_values.push_back({old_references[i].real, old_references[i].imag});
+            new_values.push_back({new_references[i].real, new_references[i].imag});
+        }
+        for (size_t i = 0; i < value_count; ++i) {
+            matrix.values[i] = {scattering[i].real, scattering[i].imag};
+            if (intrinsic_noise) {
+                noise.values[i] = {intrinsic_noise[i].real, intrinsic_noise[i].imag};
+            }
+        }
+        const auto result = rfmodel::renormalize_power_waves(matrix, old_values, new_values);
+        if (intrinsic_noise) {
+            noise = rfmodel::propagate_noise(result.noise_transfer, {noise}).watts_per_hz;
+        }
+        for (size_t i = 0; i < value_count; ++i) {
+            new_scattering[i] = {result.scattering.values[i].real(),
+                                 result.scattering.values[i].imag()};
+            if (new_noise) {
+                new_noise[i] = {noise.values[i].real(), noise.values[i].imag()};
+            }
+        }
+    });
+}
+
+int rfmodel_power_wave_s_to_parameters(size_t ports,
+                                       const rfmodel_complex *scattering,
+                                       size_t value_count,
+                                       const rfmodel_complex *references,
+                                       int admittance,
+                                       rfmodel_complex *output,
+                                       size_t capacity) {
+    return guarded([&] {
+        require(ports >= 1 && ports <= 1024 && value_count == ports * ports);
+        require(scattering && references && output && capacity >= value_count);
+        require(admittance == 0 || admittance == 1);
+        require(capacity <= std::numeric_limits<size_t>::max() / sizeof(rfmodel_complex));
+        disjoint(scattering, value_count * sizeof(*scattering), output, capacity * sizeof(*output));
+        disjoint(references, ports * sizeof(*references), output, capacity * sizeof(*output));
+        rfmodel::SMatrix matrix{ports, std::vector<rfmodel::Complex>(value_count)};
+        std::vector<rfmodel::Complex> values;
+        for (size_t i = 0; i < ports; ++i) {
+            values.push_back({references[i].real, references[i].imag});
+        }
+        for (size_t i = 0; i < value_count; ++i) {
+            matrix.values[i] = {scattering[i].real, scattering[i].imag};
+        }
+        const auto result =
+            admittance ? rfmodel::s_to_y(matrix, values) : rfmodel::s_to_z(matrix, values);
+        for (size_t i = 0; i < value_count; ++i) {
+            output[i] = {result.values[i].real(), result.values[i].imag()};
         }
     });
 }
