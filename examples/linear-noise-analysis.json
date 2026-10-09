@@ -1,0 +1,110 @@
+{
+  "format": "rfmodel.linear-network",
+  "version": 1,
+  "reference_ohms": 50,
+  "frequencies_hz": [
+    1000000000,
+    2000000000
+  ],
+  "devices": [
+    {
+      "id": "pad",
+      "s": [
+        [
+          0,
+          0.5
+        ],
+        [
+          0.5,
+          0
+        ]
+      ]
+    },
+    {
+      "id": "phase",
+      "s_samples": [
+        [
+          [
+            0,
+            [
+              0,
+              -1
+            ]
+          ],
+          [
+            [
+              0,
+              -1
+            ],
+            0
+          ]
+        ],
+        [
+          [
+            0,
+            -1
+          ],
+          [
+            -1,
+            0
+          ]
+        ]
+      ]
+    }
+  ],
+  "connections": [
+    [
+      [
+        "pad",
+        1
+      ],
+      [
+        "phase",
+        0
+      ]
+    ]
+  ],
+  "external_ports": [
+    [
+      "pad",
+      0
+    ],
+    [
+      "phase",
+      1
+    ]
+  ],
+  "temperature_k": 290,
+  "output_reference_samples_ohms": [
+    [
+      [
+        25,
+        10
+      ],
+      [
+        100,
+        -15
+      ]
+    ],
+    [
+      [
+        75,
+        -5
+      ],
+      [
+        30,
+        12
+      ]
+    ]
+  ],
+  "noise_analysis": {
+    "reference_temperature_k": 290,
+    "source_impedance_samples_ohms": [
+      50,
+      [
+        25,
+        30
+      ]
+    ]
+  }
+}

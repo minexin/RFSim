@@ -167,12 +167,60 @@ def _device_noise(library, specification, matrices):
     return samples
 
 
+def _noise_analysis_request(specification, frequencies, reference):
+    """Decode physical source impedance samples separately from port wave references."""
+    _object(
+        specification,
+        (),
+        ("reference_temperature_k", "source_impedance_ohms", "source_impedance_samples_ohms"),
+    )
+    temperature = _number(specification.get("reference_temperature_k", 290.0))
+    if temperature <= 0:
+        raise ValueError("Noise analysis reference temperature must be positive")
+    if (
+        "source_impedance_ohms" in specification
+        and "source_impedance_samples_ohms" in specification
+    ):
+        raise ValueError("Choose constant or sampled noise-analysis source impedance")
+    if "source_impedance_samples_ohms" in specification:
+        values = specification["source_impedance_samples_ohms"]
+        if not isinstance(values, list) or len(values) != len(frequencies):
+            raise ValueError("One noise-analysis source impedance is required per frequency")
+    else:
+        values = [specification.get("source_impedance_ohms", reference)] * len(frequencies)
+    sources = [_complex(value) for value in values]
+    if any(value.real <= 0 for value in sources):
+        raise ValueError("Noise-analysis sources require positive real impedance")
+    return temperature, sources
+
+
+def _noise_analysis_result(library, scattering, intrinsic, references, source, temperature):
+    parameters = library.power_wave_noise_parameters(
+        scattering, intrinsic, references, temperature_k=temperature
+    )
+    figure = library.power_wave_noise_figure(
+        scattering, intrinsic, references, source, temperature_k=temperature
+    )
+    optimum = parameters.optimum_source_reflection
+    return {
+        "noise_figure_db": figure,
+        "minimum_noise_figure_db": parameters.minimum_noise_figure_db,
+        "optimum_source_reflection": [optimum.real, optimum.imag],
+        "noise_resistance_ohms": parameters.noise_resistance_ohms,
+        "source_impedance_ohms": [source.real, source.imag],
+        "reference_impedances_ohms": [[complex(z).real, complex(z).imag] for z in references],
+        "reference_temperature_k": temperature,
+        "wave_definition": "power",
+        "source_reflection_convention": "a_over_b",
+    }
+
+
 def analyze(library, document, *, base_directory=None):
     """Evaluate explicit frequency samples, returning JSON-compatible S/noise results."""
     _object(document, ("format", "version", "frequencies_hz", "devices", "external_ports"),
             ("reference_ohms", "connections", "terminations", "temperature_k",
              "intrinsic_noise_samples", "signal_boundaries", "noise_boundaries",
-             "output_reference_impedances_ohms", "output_reference_samples_ohms"))
+             "output_reference_impedances_ohms", "output_reference_samples_ohms", "noise_analysis"))
     if (document["format"] != "rfmodel.linear-network" or
             type(document["version"]) is not int or document["version"] != 1):
         raise ValueError("Unsupported model format/version")
@@ -251,6 +299,13 @@ def analyze(library, document, *, base_directory=None):
     if not all(isinstance(value, list) for value in (connections, terminations, externals)):
         raise ValueError("Connections, terminations and external_ports must be arrays")
     selected = [endpoint(port) for port in externals]
+    noise_analysis = None
+    if "noise_analysis" in document:
+        if len(selected) != 2:
+            raise ValueError("Noise analysis requires exactly two external ports")
+        if temperature is None and noise_samples is None and not device_noise_mode:
+            raise ValueError("Noise analysis requires explicit intrinsic noise")
+        noise_analysis = _noise_analysis_request(document["noise_analysis"], frequencies, reference)
     output_references = None
     if (
         "output_reference_impedances_ohms" in document
@@ -387,6 +442,7 @@ def analyze(library, document, *, base_directory=None):
                                            "net_into_device_w": incident_power-outgoing_power})
                 point["signal"] = {"ports": port_waves,
                                    "relative_residual": waves.relative_residual}
+            references = [reference] * len(selected)
             if output_references is not None:
                 references = output_references[index]
                 converted = library.renormalize_power_waves(
@@ -395,14 +451,27 @@ def analyze(library, document, *, base_directory=None):
                     references,
                     noise=intrinsic if covariance is not None else None,
                 )
-                point["s"] = _encode(converted.scattering)
+                scattering = converted.scattering
+                point["s"] = _encode(scattering)
                 point["port_impedances_ohms"] = [[value.real, value.imag] for value in references]
                 point["wave_definition"] = "power"
                 if converted.noise_correlation is not None:
-                    point["noise_w_per_hz"] = _encode(converted.noise_correlation)
+                    intrinsic = converted.noise_correlation
+                    point["noise_w_per_hz"] = _encode(intrinsic)
                 for boundary_result in ("signal", "loaded_noise"):
                     if boundary_result in point:
                         point[boundary_result]["reference_ohms"] = reference
+            if noise_analysis is not None:
+                reference_temperature, sources = noise_analysis
+                try:
+                    point["noise_analysis"] = _noise_analysis_result(
+                        library, scattering, intrinsic, references,
+                        sources[index], reference_temperature,
+                    )
+                except (ValueError, RuntimeError, OverflowError) as error:
+                    raise ValueError(
+                        f"Noise analysis failed at {frequency:g} Hz: {error}"
+                    ) from error
             results.append(point)
     return {
         "format": "rfmodel.linear-results",

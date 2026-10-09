@@ -5,6 +5,7 @@
 - [核心接口](api.md)
 - [独立复参考阻抗与功率波](power-wave-references.md)
 - [独立复参考下的二端口噪声参数](power-wave-noise.md)
+- [线性 JSON 的逐频点噪声分析](linear-noise-analysis.md)
 - [外部边界反馈下的噪声](loaded-noise.md)
 - [C ABI 线性网络接口](c-api.md)
 - [Python 线性网络接口](python-api.md)

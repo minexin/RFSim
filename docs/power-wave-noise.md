@@ -50,3 +50,5 @@ Python 包继续声明 >=3.9；本阶段将上一阶段的 tuple|None 运行时�
 MSVC 2022 x64 Debug/Release clean-first 构建及 CTest 分别 86/86；安装后独立 C/C++ 消费测试分别 2/2。Python 3.12 从独立 wheel 加载，API 85/85、系统图 51/51；示例成功输出 NFmin=3.0102999566 dB、Rn=57.375 Ω，以及 Zs=25+30j Ω 下的 NF=4.1127448985 dB。C++ 格式检查 120 文件通过。GitHub 三平台 CI 由本提交触发，结果以 Actions 为准。
 
 未完成实测的 SystemVue 高阶模型采集草稿未纳入本阶段提交；当前记录不把草稿或尚未关闭的弹窗视作厂商比对证据。
+
+线性 JSON 与命令行现支持[逐频点噪声后处理](linear-noise-analysis.md)，可直接使用 examples/linear-noise-analysis.json 重放复参考、源阻抗扫描和参数输出。

@@ -69,3 +69,5 @@ Windows 本机可运行 `scripts/build-msvc.ps1` 自动定位已有 VS 工具链
 [IMN 输出互调功率参数](docs/intermod-levels.md) 接入 RFAMP_HO 文档规定的 IM1..IM11 功率到显式系数转换，贯通 C++/C/Python/JSON；系数符号由调用者明确给出，完整 RFAMP_HO 实测验收仍待完成。
 
 新增[复参考二端口噪声后处理](docs/power-wave-noise.md)：C++/C/Python 支持 NF、NFmin、源端 GammaOpt、物理 Rn 及相关矩阵重建，SystemVue 对照仍待完成。
+
+线性 JSON 的[noise_analysis 配置](docs/linear-noise-analysis.md)支持物理源阻抗扫描及逐频点 NF/NFmin/GammaOpt/Rn 输出，示例为 examples/linear-noise-analysis.json。

@@ -30,6 +30,7 @@ python -m rfmodel examples/linear-noise.json `
 | external_ports | 有序外部端点数组，决定结果矩阵的行列顺序 |
 | temperature_k | 可选，给所有器件指定统一非负开尔文温度并计算被动内生噪声 |
 | intrinsic_noise_samples | 可选，每个频率一张全局端口内生噪声矩阵，单位 W/Hz |
+| noise_analysis | 可选，二端口噪声后处理配置，输出逐频点 NF/NFmin/GammaOpt/Rn |
 
 两种噪声输入方式互斥。temperature_k 模式要求所有器件无源，假设器件间噪声独立；
 显式矩阵模式可以包含器件内与跨器件复数相关项，由核心校验厄米性及半正定性。
@@ -211,3 +212,7 @@ S 和噪声从同一次打开的快照取得，文件修改不会造成一次分
 ## 逐端口复参考输出
 
 2026-10-09：上述两个 output_reference 字段要求实部严格为正，并按 external_ports 排列。请求后各 sample 的 s 与 noise_w_per_hz 一起变换，新增 port_impedances_ohms 与 wave_definition="power"。signal 和 loaded_noise 保留实际边界求解的公共参考，新增各自的 reference_ohms。默认输出保持原格式。完整定义、限制及示例见[功率波参考说明](power-wave-references.md)。
+
+## 二端口噪声后处理
+
+noise_analysis 对象支持恒定或逐频点的物理源阻抗及参考温度。默认源阻抗保持 reference_ohms 的物理值，不随输出参考转换改变。需显式内生噪声和恰好两个外部端口；分析方向按 external_ports 顺序定义，结果增加 noise_analysis 对象。输入字段、单位、源反射约定和错误语义见[逐频点噪声分析](linear-noise-analysis.md)。
