@@ -127,6 +127,19 @@ class _CoherentComponent(ct.Structure):
                 ("coherence_group", ct.c_uint64), ("amplitude", _Complex)]
 
 
+class OriginFactor(NamedTuple):
+    root_id: int
+    sign: int = 1
+
+
+class _OriginFactor(ct.Structure):
+    _fields_ = [("root_id", ct.c_uint64), ("sign", ct.c_int)]
+
+
+class _MixingOrigin(ct.Structure):
+    _fields_ = [("factors", ct.POINTER(_OriginFactor)), ("count", ct.c_size_t)]
+
+
 class _CoherentPolynomialTerm(ct.Structure):
     _fields_ = [("order", ct.c_int), ("input_indices", ct.c_int * 9),
                 ("component", _CoherentComponent)]
@@ -277,6 +290,9 @@ class Library:
                            ct.POINTER(_CoherentComponent), size, ct.POINTER(size)]),
             "rfmodel_assign_source_coherence": (
                 ct.c_int, [ct.POINTER(_SourceCoherence), size, ct.POINTER(ct.c_uint64), size]),
+            "rfmodel_expand_mixing_origin": (
+                ct.c_int, [ct.POINTER(_MixingOrigin), size, ct.POINTER(ct.c_int), size,
+                           ct.POINTER(_OriginFactor), size, ct.POINTER(size)]),
             "rfmodel_coherent_polynomial_evaluate": (
                 ct.c_int, [ct.c_double, ct.POINTER(_CoherentComponent), size,
                            ct.POINTER(ct.c_double), size, ct.c_double, ct.c_uint64,
@@ -574,6 +590,40 @@ class Library:
         groups = (ct.c_uint64 * len(sources))()
         self._check(self._dll.rfmodel_assign_source_coherence(incident, len(incident), groups, len(groups)))
         return tuple(groups)
+
+    def expand_mixing_origin(self, parents, indices):
+        """Compose local signed parent indices into canonical root factors."""
+        parents, indices = [list(parent) for parent in parents], list(indices)
+        if not 1 <= len(parents) <= 4096 or not 1 <= len(indices) <= 9:
+            raise ValueError("Expected 1..4096 parents and 1..9 indices")
+        if any(not 1 <= len(parent) <= 256 for parent in parents) or sum(map(len, parents)) > 65536:
+            raise ValueError("Invalid parent origin sizes")
+        arrays = []
+        for parent in parents:
+            factors = []
+            for root, sign in parent:
+                if isinstance(root, bool) or isinstance(sign, bool):
+                    raise TypeError("Origin root and sign must be integers, not bool")
+                root, sign = operator.index(root), operator.index(sign)
+                if not 1 <= root <= 18446744073709551615 or sign not in (-1, 1):
+                    raise ValueError("Invalid origin root/sign")
+                factors.append(_OriginFactor(root, sign))
+            arrays.append((_OriginFactor * len(factors))(*factors))
+        selected = []
+        for index in indices:
+            if isinstance(index, bool):
+                raise TypeError("Origin index must be integer, not bool")
+            index = operator.index(index)
+            if not -len(parents) <= index <= len(parents) or index == 0:
+                raise ValueError("Origin index outside parents")
+            selected.append(index)
+        encoded = (_MixingOrigin * len(arrays))(
+            *[_MixingOrigin(array, len(array)) for array in arrays])
+        signed = (ct.c_int * len(selected))(*selected)
+        output, count = (_OriginFactor * 256)(), ct.c_size_t()
+        self._check(self._dll.rfmodel_expand_mixing_origin(
+            encoded, len(encoded), signed, len(signed), output, len(output), ct.byref(count)))
+        return tuple(OriginFactor(factor.root_id, factor.sign) for factor in output[:count.value])
 
     def coherent_polynomial(self, spacing_hz, components, voltage_coefficients, *,
                             reference_ohms=50., reserved_group_max=0):

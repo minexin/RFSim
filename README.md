@@ -43,3 +43,5 @@ Windows 本机可运行 `scripts/build-msvc.ps1` 自动定位已有 VS 工具链
 [RFAMP 单位增益诊断](docs/systemvue-unity-gain-diagnostic.md)：17 组受控采集支持等效功率增益 1.00000023 的行为解释；名义增益验收仍保留失败，诊断不算兼容性通过。
 
 [九阶相干多项式](docs/coherent-polynomial.md) 新增 C++/C/Python 接口，可由谐波、互调输入继续生成带本地来源的 RF 项；已做独立卷积验证，尚未完成 RFAMP 高阶系数、递归身份及子谱合并的兼容验收。
+
+[递归来源与多项式系统图](docs/recursive-mixing-origins.md) 新增原始源因子展开、同源失真归并及显式全局来源阶数限制。带混频器的来源表达式之和与 SystemVue 高阶子谱语义仍待完成。

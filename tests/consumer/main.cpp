@@ -1,3 +1,4 @@
+#include <rfmodel/mixing_origin.hpp>
 #include <rfmodel/coherent_polynomial.hpp>
 #include <rfmodel/coherent_amplifier.hpp>
 #include <rfmodel/coherent_mixer.hpp>
@@ -25,6 +26,11 @@
 #include <rfmodel/term_propagation.hpp>
 
 int main() {
+    const auto origin = rfmodel::expand_mixing_origin({{{7, 1}, {9, -1}}}, {-1});
+    if (origin != rfmodel::MixingOrigin{{7, -1}, {9, 1}}) {
+        return 73;
+    }
+
     const auto ninth = rfmodel::CoherentPolynomial({0., 0., 0., 0., 0., 0., 0., 0., 0., 1.})
                            .evaluate(1e8, {{10, rfmodel::SpectrumKind::harmonic, 1., 7, .01}});
     if (ninth.terms.size() != 5 || ninth.terms.back().input_indices[8] != 1) {

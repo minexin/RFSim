@@ -53,6 +53,197 @@ class CoherentSystemFileTests(unittest.TestCase):
     def evaluate(self, model, **kwargs):
         return analyze_coherent_system(self.library, model, **kwargs)
 
+    def test_recursive_polynomial_aliases_same_root_harmonics(self):
+        model = load(ROOT / "examples/coherent-recursive-polynomial.json")
+        original = copy.deepcopy(model)
+        result = self.evaluate(model)
+        self.assertEqual(model, original)
+        second = stream(result, "second")
+        self.assertEqual(len(second["components"]), 5)
+        harmonics = {c["bin"]: c for c in second["components"] if c["kind"] == "harmonic"}
+        self.assertAlmostEqual(complex(*harmonics[20]["amplitude"]), 0.0005)
+        self.assertAlmostEqual(complex(*harmonics[30]["amplitude"]), 0.0000125)
+        self.assertAlmostEqual(complex(*harmonics[40]["amplitude"]), 0.00000015625)
+        h2_paths = [o for o in result["stages"][1]["origins"] if o["bin"] == 20]
+        self.assertEqual(len(h2_paths), 2)
+        self.assertEqual(h2_paths[0]["source_factors"], h2_paths[1]["source_factors"])
+        self.assertEqual(h2_paths[0]["coherence_group"], h2_paths[1]["coherence_group"])
+        self.assertEqual(h2_paths[0]["source_order"], 2)
+        third_order = next(
+            o for o in second["origins"] if o["bin"] == 10 and o["kind"] == "intermod"
+        )
+        self.assertEqual(third_order["source_order"], 3)
+        self.assertEqual([f["sign"] for f in third_order["source_factors"]], [-1, 1, 1])
+        # A linear third stage must retain the global order, not reset it to one.
+        model["stages"].append(
+            dict(
+                model["stages"][1],
+                id="third",
+                input="second",
+                output="third",
+                voltage_coefficients=[0, 1],
+            )
+        )
+        model["outputs"] = ["third"]
+        propagated = self.evaluate(model)
+        self.assertEqual(stream(propagated, "third")["origins"], second["origins"])
+
+    def test_source_order_cutoff_is_explicit_and_counts_dropped_paths(self):
+        model = load(ROOT / "examples/coherent-recursive-polynomial.json")
+        for maximum, removed, retained in ((3, 1, 4), (2, 3, 2), (1, 5, 1)):
+            model["stages"][1]["max_source_order"] = maximum
+            result = self.evaluate(model)
+            stage = result["stages"][1]
+            self.assertEqual(stage["generated_term_count"], 6)
+            self.assertEqual(stage["discarded_term_count"], removed)
+            self.assertEqual(len(stream(result, "second")["components"]), retained)
+            self.assertTrue(
+                all(o["source_order"] <= maximum for o in stream(result, "second")["origins"])
+            )
+
+    def test_recursive_polynomial_phase_parity(self):
+        model = load(ROOT / "examples/coherent-recursive-polynomial.json")
+        positive = stream(self.evaluate(model), "second")
+        model["inputs"][0]["components"][0]["amplitude"] = -0.01
+        negative = stream(self.evaluate(model), "second")
+        for a, b, origin in zip(
+            positive["components"], negative["components"], positive["origins"]
+        ):
+            self.assertAlmostEqual(
+                complex(*b["amplitude"]), complex(*a["amplitude"]) * (-1) ** origin["source_order"]
+            )
+        self.assertEqual(positive["origins"], negative["origins"])
+
+    def test_polynomial_follows_limited_amplifier_and_linear_network(self):
+        model = load(ROOT / "examples/coherent-harmonic-combiner.json")
+        model["inputs"][1]["components"][0]["amplitude"] = 0.005
+        model["stages"].append(
+            {
+                "id": "poly",
+                "type": "polynomial_amplifier",
+                "input": "result",
+                "output": "poly",
+                "voltage_coefficients": [0, 1],
+                "max_source_order": 3,
+            }
+        )
+        model["outputs"] = ["poly"]
+        result = self.evaluate(model)
+        self.assertEqual(stream(result, "poly")["components"], stream(result)["components"])
+        self.assertEqual({o["source_order"] for o in stream(result, "poly")["origins"]}, {1, 2, 3})
+
+    def test_recursive_polynomial_matches_independent_two_tone_convolution(self):
+        model = load(ROOT / "examples/coherent-recursive-polynomial.json")
+        model["sources"].append({"id": "other"})
+        model["inputs"][0]["components"][0]["amplitude"] = [0.01, 0.003]
+        model["inputs"][0]["components"].append(
+            {"source": "other", "bin": 13, "bandwidth_hz": 1, "amplitude": [0.007, -0.002]}
+        )
+        model["stages"][0]["max_source_order"] = 6
+        model["stages"][1].update(voltage_coefficients=[0, 0.8, 0.4, -0.1], max_source_order=6)
+        result = self.evaluate(model)
+        first = self.library.polynomial_amplifier(
+            1e8,
+            {10: complex(0.01, 0.003), 13: complex(0.007, -0.002)},
+            voltage_coefficients=[0, 1, 0.5],
+        )
+        first.pop(0, None)
+        expected = self.library.polynomial_amplifier(
+            1e8, first, voltage_coefficients=[0, 0.8, 0.4, -0.1]
+        )
+        expected.pop(0, None)
+        actual = {}
+        for component in stream(result, "second")["components"]:
+            actual[component["bin"]] = actual.get(component["bin"], 0j) + complex(
+                *component["amplitude"]
+            )
+        self.assertEqual(set(actual), set(expected))
+        for index, wave in expected.items():
+            self.assertAlmostEqual(actual[index] / wave, 1 + 0j, places=9)
+        self.assertEqual(result["stages"][1]["discarded_term_count"], 0)
+
+    def test_recursive_fractional_bandwidth_is_canonical(self):
+        model = load(ROOT / "examples/coherent-recursive-polynomial.json")
+        model["inputs"][0]["components"][0]["bandwidth_hz"] = 0.1
+        for stage in model["stages"]:
+            stage.update(voltage_coefficients=[0, 1, 0.5, -0.2], max_source_order=9)
+        output = stream(self.evaluate(model), "second")
+        identities = set()
+        for origin in output["origins"]:
+            factors = tuple(
+                (factor["root_id"], factor["sign"]) for factor in origin["source_factors"]
+            )
+            key = (origin["bin"], origin["kind"], factors)
+            self.assertNotIn(key, identities)
+            identities.add(key)
+            self.assertEqual(origin["bandwidth_hz"], math.fsum([0.1] * origin["source_order"]))
+
+    def test_polynomial_validates_cutoff_and_rejects_unrepresented_mixer_sums(self):
+        model = load(ROOT / "examples/coherent-recursive-polynomial.json")
+        for value in (0, 257, True, 2.5):
+            changed = copy.deepcopy(model)
+            changed["stages"][0]["max_source_order"] = value
+            with self.subTest(value=value), self.assertRaises(ValueError):
+                self.evaluate(changed)
+        model["stages"].append({"id": "mixer", "type": "ideal_mixer_bank", "branches": []})
+        with self.assertRaisesRegex(ValueError, "multi-origin"):
+            self.evaluate(model)
+
+    def test_recursive_polynomial_cli_and_failure_preserve_output(self):
+        model = load(ROOT / "examples/coherent-recursive-polynomial.json")
+        with tempfile.TemporaryDirectory() as directory:
+            source = Path(directory) / "polynomial.json"
+            output = Path(directory) / "result.json"
+            source.write_text(json.dumps(model), encoding="utf-8")
+            env = dict(os.environ) if INSTALLED else dict(os.environ, PYTHONPATH=str(ROOT / "python"))
+            command = [sys.executable, "-m", "rfmodel", str(source), "--library", str(LIBRARY_PATH),
+                       "--output", str(output)]
+            completed = subprocess.run(command, env=env, capture_output=True, text=True)
+            self.assertEqual(completed.returncode, 0, completed.stderr)
+            self.assertEqual(json.loads(output.read_text()), self.evaluate(model))
+            saved = output.read_bytes()
+            model["stages"][1]["max_source_order"] = 0
+            source.write_text(json.dumps(model), encoding="utf-8")
+            completed = subprocess.run(command, env=env, capture_output=True, text=True)
+            self.assertNotEqual(completed.returncode, 0)
+            self.assertEqual(output.read_bytes(), saved)
+
+    def test_legacy_mixer_coherent_image_addition_is_preserved(self):
+        model = {
+            "format": "rfmodel.coherent-system",
+            "version": 1,
+            "spacing_hz": 1e8,
+            "sources": [{"id": "rf"}, {"id": "lo"}],
+            "inputs": [
+                {
+                    "id": "input",
+                    "components": [
+                        {"source": "rf", "bin": 8, "bandwidth_hz": 1, "amplitude": 0.01},
+                        {"source": "rf", "bin": 12, "bandwidth_hz": 1, "amplitude": 0.02},
+                    ],
+                }
+            ],
+            "stages": [
+                {
+                    "id": "mix",
+                    "type": "ideal_mixer_bank",
+                    "branches": [
+                        {
+                            "id": "out",
+                            "input": "input",
+                            "lo_source": "lo",
+                            "lo_bin": 10,
+                            "conversion_gain_db": 0,
+                        }
+                    ],
+                }
+            ],
+            "outputs": ["out"],
+        }
+        result = self.evaluate(model)
+        self.assertAlmostEqual(powers(result, "out")[2], 0.03**2)
+        self.assertNotIn("origin_roots", result)
+
     def test_cascade_combines_conducted_and_generated_origins(self):
         model = load(ROOT / "examples/coherent-amplifier-cascade.json")
         result = self.evaluate(model)

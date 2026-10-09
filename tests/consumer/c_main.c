@@ -3,6 +3,25 @@
 
 int main(int argc, char **argv) {
     {
+        const rfmodel_origin_factor a[] = {{7, 1}};
+        const rfmodel_origin_factor b[] = {{9, -1}, {7, 1}};
+        const rfmodel_mixing_origin parents[] = {{a, 1}, {b, 2}};
+        const int indices[] = {2, -1};
+        rfmodel_origin_factor output[3] = {{99, 1}};
+        size_t count = 99;
+        if (rfmodel_expand_mixing_origin(parents, 2, indices, 2, output, 1, &count) == RFMODEL_OK ||
+            count != 99 || output[0].root_id != 99) {
+            return 73;
+        }
+        if (rfmodel_expand_mixing_origin(parents, 2, indices, 2, output, 3, &count) != RFMODEL_OK ||
+            count != 3 || output[0].root_id != 7 || output[0].sign != -1 ||
+            output[1].root_id != 7 || output[1].sign != 1 || output[2].root_id != 9 ||
+            output[2].sign != -1) {
+            return 74;
+        }
+    }
+
+    {
         const double coefficients[10] = {0., 0., 0., 0., 0., 0., 0., 0., 0., 1.};
         rfmodel_coherent_component input = {10, RFMODEL_SPECTRUM_HARMONIC, 1., 7, {.01, 0.}};
         rfmodel_coherent_component reduced = {99, 0, 1., 1, {0., 0.}};

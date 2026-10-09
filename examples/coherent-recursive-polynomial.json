@@ -1,0 +1,52 @@
+{
+  "format": "rfmodel.coherent-system",
+  "version": 1,
+  "spacing_hz": 100000000.0,
+  "sources": [
+    {
+      "id": "rf"
+    }
+  ],
+  "inputs": [
+    {
+      "id": "input",
+      "components": [
+        {
+          "source": "rf",
+          "bin": 10,
+          "bandwidth_hz": 1,
+          "amplitude": 0.01
+        }
+      ]
+    }
+  ],
+  "stages": [
+    {
+      "id": "first",
+      "type": "polynomial_amplifier",
+      "input": "input",
+      "output": "first",
+      "voltage_coefficients": [
+        0,
+        1,
+        0.5
+      ],
+      "max_source_order": 4
+    },
+    {
+      "id": "second",
+      "type": "polynomial_amplifier",
+      "input": "first",
+      "output": "second",
+      "voltage_coefficients": [
+        0,
+        1,
+        0.5
+      ],
+      "max_source_order": 4
+    }
+  ],
+  "outputs": [
+    "second"
+  ]
+}

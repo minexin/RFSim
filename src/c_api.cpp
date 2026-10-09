@@ -1,3 +1,4 @@
+#include "rfmodel/mixing_origin.hpp"
 #include "rfmodel/coherent_polynomial.hpp"
 #include "rfmodel/coherent_amplifier.hpp"
 #include "rfmodel/coherent_mixer.hpp"
@@ -244,6 +245,39 @@ int rfmodel_reduce_coherent_components(double spacing_hz,
                         power_capacity,
                         power_count,
                         total_power_w);
+    });
+}
+
+int rfmodel_expand_mixing_origin(const rfmodel_mixing_origin *parents,
+                                 size_t parent_count,
+                                 const int *indices,
+                                 size_t index_count,
+                                 rfmodel_origin_factor *output,
+                                 size_t capacity,
+                                 size_t *count) {
+    return guarded([&] {
+        require(parents && parent_count >= 1 && parent_count <= 4096);
+        require(indices && index_count >= 1 && index_count <= 9 && count);
+        std::vector<rfmodel::MixingOrigin> decoded;
+        size_t stored = 0;
+        for (size_t i = 0; i < parent_count; ++i) {
+            const auto &parent = parents[i];
+            require(parent.factors && parent.count >= 1 && parent.count <= 256);
+            stored += parent.count;
+            require(stored <= 65536);
+            rfmodel::MixingOrigin origin;
+            for (size_t j = 0; j < parent.count; ++j) {
+                origin.push_back({parent.factors[j].root_id, parent.factors[j].sign});
+            }
+            decoded.push_back(std::move(origin));
+        }
+        const auto result = rfmodel::expand_mixing_origin(
+            decoded, std::vector<int>(indices, indices + index_count));
+        require(capacity >= result.size() && output);
+        for (size_t i = 0; i < result.size(); ++i) {
+            output[i] = {result[i].root_id, result[i].sign};
+        }
+        *count = result.size();
     });
 }
 

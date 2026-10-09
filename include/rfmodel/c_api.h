@@ -240,6 +240,28 @@ typedef struct rfmodel_amplifier_drive {
     double limited_input_power_w;
 } rfmodel_amplifier_drive;
 
+typedef struct rfmodel_origin_factor {
+    uint64_t root_id;
+    int sign; /* +1 or -1 (conjugate) */
+} rfmodel_origin_factor;
+
+typedef struct rfmodel_mixing_origin {
+    const rfmodel_origin_factor *factors;
+    size_t count;
+} rfmodel_mixing_origin;
+
+/* Compose 1..9 signed one-based parent indices; retain repeated/opposite factors.
+ * At most 4096 parents, 256 factors per parent/output and 65536 parent factors.
+ * Canonical output is sorted by (root_id, sign). Root IDs must be nonzero.
+ * Output and count must not overlap; both stay unchanged on any failure. */
+RFMODEL_API int rfmodel_expand_mixing_origin(const rfmodel_mixing_origin *parents,
+                                             size_t parent_count,
+                                             const int *indices,
+                                             size_t index_count,
+                                             rfmodel_origin_factor *output,
+                                             size_t capacity,
+                                             size_t *count);
+
 /* RF polynomial orders 1..9. Signed one-based reduced-input indices.
  * Harmonic/intermod inputs generate new terms. DC is projected out.
  * Generated group IDs are local; callers resolve recursive source identities. */

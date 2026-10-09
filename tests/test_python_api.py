@@ -28,6 +28,23 @@ class PythonApiTests(unittest.TestCase):
     def setUpClass(cls):
         cls.library = Library(LIBRARY_PATH)
 
+    def test_recursive_mixing_origin_conjugation_and_multiplicity(self):
+        parent = ((7, 1), (9, -1))
+        result = self.library.expand_mixing_origin([((7, 1),), parent], [2, -1])
+        self.assertEqual(result, ((7, -1), (7, 1), (9, -1)))
+        self.assertEqual(self.library.expand_mixing_origin([result], [-1]),
+                         ((7, -1), (7, 1), (9, 1)))
+        self.assertEqual(self.library.expand_mixing_origin([((7, 1),)], [1, 1, -1]),
+                         ((7, -1), (7, 1), (7, 1)))
+        for parents, indices in (([[(0, 1)]], [1]), ([[(7, 0)]], [1]),
+                                 ([[(True, 1)]], [1]), ([parent], [True]),
+                                 ([parent], [0]), ([parent], [-2]),
+                                 ([parent], [2147483648]), ([[]], [1])):
+            with self.subTest(parents=parents, indices=indices), self.assertRaises((ValueError, TypeError)):
+                self.library.expand_mixing_origin(parents, indices)
+        with self.assertRaises(RFModelError):
+            self.library.expand_mixing_origin([[ (7, 1) ] * 256], [1, 1])
+
     def test_coherent_polynomial_high_order_and_secondary_inputs(self):
         first = rfmodel.CoherentComponent(10, rfmodel.SpectrumKind.SOURCE, 1., 7, .01)
         harmonic = rfmodel.CoherentComponent(20, rfmodel.SpectrumKind.HARMONIC, 2., 8, .002j)

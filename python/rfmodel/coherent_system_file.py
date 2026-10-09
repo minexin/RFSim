@@ -1,5 +1,6 @@
 """Feed-forward coherent RF graphs with networks, mixers and nonlinear amplifiers."""
-from . import CoherentMixerInput
+from . import CoherentMixerInput, SpectrumKind
+from .coherent_origins import OriginRegistry
 from .coherence_file import _encode_reduction
 from .coherent_network_file import (
     _analyze_ports, _endpoint, _resolve_sources, _source_component,
@@ -30,8 +31,15 @@ def analyze_coherent_system(library, document, *, base_directory=None):
     reference = _number(document.get("reference_ohms", 50.))
     if spacing <= 0 or reference <= 0:
         raise ValueError("Spacing and reference impedance must be positive")
+    stages = _array(document["stages"], 512)
+    trace_origins = any(isinstance(stage, dict) and stage.get("type") == "polynomial_amplifier"
+                        for stage in stages)
+    if trace_origins and any(isinstance(stage, dict) and stage.get("type") == "ideal_mixer_bank"
+                             for stage in stages):
+        raise ValueError("Polynomial graphs with mixers require multi-origin coherent sums, not yet supported")
     groups, resolved_sources = _resolve_sources(library, document["sources"])
     highest_group = max(groups.values(), default=0)
+    lineage = OriginRegistry(library, highest_group)
     streams = {}
     stored_components = 0
     stage_ids, stage_results = set(), []
@@ -67,9 +75,13 @@ def analyze_coherent_system(library, document, *, base_directory=None):
         _object(value, ("id", "components"))
         components = [_source_component(c, groups)
                       for c in _array(value["components"], 4096)]
-        store(value["id"], library.reduce_coherent_components(spacing, components))
+        reduced = library.reduce_coherent_components(spacing, components)
+        if trace_origins:
+            for component in reduced.components:
+                lineage.seed(component)
+        store(value["id"], reduced)
 
-    for stage in _array(document["stages"], 512):
+    for stage in stages:
         if not isinstance(stage, dict):
             raise ValueError("Stage must be an object")
         name = _label(stage.get("id"))
@@ -109,6 +121,7 @@ def analyze_coherent_system(library, document, *, base_directory=None):
                 **{key: _number(stage[key]) for key in (
                     "power_gain_db", "output_p1db_dbm", "output_saturation_dbm",
                     "input_ip2_dbm", "input_ip3_dbm")})
+            parents = [lineage.lookup(component) for component in result.inputs] if trace_origins else []
             remapped, origins = [], []
             for term in result.terms:
                 c = term.component
@@ -125,9 +138,15 @@ def analyze_coherent_system(library, document, *, base_directory=None):
                     highest_group = max(highest_group, c.coherence_group)
                     shared = amplifier_groups.setdefault(key, c.coherence_group)
                     c = c._replace(coherence_group=shared)
+                if trace_origins:
+                    lineage.highest_group = max(lineage.highest_group, highest_group)
+                    c = lineage.register(c, lineage.compose(parents, term.input_indices))
+                    highest_group = max(highest_group, lineage.highest_group)
                 remapped.append(c)
                 origins.append({"order": term.order, "input_indices": list(term.input_indices),
                                 "bin": c.bin, "coherence_group": c.coherence_group})
+                if trace_origins:
+                    origins[-1].update(lineage.encode(c))
             store(names[0], library.reduce_coherent_components(spacing, remapped))
             measurements.update(
                 input_power_w=result.total_input_power_w,
@@ -137,6 +156,47 @@ def analyze_coherent_system(library, document, *, base_directory=None):
                      "coherence_group": c.coherence_group,
                      "amplitude": [c.amplitude.real, c.amplitude.imag]}
                     for c in result.inputs],
+                origins=origins)
+        elif kind == "polynomial_amplifier":
+            _object(stage, ("id", "type", "input", "output", "voltage_coefficients", "max_source_order"))
+            maximum = stage["max_source_order"]
+            if type(maximum) is not int or not 1 <= maximum <= 256:
+                raise ValueError("max_source_order must be an integer from 1 to 256")
+            coefficients = [_number(value) for value in
+                            _array(stage["voltage_coefficients"], 10, nonempty=True)]
+            names = new_ids([stage["output"]])
+            lineage.highest_group = highest_group
+            result = library.coherent_polynomial(
+                spacing, read_stream(stage["input"]), coefficients, reference_ohms=reference,
+                reserved_group_max=lineage.highest_group)
+            lineage.highest_group = max(
+                [lineage.highest_group] + [term.component.coherence_group for term in result.terms])
+            parents = [lineage.lookup(component) for component in result.inputs]
+            remapped, origins, discarded = [], [], {}
+            for term in result.terms:
+                source_order = sum(len(parents[abs(index) - 1]) for index in term.input_indices)
+                if source_order > maximum:
+                    discarded[source_order] = discarded.get(source_order, 0) + 1
+                    continue
+                expanded = lineage.compose(parents, term.input_indices)
+                component = term.component
+                if term.order > 1:
+                    harmonic = all(factor.sign == 1 and factor.root_id == expanded[0].root_id
+                                   for factor in expanded)
+                    component = component._replace(
+                        kind=SpectrumKind.HARMONIC if harmonic else SpectrumKind.INTERMOD)
+                component = lineage.register(component, expanded)
+                remapped.append(component)
+                origins.append({"order": term.order, "input_indices": list(term.input_indices),
+                                **lineage.encode(component)})
+            highest_group = lineage.highest_group
+            store(names[0], library.reduce_coherent_components(spacing, remapped))
+            measurements.update(
+                max_source_order=maximum, generated_term_count=len(result.terms),
+                discarded_term_count=sum(discarded.values()),
+                discarded_by_source_order=[{"source_order": order, "term_count": count}
+                                           for order, count in sorted(discarded.items())],
+                reduced_inputs=[lineage.encode(component) for component in result.inputs],
                 origins=origins)
         elif kind == "fundamental_compression":
             _object(stage, ("id", "type", "input", "output", "power_gain_db",
@@ -190,7 +250,7 @@ def analyze_coherent_system(library, document, *, base_directory=None):
         else:
             raise ValueError(
                 "Expected linear_network, ideal_mixer_bank, fundamental_compression, "
-                "limited_amplifier or cascaded_amplifier stage")
+                "limited_amplifier, cascaded_amplifier or polynomial_amplifier stage")
         stage_results.append({"id": name, "type": kind, "outputs": names, **measurements})
 
     outputs = [_label(name) for name in _array(document["outputs"], 4096, nonempty=True)]
@@ -198,8 +258,14 @@ def analyze_coherent_system(library, document, *, base_directory=None):
         raise ValueError("Duplicate requested output")
     for name in outputs:
         read_stream(name)
-    return {"format": "rfmodel.coherent-system-result", "version": 1,
+    result = {"format": "rfmodel.coherent-system-result", "version": 1,
             "spacing_hz": spacing, "reference_ohms": reference,
             "sources": resolved_sources, "stages": stage_results, "outputs": outputs,
             "streams": [{"id": name, **_encode_reduction(result, spacing)}
                         for name, result in streams.items()]}
+
+    if trace_origins:
+        result["origin_roots"] = lineage.roots
+        for encoded, value in zip(result["streams"], streams.values()):
+            encoded["origins"] = [lineage.encode(component) for component in value.components]
+    return result
