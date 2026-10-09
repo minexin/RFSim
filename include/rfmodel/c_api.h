@@ -116,6 +116,21 @@ typedef struct rfmodel_conversion_output {
 RFMODEL_API int rfmodel_conversion_analyze(const rfmodel_conversion_request *request,
                                            const rfmodel_conversion_output *output);
 
+typedef struct rfmodel_conversion_connection {
+    size_t first_device, first_port, second_device, second_port;
+} rfmodel_conversion_connection;
+
+/* Assemble independent conversion devices, then connect every bin of each port.
+ * Device order followed by local channel order defines all output indices.
+ * Connected ports must have identical bin sets and no boundary source/noise or
+ * reflection. Total channels <=512, grids/references must match exactly.
+ * Output atomicity and non-overlap rules also cover every request and connection. */
+RFMODEL_API int rfmodel_conversion_network_analyze(const rfmodel_conversion_request *devices,
+                                                   size_t device_count,
+                                                   const rfmodel_conversion_connection *connections,
+                                                   size_t connection_count,
+                                                   const rfmodel_conversion_output *output);
+
 /* Real mixer y=2*g*x*cos(LO*t+phase). Every generated IF bin must be present.
  * A/B output capacities are N*N complex elements. Outputs must be disjoint from
  * each other and channel arrays; unchanged on failure. DC uses RMS normalization. */

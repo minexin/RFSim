@@ -1,3 +1,4 @@
+#include "rfmodel/conversion_network.hpp"
 #include "rfmodel/frequency_conversion.hpp"
 #include "rfmodel/chebyshev_filter.hpp"
 #include "rfmodel/butterworth_filter.hpp"
@@ -1571,32 +1572,52 @@ int rfmodel_linear_amplifier_s(double frequency_hz,
 
 int rfmodel_conversion_analyze(const rfmodel_conversion_request *request,
                                const rfmodel_conversion_output *output) {
+    return rfmodel_conversion_network_analyze(request, 1, nullptr, 0, output);
+}
+
+int rfmodel_conversion_network_analyze(const rfmodel_conversion_request *devices,
+                                       size_t device_count,
+                                       const rfmodel_conversion_connection *connections,
+                                       size_t connection_count,
+                                       const rfmodel_conversion_output *output) {
     return guarded([&] {
-        require(request && output);
-        const auto &r = *request;
+        require(devices && output && device_count > 0 && device_count <= 512 &&
+                connection_count <= 512 && (!connection_count || connections));
         const auto &o = *output;
-        require(r.count > 0 && r.count <= 512 && r.physical_ports && r.bins && r.direct &&
-                r.conjugate);
-        const auto n = r.count, square = n * n;
+        size_t total = 0;
+        std::vector<std::pair<const void *, size_t>> inputs{
+            {devices, device_count * sizeof(*devices)},
+            {output, sizeof(*output)},
+            {connections, connection_count * sizeof(*connections)}};
+        for (size_t device = 0; device < device_count; ++device) {
+            const auto &r = devices[device];
+            const auto n = r.count;
+            require(n > 0 && n <= 512 - total && r.physical_ports && r.bins && r.direct &&
+                    r.conjugate);
+            total += n;
+            inputs.push_back({r.physical_ports, n * sizeof(size_t)});
+            inputs.push_back({r.bins, n * sizeof(int)});
+            for (const auto *matrix : {r.direct,
+                                       r.conjugate,
+                                       r.source_covariance,
+                                       r.source_complementary,
+                                       r.intrinsic_covariance,
+                                       r.intrinsic_complementary}) {
+                if (matrix) {
+                    inputs.push_back({matrix, n * n * sizeof(rfmodel_complex)});
+                }
+            }
+            for (const auto *vector : {r.source, r.reflection}) {
+                if (vector) {
+                    inputs.push_back({vector, n * sizeof(rfmodel_complex)});
+                }
+            }
+        }
         require(o.incident && o.outgoing && o.noise_covariance && o.noise_complementary &&
                 o.relative_residual);
-        require(o.wave_capacity >= n && o.matrix_capacity >= square &&
+        require(o.wave_capacity >= total && o.matrix_capacity >= total * total &&
                 o.wave_capacity <= std::numeric_limits<size_t>::max() / sizeof(rfmodel_complex) &&
                 o.matrix_capacity <= std::numeric_limits<size_t>::max() / sizeof(rfmodel_complex));
-        const std::vector<std::pair<const void *, size_t>> inputs{
-            {request, sizeof(*request)},
-            {output, sizeof(*output)},
-            {r.physical_ports, n * sizeof(size_t)},
-            {r.bins, n * sizeof(int)},
-            {r.direct, square * sizeof(rfmodel_complex)},
-            {r.conjugate, square * sizeof(rfmodel_complex)},
-            {r.source, r.source ? n * sizeof(rfmodel_complex) : 0},
-            {r.reflection, r.reflection ? n * sizeof(rfmodel_complex) : 0},
-            {r.source_covariance, r.source_covariance ? square * sizeof(rfmodel_complex) : 0},
-            {r.source_complementary, r.source_complementary ? square * sizeof(rfmodel_complex) : 0},
-            {r.intrinsic_covariance, r.intrinsic_covariance ? square * sizeof(rfmodel_complex) : 0},
-            {r.intrinsic_complementary,
-             r.intrinsic_complementary ? square * sizeof(rfmodel_complex) : 0}};
         const std::vector<std::pair<const void *, size_t>> outputs{
             {o.incident, o.wave_capacity * sizeof(rfmodel_complex)},
             {o.outgoing, o.wave_capacity * sizeof(rfmodel_complex)},
@@ -1613,38 +1634,49 @@ int rfmodel_conversion_analyze(const rfmodel_conversion_request *request,
                 disjoint(outputs[i].first, outputs[i].second, outputs[j].first, outputs[j].second);
             }
         }
-        auto matrix = [&](const rfmodel_complex *values) {
-            auto decoded = rfmodel::conversion_detail::zero(n);
-            if (values) {
-                for (size_t i = 0; i < square; ++i) {
-                    decoded.values[i] = {values[i].real, values[i].imag};
+        rfmodel::FrequencyConversionNetwork network(devices[0].spacing_hz,
+                                                    devices[0].reference_ohms);
+        for (size_t device = 0; device < device_count; ++device) {
+            const auto &r = devices[device];
+            const auto n = r.count;
+            auto matrix = [&](const rfmodel_complex *values) {
+                auto decoded = rfmodel::conversion_detail::zero(n);
+                if (values) {
+                    for (size_t i = 0; i < n * n; ++i) {
+                        decoded.values[i] = {values[i].real, values[i].imag};
+                    }
+                }
+                return decoded;
+            };
+            std::vector<rfmodel::ConversionChannel> channels;
+            std::vector<rfmodel::Complex> source(n), reflection(n);
+            for (size_t i = 0; i < n; ++i) {
+                channels.push_back({r.physical_ports[i], r.bins[i]});
+                if (r.source) {
+                    source[i] = {r.source[i].real, r.source[i].imag};
+                }
+                if (r.reflection) {
+                    reflection[i] = {r.reflection[i].real, r.reflection[i].imag};
                 }
             }
-            return decoded;
-        };
-        std::vector<rfmodel::ConversionChannel> channels;
-        std::vector<rfmodel::Complex> source(n), reflection(n);
-        for (size_t i = 0; i < n; ++i) {
-            channels.push_back({r.physical_ports[i], r.bins[i]});
-            if (r.source) {
-                source[i] = {r.source[i].real, r.source[i].imag};
-            }
-            if (r.reflection) {
-                reflection[i] = {r.reflection[i].real, r.reflection[i].imag};
-            }
+            rfmodel::FrequencyConversionModel model(
+                r.spacing_hz, channels, matrix(r.direct), matrix(r.conjugate), r.reference_ohms);
+            network.add({std::move(model),
+                         source,
+                         reflection,
+                         {matrix(r.source_covariance), matrix(r.source_complementary)},
+                         {matrix(r.intrinsic_covariance), matrix(r.intrinsic_complementary)}});
         }
-        const rfmodel::FrequencyConversionModel model(
-            r.spacing_hz, channels, matrix(r.direct), matrix(r.conjugate), r.reference_ohms);
-        const auto result =
-            model.analyze(source,
-                          reflection,
-                          {matrix(r.source_covariance), matrix(r.source_complementary)},
-                          {matrix(r.intrinsic_covariance), matrix(r.intrinsic_complementary)});
-        for (size_t i = 0; i < n; ++i) {
+        for (size_t i = 0; i < connection_count; ++i) {
+            const auto &c = connections[i];
+            network.connect(c.first_device, c.first_port, c.second_device, c.second_port);
+        }
+        const auto result = network.analyze();
+        for (size_t i = 0; i < total; ++i) {
             o.incident[i] = {result.incident[i].real(), result.incident[i].imag()};
             o.outgoing[i] = {result.outgoing[i].real(), result.outgoing[i].imag()};
         }
-        for (size_t i = 0; i < square; ++i) {
+        for (size_t i = 0; i < total * total; ++i) {
             const auto c = result.outgoing_noise.covariance.values[i],
                        p = result.outgoing_noise.complementary.values[i];
             o.noise_covariance[i] = {c.real(), c.imag()};

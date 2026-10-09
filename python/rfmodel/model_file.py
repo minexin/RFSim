@@ -63,9 +63,14 @@ def referenced_touchstone_paths(document, base_directory=None):
     networks = [document]
     if document.get("format") == "rfmodel.coherent-network":
         networks = [document.get("network", {})]
-    if document.get("format") in ("rfmodel.spectrum-chain", "rfmodel.amplifier-components",
-                                  "rfmodel.coherent-system"):
-        field = "post_stages" if document.get("format") == "rfmodel.amplifier-components" else "stages"
+    if document.get("format") in (
+        "rfmodel.spectrum-chain",
+        "rfmodel.amplifier-components",
+        "rfmodel.coherent-system",
+    ):
+        field = (
+            "post_stages" if document.get("format") == "rfmodel.amplifier-components" else "stages"
+        )
         stages = document.get(field, [])
         networks = []
         if isinstance(stages, list):
@@ -79,6 +84,12 @@ def referenced_touchstone_paths(document, base_directory=None):
             continue
         for device in devices:
             model = device.get("model") if isinstance(device, dict) else None
+            if (
+                document.get("format") == "rfmodel.conversion-network"
+                and isinstance(model, dict)
+                and model.get("type") == "linear"
+            ):
+                model = model.get("device")
             if isinstance(model, dict) and model.get("type") == "touchstone":
                 paths.add(_model_path(model.get("path"), base_directory))
     return paths

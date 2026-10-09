@@ -1,3 +1,4 @@
+#include "rfmodel/conversion_network.hpp"
 #include "rfmodel/frequency_conversion.hpp"
 #include "rfmodel/chebyshev_filter.hpp"
 #include "rfmodel/butterworth_filter.hpp"
@@ -35,6 +36,23 @@
 #include <rfmodel/term_propagation.hpp>
 
 int main() {
+    {
+        const rfmodel::SMatrix pad{2, {0., .5, .5, 0.}};
+        const auto noise = rfmodel::passive_thermal_noise(pad, 290.);
+        auto first = rfmodel::lift_linear_conversion(1e9, {1}, {pad}, {noise});
+        first.source[0] = 1.;
+        rfmodel::FrequencyConversionNetwork network(1e9);
+        network.add(std::move(first));
+        network.add(rfmodel::lift_linear_conversion(1e9, {1}, {pad}, {noise}));
+        network.connect(0, 1, 1, 0);
+        const auto result = network.analyze();
+        if (std::abs(result.outgoing[3] - .25) > 1e-12 ||
+            std::abs(result.outgoing_noise.covariance(3, 3).real() / (1.380649e-23 * 290.) -
+                     .9375) > 1e-12) {
+            return 91;
+        }
+    }
+
     {
         rfmodel::FrequencyConversionModel converter(1e9, {{0, 1}}, {1, {.5}}, {1, {0.}});
         const auto zero = converter.zero_noise();

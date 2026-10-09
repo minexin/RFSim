@@ -249,6 +249,15 @@ class _ConversionRequest(ct.Structure):
     ]
 
 
+class _ConversionConnection(ct.Structure):
+    _fields_ = [
+        ("first_device", ct.c_size_t),
+        ("first_port", ct.c_size_t),
+        ("second_device", ct.c_size_t),
+        ("second_port", ct.c_size_t),
+    ]
+
+
 class _ConversionOutput(ct.Structure):
     _fields_ = [
         ("incident", ct.POINTER(_Complex)),
@@ -552,6 +561,9 @@ class Library:
                 ct.c_int, [handle, ct.POINTER(size), size, ct.c_double,
                            ct.POINTER(_SpectrumBin), size, ct.POINTER(_SpectrumBin),
                            size, ct.POINTER(size)]),
+            "rfmodel_conversion_network_analyze": (
+                ct.c_int, [ct.POINTER(_ConversionRequest), size,
+                    ct.POINTER(_ConversionConnection), size, ct.POINTER(_ConversionOutput)]),
             "rfmodel_conversion_analyze": (
                 ct.c_int, [ct.POINTER(_ConversionRequest), ct.POINTER(_ConversionOutput)]),
             "rfmodel_ideal_mixer_conversion": (
@@ -1380,6 +1392,110 @@ class Library:
             )
         )
         return _rows(direct, count), _rows(conjugate, count)
+
+    def conversion_network(self, spacing_hz, devices, connections=(), *, reference_ohms=50.0):
+        """Connect physical ports of conversion devices; output order is device/channel order."""
+        devices = tuple(devices)
+        if not 1 <= len(devices) <= 512:
+            raise ValueError("Expected 1..512 conversion devices")
+        requests, keepers = [], []
+        total = 0
+        for device in devices:
+            required = {"channels", "direct"}
+            optional = {
+                "conjugate",
+                "source",
+                "reflection",
+                "source_covariance",
+                "source_complementary",
+                "intrinsic_covariance",
+                "intrinsic_complementary",
+            }
+            if (
+                not isinstance(device, dict)
+                or not required <= device.keys()
+                or device.keys() - required - optional
+            ):
+                raise ValueError("Invalid conversion device fields")
+            ports, bins = _conversion_channels(device["channels"])
+            count = len(ports)
+            total += count
+            if total > 512:
+                raise ValueError("Conversion network exceeds 512 channels")
+            if device["direct"] is None:
+                raise ValueError("Conversion direct matrix is required")
+
+            def matrix(values):
+                if values is None:
+                    return (_Complex * (count * count))()
+                if len(values) != count:
+                    raise ValueError("Conversion matrix dimensions differ from channels")
+                return _matrix(values)[1]
+
+            def vector(values):
+                if values is None:
+                    return (_Complex * count)()
+                values = tuple(values)
+                if len(values) != count:
+                    raise ValueError("Conversion boundary dimensions differ from channels")
+                return (_Complex * count)(*(_Complex.from_value(value) for value in values))
+
+            arrays = [
+                matrix(device["direct"]),
+                matrix(device.get("conjugate")),
+                vector(device.get("source")),
+                vector(device.get("reflection")),
+                matrix(device.get("source_covariance")),
+                matrix(device.get("source_complementary")),
+                matrix(device.get("intrinsic_covariance")),
+                matrix(device.get("intrinsic_complementary")),
+            ]
+            requests.append(
+                _ConversionRequest(
+                    count, float(spacing_hz), float(reference_ohms), ports, bins, *arrays
+                )
+            )
+            keepers.append((ports, bins, arrays))
+        pairs = []
+        for first, second in connections:
+            first_device, first_port = first
+            second_device, second_port = second
+            pairs.append(
+                _ConversionConnection(
+                    _index(first_device),
+                    _index(first_port),
+                    _index(second_device),
+                    _index(second_port),
+                )
+            )
+        if len(pairs) > 512:
+            raise ValueError("Too many conversion connections")
+        native_requests = (_ConversionRequest * len(requests))(*requests)
+        native_connections = (_ConversionConnection * len(pairs))(*pairs)
+        incident, outgoing = (_Complex * total)(), (_Complex * total)()
+        covariance, complementary = (_Complex * (total * total))(), (_Complex * (total * total))()
+        residual = ct.c_double()
+        output = _ConversionOutput(
+            incident,
+            outgoing,
+            covariance,
+            complementary,
+            total,
+            total * total,
+            ct.pointer(residual),
+        )
+        self._check(
+            self._dll.rfmodel_conversion_network_analyze(
+                native_requests, len(requests), native_connections, len(pairs), ct.byref(output)
+            )
+        )
+        return ConversionResult(
+            tuple(v.value() for v in incident),
+            tuple(v.value() for v in outgoing),
+            _rows(covariance, total),
+            _rows(complementary, total),
+            residual.value,
+        )
 
     def frequency_conversion(
         self,

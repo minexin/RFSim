@@ -3,6 +3,35 @@
 
 int main(int argc, char **argv) {
     {
+        const size_t ports[2] = {0, 1};
+        const int bins[2] = {1, 1};
+        rfmodel_complex direct[4] = {{0., 0.}, {.5, 0.}, {.5, 0.}, {0., 0.}};
+        const rfmodel_complex zero[4] = {{0., 0.}};
+        const rfmodel_complex source[2] = {{1., 0.}, {0., 0.}};
+        rfmodel_complex values[40];
+        rfmodel_conversion_request devices[2] = {{0}};
+        rfmodel_conversion_connection wires[2] = {{0, 1, 1, 0}, {0, 1, 1, 0}};
+        double residual = 19.;
+        rfmodel_conversion_output output = {
+            values, values + 4, values + 8, values + 24, 4, 16, &residual};
+        size_t i;
+        for (i = 0; i < 2; ++i) {
+            devices[i].count = 2;
+            devices[i].spacing_hz = 1e9;
+            devices[i].reference_ohms = 50.;
+            devices[i].physical_ports = ports;
+            devices[i].bins = bins;
+            devices[i].direct = direct;
+            devices[i].conjugate = zero;
+        }
+        devices[0].source = source;
+        if (rfmodel_conversion_network_analyze(devices, 2, wires, 1, &output) != RFMODEL_OK ||
+            fabs(values[7].real - .25) > 1e-12 || fabs(values[2].real - .5) > 1e-12) {
+            return 91;
+        }
+    }
+
+    {
         const size_t ports[1] = {0};
         const int bins[1] = {1};
         const rfmodel_complex direct[1] = {{.5, 0.}}, conjugate[1] = {{0., 0.}},

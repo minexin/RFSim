@@ -26,28 +26,9 @@ def analyze_conversion(library, document, base_directory=None):
         if type(entry["port"]) is not int or type(entry["bin"]) is not int:
             raise ValueError("Conversion channel indices must be integers")
         channels.append((entry["port"], entry["bin"]))
-    model = document["model"]
-    if not isinstance(model, dict):
-        raise ValueError("Conversion model must be an object")
-    kind = model.get("type")
-    if kind == "matrix":
-        _object(model, ("type", "direct"), ("conjugate",))
-        direct = _matrix(model["direct"])
-        conjugate = _matrix(model["conjugate"]) if "conjugate" in model else None
-    elif kind == "ideal_real_mixer":
-        _object(model, ("type", "lo_bin"), ("gain_db", "phase_radians", "rf_port", "if_port"))
-        direct, conjugate = library.ideal_mixer_conversion(
-            spacing,
-            channels,
-            lo_bin=model["lo_bin"],
-            gain_db=_number(model.get("gain_db", 0.0)),
-            phase_radians=_number(model.get("phase_radians", 0.0)),
-            rf_port=model.get("rf_port", 0),
-            if_port=model.get("if_port", 1),
-            reference_ohms=reference,
-        )
-    else:
-        raise ValueError("Unknown conversion model type")
+    direct, conjugate = conversion_matrices(
+        library, spacing, channels, document["model"], reference
+    )
     options = {}
     for field in ("source", "reflection"):
         if field in document:
@@ -89,3 +70,28 @@ def analyze_conversion(library, document, base_directory=None):
         "noise_complementary_w_per_hz": _encode(result.noise_complementary),
         "relative_residual": result.relative_residual,
     }
+
+
+def conversion_matrices(library, spacing, channels, model, reference):
+    if not isinstance(model, dict):
+        raise ValueError("Conversion model must be an object")
+    kind = model.get("type")
+    if kind == "matrix":
+        _object(model, ("type", "direct"), ("conjugate",))
+        direct = _matrix(model["direct"])
+        conjugate = _matrix(model["conjugate"]) if "conjugate" in model else None
+    elif kind == "ideal_real_mixer":
+        _object(model, ("type", "lo_bin"), ("gain_db", "phase_radians", "rf_port", "if_port"))
+        direct, conjugate = library.ideal_mixer_conversion(
+            spacing,
+            channels,
+            lo_bin=model["lo_bin"],
+            gain_db=_number(model.get("gain_db", 0.0)),
+            phase_radians=_number(model.get("phase_radians", 0.0)),
+            rf_port=model.get("rf_port", 0),
+            if_port=model.get("if_port", 1),
+            reference_ohms=reference,
+        )
+    else:
+        raise ValueError("Unknown conversion model type")
+    return direct, conjugate

@@ -1,0 +1,142 @@
+{
+  "format": "rfmodel.conversion-network",
+  "version": 1,
+  "spacing_hz": 100000000.0,
+  "devices": [
+    {
+      "id": "rf_filter",
+      "bins": [
+        8,
+        12
+      ],
+      "model": {
+        "type": "linear",
+        "device": {
+          "type": "butterworth_ladder",
+          "response": "lowpass",
+          "order": 3,
+          "passband_hz": 1000000000.0
+        }
+      },
+      "noise": {
+        "temperature_k": 290
+      }
+    },
+    {
+      "id": "mixer",
+      "channels": [
+        {
+          "port": 0,
+          "bin": 8
+        },
+        {
+          "port": 0,
+          "bin": 12
+        },
+        {
+          "port": 1,
+          "bin": 2
+        },
+        {
+          "port": 1,
+          "bin": 18
+        },
+        {
+          "port": 1,
+          "bin": 22
+        }
+      ],
+      "model": {
+        "type": "ideal_real_mixer",
+        "lo_bin": 10
+      },
+      "noise": {
+        "noiseless": true
+      }
+    },
+    {
+      "id": "if_filter",
+      "bins": [
+        2,
+        18,
+        22
+      ],
+      "model": {
+        "type": "linear",
+        "device": {
+          "type": "chebyshev_lossless",
+          "response": "lowpass",
+          "order": 3,
+          "passband_hz": 300000000.0,
+          "ripple_db": 0.1
+        }
+      },
+      "noise": {
+        "temperature_k": 290
+      }
+    }
+  ],
+  "connections": [
+    [
+      [
+        "rf_filter",
+        1
+      ],
+      [
+        "mixer",
+        0
+      ]
+    ],
+    [
+      [
+        "mixer",
+        1
+      ],
+      [
+        "if_filter",
+        0
+      ]
+    ]
+  ],
+  "boundaries": [
+    {
+      "channel": [
+        "rf_filter",
+        0,
+        8
+      ],
+      "source": 0,
+      "noise_w_per_hz": 1e-20
+    },
+    {
+      "channel": [
+        "rf_filter",
+        0,
+        12
+      ],
+      "source": 1,
+      "noise_w_per_hz": 1e-20
+    },
+    {
+      "channel": [
+        "if_filter",
+        1,
+        2
+      ]
+    },
+    {
+      "channel": [
+        "if_filter",
+        1,
+        18
+      ]
+    },
+    {
+      "channel": [
+        "if_filter",
+        1,
+        22
+      ]
+    }
+  ]
+}

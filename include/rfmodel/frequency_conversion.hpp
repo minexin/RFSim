@@ -153,6 +153,14 @@ public:
         }
     }
 
+    double spacing_hz() const {
+        return spacing_;
+    }
+
+    double reference_ohms() const {
+        return reference_;
+    }
+
     const SMatrix &direct() const {
         return direct_;
     }
@@ -172,16 +180,41 @@ public:
 
     // a=Gamma*b+source. Source and intrinsic noises are independent; correlations
     // within either set, including across frequencies, are retained in C and P.
-    ConversionResult analyze(const std::vector<Complex> &source,
-                             const std::vector<Complex> &reflection,
-                             const ConversionNoise &source_noise,
-                             const ConversionNoise &intrinsic_noise) const {
+    ConversionResult
+    analyze(const std::vector<Complex> &source,
+            const std::vector<Complex> &reflection,
+            const ConversionNoise &source_noise,
+            const ConversionNoise &intrinsic_noise,
+            const std::vector<std::pair<std::size_t, std::size_t>> &connections = {}) const {
         const auto n = channels_.size(), m = 2 * n;
         if (source.size() != n || reflection.size() != n) {
             throw std::invalid_argument("conversion boundary dimensions differ");
         }
         auto source_q = quadrature_noise(source_noise);
         auto intrinsic_q = quadrature_noise(intrinsic_noise);
+        std::vector<std::size_t> partner(n, n);
+        for (const auto &connection : connections) {
+            const auto a = connection.first, b = connection.second;
+            if (a >= n || b >= n || a == b || partner[a] != n || partner[b] != n ||
+                channels_[a].bin != channels_[b].bin) {
+                throw std::invalid_argument("invalid conversion connection");
+            }
+            partner[a] = b;
+            partner[b] = a;
+            for (auto index : {a, b}) {
+                if (source[index] != Complex{} || reflection[index] != Complex{}) {
+                    throw std::invalid_argument("connected channel cannot have a boundary drive");
+                }
+                for (std::size_t j = 0; j < n; ++j) {
+                    if (source_noise.covariance(index, j) != Complex{} ||
+                        source_noise.covariance(j, index) != Complex{} ||
+                        source_noise.complementary(index, j) != Complex{} ||
+                        source_noise.complementary(j, index) != Complex{}) {
+                        throw std::invalid_argument("connected channel cannot have boundary noise");
+                    }
+                }
+            }
+        }
         auto equation = conversion_detail::zero(m), identity = equation;
         for (std::size_t j = 0; j < n; ++j) {
             if (!conversion_detail::finite(source[j]) ||
@@ -189,11 +222,13 @@ public:
                 (channels_[j].bin == 0 && (source[j].imag() != 0. || reflection[j].imag() != 0.))) {
                 throw std::invalid_argument("invalid conversion boundary or complex DC");
             }
+            const auto destination = partner[j] == n ? j : partner[j];
+            const Complex coefficient = partner[j] == n ? reflection[j] : Complex{1., 0.};
             for (std::size_t i = 0; i < m; ++i) {
-                equation(i, 2 * j) = -quadrature_(i, 2 * j) * reflection[j].real() -
-                                     quadrature_(i, 2 * j + 1) * reflection[j].imag();
-                equation(i, 2 * j + 1) = quadrature_(i, 2 * j) * reflection[j].imag() -
-                                         quadrature_(i, 2 * j + 1) * reflection[j].real();
+                equation(i, 2 * destination) -= quadrature_(i, 2 * j) * coefficient.real() +
+                                                quadrature_(i, 2 * j + 1) * coefficient.imag();
+                equation(i, 2 * destination + 1) += quadrature_(i, 2 * j) * coefficient.imag() -
+                                                    quadrature_(i, 2 * j + 1) * coefficient.real();
             }
         }
         for (std::size_t i = 0; i < m; ++i) {
@@ -215,7 +250,10 @@ public:
         }
         for (std::size_t i = 0; i < n; ++i) {
             result.outgoing[i] = {outgoing[2 * i], outgoing[2 * i + 1]};
-            result.incident[i] = reflection[i] * result.outgoing[i] + source[i];
+        }
+        for (std::size_t i = 0; i < n; ++i) {
+            result.incident[i] = partner[i] == n ? reflection[i] * result.outgoing[i] + source[i]
+                                                 : result.outgoing[partner[i]];
             if (!conversion_detail::finite(result.outgoing[i]) ||
                 !conversion_detail::finite(result.incident[i])) {
                 throw std::overflow_error("conversion waves overflow");

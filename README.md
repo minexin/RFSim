@@ -78,4 +78,6 @@ Windows 本机可运行 `scripts/build-msvc.ps1` 自动定位已有 VS 工具链
 
 [理想无损 Chebyshev I 滤波器](docs/chebyshev-filter.md) 新增四类响应、独立纹波与边缘衰减、奇偶阶反射及 C++/C/Python/JSON 接口；SystemVue 非理想参数及实测仍待完成。
 
-[固定泵频率转换与相关噪声](docs/frequency-conversion.md) 新增直接/共轭转换矩阵、跨频率反射反馈、DC 及 C/P 噪声统计量，贯通 C++/C/Python/JSON；完整转换图和厂商 Mixer 标定仍待完成。
+[固定泵频率转换与相关噪声](docs/frequency-conversion.md) 新增直接/共轭转换矩阵、跨频率反射反馈、DC 及 C/P 噪声统计量，贯通 C++/C/Python/JSON；厂商 Mixer 标定仍待完成。
+
+[多器件转换网络](docs/conversion-network.md) 已支持线性器件与混频器按物理端口接线、反射往返、镜像噪声折叠及跨频率 C/P，提供完整 JSON/CLI 示例；频率自动扩展与非线性工作点联立仍待完成。

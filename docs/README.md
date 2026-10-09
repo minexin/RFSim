@@ -3,6 +3,7 @@
 - [M1 建设目标](m1-goal.md)
 - [总体架构](architecture.md)
 - [核心接口](api.md)
+- [多器件转换网络与线性器件接入](conversion-network.md)
 - [固定泵频率转换、反馈与相关噪声](frequency-conversion.md)
 - [理想无损 Chebyshev I 滤波器](chebyshev-filter.md)
 - [理想无损 Butterworth 滤波器](butterworth-filter.md)

@@ -14,6 +14,65 @@
 
 int main(int argc, char **argv) {
     {
+        const size_t ports[2] = {0, 1};
+        const int bins[2] = {1, 1};
+        rfmodel_complex direct[4] = {{0., 0.}, {.5, 0.}, {.5, 0.}, {0., 0.}};
+        const rfmodel_complex zero[4] = {{0., 0.}};
+        const rfmodel_complex source[2] = {{1., 0.}, {0., 0.}};
+        rfmodel_complex values[40], saved[40];
+        rfmodel_conversion_request devices[2] = {{0}};
+        rfmodel_conversion_connection wires[2] = {{0, 1, 1, 0}, {0, 1, 1, 0}};
+        double residual = 19.;
+        rfmodel_conversion_output output = {
+            values, values + 4, values + 8, values + 24, 4, 16, &residual};
+        size_t i;
+        for (i = 0; i < 2; ++i) {
+            devices[i].count = 2;
+            devices[i].spacing_hz = 1e9;
+            devices[i].reference_ohms = 50.;
+            devices[i].physical_ports = ports;
+            devices[i].bins = bins;
+            devices[i].direct = direct;
+            devices[i].conjugate = zero;
+        }
+        devices[0].source = source;
+        CHECK(rfmodel_conversion_network_analyze(devices, 2, wires, 1, &output) == RFMODEL_OK);
+        CHECK(fabs(values[7].real - .25) < 1e-12);
+        CHECK(fabs(values[2].real - .5) < 1e-12);
+        for (i = 0; i < 40; ++i) {
+            values[i].real = 101. + (double)i;
+            values[i].imag = -17.;
+        }
+        memcpy(saved, values, sizeof(values));
+        residual = 19.;
+        /* Duplicate wires, bad grid/reference, and undersized outputs are atomic. */
+        CHECK(rfmodel_conversion_network_analyze(devices, 2, wires, 2, &output) != RFMODEL_OK);
+        CHECK(memcmp(saved, values, sizeof(values)) == 0 && residual == 19.);
+        devices[1].spacing_hz = 2e9;
+        CHECK(rfmodel_conversion_network_analyze(devices, 2, wires, 1, &output) != RFMODEL_OK);
+        devices[1].spacing_hz = 1e9;
+        devices[1].reference_ohms = 75.;
+        CHECK(rfmodel_conversion_network_analyze(devices, 2, wires, 1, &output) != RFMODEL_OK);
+        devices[1].reference_ohms = 50.;
+        output.matrix_capacity = 15;
+        CHECK(rfmodel_conversion_network_analyze(devices, 2, wires, 1, &output) != RFMODEL_OK);
+        output.matrix_capacity = 16;
+        CHECK(memcmp(saved, values, sizeof(values)) == 0 && residual == 19.);
+        /* The second request and connection descriptors are also input ranges. */
+        output.incident = direct;
+        CHECK(rfmodel_conversion_network_analyze(devices, 2, wires, 1, &output) != RFMODEL_OK);
+        CHECK(direct[1].real == .5);
+        output.incident = (rfmodel_complex *)&wires[0];
+        CHECK(rfmodel_conversion_network_analyze(devices, 2, wires, 1, &output) != RFMODEL_OK);
+        CHECK(wires[0].second_device == 1 && wires[0].first_port == 1);
+        output.incident = values;
+        output.outgoing = values;
+        CHECK(rfmodel_conversion_network_analyze(devices, 2, wires, 1, &output) != RFMODEL_OK);
+        CHECK(memcmp(saved, values, sizeof(values)) == 0 && residual == 19.);
+        CHECK(rfmodel_conversion_network_analyze(NULL, 2, wires, 1, &output) != RFMODEL_OK);
+    }
+
+    {
         const size_t ports[1] = {0};
         const int bins[1] = {1};
         const rfmodel_complex direct[1] = {{.2, 0.}}, conjugate[1] = {{.1, 0.}};
