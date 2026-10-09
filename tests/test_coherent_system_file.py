@@ -18,7 +18,7 @@ if INSTALLED:
     sys.argv.remove("--installed")
 else:
     sys.path.insert(0, str(ROOT / "python"))
-from rfmodel import Library, RFModelError
+from rfmodel import CoherentComponent, Library, RFModelError, SpectrumKind
 from rfmodel.coherent_system_file import analyze_coherent_system
 from rfmodel.model_file import analyze, load, referenced_touchstone_paths
 
@@ -281,10 +281,10 @@ class CoherentSystemFileTests(unittest.TestCase):
             )
         self.assert_history(result)
 
-    def test_mixed_graph_retains_calibrated_compression_boundary(self):
+    def test_mixed_graph_rejects_incomplete_compression_parameters(self):
         model = self.mixed_model()
         model["stages"].append({"id": "compression", "type": "fundamental_compression"})
-        with self.assertRaisesRegex(ValueError, "calibrated amplifier"):
+        with self.assertRaises(ValueError):
             self.evaluate(model)
 
     def test_mixed_graph_cli_and_failure_preserve_existing_result(self):
@@ -374,6 +374,209 @@ class CoherentSystemFileTests(unittest.TestCase):
         for index, power in powers(baseline).items():
             self.assertAlmostEqual(powers(result, "filtered")[index], 0.25 * power)
         self.assert_history(result)
+
+    def amplifier_stage(self, kind, input_name="mixed", output_name="compressed"):
+        stage = dict(
+            id=output_name,
+            type=kind,
+            input=input_name,
+            output=output_name,
+            power_gain_db=20,
+            output_p1db_dbm=20,
+            output_saturation_dbm=23,
+        )
+        if kind != "fundamental_compression":
+            stage.update(input_ip2_dbm=20, input_ip3_dbm=10)
+        return stage
+
+    def physical_components(self, result, name):
+        return [
+            CoherentComponent(
+                c["bin"],
+                SpectrumKind[c["kind"].upper()],
+                c["bandwidth_hz"],
+                c["coherence_group"],
+                complex(*c["amplitude"]),
+            )
+            for c in stream(result, name)["components"]
+        ]
+
+    def test_mixed_fundamental_compression_uses_coherent_total_drive(self):
+        model = self.mixed_model()
+        model["stages"].insert(1, self.amplifier_stage("fundamental_compression"))
+        model["stages"][2]["input"] = "compressed"
+        result = self.evaluate(model)
+        drive = stream(result, "mixed")["total_power_w"]
+        naive = sum(
+            abs(complex(*t["amplitude"])) ** 2
+            for o in stream(result, "mixed")["origins"]
+            for t in o["terms"]
+        )
+        self.assertGreater(abs(drive - naive), 1e-5)
+        measured = result["stages"][1]
+        self.assertAlmostEqual(measured["input_power_w"], drive)
+        expected = self.library.compress_coherent_fundamentals(
+            1e8,
+            self.physical_components(result, "mixed"),
+            power_gain_db=20,
+            output_p1db_dbm=20,
+            output_saturation_dbm=23,
+        )
+        for actual, reference in zip(
+            stream(result, "compressed")["components"], expected.output.components
+        ):
+            self.assertAlmostEqual(complex(*actual["amplitude"]), reference.amplitude)
+        for old, new in zip(
+            stream(result, "mixed")["origins"], stream(result, "compressed")["origins"]
+        ):
+            for before, after in zip(old["terms"], new["terms"]):
+                self.assertEqual(before["source_factors"], after["source_factors"])
+                self.assertAlmostEqual(
+                    complex(*after["amplitude"]),
+                    complex(*before["amplitude"]) * measured["fundamental_amplitude_gain"],
+                )
+        self.assert_history(result)
+
+    def test_mixed_limited_amplifier_matches_existing_native_response(self):
+        model = self.mixed_model()
+        model["stages"].insert(1, self.amplifier_stage("limited_amplifier"))
+        model["stages"][2].update(
+            input="compressed", max_source_order=6, voltage_coefficients=[0, 1]
+        )
+        result = self.evaluate(model)
+        expected = self.library.coherent_amplifier(
+            1e8,
+            self.physical_components(result, "mixed"),
+            power_gain_db=20,
+            output_p1db_dbm=20,
+            output_saturation_dbm=23,
+            input_ip2_dbm=20,
+            input_ip3_dbm=10,
+        )
+        reduced = self.library.reduce_coherent_components(
+            1e8, [t.component for t in expected.terms]
+        )
+        self.assertEqual(set(powers(result, "compressed")), set(reduced.power_by_bin_w))
+        for index, power in reduced.power_by_bin_w.items():
+            self.assertLessEqual(
+                abs(powers(result, "compressed")[index] - power), 1e-16 + 1e-11 * power
+            )
+        self.assertAlmostEqual(result["stages"][1]["input_power_w"], expected.total_input_power_w)
+        self.assertAlmostEqual(
+            result["stages"][1]["limited_input_power_w"], expected.limited_input_power_w
+        )
+        self.assert_history(result)
+
+    def test_mixed_compression_zero_drive_retains_cancelling_contributions(self):
+        with tempfile.TemporaryDirectory() as folder:
+            Path(folder, "if-only.s2p").write_text(
+                "# GHz S RI R 50\n0.2 0 0 1 0 1 0 0 0\n1.8 0 0 0 0 0 0 0 0\n2.2 0 0 0 0 0 0 0 0\n"
+            )
+            for kind in ("fundamental_compression", "limited_amplifier", "cascaded_amplifier"):
+                model = self.mixed_model()
+                model["inputs"][0]["components"][0]["amplitude"] = 0.01
+                model["inputs"][0]["components"][1]["amplitude"] = -0.01
+                model["stages"][0]["branches"][0]["lo_phase_radians"] = 0
+                model["stages"].insert(
+                    1,
+                    {
+                        "id": "filter",
+                        "type": "linear_network",
+                        "network": {
+                            "devices": [
+                                {"id": "f", "model": {"type": "touchstone", "path": "if-only.s2p"}}
+                            ],
+                            "external_ports": [["f", 0], ["f", 1]],
+                        },
+                        "inputs": [{"stream": "mixed", "port": ["f", 0]}],
+                        "outputs": [{"id": "if-only", "port": ["f", 1]}],
+                    },
+                )
+                model["stages"].insert(2, self.amplifier_stage(kind, "if-only"))
+                model["stages"][3].update(
+                    input="compressed", voltage_coefficients=[0, 1], max_source_order=6
+                )
+                result = self.evaluate(model, base_directory=folder)
+                self.assertEqual(result["stages"][2]["input_power_w"], 0)
+                self.assertEqual(result["stages"][2]["fundamental_amplitude_gain"], 10)
+                self.assertLess(stream(result, "compressed")["total_power_w"], 1e-28)
+                folded = next(
+                    o
+                    for o in stream(result, "compressed")["origins"]
+                    if o["bin"] == 2 and o["kind"] == "source"
+                )
+                self.assertEqual(len(folded["terms"]), 2)
+                self.assertTrue(all(abs(complex(*t["amplitude"])) > 0.09 for t in folded["terms"]))
+                self.assert_history(result)
+
+    def test_mixed_cascade_distortion_drives_compression_without_remixing(self):
+        model = self.mixed_model()
+        model["stages"].insert(
+            0,
+            dict(
+                id="pre",
+                type="polynomial_amplifier",
+                input="input",
+                output="pre",
+                voltage_coefficients=[0, 0, 0.5],
+                max_source_order=2,
+            ),
+        )
+        model["stages"][1]["branches"][0].update(input="pre", lo_bin=101)
+        model["stages"].insert(2, self.amplifier_stage("cascaded_amplifier"))
+        model["stages"][3].update(
+            input="compressed", voltage_coefficients=[0, 1], max_source_order=6
+        )
+        result = self.evaluate(model)
+        measured = result["stages"][2]
+        self.assertGreater(measured["input_power_w"], 0)
+        self.assertEqual(measured["generated_term_count"], 0)
+        self.assertEqual(measured["expanded_input_count"], 0)
+        before = self.physical_components(result, "mixed")
+        expected = self.library.coherent_amplifier(
+            1e8,
+            before,
+            propagate_distortion=True,
+            power_gain_db=20,
+            output_p1db_dbm=20,
+            output_saturation_dbm=23,
+            input_ip2_dbm=20,
+            input_ip3_dbm=10,
+        )
+        for actual, reference in zip(stream(result, "compressed")["components"], expected.terms):
+            self.assertAlmostEqual(complex(*actual["amplitude"]), reference.component.amplitude)
+        self.assert_history(result)
+        for kind in ("fundamental_compression", "limited_amplifier"):
+            model["stages"][2] = self.amplifier_stage(kind)
+            with self.assertRaisesRegex(ValueError, "source-kind"):
+                self.evaluate(model)
+
+    def test_mixed_shared_compression_with_independent_sources(self):
+        model = self.mixed_model()
+        model["sources"].append({"id": "other"})
+        model["inputs"][0]["components"][1]["source"] = "other"
+        model["stages"].insert(1, self.amplifier_stage("fundamental_compression"))
+        model["stages"][2]["input"] = "compressed"
+        result = self.evaluate(model)
+        expected_drive = 2 * (abs(0.01 + 0.003j) ** 2 + abs(0.02 - 0.002j) ** 2)
+        self.assertAlmostEqual(result["stages"][1]["input_power_w"], expected_drive)
+        self.assertEqual(
+            len([c for c in stream(result, "compressed")["components"] if c["bin"] == 2]), 2
+        )
+        self.assert_history(result)
+
+    def test_empty_mixed_amplifier_validates_model_and_parameters(self):
+        for kind in ("fundamental_compression", "limited_amplifier", "cascaded_amplifier"):
+            model = self.mixed_model()
+            model["inputs"][0]["components"] = []
+            model["stages"].insert(1, self.amplifier_stage(kind))
+            model["stages"][2]["input"] = "compressed"
+            result = self.evaluate(model)
+            self.assertEqual(stream(result)["components"], [])
+            self.assertEqual(result["stages"][1]["input_power_w"], 0)
+            model["stages"][1]["output_saturation_dbm"] = 20
+            with self.assertRaises(RFModelError):
+                self.evaluate(model)
 
     def test_recursive_polynomial_aliases_same_root_harmonics(self):
         model = load(ROOT / "examples/coherent-recursive-polynomial.json")

@@ -186,6 +186,36 @@ RFMODEL_API int rfmodel_saturating_fundamental(double power_gain_db,
                                                double total_incident_power_w,
                                                rfmodel_complex *output);
 
+/* Common amplitude gain at a finite nonnegative physical total drive, including
+ * zero. Use only after coherent summation; source contributions are not drive.
+ * No AM/PM or noise. output is required and unchanged on failure. */
+RFMODEL_API int rfmodel_saturating_amplitude_gain(double total_incident_power_w,
+                                                  double power_gain_db,
+                                                  double output_p1db_dbm,
+                                                  double output_saturation_dbm,
+                                                  double *output);
+
+typedef struct rfmodel_amplifier_operating_point {
+    double fundamental_amplitude_gain;
+    double nonlinear_input_scale;
+    double limited_input_power_w;
+    double quadratic_voltage_coefficient;
+    double cubic_voltage_coefficient;
+} rfmodel_amplifier_operating_point;
+
+/* Shared RFAMP approximation response at externally solved physical drive.
+ * Nonlinear coefficients are RAW voltage coefficients: scale carrier waves by
+ * nonlinear_input_scale first. Existing distortion receives only fundamental gain.
+ * At zero drive scale=1 and limited power=0. output unchanged on any failure. */
+RFMODEL_API int rfmodel_get_amplifier_operating_point(double total_incident_power_w,
+                                                      double power_gain_db,
+                                                      double output_p1db_dbm,
+                                                      double output_saturation_dbm,
+                                                      double input_ip2_dbm,
+                                                      double input_ip3_dbm,
+                                                      double reference_ohms,
+                                                      rfmodel_amplifier_operating_point *output);
+
 /* Snapshot a legacy .sNp file at a UTF-8 path. out_of_band: 0 reject, 1 clamp.
  * A failed open sets *out to NULL. close(NULL) is valid.
  * info reports embedded noise presence; s does not implicitly evaluate noise.
@@ -318,7 +348,7 @@ typedef struct rfmodel_coherent_polynomial_term {
 } rfmodel_coherent_polynomial_term;
 
 /* voltage_coefficients contains a[0]..a[n], 1..10 entries, with a[0]=0.
- * Up to 4096 inputs, 64 active reduced inputs, 4096 output terms.
+ * Up to 4096 inputs/output terms; nonlinear coefficients limit active inputs to 64.
  * Output buffers/counts must not overlap. On any failure all outputs stay unchanged. */
 RFMODEL_API int rfmodel_coherent_polynomial_evaluate(double spacing_hz,
                                                      const rfmodel_coherent_component *input,

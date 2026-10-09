@@ -27,6 +27,11 @@
 #include <rfmodel/term_propagation.hpp>
 
 int main() {
+    const auto point =
+        rfmodel::CoherentLimitedAmplifier(20., 20., 23., 20., 10.).operating_point(0.);
+    if (point.fundamental_amplitude_gain != 10. || point.nonlinear_input_scale != 1.) {
+        return 79;
+    }
     const rfmodel::OriginExpression expressions{{{{7, 1}}, 1.}, {{{9, 1}}, -1.}};
     const auto expression = rfmodel::product_origin_expressions({expressions}, {1, 1});
     if (expression.size() != 3 ||

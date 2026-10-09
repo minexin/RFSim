@@ -173,4 +173,4 @@ wheel API 61 项、系统图 13 项；新增链路的解析结果见
 
 [递归来源与多项式系统图](recursive-mixing-origins.md) 新增原始源因子展开、同源失真归并及显式全局来源阶数限制。混频多来源传播已在后续阶段接入；SystemVue 高阶子谱语义仍待完成。
 
-[混频与多项式的多来源系统图](mixed-polynomial-graphs.md) 支持混频折叠后的复波贡献经线性网络继续非线性展开；独立数值对照通过，共同压缩和 SystemVue 全局阶数/高阶系数仍待验收。
+[混频与多项式的多来源系统图](mixed-polynomial-graphs.md) 支持混频折叠后的复波贡献经线性网络继续非线性展开；独立数值对照通过，共同压缩已由[公共工作点](common-amplifier-response.md)接入，SystemVue 全局阶数/高阶系数仍待验收。

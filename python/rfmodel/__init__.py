@@ -75,6 +75,18 @@ class _AmplifierDrive(ct.Structure):
     _fields_ = [("total_input_power_w", ct.c_double), ("limited_input_power_w", ct.c_double)]
 
 
+class AmplifierOperatingPoint(NamedTuple):
+    fundamental_amplitude_gain: float
+    nonlinear_input_scale: float
+    limited_input_power_w: float
+    quadratic_voltage_coefficient: float
+    cubic_voltage_coefficient: float
+
+
+class _AmplifierOperatingPoint(ct.Structure):
+    _fields_ = [(name, ct.c_double) for name in AmplifierOperatingPoint._fields]
+
+
 class _AmplifierTerm(ct.Structure):
     _fields_ = [("order", ct.c_int), ("index", ct.c_int), ("contributors", ct.c_int * 3),
                 ("amplitude", _Complex)]
@@ -369,6 +381,10 @@ class Library:
                            ct.POINTER(_BinPower), size, ct.POINTER(size), ct.POINTER(ct.c_double)]),
             "rfmodel_last_error": (ct.c_char_p, []),
             "rfmodel_abi_version": (ct.c_uint, []),
+            "rfmodel_saturating_amplitude_gain": (
+                ct.c_int, [ct.c_double] * 4 + [ct.POINTER(ct.c_double)]),
+            "rfmodel_get_amplifier_operating_point": (
+                ct.c_int, [ct.c_double] * 7 + [ct.POINTER(_AmplifierOperatingPoint)]),
             "rfmodel_saturating_fundamental": (
                 ct.c_int, [ct.c_double, ct.c_double, ct.c_double, _Complex, ct.c_double, complex_pointer]),
             "rfmodel_p1db_fundamental": (
@@ -470,6 +486,51 @@ class Library:
                 *arguments, float(total_incident_power_w), ct.byref(output))
         self._check(status)
         return output.value()
+
+    def saturating_amplitude_gain(
+        self, total_incident_power_w, *, power_gain_db, output_p1db_dbm, output_saturation_dbm
+    ):
+        """Common gain evaluated at physical coherent drive, including zero."""
+        output = ct.c_double()
+        self._check(
+            self._dll.rfmodel_saturating_amplitude_gain(
+                total_incident_power_w,
+                power_gain_db,
+                output_p1db_dbm,
+                output_saturation_dbm,
+                ct.byref(output),
+            )
+        )
+        return output.value
+
+    def amplifier_operating_point(
+        self,
+        total_incident_power_w,
+        *,
+        power_gain_db,
+        output_p1db_dbm,
+        output_saturation_dbm,
+        input_ip2_dbm,
+        input_ip3_dbm,
+        reference_ohms=50.0,
+    ):
+        """Common gain and limiter scale; nonlinear coefficients use volts."""
+        output = _AmplifierOperatingPoint()
+        self._check(
+            self._dll.rfmodel_get_amplifier_operating_point(
+                total_incident_power_w,
+                power_gain_db,
+                output_p1db_dbm,
+                output_saturation_dbm,
+                input_ip2_dbm,
+                input_ip3_dbm,
+                reference_ohms,
+                ct.byref(output),
+            )
+        )
+        return AmplifierOperatingPoint(
+            *(getattr(output, name) for name in AmplifierOperatingPoint._fields)
+        )
 
     def saturating_fundamental(self, incident, *, power_gain_db, output_p1db_dbm,
                               output_saturation_dbm, total_incident_power_w=None):

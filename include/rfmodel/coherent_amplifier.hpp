@@ -6,6 +6,14 @@
 #include <limits>
 
 namespace rfmodel {
+struct AmplifierOperatingPoint {
+    double fundamental_amplitude_gain{};
+    double nonlinear_input_scale{};
+    double limited_input_power_w{};
+    double quadratic_voltage_coefficient{};
+    double cubic_voltage_coefficient{};
+};
+
 struct CoherentAmplifierTerm {
     int order{};
     // Signed, one-based indices into CoherentAmplifierResponse::inputs.
@@ -44,6 +52,25 @@ public:
           limiter_(std::pow(10., (output_p1db_dbm - power_gain_db - 34.) / 10.),
                    std::pow(10., (output_saturation_dbm - power_gain_db - 31.) / 10.)),
           reference_(reference_ohms) {
+    }
+
+    // The caller supplies drive after physical coherent summation. Scale each
+    // carrier contribution before applying the returned raw voltage coefficients.
+    // Existing distortion receives fundamental gain but generates no new terms.
+    AmplifierOperatingPoint operating_point(double total_incident_power_w) const {
+        const double gain = fundamental_.amplitude_gain(total_incident_power_w);
+        double scale = 1., limited_power = 0.;
+        if (total_incident_power_w > 0.) {
+            const double drive = std::sqrt(total_incident_power_w);
+            const double limited = limiter_.limit({drive, 0.}).real();
+            scale = limited / drive;
+            limited_power = limited * limited;
+        }
+        return {gain,
+                scale,
+                limited_power,
+                polynomial_.voltage_coefficient(2),
+                polynomial_.voltage_coefficient(3)};
     }
 
 private:

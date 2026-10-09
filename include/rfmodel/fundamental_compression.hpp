@@ -28,6 +28,18 @@ public:
         return input_p1db_w_;
     }
 
+    // Gain at an externally solved physical drive, including the zero-drive limit.
+    double amplitude_gain(double total_incident_power_w) const {
+        if (!std::isfinite(total_incident_power_w) || total_incident_power_w < 0) {
+            throw std::invalid_argument("invalid total RF drive");
+        }
+        const double ratio = total_incident_power_w / input_p1db_w_;
+        if (!std::isfinite(ratio) || ratio > 1. + 16 * std::numeric_limits<double>::epsilon()) {
+            throw std::out_of_range("fundamental compression input exceeds P1dB");
+        }
+        return amplitude_gain_ * (1. - (1. - std::pow(10., -1. / 20.)) * ratio);
+    }
+
     Complex transmit_fundamental(Complex incident) const {
         return transmit_fundamental(incident, std::norm(incident));
     }

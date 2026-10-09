@@ -1,0 +1,78 @@
+{
+  "format": "rfmodel.coherent-system",
+  "version": 1,
+  "spacing_hz": 100000000.0,
+  "sources": [
+    {
+      "id": "rf"
+    },
+    {
+      "id": "lo"
+    }
+  ],
+  "inputs": [
+    {
+      "id": "input",
+      "components": [
+        {
+          "source": "rf",
+          "bin": 8,
+          "bandwidth_hz": 1,
+          "amplitude": [
+            0.01,
+            0.003
+          ]
+        },
+        {
+          "source": "rf",
+          "bin": 12,
+          "bandwidth_hz": 1,
+          "amplitude": [
+            0.02,
+            -0.002
+          ]
+        }
+      ]
+    }
+  ],
+  "stages": [
+    {
+      "id": "mix",
+      "type": "ideal_mixer_bank",
+      "branches": [
+        {
+          "id": "mixed",
+          "input": "input",
+          "lo_source": "lo",
+          "lo_bin": 10,
+          "conversion_gain_db": 0,
+          "lo_phase_radians": 0.3
+        }
+      ]
+    },
+    {
+      "id": "compress",
+      "type": "fundamental_compression",
+      "input": "mixed",
+      "output": "compressed",
+      "power_gain_db": 10,
+      "output_p1db_dbm": 15,
+      "output_saturation_dbm": 18
+    },
+    {
+      "id": "poly",
+      "type": "polynomial_amplifier",
+      "input": "compressed",
+      "output": "result",
+      "voltage_coefficients": [
+        0,
+        1,
+        0.5
+      ],
+      "max_source_order": 4
+    }
+  ],
+  "outputs": [
+    "result"
+  ]
+}

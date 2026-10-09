@@ -28,6 +28,49 @@ class PythonApiTests(unittest.TestCase):
     def setUpClass(cls):
         cls.library = Library(LIBRARY_PATH)
 
+    def test_common_amplifier_operating_point(self):
+        parameters = dict(power_gain_db=20, output_p1db_dbm=20, output_saturation_dbm=23)
+        self.assertEqual(self.library.saturating_amplitude_gain(0, **parameters), 10)
+        for drive in (0, 1e-12, 0.0001, 10**-2.9, 0.01, 1.0, 1e300):
+            with self.subTest(drive=drive):
+                point = self.library.amplifier_operating_point(
+                    drive, **parameters, input_ip2_dbm=20, input_ip3_dbm=10
+                )
+                self.assertEqual(
+                    point.fundamental_amplitude_gain,
+                    self.library.saturating_amplitude_gain(drive, **parameters),
+                )
+                if drive:
+                    expected = self.library.saturating_fundamental(
+                        math.sqrt(drive) * 0.5j, total_incident_power_w=drive, **parameters
+                    )
+                    self.assertAlmostEqual(
+                        expected / (math.sqrt(drive) * 0.5j) / point.fundamental_amplitude_gain, 1
+                    )
+                else:
+                    self.assertEqual(point.nonlinear_input_scale, 1)
+                    self.assertEqual(point.limited_input_power_w, 0)
+                self.assertLessEqual(point.nonlinear_input_scale, 1)
+                self.assertGreater(point.nonlinear_input_scale, 0)
+
+    def test_common_response_rejects_invalid_drives_and_parameters(self):
+        parameters = dict(power_gain_db=20, output_p1db_dbm=20, output_saturation_dbm=23)
+        for drive in (-1, float("nan"), float("inf")):
+            with self.subTest(drive=drive), self.assertRaises(RFModelError):
+                self.library.saturating_amplitude_gain(drive, **parameters)
+            with self.subTest(drive=drive), self.assertRaises(RFModelError):
+                self.library.amplifier_operating_point(
+                    drive, **parameters, input_ip2_dbm=20, input_ip3_dbm=10
+                )
+        with self.assertRaises(RFModelError):
+            self.library.amplifier_operating_point(
+                0, **parameters, input_ip2_dbm=float("nan"), input_ip3_dbm=10
+            )
+        with self.assertRaises(RFModelError):
+            self.library.saturating_amplitude_gain(
+                0, power_gain_db=20, output_p1db_dbm=20, output_saturation_dbm=20
+            )
+
     def test_origin_expression_distribution_and_cancellation(self):
         a = [(((7, 1),), 0.25 + 0.1j), (((9, 1),), -0.05 + 0.2j)]
         wave = sum(term[1] for term in a)

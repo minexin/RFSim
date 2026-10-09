@@ -102,13 +102,18 @@ int main() {
         CoherentPolynomial({0., 0., 1.})
             .evaluate(1., {{std::numeric_limits<int>::max(), SpectrumKind::source, 1., 1, 1.}});
     });
-    rejects<std::length_error>([] {
-        std::vector<CoherentComponent> many;
-        for (int i = 0; i < 65; ++i) {
-            many.push_back(
-                {100 + i, SpectrumKind::source, 1., static_cast<std::uint64_t>(i + 1), .01});
-        }
-        CoherentPolynomial({0., 1.}).evaluate(1e6, many);
+    std::vector<CoherentComponent> many;
+    for (int i = 0; i < 4096; ++i) {
+        many.push_back({100 + i, SpectrumKind::source, 1., static_cast<std::uint64_t>(i + 1), .01});
+    }
+    const auto linear_many = CoherentPolynomial({0., 2., 0., 0.}).evaluate(1e6, many);
+    require(linear_many.terms.size() == many.size(), "linear propagation accepts 4096 inputs");
+    for (const auto &term : linear_many.terms) {
+        near(term.component.amplitude, .02);
+    }
+    many.resize(65);
+    rejects<std::length_error>([&] {
+        CoherentPolynomial({0., 1., 1.}).evaluate(1e6, many);
     });
     rejects<std::length_error>([] {
         CoherentPolynomial({0., 0., 0., 0., 0., 0., 0., 0., 0., 1.})

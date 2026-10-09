@@ -134,18 +134,8 @@ class _ExpressionGraph:
             ],
         }
 
-    def polynomial(self, stage):
-        _object(
-            stage, ("id", "type", "input", "output", "voltage_coefficients", "max_source_order")
-        )
-        maximum = stage["max_source_order"]
-        if type(maximum) is not int or not 1 <= maximum <= 256:
-            raise ValueError("max_source_order must be an integer from 1 to 256")
-        coefficients = [
-            _number(v) for v in _array(stage["voltage_coefficients"], 10, nonempty=True)
-        ]
-        names = self.new_ids([stage["output"]])
-        parents = self.read(stage["input"])
+    def generate(self, parents, coefficients, maximum=None):
+        """Expand nonlinear contributions using a previously solved common response."""
         expanded, lookup = self.flatten(parents)
         response = self.library.coherent_polynomial(
             self.spacing,
@@ -162,7 +152,7 @@ class _ExpressionGraph:
         output, discarded = [], {}
         for term in response.terms:
             order = sum(len(origins[abs(i) - 1]) for i in term.input_indices)
-            if order > maximum:
+            if maximum is not None and order > maximum:
                 discarded[order] = discarded.get(order, 0) + 1
                 continue
             identity = self.physical.compose(identities, term.input_indices)
@@ -176,9 +166,7 @@ class _ExpressionGraph:
             output.append(
                 _Record(component, identity, (OriginContribution(origin, component.amplitude),))
             )
-        self.store(names[0], output)
-        return names, {
-            "max_source_order": maximum,
+        return output, {
             "expanded_input_count": len(expanded),
             "physical_input_count": len(parents),
             "generated_term_count": len(response.terms),
@@ -188,6 +176,74 @@ class _ExpressionGraph:
                 for order, count in sorted(discarded.items())
             ],
         }
+
+    def polynomial(self, stage):
+        _object(
+            stage, ("id", "type", "input", "output", "voltage_coefficients", "max_source_order")
+        )
+        maximum = stage["max_source_order"]
+        if type(maximum) is not int or not 1 <= maximum <= 256:
+            raise ValueError("max_source_order must be an integer from 1 to 256")
+        coefficients = [
+            _number(v) for v in _array(stage["voltage_coefficients"], 10, nonempty=True)
+        ]
+        names = self.new_ids([stage["output"]])
+        output, measurements = self.generate(self.read(stage["input"]), coefficients, maximum)
+        self.store(names[0], output)
+        return names, dict(measurements, max_source_order=maximum)
+
+    def scaled(self, records, gain):
+        """Scale every source contribution without dividing by its aggregate wave."""
+        output = []
+        for record in records:
+            expression = self.library.product_origin_expressions(
+                [record.terms], [1], coefficient=gain
+            )
+            output.append(
+                _Record(
+                    record.component._replace(amplitude=expression.amplitude),
+                    record.identity,
+                    expression.terms,
+                )
+            )
+        return output
+
+    def amplifier(self, stage):
+        common = ("power_gain_db", "output_p1db_dbm", "output_saturation_dbm")
+        fundamental_only = stage["type"] == "fundamental_compression"
+        parameters = common if fundamental_only else common + ("input_ip2_dbm", "input_ip3_dbm")
+        _object(stage, ("id", "type", "input", "output") + parameters)
+        values = {key: _number(stage[key]) for key in parameters}
+        names = self.new_ids([stage["output"]])
+        parents = self.read(stage["input"])
+        cascade = stage["type"] == "cascaded_amplifier"
+        if not cascade and any(r.component.kind != SpectrumKind.SOURCE for r in parents):
+            raise ValueError("Fundamental/limited amplification requires source-kind inputs")
+        # Drive is computed from real coherent components, never flattened origins.
+        drive = self.reductions[stage["input"]].total_power_w
+        if fundamental_only:
+            gain = self.library.saturating_amplitude_gain(drive, **values)
+            output = self.scaled(parents, gain)
+            measurements = {"input_power_w": drive, "fundamental_amplitude_gain": gain}
+        else:
+            point = self.library.amplifier_operating_point(
+                drive, reference_ohms=self.reference, **values
+            )
+            output = self.scaled(parents, point.fundamental_amplitude_gain)
+            carriers = [r for r in parents if r.component.kind == SpectrumKind.SOURCE]
+            nonlinear, measurements = self.generate(
+                self.scaled(carriers, point.nonlinear_input_scale),
+                [0.0, 0.0, point.quadratic_voltage_coefficient, point.cubic_voltage_coefficient],
+            )
+            output.extend(nonlinear)
+            measurements.update(
+                input_power_w=drive,
+                limited_input_power_w=point.limited_input_power_w,
+                fundamental_amplitude_gain=point.fundamental_amplitude_gain,
+                nonlinear_input_scale=point.nonlinear_input_scale,
+            )
+        self.store(names[0], output)
+        return names, measurements
 
     def mixer(self, stage):
         _object(stage, ("id", "type", "branches"))
@@ -297,13 +353,16 @@ class _ExpressionGraph:
 def analyze_expression_system(library, document, *, base_directory=None):
     """Execute the already format-validated mixed polynomial graph."""
     stages = _array(document["stages"], 512)
-    supported = {"linear_network", "polynomial_amplifier", "ideal_mixer_bank"}
+    supported = {
+        "linear_network",
+        "polynomial_amplifier",
+        "ideal_mixer_bank",
+        "fundamental_compression",
+        "limited_amplifier",
+        "cascaded_amplifier",
+    }
     if any(not isinstance(stage, dict) or stage.get("type") not in supported for stage in stages):
-        raise ValueError(
-            "Multi-origin mixer graphs currently support linear_network, "
-            "polynomial_amplifier and ideal_mixer_bank; calibrated amplifier "
-            "compression with multiple origins is not yet supported"
-        )
+        raise ValueError("Unsupported stage in multi-origin coherent graph")
     groups, sources = _resolve_sources(library, document["sources"])
     spacing = _number(document["spacing_hz"])
     reference = _number(document.get("reference_ohms", 50.0))
@@ -332,6 +391,9 @@ def analyze_expression_system(library, document, *, base_directory=None):
         "linear_network": graph.linear,
         "polynomial_amplifier": graph.polynomial,
         "ideal_mixer_bank": graph.mixer,
+        "fundamental_compression": graph.amplifier,
+        "limited_amplifier": graph.amplifier,
+        "cascaded_amplifier": graph.amplifier,
     }
     for stage in stages:
         name = _label(stage.get("id"))

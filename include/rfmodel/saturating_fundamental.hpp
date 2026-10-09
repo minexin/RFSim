@@ -37,6 +37,25 @@ public:
         return below_p1db_.input_p1db_watts();
     }
 
+    // Apply this same gain to all source contributions AFTER solving physical
+    // coherent drive. Individual cancelling contributions may exceed that drive.
+    double amplitude_gain(double total_incident_power_w) const {
+        if (!std::isfinite(total_incident_power_w) || total_incident_power_w < 0) {
+            throw std::invalid_argument("invalid total RF drive");
+        }
+        if (total_incident_power_w <= input_p1db_watts()) {
+            return below_p1db_.amplitude_gain(total_incident_power_w);
+        }
+        const double drive = std::sqrt(total_incident_power_w);
+        const double argument = amplitude_slope_ * ((drive - input_anchor_) / output_headroom_);
+        const double amplitude = output_anchor_ + output_headroom_ * std::tanh(argument);
+        const double gain = amplitude / drive;
+        if (!std::isfinite(gain)) {
+            throw std::overflow_error("saturated amplitude gain overflow");
+        }
+        return gain;
+    }
+
     Complex transmit_fundamental(Complex incident) const {
         return transmit_fundamental(incident, std::norm(incident));
     }

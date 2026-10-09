@@ -14,6 +14,33 @@
 
 int main(int argc, char **argv) {
     {
+        double gain = 99.;
+        rfmodel_amplifier_operating_point point = {11., 22., 33., 44., 55.};
+        if (rfmodel_saturating_amplitude_gain(-1., 20., 20., 23., &gain) == RFMODEL_OK ||
+            gain != 99. ||
+            rfmodel_get_amplifier_operating_point(-1., 20., 20., 23., 20., 10., 50., &point) ==
+                RFMODEL_OK ||
+            point.fundamental_amplitude_gain != 11. || point.nonlinear_input_scale != 22. ||
+            point.limited_input_power_w != 33. || point.quadratic_voltage_coefficient != 44. ||
+            point.cubic_voltage_coefficient != 55.) {
+            return 79;
+        }
+        if (rfmodel_saturating_amplitude_gain(0., 20., 20., 23., &gain) != RFMODEL_OK ||
+            gain != 10. ||
+            rfmodel_get_amplifier_operating_point(0., 20., 20., 23., 20., 10., 50., &point) !=
+                RFMODEL_OK ||
+            point.fundamental_amplitude_gain != 10. || point.nonlinear_input_scale != 1. ||
+            point.limited_input_power_w != 0.) {
+            return 80;
+        }
+        if (rfmodel_saturating_amplitude_gain(0., 20., 20., 23., NULL) == RFMODEL_OK ||
+            rfmodel_get_amplifier_operating_point(0., 20., 20., 23., 20., 10., 50., NULL) ==
+                RFMODEL_OK) {
+            return 81;
+        }
+    }
+
+    {
         rfmodel_origin_factor root = {0, 1};
         rfmodel_origin_contribution contribution = {&root, 1, {1., 0.}};
         rfmodel_origin_expression parent = {&contribution, 1};

@@ -684,6 +684,45 @@ unsigned int rfmodel_abi_version(void) {
     return 1;
 }
 
+int rfmodel_saturating_amplitude_gain(double total_incident_power_w,
+                                      double power_gain_db,
+                                      double output_p1db_dbm,
+                                      double output_saturation_dbm,
+                                      double *output) {
+    return guarded([&] {
+        require(output);
+        const rfmodel::SaturatingFundamentalCompression model(
+            power_gain_db, output_p1db_dbm, output_saturation_dbm);
+        const auto result = model.amplitude_gain(total_incident_power_w);
+        *output = result;
+    });
+}
+
+int rfmodel_get_amplifier_operating_point(double total_incident_power_w,
+                                          double power_gain_db,
+                                          double output_p1db_dbm,
+                                          double output_saturation_dbm,
+                                          double input_ip2_dbm,
+                                          double input_ip3_dbm,
+                                          double reference_ohms,
+                                          rfmodel_amplifier_operating_point *output) {
+    return guarded([&] {
+        require(output);
+        const rfmodel::CoherentLimitedAmplifier model(power_gain_db,
+                                                      output_p1db_dbm,
+                                                      output_saturation_dbm,
+                                                      input_ip2_dbm,
+                                                      input_ip3_dbm,
+                                                      reference_ohms);
+        const auto point = model.operating_point(total_incident_power_w);
+        *output = {point.fundamental_amplitude_gain,
+                   point.nonlinear_input_scale,
+                   point.limited_input_power_w,
+                   point.quadratic_voltage_coefficient,
+                   point.cubic_voltage_coefficient};
+    });
+}
+
 int rfmodel_saturating_fundamental(double power_gain_db,
                                    double output_p1db_dbm,
                                    double output_saturation_dbm,

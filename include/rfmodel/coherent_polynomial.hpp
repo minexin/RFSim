@@ -50,12 +50,17 @@ public:
         CoherentPolynomialResponse result{reduce_coherent_components(spacing_hz, input).components,
                                           {}};
         std::uint64_t highest_group = reserved_group_max;
+        const bool nonlinear =
+            coefficients_.size() > 2 &&
+            std::any_of(coefficients_.begin() + 2, coefficients_.end(), [](double value) {
+                return value != 0.;
+            });
         std::vector<int> signed_inputs;
         for (std::size_t i = 0; i < result.inputs.size(); ++i) {
             const auto &component = result.inputs[i];
             highest_group = std::max(highest_group, component.coherence_group);
             if (component.amplitude != Complex{}) {
-                if (signed_inputs.size() >= 128) {
+                if (nonlinear && signed_inputs.size() >= 128) {
                     throw std::length_error("coherent polynomial accepts at most 64 active inputs");
                 }
                 signed_inputs.push_back(-static_cast<int>(i + 1));

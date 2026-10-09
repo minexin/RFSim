@@ -60,8 +60,9 @@ python examples/origin-expressions.py build-msvc/Release/rfmodel_c.dll
 C 与 Python 验证接口行为，安装后的独立 C/C++ 消费者验证公开头文件和符号。
 
 后续图层已按流保存实际贡献，并分开管理物理相干类别与原始来源历史。
-混合图显式采用 RF/LO 因子共同计数政策；SystemVue 阶数语义及共同压缩下的
-多来源传播仍需完成，详见[混合图边界](mixed-polynomial-graphs.md)。
+混合图显式采用 RF/LO 因子共同计数政策；共同压缩已由
+[公共工作点](common-amplifier-response.md)接入。SystemVue 阶数语义仍未验收，
+详见[混合图边界](mixed-polynomial-graphs.md)。
 
 本阶段不新增 SystemVue 原始采集，也不声称高阶 RFAMP 系数、全局阶数、
 子谱合并或混频递归兼容性已验收。
