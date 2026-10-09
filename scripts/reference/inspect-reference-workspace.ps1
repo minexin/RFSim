@@ -4,6 +4,10 @@ param(
     [switch]$RunAttenuatorAnalysis,
     [switch]$RunAntennaAnalysis,
     [switch]$RunCompressionAnalysis,
+    [switch]$RunCoherentAnalysis,
+    [double]$CoherentPhaseDeg = 0,
+    [double]$CoherentLengthRad = 0.5235987755982988,
+    [switch]$CoherentLocked,
     [Nullable[double]]$LossDb,
     [Nullable[double]]$TemperatureK,
     [Nullable[double]]$SourcePowerDbm,
@@ -18,6 +22,21 @@ param(
     [switch]$CaptureRun
 )
 $ErrorActionPreference = 'Stop'
+if ($RunCoherentAnalysis -and ($RunCompressionAnalysis -or $RunAntennaAnalysis -or $RunAttenuatorAnalysis -or
+    $null -ne $SourcePowerDbm -or $null -ne $LossDb -or $null -ne $TemperatureK)) {
+    throw 'Coherent analysis cannot be combined with other case overrides.'
+}
+if (($PSBoundParameters.ContainsKey('CoherentPhaseDeg') -or $PSBoundParameters.ContainsKey('CoherentLengthRad') -or $CoherentLocked) -and -not $RunCoherentAnalysis) {
+    throw 'Coherent options require RunCoherentAnalysis.'
+}
+if ([double]::IsNaN($CoherentLengthRad) -or [double]::IsInfinity($CoherentLengthRad) -or
+    $CoherentLengthRad -lt 0 -or $CoherentLengthRad -gt 100) {
+    throw 'Coherent electrical length must be finite and from 0 to 100 radians.'
+}
+if ([double]::IsNaN($CoherentPhaseDeg) -or [double]::IsInfinity($CoherentPhaseDeg) -or
+    $CoherentPhaseDeg -lt -360 -or $CoherentPhaseDeg -gt 360) {
+    throw 'Coherent phase must be finite and from -360 to 360 degrees.'
+}
 foreach ($phase in @($CompressionFirstPhaseDeg, $CompressionSecondPhaseDeg)) {
     if ($null -ne $phase -and (-not $CompressionTwoTone -or [double]::IsNaN($phase) -or
         [double]::IsInfinity($phase) -or $phase -lt -360 -or $phase -gt 360)) {
@@ -109,7 +128,7 @@ public static class ReferenceWorkspaceInspector
         {
             depth = 3;
         }
-        if (path.Contains("/Sch1/PartList/") && path.Split('/').Length == 5)
+        if ((path.Contains("/Sch1/PartList/") || path.Contains("/Example/PartList/")) && path.Split('/').Length == 5)
         {
             depth = 2;
         }
@@ -219,7 +238,8 @@ public static class ReferenceWorkspaceInspector
     public static Node[] Inspect(string path, bool open, bool run, bool antenna, double lossDb, double temperatureK,
         double sourcePowerDbm, bool compression, int compressionRisoDb, string compressionProfile,
         int compressionOpsatDbm, bool preserveManagerMessages, bool compressionTwoTone,
-        double secondPowerDbm, double firstPhaseDeg, double secondPhaseDeg)
+        double secondPowerDbm, double firstPhaseDeg, double secondPhaseDeg,
+        bool coherent, double coherentPhaseDeg, bool coherentLocked, double coherentLengthRad)
     {
         Console.Error.WriteLine("phase: attach-active-instance");
         object active = Marshal.GetActiveObject("Genesys.Application");
@@ -255,13 +275,46 @@ public static class ReferenceWorkspaceInspector
                         Console.Error.WriteLine("phase: inspect-reference-objects");
                         if (run)
                         {
-                            string permittedName = compression ? "RFModel_AmplifierCompression" :
+                            string permittedName = coherent ? "RFModel_PhaseCombiner" : compression ? "RFModel_AmplifierCompression" :
                                 (antenna ? "RFModel_AntennaNoise" : "RFModel_AttenuatorNoise");
                             if (expectedName != permittedName || manager.GetWorkspaceCount() != 1)
                             {
                                 throw new InvalidOperationException("Analysis requires the sole dedicated reference workspace");
                             }
                             string setup = "wsdoc=Application.Manager.GetWorkspaceByIndex(0)\r\n";
+                            if (coherent)
+                            {
+                                string folder = "wsdoc.GetItemByName(\"Phase Prj\").";
+                                string parts = folder + "Example.PartList.";
+                                for (int sourceIndex = 1; sourceIndex <= 2; ++sourceIndex)
+                                {
+                                    string source = parts + "MultiSource" + sourceIndex + ".ParamSet.";
+                                    string phase = (sourceIndex == 1 ? 0.0 : coherentPhaseDeg).ToString(
+                                        "R", System.Globalization.CultureInfo.InvariantCulture);
+                                    setup += source + "Name.Set(\"Source" + sourceIndex + "\")\r\n" +
+                                        source + "Enable.Set(\"[1]\")\r\n" +
+                                        source + "SrcType.Set(\"[0]\")\r\n" +
+                                        source + "MultiCarrier.Set(\"[0]\")\r\n" +
+                                        source + "EnablePN.Set(\"[0]\")\r\n" +
+                                        source + "Freq.Set(\"1000\")\r\n" +
+                                        source + "BW.Set(\"1\")\r\n" +
+                                        source + "Pwr.Set(\"0\")\r\n" +
+                                        source + "Phase.Set(\"" + phase + "\")\r\n" +
+                                        source + "R.Set(\"50\")\r\n" +
+                                        source + "RefClk.Set(\"" + (coherentLocked ? "RFModelClock" : "") + "\")\r\n";
+                                    string line = parts + "TL" + sourceIndex + ".ParamSet.";
+                                    string lengthText = coherentLengthRad.ToString(
+                                        "R", System.Globalization.CultureInfo.InvariantCulture);
+                                    setup += line + "L.Set(\"" + lengthText + "\")\r\n" +
+                                        line + "F.Set(\"1000\")\r\n" +
+                                        line + "A.Set(\"0\")\r\n" + line + "Z.Set(\"50\")\r\n";
+                                }
+                                // Tunable TLE length uses native radians; ordinary PartParam.Set uses display units.
+                                setup += parts + "Attn1.ParamSet.L.Set(\"5\")\r\n" +
+                                    parts + "Attn1.ParamSet.ZIN.Set(\"50\")\r\n" +
+                                    parts + "Attn1.ParamSet.ZOUT.Set(\"50\")\r\n" +
+                                    parts + "Port_3.ParamSet.ZO.Set(\"50\")\r\n";
+                            }
                             if (compression)
                             {
                                 // Make previously implicit defaults explicit for the controlled experiment.
@@ -330,7 +383,9 @@ public static class ReferenceWorkspaceInspector
                             }
                             RunStartedUtc = DateTime.UtcNow.ToString("o");
                             Console.Error.WriteLine("phase: run-analysis " + RunStartedUtc);
-                            string analysis = antenna
+                            string analysis = coherent
+                                ? "wsdoc.GetItemByName(\"Phase Prj\").System1.RunAnalysis()\r\n"
+                                : antenna
                                 ? "wsdoc.GetItemByName(\"RF Design\").GetItemByName(\"System1\").RunAnalysis()\r\n"
                                 : "wsdoc.Designs.System1.RunAnalysis()\r\n";
                             application.RunScript(
@@ -345,7 +400,9 @@ public static class ReferenceWorkspaceInspector
                         Visit(item, expectedName, 4, nodes);
                         if (run)
                         {
-                            string datasetPath = compression
+                            string datasetPath = coherent
+                                ? expectedName + "/Phase Prj/System1_Data"
+                                : compression
                                 ? expectedName + "/Designs/System1_Data_Folder/System1_Data_Path1"
                                 : antenna
                                 ? expectedName + "/RF Design/System1_Data_Folder/System1_Data_Path1"
@@ -395,10 +452,11 @@ $secondPower = if ($null -eq $CompressionSecondPowerDbm) { [double]::NaN } else 
 $firstPhase = if ($null -eq $CompressionFirstPhaseDeg) { 0.0 } else { [double]$CompressionFirstPhaseDeg }
 $secondPhase = if ($null -eq $CompressionSecondPhaseDeg) { 0.0 } else { [double]$CompressionSecondPhaseDeg }
 $nodes = [ReferenceWorkspaceInspector]::Inspect($resolvedPath, $OpenCopy.IsPresent,
-    ($RunAttenuatorAnalysis.IsPresent -or $RunAntennaAnalysis.IsPresent -or $RunCompressionAnalysis.IsPresent),
+    ($RunAttenuatorAnalysis.IsPresent -or $RunAntennaAnalysis.IsPresent -or $RunCompressionAnalysis.IsPresent -or $RunCoherentAnalysis.IsPresent),
     $RunAntennaAnalysis.IsPresent, $loss, $temperature, $power, $RunCompressionAnalysis.IsPresent,
     $CompressionRisoDb, $CompressionProfile, $CompressionOpsatDbm, $PreserveManagerMessages.IsPresent,
-    $CompressionTwoTone.IsPresent, $secondPower, $firstPhase, $secondPhase)
+    $CompressionTwoTone.IsPresent, $secondPower, $firstPhase, $secondPhase,
+    $RunCoherentAnalysis.IsPresent, $CoherentPhaseDeg, $CoherentLocked.IsPresent, $CoherentLengthRad)
 if ($CaptureRun) {
     [ordered]@{
         run_started_utc = [ReferenceWorkspaceInspector]::RunStartedUtc

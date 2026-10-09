@@ -1,0 +1,73 @@
+{
+  "scope": "Two-source TLE/tee/attenuator, output path waves and merged attenuator RF drive",
+  "relative_tolerance": 1e-07,
+  "cancellation_absolute_tolerance_w": 1e-15,
+  "limitation": "Clock IDs imported and checked; no automatic clock inference or split-source fixture",
+  "reports": [
+    {
+      "locked": true,
+      "second_phase_deg": 0.0,
+      "line_length_rad": 30.0,
+      "raw_capture_sha256": "08a847b49ce299e37aca90f18cef5aeea3a1ff50771b69f19ab12401a6cceeb2",
+      "checks": [
+        {
+          "source": 1,
+          "coherency_number": 1,
+          "rfmodel_wave": [
+            0.0018286811820249424,
+            0.011713308623944353
+          ],
+          "systemvue_boundary_waves": [
+            [
+              0.0018286810030379943,
+              0.011713308532685544
+            ],
+            [
+              0.0018286813544372879,
+              0.011713308477825103
+            ]
+          ],
+          "relative_complex_errors": [
+            1.6946930199475753e-08,
+            1.906353014854356e-08
+          ],
+          "passed": true
+        },
+        {
+          "source": 2,
+          "coherency_number": 1,
+          "rfmodel_wave": [
+            0.0018286811820249424,
+            0.011713308623944353
+          ],
+          "systemvue_boundary_waves": [
+            [
+              0.0018286810030379986,
+              0.011713308532685544
+            ],
+            [
+              0.001828681354437286,
+              0.011713308477825103
+            ]
+          ],
+          "relative_complex_errors": [
+            1.694692987357669e-08,
+            1.906353002296071e-08
+          ],
+          "passed": true
+        },
+        {
+          "measurement": "RFPwrIn(Attn1)",
+          "rfmodel_w": 0.0017777777777777776,
+          "systemvue_w": 0.0017777777412593342,
+          "absolute_error_w": 3.651844343414978e-11,
+          "tolerance_w": 1.7777777412593341e-10,
+          "passed": true
+        }
+      ]
+    }
+  ],
+  "passed": true,
+  "captures_sha256": "c404669488e137a55a75ebeb1d0c009e11e254a50e3b087140bb5091a9208af2",
+  "library_sha256": "695b8af285eb58f35f4bf112296acdc2df8b749ea6d741769469da4237b62f7c"
+}

@@ -16,6 +16,38 @@ spec.loader.exec_module(runner)
 
 
 class RunnerTests(unittest.TestCase):
+    def test_coherent_options_reject_wrong_case_and_nonfinite_values(self):
+        cases = [("compression", ["--coherent-locked"]),
+                 ("coherent", ["--source-power-dbm", "0"])]
+        for flag in ("--coherent-phase-deg", "--coherent-length-rad"):
+            cases.extend([("coherent", [flag + "=" + value]) for value in ("nan", "inf", "361")])
+            cases.append(("antenna", [flag, "30"]))
+        for case, options in cases:
+            with self.subTest(case=case, options=options):
+                with patch.object(sys, "argv", ["runner", case, "unused.wsv", "unused", *options]):
+                    with contextlib.redirect_stderr(io.StringIO()), patch.object(runner, "execute") as execute:
+                        with self.assertRaises(SystemExit) as failure:
+                            runner.main()
+                        self.assertEqual(failure.exception.code, 2)
+                        execute.assert_not_called()
+
+    @unittest.skipUnless(sys.platform == "win32", "Valid COM launch requires Windows paths")
+    def test_coherent_options_reach_collector(self):
+        root = Path(__file__).resolve().parents[2]
+        (root / "build-reference").mkdir(exist_ok=True)
+        with tempfile.TemporaryDirectory(dir=root / "build-reference") as directory:
+            workspace = Path(directory) / "RFModel_PhaseCombiner.wsv"
+            workspace.touch()
+            args = ["runner", "coherent", str(workspace), str(Path(directory) / "output"),
+                    "--coherent-locked", "--coherent-phase-deg", "90", "--coherent-length-rad", "30"]
+            with patch.object(sys, "argv", args), patch.object(runner, "execute", return_value=0) as execute:
+                self.assertEqual(runner.main(), 0)
+            command = execute.call_args.args[0]
+            self.assertIn("-RunCoherentAnalysis", command)
+            self.assertIn("-CoherentLocked", command)
+            self.assertEqual(command[command.index("-CoherentPhaseDeg") + 1], "90.0")
+            self.assertEqual(command[command.index("-CoherentLengthRad") + 1], "30.0")
+
     @unittest.skipUnless(sys.platform == "win32", "Valid COM launch requires Windows paths")
     def test_second_tone_power_reaches_collector_command(self):
         # Only replace process launch; parsing, path guards and command construction are real.

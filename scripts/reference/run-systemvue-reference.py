@@ -11,6 +11,7 @@ from datetime import datetime, timezone
 
 
 DATASETS = {
+    "coherent": ("RFModel_PhaseCombiner", "Phase Prj", "System1_Data"),
     "compression": ("RFModel_AmplifierCompression", "Designs", "System1_Data_Path1"),
     "attenuator": ("RFModel_AttenuatorNoise", "Designs", "System1_Sch1_Data_Path1"),
     "antenna": ("RFModel_AntennaNoise", "RF Design", "System1_Data_Path1"),
@@ -21,7 +22,8 @@ def validate_capture(capture, case, *, allow_compression_warning=False):
     if allow_compression_warning and case != "compression":
         raise ValueError("Compression warning diagnosis requires compression case")
     name, folder, dataset = DATASETS[case]
-    target = "/".join((name, folder, "System1_Data_Folder", dataset))
+    target = "/".join((name, folder, dataset) if case == "coherent" else
+                      (name, folder, "System1_Data_Folder", dataset))
     messages = capture["manager_errors"]
     if messages:
         number = r"[+-]?\d+(?:\.\d+)?"
@@ -100,6 +102,9 @@ def main():
     parser.add_argument("workspace", type=Path)
     parser.add_argument("output_directory", type=Path)
     parser.add_argument("--timeout", type=float, default=120)
+    parser.add_argument("--coherent-phase-deg", type=float)
+    parser.add_argument("--coherent-length-rad", type=float)
+    parser.add_argument("--coherent-locked", action="store_true")
     parser.add_argument("--source-power-dbm", type=float)
     parser.add_argument("--compression-riso-db", type=int, choices=(50, 100))
     parser.add_argument("--compression-profile", choices=("sample", "antenna", "limiter"))
@@ -115,6 +120,18 @@ def main():
     parser.add_argument("--open-copy", action="store_true",
                         help="Open via official script API only when no workspace is loaded")
     args = parser.parse_args()
+    if args.coherent_phase_deg is not None and (
+            args.case != "coherent" or not math.isfinite(args.coherent_phase_deg)
+            or not -360 <= args.coherent_phase_deg <= 360):
+        parser.error("Coherent phase requires coherent case and finite degrees from -360 to 360")
+    if args.coherent_length_rad is not None and (
+            args.case != "coherent" or not math.isfinite(args.coherent_length_rad)
+            or not 0 <= args.coherent_length_rad <= 100):
+        parser.error("Coherent length requires coherent case and finite radians from 0 to 100")
+    if args.coherent_locked and args.case != "coherent":
+        parser.error("Coherent clock requires coherent case")
+    if args.case == "coherent" and args.source_power_dbm is not None:
+        parser.error("Coherent case uses two fixed 0 dBm sources")
     for phase in (args.compression_first_phase_deg, args.compression_second_phase_deg):
         if phase is not None and (not args.compression_two_tone or not math.isfinite(phase)
                                   or not -360 <= phase <= 360):
@@ -151,7 +168,13 @@ def main():
                "-File", str(Path(__file__).with_name("inspect-reference-workspace.ps1")),
                "-WorkspacePath", str(workspace), "-CaptureRun",
                {"antenna": "-RunAntennaAnalysis", "attenuator": "-RunAttenuatorAnalysis",
-                "compression": "-RunCompressionAnalysis"}[args.case]]
+                "compression": "-RunCompressionAnalysis", "coherent": "-RunCoherentAnalysis"}[args.case]]
+    if args.coherent_phase_deg is not None:
+        command.extend(["-CoherentPhaseDeg", str(args.coherent_phase_deg)])
+    if args.coherent_length_rad is not None:
+        command.extend(["-CoherentLengthRad", str(args.coherent_length_rad)])
+    if args.coherent_locked:
+        command.append("-CoherentLocked")
     if args.open_copy:
         command.append("-OpenCopy")
     if args.source_power_dbm is not None:

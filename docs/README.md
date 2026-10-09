@@ -25,3 +25,5 @@
 - [显式相干分组与离散功率合并](coherence.md)
 
 - [多端口线性网络中的相干传播](coherent-network.md)
+
+- [SystemVue 双源相干合路参考](systemvue-coherent-network.md)

@@ -97,3 +97,5 @@ MSVC Debug/Release 清理重建后全套 CTest 各 61/61，内含 Python API 58 
 构建及回归日志位于 build-reference/coherent-network-*.log，CTest JUnit 位于
 build-msvc/Debug-results.xml 与 Release-results.xml。这些本地产物不提交到版本库。
 跨平台结论以本次提交的 Windows、Ubuntu、macOS × Debug/Release CI 为准。
+
+首个 SystemVue 双源同相合路参考已补充，见 [实测记录](systemvue-coherent-network.md)。独立时钟、反相以及单源功分再合路实测仍待完成。
