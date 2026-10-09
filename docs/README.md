@@ -83,3 +83,5 @@
 [显式高阶放大器](coherent-highorder-amplifier.md)：二至十一阶显式系数、共同压缩/限幅的 C++/C/Python/JSON 接口，以及失真传播、来源阶数裁剪和归档重放证据。
 
 [IMN 输出互调功率参数](intermod-levels.md)：官方参考互调项、输出功率换算、显式符号和十一阶系统图示例。
+
+[小角度相噪源](phase-noise.md)：相位相关边带的 C++/C/Python/JSON 接口、反射反馈传播与相位检波解析回归。

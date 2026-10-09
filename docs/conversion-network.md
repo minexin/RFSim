@@ -80,3 +80,5 @@ python -m rfmodel examples/filtered-conversion-network.json --library build-msvc
 [热负载与噪声功率流](conversion-loaded-noise.md) 已提供 loaded_noise 可选输出及 noise_temperature_k 边界参数，保留原默认结果和 C ABI。
 
 [channel_measurements](channel-noise-measurements.md) 已提供端口入射/出射方向的带宽噪声积分和显式所需谱线载噪比；频率采样覆盖不足会报错。
+
+可用 [phase_noise_sources](phase-noise.md) 从外部载波边界生成一阶相位相关边带，与现有源噪声独立相加。

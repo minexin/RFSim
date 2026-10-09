@@ -230,6 +230,22 @@ RFMODEL_API int rfmodel_ideal_mixer_conversion(double spacing_hz,
                                                rfmodel_complex *conjugate,
                                                size_t matrix_capacity);
 
+/* Small-angle phase noise on a positive-frequency carrier. Offsets strictly
+ * increase, with both same-port sidebands declared and strictly above DC.
+ * L is single-sideband dBc/Hz. C/P outputs are N*N complex elements, disjoint
+ * from each other and all input arrays; neither output changes on failure. */
+RFMODEL_API int rfmodel_phase_noise_sidebands(const size_t *physical_ports,
+                                              const int *bins,
+                                              size_t count,
+                                              size_t carrier_channel,
+                                              rfmodel_complex carrier_wave,
+                                              const int *offset_bins,
+                                              const double *ssb_dbc_per_hz,
+                                              size_t offset_count,
+                                              rfmodel_complex *covariance,
+                                              rfmodel_complex *complementary,
+                                              size_t matrix_capacity);
+
 typedef enum rfmodel_butterworth_response {
     RFMODEL_BUTTERWORTH_LOWPASS = 0,
     RFMODEL_BUTTERWORTH_HIGHPASS = 1,

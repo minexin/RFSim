@@ -652,6 +652,11 @@ class Library:
                 ct.c_int, [ct.POINTER(_ConversionRequest), size,
                            ct.POINTER(_ConversionConnection), size, ct.POINTER(_ConversionOutput),
                            ct.POINTER(_ConversionLoadedOutput)]),
+            "rfmodel_phase_noise_sidebands": (
+                ct.c_int,
+                [ct.POINTER(ct.c_size_t), ct.POINTER(ct.c_int), ct.c_size_t,
+                 ct.c_size_t, _Complex, ct.POINTER(ct.c_int), ct.POINTER(ct.c_double),
+                 ct.c_size_t, ct.POINTER(_Complex), ct.POINTER(_Complex), ct.c_size_t]),
             "rfmodel_measure_channel_noise": (
                 ct.c_int, [ct.POINTER(_ChannelNoiseRequest), ct.POINTER(_ChannelNoiseResult)]),
             "rfmodel_conversion_network_analyze": (
@@ -1610,6 +1615,34 @@ class Library:
         return ConversionNoiseAnalysis(
             *(getattr(output, name) for name in ConversionNoiseAnalysis._fields)
         )
+
+    def phase_noise_sidebands(self, channels, *, carrier_channel, carrier_wave, offsets):
+        """Return C/P in W/Hz for paired small-angle PM offsets (bin, SSB dBc/Hz)."""
+        ports, bins = _conversion_channels(channels)
+        offsets = tuple(offsets)
+        if not 1 <= len(offsets) <= 255:
+            raise ValueError("Expected 1..255 phase noise offsets")
+        offset_bins = (ct.c_int * len(offsets))(*(_bin(point[0]) for point in offsets))
+        levels = (ct.c_double * len(offsets))(*(float(point[1]) for point in offsets))
+        count = len(ports)
+        c, p = (_Complex * (count * count))(), (_Complex * (count * count))()
+        wave = complex(carrier_wave)
+        self._check(
+            self._dll.rfmodel_phase_noise_sidebands(
+                ports,
+                bins,
+                count,
+                _index(carrier_channel),
+                _Complex(wave.real, wave.imag),
+                offset_bins,
+                levels,
+                len(offsets),
+                c,
+                p,
+                count * count,
+            )
+        )
+        return _rows(c, count), _rows(p, count)
 
     def channel_noise(self, noise_samples, *, center_hz, bandwidth_hz, desired_lines=()):
         """Integrate a sampled W/Hz PSD and sum selected discrete line powers in watts.

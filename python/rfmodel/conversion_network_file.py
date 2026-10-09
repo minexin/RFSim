@@ -11,6 +11,7 @@ from .model_file import (
     _touchstone_samples,
 )
 from .conversion_file import conversion_matrices
+from .phase_noise import apply_phase_noise_sources
 from .channel_measurements import parse_channel_measurements, measure_conversion_channels
 
 
@@ -91,7 +92,14 @@ def analyze_conversion_network(library, document, base_directory=None):
     _object(
         document,
         ("format", "version", "spacing_hz", "devices", "boundaries"),
-        ("reference_ohms", "connections", "noise_analyses", "loaded_noise", "channel_measurements"),
+        (
+            "reference_ohms",
+            "connections",
+            "noise_analyses",
+            "loaded_noise",
+            "channel_measurements",
+            "phase_noise_sources",
+        ),
     )
     if (
         document["format"] != "rfmodel.conversion-network"
@@ -230,6 +238,13 @@ def analyze_conversion_network(library, document, base_directory=None):
     required = {key for key in labels if key[:2] not in connected_ports}
     if assigned != required:
         raise ValueError("Every unconnected channel requires one explicit boundary")
+    phase_noise_sources = (
+        apply_phase_noise_sources(
+            library, document["phase_noise_sources"], devices, lookup, connected_ports
+        )
+        if "phase_noise_sources" in document
+        else []
+    )
     channel_requests = (
         parse_channel_measurements(document["channel_measurements"], labels)
         if "channel_measurements" in document
@@ -267,6 +282,8 @@ def analyze_conversion_network(library, document, base_directory=None):
         "noise_complementary_w_per_hz": _encode(result.noise_complementary),
         "relative_residual": result.relative_residual,
     }
+    if phase_noise_sources:
+        output["phase_noise_sources"] = phase_noise_sources
     if loaded_noise:
         for field in (
             "incident_noise_covariance",

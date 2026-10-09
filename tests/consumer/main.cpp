@@ -1,3 +1,4 @@
+#include "rfmodel/phase_noise.hpp"
 #include "rfmodel/channel_noise.hpp"
 #include "rfmodel/conversion_network.hpp"
 #include "rfmodel/frequency_conversion.hpp"
@@ -37,6 +38,14 @@
 #include <rfmodel/term_propagation.hpp>
 
 int main() {
+    {
+        const auto noise =
+            rfmodel::phase_noise_sidebands({{0, 9}, {0, 10}, {0, 11}}, 1, 1., {{1, -100.}});
+        if (std::abs(noise.complementary(0, 2).real() / 1e-10 + 1.) > 1e-12) {
+            return 95;
+        }
+    }
+
     {
         const auto metric =
             rfmodel::measure_channel_noise({{0., 1.}, {10., 3.}}, {{5., 4.}}, 5., 4.);

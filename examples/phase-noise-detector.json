@@ -1,0 +1,210 @@
+{
+  "format": "rfmodel.conversion-network",
+  "version": 1,
+  "spacing_hz": 1000000.0,
+  "devices": [
+    {
+      "id": "detector",
+      "channels": [
+        {
+          "port": 0,
+          "bin": 8
+        },
+        {
+          "port": 0,
+          "bin": 9
+        },
+        {
+          "port": 0,
+          "bin": 10
+        },
+        {
+          "port": 0,
+          "bin": 11
+        },
+        {
+          "port": 0,
+          "bin": 12
+        },
+        {
+          "port": 1,
+          "bin": 0
+        },
+        {
+          "port": 1,
+          "bin": 1
+        },
+        {
+          "port": 1,
+          "bin": 2
+        },
+        {
+          "port": 1,
+          "bin": 18
+        },
+        {
+          "port": 1,
+          "bin": 19
+        },
+        {
+          "port": 1,
+          "bin": 20
+        },
+        {
+          "port": 1,
+          "bin": 21
+        },
+        {
+          "port": 1,
+          "bin": 22
+        }
+      ],
+      "model": {
+        "type": "ideal_real_mixer",
+        "lo_bin": 10,
+        "phase_radians": 1.5707963267948966
+      },
+      "noise": {
+        "noiseless": true
+      }
+    }
+  ],
+  "boundaries": [
+    {
+      "channel": [
+        "detector",
+        0,
+        8
+      ],
+      "source": 0
+    },
+    {
+      "channel": [
+        "detector",
+        0,
+        9
+      ],
+      "source": 0
+    },
+    {
+      "channel": [
+        "detector",
+        0,
+        10
+      ],
+      "source": 1
+    },
+    {
+      "channel": [
+        "detector",
+        0,
+        11
+      ],
+      "source": 0
+    },
+    {
+      "channel": [
+        "detector",
+        0,
+        12
+      ],
+      "source": 0
+    },
+    {
+      "channel": [
+        "detector",
+        1,
+        0
+      ],
+      "source": 0
+    },
+    {
+      "channel": [
+        "detector",
+        1,
+        1
+      ],
+      "source": 0
+    },
+    {
+      "channel": [
+        "detector",
+        1,
+        2
+      ],
+      "source": 0
+    },
+    {
+      "channel": [
+        "detector",
+        1,
+        18
+      ],
+      "source": 0
+    },
+    {
+      "channel": [
+        "detector",
+        1,
+        19
+      ],
+      "source": 0
+    },
+    {
+      "channel": [
+        "detector",
+        1,
+        20
+      ],
+      "source": 0
+    },
+    {
+      "channel": [
+        "detector",
+        1,
+        21
+      ],
+      "source": 0
+    },
+    {
+      "channel": [
+        "detector",
+        1,
+        22
+      ],
+      "source": 0
+    }
+  ],
+  "phase_noise_sources": [
+    {
+      "name": "rf_oscillator",
+      "carrier_channel": [
+        "detector",
+        0,
+        10
+      ],
+      "offsets": [
+        {
+          "offset_bin": 1,
+          "ssb_dbc_per_hz": -100
+        },
+        {
+          "offset_bin": 2,
+          "ssb_dbc_per_hz": -110
+        }
+      ]
+    }
+  ],
+  "channel_measurements": [
+    {
+      "name": "detected_offset_band",
+      "port": [
+        "detector",
+        1
+      ],
+      "center_hz": 1500000.0,
+      "bandwidth_hz": 1000000.0,
+      "desired_bins": []
+    }
+  ]
+}

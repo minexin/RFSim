@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "reference": "SystemVue 2023 installed help",
+  "source_qch": "C:/Program Files/Keysight/SystemVue2023/Help/systemvue.qch",
+  "read_date": "2026-10-09",
+  "sources": [
+    {
+      "path": "sim/Behavioral_Phase_Noise.html",
+      "sha256_decompressed_html": "adc7fb1f54d1443d2806685625249c4bfb52da8ef09d772457bfaed0e49b2374"
+    },
+    {
+      "path": "sim/Spectrasys_Phase_Noise_Channel_Power.html",
+      "sha256_decompressed_html": "e8f0662631bacb285490fa6f388a480836f8ef8d976f3feeb4c06740cca150d7"
+    }
+  ],
+  "numerical_vendor_equivalence_validated": false,
+  "definition_facts": {
+    "spectrum": "offset-frequency and dBc/Hz lists; a single side is mirrored by the reference product",
+    "linear_propagation": "phase noise follows the linear transfer function at the phase-noise frequencies",
+    "mixer_and_clocks": "reference behavior also combines RF/LO noise and reference-clock correlations; not yet implemented here",
+    "pncp": "integrated in-channel phase noise from both sidebands with reference-specific near-carrier extension; not claimed by the sampled source"
+  },
+  "model_scope": "Independent, small-angle real stationary phase perturbation, explicit paired positive-frequency channels"
+}

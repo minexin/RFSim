@@ -87,3 +87,5 @@ Windows 本机可运行 `scripts/build-msvc.ps1` 自动定位已有 VS 工具链
 [变频热负载噪声](docs/conversion-loaded-noise.md) 可输出入射/出射及交叉 C/P、端口净吸收噪声，支持显式终端温度，并通过热平衡和连接守恒验证。
 
 [通道噪声与载噪比](docs/channel-noise-measurements.md) 支持指定带宽的 PSD 积分、DC 截边、所需谱线选择，以及转换网络的入射/出射通道测量；相噪与完整路径映射仍待完成。
+
+已提供[小角度相噪源](docs/phase-noise.md)，可将相关上下边带接入固定泵转换网络；完整 LO/参考时钟相噪与厂商验收仍待完成。

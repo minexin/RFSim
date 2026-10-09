@@ -14,6 +14,37 @@
 
 int main(int argc, char **argv) {
     {
+        const size_t ports[3] = {0, 0, 0};
+        const int bins[3] = {9, 10, 11}, offsets[1] = {1};
+        double levels[1] = {-100.};
+        const rfmodel_complex carrier = {1., 2.};
+        rfmodel_complex c[9], p[9], saved_c[9], saved_p[9];
+        if (rfmodel_phase_noise_sidebands(
+                ports, bins, 3, 1, carrier, offsets, levels, 1, c, p, 9) != RFMODEL_OK ||
+            fabs(c[0].real / 5e-10 - 1.) > 1e-12 || fabs(p[2].imag / -4e-10 - 1.) > 1e-12) {
+            return 95;
+        }
+        memcpy(saved_c, c, sizeof(c));
+        memcpy(saved_p, p, sizeof(p));
+        levels[0] = 1e308;
+        CHECK(rfmodel_phase_noise_sidebands(
+                  ports, bins, 3, 1, carrier, offsets, levels, 1, c, p, 9) != RFMODEL_OK);
+        CHECK(memcmp(c, saved_c, sizeof(c)) == 0 && memcmp(p, saved_p, sizeof(p)) == 0);
+        levels[0] = -100.;
+        CHECK(rfmodel_phase_noise_sidebands(
+                  ports, bins, 3, 1, carrier, offsets, levels, 1, c, p, 8) != RFMODEL_OK);
+        CHECK(rfmodel_phase_noise_sidebands(
+                  ports, bins, 3, 1, carrier, offsets, levels, 1, c, c, 9) != RFMODEL_OK);
+        CHECK(rfmodel_phase_noise_sidebands(
+                  ports, bins, 3, 1, carrier, offsets, levels, 1, (rfmodel_complex *)bins, p, 9) !=
+              RFMODEL_OK);
+        CHECK(rfmodel_phase_noise_sidebands(
+                  NULL, bins, 3, 1, carrier, offsets, levels, 1, c, p, 9) != RFMODEL_OK);
+        CHECK(memcmp(c, saved_c, sizeof(c)) == 0 && memcmp(p, saved_p, sizeof(p)) == 0);
+        CHECK(bins[0] == 9 && bins[2] == 11);
+    }
+
+    {
         const double frequency[2] = {0., 10.}, line_frequency = 5., line_power = 4.;
         double density[2] = {1., 3.};
         rfmodel_channel_noise_request request = {

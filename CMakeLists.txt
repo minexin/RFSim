@@ -63,6 +63,8 @@ if(RFMODEL_BUILD_C_API)
             ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_python_api.py $<TARGET_FILE:rfmodel_c>)
         add_test(NAME linear_noise_analysis_file_test COMMAND ${Python3_EXECUTABLE}
             ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_linear_noise_analysis.py $<TARGET_FILE:rfmodel_c>)
+        add_test(NAME phase_noise_file_test COMMAND ${Python3_EXECUTABLE}
+            ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_phase_noise.py $<TARGET_FILE:rfmodel_c>)
         add_test(NAME channel_noise_file_test COMMAND ${Python3_EXECUTABLE}
             ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_channel_noise.py $<TARGET_FILE:rfmodel_c>)
         add_test(NAME conversion_loaded_noise_file_test COMMAND ${Python3_EXECUTABLE}
@@ -365,3 +367,7 @@ add_test(NAME conversion_loaded_noise_test COMMAND conversion_loaded_noise_test)
 add_executable(channel_noise_test tests/channel_noise_test.cpp)
 target_link_libraries(channel_noise_test PRIVATE rfmodel)
 add_test(NAME channel_noise_test COMMAND channel_noise_test)
+
+add_executable(phase_noise_test tests/phase_noise_test.cpp)
+target_link_libraries(phase_noise_test PRIVATE rfmodel)
+add_test(NAME phase_noise_test COMMAND phase_noise_test)

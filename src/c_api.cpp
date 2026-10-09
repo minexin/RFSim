@@ -1,4 +1,5 @@
 #include "rfmodel/channel_noise.hpp"
+#include "rfmodel/phase_noise.hpp"
 #include "rfmodel/conversion_network.hpp"
 #include "rfmodel/frequency_conversion.hpp"
 #include "rfmodel/chebyshev_filter.hpp"
@@ -1737,6 +1738,48 @@ int rfmodel_linear_amplifier_s(double frequency_hz,
             rfmodel::LinearAmplifierModel("C API amplifier", parameters).s_parameters(frequency_hz);
         for (size_t i = 0; i < 4; ++i) {
             values[i] = {matrix.values[i].real(), matrix.values[i].imag()};
+        }
+    });
+}
+
+int rfmodel_phase_noise_sidebands(const size_t *physical_ports,
+                                  const int *bins,
+                                  size_t count,
+                                  size_t carrier_channel,
+                                  rfmodel_complex carrier_wave,
+                                  const int *offset_bins,
+                                  const double *ssb_dbc_per_hz,
+                                  size_t offset_count,
+                                  rfmodel_complex *covariance,
+                                  rfmodel_complex *complementary,
+                                  size_t matrix_capacity) {
+    return guarded([&] {
+        require(count && count <= 512 && offset_count && offset_count <= 255 && physical_ports &&
+                bins && offset_bins && ssb_dbc_per_hz && covariance && complementary &&
+                matrix_capacity >= count * count);
+        const auto bytes = count * count * sizeof(rfmodel_complex);
+        disjoint(covariance, bytes, complementary, bytes);
+        for (auto *output : {covariance, complementary}) {
+            disjoint(output, bytes, physical_ports, count * sizeof(size_t));
+            disjoint(output, bytes, bins, count * sizeof(int));
+            disjoint(output, bytes, offset_bins, offset_count * sizeof(int));
+            disjoint(output, bytes, ssb_dbc_per_hz, offset_count * sizeof(double));
+        }
+        std::vector<rfmodel::ConversionChannel> channels;
+        std::vector<rfmodel::PhaseNoiseOffset> offsets;
+        for (size_t i = 0; i < count; ++i) {
+            channels.push_back({physical_ports[i], bins[i]});
+        }
+        for (size_t i = 0; i < offset_count; ++i) {
+            offsets.push_back({offset_bins[i], ssb_dbc_per_hz[i]});
+        }
+        const auto result = rfmodel::phase_noise_sidebands(
+            channels, carrier_channel, {carrier_wave.real, carrier_wave.imag}, offsets);
+        for (size_t i = 0; i < count * count; ++i) {
+            covariance[i] = {result.covariance.values[i].real(),
+                             result.covariance.values[i].imag()};
+            complementary[i] = {result.complementary.values[i].real(),
+                                result.complementary.values[i].imag()};
         }
     });
 }
