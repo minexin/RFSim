@@ -13,9 +13,17 @@ param(
     [switch]$PreserveManagerMessages,
     [switch]$CompressionTwoTone,
     [Nullable[double]]$CompressionSecondPowerDbm,
+    [Nullable[double]]$CompressionFirstPhaseDeg,
+    [Nullable[double]]$CompressionSecondPhaseDeg,
     [switch]$CaptureRun
 )
 $ErrorActionPreference = 'Stop'
+foreach ($phase in @($CompressionFirstPhaseDeg, $CompressionSecondPhaseDeg)) {
+    if ($null -ne $phase -and (-not $CompressionTwoTone -or [double]::IsNaN($phase) -or
+        [double]::IsInfinity($phase) -or $phase -lt -360 -or $phase -gt 360)) {
+        throw 'Phase overrides require two-tone mode and finite values from -360 to 360 degrees.'
+    }
+}
 if ($null -ne $CompressionSecondPowerDbm -and (-not $CompressionTwoTone -or
     [double]::IsNaN($CompressionSecondPowerDbm) -or [double]::IsInfinity($CompressionSecondPowerDbm) -or
     $CompressionSecondPowerDbm -lt -200 -or $CompressionSecondPowerDbm -gt 30)) {
@@ -210,7 +218,8 @@ public static class ReferenceWorkspaceInspector
 
     public static Node[] Inspect(string path, bool open, bool run, bool antenna, double lossDb, double temperatureK,
         double sourcePowerDbm, bool compression, int compressionRisoDb, string compressionProfile,
-        int compressionOpsatDbm, bool preserveManagerMessages, bool compressionTwoTone, double secondPowerDbm)
+        int compressionOpsatDbm, bool preserveManagerMessages, bool compressionTwoTone,
+        double secondPowerDbm, double firstPhaseDeg, double secondPhaseDeg)
     {
         Console.Error.WriteLine("phase: attach-active-instance");
         object active = Marshal.GetActiveObject("Genesys.Application");
@@ -278,13 +287,15 @@ public static class ReferenceWorkspaceInspector
                                     "wsdoc.Designs.Sch1.PartList.Source.ParamSet.R.Set(\"50\")\r\n" +
                                     "wsdoc.Designs.Sch1.PartList.Out.ParamSet.ZO.Set(\"50\")\r\n";
                                 string source = "wsdoc.Designs.Sch1.PartList.Source.ParamSet.";
+                                string phases = "[" + firstPhaseDeg.ToString("R", System.Globalization.CultureInfo.InvariantCulture) +
+                                    ";" + secondPhaseDeg.ToString("R", System.Globalization.CultureInfo.InvariantCulture) + "]";
                                 // Set both modes explicitly so a later single-tone run restores all arrays.
                                 setup += source + "Name.Set(\"" + (compressionTwoTone ? "=[\"\"Source1\"\",\"\"Source2\"\"]" : "Source1") + "\")\r\n" +
                                     source + "Enable.Set(\"" + (compressionTwoTone ? "[1;1]" : "[1]") + "\")\r\n" +
                                     source + "SrcType.Set(\"" + (compressionTwoTone ? "[0;0]" : "[0]") + "\")\r\n" +
                                     source + "EnablePN.Set(\"" + (compressionTwoTone ? "[0;0]" : "[0]") + "\")\r\n" +
                                     source + "MultiCarrier.Set(\"" + (compressionTwoTone ? "[0;0]" : "[0]") + "\")\r\n" +
-                                    source + "Phase.Set(\"" + (compressionTwoTone ? "[0;0]" : "[0]") + "\")\r\n" +
+                                    source + "Phase.Set(\"" + (compressionTwoTone ? phases : "[0]") + "\")\r\n" +
                                     source + "BW.Set(\"" + (compressionTwoTone ? "[1;1]" : "1") + "\")\r\n";
                                 if (compressionTwoTone) {
                                     setup += source + "Freq.Set(\"[1000;1100]\")\r\n";
@@ -381,11 +392,13 @@ $loss = if ($null -eq $LossDb) { [double]::NaN } else { [double]$LossDb }
 $temperature = if ($null -eq $TemperatureK) { [double]::NaN } else { [double]$TemperatureK }
 $power = if ($null -eq $SourcePowerDbm) { [double]::NaN } else { [double]$SourcePowerDbm }
 $secondPower = if ($null -eq $CompressionSecondPowerDbm) { [double]::NaN } else { [double]$CompressionSecondPowerDbm }
+$firstPhase = if ($null -eq $CompressionFirstPhaseDeg) { 0.0 } else { [double]$CompressionFirstPhaseDeg }
+$secondPhase = if ($null -eq $CompressionSecondPhaseDeg) { 0.0 } else { [double]$CompressionSecondPhaseDeg }
 $nodes = [ReferenceWorkspaceInspector]::Inspect($resolvedPath, $OpenCopy.IsPresent,
     ($RunAttenuatorAnalysis.IsPresent -or $RunAntennaAnalysis.IsPresent -or $RunCompressionAnalysis.IsPresent),
     $RunAntennaAnalysis.IsPresent, $loss, $temperature, $power, $RunCompressionAnalysis.IsPresent,
     $CompressionRisoDb, $CompressionProfile, $CompressionOpsatDbm, $PreserveManagerMessages.IsPresent,
-    $CompressionTwoTone.IsPresent, $secondPower)
+    $CompressionTwoTone.IsPresent, $secondPower, $firstPhase, $secondPhase)
 if ($CaptureRun) {
     [ordered]@{
         run_started_utc = [ReferenceWorkspaceInspector]::RunStartedUtc

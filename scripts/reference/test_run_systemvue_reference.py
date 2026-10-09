@@ -26,13 +26,30 @@ class RunnerTests(unittest.TestCase):
             workspace.touch()
             arguments = ["runner", "compression", str(workspace), str(Path(directory) / "output"),
                          "--compression-two-tone", "--source-power-dbm", "-3",
-                         "--compression-second-power-dbm", "-12", "--compression-profile", "limiter"]
+                         "--compression-second-power-dbm", "-12", "--compression-profile", "limiter",
+                         "--compression-first-phase-deg", "30", "--compression-second-phase-deg", "-45"]
             with patch.object(sys, "argv", arguments), patch.object(runner, "execute", return_value=0) as execute:
                 self.assertEqual(runner.main(), 0)
             command = execute.call_args.args[0]
+            self.assertEqual(command[command.index("-CompressionFirstPhaseDeg") + 1], "30.0")
+            self.assertEqual(command[command.index("-CompressionSecondPhaseDeg") + 1], "-45.0")
             self.assertEqual(command[command.index("-CompressionProfile") + 1], "limiter")
             self.assertEqual(command[command.index("-SourcePowerDbm") + 1], "-3.0")
             self.assertEqual(command[command.index("-CompressionSecondPowerDbm") + 1], "-12.0")
+
+    def test_phase_options_reject_nonfinite_out_of_range_and_single_tone(self):
+        for flag in ("--compression-first-phase-deg", "--compression-second-phase-deg"):
+            for value, mode in (("30", []), ("nan", ["--compression-two-tone"]),
+                                ("inf", ["--compression-two-tone"]),
+                                ("361", ["--compression-two-tone"])):
+                args = ["runner", "compression", "unused.wsv", "unused-output",
+                        "--source-power-dbm", "-3", flag + "=" + value, *mode]
+                with self.subTest(flag=flag, value=value), patch.object(sys, "argv", args):
+                    with contextlib.redirect_stderr(io.StringIO()), patch.object(runner, "execute") as execute:
+                        with self.assertRaises(SystemExit) as failure:
+                            runner.main()
+                        self.assertEqual(failure.exception.code, 2)
+                        execute.assert_not_called()
 
     def test_second_power_rejects_invalid_or_single_tone_requests(self):
         cases = [["--compression-second-power-dbm", "-12"]]

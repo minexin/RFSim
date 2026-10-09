@@ -1,0 +1,2911 @@
+{
+  "scope": "Sixteen separately identified direct/second/third-order RF terms per controlled two-tone case",
+  "comparison": "complex_amplitude_and_power",
+  "limitation": "Individual terms only; no coherent carrier sums or multi-stage provenance",
+  "relative_tolerance": 1e-07,
+  "reports": [
+    {
+      "source_phases_deg": [
+        0,
+        0
+      ],
+      "profile": "sample",
+      "source_powers_dbm": [
+        -3,
+        -12
+      ],
+      "parameters": [
+        {
+          "parameter": "RFAmp/G",
+          "value": 100
+        },
+        {
+          "parameter": "RFAmp/NF",
+          "value": 1.9952623149688795
+        },
+        {
+          "parameter": "RFAmp/RISO",
+          "value": 10000000000
+        },
+        {
+          "parameter": "RFAmp/ZIN",
+          "value": 50
+        },
+        {
+          "parameter": "RFAmp/ZOUT",
+          "value": 50
+        },
+        {
+          "parameter": "RFAmp/OIP2",
+          "value": 10
+        },
+        {
+          "parameter": "RFAmp/OIP3",
+          "value": 1
+        },
+        {
+          "parameter": "RFAmp/OP1dB",
+          "value": 0.1
+        },
+        {
+          "parameter": "RFAmp/OPSAT",
+          "value": 0.1995262314968879
+        },
+        {
+          "parameter": "Source/R",
+          "value": 50
+        },
+        {
+          "parameter": "Out/ZO",
+          "value": 50
+        },
+        {
+          "parameter": "Source/Freq",
+          "value": [
+            1000000000,
+            1100000000
+          ]
+        },
+        {
+          "parameter": "Source/Enable",
+          "value": [
+            1,
+            1
+          ]
+        },
+        {
+          "parameter": "Source/SrcType",
+          "value": [
+            0,
+            0
+          ]
+        },
+        {
+          "parameter": "Source/EnablePN",
+          "value": [
+            0,
+            0
+          ]
+        },
+        {
+          "parameter": "Source/Pwr",
+          "value": [
+            0.0005011872336272722,
+            6.309573444801933e-05
+          ]
+        },
+        {
+          "parameter": "Source/MultiCarrier",
+          "value": [
+            0,
+            0
+          ]
+        },
+        {
+          "parameter": "Source/Phase",
+          "value": [
+            0,
+            0
+          ]
+        },
+        {
+          "parameter": "Source/BW",
+          "value": [
+            1000000,
+            1000000
+          ]
+        },
+        {
+          "parameter": "Source/Name",
+          "value": [
+            "Source1",
+            "Source2"
+          ]
+        }
+      ],
+      "raw_capture_sha256": "8e2efa90585df1b01cd38e6332f4969d4ae48f691fe1c2b772517e7659874050",
+      "run_started_utc": "2026-10-08T11:54:47.1580185Z",
+      "manager_messages": "",
+      "checks": [
+        {
+          "order": 1,
+          "bin": 10,
+          "contributors": [
+            10
+          ],
+          "identity": "{1}D[(Source.Source1)],Source,RFAmp",
+          "frequency_bounds_hz": [
+            999999999.5,
+            1000000000.5
+          ],
+          "carrier_overlap": false,
+          "systemvue_power_w": 0.045351815332243826,
+          "rfmodel_power_w": 0.04535181634984024,
+          "signed_relative_error": 2.2437832036814598e-08,
+          "passed": true,
+          "systemvue_amplitude": [
+            0.21295965658369154,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            0.212959658972868,
+            0.0
+          ],
+          "peak_voltage": [
+            2.1295965605129235,
+            0.0
+          ],
+          "impedance_ohms": [
+            49.999999749999986,
+            0.0
+          ],
+          "coherency_number": 1,
+          "complex_relative_error": 1.1218915855254668e-08,
+          "phase_error_deg": 0.0
+        },
+        {
+          "order": 1,
+          "bin": 11,
+          "contributors": [
+            11
+          ],
+          "identity": "{2}D[(Source.Source2)],Source,RFAmp",
+          "frequency_bounds_hz": [
+            1099999999.5,
+            1100000000.5
+          ],
+          "carrier_overlap": false,
+          "systemvue_power_w": 0.005709455279275808,
+          "rfmodel_power_w": 0.0057094554073836,
+          "signed_relative_error": 2.2437830926591573e-08,
+          "passed": true,
+          "systemvue_amplitude": [
+            0.0755609375224779,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            0.07556093837018966,
+            0.0
+          ],
+          "peak_voltage": [
+            0.7556093733357554,
+            0.0
+          ],
+          "impedance_ohms": [
+            49.999999749999986,
+            0.0
+          ],
+          "coherency_number": 2,
+          "complex_relative_error": 1.1218915350878318e-08,
+          "phase_error_deg": 0.0
+        },
+        {
+          "order": 2,
+          "bin": 1,
+          "contributors": [
+            -10,
+            11
+          ],
+          "identity": "{3}[-(Source.Source1)+(Source.Source2)],RFAmp",
+          "frequency_bounds_hz": [
+            99999999.0,
+            100000001.0
+          ],
+          "carrier_overlap": false,
+          "systemvue_power_w": 3.1379677191322196e-05,
+          "rfmodel_power_w": 3.137967870710821e-05,
+          "signed_relative_error": 4.830470379246776e-08,
+          "passed": true,
+          "systemvue_amplitude": [
+            0.00560175661657325,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            0.005601756751868846,
+            0.0
+          ],
+          "peak_voltage": [
+            0.056017566025688595,
+            0.0
+          ],
+          "impedance_ohms": [
+            49.99999975000001,
+            0.0
+          ],
+          "coherency_number": 3,
+          "complex_relative_error": 2.4152351693914946e-08,
+          "phase_error_deg": 0.0
+        },
+        {
+          "order": 2,
+          "bin": 20,
+          "contributors": [
+            10,
+            10
+          ],
+          "identity": "{5}[2x(Source.Source1)],RFAmp",
+          "frequency_bounds_hz": [
+            1999999999.0,
+            2000000001.0
+          ],
+          "carrier_overlap": false,
+          "systemvue_power_w": 6.231440897400195e-05,
+          "rfmodel_power_w": 6.231441198408102e-05,
+          "signed_relative_error": 4.830470379246776e-08,
+          "passed": true,
+          "systemvue_amplitude": [
+            0.007893947616623886,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            0.007893947807281285,
+            0.0
+          ],
+          "peak_voltage": [
+            0.07893947596889019,
+            0.0
+          ],
+          "impedance_ohms": [
+            49.99999975000001,
+            0.0
+          ],
+          "coherency_number": 5,
+          "complex_relative_error": 2.4152351757278808e-08,
+          "phase_error_deg": 0.0
+        },
+        {
+          "order": 2,
+          "bin": 21,
+          "contributors": [
+            10,
+            11
+          ],
+          "identity": "{4}[(Source.Source1)+(Source.Source2)],RFAmp",
+          "frequency_bounds_hz": [
+            2099999999.0,
+            2100000001.0
+          ],
+          "carrier_overlap": false,
+          "systemvue_power_w": 3.1379677191322196e-05,
+          "rfmodel_power_w": 3.137967870710821e-05,
+          "signed_relative_error": 4.830470379246776e-08,
+          "passed": true,
+          "systemvue_amplitude": [
+            0.00560175661657325,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            0.005601756751868846,
+            0.0
+          ],
+          "peak_voltage": [
+            0.056017566025688595,
+            0.0
+          ],
+          "impedance_ohms": [
+            49.99999975000001,
+            0.0
+          ],
+          "coherency_number": 4,
+          "complex_relative_error": 2.4152351693914946e-08,
+          "phase_error_deg": 0.0
+        },
+        {
+          "order": 2,
+          "bin": 22,
+          "contributors": [
+            11,
+            11
+          ],
+          "identity": "{6}[2x(Source.Source2)],RFAmp",
+          "frequency_bounds_hz": [
+            2199999999.0,
+            2200000001.0
+          ],
+          "carrier_overlap": false,
+          "systemvue_power_w": 9.876168257513337e-07,
+          "rfmodel_power_w": 9.876168734578704e-07,
+          "signed_relative_error": 4.830470223815553e-08,
+          "passed": true,
+          "systemvue_amplitude": [
+            0.000993789125393981,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            0.0009937891493963247,
+            0.0
+          ],
+          "peak_voltage": [
+            0.009937891229095082,
+            0.0
+          ],
+          "impedance_ohms": [
+            49.99999975000001,
+            0.0
+          ],
+          "coherency_number": 6,
+          "complex_relative_error": 2.4152350955582902e-08,
+          "phase_error_deg": 0.0
+        },
+        {
+          "order": 3,
+          "bin": 9,
+          "contributors": [
+            -11,
+            10,
+            10
+          ],
+          "identity": "{8}[-(Source.Source2)+2x(Source.Source1)],RFAmp",
+          "frequency_bounds_hz": [
+            899999998.5,
+            900000001.5
+          ],
+          "carrier_overlap": false,
+          "systemvue_power_w": 1.5666526130511664e-05,
+          "rfmodel_power_w": 1.5666527265665755e-05,
+          "signed_relative_error": 7.245729416460733e-08,
+          "passed": true,
+          "systemvue_amplitude": [
+            -0.0039580962760538884,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            -0.003958096419450359,
+            0.0
+          ],
+          "peak_voltage": [
+            -0.039580962661586484,
+            0.0
+          ],
+          "impedance_ohms": [
+            49.99999975000001,
+            0.0
+          ],
+          "coherency_number": 8,
+          "complex_relative_error": 3.62286465289515e-08,
+          "phase_error_deg": -0.0
+        },
+        {
+          "order": 3,
+          "bin": 10,
+          "contributors": [
+            -11,
+            10,
+            11
+          ],
+          "identity": "{7}[-(Source.Source2)+(Source.Source1)+(Source.Source2)],RFAmp",
+          "frequency_bounds_hz": [
+            999999998.5,
+            1000000001.5
+          ],
+          "carrier_overlap": true,
+          "systemvue_power_w": 7.889195144095385e-06,
+          "rfmodel_power_w": 7.889195715725116e-06,
+          "signed_relative_error": 7.245729372051812e-08,
+          "passed": true,
+          "systemvue_amplitude": [
+            -0.0028087711092389467,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            -0.002808771210996922,
+            0.0
+          ],
+          "peak_voltage": [
+            -0.028087711022170194,
+            0.0
+          ],
+          "impedance_ohms": [
+            49.99999975000001,
+            0.0
+          ],
+          "coherency_number": 7,
+          "complex_relative_error": 3.6228646390997826e-08,
+          "phase_error_deg": -0.0
+        },
+        {
+          "order": 3,
+          "bin": 10,
+          "contributors": [
+            -10,
+            10,
+            10
+          ],
+          "identity": "{11}[-(Source.Source1)+2x(Source.Source1)],RFAmp",
+          "frequency_bounds_hz": [
+            999999998.5,
+            1000000001.5
+          ],
+          "carrier_overlap": true,
+          "systemvue_power_w": 0.0001244436404551116,
+          "rfmodel_power_w": 0.00012444364947196112,
+          "signed_relative_error": 7.245729460869654e-08,
+          "passed": true,
+          "systemvue_amplitude": [
+            -0.011155430984731677,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            -0.011155431388877847,
+            0.0
+          ],
+          "peak_voltage": [
+            -0.11155430956843101,
+            0.0
+          ],
+          "impedance_ohms": [
+            49.99999975000001,
+            0.0
+          ],
+          "coherency_number": 11,
+          "complex_relative_error": 3.622864685446749e-08,
+          "phase_error_deg": -0.0
+        },
+        {
+          "order": 3,
+          "bin": 11,
+          "contributors": [
+            -11,
+            11,
+            11
+          ],
+          "identity": "{9}[-(Source.Source2)+2x(Source.Source2)],RFAmp",
+          "frequency_bounds_hz": [
+            1099999998.5,
+            1100000001.5
+          ],
+          "carrier_overlap": true,
+          "systemvue_power_w": 2.4829770613762063e-07,
+          "rfmodel_power_w": 2.482977241286003e-07,
+          "signed_relative_error": 7.245729327642891e-08,
+          "passed": true,
+          "systemvue_amplitude": [
+            -0.00049829479842521,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            -0.0004982948164777558,
+            0.0
+          ],
+          "peak_voltage": [
+            -0.00498294797179473,
+            0.0
+          ],
+          "impedance_ohms": [
+            49.99999975000001,
+            0.0
+          ],
+          "coherency_number": 9,
+          "complex_relative_error": 3.62286458606784e-08,
+          "phase_error_deg": -0.0
+        },
+        {
+          "order": 3,
+          "bin": 11,
+          "contributors": [
+            -10,
+            10,
+            11
+          ],
+          "identity": "{10}[-(Source.Source1)+(Source.Source1)+(Source.Source2)],RFAmp",
+          "frequency_bounds_hz": [
+            1099999998.5,
+            1100000001.5
+          ],
+          "carrier_overlap": true,
+          "systemvue_power_w": 6.266610452204666e-05,
+          "rfmodel_power_w": 6.266610906266302e-05,
+          "signed_relative_error": 7.245729416460733e-08,
+          "passed": true,
+          "systemvue_amplitude": [
+            -0.007916192552107777,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            -0.007916192838900719,
+            0.0
+          ],
+          "peak_voltage": [
+            -0.07916192532317297,
+            0.0
+          ],
+          "impedance_ohms": [
+            49.99999975000001,
+            0.0
+          ],
+          "coherency_number": 10,
+          "complex_relative_error": 3.62286465289515e-08,
+          "phase_error_deg": -0.0
+        },
+        {
+          "order": 3,
+          "bin": 12,
+          "contributors": [
+            -10,
+            11,
+            11
+          ],
+          "identity": "{12}[-(Source.Source1)+2x(Source.Source2)],RFAmp",
+          "frequency_bounds_hz": [
+            1199999998.5,
+            1200000001.5
+          ],
+          "carrier_overlap": false,
+          "systemvue_power_w": 1.9722987860238463e-06,
+          "rfmodel_power_w": 1.972298928931279e-06,
+          "signed_relative_error": 7.245729372051812e-08,
+          "passed": true,
+          "systemvue_amplitude": [
+            -0.0014043855546194734,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            -0.001404385605498461,
+            0.0
+          ],
+          "peak_voltage": [
+            -0.014043855511085097,
+            0.0
+          ],
+          "impedance_ohms": [
+            49.99999975000001,
+            0.0
+          ],
+          "coherency_number": 12,
+          "complex_relative_error": 3.6228646390997826e-08,
+          "phase_error_deg": -0.0
+        },
+        {
+          "order": 3,
+          "bin": 30,
+          "contributors": [
+            10,
+            10,
+            10
+          ],
+          "identity": "{14}[3x(Source.Source1)],RFAmp",
+          "frequency_bounds_hz": [
+            2999999998.5,
+            3000000001.5
+          ],
+          "carrier_overlap": false,
+          "systemvue_power_w": 1.3827071161679063e-05,
+          "rfmodel_power_w": 1.3827072163551236e-05,
+          "signed_relative_error": 7.245729483074115e-08,
+          "passed": true,
+          "systemvue_amplitude": [
+            -0.003718476994910559,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            -0.003718477129625949,
+            -0.0
+          ],
+          "peak_voltage": [
+            -0.03718476985614367,
+            0.0
+          ],
+          "impedance_ohms": [
+            49.99999975000001,
+            0.0
+          ],
+          "coherency_number": 14,
+          "complex_relative_error": 3.622864685446749e-08,
+          "phase_error_deg": 0.0
+        },
+        {
+          "order": 3,
+          "bin": 31,
+          "contributors": [
+            10,
+            10,
+            11
+          ],
+          "identity": "{13}[2x(Source.Source1)+(Source.Source2)],RFAmp",
+          "frequency_bounds_hz": [
+            3099999998.5,
+            3100000001.5
+          ],
+          "carrier_overlap": false,
+          "systemvue_power_w": 1.5666526130511664e-05,
+          "rfmodel_power_w": 1.5666527265665755e-05,
+          "signed_relative_error": 7.245729416460733e-08,
+          "passed": true,
+          "systemvue_amplitude": [
+            -0.0039580962760538884,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            -0.003958096419450359,
+            -0.0
+          ],
+          "peak_voltage": [
+            -0.039580962661586484,
+            0.0
+          ],
+          "impedance_ohms": [
+            49.99999975000001,
+            0.0
+          ],
+          "coherency_number": 13,
+          "complex_relative_error": 3.62286465289515e-08,
+          "phase_error_deg": 0.0
+        },
+        {
+          "order": 3,
+          "bin": 32,
+          "contributors": [
+            10,
+            11,
+            11
+          ],
+          "identity": "{15}[(Source.Source1)+2x(Source.Source2)],RFAmp",
+          "frequency_bounds_hz": [
+            3199999998.5,
+            3200000001.5
+          ],
+          "carrier_overlap": false,
+          "systemvue_power_w": 1.9722987860238463e-06,
+          "rfmodel_power_w": 1.972298928931279e-06,
+          "signed_relative_error": 7.245729372051812e-08,
+          "passed": true,
+          "systemvue_amplitude": [
+            -0.0014043855546194734,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            -0.001404385605498461,
+            -0.0
+          ],
+          "peak_voltage": [
+            -0.014043855511085097,
+            0.0
+          ],
+          "impedance_ohms": [
+            49.99999975000001,
+            0.0
+          ],
+          "coherency_number": 15,
+          "complex_relative_error": 3.6228646390997826e-08,
+          "phase_error_deg": 0.0
+        },
+        {
+          "order": 3,
+          "bin": 33,
+          "contributors": [
+            11,
+            11,
+            11
+          ],
+          "identity": "{16}[3x(Source.Source2)],RFAmp",
+          "frequency_bounds_hz": [
+            3299999998.5,
+            3300000001.5
+          ],
+          "carrier_overlap": false,
+          "systemvue_power_w": 2.7588634015291187e-08,
+          "rfmodel_power_w": 2.758863601428892e-08,
+          "signed_relative_error": 7.24572928323397e-08,
+          "passed": true,
+          "systemvue_amplitude": [
+            -0.00016609826614173665,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            -0.00016609827215925192,
+            -0.0
+          ],
+          "peak_voltage": [
+            -0.0016609826572649101,
+            0.0
+          ],
+          "impedance_ohms": [
+            49.99999975000001,
+            0.0
+          ],
+          "coherency_number": 16,
+          "complex_relative_error": 3.62286458606784e-08,
+          "phase_error_deg": 0.0
+        }
+      ]
+    },
+    {
+      "source_phases_deg": [
+        30,
+        -45
+      ],
+      "profile": "sample",
+      "source_powers_dbm": [
+        -3,
+        -12
+      ],
+      "parameters": [
+        {
+          "parameter": "RFAmp/G",
+          "value": 100
+        },
+        {
+          "parameter": "RFAmp/NF",
+          "value": 1.9952623149688795
+        },
+        {
+          "parameter": "RFAmp/RISO",
+          "value": 10000000000
+        },
+        {
+          "parameter": "RFAmp/ZIN",
+          "value": 50
+        },
+        {
+          "parameter": "RFAmp/ZOUT",
+          "value": 50
+        },
+        {
+          "parameter": "RFAmp/OIP2",
+          "value": 10
+        },
+        {
+          "parameter": "RFAmp/OIP3",
+          "value": 1
+        },
+        {
+          "parameter": "RFAmp/OP1dB",
+          "value": 0.1
+        },
+        {
+          "parameter": "RFAmp/OPSAT",
+          "value": 0.1995262314968879
+        },
+        {
+          "parameter": "Source/R",
+          "value": 50
+        },
+        {
+          "parameter": "Out/ZO",
+          "value": 50
+        },
+        {
+          "parameter": "Source/Freq",
+          "value": [
+            1000000000,
+            1100000000
+          ]
+        },
+        {
+          "parameter": "Source/Enable",
+          "value": [
+            1,
+            1
+          ]
+        },
+        {
+          "parameter": "Source/SrcType",
+          "value": [
+            0,
+            0
+          ]
+        },
+        {
+          "parameter": "Source/EnablePN",
+          "value": [
+            0,
+            0
+          ]
+        },
+        {
+          "parameter": "Source/Pwr",
+          "value": [
+            0.0005011872336272722,
+            6.309573444801933e-05
+          ]
+        },
+        {
+          "parameter": "Source/MultiCarrier",
+          "value": [
+            0,
+            0
+          ]
+        },
+        {
+          "parameter": "Source/Phase",
+          "value": [
+            0.5235987755982988,
+            -0.7853981633974483
+          ]
+        },
+        {
+          "parameter": "Source/BW",
+          "value": [
+            1000000,
+            1000000
+          ]
+        },
+        {
+          "parameter": "Source/Name",
+          "value": [
+            "Source1",
+            "Source2"
+          ]
+        }
+      ],
+      "raw_capture_sha256": "44037b9118eab2d9d9d0667842381fa1b38943428581125bfae30b373a83130d",
+      "run_started_utc": "2026-10-09T01:56:05.3472887Z",
+      "manager_messages": "",
+      "checks": [
+        {
+          "order": 1,
+          "bin": 10,
+          "contributors": [
+            10
+          ],
+          "identity": "{1}D[(Source.Source1)],Source,RFAmp",
+          "frequency_bounds_hz": [
+            999999999.5,
+            1000000000.5
+          ],
+          "carrier_overlap": false,
+          "systemvue_power_w": 0.04535181533224382,
+          "rfmodel_power_w": 0.04535181634984024,
+          "signed_relative_error": 2.2437832258859203e-08,
+          "passed": true,
+          "systemvue_amplitude": [
+            0.18442847258268683,
+            0.10647982829184574
+          ],
+          "rfmodel_amplitude": [
+            0.18442847465177437,
+            0.10647982948643399
+          ],
+          "peak_voltage": [
+            1.8442847212161562,
+            1.0647982802564615
+          ],
+          "impedance_ohms": [
+            49.999999749999986,
+            0.0
+          ],
+          "coherency_number": 1,
+          "complex_relative_error": 1.121891598939118e-08,
+          "phase_error_deg": -3.2335245623020284e-15
+        },
+        {
+          "order": 1,
+          "bin": 11,
+          "contributors": [
+            11
+          ],
+          "identity": "{2}D[(Source.Source2)],Source,RFAmp",
+          "frequency_bounds_hz": [
+            1099999999.5,
+            1100000000.5
+          ],
+          "carrier_overlap": false,
+          "systemvue_power_w": 0.005709455279275808,
+          "rfmodel_power_w": 0.005709455407383603,
+          "signed_relative_error": 2.2437831370680783e-08,
+          "passed": true,
+          "systemvue_amplitude": [
+            0.05342965131495717,
+            -0.05342965131495717
+          ],
+          "rfmodel_amplitude": [
+            0.053429651914379914,
+            -0.053429651914379914
+          ],
+          "peak_voltage": [
+            0.5342965118138303,
+            -0.5342965118138303
+          ],
+          "impedance_ohms": [
+            49.999999749999986,
+            0.0
+          ],
+          "coherency_number": 2,
+          "complex_relative_error": 1.1218915449715992e-08,
+          "phase_error_deg": 0.0
+        },
+        {
+          "order": 2,
+          "bin": 1,
+          "contributors": [
+            -10,
+            11
+          ],
+          "identity": "{3}[-(Source.Source1)+(Source.Source2)],RFAmp",
+          "frequency_bounds_hz": [
+            99999999.0,
+            100000001.0
+          ],
+          "carrier_overlap": false,
+          "systemvue_power_w": 3.137967719132221e-05,
+          "rfmodel_power_w": 3.1379678707108214e-05,
+          "signed_relative_error": 4.830470357042316e-08,
+          "passed": true,
+          "systemvue_amplitude": [
+            0.0014498412983982168,
+            -0.005410881388533774
+          ],
+          "rfmodel_amplitude": [
+            0.0014498413334152935,
+            -0.005410881519219283
+          ],
+          "peak_voltage": [
+            0.014498412947736138,
+            -0.05410881375006571
+          ],
+          "impedance_ohms": [
+            49.99999975000001,
+            0.0
+          ],
+          "coherency_number": 3,
+          "complex_relative_error": 2.4152351513511527e-08,
+          "phase_error_deg": -0.0
+        },
+        {
+          "order": 2,
+          "bin": 20,
+          "contributors": [
+            10,
+            10
+          ],
+          "identity": "{5}[2x(Source.Source1)],RFAmp",
+          "frequency_bounds_hz": [
+            1999999999.0,
+            2000000001.0
+          ],
+          "carrier_overlap": false,
+          "systemvue_power_w": 6.231440897400192e-05,
+          "rfmodel_power_w": 6.231441198408102e-05,
+          "signed_relative_error": 4.830470423655697e-08,
+          "passed": true,
+          "systemvue_amplitude": [
+            0.003946973808311943,
+            0.006836359172139907
+          ],
+          "rfmodel_amplitude": [
+            0.003946973903640644,
+            0.006836359337254058
+          ],
+          "peak_voltage": [
+            0.03946973798444509,
+            0.0683635915504901
+          ],
+          "impedance_ohms": [
+            49.99999975000001,
+            0.0
+          ],
+          "coherency_number": 5,
+          "complex_relative_error": 2.4152351873010068e-08,
+          "phase_error_deg": -1.0904086030203197e-14
+        },
+        {
+          "order": 2,
+          "bin": 21,
+          "contributors": [
+            10,
+            11
+          ],
+          "identity": "{4}[(Source.Source1)+(Source.Source2)],RFAmp",
+          "frequency_bounds_hz": [
+            2099999999.0,
+            2100000001.0
+          ],
+          "carrier_overlap": false,
+          "systemvue_power_w": 3.137967719132221e-05,
+          "rfmodel_power_w": 3.1379678707108214e-05,
+          "signed_relative_error": 4.830470357042316e-08,
+          "passed": true,
+          "systemvue_amplitude": [
+            0.005410881388533774,
+            -0.0014498412983982168
+          ],
+          "rfmodel_amplitude": [
+            0.005410881519219283,
+            -0.0014498413334152935
+          ],
+          "peak_voltage": [
+            0.05410881375006571,
+            -0.014498412947736138
+          ],
+          "impedance_ohms": [
+            49.99999975000001,
+            0.0
+          ],
+          "coherency_number": 4,
+          "complex_relative_error": 2.4152351513511527e-08,
+          "phase_error_deg": 0.0
+        },
+        {
+          "order": 2,
+          "bin": 22,
+          "contributors": [
+            11,
+            11
+          ],
+          "identity": "{6}[2x(Source.Source2)],RFAmp",
+          "frequency_bounds_hz": [
+            2199999999.0,
+            2200000001.0
+          ],
+          "carrier_overlap": false,
+          "systemvue_power_w": 9.87616825751334e-07,
+          "rfmodel_power_w": 9.876168734578708e-07,
+          "signed_relative_error": 4.830470246020013e-08,
+          "passed": true,
+          "systemvue_amplitude": [
+            0.0,
+            -0.0009937891253939811
+          ],
+          "rfmodel_amplitude": [
+            0.0,
+            -0.0009937891493963249
+          ],
+          "peak_voltage": [
+            0.0,
+            -0.009937891229095084
+          ],
+          "impedance_ohms": [
+            49.99999975000001,
+            0.0
+          ],
+          "coherency_number": 6,
+          "complex_relative_error": 2.41523509555829e-08,
+          "phase_error_deg": -0.0
+        },
+        {
+          "order": 3,
+          "bin": 9,
+          "contributors": [
+            -11,
+            10,
+            10
+          ],
+          "identity": "{8}[-(Source.Source2)+2x(Source.Source1)],RFAmp",
+          "frequency_bounds_hz": [
+            899999998.5,
+            900000001.5
+          ],
+          "carrier_overlap": false,
+          "systemvue_power_w": 1.5666526130511654e-05,
+          "rfmodel_power_w": 1.5666527265665755e-05,
+          "signed_relative_error": 7.245729483074115e-08,
+          "passed": true,
+          "systemvue_amplitude": [
+            0.0010244306985921104,
+            -0.0038232274159790357
+          ],
+          "rfmodel_amplitude": [
+            0.001024430735705848,
+            -0.0038232275544893913
+          ],
+          "peak_voltage": [
+            0.010244306960310338,
+            -0.038232274064209676
+          ],
+          "impedance_ohms": [
+            49.99999975000001,
+            0.0
+          ],
+          "coherency_number": 8,
+          "complex_relative_error": 3.6228646740973284e-08,
+          "phase_error_deg": -3.0319379562314936e-15
+        },
+        {
+          "order": 3,
+          "bin": 10,
+          "contributors": [
+            -11,
+            10,
+            11
+          ],
+          "identity": "{7}[-(Source.Source2)+(Source.Source1)+(Source.Source2)],RFAmp",
+          "frequency_bounds_hz": [
+            999999998.5,
+            1000000001.5
+          ],
+          "carrier_overlap": true,
+          "systemvue_power_w": 7.889195144095392e-06,
+          "rfmodel_power_w": 7.889195715725119e-06,
+          "signed_relative_error": 7.245729327642891e-08,
+          "passed": true,
+          "systemvue_amplitude": [
+            -0.002432467134016726,
+            -0.0014043855546194738
+          ],
+          "rfmodel_amplitude": [
+            -0.0024324672221417167,
+            -0.001404385605498461
+          ],
+          "peak_voltage": [
+            -0.024324671279355583,
+            -0.0140438555110851
+          ],
+          "impedance_ohms": [
+            49.99999975000001,
+            0.0
+          ],
+          "coherency_number": 7,
+          "complex_relative_error": 3.622864605344563e-08,
+          "phase_error_deg": -0.0
+        },
+        {
+          "order": 3,
+          "bin": 10,
+          "contributors": [
+            -10,
+            10,
+            10
+          ],
+          "identity": "{11}[-(Source.Source1)+2x(Source.Source1)],RFAmp",
+          "frequency_bounds_hz": [
+            999999998.5,
+            1000000001.5
+          ],
+          "carrier_overlap": true,
+          "systemvue_power_w": 0.00012444364045511154,
+          "rfmodel_power_w": 0.00012444364947196112,
+          "signed_relative_error": 7.245729505278575e-08,
+          "passed": true,
+          "systemvue_amplitude": [
+            -0.009660886622941688,
+            -0.005577715492365836
+          ],
+          "rfmodel_amplitude": [
+            -0.00966088697294254,
+            -0.005577715694438922
+          ],
+          "peak_voltage": [
+            -0.09660886598789473,
+            -0.05577715478421548
+          ],
+          "impedance_ohms": [
+            49.99999975000001,
+            0.0
+          ],
+          "coherency_number": 11,
+          "complex_relative_error": 3.6228647006256784e-08,
+          "phase_error_deg": -0.0
+        },
+        {
+          "order": 3,
+          "bin": 11,
+          "contributors": [
+            -11,
+            11,
+            11
+          ],
+          "identity": "{9}[-(Source.Source2)+2x(Source.Source2)],RFAmp",
+          "frequency_bounds_hz": [
+            1099999998.5,
+            1100000001.5
+          ],
+          "carrier_overlap": true,
+          "systemvue_power_w": 2.482977061376208e-07,
+          "rfmodel_power_w": 2.4829772412860043e-07,
+          "signed_relative_error": 7.245729305438431e-08,
+          "passed": true,
+          "systemvue_amplitude": [
+            -0.00035234763099644984,
+            0.00035234763099644984
+          ],
+          "rfmodel_amplitude": [
+            -0.00035234764376152735,
+            0.00035234764376152735
+          ],
+          "peak_voltage": [
+            -0.003523476301155808,
+            0.003523476301155808
+          ],
+          "impedance_ohms": [
+            49.99999975000001,
+            0.0
+          ],
+          "coherency_number": 9,
+          "complex_relative_error": 3.622864578054739e-08,
+          "phase_error_deg": -0.0
+        },
+        {
+          "order": 3,
+          "bin": 11,
+          "contributors": [
+            -10,
+            10,
+            11
+          ],
+          "identity": "{10}[-(Source.Source1)+(Source.Source1)+(Source.Source2)],RFAmp",
+          "frequency_bounds_hz": [
+            1099999998.5,
+            1100000001.5
+          ],
+          "carrier_overlap": true,
+          "systemvue_power_w": 6.266610452204662e-05,
+          "rfmodel_power_w": 6.266610906266302e-05,
+          "signed_relative_error": 7.245729483074115e-08,
+          "passed": true,
+          "systemvue_amplitude": [
+            -0.005597593434773849,
+            0.005597593434773849
+          ],
+          "rfmodel_amplitude": [
+            -0.005597593637567085,
+            0.005597593637567085
+          ],
+          "peak_voltage": [
+            -0.055975934207798665,
+            0.055975934207798665
+          ],
+          "impedance_ohms": [
+            49.99999975000001,
+            0.0
+          ],
+          "coherency_number": 10,
+          "complex_relative_error": 3.622864677336808e-08,
+          "phase_error_deg": -0.0
+        },
+        {
+          "order": 3,
+          "bin": 12,
+          "contributors": [
+            -10,
+            11,
+            11
+          ],
+          "identity": "{12}[-(Source.Source1)+2x(Source.Source2)],RFAmp",
+          "frequency_bounds_hz": [
+            1199999998.5,
+            1200000001.5
+          ],
+          "carrier_overlap": false,
+          "systemvue_power_w": 1.972298786023848e-06,
+          "rfmodel_power_w": 1.9722989289312798e-06,
+          "signed_relative_error": 7.245729327642891e-08,
+          "passed": true,
+          "systemvue_amplitude": [
+            0.0007021927773097369,
+            0.001216233567008363
+          ],
+          "rfmodel_amplitude": [
+            0.0007021928027492305,
+            0.0012162336110708584
+          ],
+          "peak_voltage": [
+            0.00702192775554255,
+            0.012162335639677791
+          ],
+          "impedance_ohms": [
+            49.99999975000001,
+            0.0
+          ],
+          "coherency_number": 12,
+          "complex_relative_error": 3.622864605344563e-08,
+          "phase_error_deg": 0.0
+        },
+        {
+          "order": 3,
+          "bin": 30,
+          "contributors": [
+            10,
+            10,
+            10
+          ],
+          "identity": "{14}[3x(Source.Source1)],RFAmp",
+          "frequency_bounds_hz": [
+            2999999998.5,
+            3000000001.5
+          ],
+          "carrier_overlap": false,
+          "systemvue_power_w": 1.3827071161679051e-05,
+          "rfmodel_power_w": 1.3827072163551232e-05,
+          "signed_relative_error": 7.245729549687496e-08,
+          "passed": true,
+          "systemvue_amplitude": [
+            -8.177564888979941e-19,
+            -0.0037184769949105577
+          ],
+          "rfmodel_amplitude": [
+            -1.0842021724855044e-18,
+            -0.0037184771296259484
+          ],
+          "peak_voltage": [
+            -8.17756486853603e-18,
+            -0.037184769856143655
+          ],
+          "impedance_ohms": [
+            49.99999975000001,
+            0.0
+          ],
+          "coherency_number": 14,
+          "complex_relative_error": 3.622864708772476e-08,
+          "phase_error_deg": -4.105500964348082e-15
+        },
+        {
+          "order": 3,
+          "bin": 31,
+          "contributors": [
+            10,
+            10,
+            11
+          ],
+          "identity": "{13}[2x(Source.Source1)+(Source.Source2)],RFAmp",
+          "frequency_bounds_hz": [
+            3099999998.5,
+            3100000001.5
+          ],
+          "carrier_overlap": false,
+          "systemvue_power_w": 1.566652613051167e-05,
+          "rfmodel_power_w": 1.566652726566575e-05,
+          "signed_relative_error": 7.245729327642891e-08,
+          "passed": true,
+          "systemvue_amplitude": [
+            -0.0038232274159790375,
+            -0.0010244306985921102
+          ],
+          "rfmodel_amplitude": [
+            -0.0038232275544893904,
+            -0.0010244307357058474
+          ],
+          "peak_voltage": [
+            -0.0382322740642097,
+            -0.010244306960310335
+          ],
+          "impedance_ohms": [
+            49.99999975000001,
+            0.0
+          ],
+          "coherency_number": 13,
+          "complex_relative_error": 3.622864607760735e-08,
+          "phase_error_deg": -0.0
+        },
+        {
+          "order": 3,
+          "bin": 32,
+          "contributors": [
+            10,
+            11,
+            11
+          ],
+          "identity": "{15}[(Source.Source1)+2x(Source.Source2)],RFAmp",
+          "frequency_bounds_hz": [
+            3199999998.5,
+            3200000001.5
+          ],
+          "carrier_overlap": false,
+          "systemvue_power_w": 1.972298786023848e-06,
+          "rfmodel_power_w": 1.9722989289312798e-06,
+          "signed_relative_error": 7.245729327642891e-08,
+          "passed": true,
+          "systemvue_amplitude": [
+            -0.0007021927773097369,
+            0.001216233567008363
+          ],
+          "rfmodel_amplitude": [
+            -0.0007021928027492305,
+            0.0012162336110708584
+          ],
+          "peak_voltage": [
+            -0.00702192775554255,
+            0.012162335639677791
+          ],
+          "impedance_ohms": [
+            49.99999975000001,
+            0.0
+          ],
+          "coherency_number": 15,
+          "complex_relative_error": 3.622864605344563e-08,
+          "phase_error_deg": 0.0
+        },
+        {
+          "order": 3,
+          "bin": 33,
+          "contributors": [
+            11,
+            11,
+            11
+          ],
+          "identity": "{16}[3x(Source.Source2)],RFAmp",
+          "frequency_bounds_hz": [
+            3299999998.5,
+            3300000001.5
+          ],
+          "carrier_overlap": false,
+          "systemvue_power_w": 2.758863401529121e-08,
+          "rfmodel_power_w": 2.758863601428893e-08,
+          "signed_relative_error": 7.24572923882505e-08,
+          "passed": true,
+          "systemvue_amplitude": [
+            0.00011744921033214996,
+            0.00011744921033214996
+          ],
+          "rfmodel_amplitude": [
+            0.00011744921458717578,
+            0.00011744921458717578
+          ],
+          "peak_voltage": [
+            0.0011744921003852696,
+            0.0011744921003852696
+          ],
+          "impedance_ohms": [
+            49.99999975000001,
+            0.0
+          ],
+          "coherency_number": 16,
+          "complex_relative_error": 3.622864558822983e-08,
+          "phase_error_deg": 0.0
+        }
+      ]
+    },
+    {
+      "source_phases_deg": [
+        120,
+        90
+      ],
+      "profile": "sample",
+      "source_powers_dbm": [
+        -3,
+        -12
+      ],
+      "parameters": [
+        {
+          "parameter": "RFAmp/G",
+          "value": 100
+        },
+        {
+          "parameter": "RFAmp/NF",
+          "value": 1.9952623149688795
+        },
+        {
+          "parameter": "RFAmp/RISO",
+          "value": 10000000000
+        },
+        {
+          "parameter": "RFAmp/ZIN",
+          "value": 50
+        },
+        {
+          "parameter": "RFAmp/ZOUT",
+          "value": 50
+        },
+        {
+          "parameter": "RFAmp/OIP2",
+          "value": 10
+        },
+        {
+          "parameter": "RFAmp/OIP3",
+          "value": 1
+        },
+        {
+          "parameter": "RFAmp/OP1dB",
+          "value": 0.1
+        },
+        {
+          "parameter": "RFAmp/OPSAT",
+          "value": 0.1995262314968879
+        },
+        {
+          "parameter": "Source/R",
+          "value": 50
+        },
+        {
+          "parameter": "Out/ZO",
+          "value": 50
+        },
+        {
+          "parameter": "Source/Freq",
+          "value": [
+            1000000000,
+            1100000000
+          ]
+        },
+        {
+          "parameter": "Source/Enable",
+          "value": [
+            1,
+            1
+          ]
+        },
+        {
+          "parameter": "Source/SrcType",
+          "value": [
+            0,
+            0
+          ]
+        },
+        {
+          "parameter": "Source/EnablePN",
+          "value": [
+            0,
+            0
+          ]
+        },
+        {
+          "parameter": "Source/Pwr",
+          "value": [
+            0.0005011872336272722,
+            6.309573444801933e-05
+          ]
+        },
+        {
+          "parameter": "Source/MultiCarrier",
+          "value": [
+            0,
+            0
+          ]
+        },
+        {
+          "parameter": "Source/Phase",
+          "value": [
+            2.0943951023931953,
+            1.5707963267948966
+          ]
+        },
+        {
+          "parameter": "Source/BW",
+          "value": [
+            1000000,
+            1000000
+          ]
+        },
+        {
+          "parameter": "Source/Name",
+          "value": [
+            "Source1",
+            "Source2"
+          ]
+        }
+      ],
+      "raw_capture_sha256": "d89564b0dd15974b77d8aad1df1a68541e3b217447d748148bcd4e1b85afbb4b",
+      "run_started_utc": "2026-10-09T01:57:21.5969497Z",
+      "manager_messages": "",
+      "checks": [
+        {
+          "order": 1,
+          "bin": 10,
+          "contributors": [
+            10
+          ],
+          "identity": "{1}D[(Source.Source1)],Source,RFAmp",
+          "frequency_bounds_hz": [
+            999999999.5,
+            1000000000.5
+          ],
+          "carrier_overlap": false,
+          "systemvue_power_w": 0.04535181533224381,
+          "rfmodel_power_w": 0.04535181634984023,
+          "signed_relative_error": 2.2437832036814598e-08,
+          "passed": true,
+          "systemvue_amplitude": [
+            -0.10647982829184573,
+            0.18442847258268683
+          ],
+          "rfmodel_amplitude": [
+            -0.10647982948643395,
+            0.18442847465177437
+          ],
+          "peak_voltage": [
+            -1.0647982802564613,
+            1.8442847212161562
+          ],
+          "impedance_ohms": [
+            49.999999749999986,
+            0.0
+          ],
+          "coherency_number": 1,
+          "complex_relative_error": 1.1218915924224903e-08,
+          "phase_error_deg": -6.467049124604058e-15
+        },
+        {
+          "order": 1,
+          "bin": 11,
+          "contributors": [
+            11
+          ],
+          "identity": "{2}D[(Source.Source2)],Source,RFAmp",
+          "frequency_bounds_hz": [
+            1099999999.5,
+            1100000000.5
+          ],
+          "carrier_overlap": false,
+          "systemvue_power_w": 0.005709455279275808,
+          "rfmodel_power_w": 0.0057094554073836,
+          "signed_relative_error": 2.2437830926591573e-08,
+          "passed": true,
+          "systemvue_amplitude": [
+            4.626773013873785e-18,
+            0.0755609375224779
+          ],
+          "rfmodel_amplitude": [
+            4.62677306578116e-18,
+            0.07556093837018966
+          ],
+          "peak_voltage": [
+            4.626773002306852e-17,
+            0.7556093733357554
+          ],
+          "impedance_ohms": [
+            49.999999749999986,
+            0.0
+          ],
+          "coherency_number": 2,
+          "complex_relative_error": 1.1218915350878318e-08,
+          "phase_error_deg": -5.841518638142714e-31
+        },
+        {
+          "order": 2,
+          "bin": 1,
+          "contributors": [
+            -10,
+            11
+          ],
+          "identity": "{3}[-(Source.Source1)+(Source.Source2)],RFAmp",
+          "frequency_bounds_hz": [
+            99999999.0,
+            100000001.0
+          ],
+          "carrier_overlap": false,
+          "systemvue_power_w": 3.1379677191322196e-05,
+          "rfmodel_power_w": 3.137967870710821e-05,
+          "signed_relative_error": 4.830470379246776e-08,
+          "passed": true,
+          "systemvue_amplitude": [
+            0.00485126353577,
+            -0.002800878308286625
+          ],
+          "rfmodel_amplitude": [
+            0.004851263652939423,
+            -0.002800878375934422
+          ],
+          "peak_voltage": [
+            0.04851263523641842,
+            -0.028008783012844297
+          ],
+          "impedance_ohms": [
+            49.99999975000001,
+            0.0
+          ],
+          "coherency_number": 3,
+          "complex_relative_error": 2.4152351543221376e-08,
+          "phase_error_deg": 3.8414862435704846e-15
+        },
+        {
+          "order": 2,
+          "bin": 20,
+          "contributors": [
+            10,
+            10
+          ],
+          "identity": "{5}[2x(Source.Source1)],RFAmp",
+          "frequency_bounds_hz": [
+            1999999999.0,
+            2000000001.0
+          ],
+          "carrier_overlap": false,
+          "systemvue_power_w": 6.231440897400191e-05,
+          "rfmodel_power_w": 6.231441198408099e-05,
+          "signed_relative_error": 4.830470401451237e-08,
+          "passed": true,
+          "systemvue_amplitude": [
+            -0.003946973808311943,
+            -0.006836359172139906
+          ],
+          "rfmodel_amplitude": [
+            -0.003946973903640645,
+            -0.0068363593372540565
+          ],
+          "peak_voltage": [
+            -0.03946973798444509,
+            -0.06836359155049009
+          ],
+          "impedance_ohms": [
+            49.99999975000001,
+            0.0
+          ],
+          "coherency_number": 5,
+          "complex_relative_error": 2.415235183279237e-08,
+          "phase_error_deg": -1.6356129045304798e-14
+        },
+        {
+          "order": 2,
+          "bin": 21,
+          "contributors": [
+            10,
+            11
+          ],
+          "identity": "{4}[(Source.Source1)+(Source.Source2)],RFAmp",
+          "frequency_bounds_hz": [
+            2099999999.0,
+            2100000001.0
+          ],
+          "carrier_overlap": false,
+          "systemvue_power_w": 3.137967719132218e-05,
+          "rfmodel_power_w": 3.1379678707108194e-05,
+          "signed_relative_error": 4.830470379246776e-08,
+          "passed": true,
+          "systemvue_amplitude": [
+            -0.00485126353577,
+            -0.0028008783082866242
+          ],
+          "rfmodel_amplitude": [
+            -0.004851263652939423,
+            -0.0028008783759344213
+          ],
+          "peak_voltage": [
+            -0.04851263523641842,
+            -0.028008783012844287
+          ],
+          "impedance_ohms": [
+            49.99999975000001,
+            0.0
+          ],
+          "coherency_number": 4,
+          "complex_relative_error": 2.4152351543221383e-08,
+          "phase_error_deg": -3.841486243570485e-15
+        },
+        {
+          "order": 2,
+          "bin": 22,
+          "contributors": [
+            11,
+            11
+          ],
+          "identity": "{6}[2x(Source.Source2)],RFAmp",
+          "frequency_bounds_hz": [
+            2199999999.0,
+            2200000001.0
+          ],
+          "carrier_overlap": false,
+          "systemvue_power_w": 9.876168257513337e-07,
+          "rfmodel_power_w": 9.876168734578704e-07,
+          "signed_relative_error": 4.830470223815553e-08,
+          "passed": true,
+          "systemvue_amplitude": [
+            -0.000993789125393981,
+            1.2170406714411865e-19
+          ],
+          "rfmodel_amplitude": [
+            -0.0009937891493963247,
+            1.2170407008355799e-19
+          ],
+          "peak_voltage": [
+            -0.009937891229095082,
+            1.217040668398585e-18
+          ],
+          "impedance_ohms": [
+            49.99999975000001,
+            0.0
+          ],
+          "coherency_number": 6,
+          "complex_relative_error": 2.4152350955582902e-08,
+          "phase_error_deg": 1.3879661686571596e-30
+        },
+        {
+          "order": 3,
+          "bin": 9,
+          "contributors": [
+            -11,
+            10,
+            10
+          ],
+          "identity": "{8}[-(Source.Source2)+2x(Source.Source1)],RFAmp",
+          "frequency_bounds_hz": [
+            899999998.5,
+            900000001.5
+          ],
+          "carrier_overlap": false,
+          "systemvue_power_w": 1.566652613051165e-05,
+          "rfmodel_power_w": 1.566652726566575e-05,
+          "signed_relative_error": 7.245729460869654e-08,
+          "passed": true,
+          "systemvue_amplitude": [
+            0.00342781192568725,
+            -0.0019790481380269447
+          ],
+          "rfmodel_amplitude": [
+            0.0034278120498722362,
+            -0.0019790482097251805
+          ],
+          "peak_voltage": [
+            0.03427811917117721,
+            -0.019790481330793246
+          ],
+          "impedance_ohms": [
+            49.99999975000001,
+            0.0
+          ],
+          "coherency_number": 8,
+          "complex_relative_error": 3.62286464646527e-08,
+          "phase_error_deg": -5.43672240938499e-15
+        },
+        {
+          "order": 3,
+          "bin": 10,
+          "contributors": [
+            -11,
+            10,
+            11
+          ],
+          "identity": "{7}[-(Source.Source2)+(Source.Source1)+(Source.Source2)],RFAmp",
+          "frequency_bounds_hz": [
+            999999998.5,
+            1000000001.5
+          ],
+          "carrier_overlap": true,
+          "systemvue_power_w": 7.889195144095389e-06,
+          "rfmodel_power_w": 7.889195715725114e-06,
+          "signed_relative_error": 7.245729327642891e-08,
+          "passed": true,
+          "systemvue_amplitude": [
+            0.0014043855546194734,
+            -0.002432467134016725
+          ],
+          "rfmodel_amplitude": [
+            0.0014043856054984601,
+            -0.002432467222141716
+          ],
+          "peak_voltage": [
+            0.014043855511085097,
+            -0.024324671279355576
+          ],
+          "impedance_ohms": [
+            49.99999975000001,
+            0.0
+          ],
+          "coherency_number": 7,
+          "complex_relative_error": 3.6228645976244464e-08,
+          "phase_error_deg": -7.661382820316809e-15
+        },
+        {
+          "order": 3,
+          "bin": 10,
+          "contributors": [
+            -10,
+            10,
+            10
+          ],
+          "identity": "{11}[-(Source.Source1)+2x(Source.Source1)],RFAmp",
+          "frequency_bounds_hz": [
+            999999998.5,
+            1000000001.5
+          ],
+          "carrier_overlap": true,
+          "systemvue_power_w": 0.00012444364045511154,
+          "rfmodel_power_w": 0.00012444364947196106,
+          "signed_relative_error": 7.245729460869654e-08,
+          "passed": true,
+          "systemvue_amplitude": [
+            0.005577715492365836,
+            -0.009660886622941688
+          ],
+          "rfmodel_amplitude": [
+            0.005577715694438919,
+            -0.009660886972942538
+          ],
+          "peak_voltage": [
+            0.05577715478421548,
+            -0.09660886598789473
+          ],
+          "impedance_ohms": [
+            49.99999975000001,
+            0.0
+          ],
+          "coherency_number": 11,
+          "complex_relative_error": 3.622864675495702e-08,
+          "phase_error_deg": -7.716087617584074e-15
+        },
+        {
+          "order": 3,
+          "bin": 11,
+          "contributors": [
+            -11,
+            11,
+            11
+          ],
+          "identity": "{9}[-(Source.Source2)+2x(Source.Source2)],RFAmp",
+          "frequency_bounds_hz": [
+            1099999998.5,
+            1100000001.5
+          ],
+          "carrier_overlap": true,
+          "systemvue_power_w": 2.4829770613762063e-07,
+          "rfmodel_power_w": 2.482977241286003e-07,
+          "signed_relative_error": 7.245729327642891e-08,
+          "passed": true,
+          "systemvue_amplitude": [
+            -3.051175649616045e-20,
+            -0.00049829479842521
+          ],
+          "rfmodel_amplitude": [
+            -3.051175760156007e-20,
+            -0.0004982948164777558
+          ],
+          "peak_voltage": [
+            -3.0511756419881063e-19,
+            -0.00498294797179473
+          ],
+          "impedance_ohms": [
+            49.99999975000001,
+            0.0
+          ],
+          "coherency_number": 9,
+          "complex_relative_error": 3.62286458606784e-08,
+          "phase_error_deg": -0.0
+        },
+        {
+          "order": 3,
+          "bin": 11,
+          "contributors": [
+            -10,
+            10,
+            11
+          ],
+          "identity": "{10}[-(Source.Source1)+(Source.Source1)+(Source.Source2)],RFAmp",
+          "frequency_bounds_hz": [
+            1099999998.5,
+            1100000001.5
+          ],
+          "carrier_overlap": true,
+          "systemvue_power_w": 6.26661045220466e-05,
+          "rfmodel_power_w": 6.2666109062663e-05,
+          "signed_relative_error": 7.245729460869654e-08,
+          "passed": true,
+          "systemvue_amplitude": [
+            -4.847269935186453e-19,
+            -0.007916192552107775
+          ],
+          "rfmodel_amplitude": [
+            -4.84727011079648e-19,
+            -0.007916192838900717
+          ],
+          "peak_voltage": [
+            -4.847269923068279e-18,
+            -0.07916192532317294
+          ],
+          "impedance_ohms": [
+            49.99999975000001,
+            0.0
+          ],
+          "coherency_number": 10,
+          "complex_relative_error": 3.622864652895151e-08,
+          "phase_error_deg": 1.3939485772630242e-30
+        },
+        {
+          "order": 3,
+          "bin": 12,
+          "contributors": [
+            -10,
+            11,
+            11
+          ],
+          "identity": "{12}[-(Source.Source1)+2x(Source.Source2)],RFAmp",
+          "frequency_bounds_hz": [
+            1199999998.5,
+            1200000001.5
+          ],
+          "carrier_overlap": false,
+          "systemvue_power_w": 1.972298786023847e-06,
+          "rfmodel_power_w": 1.9722989289312785e-06,
+          "signed_relative_error": 7.245729327642891e-08,
+          "passed": true,
+          "systemvue_amplitude": [
+            -0.0007021927773097367,
+            -0.0012162335670083625
+          ],
+          "rfmodel_amplitude": [
+            -0.0007021928027492304,
+            -0.001216233611070858
+          ],
+          "peak_voltage": [
+            -0.0070219277555425485,
+            -0.012162335639677788
+          ],
+          "impedance_ohms": [
+            49.99999975000001,
+            0.0
+          ],
+          "coherency_number": 12,
+          "complex_relative_error": 3.622864609204623e-08,
+          "phase_error_deg": -3.8306914101584045e-15
+        },
+        {
+          "order": 3,
+          "bin": 30,
+          "contributors": [
+            10,
+            10,
+            10
+          ],
+          "identity": "{14}[3x(Source.Source1)],RFAmp",
+          "frequency_bounds_hz": [
+            2999999998.5,
+            3000000001.5
+          ],
+          "carrier_overlap": false,
+          "systemvue_power_w": 1.3827071161679051e-05,
+          "rfmodel_power_w": 1.3827072163551232e-05,
+          "signed_relative_error": 7.245729549687496e-08,
+          "passed": true,
+          "systemvue_amplitude": [
+            -0.0037184769949105577,
+            1.43107385557149e-18
+          ],
+          "rfmodel_amplitude": [
+            -0.0037184771296259484,
+            2.6020852139652106e-18
+          ],
+          "peak_voltage": [
+            -0.037184769856143655,
+            1.4310738519938055e-17
+          ],
+          "impedance_ohms": [
+            49.99999975000001,
+            0.0
+          ],
+          "coherency_number": 14,
+          "complex_relative_error": 3.622864708772476e-08,
+          "phase_error_deg": -1.8043409516422465e-14
+        },
+        {
+          "order": 3,
+          "bin": 31,
+          "contributors": [
+            10,
+            10,
+            11
+          ],
+          "identity": "{13}[2x(Source.Source1)+(Source.Source2)],RFAmp",
+          "frequency_bounds_hz": [
+            3099999998.5,
+            3100000001.5
+          ],
+          "carrier_overlap": false,
+          "systemvue_power_w": 1.5666526130511654e-05,
+          "rfmodel_power_w": 1.566652726566575e-05,
+          "signed_relative_error": 7.245729438665194e-08,
+          "passed": true,
+          "systemvue_amplitude": [
+            -0.00342781192568725,
+            0.001979048138026945
+          ],
+          "rfmodel_amplitude": [
+            -0.0034278120498722362,
+            0.001979048209725181
+          ],
+          "peak_voltage": [
+            -0.03427811917117721,
+            0.01979048133079325
+          ],
+          "impedance_ohms": [
+            49.99999975000001,
+            0.0
+          ],
+          "coherency_number": 13,
+          "complex_relative_error": 3.62286464646527e-08,
+          "phase_error_deg": -1.0873444818769977e-14
+        },
+        {
+          "order": 3,
+          "bin": 32,
+          "contributors": [
+            10,
+            11,
+            11
+          ],
+          "identity": "{15}[(Source.Source1)+2x(Source.Source2)],RFAmp",
+          "frequency_bounds_hz": [
+            3199999998.5,
+            3200000001.5
+          ],
+          "carrier_overlap": false,
+          "systemvue_power_w": 1.972298786023846e-06,
+          "rfmodel_power_w": 1.9722989289312785e-06,
+          "signed_relative_error": 7.245729372051812e-08,
+          "passed": true,
+          "systemvue_amplitude": [
+            -0.0007021927773097361,
+            0.0012162335670083625
+          ],
+          "rfmodel_amplitude": [
+            -0.0007021928027492301,
+            0.001216233611070858
+          ],
+          "peak_voltage": [
+            -0.0070219277555425424,
+            0.012162335639677788
+          ],
+          "impedance_ohms": [
+            49.99999975000001,
+            0.0
+          ],
+          "coherency_number": 15,
+          "complex_relative_error": 3.622864616924741e-08,
+          "phase_error_deg": 1.1492074230475218e-14
+        },
+        {
+          "order": 3,
+          "bin": 33,
+          "contributors": [
+            11,
+            11,
+            11
+          ],
+          "identity": "{16}[3x(Source.Source2)],RFAmp",
+          "frequency_bounds_hz": [
+            3299999998.5,
+            3300000001.5
+          ],
+          "carrier_overlap": false,
+          "systemvue_power_w": 2.7588634015291187e-08,
+          "rfmodel_power_w": 2.758863601428892e-08,
+          "signed_relative_error": 7.24572928323397e-08,
+          "passed": true,
+          "systemvue_amplitude": [
+            3.051175649616045e-20,
+            0.00016609826614173665
+          ],
+          "rfmodel_amplitude": [
+            3.051175760156007e-20,
+            0.00016609827215925192
+          ],
+          "peak_voltage": [
+            3.0511756419881067e-19,
+            0.0016609826572649101
+          ],
+          "impedance_ohms": [
+            49.99999975000001,
+            0.0
+          ],
+          "coherency_number": 16,
+          "complex_relative_error": 3.62286458606784e-08,
+          "phase_error_deg": 0.0
+        }
+      ]
+    },
+    {
+      "source_phases_deg": [
+        30,
+        -45
+      ],
+      "profile": "limiter",
+      "source_powers_dbm": [
+        3,
+        -6
+      ],
+      "parameters": [
+        {
+          "parameter": "RFAmp/G",
+          "value": 10
+        },
+        {
+          "parameter": "RFAmp/NF",
+          "value": 1.9952623149688795
+        },
+        {
+          "parameter": "RFAmp/RISO",
+          "value": 10000000000
+        },
+        {
+          "parameter": "RFAmp/ZIN",
+          "value": 50
+        },
+        {
+          "parameter": "RFAmp/ZOUT",
+          "value": 50
+        },
+        {
+          "parameter": "RFAmp/OIP2",
+          "value": 10
+        },
+        {
+          "parameter": "RFAmp/OIP3",
+          "value": 1
+        },
+        {
+          "parameter": "RFAmp/OP1dB",
+          "value": 0.03162277660168379
+        },
+        {
+          "parameter": "RFAmp/OPSAT",
+          "value": 0.06309573444801933
+        },
+        {
+          "parameter": "Source/R",
+          "value": 50
+        },
+        {
+          "parameter": "Out/ZO",
+          "value": 50
+        },
+        {
+          "parameter": "Source/Freq",
+          "value": [
+            1000000000,
+            1100000000
+          ]
+        },
+        {
+          "parameter": "Source/Enable",
+          "value": [
+            1,
+            1
+          ]
+        },
+        {
+          "parameter": "Source/SrcType",
+          "value": [
+            0,
+            0
+          ]
+        },
+        {
+          "parameter": "Source/EnablePN",
+          "value": [
+            0,
+            0
+          ]
+        },
+        {
+          "parameter": "Source/Pwr",
+          "value": [
+            0.0019952623149688794,
+            0.000251188643150958
+          ]
+        },
+        {
+          "parameter": "Source/MultiCarrier",
+          "value": [
+            0,
+            0
+          ]
+        },
+        {
+          "parameter": "Source/Phase",
+          "value": [
+            0.5235987755982988,
+            -0.7853981633974483
+          ]
+        },
+        {
+          "parameter": "Source/BW",
+          "value": [
+            1000000,
+            1000000
+          ]
+        },
+        {
+          "parameter": "Source/Name",
+          "value": [
+            "Source1",
+            "Source2"
+          ]
+        }
+      ],
+      "raw_capture_sha256": "062ebd81196956900c080e05d0e25a4c2e72508becff372c9282a2f14a67903f",
+      "run_started_utc": "2026-10-09T01:57:23.9102116Z",
+      "manager_messages": "",
+      "checks": [
+        {
+          "order": 1,
+          "bin": 10,
+          "contributors": [
+            10
+          ],
+          "identity": "{1}D[(Source.Source1)],Source,RFAmp",
+          "frequency_bounds_hz": [
+            999999999.5,
+            1000000000.5
+          ],
+          "carrier_overlap": false,
+          "systemvue_power_w": 0.017578963070654444,
+          "rfmodel_power_w": 0.017578963452664884,
+          "signed_relative_error": 2.1731113353240517e-08,
+          "passed": true,
+          "systemvue_amplitude": [
+            0.11482256878763353,
+            0.06629284099858453
+          ],
+          "rfmodel_amplitude": [
+            0.11482257003524467,
+            0.06629284171889314
+          ],
+          "peak_voltage": [
+            1.1482256850057713,
+            0.6629284083285243
+          ],
+          "impedance_ohms": [
+            49.999999750000015,
+            0.0
+          ],
+          "coherency_number": 1,
+          "complex_relative_error": 1.086555673446109e-08,
+          "phase_error_deg": 0.0
+        },
+        {
+          "order": 1,
+          "bin": 11,
+          "contributors": [
+            11
+          ],
+          "identity": "{2}D[(Source.Source2)],Source,RFAmp",
+          "frequency_bounds_hz": [
+            1099999999.5,
+            1100000000.5
+          ],
+          "carrier_overlap": false,
+          "systemvue_power_w": 0.002213060332263811,
+          "rfmodel_power_w": 0.0022130603803560763,
+          "signed_relative_error": 2.173111357528512e-08,
+          "passed": true,
+          "systemvue_amplitude": [
+            0.03326454818770135,
+            -0.03326454818770135
+          ],
+          "rfmodel_amplitude": [
+            0.03326454854913919,
+            -0.03326454854913919
+          ],
+          "peak_voltage": [
+            0.33264548104539987,
+            -0.33264548104539987
+          ],
+          "impedance_ohms": [
+            49.999999750000015,
+            0.0
+          ],
+          "coherency_number": 2,
+          "complex_relative_error": 1.086555680699111e-08,
+          "phase_error_deg": 0.0
+        },
+        {
+          "order": 2,
+          "bin": 1,
+          "contributors": [
+            -10,
+            11
+          ],
+          "identity": "{3}[-(Source.Source1)+(Source.Source2)],RFAmp",
+          "frequency_bounds_hz": [
+            99999999.0,
+            100000001.0
+          ],
+          "carrier_overlap": false,
+          "systemvue_power_w": 4.831420340272034e-06,
+          "rfmodel_power_w": 4.831420558290944e-06,
+          "signed_relative_error": 4.512522089328286e-08,
+          "passed": true,
+          "systemvue_amplitude": [
+            0.0005688969982499451,
+            -0.002123152501742217
+          ],
+          "rfmodel_amplitude": [
+            0.0005688970110857465,
+            -0.0021231525496460796
+          ],
+          "peak_voltage": [
+            0.005688969968277025,
+            -0.021231524964343353
+          ],
+          "impedance_ohms": [
+            49.99999974999997,
+            0.0
+          ],
+          "coherency_number": 3,
+          "complex_relative_error": 2.256261041985722e-08,
+          "phase_error_deg": 2.7298530055456435e-15
+        },
+        {
+          "order": 2,
+          "bin": 20,
+          "contributors": [
+            10,
+            10
+          ],
+          "identity": "{5}[2x(Source.Source1)],RFAmp",
+          "frequency_bounds_hz": [
+            1999999999.0,
+            2000000001.0
+          ],
+          "carrier_overlap": false,
+          "systemvue_power_w": 9.594333975248183e-06,
+          "rfmodel_power_w": 9.594334408194622e-06,
+          "signed_relative_error": 4.512522089328286e-08,
+          "passed": true,
+          "systemvue_amplitude": [
+            0.001548736095599262,
+            0.002682489605093771
+          ],
+          "rfmodel_amplitude": [
+            0.0015487361305427914,
+            0.002682489665617738
+          ],
+          "peak_voltage": [
+            0.015487360917274214,
+            0.02682489598387546
+          ],
+          "impedance_ohms": [
+            49.99999974999997,
+            0.0
+          ],
+          "coherency_number": 5,
+          "complex_relative_error": 2.2562610299929546e-08,
+          "phase_error_deg": -1.0420951192597797e-14
+        },
+        {
+          "order": 2,
+          "bin": 21,
+          "contributors": [
+            10,
+            11
+          ],
+          "identity": "{4}[(Source.Source1)+(Source.Source2)],RFAmp",
+          "frequency_bounds_hz": [
+            2099999999.0,
+            2100000001.0
+          ],
+          "carrier_overlap": false,
+          "systemvue_power_w": 4.831420340272034e-06,
+          "rfmodel_power_w": 4.831420558290944e-06,
+          "signed_relative_error": 4.512522089328286e-08,
+          "passed": true,
+          "systemvue_amplitude": [
+            0.002123152501742217,
+            -0.0005688969982499451
+          ],
+          "rfmodel_amplitude": [
+            0.0021231525496460796,
+            -0.0005688970110857465
+          ],
+          "peak_voltage": [
+            0.021231524964343353,
+            -0.005688969968277025
+          ],
+          "impedance_ohms": [
+            49.99999974999997,
+            0.0
+          ],
+          "coherency_number": 4,
+          "complex_relative_error": 2.256261041985722e-08,
+          "phase_error_deg": -2.7298530055456435e-15
+        },
+        {
+          "order": 2,
+          "bin": 22,
+          "contributors": [
+            11,
+            11
+          ],
+          "identity": "{6}[2x(Source.Source2)],RFAmp",
+          "frequency_bounds_hz": [
+            2199999999.0,
+            2200000001.0
+          ],
+          "carrier_overlap": false,
+          "systemvue_power_w": 1.520599460356921e-07,
+          "rfmodel_power_w": 1.520599528974308e-07,
+          "signed_relative_error": 4.512522133737207e-08,
+          "passed": true,
+          "systemvue_amplitude": [
+            0.0,
+            -0.00038994864538255815
+          ],
+          "rfmodel_amplitude": [
+            0.0,
+            -0.0003899486541808175
+          ],
+          "peak_voltage": [
+            0.0,
+            -0.0038994864440768644
+          ],
+          "impedance_ohms": [
+            49.99999974999997,
+            0.0
+          ],
+          "coherency_number": 6,
+          "complex_relative_error": 2.2562610436037533e-08,
+          "phase_error_deg": -0.0
+        },
+        {
+          "order": 3,
+          "bin": 9,
+          "contributors": [
+            -11,
+            10,
+            10
+          ],
+          "identity": "{8}[-(Source.Source2)+2x(Source.Source1)],RFAmp",
+          "frequency_bounds_hz": [
+            899999998.5,
+            900000001.5
+          ],
+          "carrier_overlap": false,
+          "systemvue_power_w": 9.46481729702735e-07,
+          "rfmodel_power_w": 9.464817937681014e-07,
+          "signed_relative_error": 6.768790594691154e-08,
+          "passed": true,
+          "systemvue_amplitude": [
+            0.0002517980416547453,
+            -0.0009397230847018552
+          ],
+          "rfmodel_amplitude": [
+            0.0002517980501765863,
+            -0.0009397231165057987
+          ],
+          "peak_voltage": [
+            0.0025179804102525016,
+            -0.009397230823525473
+          ],
+          "impedance_ohms": [
+            49.99999974999997,
+            0.0
+          ],
+          "coherency_number": 8,
+          "complex_relative_error": 3.384395255355504e-08,
+          "phase_error_deg": 3.083830900337059e-15
+        },
+        {
+          "order": 3,
+          "bin": 10,
+          "contributors": [
+            -11,
+            10,
+            11
+          ],
+          "identity": "{7}[-(Source.Source2)+(Source.Source1)+(Source.Source2)],RFAmp",
+          "frequency_bounds_hz": [
+            999999998.5,
+            1000000001.5
+          ],
+          "carrier_overlap": true,
+          "systemvue_power_w": 4.766199605286684e-07,
+          "rfmodel_power_w": 4.7661999279007566e-07,
+          "signed_relative_error": 6.768790639100075e-08,
+          "passed": true,
+          "systemvue_amplitude": [
+            -0.0005978837432114218,
+            -0.00034518834008721535
+          ],
+          "rfmodel_amplitude": [
+            -0.0005978837634461709,
+            -0.00034518835176975315
+          ],
+          "peak_voltage": [
+            -0.005978837417167123,
+            -0.003451883392242444
+          ],
+          "impedance_ohms": [
+            49.99999974999997,
+            0.0
+          ],
+          "coherency_number": 7,
+          "complex_relative_error": 3.384395262860377e-08,
+          "phase_error_deg": -3.896255368953951e-15
+        },
+        {
+          "order": 3,
+          "bin": 10,
+          "contributors": [
+            -10,
+            10,
+            10
+          ],
+          "identity": "{11}[-(Source.Source1)+2x(Source.Source1)],RFAmp",
+          "frequency_bounds_hz": [
+            999999998.5,
+            1000000001.5
+          ],
+          "carrier_overlap": true,
+          "systemvue_power_w": 7.518171615535578e-06,
+          "rfmodel_power_w": 7.5181721244248755e-06,
+          "signed_relative_error": 6.768790661304536e-08,
+          "passed": true,
+          "systemvue_amplitude": [
+            -0.0023745796915773713,
+            -0.0013709642241444134
+          ],
+          "rfmodel_amplitude": [
+            -0.002374579771942534,
+            -0.001370964270543262
+          ],
+          "peak_voltage": [
+            -0.023745796856409214,
+            -0.013709642207170027
+          ],
+          "impedance_ohms": [
+            49.99999974999997,
+            0.0
+          ],
+          "coherency_number": 11,
+          "complex_relative_error": 3.3843952765459115e-08,
+          "phase_error_deg": -0.0
+        },
+        {
+          "order": 3,
+          "bin": 11,
+          "contributors": [
+            -11,
+            11,
+            11
+          ],
+          "identity": "{9}[-(Source.Source2)+2x(Source.Source2)],RFAmp",
+          "frequency_bounds_hz": [
+            1099999998.5,
+            1100000001.5
+          ],
+          "carrier_overlap": true,
+          "systemvue_power_w": 1.5000724501946842e-08,
+          "rfmodel_power_w": 1.5000725517314465e-08,
+          "signed_relative_error": 6.768790550282233e-08,
+          "passed": true,
+          "systemvue_amplitude": [
+            -8.660463181016025e-05,
+            8.660463181016025e-05
+          ],
+          "rfmodel_amplitude": [
+            -8.660463474120328e-05,
+            8.660463474120328e-05
+          ],
+          "peak_voltage": [
+            -0.0008660463159364865,
+            0.0008660463159364865
+          ],
+          "impedance_ohms": [
+            49.99999974999997,
+            0.0
+          ],
+          "coherency_number": 9,
+          "complex_relative_error": 3.3843952390462746e-08,
+          "phase_error_deg": -0.0
+        },
+        {
+          "order": 3,
+          "bin": 11,
+          "contributors": [
+            -10,
+            10,
+            11
+          ],
+          "identity": "{10}[-(Source.Source1)+(Source.Source1)+(Source.Source2)],RFAmp",
+          "frequency_bounds_hz": [
+            1099999998.5,
+            1100000001.5
+          ],
+          "carrier_overlap": true,
+          "systemvue_power_w": 3.7859269188109384e-06,
+          "rfmodel_power_w": 3.7859271750724057e-06,
+          "signed_relative_error": 6.768790639100075e-08,
+          "passed": true,
+          "systemvue_amplitude": [
+            -0.0013758500860942186,
+            0.0013758500860942186
+          ],
+          "rfmodel_amplitude": [
+            -0.001375850132658424,
+            0.001375850132658424
+          ],
+          "peak_voltage": [
+            -0.013758500826545932,
+            0.013758500826545932
+          ],
+          "impedance_ohms": [
+            49.99999974999997,
+            0.0
+          ],
+          "coherency_number": 10,
+          "complex_relative_error": 3.384395281878064e-08,
+          "phase_error_deg": -0.0
+        },
+        {
+          "order": 3,
+          "bin": 12,
+          "contributors": [
+            -10,
+            11,
+            11
+          ],
+          "identity": "{12}[-(Source.Source1)+2x(Source.Source2)],RFAmp",
+          "frequency_bounds_hz": [
+            1199999998.5,
+            1200000001.5
+          ],
+          "carrier_overlap": false,
+          "systemvue_power_w": 1.191549901321671e-07,
+          "rfmodel_power_w": 1.1915499819751891e-07,
+          "signed_relative_error": 6.768790639100075e-08,
+          "passed": true,
+          "systemvue_amplitude": [
+            0.00017259417004360767,
+            0.0002989418716057109
+          ],
+          "rfmodel_amplitude": [
+            0.00017259417588487658,
+            0.00029894188172308544
+          ],
+          "peak_voltage": [
+            0.001725941696121222,
+            0.0029894187085835614
+          ],
+          "impedance_ohms": [
+            49.99999974999997,
+            0.0
+          ],
+          "coherency_number": 12,
+          "complex_relative_error": 3.384395262860377e-08,
+          "phase_error_deg": 3.896255368953951e-15
+        },
+        {
+          "order": 3,
+          "bin": 30,
+          "contributors": [
+            10,
+            10,
+            10
+          ],
+          "identity": "{14}[3x(Source.Source1)],RFAmp",
+          "frequency_bounds_hz": [
+            2999999998.5,
+            3000000001.5
+          ],
+          "carrier_overlap": false,
+          "systemvue_power_w": 8.353524017261756e-07,
+          "rfmodel_power_w": 8.353524582694309e-07,
+          "signed_relative_error": 6.768790661304536e-08,
+          "passed": true,
+          "systemvue_amplitude": [
+            -2.585973076299435e-19,
+            -0.0009139761494296092
+          ],
+          "rfmodel_amplitude": [
+            -3.7947076036992655e-19,
+            -0.0009139761803621749
+          ],
+          "peak_voltage": [
+            -2.5859730698345018e-18,
+            -0.009139761471446687
+          ],
+          "impedance_ohms": [
+            49.99999974999997,
+            0.0
+          ],
+          "coherency_number": 14,
+          "complex_relative_error": 3.3843952782019635e-08,
+          "phase_error_deg": -7.577372741793578e-15
+        },
+        {
+          "order": 3,
+          "bin": 31,
+          "contributors": [
+            10,
+            10,
+            11
+          ],
+          "identity": "{13}[2x(Source.Source1)+(Source.Source2)],RFAmp",
+          "frequency_bounds_hz": [
+            3099999998.5,
+            3100000001.5
+          ],
+          "carrier_overlap": false,
+          "systemvue_power_w": 9.464817297027351e-07,
+          "rfmodel_power_w": 9.464817937681014e-07,
+          "signed_relative_error": 6.768790594691154e-08,
+          "passed": true,
+          "systemvue_amplitude": [
+            -0.0009397230847018552,
+            -0.0002517980416547454
+          ],
+          "rfmodel_amplitude": [
+            -0.0009397231165057987,
+            -0.0002517980501765863
+          ],
+          "peak_voltage": [
+            -0.009397230823525473,
+            -0.002517980410252503
+          ],
+          "impedance_ohms": [
+            49.99999974999997,
+            0.0
+          ],
+          "coherency_number": 13,
+          "complex_relative_error": 3.3843952524711374e-08,
+          "phase_error_deg": -6.167661800674118e-15
+        },
+        {
+          "order": 3,
+          "bin": 32,
+          "contributors": [
+            10,
+            11,
+            11
+          ],
+          "identity": "{15}[(Source.Source1)+2x(Source.Source2)],RFAmp",
+          "frequency_bounds_hz": [
+            3199999998.5,
+            3200000001.5
+          ],
+          "carrier_overlap": false,
+          "systemvue_power_w": 1.191549901321671e-07,
+          "rfmodel_power_w": 1.1915499819751891e-07,
+          "signed_relative_error": 6.768790639100075e-08,
+          "passed": true,
+          "systemvue_amplitude": [
+            -0.00017259417004360767,
+            0.0002989418716057109
+          ],
+          "rfmodel_amplitude": [
+            -0.00017259417588487658,
+            0.00029894188172308544
+          ],
+          "peak_voltage": [
+            -0.001725941696121222,
+            0.0029894187085835614
+          ],
+          "impedance_ohms": [
+            49.99999974999997,
+            0.0
+          ],
+          "coherency_number": 15,
+          "complex_relative_error": 3.384395262860377e-08,
+          "phase_error_deg": -3.896255368953951e-15
+        },
+        {
+          "order": 3,
+          "bin": 33,
+          "contributors": [
+            11,
+            11,
+            11
+          ],
+          "identity": "{16}[3x(Source.Source2)],RFAmp",
+          "frequency_bounds_hz": [
+            3299999998.5,
+            3300000001.5
+          ],
+          "carrier_overlap": false,
+          "systemvue_power_w": 1.6667471668829823e-09,
+          "rfmodel_power_w": 1.666747279701608e-09,
+          "signed_relative_error": 6.768790616895615e-08,
+          "passed": true,
+          "systemvue_amplitude": [
+            2.886821060338675e-05,
+            2.886821060338675e-05
+          ],
+          "rfmodel_amplitude": [
+            2.8868211580401096e-05,
+            2.8868211580401096e-05
+          ],
+          "peak_voltage": [
+            0.00028868210531216216,
+            0.00028868210531216216
+          ],
+          "impedance_ohms": [
+            49.99999974999997,
+            0.0
+          ],
+          "coherency_number": 16,
+          "complex_relative_error": 3.384395246870641e-08,
+          "phase_error_deg": 0.0
+        }
+      ]
+    }
+  ],
+  "passed": true,
+  "captures_sha256": "646b1221be3379491106b2750ace3a405edfb7f58a8f9dc9a86c826f67691b66",
+  "library_sha256": "2ac9a480bb5971fc2639cfd63cf99389f8f61c8319a0ed63db14d74949440431"
+}

@@ -150,3 +150,7 @@ python scripts/reference/compare-amplifier-terms.py build-msvc/Release/rfmodel_c
 
 后续 [不等功率双音交叉验证](systemvue-unequal-two-tone.md) 用四组真实采集验证
 64 个来源项功率，最大相对差异 7.5001004e-8；无需改动本模型。
+
+后续 [复幅度验证](systemvue-amplifier-phase.md) 已通过 64 个单项复幅度点，
+包含非零相位、共轭和三阶符号。相干编号由参考报告保存；本级频率来源仍不足
+以定义完整的相干合并，不能把分阶复数和视为 SystemVue 节点总功率。

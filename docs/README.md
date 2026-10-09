@@ -19,3 +19,5 @@
 - [理想功分/合路器和正交耦合器](multiport-devices.md)
 
 - [SystemVue 不等功率双音交叉验证](systemvue-unequal-two-tone.md)
+
+- [SystemVue 复幅度与相干语义验证](systemvue-amplifier-phase.md)

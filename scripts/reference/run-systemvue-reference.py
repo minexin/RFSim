@@ -108,11 +108,17 @@ def main():
                         help="Sample/limiter profile with 1.0/1.1 GHz CW tones; defaults to equal powers")
     parser.add_argument("--compression-second-power-dbm", type=float,
                         help="Second CW tone power; requires --compression-two-tone")
+    parser.add_argument("--compression-first-phase-deg", type=float)
+    parser.add_argument("--compression-second-phase-deg", type=float)
     parser.add_argument("--compression-diagnostic", action="store_true",
                         help="Preserve the known over-P1dB warning for diagnosis, never compatibility acceptance")
     parser.add_argument("--open-copy", action="store_true",
                         help="Open via official script API only when no workspace is loaded")
     args = parser.parse_args()
+    for phase in (args.compression_first_phase_deg, args.compression_second_phase_deg):
+        if phase is not None and (not args.compression_two_tone or not math.isfinite(phase)
+                                  or not -360 <= phase <= 360):
+            parser.error("Source phase requires two-tone mode and a finite value from -360 to 360 degrees")
     if args.compression_second_power_dbm is not None and (
             not args.compression_two_tone or not math.isfinite(args.compression_second_power_dbm)
             or not -200 <= args.compression_second_power_dbm <= 30):
@@ -162,6 +168,10 @@ def main():
         command.append("-CompressionTwoTone")
     if args.compression_second_power_dbm is not None:
         command.extend(["-CompressionSecondPowerDbm", str(args.compression_second_power_dbm)])
+    for flag, phase in (("-CompressionFirstPhaseDeg", args.compression_first_phase_deg),
+                        ("-CompressionSecondPhaseDeg", args.compression_second_phase_deg)):
+        if phase is not None:
+            command.extend([flag, str(phase)])
     return execute(command, args.output_directory.resolve(), args.case, args.timeout,
                    compression_diagnostic=args.compression_diagnostic)
 

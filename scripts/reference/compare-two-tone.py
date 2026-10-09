@@ -44,9 +44,13 @@ def vector(capture, name):
     return data
 
 
-def inspect(capture, power_dbm, *, second_power_dbm=None, profile="sample"):
+def inspect(capture, power_dbm, *, second_power_dbm=None, profile="sample", phases_deg=(0, 0)):
     if profile not in ("sample", "limiter"):
         raise ValueError("Two-tone requires a controlled sample or limiter profile")
+    if (not isinstance(phases_deg, (list, tuple)) or len(phases_deg) != 2
+            or any(isinstance(p, bool) or not isinstance(p, (int, float)) or not math.isfinite(p)
+                   or not -360 <= p <= 360 for p in phases_deg)):
+        raise ValueError("Exactly two finite source phases from -360 to 360 degrees required")
     gain_db, output_p1db_dbm, _ = single.PROFILES[profile]
     maximum_input_dbm = output_p1db_dbm - gain_db + 1
     second = power_dbm if second_power_dbm is None else second_power_dbm
@@ -73,7 +77,7 @@ def inspect(capture, power_dbm, *, second_power_dbm=None, profile="sample"):
     expected = {**single.PARAMETERS, "Source/Pwr": [power, second_power],
                 "Source/Freq": [1e9, 1.1e9], "Source/Enable": [1, 1],
                 "Source/SrcType": [0, 0], "Source/EnablePN": [0, 0],
-                "Source/MultiCarrier": [0, 0], "Source/Phase": [0, 0],
+                "Source/MultiCarrier": [0, 0], "Source/Phase": [math.radians(p) for p in phases_deg],
                 "Source/BW": [1e6, 1e6], "Source/Name": ["Source1", "Source2"]}
 
     if profile == "limiter":
