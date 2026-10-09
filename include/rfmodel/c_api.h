@@ -242,6 +242,41 @@ typedef struct rfmodel_amplifier_drive {
 
 /* Local generating input bins, ascending signed order. Negative means conjugate;
  * only the first order entries are used, with zero padding to three entries. */
+typedef struct rfmodel_coherent_amplifier_term {
+    int order;
+    int input_indices[3];
+    rfmodel_coherent_component component;
+} rfmodel_coherent_amplifier_term;
+
+/* Matched shared compression plus limited quadratic/cubic RF products.
+ * Up to 4096 source-kind inputs, 64 active reduced groups, 4096 output terms.
+ * reduced_inputs is sorted like reduce_coherent_components; input_indices are
+ * signed ONE-BASED positions in that array, not frequency bins. Negative means
+ * conjugation; unused slots are zero. Terms sort by order/bin/input_indices.
+ * Direct groups persist, including zero waves. Generated bands sum contributor
+ * bandwidths; unique generated IDs exceed all inputs and reserved_group_max.
+ * IDs are local to this call. Compare explicit origins before combining calls.
+ * No DC, recursive nonlinear inputs, noise, AM/PM or reverse feedback.
+ * All buffers/scalars must not overlap. Counts and drive are always required.
+ * Empty input permits NULL arrays. ALL outputs remain unchanged on failure. */
+RFMODEL_API int rfmodel_coherent_amplifier_evaluate(double spacing_hz,
+                                                    const rfmodel_coherent_component *input,
+                                                    size_t input_count,
+                                                    double power_gain_db,
+                                                    double output_p1db_dbm,
+                                                    double output_saturation_dbm,
+                                                    double input_ip2_dbm,
+                                                    double input_ip3_dbm,
+                                                    double reference_ohms,
+                                                    uint64_t reserved_group_max,
+                                                    rfmodel_coherent_component *reduced_inputs,
+                                                    size_t reduced_capacity,
+                                                    size_t *reduced_count,
+                                                    rfmodel_coherent_amplifier_term *terms,
+                                                    size_t term_capacity,
+                                                    size_t *term_count,
+                                                    rfmodel_amplifier_drive *drive);
+
 typedef struct rfmodel_amplifier_term {
     int order;
     int index;

@@ -1,0 +1,128 @@
+{
+  "format": "rfmodel.coherent-system",
+  "version": 1,
+  "spacing_hz": 100000000.0,
+  "sources": [
+    {
+      "id": "rf"
+    }
+  ],
+  "inputs": [
+    {
+      "id": "positive",
+      "components": [
+        {
+          "source": "rf",
+          "bin": 10,
+          "bandwidth_hz": 1.0,
+          "amplitude": 0.01
+        }
+      ]
+    },
+    {
+      "id": "negative",
+      "components": [
+        {
+          "source": "rf",
+          "bin": 10,
+          "bandwidth_hz": 1.0,
+          "amplitude": -0.01
+        }
+      ]
+    }
+  ],
+  "stages": [
+    {
+      "id": "amp-positive",
+      "type": "limited_amplifier",
+      "input": "positive",
+      "output": "out-positive",
+      "power_gain_db": 20.0,
+      "output_p1db_dbm": 20.0,
+      "output_saturation_dbm": 23.0,
+      "input_ip2_dbm": 20.0,
+      "input_ip3_dbm": 10.0
+    },
+    {
+      "id": "amp-negative",
+      "type": "limited_amplifier",
+      "input": "negative",
+      "output": "out-negative",
+      "power_gain_db": 20.0,
+      "output_p1db_dbm": 20.0,
+      "output_saturation_dbm": 23.0,
+      "input_ip2_dbm": 20.0,
+      "input_ip3_dbm": 10.0
+    },
+    {
+      "id": "combine",
+      "type": "linear_network",
+      "network": {
+        "devices": [
+          {
+            "id": "sum",
+            "s": [
+              [
+                0,
+                0,
+                0.5
+              ],
+              [
+                0,
+                0,
+                0.5
+              ],
+              [
+                0.5,
+                0.5,
+                0
+              ]
+            ]
+          }
+        ],
+        "external_ports": [
+          [
+            "sum",
+            0
+          ],
+          [
+            "sum",
+            1
+          ],
+          [
+            "sum",
+            2
+          ]
+        ]
+      },
+      "inputs": [
+        {
+          "stream": "out-positive",
+          "port": [
+            "sum",
+            0
+          ]
+        },
+        {
+          "stream": "out-negative",
+          "port": [
+            "sum",
+            1
+          ]
+        }
+      ],
+      "outputs": [
+        {
+          "id": "result",
+          "port": [
+            "sum",
+            2
+          ]
+        }
+      ]
+    }
+  ],
+  "outputs": [
+    "result"
+  ]
+}

@@ -3,6 +3,34 @@
 
 int main(int argc, char **argv) {
     {
+        rfmodel_coherent_component input = {10, RFMODEL_SPECTRUM_SOURCE, 1., 7, {.01, 0.}};
+        rfmodel_coherent_component reduced;
+        rfmodel_coherent_amplifier_term terms[4];
+        rfmodel_amplifier_drive drive;
+        size_t reduced_count, term_count;
+        if (rfmodel_coherent_amplifier_evaluate(1e8,
+                                                &input,
+                                                1,
+                                                20.,
+                                                20.,
+                                                23.,
+                                                20.,
+                                                10.,
+                                                50.,
+                                                100,
+                                                &reduced,
+                                                1,
+                                                &reduced_count,
+                                                terms,
+                                                4,
+                                                &term_count,
+                                                &drive) != RFMODEL_OK ||
+            reduced_count != 1 || term_count != 4 || terms[1].component.coherence_group <= 100) {
+            return 30;
+        }
+    }
+
+    {
         const double anchor = pow(10., -2.9);
         rfmodel_coherent_component input[] = {{10, RFMODEL_SPECTRUM_SOURCE, 1., 7, {0., 0.}},
                                               {10, RFMODEL_SPECTRUM_SOURCE, 1., 8, {0., 0.}}};

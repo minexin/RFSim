@@ -28,6 +28,42 @@ class PythonApiTests(unittest.TestCase):
     def setUpClass(cls):
         cls.library = Library(LIBRARY_PATH)
 
+    def test_coherent_amplifier_origins_and_downstream(self):
+        parameters = dict(power_gain_db=20., output_p1db_dbm=20., output_saturation_dbm=23.,
+                          input_ip2_dbm=20., input_ip3_dbm=10.)
+        c = rfmodel.CoherentComponent(10, rfmodel.SpectrumKind.SOURCE, 1., 7, .01)
+        independent = c._replace(coherence_group=9, amplitude=.02j)
+        result = self.library.coherent_amplifier(1e8, [c, independent],
+                                                reserved_group_max=100, **parameters)
+        self.assertEqual(len(result.terms), 15)
+        self.assertEqual(result.inputs, (c, independent))
+        self.assertAlmostEqual(result.total_input_power_w, .0005)
+        products = [t for t in result.terms if t.order > 1]
+        self.assertEqual(len({t.component.coherence_group for t in products}), 13)
+        self.assertTrue(all(t.component.coherence_group > 100 for t in products))
+        self.assertEqual(sum(t.order == 3 and t.component.bin == 10 for t in products), 6)
+        before = self.library.reduce_coherent_components(1e8, [t.component for t in result.terms])
+        with self.library.network() as network:
+            network.add([[0, .5], [.5, 0]])
+            after = network.transmit_coherent(
+                1e8, [rfmodel.PortCoherentComponent(0, t.component) for t in result.terms], [0, 1], 1)
+        self.assertAlmostEqual(after.total_power_w, before.total_power_w / 4)
+        self.assertEqual([c.coherence_group for c in after.components],
+                         [c.coherence_group for c in before.components])
+        locked = self.library.coherent_amplifier(1e8, [c, c], **parameters)
+        self.assertEqual(len(locked.terms), 4)
+        self.assertEqual(locked.inputs[0].amplitude, .02)
+        cancelled = self.library.coherent_amplifier(
+            1e8, [c, c._replace(amplitude=-.01)], **parameters)
+        self.assertEqual(len(cancelled.terms), 1)
+        self.assertEqual(cancelled.terms[0].component.amplitude, 0.)
+        self.assertEqual(self.library.coherent_amplifier(1e8, [], **parameters).terms, ())
+        with self.assertRaises(RFModelError):
+            self.library.coherent_amplifier(1e8, [products[0].component], **parameters)
+        for reserved in (True, -1, 2**64):
+            with self.assertRaises((ValueError, TypeError)):
+                self.library.coherent_amplifier(1e8, [c], reserved_group_max=reserved, **parameters)
+
     def test_coherent_fundamental_compression_shared_drive(self):
         parameters = dict(power_gain_db=20., output_p1db_dbm=20., output_saturation_dbm=23.)
         anchor = 10**((20 - 20 + 1 - 30) / 10)

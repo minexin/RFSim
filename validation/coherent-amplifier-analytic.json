@@ -1,0 +1,95 @@
+{
+  "format": "rfmodel.analytic-validation",
+  "version": 1,
+  "generated_utc": "2026-10-09T05:22:02.176806+00:00",
+  "basis": "Analytic amplifier parity, independent-power addition and source registry; not a SystemVue multi-amplifier measurement",
+  "model": "examples/coherent-harmonic-combiner.json",
+  "model_sha256": "5999e2baf118304ae5969af2b2881f8d69c6f9fc39336f93e99e1235834cd237",
+  "native_library_sha256": "732cea6bf187d7d0cfc60827046964657da20a378732d9f756e2b871709cc484",
+  "cases": [
+    {
+      "source_relation": "same",
+      "checks": [
+        {
+          "bin": 10,
+          "observed_w": 0.0,
+          "expected_w": 0.0,
+          "absolute_tolerance_w": 1e-28,
+          "passed": true
+        },
+        {
+          "bin": 20,
+          "observed_w": 2.4999999999999994e-06,
+          "expected_w": 2.4999999999999998e-06,
+          "absolute_tolerance_w": 2.4999999999999998e-18,
+          "passed": true
+        },
+        {
+          "bin": 30,
+          "observed_w": 0.0,
+          "expected_w": 0.0,
+          "absolute_tolerance_w": 1e-28,
+          "passed": true
+        }
+      ],
+      "output_component_count": 4
+    },
+    {
+      "source_relation": "independent",
+      "checks": [
+        {
+          "bin": 10,
+          "observed_w": 0.004914490646046195,
+          "expected_w": 0.0049144906460461945,
+          "absolute_tolerance_w": 4.914490646046194e-15,
+          "passed": true
+        },
+        {
+          "bin": 20,
+          "observed_w": 1.2499999999999997e-06,
+          "expected_w": 1.2499999999999999e-06,
+          "absolute_tolerance_w": 1.2499999999999999e-18,
+          "passed": true
+        },
+        {
+          "bin": 30,
+          "observed_w": 5.5555555555555535e-08,
+          "expected_w": 5.555555555555556e-08,
+          "absolute_tolerance_w": 5.555555555555556e-20,
+          "passed": true
+        }
+      ],
+      "output_component_count": 8
+    }
+  ],
+  "local_msvc": {
+    "Debug": {
+      "ctest_total": 70,
+      "failures": 0,
+      "installed_consumers": 2
+    },
+    "Release": {
+      "ctest_total": 70,
+      "failures": 0,
+      "installed_consumers": 2
+    }
+  },
+  "wheel_tests": {
+    "python_api": 62,
+    "coherent_system_file": 17,
+    "python": "3.12.14"
+  },
+  "reference_replay": {
+    "report": "validation/systemvue-2023-coherent-amplifier.json",
+    "warning_free_cases": 21,
+    "rf_terms": 206,
+    "excluded_diagnostics": 2
+  },
+  "rerun": "python tests/test_coherent_system_file.py <native-library>",
+  "limitations": [
+    "Source-kind inputs; recursive nonlinear distortion inputs rejected",
+    "No nonlinear noise drive, AM/PM or reverse-loading solution",
+    "SystemVue single-amplifier origin spectra validated; parallel amplifier graph is analytic only",
+    "Existing RFPwrIn discrepancies and complete RF Design compatibility remain open"
+  ]
+}

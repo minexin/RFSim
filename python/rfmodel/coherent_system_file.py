@@ -1,4 +1,4 @@
-"""Feed-forward coherent RF graphs with networks, mixers and fundamental compression."""
+"""Feed-forward coherent RF graphs with networks, mixers and nonlinear amplifiers."""
 from . import CoherentMixerInput
 from .coherence_file import _encode_reduction
 from .coherent_network_file import (
@@ -38,6 +38,7 @@ def analyze_coherent_system(library, document, *, base_directory=None):
     # Native mixer batches provide local groups; this per-analysis registry aliases
     # repeated (RF, LO) identities across stages to their first allocated group.
     mixed_groups = {}
+    amplifier_groups = {}
 
     def new_ids(values):
         names = [_label(value) for value in values]
@@ -96,6 +97,46 @@ def analyze_coherent_system(library, document, *, base_directory=None):
                                      incident, ports, base_directory, declared_inputs=declared_ports)
             for output_name, port in zip(names, ports):
                 store(output_name, results[port])
+        elif kind == "limited_amplifier":
+            _object(stage, ("id", "type", "input", "output", "power_gain_db",
+                            "output_p1db_dbm", "output_saturation_dbm",
+                            "input_ip2_dbm", "input_ip3_dbm"))
+            names = new_ids([stage["output"]])
+            result = library.coherent_amplifier(
+                spacing, read_stream(stage["input"]), reference_ohms=reference,
+                reserved_group_max=highest_group,
+                **{key: _number(stage[key]) for key in (
+                    "power_gain_db", "output_p1db_dbm", "output_saturation_dbm",
+                    "input_ip2_dbm", "input_ip3_dbm")})
+            remapped, origins = [], []
+            for term in result.terms:
+                c = term.component
+                if term.order > 1:
+                    # Canonical signed multiset, independent of the local input
+                    # array and amplifier ID. Do not cancel conjugate pairs.
+                    contributors = []
+                    for index in term.input_indices:
+                        parent = result.inputs[abs(index) - 1]
+                        contributors.append((1 if index > 0 else -1, parent.bin,
+                                             int(parent.kind), parent.bandwidth_hz,
+                                             parent.coherence_group))
+                    key = tuple(sorted(contributors))
+                    highest_group = max(highest_group, c.coherence_group)
+                    shared = amplifier_groups.setdefault(key, c.coherence_group)
+                    c = c._replace(coherence_group=shared)
+                remapped.append(c)
+                origins.append({"order": term.order, "input_indices": list(term.input_indices),
+                                "bin": c.bin, "coherence_group": c.coherence_group})
+            store(names[0], library.reduce_coherent_components(spacing, remapped))
+            measurements.update(
+                input_power_w=result.total_input_power_w,
+                limited_input_power_w=result.limited_input_power_w,
+                reduced_inputs=[
+                    {"bin": c.bin, "kind": c.kind.name.lower(), "bandwidth_hz": c.bandwidth_hz,
+                     "coherence_group": c.coherence_group,
+                     "amplitude": [c.amplitude.real, c.amplitude.imag]}
+                    for c in result.inputs],
+                origins=origins)
         elif kind == "fundamental_compression":
             _object(stage, ("id", "type", "input", "output", "power_gain_db",
                             "output_p1db_dbm", "output_saturation_dbm"))
@@ -146,7 +187,7 @@ def analyze_coherent_system(library, document, *, base_directory=None):
                 store(output_name, library.reduce_coherent_components(spacing, remapped[offset:stop]))
                 offset = stop
         else:
-            raise ValueError("Expected linear_network, ideal_mixer_bank or fundamental_compression stage")
+            raise ValueError("Expected linear_network, ideal_mixer_bank, fundamental_compression or limited_amplifier stage")
         stage_results.append({"id": name, "type": kind, "outputs": names, **measurements})
 
     outputs = [_label(name) for name in _array(document["outputs"], 4096, nonempty=True)]

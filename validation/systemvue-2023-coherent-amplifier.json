@@ -1,0 +1,5692 @@
+{
+  "scope": "Direct, second- and third-order source-resolved complex RF spectra",
+  "limitation": "Single amplifier only; no noise-drive, total-spectrum or recursive nonlinear verdict",
+  "relative_tolerance": 1e-07,
+  "reports": [
+    {
+      "source_powers_dbm": [
+        -6.0,
+        -6.0
+      ],
+      "source_phases_deg": [
+        0.0,
+        90.0
+      ],
+      "same_frequency": false,
+      "locked": false,
+      "noise_enabled": true,
+      "raw_capture_sha256": "1fc46cbb2696b726b5a840e11ccbadafaf6add8edc824e9a279b8597ccf1095a",
+      "run_started_utc": "2026-10-09T04:46:57.6369018Z",
+      "systemvue_rfpwrin_w": 0.0005023772938714693,
+      "rfmodel_input_power_w": 0.000502377286301916,
+      "group_partition_passed": true,
+      "checks": [
+        {
+          "order": 1,
+          "input_indices": [
+            1
+          ],
+          "bin": 10,
+          "kind": "SOURCE",
+          "bandwidth_hz": 1.0,
+          "identity": "{1}D[(Source.Source1)],Source,RFAmp",
+          "native_group": 1,
+          "systemvue_amplitude": [
+            0.15161142294484248,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            0.15161142466803285,
+            0.0
+          ],
+          "systemvue_power_w": 0.022986023567359903,
+          "rfmodel_power_w": 0.022986024089870598,
+          "relative_complex_error": 1.1365834675937378e-08,
+          "relative_power_error": 2.2731669657716225e-08,
+          "passed": true
+        },
+        {
+          "order": 1,
+          "input_indices": [
+            2
+          ],
+          "bin": 11,
+          "kind": "SOURCE",
+          "bandwidth_hz": 1.0,
+          "identity": "{2}D[(Source.Source2)],Source,RFAmp",
+          "native_group": 2,
+          "systemvue_amplitude": [
+            9.283522191178843e-18,
+            0.15161142294484248
+          ],
+          "rfmodel_amplitude": [
+            9.283522296693824e-18,
+            0.15161142466803285
+          ],
+          "systemvue_power_w": 0.022986023567359903,
+          "rfmodel_power_w": 0.022986024089870598,
+          "relative_complex_error": 1.1365834675937378e-08,
+          "relative_power_error": 2.2731669657716225e-08,
+          "passed": true
+        },
+        {
+          "order": 2,
+          "input_indices": [
+            -1,
+            2
+          ],
+          "bin": 1,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 2.0,
+          "identity": "{3}[-(Source.Source1)+(Source.Source2)],RFAmp",
+          "native_group": 3,
+          "systemvue_amplitude": [
+            4.85842336288696e-19,
+            0.007934407481846328
+          ],
+          "rfmodel_amplitude": [
+            4.858423482568989e-19,
+            0.007934407677301917
+          ],
+          "systemvue_power_w": 6.295482208797898e-05,
+          "rfmodel_power_w": 6.29548251896276e-05,
+          "relative_complex_error": 2.4633923788364735e-08,
+          "relative_power_error": 4.926784824554886e-08,
+          "passed": true
+        },
+        {
+          "order": 2,
+          "input_indices": [
+            1,
+            1
+          ],
+          "bin": 20,
+          "kind": "HARMONIC",
+          "bandwidth_hz": 2.0,
+          "identity": "{5}[2x(Source.Source1)],RFAmp",
+          "native_group": 4,
+          "systemvue_amplitude": [
+            0.003967203740923164,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            0.0039672038386509585,
+            0.0
+          ],
+          "systemvue_power_w": 1.5738705521994746e-05,
+          "rfmodel_power_w": 1.57387062974069e-05,
+          "relative_complex_error": 2.4633923788364735e-08,
+          "relative_power_error": 4.926784824554886e-08,
+          "passed": true
+        },
+        {
+          "order": 2,
+          "input_indices": [
+            1,
+            2
+          ],
+          "bin": 21,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 2.0,
+          "identity": "{4}[(Source.Source1)+(Source.Source2)],RFAmp",
+          "native_group": 5,
+          "systemvue_amplitude": [
+            4.85842336288696e-19,
+            0.007934407481846328
+          ],
+          "rfmodel_amplitude": [
+            4.858423482568989e-19,
+            0.007934407677301917
+          ],
+          "systemvue_power_w": 6.295482208797898e-05,
+          "rfmodel_power_w": 6.29548251896276e-05,
+          "relative_complex_error": 2.4633923788364735e-08,
+          "relative_power_error": 4.926784824554886e-08,
+          "passed": true
+        },
+        {
+          "order": 2,
+          "input_indices": [
+            2,
+            2
+          ],
+          "bin": 22,
+          "kind": "HARMONIC",
+          "bandwidth_hz": 2.0,
+          "identity": "{6}[2x(Source.Source2)],RFAmp",
+          "native_group": 6,
+          "systemvue_amplitude": [
+            -0.003967203740923164,
+            4.85842336288696e-19
+          ],
+          "rfmodel_amplitude": [
+            -0.0039672038386509585,
+            4.858423482568989e-19
+          ],
+          "systemvue_power_w": 1.5738705521994746e-05,
+          "rfmodel_power_w": 1.57387062974069e-05,
+          "relative_complex_error": 2.4633923788364735e-08,
+          "relative_power_error": 4.926784824554886e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            -2,
+            1,
+            1
+          ],
+          "bin": 9,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{8}[-(Source.Source2)+2x(Source.Source1)],RFAmp",
+          "native_group": 7,
+          "systemvue_amplitude": [
+            -2.4336191085569998e-19,
+            0.003974401615635432
+          ],
+          "rfmodel_amplitude": [
+            -2.4336191984816724e-19,
+            0.003974401762493566
+          ],
+          "systemvue_power_w": 1.5795868202365534e-05,
+          "rfmodel_power_w": 1.5795869369711966e-05,
+          "relative_complex_error": 3.695100504757434e-08,
+          "relative_power_error": 7.39020113993405e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            -2,
+            1,
+            2
+          ],
+          "bin": 10,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{7}[-(Source.Source2)+(Source.Source1)+(Source.Source2)],RFAmp",
+          "native_group": 8,
+          "systemvue_amplitude": [
+            -0.007948803231270864,
+            -6.809190618833852e-35
+          ],
+          "rfmodel_amplitude": [
+            -0.007948803524987133,
+            9.62964972193618e-35
+          ],
+          "systemvue_power_w": 6.318347280946214e-05,
+          "rfmodel_power_w": 6.318347747884786e-05,
+          "relative_complex_error": 3.695100504757434e-08,
+          "relative_power_error": 7.39020113993405e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            -1,
+            1,
+            1
+          ],
+          "bin": 10,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{11}[-(Source.Source1)+2x(Source.Source1)],RFAmp",
+          "native_group": 9,
+          "systemvue_amplitude": [
+            -0.003974401615635432,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            -0.003974401762493566,
+            0.0
+          ],
+          "systemvue_power_w": 1.5795868202365534e-05,
+          "rfmodel_power_w": 1.5795869369711966e-05,
+          "relative_complex_error": 3.695100504757434e-08,
+          "relative_power_error": 7.39020113993405e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            -2,
+            2,
+            2
+          ],
+          "bin": 11,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{9}[-(Source.Source2)+2x(Source.Source2)],RFAmp",
+          "native_group": 10,
+          "systemvue_amplitude": [
+            -2.4336191085569998e-19,
+            -0.003974401615635432
+          ],
+          "rfmodel_amplitude": [
+            -2.433619198481673e-19,
+            -0.003974401762493566
+          ],
+          "systemvue_power_w": 1.5795868202365534e-05,
+          "rfmodel_power_w": 1.5795869369711966e-05,
+          "relative_complex_error": 3.695100504757434e-08,
+          "relative_power_error": 7.39020113993405e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            -1,
+            1,
+            2
+          ],
+          "bin": 11,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{10}[-(Source.Source1)+(Source.Source1)+(Source.Source2)],RFAmp",
+          "native_group": 11,
+          "systemvue_amplitude": [
+            -4.8672382171139995e-19,
+            -0.007948803231270864
+          ],
+          "rfmodel_amplitude": [
+            -4.867238396963346e-19,
+            -0.007948803524987133
+          ],
+          "systemvue_power_w": 6.318347280946214e-05,
+          "rfmodel_power_w": 6.318347747884786e-05,
+          "relative_complex_error": 3.695100504757434e-08,
+          "relative_power_error": 7.39020113993405e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            -1,
+            2,
+            2
+          ],
+          "bin": 12,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{12}[-(Source.Source1)+2x(Source.Source2)],RFAmp",
+          "native_group": 12,
+          "systemvue_amplitude": [
+            0.003974401615635432,
+            -4.8672382171139995e-19
+          ],
+          "rfmodel_amplitude": [
+            0.003974401762493566,
+            -4.867238396963346e-19
+          ],
+          "systemvue_power_w": 1.5795868202365534e-05,
+          "rfmodel_power_w": 1.5795869369711966e-05,
+          "relative_complex_error": 3.695100504757434e-08,
+          "relative_power_error": 7.39020113993405e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            1,
+            1,
+            1
+          ],
+          "bin": 30,
+          "kind": "HARMONIC",
+          "bandwidth_hz": 3.0,
+          "identity": "{14}[3x(Source.Source1)],RFAmp",
+          "native_group": 13,
+          "systemvue_amplitude": [
+            -0.0013248005385451437,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            -0.0013248005874978552,
+            0.0
+          ],
+          "systemvue_power_w": 1.7550964669295024e-06,
+          "rfmodel_power_w": 1.7550965966346622e-06,
+          "relative_complex_error": 3.695100510213362e-08,
+          "relative_power_error": 7.39020118434297e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            1,
+            1,
+            2
+          ],
+          "bin": 31,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{13}[2x(Source.Source1)+(Source.Source2)],RFAmp",
+          "native_group": 14,
+          "systemvue_amplitude": [
+            -2.4336191085569998e-19,
+            -0.003974401615635432
+          ],
+          "rfmodel_amplitude": [
+            -2.433619198481673e-19,
+            -0.003974401762493566
+          ],
+          "systemvue_power_w": 1.5795868202365534e-05,
+          "rfmodel_power_w": 1.5795869369711966e-05,
+          "relative_complex_error": 3.695100504757434e-08,
+          "relative_power_error": 7.39020113993405e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            1,
+            2,
+            2
+          ],
+          "bin": 32,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{15}[(Source.Source1)+2x(Source.Source2)],RFAmp",
+          "native_group": 15,
+          "systemvue_amplitude": [
+            0.003974401615635432,
+            -4.8672382171139995e-19
+          ],
+          "rfmodel_amplitude": [
+            0.003974401762493566,
+            -4.867238396963346e-19
+          ],
+          "systemvue_power_w": 1.5795868202365534e-05,
+          "rfmodel_power_w": 1.5795869369711966e-05,
+          "relative_complex_error": 3.695100504757434e-08,
+          "relative_power_error": 7.39020113993405e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            2,
+            2,
+            2
+          ],
+          "bin": 33,
+          "kind": "HARMONIC",
+          "bandwidth_hz": 3.0,
+          "identity": "{16}[3x(Source.Source2)],RFAmp",
+          "native_group": 16,
+          "systemvue_amplitude": [
+            2.4336191085569998e-19,
+            0.0013248005385451437
+          ],
+          "rfmodel_amplitude": [
+            2.4336191984816724e-19,
+            0.0013248005874978552
+          ],
+          "systemvue_power_w": 1.7550964669295024e-06,
+          "rfmodel_power_w": 1.7550965966346622e-06,
+          "relative_complex_error": 3.695100510213362e-08,
+          "relative_power_error": 7.39020118434297e-08,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "source_powers_dbm": [
+        -6.0,
+        -6.0
+      ],
+      "source_phases_deg": [
+        0.0,
+        0.0
+      ],
+      "same_frequency": true,
+      "locked": false,
+      "noise_enabled": true,
+      "raw_capture_sha256": "71100aa52452dc937daa13f905e8dcbd79130fa0a6b37bf1ad20b9392eca3d05",
+      "run_started_utc": "2026-10-09T04:47:52.2402024Z",
+      "systemvue_rfpwrin_w": 0.0005023772922699149,
+      "rfmodel_input_power_w": 0.000502377286301916,
+      "group_partition_passed": true,
+      "checks": [
+        {
+          "order": 1,
+          "input_indices": [
+            1
+          ],
+          "bin": 10,
+          "kind": "SOURCE",
+          "bandwidth_hz": 1.0,
+          "identity": "{1}D[(Source.Source1)],Source,RFAmp",
+          "native_group": 1,
+          "systemvue_amplitude": [
+            0.15161142294484248,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            0.15161142466803285,
+            0.0
+          ],
+          "systemvue_power_w": 0.022986023567359903,
+          "rfmodel_power_w": 0.022986024089870598,
+          "relative_complex_error": 1.1365834675937378e-08,
+          "relative_power_error": 2.2731669657716225e-08,
+          "passed": true
+        },
+        {
+          "order": 1,
+          "input_indices": [
+            2
+          ],
+          "bin": 10,
+          "kind": "SOURCE",
+          "bandwidth_hz": 1.0,
+          "identity": "{2}D[(Source.Source2)],Source,RFAmp",
+          "native_group": 2,
+          "systemvue_amplitude": [
+            0.15161142294484248,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            0.15161142466803285,
+            0.0
+          ],
+          "systemvue_power_w": 0.022986023567359903,
+          "rfmodel_power_w": 0.022986024089870598,
+          "relative_complex_error": 1.1365834675937378e-08,
+          "relative_power_error": 2.2731669657716225e-08,
+          "passed": true
+        },
+        {
+          "order": 2,
+          "input_indices": [
+            1,
+            1
+          ],
+          "bin": 20,
+          "kind": "HARMONIC",
+          "bandwidth_hz": 2.0,
+          "identity": "{4}[2x(Source.Source1)],RFAmp",
+          "native_group": 3,
+          "systemvue_amplitude": [
+            0.003967203740923164,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            0.0039672038386509585,
+            0.0
+          ],
+          "systemvue_power_w": 1.5738705521994746e-05,
+          "rfmodel_power_w": 1.57387062974069e-05,
+          "relative_complex_error": 2.4633923788364735e-08,
+          "relative_power_error": 4.926784824554886e-08,
+          "passed": true
+        },
+        {
+          "order": 2,
+          "input_indices": [
+            1,
+            2
+          ],
+          "bin": 20,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 2.0,
+          "identity": "{3}[(Source.Source1)+(Source.Source2)],RFAmp",
+          "native_group": 4,
+          "systemvue_amplitude": [
+            0.007934407481846328,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            0.007934407677301917,
+            0.0
+          ],
+          "systemvue_power_w": 6.295482208797898e-05,
+          "rfmodel_power_w": 6.29548251896276e-05,
+          "relative_complex_error": 2.4633923788364735e-08,
+          "relative_power_error": 4.926784824554886e-08,
+          "passed": true
+        },
+        {
+          "order": 2,
+          "input_indices": [
+            2,
+            2
+          ],
+          "bin": 20,
+          "kind": "HARMONIC",
+          "bandwidth_hz": 2.0,
+          "identity": "{5}[2x(Source.Source2)],RFAmp",
+          "native_group": 5,
+          "systemvue_amplitude": [
+            0.003967203740923164,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            0.0039672038386509585,
+            0.0
+          ],
+          "systemvue_power_w": 1.5738705521994746e-05,
+          "rfmodel_power_w": 1.57387062974069e-05,
+          "relative_complex_error": 2.4633923788364735e-08,
+          "relative_power_error": 4.926784824554886e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            -2,
+            1,
+            1
+          ],
+          "bin": 10,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{7}[-(Source.Source2)+2x(Source.Source1)],RFAmp",
+          "native_group": 6,
+          "systemvue_amplitude": [
+            -0.003974401615635432,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            -0.003974401762493566,
+            0.0
+          ],
+          "systemvue_power_w": 1.5795868202365534e-05,
+          "rfmodel_power_w": 1.5795869369711966e-05,
+          "relative_complex_error": 3.695100504757434e-08,
+          "relative_power_error": 7.39020113993405e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            -2,
+            1,
+            2
+          ],
+          "bin": 10,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{6}[-(Source.Source2)+(Source.Source1)+(Source.Source2)],RFAmp",
+          "native_group": 7,
+          "systemvue_amplitude": [
+            -0.007948803231270864,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            -0.007948803524987133,
+            0.0
+          ],
+          "systemvue_power_w": 6.318347280946214e-05,
+          "rfmodel_power_w": 6.318347747884786e-05,
+          "relative_complex_error": 3.695100504757434e-08,
+          "relative_power_error": 7.39020113993405e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            -2,
+            2,
+            2
+          ],
+          "bin": 10,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{8}[-(Source.Source2)+2x(Source.Source2)],RFAmp",
+          "native_group": 8,
+          "systemvue_amplitude": [
+            -0.003974401615635432,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            -0.003974401762493566,
+            0.0
+          ],
+          "systemvue_power_w": 1.5795868202365534e-05,
+          "rfmodel_power_w": 1.5795869369711966e-05,
+          "relative_complex_error": 3.695100504757434e-08,
+          "relative_power_error": 7.39020113993405e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            -1,
+            1,
+            1
+          ],
+          "bin": 10,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{10}[-(Source.Source1)+2x(Source.Source1)],RFAmp",
+          "native_group": 9,
+          "systemvue_amplitude": [
+            -0.003974401615635432,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            -0.003974401762493566,
+            0.0
+          ],
+          "systemvue_power_w": 1.5795868202365534e-05,
+          "rfmodel_power_w": 1.5795869369711966e-05,
+          "relative_complex_error": 3.695100504757434e-08,
+          "relative_power_error": 7.39020113993405e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            -1,
+            1,
+            2
+          ],
+          "bin": 10,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{9}[-(Source.Source1)+(Source.Source1)+(Source.Source2)],RFAmp",
+          "native_group": 10,
+          "systemvue_amplitude": [
+            -0.007948803231270864,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            -0.007948803524987133,
+            0.0
+          ],
+          "systemvue_power_w": 6.318347280946214e-05,
+          "rfmodel_power_w": 6.318347747884786e-05,
+          "relative_complex_error": 3.695100504757434e-08,
+          "relative_power_error": 7.39020113993405e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            -1,
+            2,
+            2
+          ],
+          "bin": 10,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{11}[-(Source.Source1)+2x(Source.Source2)],RFAmp",
+          "native_group": 11,
+          "systemvue_amplitude": [
+            -0.003974401615635432,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            -0.003974401762493566,
+            0.0
+          ],
+          "systemvue_power_w": 1.5795868202365534e-05,
+          "rfmodel_power_w": 1.5795869369711966e-05,
+          "relative_complex_error": 3.695100504757434e-08,
+          "relative_power_error": 7.39020113993405e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            1,
+            1,
+            1
+          ],
+          "bin": 30,
+          "kind": "HARMONIC",
+          "bandwidth_hz": 3.0,
+          "identity": "{13}[3x(Source.Source1)],RFAmp",
+          "native_group": 12,
+          "systemvue_amplitude": [
+            -0.0013248005385451437,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            -0.0013248005874978552,
+            0.0
+          ],
+          "systemvue_power_w": 1.7550964669295024e-06,
+          "rfmodel_power_w": 1.7550965966346622e-06,
+          "relative_complex_error": 3.695100510213362e-08,
+          "relative_power_error": 7.39020118434297e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            1,
+            1,
+            2
+          ],
+          "bin": 30,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{12}[2x(Source.Source1)+(Source.Source2)],RFAmp",
+          "native_group": 13,
+          "systemvue_amplitude": [
+            -0.003974401615635432,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            -0.003974401762493566,
+            0.0
+          ],
+          "systemvue_power_w": 1.5795868202365534e-05,
+          "rfmodel_power_w": 1.5795869369711966e-05,
+          "relative_complex_error": 3.695100504757434e-08,
+          "relative_power_error": 7.39020113993405e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            1,
+            2,
+            2
+          ],
+          "bin": 30,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{14}[(Source.Source1)+2x(Source.Source2)],RFAmp",
+          "native_group": 14,
+          "systemvue_amplitude": [
+            -0.003974401615635432,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            -0.003974401762493566,
+            0.0
+          ],
+          "systemvue_power_w": 1.5795868202365534e-05,
+          "rfmodel_power_w": 1.5795869369711966e-05,
+          "relative_complex_error": 3.695100504757434e-08,
+          "relative_power_error": 7.39020113993405e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            2,
+            2,
+            2
+          ],
+          "bin": 30,
+          "kind": "HARMONIC",
+          "bandwidth_hz": 3.0,
+          "identity": "{15}[3x(Source.Source2)],RFAmp",
+          "native_group": 15,
+          "systemvue_amplitude": [
+            -0.0013248005385451437,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            -0.0013248005874978552,
+            0.0
+          ],
+          "systemvue_power_w": 1.7550964669295024e-06,
+          "rfmodel_power_w": 1.7550965966346622e-06,
+          "relative_complex_error": 3.695100510213362e-08,
+          "relative_power_error": 7.39020118434297e-08,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "source_powers_dbm": [
+        -6.0,
+        -6.0
+      ],
+      "source_phases_deg": [
+        0.0,
+        180.0
+      ],
+      "same_frequency": true,
+      "locked": false,
+      "noise_enabled": true,
+      "raw_capture_sha256": "566e9c66c85e8b09f37807ca5a012880e254684ef2e3d08e04d0927601841671",
+      "run_started_utc": "2026-10-09T04:47:58.2932050Z",
+      "systemvue_rfpwrin_w": 0.0005023772922699149,
+      "rfmodel_input_power_w": 0.000502377286301916,
+      "group_partition_passed": true,
+      "checks": [
+        {
+          "order": 1,
+          "input_indices": [
+            1
+          ],
+          "bin": 10,
+          "kind": "SOURCE",
+          "bandwidth_hz": 1.0,
+          "identity": "{1}D[(Source.Source1)],Source,RFAmp",
+          "native_group": 1,
+          "systemvue_amplitude": [
+            0.15161142294484248,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            0.15161142466803285,
+            0.0
+          ],
+          "systemvue_power_w": 0.022986023567359903,
+          "rfmodel_power_w": 0.022986024089870598,
+          "relative_complex_error": 1.1365834675937378e-08,
+          "relative_power_error": 2.2731669657716225e-08,
+          "passed": true
+        },
+        {
+          "order": 1,
+          "input_indices": [
+            2
+          ],
+          "bin": 10,
+          "kind": "SOURCE",
+          "bandwidth_hz": 1.0,
+          "identity": "{2}D[(Source.Source2)],Source,RFAmp",
+          "native_group": 2,
+          "systemvue_amplitude": [
+            -0.15161142294484248,
+            1.8567044382357685e-17
+          ],
+          "rfmodel_amplitude": [
+            -0.15161142466803285,
+            1.8567044593387647e-17
+          ],
+          "systemvue_power_w": 0.022986023567359903,
+          "rfmodel_power_w": 0.022986024089870598,
+          "relative_complex_error": 1.1365834675937378e-08,
+          "relative_power_error": 2.2731669657716225e-08,
+          "passed": true
+        },
+        {
+          "order": 2,
+          "input_indices": [
+            1,
+            1
+          ],
+          "bin": 20,
+          "kind": "HARMONIC",
+          "bandwidth_hz": 2.0,
+          "identity": "{4}[2x(Source.Source1)],RFAmp",
+          "native_group": 3,
+          "systemvue_amplitude": [
+            0.003967203740923164,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            0.0039672038386509585,
+            0.0
+          ],
+          "systemvue_power_w": 1.5738705521994746e-05,
+          "rfmodel_power_w": 1.57387062974069e-05,
+          "relative_complex_error": 2.4633923788364735e-08,
+          "relative_power_error": 4.926784824554886e-08,
+          "passed": true
+        },
+        {
+          "order": 2,
+          "input_indices": [
+            1,
+            2
+          ],
+          "bin": 20,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 2.0,
+          "identity": "{3}[(Source.Source1)+(Source.Source2)],RFAmp",
+          "native_group": 4,
+          "systemvue_amplitude": [
+            -0.007934407481846328,
+            9.71684672577392e-19
+          ],
+          "rfmodel_amplitude": [
+            -0.007934407677301917,
+            9.716846965137979e-19
+          ],
+          "systemvue_power_w": 6.295482208797898e-05,
+          "rfmodel_power_w": 6.29548251896276e-05,
+          "relative_complex_error": 2.4633923788364735e-08,
+          "relative_power_error": 4.926784824554886e-08,
+          "passed": true
+        },
+        {
+          "order": 2,
+          "input_indices": [
+            2,
+            2
+          ],
+          "bin": 20,
+          "kind": "HARMONIC",
+          "bandwidth_hz": 2.0,
+          "identity": "{5}[2x(Source.Source2)],RFAmp",
+          "native_group": 5,
+          "systemvue_amplitude": [
+            0.003967203740923164,
+            -9.71684672577392e-19
+          ],
+          "rfmodel_amplitude": [
+            0.0039672038386509585,
+            -9.716846965137979e-19
+          ],
+          "systemvue_power_w": 1.5738705521994746e-05,
+          "rfmodel_power_w": 1.57387062974069e-05,
+          "relative_complex_error": 2.4633923788364735e-08,
+          "relative_power_error": 4.926784824554886e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            -2,
+            1,
+            1
+          ],
+          "bin": 10,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{7}[-(Source.Source2)+2x(Source.Source1)],RFAmp",
+          "native_group": 6,
+          "systemvue_amplitude": [
+            0.003974401615635432,
+            4.8672382171139995e-19
+          ],
+          "rfmodel_amplitude": [
+            0.003974401762493566,
+            4.867238396963345e-19
+          ],
+          "systemvue_power_w": 1.5795868202365534e-05,
+          "rfmodel_power_w": 1.5795869369711966e-05,
+          "relative_complex_error": 3.695100504757434e-08,
+          "relative_power_error": 7.39020113993405e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            -2,
+            1,
+            2
+          ],
+          "bin": 10,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{6}[-(Source.Source2)+(Source.Source1)+(Source.Source2)],RFAmp",
+          "native_group": 7,
+          "systemvue_amplitude": [
+            -0.007948803231270864,
+            -1.3618381237667704e-34
+          ],
+          "rfmodel_amplitude": [
+            -0.007948803524987133,
+            1.925929944387236e-34
+          ],
+          "systemvue_power_w": 6.318347280946214e-05,
+          "rfmodel_power_w": 6.318347747884786e-05,
+          "relative_complex_error": 3.695100504757434e-08,
+          "relative_power_error": 7.39020113993405e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            -2,
+            2,
+            2
+          ],
+          "bin": 10,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{8}[-(Source.Source2)+2x(Source.Source2)],RFAmp",
+          "native_group": 8,
+          "systemvue_amplitude": [
+            0.003974401615635432,
+            -4.8672382171139995e-19
+          ],
+          "rfmodel_amplitude": [
+            0.003974401762493566,
+            -4.867238396963346e-19
+          ],
+          "systemvue_power_w": 1.5795868202365534e-05,
+          "rfmodel_power_w": 1.5795869369711966e-05,
+          "relative_complex_error": 3.695100504757434e-08,
+          "relative_power_error": 7.39020113993405e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            -1,
+            1,
+            1
+          ],
+          "bin": 10,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{10}[-(Source.Source1)+2x(Source.Source1)],RFAmp",
+          "native_group": 9,
+          "systemvue_amplitude": [
+            -0.003974401615635432,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            -0.003974401762493566,
+            0.0
+          ],
+          "systemvue_power_w": 1.5795868202365534e-05,
+          "rfmodel_power_w": 1.5795869369711966e-05,
+          "relative_complex_error": 3.695100504757434e-08,
+          "relative_power_error": 7.39020113993405e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            -1,
+            1,
+            2
+          ],
+          "bin": 10,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{9}[-(Source.Source1)+(Source.Source1)+(Source.Source2)],RFAmp",
+          "native_group": 10,
+          "systemvue_amplitude": [
+            0.007948803231270864,
+            -9.734476434227999e-19
+          ],
+          "rfmodel_amplitude": [
+            0.007948803524987133,
+            -9.734476793926691e-19
+          ],
+          "systemvue_power_w": 6.318347280946214e-05,
+          "rfmodel_power_w": 6.318347747884786e-05,
+          "relative_complex_error": 3.695100504757434e-08,
+          "relative_power_error": 7.39020113993405e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            -1,
+            2,
+            2
+          ],
+          "bin": 10,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{11}[-(Source.Source1)+2x(Source.Source2)],RFAmp",
+          "native_group": 11,
+          "systemvue_amplitude": [
+            -0.003974401615635432,
+            9.734476434227999e-19
+          ],
+          "rfmodel_amplitude": [
+            -0.003974401762493566,
+            9.734476793926691e-19
+          ],
+          "systemvue_power_w": 1.5795868202365534e-05,
+          "rfmodel_power_w": 1.5795869369711966e-05,
+          "relative_complex_error": 3.695100504757434e-08,
+          "relative_power_error": 7.39020113993405e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            1,
+            1,
+            1
+          ],
+          "bin": 30,
+          "kind": "HARMONIC",
+          "bandwidth_hz": 3.0,
+          "identity": "{13}[3x(Source.Source1)],RFAmp",
+          "native_group": 12,
+          "systemvue_amplitude": [
+            -0.0013248005385451437,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            -0.0013248005874978552,
+            0.0
+          ],
+          "systemvue_power_w": 1.7550964669295024e-06,
+          "rfmodel_power_w": 1.7550965966346622e-06,
+          "relative_complex_error": 3.695100510213362e-08,
+          "relative_power_error": 7.39020118434297e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            1,
+            1,
+            2
+          ],
+          "bin": 30,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{12}[2x(Source.Source1)+(Source.Source2)],RFAmp",
+          "native_group": 13,
+          "systemvue_amplitude": [
+            0.003974401615635432,
+            -4.8672382171139995e-19
+          ],
+          "rfmodel_amplitude": [
+            0.003974401762493566,
+            -4.867238396963346e-19
+          ],
+          "systemvue_power_w": 1.5795868202365534e-05,
+          "rfmodel_power_w": 1.5795869369711966e-05,
+          "relative_complex_error": 3.695100504757434e-08,
+          "relative_power_error": 7.39020113993405e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            1,
+            2,
+            2
+          ],
+          "bin": 30,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{14}[(Source.Source1)+2x(Source.Source2)],RFAmp",
+          "native_group": 14,
+          "systemvue_amplitude": [
+            -0.003974401615635432,
+            9.734476434227999e-19
+          ],
+          "rfmodel_amplitude": [
+            -0.003974401762493566,
+            9.734476793926691e-19
+          ],
+          "systemvue_power_w": 1.5795868202365534e-05,
+          "rfmodel_power_w": 1.5795869369711966e-05,
+          "relative_complex_error": 3.695100504757434e-08,
+          "relative_power_error": 7.39020113993405e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            2,
+            2,
+            2
+          ],
+          "bin": 30,
+          "kind": "HARMONIC",
+          "bandwidth_hz": 3.0,
+          "identity": "{15}[3x(Source.Source2)],RFAmp",
+          "native_group": 15,
+          "systemvue_amplitude": [
+            0.0013248005385451437,
+            -4.8672382171139995e-19
+          ],
+          "rfmodel_amplitude": [
+            0.0013248005874978552,
+            -4.867238396963345e-19
+          ],
+          "systemvue_power_w": 1.7550964669295024e-06,
+          "rfmodel_power_w": 1.7550965966346622e-06,
+          "relative_complex_error": 3.695100510213362e-08,
+          "relative_power_error": 7.39020118434297e-08,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "source_powers_dbm": [
+        -6.0,
+        -6.0
+      ],
+      "source_phases_deg": [
+        0.0,
+        90.0
+      ],
+      "same_frequency": true,
+      "locked": false,
+      "noise_enabled": true,
+      "raw_capture_sha256": "a76eee2ebd2dcdaa3b57a7f78e369144f3b55b09e6d82ab66239bd2af0907bf3",
+      "run_started_utc": "2026-10-09T04:47:55.3335374Z",
+      "systemvue_rfpwrin_w": 0.0005023772922699149,
+      "rfmodel_input_power_w": 0.000502377286301916,
+      "group_partition_passed": true,
+      "checks": [
+        {
+          "order": 1,
+          "input_indices": [
+            1
+          ],
+          "bin": 10,
+          "kind": "SOURCE",
+          "bandwidth_hz": 1.0,
+          "identity": "{1}D[(Source.Source1)],Source,RFAmp",
+          "native_group": 1,
+          "systemvue_amplitude": [
+            0.15161142294484248,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            0.15161142466803285,
+            0.0
+          ],
+          "systemvue_power_w": 0.022986023567359903,
+          "rfmodel_power_w": 0.022986024089870598,
+          "relative_complex_error": 1.1365834675937378e-08,
+          "relative_power_error": 2.2731669657716225e-08,
+          "passed": true
+        },
+        {
+          "order": 1,
+          "input_indices": [
+            2
+          ],
+          "bin": 10,
+          "kind": "SOURCE",
+          "bandwidth_hz": 1.0,
+          "identity": "{2}D[(Source.Source2)],Source,RFAmp",
+          "native_group": 2,
+          "systemvue_amplitude": [
+            9.283522191178843e-18,
+            0.15161142294484248
+          ],
+          "rfmodel_amplitude": [
+            9.283522296693824e-18,
+            0.15161142466803285
+          ],
+          "systemvue_power_w": 0.022986023567359903,
+          "rfmodel_power_w": 0.022986024089870598,
+          "relative_complex_error": 1.1365834675937378e-08,
+          "relative_power_error": 2.2731669657716225e-08,
+          "passed": true
+        },
+        {
+          "order": 2,
+          "input_indices": [
+            1,
+            1
+          ],
+          "bin": 20,
+          "kind": "HARMONIC",
+          "bandwidth_hz": 2.0,
+          "identity": "{4}[2x(Source.Source1)],RFAmp",
+          "native_group": 3,
+          "systemvue_amplitude": [
+            0.003967203740923164,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            0.0039672038386509585,
+            0.0
+          ],
+          "systemvue_power_w": 1.5738705521994746e-05,
+          "rfmodel_power_w": 1.57387062974069e-05,
+          "relative_complex_error": 2.4633923788364735e-08,
+          "relative_power_error": 4.926784824554886e-08,
+          "passed": true
+        },
+        {
+          "order": 2,
+          "input_indices": [
+            1,
+            2
+          ],
+          "bin": 20,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 2.0,
+          "identity": "{3}[(Source.Source1)+(Source.Source2)],RFAmp",
+          "native_group": 4,
+          "systemvue_amplitude": [
+            4.85842336288696e-19,
+            0.007934407481846328
+          ],
+          "rfmodel_amplitude": [
+            4.858423482568989e-19,
+            0.007934407677301917
+          ],
+          "systemvue_power_w": 6.295482208797898e-05,
+          "rfmodel_power_w": 6.29548251896276e-05,
+          "relative_complex_error": 2.4633923788364735e-08,
+          "relative_power_error": 4.926784824554886e-08,
+          "passed": true
+        },
+        {
+          "order": 2,
+          "input_indices": [
+            2,
+            2
+          ],
+          "bin": 20,
+          "kind": "HARMONIC",
+          "bandwidth_hz": 2.0,
+          "identity": "{5}[2x(Source.Source2)],RFAmp",
+          "native_group": 5,
+          "systemvue_amplitude": [
+            -0.003967203740923164,
+            4.85842336288696e-19
+          ],
+          "rfmodel_amplitude": [
+            -0.0039672038386509585,
+            4.858423482568989e-19
+          ],
+          "systemvue_power_w": 1.5738705521994746e-05,
+          "rfmodel_power_w": 1.57387062974069e-05,
+          "relative_complex_error": 2.4633923788364735e-08,
+          "relative_power_error": 4.926784824554886e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            -2,
+            1,
+            1
+          ],
+          "bin": 10,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{7}[-(Source.Source2)+2x(Source.Source1)],RFAmp",
+          "native_group": 6,
+          "systemvue_amplitude": [
+            -2.4336191085569998e-19,
+            0.003974401615635432
+          ],
+          "rfmodel_amplitude": [
+            -2.4336191984816724e-19,
+            0.003974401762493566
+          ],
+          "systemvue_power_w": 1.5795868202365534e-05,
+          "rfmodel_power_w": 1.5795869369711966e-05,
+          "relative_complex_error": 3.695100504757434e-08,
+          "relative_power_error": 7.39020113993405e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            -2,
+            1,
+            2
+          ],
+          "bin": 10,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{6}[-(Source.Source2)+(Source.Source1)+(Source.Source2)],RFAmp",
+          "native_group": 7,
+          "systemvue_amplitude": [
+            -0.007948803231270864,
+            -6.809190618833852e-35
+          ],
+          "rfmodel_amplitude": [
+            -0.007948803524987133,
+            9.62964972193618e-35
+          ],
+          "systemvue_power_w": 6.318347280946214e-05,
+          "rfmodel_power_w": 6.318347747884786e-05,
+          "relative_complex_error": 3.695100504757434e-08,
+          "relative_power_error": 7.39020113993405e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            -2,
+            2,
+            2
+          ],
+          "bin": 10,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{8}[-(Source.Source2)+2x(Source.Source2)],RFAmp",
+          "native_group": 8,
+          "systemvue_amplitude": [
+            -2.4336191085569998e-19,
+            -0.003974401615635432
+          ],
+          "rfmodel_amplitude": [
+            -2.433619198481673e-19,
+            -0.003974401762493566
+          ],
+          "systemvue_power_w": 1.5795868202365534e-05,
+          "rfmodel_power_w": 1.5795869369711966e-05,
+          "relative_complex_error": 3.695100504757434e-08,
+          "relative_power_error": 7.39020113993405e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            -1,
+            1,
+            1
+          ],
+          "bin": 10,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{10}[-(Source.Source1)+2x(Source.Source1)],RFAmp",
+          "native_group": 9,
+          "systemvue_amplitude": [
+            -0.003974401615635432,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            -0.003974401762493566,
+            0.0
+          ],
+          "systemvue_power_w": 1.5795868202365534e-05,
+          "rfmodel_power_w": 1.5795869369711966e-05,
+          "relative_complex_error": 3.695100504757434e-08,
+          "relative_power_error": 7.39020113993405e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            -1,
+            1,
+            2
+          ],
+          "bin": 10,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{9}[-(Source.Source1)+(Source.Source1)+(Source.Source2)],RFAmp",
+          "native_group": 10,
+          "systemvue_amplitude": [
+            -4.8672382171139995e-19,
+            -0.007948803231270864
+          ],
+          "rfmodel_amplitude": [
+            -4.867238396963346e-19,
+            -0.007948803524987133
+          ],
+          "systemvue_power_w": 6.318347280946214e-05,
+          "rfmodel_power_w": 6.318347747884786e-05,
+          "relative_complex_error": 3.695100504757434e-08,
+          "relative_power_error": 7.39020113993405e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            -1,
+            2,
+            2
+          ],
+          "bin": 10,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{11}[-(Source.Source1)+2x(Source.Source2)],RFAmp",
+          "native_group": 11,
+          "systemvue_amplitude": [
+            0.003974401615635432,
+            -4.8672382171139995e-19
+          ],
+          "rfmodel_amplitude": [
+            0.003974401762493566,
+            -4.867238396963346e-19
+          ],
+          "systemvue_power_w": 1.5795868202365534e-05,
+          "rfmodel_power_w": 1.5795869369711966e-05,
+          "relative_complex_error": 3.695100504757434e-08,
+          "relative_power_error": 7.39020113993405e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            1,
+            1,
+            1
+          ],
+          "bin": 30,
+          "kind": "HARMONIC",
+          "bandwidth_hz": 3.0,
+          "identity": "{13}[3x(Source.Source1)],RFAmp",
+          "native_group": 12,
+          "systemvue_amplitude": [
+            -0.0013248005385451437,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            -0.0013248005874978552,
+            0.0
+          ],
+          "systemvue_power_w": 1.7550964669295024e-06,
+          "rfmodel_power_w": 1.7550965966346622e-06,
+          "relative_complex_error": 3.695100510213362e-08,
+          "relative_power_error": 7.39020118434297e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            1,
+            1,
+            2
+          ],
+          "bin": 30,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{12}[2x(Source.Source1)+(Source.Source2)],RFAmp",
+          "native_group": 13,
+          "systemvue_amplitude": [
+            -2.4336191085569998e-19,
+            -0.003974401615635432
+          ],
+          "rfmodel_amplitude": [
+            -2.433619198481673e-19,
+            -0.003974401762493566
+          ],
+          "systemvue_power_w": 1.5795868202365534e-05,
+          "rfmodel_power_w": 1.5795869369711966e-05,
+          "relative_complex_error": 3.695100504757434e-08,
+          "relative_power_error": 7.39020113993405e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            1,
+            2,
+            2
+          ],
+          "bin": 30,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{14}[(Source.Source1)+2x(Source.Source2)],RFAmp",
+          "native_group": 14,
+          "systemvue_amplitude": [
+            0.003974401615635432,
+            -4.8672382171139995e-19
+          ],
+          "rfmodel_amplitude": [
+            0.003974401762493566,
+            -4.867238396963346e-19
+          ],
+          "systemvue_power_w": 1.5795868202365534e-05,
+          "rfmodel_power_w": 1.5795869369711966e-05,
+          "relative_complex_error": 3.695100504757434e-08,
+          "relative_power_error": 7.39020113993405e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            2,
+            2,
+            2
+          ],
+          "bin": 30,
+          "kind": "HARMONIC",
+          "bandwidth_hz": 3.0,
+          "identity": "{15}[3x(Source.Source2)],RFAmp",
+          "native_group": 15,
+          "systemvue_amplitude": [
+            2.4336191085569998e-19,
+            0.0013248005385451437
+          ],
+          "rfmodel_amplitude": [
+            2.4336191984816724e-19,
+            0.0013248005874978552
+          ],
+          "systemvue_power_w": 1.7550964669295024e-06,
+          "rfmodel_power_w": 1.7550965966346622e-06,
+          "relative_complex_error": 3.695100510213362e-08,
+          "relative_power_error": 7.39020118434297e-08,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "source_powers_dbm": [
+        -6.0,
+        -6.0
+      ],
+      "source_phases_deg": [
+        0.0,
+        0.0
+      ],
+      "same_frequency": true,
+      "locked": true,
+      "noise_enabled": true,
+      "raw_capture_sha256": "5fea6efa166ef3a8e364e83aae1166aa7398110e2a895252b7972b9a95200ada",
+      "run_started_utc": "2026-10-09T04:47:20.6773508Z",
+      "systemvue_rfpwrin_w": 0.00100475456350001,
+      "rfmodel_input_power_w": 0.001004754572603832,
+      "group_partition_passed": true,
+      "checks": [
+        {
+          "order": 1,
+          "input_indices": [
+            1
+          ],
+          "bin": 10,
+          "kind": "SOURCE",
+          "bandwidth_hz": 1.0,
+          "identity": "{1}D[(Source.Source1)],Source,RFAmp",
+          "native_group": 1,
+          "systemvue_amplitude": [
+            0.2894670572493798,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            0.28946706017990864,
+            0.0
+          ],
+          "systemvue_power_w": 0.08379117723261573,
+          "rfmodel_power_w": 0.08379117892919885,
+          "relative_complex_error": 1.0123876780516066e-08,
+          "relative_power_error": 2.0247753695912252e-08,
+          "passed": true
+        },
+        {
+          "order": 2,
+          "input_indices": [
+            1,
+            1
+          ],
+          "bin": 20,
+          "kind": "HARMONIC",
+          "bandwidth_hz": 2.0,
+          "identity": "{2}[2x(Source.Source1)],RFAmp",
+          "native_group": 2,
+          "systemvue_amplitude": [
+            0.014704836340103042,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            0.014704836614497858,
+            0.0
+          ],
+          "systemvue_power_w": 0.00021623221178921506,
+          "rfmodel_power_w": 0.0002162322198590768,
+          "relative_complex_error": 1.8660174758179418e-08,
+          "relative_power_error": 3.7320349699498934e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            -1,
+            1,
+            1
+          ],
+          "bin": 10,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{3}[-(Source.Source1)+2x(Source.Source1)],RFAmp",
+          "native_group": 3,
+          "systemvue_amplitude": [
+            -0.028361897717169446,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            -0.028361898511029653,
+            0.0
+          ],
+          "systemvue_power_w": 0.0008043972421191814,
+          "rfmodel_power_w": 0.0008043972871499461,
+          "relative_complex_error": 2.7990376901244057e-08,
+          "relative_power_error": 5.5980754698481405e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            1,
+            1,
+            1
+          ],
+          "bin": 30,
+          "kind": "HARMONIC",
+          "bandwidth_hz": 3.0,
+          "identity": "{4}[3x(Source.Source1)],RFAmp",
+          "native_group": 4,
+          "systemvue_amplitude": [
+            -0.00945396590572315,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            -0.009453966170343218,
+            0.0
+          ],
+          "systemvue_power_w": 8.937747134657571e-05,
+          "rfmodel_power_w": 8.937747634999402e-05,
+          "relative_complex_error": 2.7990376901244054e-08,
+          "relative_power_error": 5.5980754698481405e-08,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "source_powers_dbm": [
+        -6.0,
+        -6.0
+      ],
+      "source_phases_deg": [
+        0.0,
+        90.0
+      ],
+      "same_frequency": true,
+      "locked": true,
+      "noise_enabled": true,
+      "raw_capture_sha256": "41ad6b083edb1e4ce954ca0cacf79b82181774f915a1d8f7e9fcb02ee4be2601",
+      "run_started_utc": "2026-10-09T04:47:23.6317367Z",
+      "systemvue_rfpwrin_w": 0.0005023772897577772,
+      "rfmodel_input_power_w": 0.000502377286301916,
+      "group_partition_passed": true,
+      "checks": [
+        {
+          "order": 1,
+          "input_indices": [
+            1
+          ],
+          "bin": 10,
+          "kind": "SOURCE",
+          "bandwidth_hz": 1.0,
+          "identity": "{1}D[(Source.Source1)],Source,RFAmp",
+          "native_group": 1,
+          "systemvue_amplitude": [
+            0.15161142294484248,
+            0.15161142294484248
+          ],
+          "rfmodel_amplitude": [
+            0.15161142466803285,
+            0.15161142466803285
+          ],
+          "systemvue_power_w": 0.04597204713471981,
+          "rfmodel_power_w": 0.045972048179741196,
+          "relative_complex_error": 1.136583467593738e-08,
+          "relative_power_error": 2.2731669657716225e-08,
+          "passed": true
+        },
+        {
+          "order": 2,
+          "input_indices": [
+            1,
+            1
+          ],
+          "bin": 20,
+          "kind": "HARMONIC",
+          "bandwidth_hz": 2.0,
+          "identity": "{2}[2x(Source.Source1)],RFAmp",
+          "native_group": 2,
+          "systemvue_amplitude": [
+            0.0,
+            0.007934407481846328
+          ],
+          "rfmodel_amplitude": [
+            0.0,
+            0.007934407677301917
+          ],
+          "systemvue_power_w": 6.295482208797898e-05,
+          "rfmodel_power_w": 6.29548251896276e-05,
+          "relative_complex_error": 2.4633923788364735e-08,
+          "relative_power_error": 4.926784824554886e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            -1,
+            1,
+            1
+          ],
+          "bin": 10,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{3}[-(Source.Source1)+2x(Source.Source1)],RFAmp",
+          "native_group": 3,
+          "systemvue_amplitude": [
+            -0.007948803231270864,
+            -0.007948803231270864
+          ],
+          "rfmodel_amplitude": [
+            -0.007948803524987133,
+            -0.007948803524987133
+          ],
+          "systemvue_power_w": 0.00012636694561892427,
+          "rfmodel_power_w": 0.00012636695495769573,
+          "relative_complex_error": 3.695100504757434e-08,
+          "relative_power_error": 7.39020113993405e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            1,
+            1,
+            1
+          ],
+          "bin": 30,
+          "kind": "HARMONIC",
+          "bandwidth_hz": 3.0,
+          "identity": "{4}[3x(Source.Source1)],RFAmp",
+          "native_group": 4,
+          "systemvue_amplitude": [
+            0.0026496010770902874,
+            -0.0026496010770902874
+          ],
+          "rfmodel_amplitude": [
+            0.0026496011749957103,
+            -0.0026496011749957103
+          ],
+          "systemvue_power_w": 1.404077173543602e-05,
+          "rfmodel_power_w": 1.4040772773077299e-05,
+          "relative_complex_error": 3.6951005102133614e-08,
+          "relative_power_error": 7.39020118434297e-08,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "source_powers_dbm": [
+        -30.0,
+        -30.0
+      ],
+      "source_phases_deg": [
+        0.0,
+        0.0
+      ],
+      "same_frequency": true,
+      "locked": false,
+      "noise_enabled": true,
+      "raw_capture_sha256": "11f6c077f73df41da3d72fb942fa749b0c16380d1bc8e06cb1229e3f81bc84e6",
+      "run_started_utc": "2026-10-09T04:50:13.1974360Z",
+      "systemvue_rfpwrin_w": 2.0000159755443203e-06,
+      "rfmodel_input_power_w": 2e-06,
+      "group_partition_passed": true,
+      "checks": [
+        {
+          "order": 1,
+          "input_indices": [
+            1
+          ],
+          "bin": 10,
+          "kind": "SOURCE",
+          "bandwidth_hz": 1.0,
+          "identity": "{1}D[(Source.Source1)],Source,RFAmp",
+          "native_group": 1,
+          "systemvue_amplitude": [
+            0.009998272226057987,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            0.009998272350993199,
+            0.0
+          ],
+          "systemvue_power_w": 9.996544750636253e-05,
+          "rfmodel_power_w": 9.996545000463507e-05,
+          "relative_complex_error": 1.2495680119232247e-08,
+          "relative_power_error": 2.4991360536574803e-08,
+          "passed": true
+        },
+        {
+          "order": 1,
+          "input_indices": [
+            2
+          ],
+          "bin": 10,
+          "kind": "SOURCE",
+          "bandwidth_hz": 1.0,
+          "identity": "{2}D[(Source.Source2)],Source,RFAmp",
+          "native_group": 2,
+          "systemvue_amplitude": [
+            0.009998272226057987,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            0.009998272350993199,
+            0.0
+          ],
+          "systemvue_power_w": 9.996544750636253e-05,
+          "rfmodel_power_w": 9.996545000463507e-05,
+          "relative_complex_error": 1.2495680119232247e-08,
+          "relative_power_error": 2.4991360536574803e-08,
+          "passed": true
+        },
+        {
+          "order": 2,
+          "input_indices": [
+            1,
+            1
+          ],
+          "bin": 20,
+          "kind": "HARMONIC",
+          "bandwidth_hz": 2.0,
+          "identity": "{4}[2x(Source.Source1)],RFAmp",
+          "native_group": 3,
+          "systemvue_amplitude": [
+            1.5811387905553248e-05,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            1.5811388300841898e-05,
+            0.0
+          ],
+          "systemvue_power_w": 2.4999998749987547e-10,
+          "rfmodel_power_w": 2.5e-10,
+          "relative_complex_error": 2.500024997170173e-08,
+          "relative_power_error": 5.000050062875516e-08,
+          "passed": true
+        },
+        {
+          "order": 2,
+          "input_indices": [
+            1,
+            2
+          ],
+          "bin": 20,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 2.0,
+          "identity": "{3}[(Source.Source1)+(Source.Source2)],RFAmp",
+          "native_group": 4,
+          "systemvue_amplitude": [
+            3.1622775811106495e-05,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            3.1622776601683795e-05,
+            0.0
+          ],
+          "systemvue_power_w": 9.999999499995019e-10,
+          "rfmodel_power_w": 1e-09,
+          "relative_complex_error": 2.500024997170173e-08,
+          "relative_power_error": 5.000050062875516e-08,
+          "passed": true
+        },
+        {
+          "order": 2,
+          "input_indices": [
+            2,
+            2
+          ],
+          "bin": 20,
+          "kind": "HARMONIC",
+          "bandwidth_hz": 2.0,
+          "identity": "{5}[2x(Source.Source2)],RFAmp",
+          "native_group": 5,
+          "systemvue_amplitude": [
+            1.5811387905553248e-05,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            1.5811388300841898e-05,
+            0.0
+          ],
+          "systemvue_power_w": 2.4999998749987547e-10,
+          "rfmodel_power_w": 2.5e-10,
+          "relative_complex_error": 2.500024997170173e-08,
+          "relative_power_error": 5.000050062875516e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            -2,
+            1,
+            1
+          ],
+          "bin": 10,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{7}[-(Source.Source2)+2x(Source.Source1)],RFAmp",
+          "native_group": 6,
+          "systemvue_amplitude": [
+            -9.999999624995009e-07,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            -9.999999999999997e-07,
+            0.0
+          ],
+          "systemvue_power_w": 9.999999249990031e-13,
+          "rfmodel_power_w": 9.999999999999996e-13,
+          "relative_complex_error": 3.7500500285905746e-08,
+          "relative_power_error": 7.500100207558091e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            -2,
+            1,
+            2
+          ],
+          "bin": 10,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{6}[-(Source.Source2)+(Source.Source1)+(Source.Source2)],RFAmp",
+          "native_group": 7,
+          "systemvue_amplitude": [
+            -1.9999999249990017e-06,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            -1.9999999999999995e-06,
+            0.0
+          ],
+          "systemvue_power_w": 3.9999996999960125e-12,
+          "rfmodel_power_w": 3.999999999999998e-12,
+          "relative_complex_error": 3.7500500285905746e-08,
+          "relative_power_error": 7.500100207558091e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            -2,
+            2,
+            2
+          ],
+          "bin": 10,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{8}[-(Source.Source2)+2x(Source.Source2)],RFAmp",
+          "native_group": 8,
+          "systemvue_amplitude": [
+            -9.999999624995009e-07,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            -9.999999999999997e-07,
+            0.0
+          ],
+          "systemvue_power_w": 9.999999249990031e-13,
+          "rfmodel_power_w": 9.999999999999996e-13,
+          "relative_complex_error": 3.7500500285905746e-08,
+          "relative_power_error": 7.500100207558091e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            -1,
+            1,
+            1
+          ],
+          "bin": 10,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{10}[-(Source.Source1)+2x(Source.Source1)],RFAmp",
+          "native_group": 9,
+          "systemvue_amplitude": [
+            -9.999999624995009e-07,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            -9.999999999999997e-07,
+            0.0
+          ],
+          "systemvue_power_w": 9.999999249990031e-13,
+          "rfmodel_power_w": 9.999999999999996e-13,
+          "relative_complex_error": 3.7500500285905746e-08,
+          "relative_power_error": 7.500100207558091e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            -1,
+            1,
+            2
+          ],
+          "bin": 10,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{9}[-(Source.Source1)+(Source.Source1)+(Source.Source2)],RFAmp",
+          "native_group": 10,
+          "systemvue_amplitude": [
+            -1.9999999249990017e-06,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            -1.9999999999999995e-06,
+            0.0
+          ],
+          "systemvue_power_w": 3.9999996999960125e-12,
+          "rfmodel_power_w": 3.999999999999998e-12,
+          "relative_complex_error": 3.7500500285905746e-08,
+          "relative_power_error": 7.500100207558091e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            -1,
+            2,
+            2
+          ],
+          "bin": 10,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{11}[-(Source.Source1)+2x(Source.Source2)],RFAmp",
+          "native_group": 11,
+          "systemvue_amplitude": [
+            -9.999999624995009e-07,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            -9.999999999999997e-07,
+            0.0
+          ],
+          "systemvue_power_w": 9.999999249990031e-13,
+          "rfmodel_power_w": 9.999999999999996e-13,
+          "relative_complex_error": 3.7500500285905746e-08,
+          "relative_power_error": 7.500100207558091e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            1,
+            1,
+            1
+          ],
+          "bin": 30,
+          "kind": "HARMONIC",
+          "bandwidth_hz": 3.0,
+          "identity": "{13}[3x(Source.Source1)],RFAmp",
+          "native_group": 12,
+          "systemvue_amplitude": [
+            -3.3333332083316687e-07,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            -3.333333333333333e-07,
+            0.0
+          ],
+          "systemvue_power_w": 1.1111110277766698e-13,
+          "rfmodel_power_w": 1.1111111111111109e-13,
+          "relative_complex_error": 3.7500500709422246e-08,
+          "relative_power_error": 7.500100251967012e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            1,
+            1,
+            2
+          ],
+          "bin": 30,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{12}[2x(Source.Source1)+(Source.Source2)],RFAmp",
+          "native_group": 13,
+          "systemvue_amplitude": [
+            -9.999999624995009e-07,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            -9.999999999999997e-07,
+            0.0
+          ],
+          "systemvue_power_w": 9.999999249990031e-13,
+          "rfmodel_power_w": 9.999999999999996e-13,
+          "relative_complex_error": 3.7500500285905746e-08,
+          "relative_power_error": 7.500100207558091e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            1,
+            2,
+            2
+          ],
+          "bin": 30,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{14}[(Source.Source1)+2x(Source.Source2)],RFAmp",
+          "native_group": 14,
+          "systemvue_amplitude": [
+            -9.999999624995009e-07,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            -9.999999999999997e-07,
+            0.0
+          ],
+          "systemvue_power_w": 9.999999249990031e-13,
+          "rfmodel_power_w": 9.999999999999996e-13,
+          "relative_complex_error": 3.7500500285905746e-08,
+          "relative_power_error": 7.500100207558091e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            2,
+            2,
+            2
+          ],
+          "bin": 30,
+          "kind": "HARMONIC",
+          "bandwidth_hz": 3.0,
+          "identity": "{15}[3x(Source.Source2)],RFAmp",
+          "native_group": 15,
+          "systemvue_amplitude": [
+            -3.3333332083316687e-07,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            -3.333333333333333e-07,
+            0.0
+          ],
+          "systemvue_power_w": 1.1111110277766698e-13,
+          "rfmodel_power_w": 1.1111111111111109e-13,
+          "relative_complex_error": 3.7500500709422246e-08,
+          "relative_power_error": 7.500100251967012e-08,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "source_powers_dbm": [
+        -6.0,
+        -26.0
+      ],
+      "source_phases_deg": [
+        0.0,
+        0.0
+      ],
+      "same_frequency": true,
+      "locked": false,
+      "noise_enabled": true,
+      "raw_capture_sha256": "7e43e6cc69eb6b37dd90506c38cc3edbd645f330a077bcdce1ba216c8fe0da80",
+      "run_started_utc": "2026-10-09T04:50:28.1457639Z",
+      "systemvue_rfpwrin_w": 0.0002537005405240014,
+      "rfmodel_input_power_w": 0.0002537005295824676,
+      "group_partition_passed": true,
+      "checks": [
+        {
+          "order": 1,
+          "input_indices": [
+            1
+          ],
+          "bin": 10,
+          "kind": "SOURCE",
+          "bandwidth_hz": 1.0,
+          "identity": "{1}D[(Source.Source1)],Source,RFAmp",
+          "native_group": 1,
+          "systemvue_amplitude": [
+            0.15501598063331795,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            0.1550159824841817,
+            0.0
+          ],
+          "systemvue_power_w": 0.0240299542517092,
+          "rfmodel_power_w": 0.024029954825536125,
+          "relative_complex_error": 1.1939825381148998e-08,
+          "relative_power_error": 2.3879651145364278e-08,
+          "passed": true
+        },
+        {
+          "order": 1,
+          "input_indices": [
+            2
+          ],
+          "bin": 10,
+          "kind": "SOURCE",
+          "bandwidth_hz": 1.0,
+          "identity": "{2}D[(Source.Source2)],Source,RFAmp",
+          "native_group": 2,
+          "systemvue_amplitude": [
+            0.015501598063331791,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            0.015501598248418177,
+            0.0
+          ],
+          "systemvue_power_w": 0.0002402995425170919,
+          "rfmodel_power_w": 0.0002402995482553615,
+          "relative_complex_error": 1.1939826119729299e-08,
+          "relative_power_error": 2.3879652477631907e-08,
+          "passed": true
+        },
+        {
+          "order": 2,
+          "input_indices": [
+            1,
+            1
+          ],
+          "bin": 20,
+          "kind": "HARMONIC",
+          "bandwidth_hz": 2.0,
+          "identity": "{4}[2x(Source.Source1)],RFAmp",
+          "native_group": 3,
+          "systemvue_amplitude": [
+            0.003971641074329367,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            0.003971641173621407,
+            0.0
+          ],
+          "systemvue_power_w": 1.5773932823300127e-05,
+          "rfmodel_power_w": 1.5773933612004827e-05,
+          "relative_complex_error": 2.5000255060732382e-08,
+          "relative_power_error": 5.000051084280699e-08,
+          "passed": true
+        },
+        {
+          "order": 2,
+          "input_indices": [
+            1,
+            2
+          ],
+          "bin": 20,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 2.0,
+          "identity": "{3}[(Source.Source1)+(Source.Source2)],RFAmp",
+          "native_group": 4,
+          "systemvue_amplitude": [
+            0.0007943282148658731,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            0.0007943282347242817,
+            0.0
+          ],
+          "systemvue_power_w": 6.309573129320045e-07,
+          "rfmodel_power_w": 6.309573444801936e-07,
+          "relative_complex_error": 2.5000255906988805e-08,
+          "relative_power_error": 5.000051261916383e-08,
+          "passed": true
+        },
+        {
+          "order": 2,
+          "input_indices": [
+            2,
+            2
+          ],
+          "bin": 20,
+          "kind": "HARMONIC",
+          "bandwidth_hz": 2.0,
+          "identity": "{5}[2x(Source.Source2)],RFAmp",
+          "native_group": 5,
+          "systemvue_amplitude": [
+            3.9716410743293656e-05,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            3.97164117362141e-05,
+            0.0
+          ],
+          "systemvue_power_w": 1.5773932823300114e-09,
+          "rfmodel_power_w": 1.5773933612004849e-09,
+          "relative_complex_error": 2.500025611172826e-08,
+          "relative_power_error": 5.000051306325304e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            -2,
+            1,
+            1
+          ],
+          "bin": 10,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{7}[-(Source.Source2)+2x(Source.Source1)],RFAmp",
+          "native_group": 6,
+          "systemvue_amplitude": [
+            -0.00039810715562427755,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            -0.0003981071705534973,
+            0.0
+          ],
+          "systemvue_power_w": 1.584893073592527e-07,
+          "rfmodel_power_w": 1.5848931924611138e-07,
+          "relative_complex_error": 3.750050593636135e-08,
+          "relative_power_error": 7.500101339985576e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            -2,
+            1,
+            2
+          ],
+          "bin": 10,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{6}[-(Source.Source2)+(Source.Source1)+(Source.Source2)],RFAmp",
+          "native_group": 7,
+          "systemvue_amplitude": [
+            -7.962143112485548e-05,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            -7.96214341106995e-05,
+            0.0
+          ],
+          "systemvue_power_w": 6.339572294370104e-09,
+          "rfmodel_power_w": 6.339572769844461e-09,
+          "relative_complex_error": 3.7500506821464034e-08,
+          "relative_power_error": 7.50010151762126e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            -2,
+            2,
+            2
+          ],
+          "bin": 10,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{8}[-(Source.Source2)+2x(Source.Source2)],RFAmp",
+          "native_group": 8,
+          "systemvue_amplitude": [
+            -3.981071556242774e-06,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            -3.981071705534977e-06,
+            0.0
+          ],
+          "systemvue_power_w": 1.5848930735925257e-11,
+          "rfmodel_power_w": 1.584893192461117e-11,
+          "relative_complex_error": 3.7500507332100196e-08,
+          "relative_power_error": 7.500101628643563e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            -1,
+            1,
+            1
+          ],
+          "bin": 10,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{10}[-(Source.Source1)+2x(Source.Source1)],RFAmp",
+          "native_group": 9,
+          "systemvue_amplitude": [
+            -0.003981071556242775,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            -0.003981071705534972,
+            0.0
+          ],
+          "systemvue_power_w": 1.5848930735925273e-05,
+          "rfmodel_power_w": 1.5848931924611128e-05,
+          "relative_complex_error": 3.750050571848993e-08,
+          "relative_power_error": 7.500101273372195e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            -1,
+            1,
+            2
+          ],
+          "bin": 10,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{9}[-(Source.Source1)+(Source.Source1)+(Source.Source2)],RFAmp",
+          "native_group": 10,
+          "systemvue_amplitude": [
+            -0.0007962143112485551,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            -0.0007962143411069946,
+            0.0
+          ],
+          "systemvue_power_w": 6.339572294370108e-07,
+          "rfmodel_power_w": 6.339572769844455e-07,
+          "relative_complex_error": 3.750050593636135e-08,
+          "relative_power_error": 7.500101339985576e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            -1,
+            2,
+            2
+          ],
+          "bin": 10,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{11}[-(Source.Source1)+2x(Source.Source2)],RFAmp",
+          "native_group": 11,
+          "systemvue_amplitude": [
+            -3.981071556242774e-05,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            -3.981071705534975e-05,
+            0.0
+          ],
+          "systemvue_power_w": 1.584893073592526e-09,
+          "rfmodel_power_w": 1.5848931924611153e-09,
+          "relative_complex_error": 3.7500506821464034e-08,
+          "relative_power_error": 7.50010151762126e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            1,
+            1,
+            1
+          ],
+          "bin": 30,
+          "kind": "HARMONIC",
+          "bandwidth_hz": 3.0,
+          "identity": "{13}[3x(Source.Source1)],RFAmp",
+          "native_group": 12,
+          "systemvue_amplitude": [
+            -0.0013270238520809252,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            -0.0013270239018449905,
+            0.0
+          ],
+          "systemvue_power_w": 1.7609923039916974e-06,
+          "rfmodel_power_w": 1.7609924360679029e-06,
+          "relative_complex_error": 3.75005055006185e-08,
+          "relative_power_error": 7.500101228963274e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            1,
+            1,
+            2
+          ],
+          "bin": 30,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{12}[2x(Source.Source1)+(Source.Source2)],RFAmp",
+          "native_group": 13,
+          "systemvue_amplitude": [
+            -0.00039810715562427755,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            -0.0003981071705534973,
+            0.0
+          ],
+          "systemvue_power_w": 1.584893073592527e-07,
+          "rfmodel_power_w": 1.5848931924611138e-07,
+          "relative_complex_error": 3.750050593636135e-08,
+          "relative_power_error": 7.500101339985576e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            1,
+            2,
+            2
+          ],
+          "bin": 30,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{14}[(Source.Source1)+2x(Source.Source2)],RFAmp",
+          "native_group": 14,
+          "systemvue_amplitude": [
+            -3.981071556242774e-05,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            -3.981071705534975e-05,
+            0.0
+          ],
+          "systemvue_power_w": 1.584893073592526e-09,
+          "rfmodel_power_w": 1.5848931924611153e-09,
+          "relative_complex_error": 3.7500506821464034e-08,
+          "relative_power_error": 7.50010151762126e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            2,
+            2,
+            2
+          ],
+          "bin": 30,
+          "kind": "HARMONIC",
+          "bandwidth_hz": 3.0,
+          "identity": "{15}[3x(Source.Source2)],RFAmp",
+          "native_group": 15,
+          "systemvue_amplitude": [
+            -1.3270238520809241e-06,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            -1.327023901844992e-06,
+            0.0
+          ],
+          "systemvue_power_w": 1.7609923039916944e-12,
+          "rfmodel_power_w": 1.760992436067907e-12,
+          "relative_complex_error": 3.7500507438482736e-08,
+          "relative_power_error": 7.500101628643563e-08,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "source_powers_dbm": [
+        -30.0,
+        -30.0
+      ],
+      "source_phases_deg": [
+        0.0,
+        180.0
+      ],
+      "same_frequency": true,
+      "locked": false,
+      "noise_enabled": true,
+      "raw_capture_sha256": "953de83291902c47e4577a363d85f0d90b922e7b80fe5dc329f48e9d971f5757",
+      "run_started_utc": "2026-10-09T04:50:16.1630669Z",
+      "systemvue_rfpwrin_w": 2.0000159755443203e-06,
+      "rfmodel_input_power_w": 2e-06,
+      "group_partition_passed": true,
+      "checks": [
+        {
+          "order": 1,
+          "input_indices": [
+            1
+          ],
+          "bin": 10,
+          "kind": "SOURCE",
+          "bandwidth_hz": 1.0,
+          "identity": "{1}D[(Source.Source1)],Source,RFAmp",
+          "native_group": 1,
+          "systemvue_amplitude": [
+            0.009998272226057987,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            0.009998272350993199,
+            0.0
+          ],
+          "systemvue_power_w": 9.996544750636253e-05,
+          "rfmodel_power_w": 9.996545000463507e-05,
+          "relative_complex_error": 1.2495680119232247e-08,
+          "relative_power_error": 2.4991360536574803e-08,
+          "passed": true
+        },
+        {
+          "order": 1,
+          "input_indices": [
+            2
+          ],
+          "bin": 10,
+          "kind": "SOURCE",
+          "bandwidth_hz": 1.0,
+          "identity": "{2}D[(Source.Source2)],Source,RFAmp",
+          "native_group": 2,
+          "systemvue_amplitude": [
+            -0.009998272226057987,
+            1.2244352078645797e-18
+          ],
+          "rfmodel_amplitude": [
+            -0.009998272350993199,
+            1.2244352231647302e-18
+          ],
+          "systemvue_power_w": 9.996544750636253e-05,
+          "rfmodel_power_w": 9.996545000463507e-05,
+          "relative_complex_error": 1.2495680119232247e-08,
+          "relative_power_error": 2.4991360536574803e-08,
+          "passed": true
+        },
+        {
+          "order": 2,
+          "input_indices": [
+            1,
+            1
+          ],
+          "bin": 20,
+          "kind": "HARMONIC",
+          "bandwidth_hz": 2.0,
+          "identity": "{4}[2x(Source.Source1)],RFAmp",
+          "native_group": 3,
+          "systemvue_amplitude": [
+            1.5811387905553248e-05,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            1.5811388300841898e-05,
+            0.0
+          ],
+          "systemvue_power_w": 2.4999998749987547e-10,
+          "rfmodel_power_w": 2.5e-10,
+          "relative_complex_error": 2.500024997170173e-08,
+          "relative_power_error": 5.000050062875516e-08,
+          "passed": true
+        },
+        {
+          "order": 2,
+          "input_indices": [
+            1,
+            2
+          ],
+          "bin": 20,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 2.0,
+          "identity": "{3}[(Source.Source1)+(Source.Source2)],RFAmp",
+          "native_group": 4,
+          "systemvue_amplitude": [
+            -3.1622775811106495e-05,
+            3.872673117722591e-21
+          ],
+          "rfmodel_amplitude": [
+            -3.1622776601683795e-05,
+            3.872673214540387e-21
+          ],
+          "systemvue_power_w": 9.999999499995019e-10,
+          "rfmodel_power_w": 1e-09,
+          "relative_complex_error": 2.500024997170173e-08,
+          "relative_power_error": 5.000050062875516e-08,
+          "passed": true
+        },
+        {
+          "order": 2,
+          "input_indices": [
+            2,
+            2
+          ],
+          "bin": 20,
+          "kind": "HARMONIC",
+          "bandwidth_hz": 2.0,
+          "identity": "{5}[2x(Source.Source2)],RFAmp",
+          "native_group": 5,
+          "systemvue_amplitude": [
+            1.5811387905553248e-05,
+            -3.872673117722591e-21
+          ],
+          "rfmodel_amplitude": [
+            1.5811388300841898e-05,
+            -3.872673214540387e-21
+          ],
+          "systemvue_power_w": 2.4999998749987547e-10,
+          "rfmodel_power_w": 2.5e-10,
+          "relative_complex_error": 2.500024997170173e-08,
+          "relative_power_error": 5.000050062875516e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            -2,
+            1,
+            1
+          ],
+          "bin": 10,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{7}[-(Source.Source2)+2x(Source.Source1)],RFAmp",
+          "native_group": 6,
+          "systemvue_amplitude": [
+            9.999999624995009e-07,
+            1.2246467532224866e-22
+          ],
+          "rfmodel_amplitude": [
+            9.999999999999997e-07,
+            1.224646799147353e-22
+          ],
+          "systemvue_power_w": 9.999999249990031e-13,
+          "rfmodel_power_w": 9.999999999999996e-13,
+          "relative_complex_error": 3.7500500285905746e-08,
+          "relative_power_error": 7.500100207558091e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            -2,
+            1,
+            2
+          ],
+          "bin": 10,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{6}[-(Source.Source2)+(Source.Source1)+(Source.Source2)],RFAmp",
+          "native_group": 7,
+          "systemvue_amplitude": [
+            -1.9999999249990017e-06,
+            3.3248001068525053e-38
+          ],
+          "rfmodel_amplitude": [
+            -1.9999999999999995e-06,
+            0.0
+          ],
+          "systemvue_power_w": 3.9999996999960125e-12,
+          "rfmodel_power_w": 3.999999999999998e-12,
+          "relative_complex_error": 3.7500500285905746e-08,
+          "relative_power_error": 7.500100207558091e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            -2,
+            2,
+            2
+          ],
+          "bin": 10,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{8}[-(Source.Source2)+2x(Source.Source2)],RFAmp",
+          "native_group": 8,
+          "systemvue_amplitude": [
+            9.999999624995009e-07,
+            -1.2246467532224868e-22
+          ],
+          "rfmodel_amplitude": [
+            9.999999999999997e-07,
+            -1.224646799147353e-22
+          ],
+          "systemvue_power_w": 9.999999249990031e-13,
+          "rfmodel_power_w": 9.999999999999996e-13,
+          "relative_complex_error": 3.7500500285905746e-08,
+          "relative_power_error": 7.500100207558091e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            -1,
+            1,
+            1
+          ],
+          "bin": 10,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{10}[-(Source.Source1)+2x(Source.Source1)],RFAmp",
+          "native_group": 9,
+          "systemvue_amplitude": [
+            -9.999999624995009e-07,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            -9.999999999999997e-07,
+            0.0
+          ],
+          "systemvue_power_w": 9.999999249990031e-13,
+          "rfmodel_power_w": 9.999999999999996e-13,
+          "relative_complex_error": 3.7500500285905746e-08,
+          "relative_power_error": 7.500100207558091e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            -1,
+            1,
+            2
+          ],
+          "bin": 10,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{9}[-(Source.Source1)+(Source.Source1)+(Source.Source2)],RFAmp",
+          "native_group": 10,
+          "systemvue_amplitude": [
+            1.9999999249990017e-06,
+            -2.4492935064449736e-22
+          ],
+          "rfmodel_amplitude": [
+            1.9999999999999995e-06,
+            -2.449293598294706e-22
+          ],
+          "systemvue_power_w": 3.9999996999960125e-12,
+          "rfmodel_power_w": 3.999999999999998e-12,
+          "relative_complex_error": 3.7500500285905746e-08,
+          "relative_power_error": 7.500100207558091e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            -1,
+            2,
+            2
+          ],
+          "bin": 10,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{11}[-(Source.Source1)+2x(Source.Source2)],RFAmp",
+          "native_group": 11,
+          "systemvue_amplitude": [
+            -9.999999624995009e-07,
+            2.4492935064449736e-22
+          ],
+          "rfmodel_amplitude": [
+            -9.999999999999997e-07,
+            2.449293598294706e-22
+          ],
+          "systemvue_power_w": 9.999999249990031e-13,
+          "rfmodel_power_w": 9.999999999999996e-13,
+          "relative_complex_error": 3.7500500285905746e-08,
+          "relative_power_error": 7.500100207558091e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            1,
+            1,
+            1
+          ],
+          "bin": 30,
+          "kind": "HARMONIC",
+          "bandwidth_hz": 3.0,
+          "identity": "{13}[3x(Source.Source1)],RFAmp",
+          "native_group": 12,
+          "systemvue_amplitude": [
+            -3.3333332083316687e-07,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            -3.333333333333333e-07,
+            0.0
+          ],
+          "systemvue_power_w": 1.1111110277766698e-13,
+          "rfmodel_power_w": 1.1111111111111109e-13,
+          "relative_complex_error": 3.7500500709422246e-08,
+          "relative_power_error": 7.500100251967012e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            1,
+            1,
+            2
+          ],
+          "bin": 30,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{12}[2x(Source.Source1)+(Source.Source2)],RFAmp",
+          "native_group": 13,
+          "systemvue_amplitude": [
+            9.999999624995009e-07,
+            -1.2246467532224868e-22
+          ],
+          "rfmodel_amplitude": [
+            9.999999999999997e-07,
+            -1.224646799147353e-22
+          ],
+          "systemvue_power_w": 9.999999249990031e-13,
+          "rfmodel_power_w": 9.999999999999996e-13,
+          "relative_complex_error": 3.7500500285905746e-08,
+          "relative_power_error": 7.500100207558091e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            1,
+            2,
+            2
+          ],
+          "bin": 30,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{14}[(Source.Source1)+2x(Source.Source2)],RFAmp",
+          "native_group": 14,
+          "systemvue_amplitude": [
+            -9.999999624995009e-07,
+            2.4492935064449736e-22
+          ],
+          "rfmodel_amplitude": [
+            -9.999999999999997e-07,
+            2.449293598294706e-22
+          ],
+          "systemvue_power_w": 9.999999249990031e-13,
+          "rfmodel_power_w": 9.999999999999996e-13,
+          "relative_complex_error": 3.7500500285905746e-08,
+          "relative_power_error": 7.500100207558091e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            2,
+            2,
+            2
+          ],
+          "bin": 30,
+          "kind": "HARMONIC",
+          "bandwidth_hz": 3.0,
+          "identity": "{15}[3x(Source.Source2)],RFAmp",
+          "native_group": 15,
+          "systemvue_amplitude": [
+            3.3333332083316687e-07,
+            -1.2246467532224866e-22
+          ],
+          "rfmodel_amplitude": [
+            3.333333333333333e-07,
+            -1.224646799147353e-22
+          ],
+          "systemvue_power_w": 1.1111110277766698e-13,
+          "rfmodel_power_w": 1.1111111111111109e-13,
+          "relative_complex_error": 3.7500500709422246e-08,
+          "relative_power_error": 7.500100251967012e-08,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "source_powers_dbm": [
+        -6.0,
+        -26.0
+      ],
+      "source_phases_deg": [
+        0.0,
+        180.0
+      ],
+      "same_frequency": true,
+      "locked": false,
+      "noise_enabled": true,
+      "raw_capture_sha256": "9245b8e626bd8638897479878556b447edea65e3ac8caa25c404ff03957335fa",
+      "run_started_utc": "2026-10-09T04:50:34.3715725Z",
+      "systemvue_rfpwrin_w": 0.0002537005405240014,
+      "rfmodel_input_power_w": 0.0002537005295824676,
+      "group_partition_passed": true,
+      "checks": [
+        {
+          "order": 1,
+          "input_indices": [
+            1
+          ],
+          "bin": 10,
+          "kind": "SOURCE",
+          "bandwidth_hz": 1.0,
+          "identity": "{1}D[(Source.Source1)],Source,RFAmp",
+          "native_group": 1,
+          "systemvue_amplitude": [
+            0.15501598063331795,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            0.1550159824841817,
+            0.0
+          ],
+          "systemvue_power_w": 0.0240299542517092,
+          "rfmodel_power_w": 0.024029954825536125,
+          "relative_complex_error": 1.1939825381148998e-08,
+          "relative_power_error": 2.3879651145364278e-08,
+          "passed": true
+        },
+        {
+          "order": 1,
+          "input_indices": [
+            2
+          ],
+          "bin": 10,
+          "kind": "SOURCE",
+          "bandwidth_hz": 1.0,
+          "identity": "{2}D[(Source.Source2)],Source,RFAmp",
+          "native_group": 2,
+          "systemvue_amplitude": [
+            -0.015501598063331791,
+            1.898398244992809e-18
+          ],
+          "rfmodel_amplitude": [
+            -0.015501598248418177,
+            1.8983982676593535e-18
+          ],
+          "systemvue_power_w": 0.0002402995425170919,
+          "rfmodel_power_w": 0.0002402995482553615,
+          "relative_complex_error": 1.1939826119729299e-08,
+          "relative_power_error": 2.3879652477631907e-08,
+          "passed": true
+        },
+        {
+          "order": 2,
+          "input_indices": [
+            1,
+            1
+          ],
+          "bin": 20,
+          "kind": "HARMONIC",
+          "bandwidth_hz": 2.0,
+          "identity": "{4}[2x(Source.Source1)],RFAmp",
+          "native_group": 3,
+          "systemvue_amplitude": [
+            0.003971641074329367,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            0.003971641173621407,
+            0.0
+          ],
+          "systemvue_power_w": 1.5773932823300127e-05,
+          "rfmodel_power_w": 1.5773933612004827e-05,
+          "relative_complex_error": 2.5000255060732382e-08,
+          "relative_power_error": 5.000051084280699e-08,
+          "passed": true
+        },
+        {
+          "order": 2,
+          "input_indices": [
+            1,
+            2
+          ],
+          "bin": 20,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 2.0,
+          "identity": "{3}[(Source.Source1)+(Source.Source2)],RFAmp",
+          "native_group": 4,
+          "systemvue_amplitude": [
+            -0.0007943282148658731,
+            9.727715058079228e-20
+          ],
+          "rfmodel_amplitude": [
+            -0.0007943282347242817,
+            9.727715301274591e-20
+          ],
+          "systemvue_power_w": 6.309573129320045e-07,
+          "rfmodel_power_w": 6.309573444801936e-07,
+          "relative_complex_error": 2.5000255906988805e-08,
+          "relative_power_error": 5.000051261916383e-08,
+          "passed": true
+        },
+        {
+          "order": 2,
+          "input_indices": [
+            2,
+            2
+          ],
+          "bin": 20,
+          "kind": "HARMONIC",
+          "bandwidth_hz": 2.0,
+          "identity": "{5}[2x(Source.Source2)],RFAmp",
+          "native_group": 5,
+          "systemvue_amplitude": [
+            3.9716410743293656e-05,
+            -9.727715058079223e-21
+          ],
+          "rfmodel_amplitude": [
+            3.97164117362141e-05,
+            -9.727715301274594e-21
+          ],
+          "systemvue_power_w": 1.5773932823300114e-09,
+          "rfmodel_power_w": 1.5773933612004849e-09,
+          "relative_complex_error": 2.500025611172826e-08,
+          "relative_power_error": 5.000051306325304e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            -2,
+            1,
+            1
+          ],
+          "bin": 10,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{7}[-(Source.Source2)+2x(Source.Source1)],RFAmp",
+          "native_group": 6,
+          "systemvue_amplitude": [
+            0.00039810715562427755,
+            4.8754065385292864e-20
+          ],
+          "rfmodel_amplitude": [
+            0.0003981071705534973,
+            4.875406721359499e-20
+          ],
+          "systemvue_power_w": 1.584893073592527e-07,
+          "rfmodel_power_w": 1.5848931924611138e-07,
+          "relative_complex_error": 3.750050593636135e-08,
+          "relative_power_error": 7.500101339985576e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            -2,
+            1,
+            2
+          ],
+          "bin": 10,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{6}[-(Source.Source2)+(Source.Source1)+(Source.Source2)],RFAmp",
+          "native_group": 7,
+          "systemvue_amplitude": [
+            -7.962143112485548e-05,
+            2.1278720683855917e-36
+          ],
+          "rfmodel_amplitude": [
+            -7.96214341106995e-05,
+            0.0
+          ],
+          "systemvue_power_w": 6.339572294370104e-09,
+          "rfmodel_power_w": 6.339572769844461e-09,
+          "relative_complex_error": 3.7500506821464034e-08,
+          "relative_power_error": 7.50010151762126e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            -2,
+            2,
+            2
+          ],
+          "bin": 10,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{8}[-(Source.Source2)+2x(Source.Source2)],RFAmp",
+          "native_group": 8,
+          "systemvue_amplitude": [
+            3.981071556242774e-06,
+            -4.875406538529284e-22
+          ],
+          "rfmodel_amplitude": [
+            3.981071705534977e-06,
+            -4.875406721359503e-22
+          ],
+          "systemvue_power_w": 1.5848930735925257e-11,
+          "rfmodel_power_w": 1.584893192461117e-11,
+          "relative_complex_error": 3.7500507332100196e-08,
+          "relative_power_error": 7.500101628643563e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            -1,
+            1,
+            1
+          ],
+          "bin": 10,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{10}[-(Source.Source1)+2x(Source.Source1)],RFAmp",
+          "native_group": 9,
+          "systemvue_amplitude": [
+            -0.003981071556242775,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            -0.003981071705534972,
+            0.0
+          ],
+          "systemvue_power_w": 1.5848930735925273e-05,
+          "rfmodel_power_w": 1.5848931924611128e-05,
+          "relative_complex_error": 3.750050571848993e-08,
+          "relative_power_error": 7.500101273372195e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            -1,
+            1,
+            2
+          ],
+          "bin": 10,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{9}[-(Source.Source1)+(Source.Source1)+(Source.Source2)],RFAmp",
+          "native_group": 10,
+          "systemvue_amplitude": [
+            0.0007962143112485551,
+            -9.750813077058573e-20
+          ],
+          "rfmodel_amplitude": [
+            0.0007962143411069946,
+            -9.750813442718998e-20
+          ],
+          "systemvue_power_w": 6.339572294370108e-07,
+          "rfmodel_power_w": 6.339572769844455e-07,
+          "relative_complex_error": 3.750050593636135e-08,
+          "relative_power_error": 7.500101339985576e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            -1,
+            2,
+            2
+          ],
+          "bin": 10,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{11}[-(Source.Source1)+2x(Source.Source2)],RFAmp",
+          "native_group": 11,
+          "systemvue_amplitude": [
+            -3.981071556242774e-05,
+            9.750813077058573e-21
+          ],
+          "rfmodel_amplitude": [
+            -3.981071705534975e-05,
+            9.750813442719002e-21
+          ],
+          "systemvue_power_w": 1.584893073592526e-09,
+          "rfmodel_power_w": 1.5848931924611153e-09,
+          "relative_complex_error": 3.7500506821464034e-08,
+          "relative_power_error": 7.50010151762126e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            1,
+            1,
+            1
+          ],
+          "bin": 30,
+          "kind": "HARMONIC",
+          "bandwidth_hz": 3.0,
+          "identity": "{13}[3x(Source.Source1)],RFAmp",
+          "native_group": 12,
+          "systemvue_amplitude": [
+            -0.0013270238520809252,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            -0.0013270239018449905,
+            0.0
+          ],
+          "systemvue_power_w": 1.7609923039916974e-06,
+          "rfmodel_power_w": 1.7609924360679029e-06,
+          "relative_complex_error": 3.75005055006185e-08,
+          "relative_power_error": 7.500101228963274e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            1,
+            1,
+            2
+          ],
+          "bin": 30,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{12}[2x(Source.Source1)+(Source.Source2)],RFAmp",
+          "native_group": 13,
+          "systemvue_amplitude": [
+            0.00039810715562427755,
+            -4.8754065385292864e-20
+          ],
+          "rfmodel_amplitude": [
+            0.0003981071705534973,
+            -4.875406721359499e-20
+          ],
+          "systemvue_power_w": 1.584893073592527e-07,
+          "rfmodel_power_w": 1.5848931924611138e-07,
+          "relative_complex_error": 3.750050593636135e-08,
+          "relative_power_error": 7.500101339985576e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            1,
+            2,
+            2
+          ],
+          "bin": 30,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{14}[(Source.Source1)+2x(Source.Source2)],RFAmp",
+          "native_group": 14,
+          "systemvue_amplitude": [
+            -3.981071556242774e-05,
+            9.750813077058573e-21
+          ],
+          "rfmodel_amplitude": [
+            -3.981071705534975e-05,
+            9.750813442719002e-21
+          ],
+          "systemvue_power_w": 1.584893073592526e-09,
+          "rfmodel_power_w": 1.5848931924611153e-09,
+          "relative_complex_error": 3.7500506821464034e-08,
+          "relative_power_error": 7.50010151762126e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            2,
+            2,
+            2
+          ],
+          "bin": 30,
+          "kind": "HARMONIC",
+          "bandwidth_hz": 3.0,
+          "identity": "{15}[3x(Source.Source2)],RFAmp",
+          "native_group": 15,
+          "systemvue_amplitude": [
+            1.3270238520809241e-06,
+            -4.875406538529284e-22
+          ],
+          "rfmodel_amplitude": [
+            1.327023901844992e-06,
+            -4.875406721359503e-22
+          ],
+          "systemvue_power_w": 1.7609923039916944e-12,
+          "rfmodel_power_w": 1.760992436067907e-12,
+          "relative_complex_error": 3.7500507438482736e-08,
+          "relative_power_error": 7.500101628643563e-08,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "source_powers_dbm": [
+        -6.0,
+        -26.0
+      ],
+      "source_phases_deg": [
+        0.0,
+        90.0
+      ],
+      "same_frequency": true,
+      "locked": false,
+      "noise_enabled": true,
+      "raw_capture_sha256": "3f107787486571130939ead3e5f7fef4b2f2fce4e848b42de8f5450a87be46ff",
+      "run_started_utc": "2026-10-09T04:50:31.1385340Z",
+      "systemvue_rfpwrin_w": 0.0002537005405240014,
+      "rfmodel_input_power_w": 0.0002537005295824676,
+      "group_partition_passed": true,
+      "checks": [
+        {
+          "order": 1,
+          "input_indices": [
+            1
+          ],
+          "bin": 10,
+          "kind": "SOURCE",
+          "bandwidth_hz": 1.0,
+          "identity": "{1}D[(Source.Source1)],Source,RFAmp",
+          "native_group": 1,
+          "systemvue_amplitude": [
+            0.15501598063331795,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            0.1550159824841817,
+            0.0
+          ],
+          "systemvue_power_w": 0.0240299542517092,
+          "rfmodel_power_w": 0.024029954825536125,
+          "relative_complex_error": 1.1939825381148998e-08,
+          "relative_power_error": 2.3879651145364278e-08,
+          "passed": true
+        },
+        {
+          "order": 1,
+          "input_indices": [
+            2
+          ],
+          "bin": 10,
+          "kind": "SOURCE",
+          "bandwidth_hz": 1.0,
+          "identity": "{2}D[(Source.Source2)],Source,RFAmp",
+          "native_group": 2,
+          "systemvue_amplitude": [
+            9.491991224964045e-19,
+            0.015501598063331791
+          ],
+          "rfmodel_amplitude": [
+            9.491991338296767e-19,
+            0.015501598248418177
+          ],
+          "systemvue_power_w": 0.0002402995425170919,
+          "rfmodel_power_w": 0.0002402995482553615,
+          "relative_complex_error": 1.1939826119729299e-08,
+          "relative_power_error": 2.3879652477631907e-08,
+          "passed": true
+        },
+        {
+          "order": 2,
+          "input_indices": [
+            1,
+            1
+          ],
+          "bin": 20,
+          "kind": "HARMONIC",
+          "bandwidth_hz": 2.0,
+          "identity": "{4}[2x(Source.Source1)],RFAmp",
+          "native_group": 3,
+          "systemvue_amplitude": [
+            0.003971641074329367,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            0.003971641173621407,
+            0.0
+          ],
+          "systemvue_power_w": 1.5773932823300127e-05,
+          "rfmodel_power_w": 1.5773933612004827e-05,
+          "relative_complex_error": 2.5000255060732382e-08,
+          "relative_power_error": 5.000051084280699e-08,
+          "passed": true
+        },
+        {
+          "order": 2,
+          "input_indices": [
+            1,
+            2
+          ],
+          "bin": 20,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 2.0,
+          "identity": "{3}[(Source.Source1)+(Source.Source2)],RFAmp",
+          "native_group": 4,
+          "systemvue_amplitude": [
+            4.863857529039614e-20,
+            0.0007943282148658731
+          ],
+          "rfmodel_amplitude": [
+            4.8638576506372953e-20,
+            0.0007943282347242817
+          ],
+          "systemvue_power_w": 6.309573129320045e-07,
+          "rfmodel_power_w": 6.309573444801936e-07,
+          "relative_complex_error": 2.5000255906988805e-08,
+          "relative_power_error": 5.000051261916383e-08,
+          "passed": true
+        },
+        {
+          "order": 2,
+          "input_indices": [
+            2,
+            2
+          ],
+          "bin": 20,
+          "kind": "HARMONIC",
+          "bandwidth_hz": 2.0,
+          "identity": "{5}[2x(Source.Source2)],RFAmp",
+          "native_group": 5,
+          "systemvue_amplitude": [
+            -3.9716410743293656e-05,
+            4.8638575290396115e-21
+          ],
+          "rfmodel_amplitude": [
+            -3.97164117362141e-05,
+            4.863857650637297e-21
+          ],
+          "systemvue_power_w": 1.5773932823300114e-09,
+          "rfmodel_power_w": 1.5773933612004849e-09,
+          "relative_complex_error": 2.500025611172826e-08,
+          "relative_power_error": 5.000051306325304e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            -2,
+            1,
+            1
+          ],
+          "bin": 10,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{7}[-(Source.Source2)+2x(Source.Source1)],RFAmp",
+          "native_group": 6,
+          "systemvue_amplitude": [
+            -2.4377032692646432e-20,
+            0.00039810715562427755
+          ],
+          "rfmodel_amplitude": [
+            -2.4377033606797494e-20,
+            0.0003981071705534973
+          ],
+          "systemvue_power_w": 1.584893073592527e-07,
+          "rfmodel_power_w": 1.5848931924611138e-07,
+          "relative_complex_error": 3.750050593636135e-08,
+          "relative_power_error": 7.500101339985576e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            -2,
+            1,
+            2
+          ],
+          "bin": 10,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{6}[-(Source.Source2)+(Source.Source1)+(Source.Source2)],RFAmp",
+          "native_group": 7,
+          "systemvue_amplitude": [
+            -7.962143112485548e-05,
+            1.0639360341927959e-36
+          ],
+          "rfmodel_amplitude": [
+            -7.96214341106995e-05,
+            0.0
+          ],
+          "systemvue_power_w": 6.339572294370104e-09,
+          "rfmodel_power_w": 6.339572769844461e-09,
+          "relative_complex_error": 3.7500506821464034e-08,
+          "relative_power_error": 7.50010151762126e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            -2,
+            2,
+            2
+          ],
+          "bin": 10,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{8}[-(Source.Source2)+2x(Source.Source2)],RFAmp",
+          "native_group": 8,
+          "systemvue_amplitude": [
+            -2.437703269264642e-22,
+            -3.981071556242774e-06
+          ],
+          "rfmodel_amplitude": [
+            -2.4377033606797515e-22,
+            -3.981071705534977e-06
+          ],
+          "systemvue_power_w": 1.5848930735925257e-11,
+          "rfmodel_power_w": 1.584893192461117e-11,
+          "relative_complex_error": 3.7500507332100196e-08,
+          "relative_power_error": 7.500101628643563e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            -1,
+            1,
+            1
+          ],
+          "bin": 10,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{10}[-(Source.Source1)+2x(Source.Source1)],RFAmp",
+          "native_group": 9,
+          "systemvue_amplitude": [
+            -0.003981071556242775,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            -0.003981071705534972,
+            0.0
+          ],
+          "systemvue_power_w": 1.5848930735925273e-05,
+          "rfmodel_power_w": 1.5848931924611128e-05,
+          "relative_complex_error": 3.750050571848993e-08,
+          "relative_power_error": 7.500101273372195e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            -1,
+            1,
+            2
+          ],
+          "bin": 10,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{9}[-(Source.Source1)+(Source.Source1)+(Source.Source2)],RFAmp",
+          "native_group": 10,
+          "systemvue_amplitude": [
+            -4.8754065385292864e-20,
+            -0.0007962143112485551
+          ],
+          "rfmodel_amplitude": [
+            -4.875406721359499e-20,
+            -0.0007962143411069946
+          ],
+          "systemvue_power_w": 6.339572294370108e-07,
+          "rfmodel_power_w": 6.339572769844455e-07,
+          "relative_complex_error": 3.750050593636135e-08,
+          "relative_power_error": 7.500101339985576e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            -1,
+            2,
+            2
+          ],
+          "bin": 10,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{11}[-(Source.Source1)+2x(Source.Source2)],RFAmp",
+          "native_group": 11,
+          "systemvue_amplitude": [
+            3.981071556242774e-05,
+            -4.875406538529287e-21
+          ],
+          "rfmodel_amplitude": [
+            3.981071705534975e-05,
+            -4.875406721359501e-21
+          ],
+          "systemvue_power_w": 1.584893073592526e-09,
+          "rfmodel_power_w": 1.5848931924611153e-09,
+          "relative_complex_error": 3.7500506821464034e-08,
+          "relative_power_error": 7.50010151762126e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            1,
+            1,
+            1
+          ],
+          "bin": 30,
+          "kind": "HARMONIC",
+          "bandwidth_hz": 3.0,
+          "identity": "{13}[3x(Source.Source1)],RFAmp",
+          "native_group": 12,
+          "systemvue_amplitude": [
+            -0.0013270238520809252,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            -0.0013270239018449905,
+            0.0
+          ],
+          "systemvue_power_w": 1.7609923039916974e-06,
+          "rfmodel_power_w": 1.7609924360679029e-06,
+          "relative_complex_error": 3.75005055006185e-08,
+          "relative_power_error": 7.500101228963274e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            1,
+            1,
+            2
+          ],
+          "bin": 30,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{12}[2x(Source.Source1)+(Source.Source2)],RFAmp",
+          "native_group": 13,
+          "systemvue_amplitude": [
+            -2.4377032692646432e-20,
+            -0.00039810715562427755
+          ],
+          "rfmodel_amplitude": [
+            -2.4377033606797494e-20,
+            -0.0003981071705534973
+          ],
+          "systemvue_power_w": 1.584893073592527e-07,
+          "rfmodel_power_w": 1.5848931924611138e-07,
+          "relative_complex_error": 3.750050593636135e-08,
+          "relative_power_error": 7.500101339985576e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            1,
+            2,
+            2
+          ],
+          "bin": 30,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{14}[(Source.Source1)+2x(Source.Source2)],RFAmp",
+          "native_group": 14,
+          "systemvue_amplitude": [
+            3.981071556242774e-05,
+            -4.875406538529287e-21
+          ],
+          "rfmodel_amplitude": [
+            3.981071705534975e-05,
+            -4.875406721359501e-21
+          ],
+          "systemvue_power_w": 1.584893073592526e-09,
+          "rfmodel_power_w": 1.5848931924611153e-09,
+          "relative_complex_error": 3.7500506821464034e-08,
+          "relative_power_error": 7.50010151762126e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            2,
+            2,
+            2
+          ],
+          "bin": 30,
+          "kind": "HARMONIC",
+          "bandwidth_hz": 3.0,
+          "identity": "{15}[3x(Source.Source2)],RFAmp",
+          "native_group": 15,
+          "systemvue_amplitude": [
+            2.437703269264642e-22,
+            1.3270238520809241e-06
+          ],
+          "rfmodel_amplitude": [
+            2.4377033606797515e-22,
+            1.327023901844992e-06
+          ],
+          "systemvue_power_w": 1.7609923039916944e-12,
+          "rfmodel_power_w": 1.760992436067907e-12,
+          "relative_complex_error": 3.7500507438482736e-08,
+          "relative_power_error": 7.500101628643563e-08,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "source_powers_dbm": [
+        -30.0,
+        -30.0
+      ],
+      "source_phases_deg": [
+        0.0,
+        0.0
+      ],
+      "same_frequency": true,
+      "locked": true,
+      "noise_enabled": true,
+      "raw_capture_sha256": "c760bdc4b456edfbb6e44b6abc2a4be2d2c9e2ead0d9a1998571e6ab1e611125",
+      "run_started_utc": "2026-10-09T04:50:07.2954848Z",
+      "systemvue_rfpwrin_w": 4.00001591554232e-06,
+      "rfmodel_input_power_w": 4e-06,
+      "group_partition_passed": true,
+      "checks": [
+        {
+          "order": 1,
+          "input_indices": [
+            1
+          ],
+          "bin": 10,
+          "kind": "SOURCE",
+          "bandwidth_hz": 1.0,
+          "identity": "{1}D[(Source.Source1)],Source,RFAmp",
+          "native_group": 1,
+          "systemvue_amplitude": [
+            0.01999308915423194,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            0.019993089403972788,
+            0.0
+          ],
+          "systemvue_power_w": 0.00039972361392906676,
+          "rfmodel_power_w": 0.00039972362391524894,
+          "relative_complex_error": 1.2491358769111085e-08,
+          "relative_power_error": 2.49827176723727e-08,
+          "passed": true
+        },
+        {
+          "order": 2,
+          "input_indices": [
+            1,
+            1
+          ],
+          "bin": 20,
+          "kind": "HARMONIC",
+          "bandwidth_hz": 2.0,
+          "identity": "{2}[2x(Source.Source1)],RFAmp",
+          "native_group": 2,
+          "systemvue_amplitude": [
+            6.324555162221295e-05,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            6.324555320336759e-05,
+            0.0
+          ],
+          "systemvue_power_w": 3.999999799998003e-09,
+          "rfmodel_power_w": 4e-09,
+          "relative_complex_error": 2.500025061455457e-08,
+          "relative_power_error": 5.000050173897819e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            -1,
+            1,
+            1
+          ],
+          "bin": 10,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{3}[-(Source.Source1)+2x(Source.Source1)],RFAmp",
+          "native_group": 3,
+          "systemvue_amplitude": [
+            -7.999999699996004e-06,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            -7.999999999999998e-06,
+            0.0
+          ],
+          "systemvue_power_w": 6.399999519993615e-11,
+          "rfmodel_power_w": 6.399999999999997e-11,
+          "relative_complex_error": 3.750050070942225e-08,
+          "relative_power_error": 7.500100296375933e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            1,
+            1,
+            1
+          ],
+          "bin": 30,
+          "kind": "HARMONIC",
+          "bandwidth_hz": 3.0,
+          "identity": "{4}[3x(Source.Source1)],RFAmp",
+          "native_group": 4,
+          "systemvue_amplitude": [
+            -2.6666665666653345e-06,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            -2.6666666666666664e-06,
+            0.0
+          ],
+          "systemvue_power_w": 7.1111105777706826e-12,
+          "rfmodel_power_w": 7.1111111111111094e-12,
+          "relative_complex_error": 3.750050086824094e-08,
+          "relative_power_error": 7.500100318580394e-08,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "source_powers_dbm": [
+        -6.0,
+        -26.0
+      ],
+      "source_phases_deg": [
+        0.0,
+        0.0
+      ],
+      "same_frequency": true,
+      "locked": true,
+      "noise_enabled": true,
+      "raw_capture_sha256": "924c63b30061939c2d0ac7e55c3adbb48307538ef3f2e2481d924c0f2f4e5063",
+      "run_started_utc": "2026-10-09T04:50:19.1012482Z",
+      "systemvue_rfpwrin_w": 0.0003039382666295951,
+      "rfmodel_input_power_w": 0.00030393825821265917,
+      "group_partition_passed": true,
+      "checks": [
+        {
+          "order": 1,
+          "input_indices": [
+            1
+          ],
+          "bin": 10,
+          "kind": "SOURCE",
+          "bandwidth_hz": 1.0,
+          "identity": "{1}D[(Source.Source1)],Source,RFAmp",
+          "native_group": 1,
+          "systemvue_amplitude": [
+            0.16976101032143293,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            0.16976101232901122,
+            0.0
+          ],
+          "systemvue_power_w": 0.02881880062535365,
+          "rfmodel_power_w": 0.0288188013069707,
+          "relative_complex_error": 1.1825909225242098e-08,
+          "relative_power_error": 2.365181872576727e-08,
+          "passed": true
+        },
+        {
+          "order": 2,
+          "input_indices": [
+            1,
+            1
+          ],
+          "bin": 20,
+          "kind": "HARMONIC",
+          "bandwidth_hz": 2.0,
+          "identity": "{2}[2x(Source.Source1)],RFAmp",
+          "native_group": 2,
+          "systemvue_amplitude": [
+            0.004805685699938529,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            0.004805685820081902,
+            0.0
+          ],
+          "systemvue_power_w": 2.309461504659366e-05,
+          "rfmodel_power_w": 2.3094616201336263e-05,
+          "relative_complex_error": 2.500025616531023e-08,
+          "relative_power_error": 5.000051306325304e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            -1,
+            1,
+            1
+          ],
+          "bin": 10,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{3}[-(Source.Source1)+2x(Source.Source1)],RFAmp",
+          "native_group": 3,
+          "systemvue_amplitude": [
+            -0.0052988062413591285,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            -0.005298806440067046,
+            0.0
+          ],
+          "systemvue_power_w": 2.807734758346645e-05,
+          "rfmodel_power_w": 2.8077349689296e-05,
+          "relative_complex_error": 3.750050638896431e-08,
+          "relative_power_error": 7.500101428803418e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            1,
+            1,
+            1
+          ],
+          "bin": 30,
+          "kind": "HARMONIC",
+          "bandwidth_hz": 3.0,
+          "identity": "{4}[3x(Source.Source1)],RFAmp",
+          "native_group": 4,
+          "systemvue_amplitude": [
+            -0.0017662687471197093,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            -0.001766268813355682,
+            0.0
+          ],
+          "systemvue_power_w": 3.119705287051828e-06,
+          "rfmodel_power_w": 3.119705521032889e-06,
+          "relative_complex_error": 3.750050651173184e-08,
+          "relative_power_error": 7.500101428803418e-08,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "source_powers_dbm": [
+        -6.0,
+        -26.0
+      ],
+      "source_phases_deg": [
+        0.0,
+        180.0
+      ],
+      "same_frequency": true,
+      "locked": true,
+      "noise_enabled": true,
+      "raw_capture_sha256": "3fe6ac2eae8da8bc8d9181e135ad7144209ed3d91b016e090082b32bc34df7d7",
+      "run_started_utc": "2026-10-09T04:50:25.1702456Z",
+      "systemvue_rfpwrin_w": 0.00020346281188114864,
+      "rfmodel_input_power_w": 0.00020346280095227598,
+      "group_partition_passed": true,
+      "checks": [
+        {
+          "order": 1,
+          "input_indices": [
+            1
+          ],
+          "bin": 10,
+          "kind": "SOURCE",
+          "bandwidth_hz": 1.0,
+          "identity": "{1}D[(Source.Source1)],Source,RFAmp",
+          "native_group": 1,
+          "systemvue_amplitude": [
+            0.1401333930587999,
+            1.9068212362568576e-18
+          ],
+          "rfmodel_amplitude": [
+            0.1401333947477906,
+            1.9068212592392704e-18
+          ],
+          "systemvue_power_w": 0.019637367850172106,
+          "rfmodel_power_w": 0.019637368323540107,
+          "relative_complex_error": 1.2052735329065804e-08,
+          "relative_power_error": 2.4105470952662245e-08,
+          "passed": true
+        },
+        {
+          "order": 2,
+          "input_indices": [
+            1,
+            1
+          ],
+          "bin": 20,
+          "kind": "HARMONIC",
+          "bandwidth_hz": 2.0,
+          "identity": "{2}[2x(Source.Source1)],RFAmp",
+          "native_group": 2,
+          "systemvue_amplitude": [
+            0.0032170292702067916,
+            8.754943552271313e-20
+          ],
+          "rfmodel_amplitude": [
+            0.0032170293506333394,
+            8.754943771147131e-20
+          ],
+          "systemvue_power_w": 1.034927732536724e-05,
+          "rfmodel_power_w": 1.0349277842836365e-05,
+          "relative_complex_error": 2.5000253664122797e-08,
+          "relative_power_error": 5.0000507956227125e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            -1,
+            1,
+            1
+          ],
+          "bin": 10,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{3}[-(Source.Source1)+2x(Source.Source1)],RFAmp",
+          "native_group": 3,
+          "systemvue_amplitude": [
+            -0.002902201164500988,
+            -3.949079296208728e-20
+          ],
+          "rfmodel_amplitude": [
+            -0.002902201273334994,
+            -3.9490794443011935e-20
+          ],
+          "systemvue_power_w": 8.42277159923089e-06,
+          "rfmodel_power_w": 8.42277223094726e-06,
+          "relative_complex_error": 3.750050388466398e-08,
+          "relative_power_error": 7.500100918100827e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            1,
+            1,
+            1
+          ],
+          "bin": 30,
+          "kind": "HARMONIC",
+          "bandwidth_hz": 3.0,
+          "identity": "{4}[3x(Source.Source1)],RFAmp",
+          "native_group": 4,
+          "systemvue_amplitude": [
+            -0.0009674003881669958,
+            -3.949079296208728e-20
+          ],
+          "rfmodel_amplitude": [
+            -0.000967400424444998,
+            -3.9490794443011935e-20
+          ],
+          "systemvue_power_w": 9.358635110256541e-07,
+          "rfmodel_power_w": 9.358635812163623e-07,
+          "relative_complex_error": 3.7500504071453615e-08,
+          "relative_power_error": 7.500100962509748e-08,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "source_powers_dbm": [
+        -26.0,
+        -6.0
+      ],
+      "source_phases_deg": [
+        0.0,
+        90.0
+      ],
+      "same_frequency": true,
+      "locked": true,
+      "noise_enabled": true,
+      "raw_capture_sha256": "c04c25b005f730e325cc9a091d4805629607619f756e67c91aecdf0b5cec0bd3",
+      "run_started_utc": "2026-10-09T04:50:37.3341036Z",
+      "systemvue_rfpwrin_w": 0.0002537005392553719,
+      "rfmodel_input_power_w": 0.0002537005295824676,
+      "group_partition_passed": true,
+      "checks": [
+        {
+          "order": 1,
+          "input_indices": [
+            1
+          ],
+          "bin": 10,
+          "kind": "SOURCE",
+          "bandwidth_hz": 1.0,
+          "identity": "{1}D[(Source.Source2)],Source,RFAmp",
+          "native_group": 1,
+          "systemvue_amplitude": [
+            0.015501598063331802,
+            0.15501598063331795
+          ],
+          "rfmodel_amplitude": [
+            0.015501598248418185,
+            0.1550159824841817
+          ],
+          "systemvue_power_w": 0.024270253794226294,
+          "rfmodel_power_w": 0.024270254373791482,
+          "relative_complex_error": 1.1939825387353693e-08,
+          "relative_power_error": 2.3879650923319673e-08,
+          "passed": true
+        },
+        {
+          "order": 2,
+          "input_indices": [
+            1,
+            1
+          ],
+          "bin": 20,
+          "kind": "HARMONIC",
+          "bandwidth_hz": 2.0,
+          "identity": "{2}[2x(Source.Source2)],RFAmp",
+          "native_group": 2,
+          "systemvue_amplitude": [
+            -0.003931924663586072,
+            0.0007943282148658735
+          ],
+          "rfmodel_amplitude": [
+            -0.003931924761885193,
+            0.0007943282347242821
+          ],
+          "systemvue_power_w": 1.6090988873048452e-05,
+          "rfmodel_power_w": 1.6090989677606123e-05,
+          "relative_complex_error": 2.5000255359852836e-08,
+          "relative_power_error": 5.00005112868962e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            -1,
+            1,
+            1
+          ],
+          "bin": 10,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{3}[-(Source.Source2)+2x(Source.Source2)],RFAmp",
+          "native_group": 3,
+          "systemvue_amplitude": [
+            -0.0004020882271805206,
+            -0.004020882271805205
+          ],
+          "rfmodel_amplitude": [
+            -0.00040208824225903254,
+            -0.004020882422590321
+          ],
+          "systemvue_power_w": 1.6329169186154557e-05,
+          "rfmodel_power_w": 1.6329170410858766e-05,
+          "relative_complex_error": 3.750050511413751e-08,
+          "relative_power_error": 7.500101184554353e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            1,
+            1,
+            1
+          ],
+          "bin": 30,
+          "kind": "HARMONIC",
+          "bandwidth_hz": 3.0,
+          "identity": "{4}[3x(Source.Source2)],RFAmp",
+          "native_group": 4,
+          "systemvue_amplitude": [
+            0.00039678013177219684,
+            0.0012872131365184972
+          ],
+          "rfmodel_amplitude": [
+            0.0003967801466516525,
+            0.0012872131847896408
+          ],
+          "systemvue_power_w": 1.8143521317949491e-06,
+          "rfmodel_power_w": 1.8143522678731964e-06,
+          "relative_complex_error": 3.750050574133934e-08,
+          "relative_power_error": 7.500101273372195e-08,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "source_powers_dbm": [
+        -30.0,
+        -30.0
+      ],
+      "source_phases_deg": [
+        0.0,
+        90.0
+      ],
+      "same_frequency": true,
+      "locked": true,
+      "noise_enabled": true,
+      "raw_capture_sha256": "ae3c2274f969b0379885805acdb8881df5e6edf120b4ef5d979596f0dcc21c86",
+      "run_started_utc": "2026-10-09T04:50:10.3095987Z",
+      "systemvue_rfpwrin_w": 2.0000159655433197e-06,
+      "rfmodel_input_power_w": 2e-06,
+      "group_partition_passed": true,
+      "checks": [
+        {
+          "order": 1,
+          "input_indices": [
+            1
+          ],
+          "bin": 10,
+          "kind": "SOURCE",
+          "bandwidth_hz": 1.0,
+          "identity": "{1}D[(Source.Source1)],Source,RFAmp",
+          "native_group": 1,
+          "systemvue_amplitude": [
+            0.009998272226057987,
+            0.009998272226057987
+          ],
+          "rfmodel_amplitude": [
+            0.009998272350993199,
+            0.009998272350993199
+          ],
+          "systemvue_power_w": 0.00019993089501272506,
+          "rfmodel_power_w": 0.00019993090000927015,
+          "relative_complex_error": 1.2495680119232247e-08,
+          "relative_power_error": 2.4991360536574803e-08,
+          "passed": true
+        },
+        {
+          "order": 2,
+          "input_indices": [
+            1,
+            1
+          ],
+          "bin": 20,
+          "kind": "HARMONIC",
+          "bandwidth_hz": 2.0,
+          "identity": "{2}[2x(Source.Source1)],RFAmp",
+          "native_group": 2,
+          "systemvue_amplitude": [
+            0.0,
+            3.1622775811106495e-05
+          ],
+          "rfmodel_amplitude": [
+            0.0,
+            3.1622776601683795e-05
+          ],
+          "systemvue_power_w": 9.999999499995019e-10,
+          "rfmodel_power_w": 1e-09,
+          "relative_complex_error": 2.500024997170173e-08,
+          "relative_power_error": 5.000050062875516e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            -1,
+            1,
+            1
+          ],
+          "bin": 10,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{3}[-(Source.Source1)+2x(Source.Source1)],RFAmp",
+          "native_group": 3,
+          "systemvue_amplitude": [
+            -1.9999999249990017e-06,
+            -1.9999999249990017e-06
+          ],
+          "rfmodel_amplitude": [
+            -1.9999999999999995e-06,
+            -1.9999999999999995e-06
+          ],
+          "systemvue_power_w": 7.999999399992025e-12,
+          "rfmodel_power_w": 7.999999999999997e-12,
+          "relative_complex_error": 3.7500500285905746e-08,
+          "relative_power_error": 7.500100207558091e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            1,
+            1,
+            1
+          ],
+          "bin": 30,
+          "kind": "HARMONIC",
+          "bandwidth_hz": 3.0,
+          "identity": "{4}[3x(Source.Source1)],RFAmp",
+          "native_group": 4,
+          "systemvue_amplitude": [
+            6.666666416663337e-07,
+            -6.666666416663337e-07
+          ],
+          "rfmodel_amplitude": [
+            6.666666666666666e-07,
+            -6.666666666666666e-07
+          ],
+          "systemvue_power_w": 8.888888222213358e-13,
+          "rfmodel_power_w": 8.888888888888886e-13,
+          "relative_complex_error": 3.7500500709422246e-08,
+          "relative_power_error": 7.500100251967012e-08,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "source_powers_dbm": [
+        -6.0,
+        -26.0
+      ],
+      "source_phases_deg": [
+        0.0,
+        90.0
+      ],
+      "same_frequency": true,
+      "locked": true,
+      "noise_enabled": true,
+      "raw_capture_sha256": "076cbae447586f8dd42394abc811fe37ee10d94f70770b0cd40c230812809be7",
+      "run_started_utc": "2026-10-09T04:50:22.1450996Z",
+      "systemvue_rfpwrin_w": 0.00025370053925537184,
+      "rfmodel_input_power_w": 0.0002537005295824676,
+      "group_partition_passed": true,
+      "checks": [
+        {
+          "order": 1,
+          "input_indices": [
+            1
+          ],
+          "bin": 10,
+          "kind": "SOURCE",
+          "bandwidth_hz": 1.0,
+          "identity": "{1}D[(Source.Source1)],Source,RFAmp",
+          "native_group": 1,
+          "systemvue_amplitude": [
+            0.15501598063331795,
+            0.015501598063331791
+          ],
+          "rfmodel_amplitude": [
+            0.1550159824841817,
+            0.015501598248418177
+          ],
+          "systemvue_power_w": 0.024270253794226294,
+          "rfmodel_power_w": 0.024270254373791482,
+          "relative_complex_error": 1.1939825388461673e-08,
+          "relative_power_error": 2.3879650923319673e-08,
+          "passed": true
+        },
+        {
+          "order": 2,
+          "input_indices": [
+            1,
+            1
+          ],
+          "bin": 20,
+          "kind": "HARMONIC",
+          "bandwidth_hz": 2.0,
+          "identity": "{2}[2x(Source.Source1)],RFAmp",
+          "native_group": 2,
+          "systemvue_amplitude": [
+            0.003931924663586072,
+            0.0007943282148658731
+          ],
+          "rfmodel_amplitude": [
+            0.003931924761885193,
+            0.0007943282347242816
+          ],
+          "systemvue_power_w": 1.6090988873048452e-05,
+          "rfmodel_power_w": 1.6090989677606123e-05,
+          "relative_complex_error": 2.5000255359852836e-08,
+          "relative_power_error": 5.00005112868962e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            -1,
+            1,
+            1
+          ],
+          "bin": 10,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{3}[-(Source.Source1)+2x(Source.Source1)],RFAmp",
+          "native_group": 3,
+          "systemvue_amplitude": [
+            -0.004020882271805205,
+            -0.0004020882271805203
+          ],
+          "rfmodel_amplitude": [
+            -0.004020882422590321,
+            -0.00040208824225903227
+          ],
+          "systemvue_power_w": 1.6329169186154557e-05,
+          "rfmodel_power_w": 1.6329170410858766e-05,
+          "relative_complex_error": 3.750050511413751e-08,
+          "relative_power_error": 7.500101184554353e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            1,
+            1,
+            1
+          ],
+          "bin": 30,
+          "kind": "HARMONIC",
+          "bandwidth_hz": 3.0,
+          "identity": "{4}[3x(Source.Source1)],RFAmp",
+          "native_group": 4,
+          "systemvue_amplitude": [
+            -0.0012872131365184972,
+            -0.00039678013177219657
+          ],
+          "rfmodel_amplitude": [
+            -0.0012872131847896408,
+            -0.0003967801466516523
+          ],
+          "systemvue_power_w": 1.814352131794949e-06,
+          "rfmodel_power_w": 1.8143522678731964e-06,
+          "relative_complex_error": 3.750050575319453e-08,
+          "relative_power_error": 7.500101273372195e-08,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "source_powers_dbm": [
+        -30.0,
+        -30.0
+      ],
+      "source_phases_deg": [
+        0.0,
+        0.0
+      ],
+      "same_frequency": true,
+      "locked": false,
+      "noise_enabled": false,
+      "raw_capture_sha256": "0ec423b31726fb7ec0186b556a8c81bca9086118a04f43bde53dfa722949b2e5",
+      "run_started_utc": "2026-10-09T04:53:57.1378300Z",
+      "systemvue_rfpwrin_w": 1.9999999600000006e-06,
+      "rfmodel_input_power_w": 2e-06,
+      "group_partition_passed": true,
+      "checks": [
+        {
+          "order": 1,
+          "input_indices": [
+            1
+          ],
+          "bin": 10,
+          "kind": "SOURCE",
+          "bandwidth_hz": 1.0,
+          "identity": "{1}D[(Source.Source1)],Source,RFAmp",
+          "native_group": 1,
+          "systemvue_amplitude": [
+            0.009998272226057987,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            0.009998272350993199,
+            0.0
+          ],
+          "systemvue_power_w": 9.996544750636253e-05,
+          "rfmodel_power_w": 9.996545000463507e-05,
+          "relative_complex_error": 1.2495680119232247e-08,
+          "relative_power_error": 2.4991360536574803e-08,
+          "passed": true
+        },
+        {
+          "order": 1,
+          "input_indices": [
+            2
+          ],
+          "bin": 10,
+          "kind": "SOURCE",
+          "bandwidth_hz": 1.0,
+          "identity": "{2}D[(Source.Source2)],Source,RFAmp",
+          "native_group": 2,
+          "systemvue_amplitude": [
+            0.009998272226057987,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            0.009998272350993199,
+            0.0
+          ],
+          "systemvue_power_w": 9.996544750636253e-05,
+          "rfmodel_power_w": 9.996545000463507e-05,
+          "relative_complex_error": 1.2495680119232247e-08,
+          "relative_power_error": 2.4991360536574803e-08,
+          "passed": true
+        },
+        {
+          "order": 2,
+          "input_indices": [
+            1,
+            1
+          ],
+          "bin": 20,
+          "kind": "HARMONIC",
+          "bandwidth_hz": 2.0,
+          "identity": "{4}[2x(Source.Source1)],RFAmp",
+          "native_group": 3,
+          "systemvue_amplitude": [
+            1.5811387905553248e-05,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            1.5811388300841898e-05,
+            0.0
+          ],
+          "systemvue_power_w": 2.4999998749987547e-10,
+          "rfmodel_power_w": 2.5e-10,
+          "relative_complex_error": 2.500024997170173e-08,
+          "relative_power_error": 5.000050062875516e-08,
+          "passed": true
+        },
+        {
+          "order": 2,
+          "input_indices": [
+            1,
+            2
+          ],
+          "bin": 20,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 2.0,
+          "identity": "{3}[(Source.Source1)+(Source.Source2)],RFAmp",
+          "native_group": 4,
+          "systemvue_amplitude": [
+            3.1622775811106495e-05,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            3.1622776601683795e-05,
+            0.0
+          ],
+          "systemvue_power_w": 9.999999499995019e-10,
+          "rfmodel_power_w": 1e-09,
+          "relative_complex_error": 2.500024997170173e-08,
+          "relative_power_error": 5.000050062875516e-08,
+          "passed": true
+        },
+        {
+          "order": 2,
+          "input_indices": [
+            2,
+            2
+          ],
+          "bin": 20,
+          "kind": "HARMONIC",
+          "bandwidth_hz": 2.0,
+          "identity": "{5}[2x(Source.Source2)],RFAmp",
+          "native_group": 5,
+          "systemvue_amplitude": [
+            1.5811387905553248e-05,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            1.5811388300841898e-05,
+            0.0
+          ],
+          "systemvue_power_w": 2.4999998749987547e-10,
+          "rfmodel_power_w": 2.5e-10,
+          "relative_complex_error": 2.500024997170173e-08,
+          "relative_power_error": 5.000050062875516e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            -2,
+            1,
+            1
+          ],
+          "bin": 10,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{7}[-(Source.Source2)+2x(Source.Source1)],RFAmp",
+          "native_group": 6,
+          "systemvue_amplitude": [
+            -9.999999624995009e-07,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            -9.999999999999997e-07,
+            0.0
+          ],
+          "systemvue_power_w": 9.999999249990031e-13,
+          "rfmodel_power_w": 9.999999999999996e-13,
+          "relative_complex_error": 3.7500500285905746e-08,
+          "relative_power_error": 7.500100207558091e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            -2,
+            1,
+            2
+          ],
+          "bin": 10,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{6}[-(Source.Source2)+(Source.Source1)+(Source.Source2)],RFAmp",
+          "native_group": 7,
+          "systemvue_amplitude": [
+            -1.9999999249990017e-06,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            -1.9999999999999995e-06,
+            0.0
+          ],
+          "systemvue_power_w": 3.9999996999960125e-12,
+          "rfmodel_power_w": 3.999999999999998e-12,
+          "relative_complex_error": 3.7500500285905746e-08,
+          "relative_power_error": 7.500100207558091e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            -2,
+            2,
+            2
+          ],
+          "bin": 10,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{8}[-(Source.Source2)+2x(Source.Source2)],RFAmp",
+          "native_group": 8,
+          "systemvue_amplitude": [
+            -9.999999624995009e-07,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            -9.999999999999997e-07,
+            0.0
+          ],
+          "systemvue_power_w": 9.999999249990031e-13,
+          "rfmodel_power_w": 9.999999999999996e-13,
+          "relative_complex_error": 3.7500500285905746e-08,
+          "relative_power_error": 7.500100207558091e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            -1,
+            1,
+            1
+          ],
+          "bin": 10,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{10}[-(Source.Source1)+2x(Source.Source1)],RFAmp",
+          "native_group": 9,
+          "systemvue_amplitude": [
+            -9.999999624995009e-07,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            -9.999999999999997e-07,
+            0.0
+          ],
+          "systemvue_power_w": 9.999999249990031e-13,
+          "rfmodel_power_w": 9.999999999999996e-13,
+          "relative_complex_error": 3.7500500285905746e-08,
+          "relative_power_error": 7.500100207558091e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            -1,
+            1,
+            2
+          ],
+          "bin": 10,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{9}[-(Source.Source1)+(Source.Source1)+(Source.Source2)],RFAmp",
+          "native_group": 10,
+          "systemvue_amplitude": [
+            -1.9999999249990017e-06,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            -1.9999999999999995e-06,
+            0.0
+          ],
+          "systemvue_power_w": 3.9999996999960125e-12,
+          "rfmodel_power_w": 3.999999999999998e-12,
+          "relative_complex_error": 3.7500500285905746e-08,
+          "relative_power_error": 7.500100207558091e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            -1,
+            2,
+            2
+          ],
+          "bin": 10,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{11}[-(Source.Source1)+2x(Source.Source2)],RFAmp",
+          "native_group": 11,
+          "systemvue_amplitude": [
+            -9.999999624995009e-07,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            -9.999999999999997e-07,
+            0.0
+          ],
+          "systemvue_power_w": 9.999999249990031e-13,
+          "rfmodel_power_w": 9.999999999999996e-13,
+          "relative_complex_error": 3.7500500285905746e-08,
+          "relative_power_error": 7.500100207558091e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            1,
+            1,
+            1
+          ],
+          "bin": 30,
+          "kind": "HARMONIC",
+          "bandwidth_hz": 3.0,
+          "identity": "{13}[3x(Source.Source1)],RFAmp",
+          "native_group": 12,
+          "systemvue_amplitude": [
+            -3.3333332083316687e-07,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            -3.333333333333333e-07,
+            0.0
+          ],
+          "systemvue_power_w": 1.1111110277766698e-13,
+          "rfmodel_power_w": 1.1111111111111109e-13,
+          "relative_complex_error": 3.7500500709422246e-08,
+          "relative_power_error": 7.500100251967012e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            1,
+            1,
+            2
+          ],
+          "bin": 30,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{12}[2x(Source.Source1)+(Source.Source2)],RFAmp",
+          "native_group": 13,
+          "systemvue_amplitude": [
+            -9.999999624995009e-07,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            -9.999999999999997e-07,
+            0.0
+          ],
+          "systemvue_power_w": 9.999999249990031e-13,
+          "rfmodel_power_w": 9.999999999999996e-13,
+          "relative_complex_error": 3.7500500285905746e-08,
+          "relative_power_error": 7.500100207558091e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            1,
+            2,
+            2
+          ],
+          "bin": 30,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{14}[(Source.Source1)+2x(Source.Source2)],RFAmp",
+          "native_group": 14,
+          "systemvue_amplitude": [
+            -9.999999624995009e-07,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            -9.999999999999997e-07,
+            0.0
+          ],
+          "systemvue_power_w": 9.999999249990031e-13,
+          "rfmodel_power_w": 9.999999999999996e-13,
+          "relative_complex_error": 3.7500500285905746e-08,
+          "relative_power_error": 7.500100207558091e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            2,
+            2,
+            2
+          ],
+          "bin": 30,
+          "kind": "HARMONIC",
+          "bandwidth_hz": 3.0,
+          "identity": "{15}[3x(Source.Source2)],RFAmp",
+          "native_group": 15,
+          "systemvue_amplitude": [
+            -3.3333332083316687e-07,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            -3.333333333333333e-07,
+            0.0
+          ],
+          "systemvue_power_w": 1.1111110277766698e-13,
+          "rfmodel_power_w": 1.1111111111111109e-13,
+          "relative_complex_error": 3.7500500709422246e-08,
+          "relative_power_error": 7.500100251967012e-08,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "source_powers_dbm": [
+        -30.0,
+        -30.0
+      ],
+      "source_phases_deg": [
+        0.0,
+        180.0
+      ],
+      "same_frequency": true,
+      "locked": false,
+      "noise_enabled": false,
+      "raw_capture_sha256": "7884c47be489908d8b7ce6bdf71bf8de0f21beb8dc5bda6975df3f1793911aa1",
+      "run_started_utc": "2026-10-09T04:54:00.1839833Z",
+      "systemvue_rfpwrin_w": 1.9999999600000006e-06,
+      "rfmodel_input_power_w": 2e-06,
+      "group_partition_passed": true,
+      "checks": [
+        {
+          "order": 1,
+          "input_indices": [
+            1
+          ],
+          "bin": 10,
+          "kind": "SOURCE",
+          "bandwidth_hz": 1.0,
+          "identity": "{1}D[(Source.Source1)],Source,RFAmp",
+          "native_group": 1,
+          "systemvue_amplitude": [
+            0.009998272226057987,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            0.009998272350993199,
+            0.0
+          ],
+          "systemvue_power_w": 9.996544750636253e-05,
+          "rfmodel_power_w": 9.996545000463507e-05,
+          "relative_complex_error": 1.2495680119232247e-08,
+          "relative_power_error": 2.4991360536574803e-08,
+          "passed": true
+        },
+        {
+          "order": 1,
+          "input_indices": [
+            2
+          ],
+          "bin": 10,
+          "kind": "SOURCE",
+          "bandwidth_hz": 1.0,
+          "identity": "{2}D[(Source.Source2)],Source,RFAmp",
+          "native_group": 2,
+          "systemvue_amplitude": [
+            -0.009998272226057987,
+            1.2244352078645797e-18
+          ],
+          "rfmodel_amplitude": [
+            -0.009998272350993199,
+            1.2244352231647302e-18
+          ],
+          "systemvue_power_w": 9.996544750636253e-05,
+          "rfmodel_power_w": 9.996545000463507e-05,
+          "relative_complex_error": 1.2495680119232247e-08,
+          "relative_power_error": 2.4991360536574803e-08,
+          "passed": true
+        },
+        {
+          "order": 2,
+          "input_indices": [
+            1,
+            1
+          ],
+          "bin": 20,
+          "kind": "HARMONIC",
+          "bandwidth_hz": 2.0,
+          "identity": "{4}[2x(Source.Source1)],RFAmp",
+          "native_group": 3,
+          "systemvue_amplitude": [
+            1.5811387905553248e-05,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            1.5811388300841898e-05,
+            0.0
+          ],
+          "systemvue_power_w": 2.4999998749987547e-10,
+          "rfmodel_power_w": 2.5e-10,
+          "relative_complex_error": 2.500024997170173e-08,
+          "relative_power_error": 5.000050062875516e-08,
+          "passed": true
+        },
+        {
+          "order": 2,
+          "input_indices": [
+            1,
+            2
+          ],
+          "bin": 20,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 2.0,
+          "identity": "{3}[(Source.Source1)+(Source.Source2)],RFAmp",
+          "native_group": 4,
+          "systemvue_amplitude": [
+            -3.1622775811106495e-05,
+            3.872673117722591e-21
+          ],
+          "rfmodel_amplitude": [
+            -3.1622776601683795e-05,
+            3.872673214540387e-21
+          ],
+          "systemvue_power_w": 9.999999499995019e-10,
+          "rfmodel_power_w": 1e-09,
+          "relative_complex_error": 2.500024997170173e-08,
+          "relative_power_error": 5.000050062875516e-08,
+          "passed": true
+        },
+        {
+          "order": 2,
+          "input_indices": [
+            2,
+            2
+          ],
+          "bin": 20,
+          "kind": "HARMONIC",
+          "bandwidth_hz": 2.0,
+          "identity": "{5}[2x(Source.Source2)],RFAmp",
+          "native_group": 5,
+          "systemvue_amplitude": [
+            1.5811387905553248e-05,
+            -3.872673117722591e-21
+          ],
+          "rfmodel_amplitude": [
+            1.5811388300841898e-05,
+            -3.872673214540387e-21
+          ],
+          "systemvue_power_w": 2.4999998749987547e-10,
+          "rfmodel_power_w": 2.5e-10,
+          "relative_complex_error": 2.500024997170173e-08,
+          "relative_power_error": 5.000050062875516e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            -2,
+            1,
+            1
+          ],
+          "bin": 10,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{7}[-(Source.Source2)+2x(Source.Source1)],RFAmp",
+          "native_group": 6,
+          "systemvue_amplitude": [
+            9.999999624995009e-07,
+            1.2246467532224866e-22
+          ],
+          "rfmodel_amplitude": [
+            9.999999999999997e-07,
+            1.224646799147353e-22
+          ],
+          "systemvue_power_w": 9.999999249990031e-13,
+          "rfmodel_power_w": 9.999999999999996e-13,
+          "relative_complex_error": 3.7500500285905746e-08,
+          "relative_power_error": 7.500100207558091e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            -2,
+            1,
+            2
+          ],
+          "bin": 10,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{6}[-(Source.Source2)+(Source.Source1)+(Source.Source2)],RFAmp",
+          "native_group": 7,
+          "systemvue_amplitude": [
+            -1.9999999249990017e-06,
+            3.3248001068525053e-38
+          ],
+          "rfmodel_amplitude": [
+            -1.9999999999999995e-06,
+            0.0
+          ],
+          "systemvue_power_w": 3.9999996999960125e-12,
+          "rfmodel_power_w": 3.999999999999998e-12,
+          "relative_complex_error": 3.7500500285905746e-08,
+          "relative_power_error": 7.500100207558091e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            -2,
+            2,
+            2
+          ],
+          "bin": 10,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{8}[-(Source.Source2)+2x(Source.Source2)],RFAmp",
+          "native_group": 8,
+          "systemvue_amplitude": [
+            9.999999624995009e-07,
+            -1.2246467532224868e-22
+          ],
+          "rfmodel_amplitude": [
+            9.999999999999997e-07,
+            -1.224646799147353e-22
+          ],
+          "systemvue_power_w": 9.999999249990031e-13,
+          "rfmodel_power_w": 9.999999999999996e-13,
+          "relative_complex_error": 3.7500500285905746e-08,
+          "relative_power_error": 7.500100207558091e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            -1,
+            1,
+            1
+          ],
+          "bin": 10,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{10}[-(Source.Source1)+2x(Source.Source1)],RFAmp",
+          "native_group": 9,
+          "systemvue_amplitude": [
+            -9.999999624995009e-07,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            -9.999999999999997e-07,
+            0.0
+          ],
+          "systemvue_power_w": 9.999999249990031e-13,
+          "rfmodel_power_w": 9.999999999999996e-13,
+          "relative_complex_error": 3.7500500285905746e-08,
+          "relative_power_error": 7.500100207558091e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            -1,
+            1,
+            2
+          ],
+          "bin": 10,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{9}[-(Source.Source1)+(Source.Source1)+(Source.Source2)],RFAmp",
+          "native_group": 10,
+          "systemvue_amplitude": [
+            1.9999999249990017e-06,
+            -2.4492935064449736e-22
+          ],
+          "rfmodel_amplitude": [
+            1.9999999999999995e-06,
+            -2.449293598294706e-22
+          ],
+          "systemvue_power_w": 3.9999996999960125e-12,
+          "rfmodel_power_w": 3.999999999999998e-12,
+          "relative_complex_error": 3.7500500285905746e-08,
+          "relative_power_error": 7.500100207558091e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            -1,
+            2,
+            2
+          ],
+          "bin": 10,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{11}[-(Source.Source1)+2x(Source.Source2)],RFAmp",
+          "native_group": 11,
+          "systemvue_amplitude": [
+            -9.999999624995009e-07,
+            2.4492935064449736e-22
+          ],
+          "rfmodel_amplitude": [
+            -9.999999999999997e-07,
+            2.449293598294706e-22
+          ],
+          "systemvue_power_w": 9.999999249990031e-13,
+          "rfmodel_power_w": 9.999999999999996e-13,
+          "relative_complex_error": 3.7500500285905746e-08,
+          "relative_power_error": 7.500100207558091e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            1,
+            1,
+            1
+          ],
+          "bin": 30,
+          "kind": "HARMONIC",
+          "bandwidth_hz": 3.0,
+          "identity": "{13}[3x(Source.Source1)],RFAmp",
+          "native_group": 12,
+          "systemvue_amplitude": [
+            -3.3333332083316687e-07,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            -3.333333333333333e-07,
+            0.0
+          ],
+          "systemvue_power_w": 1.1111110277766698e-13,
+          "rfmodel_power_w": 1.1111111111111109e-13,
+          "relative_complex_error": 3.7500500709422246e-08,
+          "relative_power_error": 7.500100251967012e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            1,
+            1,
+            2
+          ],
+          "bin": 30,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{12}[2x(Source.Source1)+(Source.Source2)],RFAmp",
+          "native_group": 13,
+          "systemvue_amplitude": [
+            9.999999624995009e-07,
+            -1.2246467532224868e-22
+          ],
+          "rfmodel_amplitude": [
+            9.999999999999997e-07,
+            -1.224646799147353e-22
+          ],
+          "systemvue_power_w": 9.999999249990031e-13,
+          "rfmodel_power_w": 9.999999999999996e-13,
+          "relative_complex_error": 3.7500500285905746e-08,
+          "relative_power_error": 7.500100207558091e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            1,
+            2,
+            2
+          ],
+          "bin": 30,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{14}[(Source.Source1)+2x(Source.Source2)],RFAmp",
+          "native_group": 14,
+          "systemvue_amplitude": [
+            -9.999999624995009e-07,
+            2.4492935064449736e-22
+          ],
+          "rfmodel_amplitude": [
+            -9.999999999999997e-07,
+            2.449293598294706e-22
+          ],
+          "systemvue_power_w": 9.999999249990031e-13,
+          "rfmodel_power_w": 9.999999999999996e-13,
+          "relative_complex_error": 3.7500500285905746e-08,
+          "relative_power_error": 7.500100207558091e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            2,
+            2,
+            2
+          ],
+          "bin": 30,
+          "kind": "HARMONIC",
+          "bandwidth_hz": 3.0,
+          "identity": "{15}[3x(Source.Source2)],RFAmp",
+          "native_group": 15,
+          "systemvue_amplitude": [
+            3.3333332083316687e-07,
+            -1.2246467532224866e-22
+          ],
+          "rfmodel_amplitude": [
+            3.333333333333333e-07,
+            -1.224646799147353e-22
+          ],
+          "systemvue_power_w": 1.1111110277766698e-13,
+          "rfmodel_power_w": 1.1111111111111109e-13,
+          "relative_complex_error": 3.7500500709422246e-08,
+          "relative_power_error": 7.500100251967012e-08,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "source_powers_dbm": [
+        -30.0,
+        -30.0
+      ],
+      "source_phases_deg": [
+        0.0,
+        0.0
+      ],
+      "same_frequency": true,
+      "locked": true,
+      "noise_enabled": false,
+      "raw_capture_sha256": "8d65c66265d15743a4ae597dfaf0d44992e66d096eca6887e31accd51dbe7fb6",
+      "run_started_utc": "2026-10-09T04:53:50.9730322Z",
+      "systemvue_rfpwrin_w": 3.999999899998e-06,
+      "rfmodel_input_power_w": 4e-06,
+      "group_partition_passed": true,
+      "checks": [
+        {
+          "order": 1,
+          "input_indices": [
+            1
+          ],
+          "bin": 10,
+          "kind": "SOURCE",
+          "bandwidth_hz": 1.0,
+          "identity": "{1}D[(Source.Source1)],Source,RFAmp",
+          "native_group": 1,
+          "systemvue_amplitude": [
+            0.01999308915423194,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            0.019993089403972788,
+            0.0
+          ],
+          "systemvue_power_w": 0.00039972361392906676,
+          "rfmodel_power_w": 0.00039972362391524894,
+          "relative_complex_error": 1.2491358769111085e-08,
+          "relative_power_error": 2.49827176723727e-08,
+          "passed": true
+        },
+        {
+          "order": 2,
+          "input_indices": [
+            1,
+            1
+          ],
+          "bin": 20,
+          "kind": "HARMONIC",
+          "bandwidth_hz": 2.0,
+          "identity": "{2}[2x(Source.Source1)],RFAmp",
+          "native_group": 2,
+          "systemvue_amplitude": [
+            6.324555162221295e-05,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            6.324555320336759e-05,
+            0.0
+          ],
+          "systemvue_power_w": 3.999999799998003e-09,
+          "rfmodel_power_w": 4e-09,
+          "relative_complex_error": 2.500025061455457e-08,
+          "relative_power_error": 5.000050173897819e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            -1,
+            1,
+            1
+          ],
+          "bin": 10,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{3}[-(Source.Source1)+2x(Source.Source1)],RFAmp",
+          "native_group": 3,
+          "systemvue_amplitude": [
+            -7.999999699996004e-06,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            -7.999999999999998e-06,
+            0.0
+          ],
+          "systemvue_power_w": 6.399999519993615e-11,
+          "rfmodel_power_w": 6.399999999999997e-11,
+          "relative_complex_error": 3.750050070942225e-08,
+          "relative_power_error": 7.500100296375933e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            1,
+            1,
+            1
+          ],
+          "bin": 30,
+          "kind": "HARMONIC",
+          "bandwidth_hz": 3.0,
+          "identity": "{4}[3x(Source.Source1)],RFAmp",
+          "native_group": 4,
+          "systemvue_amplitude": [
+            -2.6666665666653345e-06,
+            0.0
+          ],
+          "rfmodel_amplitude": [
+            -2.6666666666666664e-06,
+            0.0
+          ],
+          "systemvue_power_w": 7.1111105777706826e-12,
+          "rfmodel_power_w": 7.1111111111111094e-12,
+          "relative_complex_error": 3.750050086824094e-08,
+          "relative_power_error": 7.500100318580394e-08,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "source_powers_dbm": [
+        -30.0,
+        -30.0
+      ],
+      "source_phases_deg": [
+        0.0,
+        90.0
+      ],
+      "same_frequency": true,
+      "locked": true,
+      "noise_enabled": false,
+      "raw_capture_sha256": "a60e6d22538467a4327b58e803b0d2be71453d8c1774ab7d4ddb53638dad330e",
+      "run_started_utc": "2026-10-09T04:53:54.0823060Z",
+      "systemvue_rfpwrin_w": 1.999999949999e-06,
+      "rfmodel_input_power_w": 2e-06,
+      "group_partition_passed": true,
+      "checks": [
+        {
+          "order": 1,
+          "input_indices": [
+            1
+          ],
+          "bin": 10,
+          "kind": "SOURCE",
+          "bandwidth_hz": 1.0,
+          "identity": "{1}D[(Source.Source1)],Source,RFAmp",
+          "native_group": 1,
+          "systemvue_amplitude": [
+            0.009998272226057987,
+            0.009998272226057987
+          ],
+          "rfmodel_amplitude": [
+            0.009998272350993199,
+            0.009998272350993199
+          ],
+          "systemvue_power_w": 0.00019993089501272506,
+          "rfmodel_power_w": 0.00019993090000927015,
+          "relative_complex_error": 1.2495680119232247e-08,
+          "relative_power_error": 2.4991360536574803e-08,
+          "passed": true
+        },
+        {
+          "order": 2,
+          "input_indices": [
+            1,
+            1
+          ],
+          "bin": 20,
+          "kind": "HARMONIC",
+          "bandwidth_hz": 2.0,
+          "identity": "{2}[2x(Source.Source1)],RFAmp",
+          "native_group": 2,
+          "systemvue_amplitude": [
+            0.0,
+            3.1622775811106495e-05
+          ],
+          "rfmodel_amplitude": [
+            0.0,
+            3.1622776601683795e-05
+          ],
+          "systemvue_power_w": 9.999999499995019e-10,
+          "rfmodel_power_w": 1e-09,
+          "relative_complex_error": 2.500024997170173e-08,
+          "relative_power_error": 5.000050062875516e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            -1,
+            1,
+            1
+          ],
+          "bin": 10,
+          "kind": "INTERMOD",
+          "bandwidth_hz": 3.0,
+          "identity": "{3}[-(Source.Source1)+2x(Source.Source1)],RFAmp",
+          "native_group": 3,
+          "systemvue_amplitude": [
+            -1.9999999249990017e-06,
+            -1.9999999249990017e-06
+          ],
+          "rfmodel_amplitude": [
+            -1.9999999999999995e-06,
+            -1.9999999999999995e-06
+          ],
+          "systemvue_power_w": 7.999999399992025e-12,
+          "rfmodel_power_w": 7.999999999999997e-12,
+          "relative_complex_error": 3.7500500285905746e-08,
+          "relative_power_error": 7.500100207558091e-08,
+          "passed": true
+        },
+        {
+          "order": 3,
+          "input_indices": [
+            1,
+            1,
+            1
+          ],
+          "bin": 30,
+          "kind": "HARMONIC",
+          "bandwidth_hz": 3.0,
+          "identity": "{4}[3x(Source.Source1)],RFAmp",
+          "native_group": 4,
+          "systemvue_amplitude": [
+            6.666666416663337e-07,
+            -6.666666416663337e-07
+          ],
+          "rfmodel_amplitude": [
+            6.666666666666666e-07,
+            -6.666666666666666e-07
+          ],
+          "systemvue_power_w": 8.888888222213358e-13,
+          "rfmodel_power_w": 8.888888888888886e-13,
+          "relative_complex_error": 3.7500500709422246e-08,
+          "relative_power_error": 7.500100251967012e-08,
+          "passed": true
+        }
+      ]
+    }
+  ],
+  "diagnostics": [
+    {
+      "raw_capture_sha256": "1fc878f41abb769d09ab8542cc01b36bba3e4a608ff8315c9c8d2e2d0e2be42c",
+      "classification": "diagnostic_only",
+      "manager_messages": " (WARNING) The Desired Channel Power (DCP) has fallen below the 'Ignore Spectrum Below Threshold' of -200.0 dBm at the output of stage 'Source' for path 'Path1'. The signal may have been converted to an undesired signal by traveling through a leakage path. Check part for correct operation.\n (WARNING) No desired signal was found along path 'Path1 - Source,Out'. All measurements that depend on DCP such as GAIN and CGAIN will be zero. Generally, this occurs when channel only contains noise, undesired signals, or the path begins on a node containing no source. Enable the 'Allow Path to Begin on Internal Node' option when the path doesn't begin at a source.\n",
+      "affects_compatibility_verdict": false
+    },
+    {
+      "raw_capture_sha256": "78a38f49bc5673da611845c4521008d4442fd96a278d1bfc38dc835be4fdb1a9",
+      "classification": "diagnostic_only",
+      "manager_messages": " (WARNING) The Desired Channel Power (DCP) has fallen below the 'Ignore Spectrum Below Threshold' of -200.0 dBm at the output of stage 'Source' for path 'Path1'. The signal may have been converted to an undesired signal by traveling through a leakage path. Check part for correct operation.\n (WARNING) No desired signal was found along path 'Path1 - Source,Out'. All measurements that depend on DCP such as GAIN and CGAIN will be zero. Generally, this occurs when channel only contains noise, undesired signals, or the path begins on a node containing no source. Enable the 'Allow Path to Begin on Internal Node' option when the path doesn't begin at a source.\n",
+      "affects_compatibility_verdict": false
+    }
+  ],
+  "passed": true,
+  "captures_sha256": "394b79ea44512b22b17585d7041474453bf80a3d50bff83afe1f8f6b6a6a6b6f",
+  "library_sha256": "732cea6bf187d7d0cfc60827046964657da20a378732d9f756e2b871709cc484"
+}

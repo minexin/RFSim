@@ -22,6 +22,84 @@ int main(int argc, char **argv) {
     double residual = -1;
     CHECK(rfmodel_abi_version() == 1);
     {
+        rfmodel_coherent_component input[] = {{10, RFMODEL_SPECTRUM_SOURCE, 1., 7, {.01, 0.}},
+                                              {10, RFMODEL_SPECTRUM_SOURCE, 1., 9, {0., .02}}};
+        rfmodel_coherent_component reduced[2], saved_reduced[2];
+        rfmodel_coherent_amplifier_term terms[15], saved_terms[15];
+        rfmodel_amplifier_drive drive = {97., 96.};
+        size_t reduced_count = 99, term_count = 98;
+        int failure;
+        memset(reduced, 0, sizeof(reduced));
+        memset(terms, 0, sizeof(terms));
+        reduced[0].index = 999;
+        terms[0].order = 999;
+        memcpy(saved_reduced, reduced, sizeof(reduced));
+        memcpy(saved_terms, terms, sizeof(terms));
+        for (failure = 0; failure < 5; ++failure) {
+            CHECK(rfmodel_coherent_amplifier_evaluate(1e8,
+                                                      input,
+                                                      2,
+                                                      20.,
+                                                      20.,
+                                                      23.,
+                                                      20.,
+                                                      10.,
+                                                      50.,
+                                                      failure == 4 ? UINT64_MAX : 100,
+                                                      reduced,
+                                                      failure == 0 ? 1 : 2,
+                                                      failure == 2 ? NULL : &reduced_count,
+                                                      terms,
+                                                      failure == 1 ? 14 : 15,
+                                                      &term_count,
+                                                      failure == 3 ? NULL : &drive) != RFMODEL_OK);
+            CHECK(memcmp(reduced, saved_reduced, sizeof(reduced)) == 0);
+            CHECK(memcmp(terms, saved_terms, sizeof(terms)) == 0);
+            CHECK(reduced_count == 99 && term_count == 98);
+            CHECK(drive.total_input_power_w == 97. && drive.limited_input_power_w == 96.);
+        }
+        CHECK(rfmodel_coherent_amplifier_evaluate(1e8,
+                                                  input,
+                                                  2,
+                                                  20.,
+                                                  20.,
+                                                  23.,
+                                                  20.,
+                                                  10.,
+                                                  50.,
+                                                  100,
+                                                  reduced,
+                                                  2,
+                                                  &reduced_count,
+                                                  terms,
+                                                  15,
+                                                  &term_count,
+                                                  &drive) == RFMODEL_OK);
+        CHECK(reduced_count == 2 && term_count == 15);
+        CHECK(fabs(drive.total_input_power_w - .0005) < 1e-15);
+        CHECK(terms[0].input_indices[0] == 1 && terms[1].input_indices[0] == 2);
+        CHECK(terms[2].component.coherence_group > 100);
+        CHECK(rfmodel_coherent_amplifier_evaluate(1e8,
+                                                  NULL,
+                                                  0,
+                                                  20.,
+                                                  20.,
+                                                  23.,
+                                                  20.,
+                                                  10.,
+                                                  50.,
+                                                  0,
+                                                  NULL,
+                                                  0,
+                                                  &reduced_count,
+                                                  NULL,
+                                                  0,
+                                                  &term_count,
+                                                  &drive) == RFMODEL_OK);
+        CHECK(reduced_count == 0 && term_count == 0 && drive.total_input_power_w == 0.);
+    }
+
+    {
         rfmodel_coherent_component input[] = {{10, RFMODEL_SPECTRUM_SOURCE, 1., 7, {.001, 0.}},
                                               {10, RFMODEL_SPECTRUM_SOURCE, 1., 7, {-.001, 0.}}};
         rfmodel_coherent_component groups[2] = {{99, 0, 9., 9, {9., 0.}}}, before[2];

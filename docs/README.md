@@ -39,3 +39,6 @@
 - [相干载波共同基波压缩及系统图节点](coherent-compression.md)
 
 - [SystemVue 多源共同压缩与噪声控制实测](systemvue-shared-compression.md)
+
+[同频多源非线性放大器](coherent-amplifier.md) 已接入 C++/C/Python 与系统图；
+21 组 SystemVue 记录的 206 个来源谱项通过比较，递归多级非线性仍待完成。

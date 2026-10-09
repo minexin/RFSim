@@ -53,6 +53,88 @@ class CoherentSystemFileTests(unittest.TestCase):
     def evaluate(self, model, **kwargs):
         return analyze_coherent_system(self.library, model, **kwargs)
 
+    def test_parallel_amplifiers_share_origins_and_preserve_parity(self):
+        model = load(ROOT / "examples/coherent-harmonic-combiner.json")
+        original = copy.deepcopy(model)
+        for reverse in (False, True):
+            if reverse:
+                model["stages"][:2] = model["stages"][1::-1]
+            result = self.evaluate(model)
+            self.assertEqual(len(stream(result)["components"]), 4)
+            output = powers(result)
+            self.assertLess(output[10], 1e-30)
+            self.assertLess(output[30], 1e-30)
+            self.assertAlmostEqual(output[20], powers(result, "out-positive")[20])
+            first, second = result["stages"][:2]
+            self.assertEqual(first["origins"], second["origins"])
+            self.assertEqual(first["reduced_inputs"][0]["bin"], 10)
+        self.assertEqual(original["inputs"], model["inputs"])
+        model["sources"].append({"id": "other"})
+        model["inputs"][1]["components"][0]["source"] = "other"
+        independent = self.evaluate(model)
+        self.assertEqual(len(stream(independent)["components"]), 8)
+        for bin_index in (10, 20, 30):
+            self.assertAlmostEqual(powers(independent)[bin_index],
+                                   powers(independent, "out-positive")[bin_index] / 2)
+        model["sources"][0]["reference_clock"] = "same"
+        model["sources"][1]["reference_clock"] = "same"
+        self.assertLess(powers(self.evaluate(model))[10], 1e-30)
+
+    def test_amplifier_origin_registry_uses_parent_keys_not_local_indices(self):
+        model = load(ROOT / "examples/coherent-harmonic-combiner.json")
+        model["inputs"][0]["components"].append(
+            {"source": "rf", "bin": 11, "bandwidth_hz": 1., "amplitude": .01})
+        model["inputs"][1]["components"][0].update(bin=11, amplitude=.01)
+        result = self.evaluate(model)
+        left = stream(result, "out-positive")["components"]
+        right = stream(result, "out-negative")["components"]
+
+        def harmonic(values, bin_index):
+            return next(c for c in values if c["bin"] == bin_index and c["kind"] == "harmonic")
+
+        self.assertEqual(harmonic(left, 22)["coherence_group"],
+                         harmonic(right, 22)["coherence_group"])
+        self.assertNotEqual(harmonic(left, 20)["coherence_group"],
+                            harmonic(right, 22)["coherence_group"])
+        # Different bandwidth is also a different generating identity.
+        model["inputs"][1]["components"][0]["bandwidth_hz"] = 2.
+        changed = self.evaluate(model)
+        self.assertNotEqual(harmonic(stream(changed, "out-positive")["components"], 22)["coherence_group"],
+                            harmonic(stream(changed, "out-negative")["components"], 22)["coherence_group"])
+
+    def test_generated_harmonics_and_intermods_continue_through_mixer(self):
+        model = load(ROOT / "examples/coherent-harmonic-combiner.json")
+        model["sources"].append({"id": "lo"})
+        model["stages"] = model["stages"][:1] + [{
+            "id": "downconvert", "type": "ideal_mixer_bank",
+            "branches": [{"id": "if", "input": "out-positive", "lo_source": "lo",
+                          "lo_bin": 8, "conversion_gain_db": 0.}]}]
+        model["outputs"] = ["if"]
+        result = self.evaluate(model)
+        before = stream(result, "out-positive")
+        after = stream(result, "if")
+        self.assertEqual(len(after["components"]), 8)
+        self.assertEqual(set(powers(result, "if")), {2, 12, 18, 22, 28, 38})
+        self.assertAlmostEqual(after["total_power_w"], 2*before["total_power_w"])
+        for c in before["components"]:
+            matches = [v for v in after["components"]
+                       if v["kind"] == c["kind"] and v["bandwidth_hz"] == c["bandwidth_hz"]]
+            self.assertEqual(len(matches), 2)
+            self.assertEqual(matches[0]["coherence_group"], matches[1]["coherence_group"])
+
+    def test_amplifier_rejects_recursive_distortion_and_unknown_fields(self):
+        model = load(ROOT / "examples/coherent-harmonic-combiner.json")
+        recursive = dict(model["stages"][0], id="recursive", input="result", output="cascade")
+        model["stages"].append(recursive)
+        model["outputs"] = ["cascade"]
+        with self.assertRaisesRegex(RFModelError, "source-kind"):
+            self.evaluate(model)
+        model["stages"].pop()
+        model["outputs"] = ["result"]
+        model["stages"][0]["undocumented"] = True
+        with self.assertRaises(ValueError):
+            self.evaluate(model)
+
     def test_compression_before_split_mix_combine_preserves_cancellation(self):
         model = load(ROOT / "examples/coherent-compressed-receiver.json")
         original = copy.deepcopy(model)

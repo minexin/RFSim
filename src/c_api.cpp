@@ -1,3 +1,4 @@
+#include "rfmodel/coherent_amplifier.hpp"
 #include "rfmodel/coherent_mixer.hpp"
 #include "rfmodel/source_coherence.hpp"
 #include "rfmodel/coherent_network.hpp"
@@ -242,6 +243,66 @@ int rfmodel_reduce_coherent_components(double spacing_hz,
                         power_capacity,
                         power_count,
                         total_power_w);
+    });
+}
+
+int rfmodel_coherent_amplifier_evaluate(double spacing_hz,
+                                        const rfmodel_coherent_component *input,
+                                        size_t input_count,
+                                        double power_gain_db,
+                                        double output_p1db_dbm,
+                                        double output_saturation_dbm,
+                                        double input_ip2_dbm,
+                                        double input_ip3_dbm,
+                                        double reference_ohms,
+                                        uint64_t reserved_group_max,
+                                        rfmodel_coherent_component *reduced_inputs,
+                                        size_t reduced_capacity,
+                                        size_t *reduced_count,
+                                        rfmodel_coherent_amplifier_term *terms,
+                                        size_t term_capacity,
+                                        size_t *term_count,
+                                        rfmodel_amplifier_drive *drive) {
+    return guarded([&] {
+        require(input_count <= 4096 && (input || input_count == 0));
+        require(reduced_count && term_count && drive);
+        std::vector<rfmodel::CoherentComponent> components;
+        for (size_t i = 0; i < input_count; ++i) {
+            const auto &c = input[i];
+            components.push_back({c.index,
+                                  static_cast<rfmodel::SpectrumKind>(c.kind),
+                                  c.bandwidth_hz,
+                                  c.coherence_group,
+                                  {c.amplitude.real, c.amplitude.imag}});
+        }
+        const rfmodel::CoherentLimitedAmplifier model(power_gain_db,
+                                                      output_p1db_dbm,
+                                                      output_saturation_dbm,
+                                                      input_ip2_dbm,
+                                                      input_ip3_dbm,
+                                                      reference_ohms);
+        const auto result = model.evaluate(spacing_hz, components, reserved_group_max);
+        require(reduced_capacity >= result.inputs.size() && term_capacity >= result.terms.size());
+        require((reduced_inputs || result.inputs.empty()) && (terms || result.terms.empty()));
+        auto encode = [](const rfmodel::CoherentComponent &c) {
+            return rfmodel_coherent_component{c.bin,
+                                              static_cast<int>(c.kind),
+                                              c.bandwidth_hz,
+                                              c.coherence_group,
+                                              {c.amplitude.real(), c.amplitude.imag()}};
+        };
+        for (size_t i = 0; i < result.inputs.size(); ++i) {
+            reduced_inputs[i] = encode(result.inputs[i]);
+        }
+        for (size_t i = 0; i < result.terms.size(); ++i) {
+            const auto &t = result.terms[i];
+            terms[i] = {t.order,
+                        {t.input_indices[0], t.input_indices[1], t.input_indices[2]},
+                        encode(t.component)};
+        }
+        *reduced_count = result.inputs.size();
+        *term_count = result.terms.size();
+        *drive = {result.total_input_power_w, result.limited_input_power_w};
     });
 }
 

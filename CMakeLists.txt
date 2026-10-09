@@ -91,6 +91,9 @@ if(RFMODEL_BUILD_C_API)
         add_test(NAME coherent_network_file_test COMMAND ${Python3_EXECUTABLE}
             ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_coherent_network_file.py
             $<TARGET_FILE:rfmodel_c>)
+        add_test(NAME coherent_amplifier_reference COMMAND ${Python3_EXECUTABLE}
+            ${CMAKE_CURRENT_SOURCE_DIR}/scripts/reference/test_compare_coherent_amplifier.py
+            $<TARGET_FILE:rfmodel_c>)
         add_test(NAME shared_compression_reference COMMAND ${Python3_EXECUTABLE}
             ${CMAKE_CURRENT_SOURCE_DIR}/scripts/reference/test_compare_shared_compression.py
             $<TARGET_FILE:rfmodel_c>)
@@ -219,6 +222,9 @@ add_test(NAME single_tone_amplifier_test COMMAND single_tone_amplifier_test)
 add_executable(multitone_amplifier_test tests/multitone_amplifier_test.cpp)
 target_link_libraries(multitone_amplifier_test PRIVATE rfmodel)
 add_test(NAME multitone_amplifier_test COMMAND multitone_amplifier_test)
+add_executable(coherent_amplifier_test tests/coherent_amplifier_test.cpp)
+target_link_libraries(coherent_amplifier_test PRIVATE rfmodel)
+add_test(NAME coherent_amplifier_test COMMAND coherent_amplifier_test)
 add_executable(coherent_compression_test tests/coherent_compression_test.cpp)
 target_link_libraries(coherent_compression_test PRIVATE rfmodel)
 add_test(NAME coherent_compression_test COMMAND coherent_compression_test)

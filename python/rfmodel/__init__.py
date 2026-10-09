@@ -127,6 +127,24 @@ class _CoherentComponent(ct.Structure):
                 ("coherence_group", ct.c_uint64), ("amplitude", _Complex)]
 
 
+class _CoherentAmplifierTerm(ct.Structure):
+    _fields_ = [("order", ct.c_int), ("input_indices", ct.c_int * 3),
+                ("component", _CoherentComponent)]
+
+
+class CoherentAmplifierTerm(NamedTuple):
+    order: int
+    input_indices: tuple
+    component: CoherentComponent
+
+
+class CoherentAmplifierResponse(NamedTuple):
+    inputs: tuple
+    terms: tuple
+    total_input_power_w: float
+    limited_input_power_w: float
+
+
 class _CoherentMixerInput(ct.Structure):
     _fields_ = [("component", _CoherentComponent), ("lo_index", ct.c_int),
                 ("conversion_gain_db", ct.c_double), ("lo_phase_radians", ct.c_double),
@@ -243,6 +261,13 @@ class Library:
                            ct.POINTER(_CoherentComponent), size, ct.POINTER(size)]),
             "rfmodel_assign_source_coherence": (
                 ct.c_int, [ct.POINTER(_SourceCoherence), size, ct.POINTER(ct.c_uint64), size]),
+            "rfmodel_coherent_amplifier_evaluate": (
+                ct.c_int, [ct.c_double, ct.POINTER(_CoherentComponent), size,
+                           ct.c_double, ct.c_double, ct.c_double, ct.c_double,
+                           ct.c_double, ct.c_double, ct.c_uint64,
+                           ct.POINTER(_CoherentComponent), size, ct.POINTER(size),
+                           ct.POINTER(_CoherentAmplifierTerm), size, ct.POINTER(size),
+                           ct.POINTER(_AmplifierDrive)]),
             "rfmodel_compress_coherent_fundamentals": (
                 ct.c_int, [ct.c_double, ct.c_double, ct.c_double, ct.c_double,
                            ct.POINTER(_CoherentComponent), size,
@@ -521,6 +546,39 @@ class Library:
         groups = (ct.c_uint64 * len(sources))()
         self._check(self._dll.rfmodel_assign_source_coherence(incident, len(incident), groups, len(groups)))
         return tuple(groups)
+
+    def coherent_amplifier(self, spacing_hz, components, *, power_gain_db,
+                           output_p1db_dbm, output_saturation_dbm, input_ip2_dbm,
+                           input_ip3_dbm, reference_ohms=50., reserved_group_max=0):
+        """Generate RF terms with signed one-based indices into reduced inputs."""
+        components = list(components)
+        if len(components) > 4096:
+            raise ValueError("Coherent amplifier accepts at most 4096 components")
+        if isinstance(reserved_group_max, bool):
+            raise TypeError("Reserved group must be an integer, not bool")
+        reserved = operator.index(reserved_group_max)
+        if not 0 <= reserved <= 18446744073709551615:
+            raise ValueError("Reserved group must fit uint64")
+        incident = (_CoherentComponent * len(components))(
+            *[_coherent_component(value) for value in components])
+        reduced = (_CoherentComponent * len(components))()
+        terms = (_CoherentAmplifierTerm * 4096)()
+        reduced_count, term_count, drive = ct.c_size_t(), ct.c_size_t(), _AmplifierDrive()
+        self._check(self._dll.rfmodel_coherent_amplifier_evaluate(
+            spacing_hz, incident, len(incident), power_gain_db, output_p1db_dbm,
+            output_saturation_dbm, input_ip2_dbm, input_ip3_dbm, reference_ohms,
+            reserved, reduced, len(reduced), ct.byref(reduced_count),
+            terms, len(terms), ct.byref(term_count), ct.byref(drive)))
+
+        def decode(c):
+            return CoherentComponent(c.index, SpectrumKind(c.kind), c.bandwidth_hz,
+                                     c.coherence_group, c.amplitude.value())
+
+        return CoherentAmplifierResponse(
+            tuple(decode(c) for c in reduced[:reduced_count.value]),
+            tuple(CoherentAmplifierTerm(t.order, tuple(t.input_indices[:t.order]),
+                                        decode(t.component)) for t in terms[:term_count.value]),
+            drive.total_input_power_w, drive.limited_input_power_w)
 
     def compress_coherent_fundamentals(self, spacing_hz, components, *, power_gain_db,
                                       output_p1db_dbm, output_saturation_dbm):

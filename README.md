@@ -34,3 +34,6 @@ Windows 本机可运行 `scripts/build-msvc.ps1` 自动定位已有 VS 工具链
 重叠谱合并、级联、相位和噪声语义仍待验证。
 
 [长期路线](docs/roadmap.md) · [兼容矩阵](docs/systemvue-2023-matrix.md) · [线性分析输出契约](docs/linear-analysis-compatibility.md)
+
+[同频多源非线性放大器](docs/coherent-amplifier.md) 已接入 C++/C/Python 与系统图；
+21 组 SystemVue 记录的 206 个来源谱项通过比较，递归多级非线性仍待完成。

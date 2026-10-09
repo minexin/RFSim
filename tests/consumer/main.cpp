@@ -1,3 +1,4 @@
+#include <rfmodel/coherent_amplifier.hpp>
 #include <rfmodel/coherent_mixer.hpp>
 #include <rfmodel/coherent_compression.hpp>
 #include <rfmodel/source_coherence.hpp>
@@ -23,6 +24,14 @@
 #include <rfmodel/term_propagation.hpp>
 
 int main() {
+    const auto coherent_products = rfmodel::CoherentLimitedAmplifier(20., 20., 23., 20., 10.)
+                                       .evaluate(1e8,
+                                                 {{10, rfmodel::SpectrumKind::source, 1., 7, .01},
+                                                  {10, rfmodel::SpectrumKind::source, 1., 9, .01}});
+    if (coherent_products.terms.size() != 15 || coherent_products.inputs.size() != 2) {
+        return 30;
+    }
+
     const auto coherent_compressed = rfmodel::compress_coherent_fundamentals(
         1e8,
         {{10, rfmodel::SpectrumKind::source, 1., 7, .001},
