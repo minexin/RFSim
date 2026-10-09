@@ -1,4 +1,5 @@
 """python -m rfmodel: execute RF network, spectrum, or explicit coherence models."""
+
 import argparse
 import json
 from pathlib import Path
@@ -10,6 +11,7 @@ from .amplifier_file import analyze_amplifier
 from .coherence_file import analyze_coherence
 from .coherent_network_file import analyze_coherent_network
 from .coherent_system_file import analyze_coherent_system
+from .mixer_linearization_file import analyze_mixer_linearization
 from .conversion_file import analyze_conversion
 from .conversion_network_file import analyze_conversion_network
 
@@ -28,13 +30,16 @@ def main():
             raise ValueError("Model must be an object")
         if args.output.resolve() in referenced_touchstone_paths(document, args.model.parent):
             raise ValueError("Output must not overwrite Touchstone input data")
-        operation = {"rfmodel.conversion-network": analyze_conversion_network,
-                     "rfmodel.frequency-conversion": analyze_conversion,
-                     "rfmodel.coherence": analyze_coherence,
-                     "rfmodel.coherent-network": analyze_coherent_network,
-                     "rfmodel.coherent-system": analyze_coherent_system,
-                     "rfmodel.spectrum-chain": analyze_spectrum,
-                     "rfmodel.amplifier-components": analyze_amplifier}.get(document.get("format"), analyze)
+        operation = {
+            "rfmodel.mixer-linearization": analyze_mixer_linearization,
+            "rfmodel.conversion-network": analyze_conversion_network,
+            "rfmodel.frequency-conversion": analyze_conversion,
+            "rfmodel.coherence": analyze_coherence,
+            "rfmodel.coherent-network": analyze_coherent_network,
+            "rfmodel.coherent-system": analyze_coherent_system,
+            "rfmodel.spectrum-chain": analyze_spectrum,
+            "rfmodel.amplifier-components": analyze_amplifier,
+        }.get(document.get("format"), analyze)
         result = operation(Library(args.library), document, base_directory=args.model.parent)
         text = json.dumps(result, indent=2, allow_nan=False) + "\n"
         args.output.write_text(text, encoding="utf-8")

@@ -14,6 +14,48 @@
 
 int main(int argc, char **argv) {
     {
+        const size_t ports[4] = {0, 1, 2, 2};
+        const int bins[4] = {12, 10, 2, 22};
+        rfmodel_complex operating[4] = {{1., 0.}, {2., 0.}, {0., 0.}, {0., 0.}};
+        rfmodel_mixer_linearization_request request = {
+            4, 1e6, 50., ports, bins, operating, 10, 0., 0, 1, 2};
+        rfmodel_complex a[16], b[16], nominal[4];
+        rfmodel_mixer_linearization_output output = {a, b, nominal, 16, 4};
+        if (rfmodel_linearize_real_mixer(&request, &output) != RFMODEL_OK ||
+            fabs(nominal[2].real - 1.) > 1e-12 || fabs(a[8].real - 1.) > 1e-12 ||
+            fabs(b[9].real - .5) > 1e-12 || fabs(a[13].real - .5) > 1e-12) {
+            return 98;
+        }
+        {
+            rfmodel_complex saved_a[16], saved_b[16], saved_nominal[4];
+            memcpy(saved_a, a, sizeof(a));
+            memcpy(saved_b, b, sizeof(b));
+            memcpy(saved_nominal, nominal, sizeof(nominal));
+            operating[1].real = 0.;
+            CHECK(rfmodel_linearize_real_mixer(&request, &output) != RFMODEL_OK);
+            operating[1].real = 2.;
+            output.matrix_capacity = 15;
+            CHECK(rfmodel_linearize_real_mixer(&request, &output) != RFMODEL_OK);
+            output.matrix_capacity = (size_t)-1;
+            CHECK(rfmodel_linearize_real_mixer(&request, &output) != RFMODEL_OK);
+            output.matrix_capacity = 16;
+            output.operating_outgoing = operating;
+            CHECK(rfmodel_linearize_real_mixer(&request, &output) != RFMODEL_OK);
+            output.operating_outgoing = nominal;
+            output.conjugate = a;
+            CHECK(rfmodel_linearize_real_mixer(&request, &output) != RFMODEL_OK);
+            output.conjugate = b;
+            output.direct = (rfmodel_complex *)&request;
+            CHECK(rfmodel_linearize_real_mixer(&request, &output) != RFMODEL_OK);
+            output.direct = a;
+            CHECK(rfmodel_linearize_real_mixer(NULL, &output) != RFMODEL_OK);
+            CHECK(memcmp(saved_a, a, sizeof(a)) == 0 && memcmp(saved_b, b, sizeof(b)) == 0 &&
+                  memcmp(saved_nominal, nominal, sizeof(nominal)) == 0);
+            CHECK(operating[1].real == 2. && request.count == 4);
+        }
+    }
+
+    {
         const size_t port = 0;
         const int bin = 1;
         const rfmodel_complex direct = {.5, 0.}, zero = {0., 0.};

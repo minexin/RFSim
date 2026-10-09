@@ -1,3 +1,4 @@
+#include "rfmodel/mixer_linearization.hpp"
 #include "rfmodel/phase_noise.hpp"
 #include "rfmodel/channel_noise.hpp"
 #include "rfmodel/conversion_network.hpp"
@@ -38,6 +39,16 @@
 #include <rfmodel/term_propagation.hpp>
 
 int main() {
+    {
+        const auto mixer = rfmodel::linearize_real_mixer(
+            1e6, {{0, 12}, {1, 10}, {2, 2}, {2, 22}}, {1., 2., 0., 0.}, 10, 0.);
+        if (std::abs(mixer.operating_outgoing[2] - rfmodel::Complex{1., 0.}) > 1e-12 ||
+            std::abs(mixer.incremental_model.conjugate()(2, 1) - rfmodel::Complex{.5, 0.}) >
+                1e-12) {
+            return 98;
+        }
+    }
+
     {
         rfmodel::FrequencyConversionNetwork network(1.);
         network.add(rfmodel::FrequencyConversionModel(1., {{0, 1}}, {1, {.5}}, {1, {0.}}));

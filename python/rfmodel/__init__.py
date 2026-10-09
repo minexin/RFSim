@@ -287,6 +287,38 @@ class ConversionNoiseAnalysis(NamedTuple):
     equivalent_input_temperature_k: float
 
 
+class MixerLinearization(NamedTuple):
+    direct: object
+    conjugate: object
+    operating_outgoing: tuple
+
+
+class _MixerLinearizationRequest(ct.Structure):
+    _fields_ = [
+        ("count", ct.c_size_t),
+        ("spacing_hz", ct.c_double),
+        ("reference_ohms", ct.c_double),
+        ("physical_ports", ct.POINTER(ct.c_size_t)),
+        ("bins", ct.POINTER(ct.c_int)),
+        ("operating_incident", ct.POINTER(_Complex)),
+        ("lo_bin", ct.c_int),
+        ("gain_db", ct.c_double),
+        ("rf_port", ct.c_size_t),
+        ("lo_port", ct.c_size_t),
+        ("if_port", ct.c_size_t),
+    ]
+
+
+class _MixerLinearizationOutput(ct.Structure):
+    _fields_ = [
+        ("direct", ct.POINTER(_Complex)),
+        ("conjugate", ct.POINTER(_Complex)),
+        ("operating_outgoing", ct.POINTER(_Complex)),
+        ("matrix_capacity", ct.c_size_t),
+        ("wave_capacity", ct.c_size_t),
+    ]
+
+
 class _ConversionSourceNoise(ct.Structure):
     _fields_ = [
         ("count", ct.c_size_t),
@@ -673,6 +705,8 @@ class Library:
                 ct.c_int, [ct.POINTER(ct.c_size_t), ct.POINTER(ct.c_int), size,
                            ct.POINTER(_PhaseNoiseCarrier), size, ct.POINTER(ct.c_int),
                            ct.POINTER(ct.c_double), size, ct.POINTER(_Complex), ct.POINTER(_Complex), size]),
+            "rfmodel_linearize_real_mixer": (
+                ct.c_int, [ct.POINTER(_MixerLinearizationRequest), ct.POINTER(_MixerLinearizationOutput)]),
             "rfmodel_phase_noise_sidebands": (
                 ct.c_int,
                 [ct.POINTER(ct.c_size_t), ct.POINTER(ct.c_int), ct.c_size_t,
@@ -1635,6 +1669,47 @@ class Library:
         )
         return ConversionNoiseAnalysis(
             *(getattr(output, name) for name in ConversionNoiseAnalysis._fields)
+        )
+
+    def linearize_real_mixer(
+        self,
+        spacing_hz,
+        channels,
+        operating_incident,
+        *,
+        lo_bin,
+        gain_db=0.0,
+        rf_port=0,
+        lo_port=1,
+        if_port=2,
+        reference_ohms=50.0,
+    ):
+        """Return RF/LO incremental A/B and nominal output for a supplied single-pump point."""
+        ports, bins = _conversion_channels(channels)
+        count = len(ports)
+        waves = tuple(operating_incident)
+        if len(waves) != count:
+            raise ValueError("Mixer operating point must cover every channel")
+        native_waves = (_Complex * count)(*(_Complex.from_value(value) for value in waves))
+        request = _MixerLinearizationRequest(
+            count,
+            float(spacing_hz),
+            float(reference_ohms),
+            ports,
+            bins,
+            native_waves,
+            _bin(lo_bin),
+            float(gain_db),
+            _index(rf_port),
+            _index(lo_port),
+            _index(if_port),
+        )
+        direct, conjugate = (_Complex * (count * count))(), (_Complex * (count * count))()
+        nominal = (_Complex * count)()
+        output = _MixerLinearizationOutput(direct, conjugate, nominal, count * count, count)
+        self._check(self._dll.rfmodel_linearize_real_mixer(ct.byref(request), ct.byref(output)))
+        return MixerLinearization(
+            _rows(direct, count), _rows(conjugate, count), tuple(value.value() for value in nominal)
         )
 
     def phase_noise_group(self, channels, carriers, *, offsets):

@@ -1,0 +1,103 @@
+{
+  "format": "rfmodel.mixer-linearization",
+  "version": 1,
+  "id": "mixer",
+  "spacing_hz": 1000000.0,
+  "channels": [
+    {
+      "port": 0,
+      "bin": 11
+    },
+    {
+      "port": 0,
+      "bin": 12
+    },
+    {
+      "port": 0,
+      "bin": 13
+    },
+    {
+      "port": 1,
+      "bin": 9
+    },
+    {
+      "port": 1,
+      "bin": 10
+    },
+    {
+      "port": 1,
+      "bin": 11
+    },
+    {
+      "port": 2,
+      "bin": 1
+    },
+    {
+      "port": 2,
+      "bin": 2
+    },
+    {
+      "port": 2,
+      "bin": 3
+    },
+    {
+      "port": 2,
+      "bin": 21
+    },
+    {
+      "port": 2,
+      "bin": 22
+    },
+    {
+      "port": 2,
+      "bin": 23
+    }
+  ],
+  "operating_incident": [
+    0,
+    1,
+    0,
+    0,
+    1,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "model": {
+    "lo_bin": 10
+  },
+  "loaded_noise": true,
+  "phase_noise_groups": [
+    {
+      "name": "shared_clock",
+      "carriers": [
+        {
+          "carrier_channel": [
+            "mixer",
+            0,
+            12
+          ],
+          "phase_gain": 1
+        },
+        {
+          "carrier_channel": [
+            "mixer",
+            1,
+            10
+          ],
+          "phase_gain": 1
+        }
+      ],
+      "offsets": [
+        {
+          "offset_bin": 1,
+          "ssb_dbc_per_hz": -100
+        }
+      ]
+    }
+  ]
+}

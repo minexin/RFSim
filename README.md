@@ -91,3 +91,5 @@ Windows 本机可运行 `scripts/build-msvc.ps1` 自动定位已有 VS 工具链
 已提供[小角度相噪源](docs/phase-noise.md)，可将相关上下边带接入固定泵转换网络；完整 LO/参考时钟相噪与厂商验收仍待完成。
 
 [共享参考相噪与跨器件相关噪声](docs/shared-phase-noise.md)支持多载波相位增益和相关统计在转换网络中的传播。
+
+[RF/LO 混频小信号模型](docs/mixer-linearization.md)支持给定工作点的 LO 扰动、共享相噪和阻塞波互易混频解析验证。

@@ -1,5 +1,6 @@
 #include "rfmodel/channel_noise.hpp"
 #include "rfmodel/phase_noise.hpp"
+#include "rfmodel/mixer_linearization.hpp"
 #include "rfmodel/conversion_network.hpp"
 #include "rfmodel/frequency_conversion.hpp"
 #include "rfmodel/chebyshev_filter.hpp"
@@ -1835,6 +1836,63 @@ int rfmodel_phase_noise_sidebands(const size_t *physical_ports,
                                      covariance,
                                      complementary,
                                      matrix_capacity);
+}
+
+int rfmodel_linearize_real_mixer(const rfmodel_mixer_linearization_request *request,
+                                 const rfmodel_mixer_linearization_output *output) {
+    return guarded([&] {
+        require(request && output);
+        const auto &r = *request;
+        const auto &o = *output;
+        require(r.count && r.count <= 512 && r.physical_ports && r.bins && r.operating_incident &&
+                o.direct && o.conjugate && o.operating_outgoing &&
+                o.matrix_capacity >= r.count * r.count && o.wave_capacity >= r.count &&
+                o.matrix_capacity <= std::numeric_limits<size_t>::max() / sizeof(rfmodel_complex) &&
+                o.wave_capacity <= std::numeric_limits<size_t>::max() / sizeof(rfmodel_complex));
+        const std::vector<std::pair<const void *, size_t>> inputs{
+            {request, sizeof(*request)},
+            {output, sizeof(*output)},
+            {r.physical_ports, r.count * sizeof(size_t)},
+            {r.bins, r.count * sizeof(int)},
+            {r.operating_incident, r.count * sizeof(rfmodel_complex)}};
+        const std::vector<std::pair<const void *, size_t>> outputs{
+            {o.direct, o.matrix_capacity * sizeof(rfmodel_complex)},
+            {o.conjugate, o.matrix_capacity * sizeof(rfmodel_complex)},
+            {o.operating_outgoing, o.wave_capacity * sizeof(rfmodel_complex)}};
+        for (size_t i = 0; i < outputs.size(); ++i) {
+            for (const auto &input : inputs) {
+                disjoint(outputs[i].first, outputs[i].second, input.first, input.second);
+            }
+            for (size_t j = 0; j < i; ++j) {
+                disjoint(outputs[i].first, outputs[i].second, outputs[j].first, outputs[j].second);
+            }
+        }
+        std::vector<rfmodel::ConversionChannel> channels;
+        std::vector<rfmodel::Complex> waves;
+        for (size_t i = 0; i < r.count; ++i) {
+            channels.push_back({r.physical_ports[i], r.bins[i]});
+            waves.push_back({r.operating_incident[i].real, r.operating_incident[i].imag});
+        }
+        const auto result = rfmodel::linearize_real_mixer(r.spacing_hz,
+                                                          channels,
+                                                          waves,
+                                                          r.lo_bin,
+                                                          r.gain_db,
+                                                          r.rf_port,
+                                                          r.lo_port,
+                                                          r.if_port,
+                                                          r.reference_ohms);
+        for (size_t i = 0; i < r.count * r.count; ++i) {
+            const auto a = result.incremental_model.direct().values[i];
+            const auto b = result.incremental_model.conjugate().values[i];
+            o.direct[i] = {a.real(), a.imag()};
+            o.conjugate[i] = {b.real(), b.imag()};
+        }
+        for (size_t i = 0; i < r.count; ++i) {
+            const auto value = result.operating_outgoing[i];
+            o.operating_outgoing[i] = {value.real(), value.imag()};
+        }
+    });
 }
 
 int rfmodel_measure_channel_noise(const rfmodel_channel_noise_request *request,

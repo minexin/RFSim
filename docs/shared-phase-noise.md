@@ -77,7 +77,7 @@ c, p = library.phase_noise_group(
 
 SystemVue 2023 本机 Behavioral Phase Noise 帮助说明，相噪关联取决于参考时钟，可不同于载波相干关系；文中的时钟例子使用频率比缩放及混频和/差处理。[本机来源](../validation/systemvue-2023-phase-noise-help-provenance.json) 保留该帮助页散列。本阶段完成显式恒定实相位增益和跨器件相关源基础，尚未校准厂商 RefClk 参数或复现其完整参考时钟传播。
 
-剩余工作包括 LO 扰动线性化、参考时钟到载波的频率相关 PLL 传递函数、残余相噪模型、相噪来源分解、PNCP 近载波与路径规则及 SystemVue 实测。连续曲线、采样收敛和小角度有效范围继续遵守[相噪源说明](phase-noise.md)，不能把有限样本当作完整相噪全带。
+[给定工作点的双线性混频器](mixer-linearization.md)现已支持 RF/LO 扰动。剩余工作包括完整非线性工作点求解、参考时钟到载波的频率相关 PLL 传递函数、残余相噪模型、相噪来源分解、PNCP 近载波与路径规则及 SystemVue 实测。连续曲线、采样收敛和小角度有效范围继续遵守[相噪源说明](phase-noise.md)，不能把有限样本当作完整相噪全带。
 
 ## 工程验证记录
 

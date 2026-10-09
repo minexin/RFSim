@@ -3,6 +3,21 @@
 
 int main(int argc, char **argv) {
     {
+        const size_t ports[4] = {0, 1, 2, 2};
+        const int bins[4] = {12, 10, 2, 22};
+        rfmodel_complex operating[4] = {{1., 0.}, {2., 0.}, {0., 0.}, {0., 0.}};
+        rfmodel_mixer_linearization_request request = {
+            4, 1e6, 50., ports, bins, operating, 10, 0., 0, 1, 2};
+        rfmodel_complex a[16], b[16], nominal[4];
+        rfmodel_mixer_linearization_output output = {a, b, nominal, 16, 4};
+        if (rfmodel_linearize_real_mixer(&request, &output) != RFMODEL_OK ||
+            fabs(nominal[2].real - 1.) > 1e-12 || fabs(a[8].real - 1.) > 1e-12 ||
+            fabs(b[9].real - .5) > 1e-12 || fabs(a[13].real - .5) > 1e-12) {
+            return 98;
+        }
+    }
+
+    {
         const size_t port = 0;
         const int bin = 1;
         const rfmodel_complex direct = {.5, 0.}, zero = {0., 0.};

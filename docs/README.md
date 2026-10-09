@@ -87,3 +87,5 @@
 [小角度相噪源](phase-noise.md)：相位相关边带的 C++/C/Python/JSON 接口、反射反馈传播与相位检波解析回归。
 
 [共享参考相噪](shared-phase-noise.md)：全局相关源 C/P、多载波参考相位增益及跨支路共同相噪相消回归。
+
+[RF/LO 工作点线性化](mixer-linearization.md)：双线性乘积导数、LO 相噪及共享时钟和/差传播的 C++/C/Python/JSON 接口。

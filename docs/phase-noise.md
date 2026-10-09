@@ -77,7 +77,7 @@ SystemVue 2023 本机 Behavioral Phase Noise 帮助确认偏移/dBc/Hz 列表、
 
 相关边带物理依据可参见 [Correlation between upper and lower sidebands（IEEE，2000）](https://pubmed.ncbi.nlm.nih.gov/18238557/)。本文 C/P 表达式与检波关系是根据上述明确的一阶模型推导的实现契约，并非从厂商数值拟合得到。
 
-后续仍需：连续频偏曲线/插值规则、近载波行为、自适应采样、PLL 频率相关传递函数、LO 相噪线性化与互易混频、相噪来源分解和 PNCP/完整路径映射、非线性相噪转换及 SystemVue 实测。固定泵 LO 仍然理想无噪声。
+后续仍需：连续频偏曲线/插值规则、近载波行为、自适应采样、PLL 频率相关传递函数、完整混频工作点与实际 LO 驱动模型、相噪来源分解和 PNCP/完整路径映射、非线性相噪转换及 SystemVue 实测。固定泵 LO 仍然理想无噪声。
 
 ## 工程验证记录
 
@@ -88,3 +88,5 @@ SystemVue 2023 本机 Behavioral Phase Noise 帮助确认偏移/dBc/Hz 列表、
 以上属于解析和工程回归，SystemVue 相噪实测与完整兼容性验收尚未完成。
 
 [共享参考相噪](shared-phase-noise.md)已增加显式多载波相位增益和跨器件相关统计；本文 phase_noise_sources 独立列表的含义不变。
+
+[双线性混频器工作点](mixer-linearization.md)可显式分析 RF/LO 一阶扰动及相关相噪；原固定泵接口仍维持理想无噪声 LO。

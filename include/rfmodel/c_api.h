@@ -289,6 +289,30 @@ RFMODEL_API int rfmodel_phase_noise_sidebands(const size_t *physical_ports,
                                               rfmodel_complex *complementary,
                                               size_t matrix_capacity);
 
+/* Supplied operating point; LO has one nonzero carrier at lo_bin. The
+ * incremental A/B matrices include both RF and LO perturbations. Outputs are
+ * derivatives, not an absolute large-signal model. All generated bins required. */
+typedef struct rfmodel_mixer_linearization_request {
+    size_t count;
+    double spacing_hz, reference_ohms;
+    const size_t *physical_ports;
+    const int *bins;
+    const rfmodel_complex *operating_incident;
+    int lo_bin;
+    double gain_db;
+    size_t rf_port, lo_port, if_port;
+} rfmodel_mixer_linearization_request;
+
+typedef struct rfmodel_mixer_linearization_output {
+    rfmodel_complex *direct, *conjugate, *operating_outgoing;
+    size_t matrix_capacity, wave_capacity;
+} rfmodel_mixer_linearization_output;
+
+/* All buffers required and mutually disjoint from each other, descriptors and
+ * input arrays. Failure preserves every output. Capacities count complex values. */
+RFMODEL_API int rfmodel_linearize_real_mixer(const rfmodel_mixer_linearization_request *request,
+                                             const rfmodel_mixer_linearization_output *output);
+
 typedef enum rfmodel_butterworth_response {
     RFMODEL_BUTTERWORTH_LOWPASS = 0,
     RFMODEL_BUTTERWORTH_HIGHPASS = 1,
