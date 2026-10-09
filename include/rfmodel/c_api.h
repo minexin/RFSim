@@ -113,6 +113,26 @@ RFMODEL_API int rfmodel_reduce_coherent_components(double spacing_hz,
                                                    size_t *power_count,
                                                    double *total_power_w);
 
+/* Shared cubic/tanh fundamental compression after coherent input reduction.
+ * Source-kind carriers only. Preserves group/phase/bandwidth; no new distortion.
+ * Matched forward input; no noise or reverse-wave/feedback solution.
+ * Output buffer and atomic-failure rules match reduce_coherent_components.
+ * input_power_w is also required and remains unchanged on any failure. */
+RFMODEL_API int rfmodel_compress_coherent_fundamentals(double spacing_hz,
+                                                       double power_gain_db,
+                                                       double output_p1db_dbm,
+                                                       double output_saturation_dbm,
+                                                       const rfmodel_coherent_component *input,
+                                                       size_t input_count,
+                                                       rfmodel_coherent_component *groups,
+                                                       size_t group_capacity,
+                                                       size_t *group_count,
+                                                       rfmodel_bin_power *powers,
+                                                       size_t power_capacity,
+                                                       size_t *power_count,
+                                                       double *output_power_w,
+                                                       double *input_power_w);
+
 typedef struct rfmodel_port_coherent_component {
     size_t input_port;
     rfmodel_coherent_component component;

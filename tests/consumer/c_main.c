@@ -3,6 +3,35 @@
 
 int main(int argc, char **argv) {
     {
+        const double anchor = pow(10., -2.9);
+        rfmodel_coherent_component input[] = {{10, RFMODEL_SPECTRUM_SOURCE, 1., 7, {0., 0.}},
+                                              {10, RFMODEL_SPECTRUM_SOURCE, 1., 8, {0., 0.}}};
+        rfmodel_coherent_component output[2];
+        rfmodel_bin_power powers[2];
+        size_t group_count, power_count;
+        double power, drive;
+        input[0].amplitude.real = sqrt(anchor / 2);
+        input[1].amplitude.imag = sqrt(anchor / 2);
+        if (rfmodel_compress_coherent_fundamentals(1e8,
+                                                   20.,
+                                                   20.,
+                                                   23.,
+                                                   input,
+                                                   2,
+                                                   output,
+                                                   2,
+                                                   &group_count,
+                                                   powers,
+                                                   2,
+                                                   &power_count,
+                                                   &power,
+                                                   &drive) != RFMODEL_OK ||
+            group_count != 2 || power_count != 1 || fabs(power - .1) > 1e-12 ||
+            fabs(drive - anchor) > 1e-12 || output[1].coherence_group != 8) {
+            return 29;
+        }
+    }
+    {
         const rfmodel_coherent_mixer_input input = {
             {3, RFMODEL_SPECTRUM_SOURCE, 1., 7, {0., 1.}}, 8, 0., 1.5707963267948966, 9};
         rfmodel_coherent_component output[2];

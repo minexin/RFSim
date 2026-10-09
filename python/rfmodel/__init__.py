@@ -137,6 +137,11 @@ class _PortCoherentComponent(ct.Structure):
     _fields_ = [("input_port", ct.c_size_t), ("component", _CoherentComponent)]
 
 
+class CoherentCompressionResult(NamedTuple):
+    input_power_w: float
+    output: CoherentReduction
+
+
 def _coherent_component(value):
     if isinstance(value.kind, bool) or isinstance(value.coherence_group, bool):
         raise TypeError("Kind and coherence group must be integers, not bool")
@@ -238,6 +243,12 @@ class Library:
                            ct.POINTER(_CoherentComponent), size, ct.POINTER(size)]),
             "rfmodel_assign_source_coherence": (
                 ct.c_int, [ct.POINTER(_SourceCoherence), size, ct.POINTER(ct.c_uint64), size]),
+            "rfmodel_compress_coherent_fundamentals": (
+                ct.c_int, [ct.c_double, ct.c_double, ct.c_double, ct.c_double,
+                           ct.POINTER(_CoherentComponent), size,
+                           ct.POINTER(_CoherentComponent), size, ct.POINTER(size),
+                           ct.POINTER(_BinPower), size, ct.POINTER(size),
+                           ct.POINTER(ct.c_double), ct.POINTER(ct.c_double)]),
             "rfmodel_reduce_coherent_components": (
                 ct.c_int, [ct.c_double, ct.POINTER(_CoherentComponent), size,
                            ct.POINTER(_CoherentComponent), size, ct.POINTER(size),
@@ -510,6 +521,25 @@ class Library:
         groups = (ct.c_uint64 * len(sources))()
         self._check(self._dll.rfmodel_assign_source_coherence(incident, len(incident), groups, len(groups)))
         return tuple(groups)
+
+    def compress_coherent_fundamentals(self, spacing_hz, components, *, power_gain_db,
+                                      output_p1db_dbm, output_saturation_dbm):
+        """Compress carrier groups with shared drive; no distortion generation."""
+        components = list(components)
+        if len(components) > 4096:
+            raise ValueError("Coherent compression accepts at most 4096 components")
+        incident = (_CoherentComponent * len(components))(
+            *[_coherent_component(value) for value in components])
+        groups = (_CoherentComponent * len(components))()
+        powers = (_BinPower * len(components))()
+        group_count, power_count = ct.c_size_t(), ct.c_size_t()
+        total, drive = ct.c_double(), ct.c_double()
+        self._check(self._dll.rfmodel_compress_coherent_fundamentals(
+            spacing_hz, power_gain_db, output_p1db_dbm, output_saturation_dbm,
+            incident, len(incident), groups, len(groups), ct.byref(group_count),
+            powers, len(powers), ct.byref(power_count), ct.byref(total), ct.byref(drive)))
+        return CoherentCompressionResult(
+            drive.value, _coherent_result(groups, group_count, powers, power_count, total))
 
     def reduce_coherent_components(self, spacing_hz, components):
         components = list(components)

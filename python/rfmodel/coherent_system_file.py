@@ -1,4 +1,4 @@
-"""Feed-forward coherent RF graphs: linear networks and prescribed CW mixer banks."""
+"""Feed-forward coherent RF graphs with networks, mixers and fundamental compression."""
 from . import CoherentMixerInput
 from .coherence_file import _encode_reduction
 from .coherent_network_file import (
@@ -76,6 +76,7 @@ def analyze_coherent_system(library, document, *, base_directory=None):
             raise ValueError("Duplicate stage ID")
         stage_ids.add(name)
         kind = stage.get("type")
+        measurements = {}
         if kind == "linear_network":
             _object(stage, ("id", "type", "network", "inputs", "outputs"))
             values = _array(stage["outputs"], 1024, nonempty=True)
@@ -95,6 +96,17 @@ def analyze_coherent_system(library, document, *, base_directory=None):
                                      incident, ports, base_directory, declared_inputs=declared_ports)
             for output_name, port in zip(names, ports):
                 store(output_name, results[port])
+        elif kind == "fundamental_compression":
+            _object(stage, ("id", "type", "input", "output", "power_gain_db",
+                            "output_p1db_dbm", "output_saturation_dbm"))
+            names = new_ids([stage["output"]])
+            result = library.compress_coherent_fundamentals(
+                spacing, read_stream(stage["input"]),
+                power_gain_db=_number(stage["power_gain_db"]),
+                output_p1db_dbm=_number(stage["output_p1db_dbm"]),
+                output_saturation_dbm=_number(stage["output_saturation_dbm"]))
+            store(names[0], result.output)
+            measurements["input_power_w"] = result.input_power_w
         elif kind == "ideal_mixer_bank":
             _object(stage, ("id", "type", "branches"))
             branches = _array(stage["branches"], 2048, nonempty=True)
@@ -134,8 +146,8 @@ def analyze_coherent_system(library, document, *, base_directory=None):
                 store(output_name, library.reduce_coherent_components(spacing, remapped[offset:stop]))
                 offset = stop
         else:
-            raise ValueError("Expected linear_network or ideal_mixer_bank stage")
-        stage_results.append({"id": name, "type": kind, "outputs": names})
+            raise ValueError("Expected linear_network, ideal_mixer_bank or fundamental_compression stage")
+        stage_results.append({"id": name, "type": kind, "outputs": names, **measurements})
 
     outputs = [_label(name) for name in _array(document["outputs"], 4096, nonempty=True)]
     if len(set(outputs)) != len(outputs):

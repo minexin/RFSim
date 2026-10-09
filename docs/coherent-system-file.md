@@ -1,7 +1,7 @@
 # 相干 RF 系统前馈图文件
 
 `rfmodel.coherent-system` version=1 把源/参考时钟、多输出线性网络、规定 CW LO
-的理想混频和后级合路放入一个可保存的分析模型。数值求解、变频和相干合并调用
+的理想混频、共同基波压缩和后级合路放入一个可保存的分析模型。数值求解、变频和相干合并调用
 已有原生库；Python 执行器负责端口调度、文件读取及本次分析的来源身份管理。
 
 ## 从文件执行
@@ -134,6 +134,12 @@ stages 列出每级产生的流；outputs 保留所需输出列表；streams 保
 禁止结果覆盖模型、共享库或 Touchstone 输入；分析失败时保持已有输出文件内容。
 JSON 严格加载和输出机制沿用既有 CLI。
 
+## 共同基波压缩阶段
+
+新增 fundamental_compression：单输入流、多来源共同驱动，source 类型限定，
+保留相干身份与相位。字段、曲线及完整示例见 [相干压缩接口](coherent-compression.md)。
+结果阶段包含 input_power_w；谐波、互调和噪声不会由此节点生成。
+
 ## 验证与剩余范围
 
 回归覆盖单源正交分路、锁定/独立 LO、独立 RF、跨混频阶段来源复用、
@@ -141,13 +147,17 @@ JSON 严格加载和输出机制沿用既有 CLI。
 插值、多输出共享网络提取、空流参数验证、非法拓扑和文件保护。
 
 本格式是匹配阶段边界的**前馈 RF 图**，线性子网络内部可包含反馈。
-它没有跨阶段双向负载迭代、非线性图节点、谱密度/带宽重叠积分、DC 相干图、
+它没有跨阶段双向负载迭代、谐波/互调生成图节点、谱密度/带宽重叠积分、DC 相干图、
 噪声图、参数优化或完整 SystemVue RF System Analysis 路径/预算语义。
 上述结果为解析与接口回归，没有新增 SystemVue Mixer 实测，不能据此宣称
 SystemVue RF Design Mixer 或完整系统分析兼容。
 
 
-本阶段 MSVC Debug/Release 各 66/66 回归通过；独立 wheel 的 Python API
+最初的网络/混频阶段 MSVC Debug/Release 各 66/66 回归通过；独立 wheel 的 Python API
 60 项、原有相干网络文件 9 项、系统图文件 10 项通过。示例数值和容差见
 [解析验证记录](../validation/coherent-system-analytic.json)。记录属于本机解析
 验证，远端 CI 以对应提交运行结果为准。
+
+共同基波压缩扩展的当前验证为 Debug/Release 各 67/67，安装消费者各 2/2，
+wheel API 61 项、系统图 13 项；新增链路的解析结果见
+[压缩接收链验证](../validation/coherent-compression-analytic.json)。

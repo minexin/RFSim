@@ -108,3 +108,6 @@ Library.loaded_noise 与 Library.thermal_boundary_noise 现支持已提取 N 端
 不会自动改变 JSON signal_boundaries 的噪声含义。
 
 显式相干分量的多输入网络传播见 [多端口相干接口](coherent-network.md)，使用 Network.transmit_coherent 并保留调用者提供的分组。
+
+Library.compress_coherent_fundamentals 提供多个相干组的共同基波压缩，
+返回输入驱动和完整 CoherentReduction，见 [相干压缩接口](coherent-compression.md)。

@@ -28,6 +28,32 @@ class PythonApiTests(unittest.TestCase):
     def setUpClass(cls):
         cls.library = Library(LIBRARY_PATH)
 
+    def test_coherent_fundamental_compression_shared_drive(self):
+        parameters = dict(power_gain_db=20., output_p1db_dbm=20., output_saturation_dbm=23.)
+        anchor = 10**((20 - 20 + 1 - 30) / 10)
+        c = rfmodel.CoherentComponent(10, rfmodel.SpectrumKind.SOURCE, 1., 7,
+                                     math.sqrt(anchor / 2))
+        independent = c._replace(coherence_group=8, amplitude=1j*c.amplitude)
+        result = self.library.compress_coherent_fundamentals(1e8, [c, independent], **parameters)
+        self.assertAlmostEqual(result.input_power_w, anchor)
+        self.assertAlmostEqual(result.output.total_power_w, .1)
+        self.assertEqual([v.coherence_group for v in result.output.components], [7, 8])
+        self.assertAlmostEqual(result.output.components[1].amplitude, 1j*math.sqrt(.05))
+        cancelled = self.library.compress_coherent_fundamentals(
+            1e8, [c, c._replace(amplitude=-c.amplitude)], **parameters)
+        self.assertEqual(cancelled.input_power_w, 0.)
+        self.assertEqual(cancelled.output.components[0].amplitude, 0.)
+        self.assertEqual(self.library.compress_coherent_fundamentals(
+            1e8, [], **parameters).output.components, ())
+        for changed in ({"kind": rfmodel.SpectrumKind.INTERMOD}, {"bin": 0},
+                        {"coherence_group": True}, {"amplitude": float("inf")}):
+            with self.subTest(changed=changed), self.assertRaises((RFModelError, ValueError, TypeError)):
+                self.library.compress_coherent_fundamentals(1e8, [c._replace(**changed)], **parameters)
+        with self.assertRaises(RFModelError):
+            self.library.compress_coherent_fundamentals(1e8, [], **dict(parameters, output_saturation_dbm=20))
+        with self.assertRaises(ValueError):
+            self.library.compress_coherent_fundamentals(1e8, [c]*4097, **parameters)
+
     def test_coherent_mixer_clock_phase_and_network_combination(self):
         source = rfmodel.SourceCoherence
         rf_group, lo_group, other_lo = self.library.assign_source_coherence(

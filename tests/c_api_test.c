@@ -22,6 +22,112 @@ int main(int argc, char **argv) {
     double residual = -1;
     CHECK(rfmodel_abi_version() == 1);
     {
+        rfmodel_coherent_component input[] = {{10, RFMODEL_SPECTRUM_SOURCE, 1., 7, {.001, 0.}},
+                                              {10, RFMODEL_SPECTRUM_SOURCE, 1., 7, {-.001, 0.}}};
+        rfmodel_coherent_component groups[2] = {{99, 0, 9., 9, {9., 0.}}}, before[2];
+        rfmodel_bin_power powers[2] = {{99, 9.}}, before_powers[2];
+        size_t group_count = 99, power_count = 98;
+        double output_power = 97., drive = 96.;
+        memcpy(before, groups, sizeof(groups));
+        memcpy(before_powers, powers, sizeof(powers));
+        CHECK(rfmodel_compress_coherent_fundamentals(1e8,
+                                                     20.,
+                                                     20.,
+                                                     23.,
+                                                     input,
+                                                     2,
+                                                     groups,
+                                                     2,
+                                                     &group_count,
+                                                     powers,
+                                                     0,
+                                                     &power_count,
+                                                     &output_power,
+                                                     &drive) == RFMODEL_INVALID_ARGUMENT);
+        CHECK(group_count == 99 && power_count == 98 && output_power == 97. && drive == 96.);
+        CHECK(memcmp(groups, before, sizeof(groups)) == 0 &&
+              memcmp(powers, before_powers, sizeof(powers)) == 0);
+        input[1].kind = RFMODEL_SPECTRUM_INTERMOD;
+        CHECK(rfmodel_compress_coherent_fundamentals(1e8,
+                                                     20.,
+                                                     20.,
+                                                     23.,
+                                                     input,
+                                                     2,
+                                                     groups,
+                                                     2,
+                                                     &group_count,
+                                                     powers,
+                                                     2,
+                                                     &power_count,
+                                                     &output_power,
+                                                     &drive) == RFMODEL_INVALID_ARGUMENT);
+        CHECK(group_count == 99 && power_count == 98 && output_power == 97. && drive == 96.);
+        CHECK(memcmp(groups, before, sizeof(groups)) == 0 &&
+              memcmp(powers, before_powers, sizeof(powers)) == 0);
+        input[1].kind = RFMODEL_SPECTRUM_SOURCE;
+        CHECK(rfmodel_compress_coherent_fundamentals(1e8,
+                                                     20.,
+                                                     20.,
+                                                     23.,
+                                                     input,
+                                                     2,
+                                                     groups,
+                                                     2,
+                                                     &group_count,
+                                                     powers,
+                                                     2,
+                                                     &power_count,
+                                                     &output_power,
+                                                     NULL) == RFMODEL_INVALID_ARGUMENT);
+        CHECK(group_count == 99 && power_count == 98 && output_power == 97. && drive == 96.);
+        CHECK(rfmodel_compress_coherent_fundamentals(1e8,
+                                                     20.,
+                                                     20.,
+                                                     23.,
+                                                     input,
+                                                     2,
+                                                     groups,
+                                                     2,
+                                                     &group_count,
+                                                     powers,
+                                                     2,
+                                                     &power_count,
+                                                     &output_power,
+                                                     &drive) == RFMODEL_OK);
+        CHECK(group_count == 1 && power_count == 1 && output_power == 0. && drive == 0.);
+        CHECK(groups[0].coherence_group == 7 && groups[0].amplitude.real == 0.);
+        CHECK(rfmodel_compress_coherent_fundamentals(1e8,
+                                                     20.,
+                                                     20.,
+                                                     23.,
+                                                     NULL,
+                                                     0,
+                                                     NULL,
+                                                     0,
+                                                     &group_count,
+                                                     NULL,
+                                                     0,
+                                                     &power_count,
+                                                     &output_power,
+                                                     &drive) == RFMODEL_OK);
+        CHECK(group_count == 0 && power_count == 0 && output_power == 0. && drive == 0.);
+        CHECK(rfmodel_compress_coherent_fundamentals(1e8,
+                                                     20.,
+                                                     20.,
+                                                     20.,
+                                                     NULL,
+                                                     0,
+                                                     NULL,
+                                                     0,
+                                                     &group_count,
+                                                     NULL,
+                                                     0,
+                                                     &power_count,
+                                                     &output_power,
+                                                     &drive) == RFMODEL_INVALID_ARGUMENT);
+    }
+    {
         rfmodel_coherent_mixer_input input[] = {
             {{10, RFMODEL_SPECTRUM_SOURCE, 1., 7, {1., 0.}}, 8, 0., 0., 9},
             {{10, RFMODEL_SPECTRUM_SOURCE, 1., 7, {0., 1.}}, 8, 0., 1.5707963267948966, 9}};

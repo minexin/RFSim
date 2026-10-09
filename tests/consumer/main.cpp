@@ -1,4 +1,5 @@
 #include <rfmodel/coherent_mixer.hpp>
+#include <rfmodel/coherent_compression.hpp>
 #include <rfmodel/source_coherence.hpp>
 #include <rfmodel/coherent_network.hpp>
 #include <rfmodel/coherence.hpp>
@@ -22,6 +23,15 @@
 #include <rfmodel/term_propagation.hpp>
 
 int main() {
+    const auto coherent_compressed = rfmodel::compress_coherent_fundamentals(
+        1e8,
+        {{10, rfmodel::SpectrumKind::source, 1., 7, .001},
+         {10, rfmodel::SpectrumKind::source, 1., 7, -.001}},
+        rfmodel::SaturatingFundamentalCompression(20., 20., 23.));
+    if (coherent_compressed.input_power_w != 0. || coherent_compressed.output.total_power_w != 0. ||
+        coherent_compressed.output.components.size() != 1) {
+        return 29;
+    }
     const auto mixed = rfmodel::mix_coherent_components(
         1e8, {{{10, rfmodel::SpectrumKind::source, 1., 7, 1.}, 8, 0., 0., 9}});
     if (mixed.size() != 2 || mixed[0].bin != 2 || mixed[1].bin != 18 ||

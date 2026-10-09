@@ -1,0 +1,72 @@
+{
+  "format": "rfmodel.analytic-validation",
+  "version": 1,
+  "generated_utc": "2026-10-09T04:41:08.929882+00:00",
+  "basis": "Shared fundamental curve and analytic coherent graph; not a SystemVue compression measurement",
+  "model": "examples/coherent-compressed-receiver.json",
+  "model_sha256": "39cf3f07b5d2d1c5edaacf2a7765c2021d36ed077a1faf89027ec417e520d71c",
+  "native_library_sha256": "efb94920dfa4cd67b0b7da196073d9b9300dabf9969a11f21f583e8c065e765f",
+  "cases": [
+    {
+      "lo_clock_relation": "locked",
+      "input_drive_w": 1.0,
+      "checks": [
+        {
+          "bin": 2,
+          "observed_w": 0.1995262314968879,
+          "expected_w": 0.19952623149688797,
+          "absolute_tolerance_w": 1e-12,
+          "passed": true
+        },
+        {
+          "bin": 18,
+          "observed_w": 1.8702588599069503e-34,
+          "expected_w": 0,
+          "absolute_tolerance_w": 1e-28,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "lo_clock_relation": "independent",
+      "input_drive_w": 1.0,
+      "checks": [
+        {
+          "bin": 2,
+          "observed_w": 0.09976311574844395,
+          "expected_w": 0.09976311574844399,
+          "absolute_tolerance_w": 1e-12,
+          "passed": true
+        },
+        {
+          "bin": 18,
+          "observed_w": 0.09976311574844395,
+          "expected_w": 0.09976311574844399,
+          "absolute_tolerance_w": 1e-12,
+          "passed": true
+        }
+      ]
+    }
+  ],
+  "local_msvc": {
+    "Debug": {
+      "ctest_total": 67,
+      "failures": 0
+    },
+    "Release": {
+      "ctest_total": 67,
+      "failures": 0
+    }
+  },
+  "wheel_tests": {
+    "python_api": 61,
+    "coherent_system_file": 13
+  },
+  "rerun": "python tests/test_coherent_system_file.py <native-library>",
+  "limitations": [
+    "Source-kind carrier compression only; no new distortion, noise or AM/PM",
+    "Matched forward input; no reverse-loading iteration",
+    "Shared-drive model has not been validated against a multi-source SystemVue amplifier",
+    "Existing RFPwrIn discrepancies remain unresolved"
+  ]
+}

@@ -5,6 +5,7 @@
 #include "rfmodel/c_api.h"
 #include "rfmodel/fundamental_compression.hpp"
 #include "rfmodel/saturating_fundamental.hpp"
+#include "rfmodel/coherent_compression.hpp"
 #include "rfmodel/single_tone_amplifier.hpp"
 #include "rfmodel/multitone_amplifier.hpp"
 #include "rfmodel/term_propagation.hpp"
@@ -241,6 +242,48 @@ int rfmodel_reduce_coherent_components(double spacing_hz,
                         power_capacity,
                         power_count,
                         total_power_w);
+    });
+}
+
+int rfmodel_compress_coherent_fundamentals(double spacing_hz,
+                                           double power_gain_db,
+                                           double output_p1db_dbm,
+                                           double output_saturation_dbm,
+                                           const rfmodel_coherent_component *input,
+                                           size_t input_count,
+                                           rfmodel_coherent_component *groups,
+                                           size_t group_capacity,
+                                           size_t *group_count,
+                                           rfmodel_bin_power *powers,
+                                           size_t power_capacity,
+                                           size_t *power_count,
+                                           double *output_power_w,
+                                           double *input_power_w) {
+    return guarded([&] {
+        require(input_count <= 4096 && (input || input_count == 0));
+        require(group_count && power_count && output_power_w && input_power_w);
+        std::vector<rfmodel::CoherentComponent> components;
+        components.reserve(input_count);
+        for (size_t i = 0; i < input_count; ++i) {
+            const auto &value = input[i];
+            components.push_back({value.index,
+                                  static_cast<rfmodel::SpectrumKind>(value.kind),
+                                  value.bandwidth_hz,
+                                  value.coherence_group,
+                                  {value.amplitude.real, value.amplitude.imag}});
+        }
+        const rfmodel::SaturatingFundamentalCompression model(
+            power_gain_db, output_p1db_dbm, output_saturation_dbm);
+        const auto result = rfmodel::compress_coherent_fundamentals(spacing_hz, components, model);
+        write_coherence(result.output,
+                        groups,
+                        group_capacity,
+                        group_count,
+                        powers,
+                        power_capacity,
+                        power_count,
+                        output_power_w);
+        *input_power_w = result.input_power_w;
     });
 }
 

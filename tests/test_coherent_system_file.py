@@ -53,6 +53,58 @@ class CoherentSystemFileTests(unittest.TestCase):
     def evaluate(self, model, **kwargs):
         return analyze_coherent_system(self.library, model, **kwargs)
 
+    def test_compression_before_split_mix_combine_preserves_cancellation(self):
+        model = load(ROOT / "examples/coherent-compressed-receiver.json")
+        original = copy.deepcopy(model)
+        result = self.evaluate(model)
+        self.assertEqual(model, original)
+        expected = 10**((23 - 30) / 10)
+        self.assertAlmostEqual(result["stages"][0]["input_power_w"], 1.)
+        self.assertAlmostEqual(stream(result, "compressed-rf")["total_power_w"], expected)
+        self.assertAlmostEqual(powers(result)[2], expected)
+        self.assertLess(powers(result)[18], 1e-28)
+        group = stream(result, "compressed-rf")["components"][0]["coherence_group"]
+        self.assertEqual(group, stream(result, "rf-i")["components"][0]["coherence_group"])
+        model["sources"][2].pop("reference_clock")
+        independent = self.evaluate(model)
+        self.assertAlmostEqual(powers(independent)[2], expected / 2)
+        self.assertAlmostEqual(powers(independent)[18], expected / 2)
+
+    def test_shared_compression_blocker_and_coherent_cancellation(self):
+        anchor = 10**(-2.9)
+        wave = math.sqrt(anchor / 2)
+        model = {"format": "rfmodel.coherent-system", "version": 1, "spacing_hz": 1e8,
+                 "sources": [{"id": "a"}, {"id": "b"}],
+                 "inputs": [{"id": "rf", "components": [
+                     {"source": "a", "bin": 10, "bandwidth_hz": 1, "amplitude": wave},
+                     {"source": "b", "bin": 11, "bandwidth_hz": 1, "amplitude": [0, wave]}]}],
+                 "stages": [{"id": "amp", "type": "fundamental_compression", "input": "rf",
+                             "output": "out", "power_gain_db": 20., "output_p1db_dbm": 20.,
+                             "output_saturation_dbm": 23.}], "outputs": ["out"]}
+        result = self.evaluate(model)
+        self.assertAlmostEqual(powers(result, "out")[10], .05)
+        self.assertAlmostEqual(powers(result, "out")[11], .05)
+        second = model["inputs"][0]["components"].pop()
+        unblocked = self.evaluate(model)
+        self.assertGreater(powers(unblocked, "out")[10], .05)
+        second.update(source="a", bin=10, amplitude=-wave)
+        model["inputs"][0]["components"].append(second)
+        cancelled = self.evaluate(model)
+        self.assertEqual(stream(cancelled, "out")["total_power_w"], 0.)
+        self.assertEqual(cancelled["stages"][0]["input_power_w"], 0.)
+        self.assertEqual(len(stream(cancelled, "out")["components"]), 1)
+
+    def test_empty_compression_validates_parameters_and_graph_contract(self):
+        model = load(ROOT / "examples/coherent-compressed-receiver.json")
+        model["inputs"][0]["components"] = []
+        self.assertEqual(stream(self.evaluate(model))["total_power_w"], 0.)
+        for update in ({"output_saturation_dbm": 20}, {"power_gain_db": float("nan")},
+                       {"unexpected": 1}, {"input": "future"}, {"output": model["inputs"][0]["id"]}):
+            invalid = copy.deepcopy(model)
+            invalid["stages"][0].update(update)
+            with self.subTest(update=update), self.assertRaises((ValueError, RFModelError)):
+                self.evaluate(invalid)
+
     def test_split_mix_combine_and_one_extraction_per_network(self):
         model = fixture()
         original = copy.deepcopy(model)

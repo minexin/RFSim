@@ -1,0 +1,206 @@
+{
+  "format": "rfmodel.coherent-system",
+  "version": 1,
+  "spacing_hz": 100000000.0,
+  "sources": [
+    {
+      "id": "rf"
+    },
+    {
+      "id": "lo-a",
+      "reference_clock": "lo-reference"
+    },
+    {
+      "id": "lo-b",
+      "reference_clock": "lo-reference"
+    }
+  ],
+  "inputs": [
+    {
+      "id": "incident",
+      "components": [
+        {
+          "source": "rf",
+          "bin": 10,
+          "bandwidth_hz": 1.0,
+          "amplitude": 1.0
+        }
+      ]
+    }
+  ],
+  "stages": [
+    {
+      "id": "driver",
+      "type": "fundamental_compression",
+      "input": "incident",
+      "output": "compressed-rf",
+      "power_gain_db": 20,
+      "output_p1db_dbm": 20,
+      "output_saturation_dbm": 23
+    },
+    {
+      "id": "quadrature-split",
+      "type": "linear_network",
+      "network": {
+        "devices": [
+          {
+            "id": "s",
+            "s": [
+              [
+                0,
+                0.7071067811865475,
+                [
+                  0,
+                  0.7071067811865475
+                ]
+              ],
+              [
+                0.7071067811865475,
+                0,
+                0
+              ],
+              [
+                [
+                  0,
+                  0.7071067811865475
+                ],
+                0,
+                0
+              ]
+            ]
+          }
+        ],
+        "external_ports": [
+          [
+            "s",
+            0
+          ],
+          [
+            "s",
+            1
+          ],
+          [
+            "s",
+            2
+          ]
+        ]
+      },
+      "inputs": [
+        {
+          "stream": "compressed-rf",
+          "port": [
+            "s",
+            0
+          ]
+        }
+      ],
+      "outputs": [
+        {
+          "id": "rf-i",
+          "port": [
+            "s",
+            1
+          ]
+        },
+        {
+          "id": "rf-q",
+          "port": [
+            "s",
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "id": "conversion",
+      "type": "ideal_mixer_bank",
+      "branches": [
+        {
+          "id": "mixed-i",
+          "input": "rf-i",
+          "lo_source": "lo-a",
+          "lo_bin": 8,
+          "conversion_gain_db": 0
+        },
+        {
+          "id": "mixed-q",
+          "input": "rf-q",
+          "lo_source": "lo-b",
+          "lo_bin": 8,
+          "conversion_gain_db": 0,
+          "lo_phase_radians": 1.5707963267948966
+        }
+      ]
+    },
+    {
+      "id": "combine",
+      "type": "linear_network",
+      "network": {
+        "devices": [
+          {
+            "id": "c",
+            "s": [
+              [
+                0,
+                0,
+                0.7071067811865475
+              ],
+              [
+                0,
+                0,
+                0.7071067811865475
+              ],
+              [
+                0.7071067811865475,
+                0.7071067811865475,
+                0
+              ]
+            ]
+          }
+        ],
+        "external_ports": [
+          [
+            "c",
+            2
+          ],
+          [
+            "c",
+            1
+          ],
+          [
+            "c",
+            0
+          ]
+        ]
+      },
+      "inputs": [
+        {
+          "stream": "mixed-i",
+          "port": [
+            "c",
+            0
+          ]
+        },
+        {
+          "stream": "mixed-q",
+          "port": [
+            "c",
+            1
+          ]
+        }
+      ],
+      "outputs": [
+        {
+          "id": "result",
+          "port": [
+            "c",
+            2
+          ]
+        }
+      ]
+    }
+  ],
+  "outputs": [
+    "result"
+  ]
+}
