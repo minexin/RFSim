@@ -83,3 +83,5 @@ Windows 本机可运行 `scripts/build-msvc.ps1` 自动定位已有 VS 工具链
 [多器件转换网络](docs/conversion-network.md) 已支持线性器件与混频器按物理端口接线、反射往返、镜像噪声折叠及跨频率 C/P，提供完整 JSON/CLI 示例；频率自动扩展与非线性工作点联立仍待完成。
 
 [变频网络噪声分析](docs/conversion-noise-analysis.md) 支持显式参考/热噪声频带、单边带和多频带归一化、复反射及等效输入噪声温度，保留原网络源条件；宽带、热负载和厂商 CNF 验收仍待完成。
+
+[变频热负载噪声](docs/conversion-loaded-noise.md) 可输出入射/出射及交叉 C/P、端口净吸收噪声，支持显式终端温度，并通过热平衡和连接守恒验证。

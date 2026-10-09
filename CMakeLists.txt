@@ -63,6 +63,8 @@ if(RFMODEL_BUILD_C_API)
             ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_python_api.py $<TARGET_FILE:rfmodel_c>)
         add_test(NAME linear_noise_analysis_file_test COMMAND ${Python3_EXECUTABLE}
             ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_linear_noise_analysis.py $<TARGET_FILE:rfmodel_c>)
+        add_test(NAME conversion_loaded_noise_file_test COMMAND ${Python3_EXECUTABLE}
+            ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_conversion_loaded_noise.py $<TARGET_FILE:rfmodel_c>)
         add_test(NAME conversion_noise_file_test COMMAND ${Python3_EXECUTABLE}
             ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_conversion_noise.py $<TARGET_FILE:rfmodel_c>)
         add_test(NAME conversion_network_file_test COMMAND ${Python3_EXECUTABLE}
@@ -353,3 +355,7 @@ add_test(NAME frequency_conversion_test COMMAND frequency_conversion_test)
 add_executable(conversion_network_test tests/conversion_network_test.cpp)
 target_link_libraries(conversion_network_test PRIVATE rfmodel)
 add_test(NAME conversion_network_test COMMAND conversion_network_test)
+
+add_executable(conversion_loaded_noise_test tests/conversion_loaded_noise_test.cpp)
+target_link_libraries(conversion_loaded_noise_test PRIVATE rfmodel)
+add_test(NAME conversion_loaded_noise_test COMMAND conversion_loaded_noise_test)

@@ -231,6 +231,19 @@ class ConversionResult(NamedTuple):
     relative_residual: float
 
 
+class ConversionLoadedResult(NamedTuple):
+    incident: tuple
+    outgoing: tuple
+    noise_covariance: tuple
+    noise_complementary: tuple
+    relative_residual: float
+    incident_noise_covariance: tuple
+    incident_noise_complementary: tuple
+    incident_outgoing_noise_covariance: tuple
+    incident_outgoing_noise_complementary: tuple
+    net_noise_into_device_w_per_hz: tuple
+
+
 class ConversionNoiseAnalysis(NamedTuple):
     reference_gain: float
     reference_output_noise_w_per_hz: float
@@ -238,6 +251,18 @@ class ConversionNoiseAnalysis(NamedTuple):
     noise_factor: float
     noise_figure_db: float
     equivalent_input_temperature_k: float
+
+
+class _ConversionLoadedOutput(ct.Structure):
+    _fields_ = [
+        ("incident_covariance", ct.POINTER(_Complex)),
+        ("incident_complementary", ct.POINTER(_Complex)),
+        ("incident_outgoing_covariance", ct.POINTER(_Complex)),
+        ("incident_outgoing_complementary", ct.POINTER(_Complex)),
+        ("net_noise_into_device_w_per_hz", ct.POINTER(ct.c_double)),
+        ("matrix_capacity", ct.c_size_t),
+        ("power_capacity", ct.c_size_t),
+    ]
 
 
 class _ConversionNoiseRequest(ct.Structure):
@@ -589,6 +614,10 @@ class Library:
                 ct.c_int, [ct.POINTER(_ConversionRequest), size,
                            ct.POINTER(_ConversionConnection), size,
                            ct.POINTER(_ConversionNoiseRequest), ct.POINTER(_ConversionNoiseResult)]),
+            "rfmodel_conversion_network_analyze_loaded": (
+                ct.c_int, [ct.POINTER(_ConversionRequest), size,
+                           ct.POINTER(_ConversionConnection), size, ct.POINTER(_ConversionOutput),
+                           ct.POINTER(_ConversionLoadedOutput)]),
             "rfmodel_conversion_network_analyze": (
                 ct.c_int, [ct.POINTER(_ConversionRequest), size,
                     ct.POINTER(_ConversionConnection), size, ct.POINTER(_ConversionOutput)]),
@@ -1546,8 +1575,12 @@ class Library:
             *(getattr(output, name) for name in ConversionNoiseAnalysis._fields)
         )
 
-    def conversion_network(self, spacing_hz, devices, connections=(), *, reference_ohms=50.0):
+    def conversion_network(
+        self, spacing_hz, devices, connections=(), *, reference_ohms=50.0, loaded_noise=False
+    ):
         """Connect physical ports of conversion devices; output order is device/channel order."""
+        if type(loaded_noise) is not bool:
+            raise TypeError("loaded_noise must be bool")
         native_requests, native_connections, total, keepers = self._conversion_network_inputs(
             spacing_hz, devices, connections, reference_ohms
         )
@@ -1563,22 +1596,43 @@ class Library:
             total * total,
             ct.pointer(residual),
         )
-        self._check(
-            self._dll.rfmodel_conversion_network_analyze(
-                native_requests,
-                len(native_requests),
-                native_connections,
-                len(native_connections),
-                ct.byref(output),
+        if loaded_noise:
+            matrices = [(_Complex * (total * total))() for _ in range(4)]
+            net = (ct.c_double * total)()
+            loaded = _ConversionLoadedOutput(*matrices, net, total * total, total)
+            self._check(
+                self._dll.rfmodel_conversion_network_analyze_loaded(
+                    native_requests,
+                    len(native_requests),
+                    native_connections,
+                    len(native_connections),
+                    ct.byref(output),
+                    ct.byref(loaded),
+                )
             )
-        )
-        return ConversionResult(
+        else:
+            self._check(
+                self._dll.rfmodel_conversion_network_analyze(
+                    native_requests,
+                    len(native_requests),
+                    native_connections,
+                    len(native_connections),
+                    ct.byref(output),
+                )
+            )
+        ordinary = ConversionResult(
             tuple(v.value() for v in incident),
             tuple(v.value() for v in outgoing),
             _rows(covariance, total),
             _rows(complementary, total),
             residual.value,
         )
+
+        if loaded_noise:
+            return ConversionLoadedResult(
+                *ordinary, *(_rows(matrix, total) for matrix in matrices), tuple(net)
+            )
+        return ordinary
 
     def frequency_conversion(
         self,

@@ -26,6 +26,21 @@ int main(int argc, char **argv) {
         }
         devices[0].source = source;
         {
+            const rfmodel_complex emission[4] = {{1., 0.}};
+            rfmodel_complex extra[64];
+            double net[4];
+            const rfmodel_conversion_loaded_output loaded = {
+                extra, extra + 16, extra + 32, extra + 48, net, 16, 4};
+            devices[0].source_covariance = emission;
+            if (rfmodel_conversion_network_analyze_loaded(devices, 2, wires, 1, &output, &loaded) !=
+                    RFMODEL_OK ||
+                fabs(extra[0].real - 1.) > 1e-12 || fabs(extra[35].real - .25) > 1e-12 ||
+                fabs(net[3] + .0625) > 1e-12) {
+                return 93;
+            }
+            devices[0].source_covariance = NULL;
+        }
+        {
             const size_t channel = 0;
             const rfmodel_conversion_noise_request request = {&channel, 1, &channel, 1, 3, 290.};
             rfmodel_conversion_noise_result metric;

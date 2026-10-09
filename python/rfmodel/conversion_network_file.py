@@ -90,7 +90,7 @@ def analyze_conversion_network(library, document, base_directory=None):
     _object(
         document,
         ("format", "version", "spacing_hz", "devices", "boundaries"),
-        ("reference_ohms", "connections", "noise_analyses"),
+        ("reference_ohms", "connections", "noise_analyses", "loaded_noise"),
     )
     if (
         document["format"] != "rfmodel.conversion-network"
@@ -180,9 +180,16 @@ def analyze_conversion_network(library, document, base_directory=None):
     boundaries = document["boundaries"]
     if not isinstance(boundaries, list):
         raise ValueError("Boundaries must be a list")
+    loaded_noise = document.get("loaded_noise", False)
+    if type(loaded_noise) is not bool:
+        raise ValueError("loaded_noise must be boolean")
     assigned = set()
     for boundary in boundaries:
-        _object(boundary, ("channel",), ("source", "reflection", "noise_w_per_hz"))
+        _object(
+            boundary,
+            ("channel",),
+            ("source", "reflection", "noise_w_per_hz", "noise_temperature_k"),
+        )
         channel = boundary["channel"]
         if (
             not isinstance(channel, list)
@@ -200,10 +207,20 @@ def analyze_conversion_network(library, document, base_directory=None):
         native = devices[d]
         native["source"][i] = _complex(boundary.get("source", 0))
         native["reflection"][i] = _complex(boundary.get("reflection", 0))
-        if "noise_w_per_hz" in boundary:
-            if "source_noise" in entries[d]:
-                raise ValueError("Choose device source_noise or per-boundary noise density")
-            variance = _number(boundary["noise_w_per_hz"])
+        noise_fields = {"noise_w_per_hz", "noise_temperature_k"} & boundary.keys()
+        if noise_fields:
+            if len(noise_fields) != 1 or "source_noise" in entries[d]:
+                raise ValueError("Choose device source_noise or one boundary noise specification")
+            if "noise_w_per_hz" in boundary:
+                variance = _number(boundary["noise_w_per_hz"])
+            else:
+                temperature = _number(boundary["noise_temperature_k"])
+                gamma = native["reflection"][i]
+                if temperature < 0 or abs(gamma) > 1:
+                    raise ValueError(
+                        "Thermal boundary needs nonnegative temperature and passive reflection"
+                    )
+                variance = 1.380649e-23 * temperature * max(0.0, 1.0 - abs(gamma) ** 2)
             if variance < 0:
                 raise ValueError("Boundary noise density must be nonnegative")
             native["source_covariance"][i][i] = variance
@@ -212,7 +229,9 @@ def analyze_conversion_network(library, document, base_directory=None):
     required = {key for key in labels if key[:2] not in connected_ports}
     if assigned != required:
         raise ValueError("Every unconnected channel requires one explicit boundary")
-    result = library.conversion_network(spacing, devices, connections, reference_ohms=reference)
+    result = library.conversion_network(
+        spacing, devices, connections, reference_ohms=reference, loaded_noise=loaded_noise
+    )
     channels = []
     for i, (name, port, index) in enumerate(labels):
         a, b = result.incident[i], result.outgoing[i]
@@ -239,6 +258,18 @@ def analyze_conversion_network(library, document, base_directory=None):
         "noise_complementary_w_per_hz": _encode(result.noise_complementary),
         "relative_residual": result.relative_residual,
     }
+    if loaded_noise:
+        for field in (
+            "incident_noise_covariance",
+            "incident_noise_complementary",
+            "incident_outgoing_noise_covariance",
+            "incident_outgoing_noise_complementary",
+        ):
+            output[field + "_w_per_hz"] = _encode(getattr(result, field))
+        for i, channel in enumerate(channels):
+            channel["incident_noise_w_per_hz"] = result.incident_noise_covariance[i][i].real
+            channel["outgoing_noise_w_per_hz"] = result.noise_covariance[i][i].real
+            channel["net_noise_into_device_w_per_hz"] = result.net_noise_into_device_w_per_hz[i]
     if "noise_analyses" in document:
         analyses = document["noise_analyses"]
         if not isinstance(analyses, list) or not 1 <= len(analyses) <= 512:

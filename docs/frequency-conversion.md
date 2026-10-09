@@ -45,7 +45,7 @@ Qout = (T M) Qsource (T M)^T + T Qinherent T^T
 
 输入必须对应有效的实对称半正定 Q；仅 C 半正定不够，P 也受联合约束。DC 虚分量的方差及互协方差必须为零，因此独立实 DC 噪声需要 Pii=Cii。不同通道、不同频率间的 C/P 均保留，不自动清零。
 
-source_noise 与 intrinsic_noise 两组彼此独立，但每组内部允许任意有效相关性。它们都使用相同的噪声等效带宽约定；本接口不自动换算通道带宽、输入温度或单边/双边 PSD。没有隐含热噪声，也不对有源泵转换矩阵套用 kT(I-SS†)。输出 C/P 是出射波噪声，[网络参考温度分析](conversion-noise-analysis.md) 可计算显式参考条件下的 SSB/多频带噪声系数；一般净吸收噪声和宽带指标仍待完成。
+source_noise 与 intrinsic_noise 两组彼此独立，但每组内部允许任意有效相关性。它们都使用相同的噪声等效带宽约定；本接口不自动换算通道带宽、输入温度或单边/双边 PSD。没有隐含热噪声，也不对有源泵转换矩阵套用 kT(I-SS†)。输出 C/P 是出射波噪声，[网络参考温度分析](conversion-noise-analysis.md) 可计算显式参考条件下的 SSB/多频带噪声系数；[热负载统计](conversion-loaded-noise.md) 已提供净吸收噪声，宽带指标仍待完成。
 
 ## 理想实数混频矩阵
 

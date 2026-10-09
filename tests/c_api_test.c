@@ -77,6 +77,47 @@ int main(int argc, char **argv) {
             CHECK(request.reference_count == 1 && request.reference_temperature_k == 290.);
             devices[0].intrinsic_covariance = devices[1].intrinsic_covariance = NULL;
         }
+        {
+            rfmodel_complex extra[64], saved_extra[64], source_covariance[4] = {{1., 0.}};
+            double net[4], saved_net[4], saved_residual;
+            rfmodel_conversion_loaded_output loaded = {
+                extra, extra + 16, extra + 32, extra + 48, net, 16, 4};
+            devices[0].source_covariance = source_covariance;
+            CHECK(rfmodel_conversion_network_analyze_loaded(
+                      devices, 2, wires, 1, &output, &loaded) == RFMODEL_OK);
+            CHECK(fabs(extra[0].real - 1.) < 1e-12 && fabs(extra[35].real - .25) < 1e-12);
+            CHECK(fabs(net[3] + .0625) < 1e-12 && fabs(net[1] + net[2]) < 1e-12);
+            memcpy(saved, values, sizeof(values));
+            memcpy(saved_extra, extra, sizeof(extra));
+            memcpy(saved_net, net, sizeof(net));
+            saved_residual = residual;
+            loaded.matrix_capacity = 15;
+            CHECK(rfmodel_conversion_network_analyze_loaded(
+                      devices, 2, wires, 1, &output, &loaded) != RFMODEL_OK);
+            loaded.matrix_capacity = 16;
+            loaded.incident_covariance = values + 8;
+            CHECK(rfmodel_conversion_network_analyze_loaded(
+                      devices, 2, wires, 1, &output, &loaded) != RFMODEL_OK);
+            loaded.incident_covariance = extra;
+            loaded.net_noise_into_device_w_per_hz = &residual;
+            CHECK(rfmodel_conversion_network_analyze_loaded(
+                      devices, 2, wires, 1, &output, &loaded) != RFMODEL_OK);
+            loaded.net_noise_into_device_w_per_hz = net;
+            loaded.incident_covariance = (rfmodel_complex *)&devices[1];
+            CHECK(rfmodel_conversion_network_analyze_loaded(
+                      devices, 2, wires, 1, &output, &loaded) != RFMODEL_OK);
+            loaded.incident_covariance = extra;
+            CHECK(devices[1].count == 2);
+            source_covariance[0].real = -1.;
+            CHECK(rfmodel_conversion_network_analyze_loaded(
+                      devices, 2, wires, 1, &output, &loaded) != RFMODEL_OK);
+            CHECK(rfmodel_conversion_network_analyze_loaded(devices, 2, wires, 1, &output, NULL) !=
+                  RFMODEL_OK);
+            CHECK(memcmp(saved, values, sizeof(values)) == 0 && residual == saved_residual);
+            CHECK(memcmp(saved_extra, extra, sizeof(extra)) == 0 &&
+                  memcmp(saved_net, net, sizeof(net)) == 0);
+            devices[0].source_covariance = NULL;
+        }
         for (i = 0; i < 40; ++i) {
             values[i].real = 101. + (double)i;
             values[i].imag = -17.;

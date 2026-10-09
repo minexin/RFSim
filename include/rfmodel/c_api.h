@@ -131,6 +131,29 @@ RFMODEL_API int rfmodel_conversion_network_analyze(const rfmodel_conversion_requ
                                                    size_t connection_count,
                                                    const rfmodel_conversion_output *output);
 
+/* Additional loaded-noise statistics. Cross rows are incident, columns outgoing:
+ * Cab=E[a*b^H], Pab=E[a*b^T]. These cross matrices need not be Hermitian/symmetric.
+ * Net power is Caa(i,i)-Cbb(i,i), positive into the device, in W/Hz. */
+typedef struct rfmodel_conversion_loaded_output {
+    rfmodel_complex *incident_covariance;
+    rfmodel_complex *incident_complementary;
+    rfmodel_complex *incident_outgoing_covariance;
+    rfmodel_complex *incident_outgoing_complementary;
+    double *net_noise_into_device_w_per_hz;
+    size_t matrix_capacity;
+    size_t power_capacity;
+} rfmodel_conversion_loaded_output;
+
+/* All ordinary and loaded outputs are required and mutually disjoint, including
+ * both descriptors and all inputs. Failure leaves every output unchanged. */
+RFMODEL_API int
+rfmodel_conversion_network_analyze_loaded(const rfmodel_conversion_request *devices,
+                                          size_t device_count,
+                                          const rfmodel_conversion_connection *connections,
+                                          size_t connection_count,
+                                          const rfmodel_conversion_output *output,
+                                          const rfmodel_conversion_loaded_output *loaded);
+
 /* Reference-temperature noise experiment on a conversion network. Channel indices
  * follow device/local order. Reference channels are a nonempty unique subset of
  * thermal channels. These and the output must be external and positive-frequency.

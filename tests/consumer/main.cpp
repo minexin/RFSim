@@ -45,8 +45,14 @@ int main() {
         network.add(std::move(first));
         network.add(rfmodel::lift_linear_conversion(1e9, {1}, {pad}, {noise}));
         network.connect(0, 1, 1, 0);
-        const auto result = network.analyze();
+        const auto result = network.analyze(true);
         const auto metric = network.reference_noise_analysis({0}, {0}, 3);
+        if (std::abs(result.net_noise_into_device_w_per_hz[3] / (1.380649e-23 * 290.) + .9375) >
+                1e-12 ||
+            std::abs(result.net_noise_into_device_w_per_hz[1] +
+                     result.net_noise_into_device_w_per_hz[2]) > 1e-32) {
+            return 93;
+        }
         if (std::abs(metric.noise_factor - 16.) > 1e-10) {
             return 92;
         }

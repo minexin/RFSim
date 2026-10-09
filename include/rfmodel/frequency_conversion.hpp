@@ -20,6 +20,10 @@ struct ConversionResult {
     std::vector<Complex> incident, outgoing;
     ConversionNoise outgoing_noise;
     double relative_residual{};
+    // Populated only when loaded noise is requested. Cross matrices use a first:
+    // Cab=E[a*b^H], Pab=E[a*b^T], and need not be Hermitian or symmetric.
+    ConversionNoise incident_noise, incident_outgoing_noise;
+    std::vector<double> net_noise_into_device_w_per_hz;
 };
 
 namespace conversion_detail {
@@ -40,6 +44,20 @@ inline SMatrix multiply(const SMatrix &a, const SMatrix &b) {
             }
             for (std::size_t j = 0; j < a.ports; ++j) {
                 result(i, j) += a(i, k) * b(k, j);
+            }
+        }
+    }
+    noise_detail::finite_matrix(result);
+    return result;
+}
+
+inline SMatrix cross_noise(const SMatrix &left, const SMatrix &q, const SMatrix &right) {
+    const auto intermediate = multiply(left, q);
+    auto result = zero(q.ports);
+    for (std::size_t i = 0; i < q.ports; ++i) {
+        for (std::size_t j = 0; j < q.ports; ++j) {
+            for (std::size_t k = 0; k < q.ports; ++k) {
+                result(i, j) += intermediate(i, k) * std::conj(right(j, k));
             }
         }
     }
@@ -185,7 +203,8 @@ public:
             const std::vector<Complex> &reflection,
             const ConversionNoise &source_noise,
             const ConversionNoise &intrinsic_noise,
-            const std::vector<std::pair<std::size_t, std::size_t>> &connections = {}) const {
+            const std::vector<std::pair<std::size_t, std::size_t>> &connections = {},
+            bool loaded_noise = false) const {
         const auto n = channels_.size(), m = 2 * n;
         if (source.size() != n || reflection.size() != n) {
             throw std::invalid_argument("conversion boundary dimensions differ");
@@ -285,6 +304,42 @@ public:
             total.values[i] += intrinsic.values[i];
         }
         result.outgoing_noise = conversion_detail::complex_noise(total);
+        if (loaded_noise) {
+            auto boundary = conversion_detail::zero(m);
+            for (std::size_t i = 0; i < n; ++i) {
+                const auto j = partner[i] == n ? i : partner[i];
+                const Complex coefficient = partner[i] == n ? reflection[i] : Complex{1., 0.};
+                boundary(2 * i, 2 * j) = coefficient.real();
+                boundary(2 * i, 2 * j + 1) = -coefficient.imag();
+                boundary(2 * i + 1, 2 * j) = coefficient.imag();
+                boundary(2 * i + 1, 2 * j + 1) = coefficient.real();
+            }
+            const auto incident_intrinsic = conversion_detail::multiply(boundary, inverse);
+            auto incident_source = conversion_detail::multiply(boundary, transfer);
+            for (std::size_t i = 0; i < m; ++i) {
+                incident_source(i, i) += 1.;
+            }
+            auto incident_q = propagate_noise(incident_source, {source_q}).watts_per_hz;
+            const auto incident_c = propagate_noise(incident_intrinsic, {intrinsic_q}).watts_per_hz;
+            auto cross_q = conversion_detail::cross_noise(incident_source, source_q, transfer);
+            const auto cross_c =
+                conversion_detail::cross_noise(incident_intrinsic, intrinsic_q, inverse);
+            for (std::size_t i = 0; i < incident_q.values.size(); ++i) {
+                incident_q.values[i] += incident_c.values[i];
+                cross_q.values[i] += cross_c.values[i];
+            }
+            result.incident_noise = conversion_detail::complex_noise(incident_q);
+            result.incident_outgoing_noise = conversion_detail::complex_noise(cross_q);
+            result.net_noise_into_device_w_per_hz.resize(n);
+            for (std::size_t i = 0; i < n; ++i) {
+                const double net = result.incident_noise.covariance(i, i).real() -
+                                   result.outgoing_noise.covariance(i, i).real();
+                if (!std::isfinite(net)) {
+                    throw std::overflow_error("conversion net noise overflow");
+                }
+                result.net_noise_into_device_w_per_hz[i] = net;
+            }
+        }
         return result;
     }
 };

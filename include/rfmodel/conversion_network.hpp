@@ -119,7 +119,7 @@ public:
         }
     }
 
-    ConversionResult analyze() const {
+    ConversionResult analyze(bool loaded_noise = false) const {
         if (devices_.empty()) {
             throw std::invalid_argument("empty conversion network");
         }
@@ -155,7 +155,8 @@ public:
             }
         }
         const FrequencyConversionModel combined(spacing_, channels, a, b, reference_);
-        return combined.analyze(source, reflection, source_noise, intrinsic_noise, connections_);
+        return combined.analyze(
+            source, reflection, source_noise, intrinsic_noise, connections_, loaded_noise);
     }
 
     // A separate reference-temperature experiment. Original deterministic sources

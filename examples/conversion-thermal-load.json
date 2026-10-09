@@ -1,0 +1,42 @@
+{
+  "format": "rfmodel.conversion-network",
+  "version": 1,
+  "spacing_hz": 1000000000.0,
+  "loaded_noise": true,
+  "devices": [
+    {
+      "id": "resistor",
+      "bins": [
+        1
+      ],
+      "model": {
+        "type": "linear",
+        "s": [
+          [
+            [
+              0.5,
+              0.2
+            ]
+          ]
+        ]
+      },
+      "noise": {
+        "temperature_k": 290
+      }
+    }
+  ],
+  "boundaries": [
+    {
+      "channel": [
+        "resistor",
+        0,
+        1
+      ],
+      "reflection": [
+        0.3,
+        -0.1
+      ],
+      "noise_temperature_k": 580
+    }
+  ]
+}

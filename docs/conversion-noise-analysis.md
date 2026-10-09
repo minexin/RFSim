@@ -96,3 +96,5 @@ Keysight 的 [Mixer DesignGuide，第 13–15 页](https://edadownload.software.
 - 独立 Python 3.12 从离线 wheel 导入：噪声分析 12/12、转换网络 13/13、单块转换 11/11、公共 API 85/85、系统图 51/51、线性噪声 9/9 通过。
 - 原生退化测试对照既有两端口 NF，Python 使用独立复反射闭式解；另覆盖相敏转换、镜像抑制、温度缩放、参考实验不修改源及失败保护。
 - 129 个 C/C++ 文件格式检查与 git diff --check 通过。跨平台结果以对应提交的 GitHub Actions 为准，SystemVue CNF 数值验收仍待完成。
+
+[热负载统计量](conversion-loaded-noise.md) 可单独计算给定负载噪声下的入射/出射相关性与净功率；本参考温度实验仍使用明确的无噪声输出负载条件。
