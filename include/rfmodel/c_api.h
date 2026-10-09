@@ -262,6 +262,52 @@ RFMODEL_API int rfmodel_expand_mixing_origin(const rfmodel_mixing_origin *parent
                                              size_t capacity,
                                              size_t *count);
 
+/* Contributions belong to ONE coherent component. The amplitude already includes
+ * source waves and path gains; root factors describe provenance, not values to
+ * multiply into amplitude a second time. Empty expressions represent zero. */
+typedef struct rfmodel_origin_contribution {
+    const rfmodel_origin_factor *factors;
+    size_t factor_count;
+    rfmodel_complex amplitude;
+} rfmodel_origin_contribution;
+
+typedef struct rfmodel_origin_expression {
+    const rfmodel_origin_contribution *terms;
+    size_t term_count;
+} rfmodel_origin_expression;
+
+typedef struct rfmodel_origin_expression_term {
+    size_t factor_offset;
+    size_t factor_count;
+    rfmodel_complex amplitude;
+} rfmodel_origin_expression_term;
+
+/* Canonical terms and flattened factors. Max 4096 output terms/65536 factors.
+ * All output buffers and counters must be disjoint; failures change no outputs.
+ * Opposite factors do not cancel; zero-amplitude terms retain their identities. */
+RFMODEL_API int rfmodel_sum_origin_expressions(const rfmodel_origin_expression *parents,
+                                               size_t parent_count,
+                                               rfmodel_origin_expression_term *terms,
+                                               size_t term_capacity,
+                                               size_t *term_count,
+                                               rfmodel_origin_factor *factors,
+                                               size_t factor_capacity,
+                                               size_t *factor_count,
+                                               rfmodel_complex *total_amplitude);
+
+RFMODEL_API int rfmodel_product_origin_expressions(const rfmodel_origin_expression *parents,
+                                                   size_t parent_count,
+                                                   const int *indices,
+                                                   size_t index_count,
+                                                   rfmodel_complex coefficient,
+                                                   rfmodel_origin_expression_term *terms,
+                                                   size_t term_capacity,
+                                                   size_t *term_count,
+                                                   rfmodel_origin_factor *factors,
+                                                   size_t factor_capacity,
+                                                   size_t *factor_count,
+                                                   rfmodel_complex *total_amplitude);
+
 /* RF polynomial orders 1..9. Signed one-based reduced-input indices.
  * Harmonic/intermod inputs generate new terms. DC is projected out.
  * Generated group IDs are local; callers resolve recursive source identities. */

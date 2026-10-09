@@ -3,6 +3,63 @@
 
 int main(int argc, char **argv) {
     {
+        const rfmodel_origin_factor a[] = {{7, 1}}, b[] = {{9, 1}};
+        const rfmodel_origin_contribution contributions[] = {{a, 1, {1., 0.}}, {b, 1, {-1., 0.}}};
+        const rfmodel_origin_expression parent = {contributions, 2};
+        const int indices[] = {1, 1};
+        rfmodel_origin_expression_term terms[3] = {{99, 88, {77., 66.}}};
+        rfmodel_origin_factor factors[6] = {{99, -1}};
+        size_t term_count = 55, factor_count = 44;
+        rfmodel_complex total = {33., 22.};
+        if (rfmodel_product_origin_expressions(&parent,
+                                               1,
+                                               indices,
+                                               2,
+                                               (rfmodel_complex){1., 0.},
+                                               terms,
+                                               3,
+                                               &term_count,
+                                               factors,
+                                               5,
+                                               &factor_count,
+                                               &total) == RFMODEL_OK ||
+            terms[0].factor_offset != 99 || terms[0].factor_count != 88 ||
+            terms[0].amplitude.real != 77. || terms[0].amplitude.imag != 66. ||
+            factors[0].root_id != 99 || factors[0].sign != -1 || term_count != 55 ||
+            factor_count != 44 || total.real != 33. || total.imag != 22.) {
+            return 75;
+        }
+        if (rfmodel_product_origin_expressions(&parent,
+                                               1,
+                                               indices,
+                                               2,
+                                               (rfmodel_complex){1., 0.},
+                                               terms,
+                                               3,
+                                               &term_count,
+                                               factors,
+                                               6,
+                                               &factor_count,
+                                               &total) != RFMODEL_OK ||
+            term_count != 3 || factor_count != 6 || total.real != 0. || total.imag != 0. ||
+            terms[1].amplitude.real != -2. || terms[1].factor_offset != 2 ||
+            factors[2].root_id != 7 || factors[3].root_id != 9) {
+            return 76;
+        }
+        if (rfmodel_sum_origin_expressions(
+                &parent, 1, terms, 3, &term_count, factors, 6, &factor_count, &total) !=
+                RFMODEL_OK ||
+            term_count != 2 || factor_count != 2 || total.real != 0.) {
+            return 77;
+        }
+        if (rfmodel_sum_origin_expressions(
+                NULL, 0, NULL, 0, &term_count, NULL, 0, &factor_count, &total) != RFMODEL_OK ||
+            term_count != 0 || factor_count != 0 || total.real != 0. || total.imag != 0.) {
+            return 78;
+        }
+    }
+
+    {
         const rfmodel_origin_factor a[] = {{7, 1}};
         const rfmodel_origin_factor b[] = {{9, -1}, {7, 1}};
         const rfmodel_mixing_origin parents[] = {{a, 1}, {b, 2}};

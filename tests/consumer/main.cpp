@@ -1,3 +1,4 @@
+#include <rfmodel/origin_expression.hpp>
 #include <rfmodel/mixing_origin.hpp>
 #include <rfmodel/coherent_polynomial.hpp>
 #include <rfmodel/coherent_amplifier.hpp>
@@ -26,6 +27,13 @@
 #include <rfmodel/term_propagation.hpp>
 
 int main() {
+    const rfmodel::OriginExpression expressions{{{{7, 1}}, 1.}, {{{9, 1}}, -1.}};
+    const auto expression = rfmodel::product_origin_expressions({expressions}, {1, 1});
+    if (expression.size() != 3 ||
+        rfmodel::origin_expression_amplitude(expression) != rfmodel::Complex{}) {
+        return 75;
+    }
+
     const auto origin = rfmodel::expand_mixing_origin({{{7, 1}, {9, -1}}}, {-1});
     if (origin != rfmodel::MixingOrigin{{7, -1}, {9, 1}}) {
         return 73;

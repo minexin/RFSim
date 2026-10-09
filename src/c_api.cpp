@@ -1,3 +1,4 @@
+#include "rfmodel/origin_expression.hpp"
 #include "rfmodel/mixing_origin.hpp"
 #include "rfmodel/coherent_polynomial.hpp"
 #include "rfmodel/coherent_amplifier.hpp"
@@ -141,6 +142,65 @@ void write_coherence(const rfmodel::CoherentReduction &result,
 
 } // namespace
 
+namespace {
+static std::vector<rfmodel::OriginExpression>
+decode_origin_expressions(const rfmodel_origin_expression *parents, size_t parent_count) {
+    require(parent_count <= 4096 && (parents || parent_count == 0));
+    std::vector<rfmodel::OriginExpression> result;
+    size_t total_terms = 0, total_factors = 0;
+    for (size_t i = 0; i < parent_count; ++i) {
+        const auto &parent = parents[i];
+        require(parent.term_count <= 4096 && parent.term_count <= 65536 - total_terms &&
+                (parent.terms || parent.term_count == 0));
+        total_terms += parent.term_count;
+        rfmodel::OriginExpression expression;
+        for (size_t j = 0; j < parent.term_count; ++j) {
+            const auto &term = parent.terms[j];
+            require(term.factors && term.factor_count >= 1 && term.factor_count <= 256);
+            total_factors += term.factor_count;
+            require(total_factors <= 1048576);
+            rfmodel::MixingOrigin origin;
+            for (size_t k = 0; k < term.factor_count; ++k) {
+                origin.push_back({term.factors[k].root_id, term.factors[k].sign});
+            }
+            expression.push_back({std::move(origin), {term.amplitude.real, term.amplitude.imag}});
+        }
+        result.push_back(std::move(expression));
+    }
+    return result;
+}
+
+static void encode_origin_expression(const rfmodel::OriginExpression &result,
+                                     rfmodel_origin_expression_term *terms,
+                                     size_t term_capacity,
+                                     size_t *term_count,
+                                     rfmodel_origin_factor *factors,
+                                     size_t factor_capacity,
+                                     size_t *factor_count,
+                                     rfmodel_complex *total_amplitude) {
+    require(term_count && factor_count && total_amplitude);
+    size_t required = 0;
+    for (const auto &term : result) {
+        required += term.factors.size();
+    }
+    require(term_capacity >= result.size() && factor_capacity >= required);
+    require((terms || result.empty()) && (factors || required == 0));
+    const auto total = rfmodel::origin_expression_amplitude(result);
+    size_t offset = 0;
+    for (size_t i = 0; i < result.size(); ++i) {
+        const auto &term = result[i];
+        terms[i] = {offset, term.factors.size(), {term.amplitude.real(), term.amplitude.imag()}};
+        for (const auto &factor : term.factors) {
+            factors[offset++] = {factor.root_id, factor.sign};
+        }
+    }
+    *term_count = result.size();
+    *factor_count = required;
+    *total_amplitude = {total.real(), total.imag()};
+}
+
+} // namespace
+
 extern "C" {
 int rfmodel_mix_coherent_components(double spacing_hz,
                                     const rfmodel_coherent_mixer_input *input,
@@ -245,6 +305,58 @@ int rfmodel_reduce_coherent_components(double spacing_hz,
                         power_capacity,
                         power_count,
                         total_power_w);
+    });
+}
+
+int rfmodel_sum_origin_expressions(const rfmodel_origin_expression *parents,
+                                   size_t parent_count,
+                                   rfmodel_origin_expression_term *terms,
+                                   size_t term_capacity,
+                                   size_t *term_count,
+                                   rfmodel_origin_factor *factors,
+                                   size_t factor_capacity,
+                                   size_t *factor_count,
+                                   rfmodel_complex *total_amplitude) {
+    return guarded([&] {
+        const auto result =
+            rfmodel::sum_origin_expressions(decode_origin_expressions(parents, parent_count));
+        encode_origin_expression(result,
+                                 terms,
+                                 term_capacity,
+                                 term_count,
+                                 factors,
+                                 factor_capacity,
+                                 factor_count,
+                                 total_amplitude);
+    });
+}
+
+int rfmodel_product_origin_expressions(const rfmodel_origin_expression *parents,
+                                       size_t parent_count,
+                                       const int *indices,
+                                       size_t index_count,
+                                       rfmodel_complex coefficient,
+                                       rfmodel_origin_expression_term *terms,
+                                       size_t term_capacity,
+                                       size_t *term_count,
+                                       rfmodel_origin_factor *factors,
+                                       size_t factor_capacity,
+                                       size_t *factor_count,
+                                       rfmodel_complex *total_amplitude) {
+    return guarded([&] {
+        require(indices && index_count >= 1 && index_count <= 9);
+        const auto result =
+            rfmodel::product_origin_expressions(decode_origin_expressions(parents, parent_count),
+                                                std::vector<int>(indices, indices + index_count),
+                                                {coefficient.real, coefficient.imag});
+        encode_origin_expression(result,
+                                 terms,
+                                 term_capacity,
+                                 term_count,
+                                 factors,
+                                 factor_capacity,
+                                 factor_count,
+                                 total_amplitude);
     });
 }
 

@@ -14,6 +14,101 @@
 
 int main(int argc, char **argv) {
     {
+        rfmodel_origin_factor root = {0, 1};
+        rfmodel_origin_contribution contribution = {&root, 1, {1., 0.}};
+        rfmodel_origin_expression parent = {&contribution, 1};
+        rfmodel_origin_expression_term term = {99, 88, {77., 66.}};
+        rfmodel_origin_factor factor = {55, -1};
+        size_t terms = 44, factors = 33;
+        rfmodel_complex total = {22., 11.};
+        /* Invalid provenance and insufficient term capacity must preserve outputs. */
+        CHECK(rfmodel_sum_origin_expressions(
+                  &parent, 1, &term, 1, &terms, &factor, 1, &factors, &total) != RFMODEL_OK);
+        CHECK(term.factor_offset == 99 && term.amplitude.real == 77. && factor.root_id == 55 &&
+              terms == 44 && factors == 33 && total.real == 22.);
+        root.root_id = 7;
+        CHECK(rfmodel_sum_origin_expressions(
+                  &parent, 1, &term, 0, &terms, &factor, 1, &factors, &total) != RFMODEL_OK);
+        CHECK(term.factor_offset == 99 && term.amplitude.real == 77. && factor.root_id == 55 &&
+              terms == 44 && factors == 33 && total.real == 22.);
+        CHECK(rfmodel_sum_origin_expressions(
+                  NULL, 1, &term, 1, &terms, &factor, 1, &factors, &total) != RFMODEL_OK);
+        /* Each input has finite power, but their coherent total overflows power. */
+        {
+            const rfmodel_origin_factor roots[] = {{7, 1}, {9, 1}};
+            const rfmodel_origin_contribution inputs[] = {{roots, 1, {1e154, 0.}},
+                                                          {roots + 1, 1, {1e154, 0.}}};
+            const rfmodel_origin_expression expression = {inputs, 2};
+            rfmodel_origin_expression_term output_terms[2] = {{99, 88, {77., 66.}}};
+            rfmodel_origin_factor output_factors[2] = {{55, -1}};
+            CHECK(
+                rfmodel_sum_origin_expressions(
+                    &expression, 1, output_terms, 2, &terms, output_factors, 2, &factors, &total) !=
+                RFMODEL_OK);
+            CHECK(output_terms[0].factor_offset == 99 && output_terms[0].amplitude.real == 77. &&
+                  output_factors[0].root_id == 55 && terms == 44 && factors == 33 &&
+                  total.real == 22. && total.imag == 11.);
+        }
+    }
+
+    {
+        const rfmodel_origin_factor a[] = {{7, 1}}, b[] = {{9, 1}};
+        const rfmodel_origin_contribution contributions[] = {{a, 1, {1., 0.}}, {b, 1, {-1., 0.}}};
+        const rfmodel_origin_expression parent = {contributions, 2};
+        const int indices[] = {1, 1};
+        rfmodel_origin_expression_term terms[3] = {{99, 88, {77., 66.}}};
+        rfmodel_origin_factor factors[6] = {{99, -1}};
+        size_t term_count = 55, factor_count = 44;
+        rfmodel_complex total = {33., 22.};
+        if (rfmodel_product_origin_expressions(&parent,
+                                               1,
+                                               indices,
+                                               2,
+                                               (rfmodel_complex){1., 0.},
+                                               terms,
+                                               3,
+                                               &term_count,
+                                               factors,
+                                               5,
+                                               &factor_count,
+                                               &total) == RFMODEL_OK ||
+            terms[0].factor_offset != 99 || terms[0].factor_count != 88 ||
+            terms[0].amplitude.real != 77. || terms[0].amplitude.imag != 66. ||
+            factors[0].root_id != 99 || factors[0].sign != -1 || term_count != 55 ||
+            factor_count != 44 || total.real != 33. || total.imag != 22.) {
+            return 75;
+        }
+        if (rfmodel_product_origin_expressions(&parent,
+                                               1,
+                                               indices,
+                                               2,
+                                               (rfmodel_complex){1., 0.},
+                                               terms,
+                                               3,
+                                               &term_count,
+                                               factors,
+                                               6,
+                                               &factor_count,
+                                               &total) != RFMODEL_OK ||
+            term_count != 3 || factor_count != 6 || total.real != 0. || total.imag != 0. ||
+            terms[1].amplitude.real != -2. || terms[1].factor_offset != 2 ||
+            factors[2].root_id != 7 || factors[3].root_id != 9) {
+            return 76;
+        }
+        if (rfmodel_sum_origin_expressions(
+                &parent, 1, terms, 3, &term_count, factors, 6, &factor_count, &total) !=
+                RFMODEL_OK ||
+            term_count != 2 || factor_count != 2 || total.real != 0.) {
+            return 77;
+        }
+        if (rfmodel_sum_origin_expressions(
+                NULL, 0, NULL, 0, &term_count, NULL, 0, &factor_count, &total) != RFMODEL_OK ||
+            term_count != 0 || factor_count != 0 || total.real != 0. || total.imag != 0.) {
+            return 78;
+        }
+    }
+
+    {
         const rfmodel_origin_factor a[] = {{7, 1}};
         const rfmodel_origin_factor b[] = {{9, -1}, {7, 1}};
         const rfmodel_mixing_origin parents[] = {{a, 1}, {b, 2}};

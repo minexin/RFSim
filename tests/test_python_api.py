@@ -28,6 +28,58 @@ class PythonApiTests(unittest.TestCase):
     def setUpClass(cls):
         cls.library = Library(LIBRARY_PATH)
 
+    def test_origin_expression_distribution_and_cancellation(self):
+        a = [(((7, 1),), 0.25 + 0.1j), (((9, 1),), -0.05 + 0.2j)]
+        wave = sum(term[1] for term in a)
+        for order in range(1, 10):
+            result = self.library.product_origin_expressions([a], [1] * order)
+            self.assertEqual(len(result.terms), order + 1)
+            self.assertAlmostEqual(result.amplitude, wave**order)
+        conjugated = self.library.product_origin_expressions([a], [-1])
+        self.assertAlmostEqual(conjugated.amplitude, wave.conjugate())
+        self.assertEqual(conjugated.terms[0].factors, ((7, -1),))
+        result = self.library.product_origin_expressions([a], [1, -1], coefficient=2 - 3j)
+        self.assertAlmostEqual(result.amplitude, (2 - 3j) * abs(wave) ** 2)
+        cancelled = [(((7, 1),), 1), (((9, 1),), -1)]
+        result = self.library.product_origin_expressions([cancelled], [1, 1])
+        self.assertEqual(result.amplitude, 0)
+        self.assertEqual([term.amplitude for term in result.terms], [1, -2, 1])
+        repeated = self.library.product_origin_expressions([result.terms], [1, -1])
+        self.assertEqual(repeated.amplitude, 0)
+        self.assertEqual(len(repeated.terms), 9)
+
+    def test_origin_expression_sum_and_empty(self):
+        a = [(((9, -1), (7, 1)), 2j), (((7, 1), (9, -1)), -2j)]
+        result = self.library.sum_origin_expressions([a])
+        self.assertEqual(result.terms, (rfmodel.OriginContribution(((7, 1), (9, -1)), 0j),))
+        self.assertEqual(result.amplitude, 0)
+        self.assertEqual(self.library.sum_origin_expressions([]), ((), 0j))
+        self.assertEqual(self.library.product_origin_expressions([a, []], [1, 2]), ((), 0j))
+
+    def test_origin_expression_rejects_invalid_inputs(self):
+        a = [(((7, 1),), 1)]
+        for indices in ([], [0], [-2], [True], [1.5], [2147483648], [1] * 10, None):
+            with self.subTest(indices=indices), self.assertRaises((ValueError, TypeError)):
+                self.library.product_origin_expressions([a], indices)
+        for origin in (
+            [],
+            [(0, 1)],
+            [(7, 0)],
+            [(True, 1)],
+            [(7, False)],
+            [(2**64, 1)],
+            [(7, 1)] * 257,
+        ):
+            with self.subTest(origin=origin), self.assertRaises((ValueError, TypeError)):
+                self.library.sum_origin_expressions([[(origin, 1)]])
+        for wave in (float("nan"), float("inf"), 1e308):
+            with self.subTest(wave=wave), self.assertRaises(RFModelError):
+                self.library.sum_origin_expressions([[(((7, 1),), wave)]])
+        with self.assertRaises(ValueError):
+            self.library.sum_origin_expressions([a * 4097])
+        with self.assertRaises(RFModelError):
+            self.library.product_origin_expressions([[(((7, 1),) * 256, 1)]], [1, 1])
+
     def test_recursive_mixing_origin_conjugation_and_multiplicity(self):
         parent = ((7, 1), (9, -1))
         result = self.library.expand_mixing_origin([((7, 1),), parent], [2, -1])

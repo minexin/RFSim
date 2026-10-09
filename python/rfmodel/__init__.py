@@ -140,6 +140,38 @@ class _MixingOrigin(ct.Structure):
     _fields_ = [("factors", ct.POINTER(_OriginFactor)), ("count", ct.c_size_t)]
 
 
+class OriginContribution(NamedTuple):
+    """Actual complex wave contribution, including source waves and path gains."""
+
+    factors: tuple
+    amplitude: complex
+
+
+class OriginExpressionResult(NamedTuple):
+    terms: tuple
+    amplitude: complex
+
+
+class _OriginContribution(ct.Structure):
+    _fields_ = [
+        ("factors", ct.POINTER(_OriginFactor)),
+        ("factor_count", ct.c_size_t),
+        ("amplitude", _Complex),
+    ]
+
+
+class _OriginExpression(ct.Structure):
+    _fields_ = [("terms", ct.POINTER(_OriginContribution)), ("term_count", ct.c_size_t)]
+
+
+class _OriginExpressionTerm(ct.Structure):
+    _fields_ = [
+        ("factor_offset", ct.c_size_t),
+        ("factor_count", ct.c_size_t),
+        ("amplitude", _Complex),
+    ]
+
+
 class _CoherentPolynomialTerm(ct.Structure):
     _fields_ = [("order", ct.c_int), ("input_indices", ct.c_int * 9),
                 ("component", _CoherentComponent)]
@@ -293,6 +325,14 @@ class Library:
             "rfmodel_expand_mixing_origin": (
                 ct.c_int, [ct.POINTER(_MixingOrigin), size, ct.POINTER(ct.c_int), size,
                            ct.POINTER(_OriginFactor), size, ct.POINTER(size)]),
+            "rfmodel_sum_origin_expressions": (
+                ct.c_int, [ct.POINTER(_OriginExpression), size,
+                           ct.POINTER(_OriginExpressionTerm), size, ct.POINTER(size),
+                           ct.POINTER(_OriginFactor), size, ct.POINTER(size), complex_pointer]),
+            "rfmodel_product_origin_expressions": (
+                ct.c_int, [ct.POINTER(_OriginExpression), size, ct.POINTER(ct.c_int), size, _Complex,
+                           ct.POINTER(_OriginExpressionTerm), size, ct.POINTER(size),
+                           ct.POINTER(_OriginFactor), size, ct.POINTER(size), complex_pointer]),
             "rfmodel_coherent_polynomial_evaluate": (
                 ct.c_int, [ct.c_double, ct.POINTER(_CoherentComponent), size,
                            ct.POINTER(ct.c_double), size, ct.c_double, ct.c_uint64,
@@ -624,6 +664,95 @@ class Library:
         self._check(self._dll.rfmodel_expand_mixing_origin(
             encoded, len(encoded), signed, len(signed), output, len(output), ct.byref(count)))
         return tuple(OriginFactor(factor.root_id, factor.sign) for factor in output[:count.value])
+
+    @staticmethod
+    def _encode_origin_expressions(parents):
+        parents = [list(parent) for parent in parents]
+        if len(parents) > 4096 or any(len(parent) > 4096 for parent in parents):
+            raise ValueError("Origin-expression parent/term limit exceeded")
+        if sum(map(len, parents)) > 65536:
+            raise ValueError("Origin-expression total term limit exceeded")
+        storage, expressions = [], []
+        factor_count = 0
+        for parent in parents:
+            terms = []
+            for origin, wave in parent:
+                origin = list(origin)
+                factor_count += len(origin)
+                if not 1 <= len(origin) <= 256 or factor_count > 1048576:
+                    raise ValueError("Origin-expression factor limit exceeded")
+                factors = []
+                for root, sign in origin:
+                    if isinstance(root, bool) or isinstance(sign, bool):
+                        raise TypeError("Origin root and sign must be integers, not bool")
+                    root, sign = operator.index(root), operator.index(sign)
+                    if not 1 <= root <= 18446744073709551615 or sign not in (-1, 1):
+                        raise ValueError("Invalid origin root/sign")
+                    factors.append(_OriginFactor(root, sign))
+                array = (_OriginFactor * len(factors))(*factors)
+                storage.append(array)
+                terms.append(_OriginContribution(array, len(array), _Complex.from_value(wave)))
+            array = (_OriginContribution * len(terms))(*terms)
+            storage.append(array)
+            expressions.append(_OriginExpression(array, len(array)))
+        return (_OriginExpression * len(expressions))(*expressions), storage
+
+    def _origin_expression(self, parents, indices=None, coefficient=1.0):
+        encoded, storage = self._encode_origin_expressions(parents)
+        terms, factors = (_OriginExpressionTerm * 4096)(), (_OriginFactor * 65536)()
+        term_count, factor_count, total = ct.c_size_t(), ct.c_size_t(), _Complex()
+        outputs = (
+            terms,
+            len(terms),
+            ct.byref(term_count),
+            factors,
+            len(factors),
+            ct.byref(factor_count),
+            ct.byref(total),
+        )
+        if indices is None:
+            self._check(self._dll.rfmodel_sum_origin_expressions(encoded, len(encoded), *outputs))
+        else:
+            indices = list(indices)
+            if not 1 <= len(indices) <= 9:
+                raise ValueError("Origin-expression product requires 1..9 indices")
+            selected = []
+            for index in indices:
+                if isinstance(index, bool):
+                    raise TypeError("Origin index must be integer, not bool")
+                index = operator.index(index)
+                if index == 0 or not -len(encoded) <= index <= len(encoded):
+                    raise ValueError("Origin index outside parents")
+                selected.append(index)
+            signed = (ct.c_int * len(selected))(*selected)
+            self._check(
+                self._dll.rfmodel_product_origin_expressions(
+                    encoded,
+                    len(encoded),
+                    signed,
+                    len(signed),
+                    _Complex.from_value(coefficient),
+                    *outputs,
+                )
+            )
+        result = []
+        for term in terms[: term_count.value]:
+            origin = tuple(
+                OriginFactor(f.root_id, f.sign)
+                for f in factors[term.factor_offset : term.factor_offset + term.factor_count]
+            )
+            result.append(OriginContribution(origin, term.amplitude.value()))
+        return OriginExpressionResult(tuple(result), total.value())
+
+    def sum_origin_expressions(self, parents):
+        """Merge equal monomials, retaining distinct origins and exact zero terms."""
+        return self._origin_expression(parents)
+
+    def product_origin_expressions(self, parents, indices, *, coefficient=1.0):
+        """Distribute signed parent products; conjugate factors and actual waves."""
+        if indices is None:
+            raise TypeError("Product indices are required")
+        return self._origin_expression(parents, indices, coefficient)
 
     def coherent_polynomial(self, spacing_hz, components, voltage_coefficients, *,
                             reference_ohms=50., reserved_group_max=0):
