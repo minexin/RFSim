@@ -52,3 +52,8 @@
 [相干混频](coherent-mixer.md) 已将 RF/LO 来源分组接入理想变频和合路；镜像抑制为解析回归，SystemVue Mixer 实测及完整器件兼容仍未完成。
 
 [相干系统前馈图](coherent-system-file.md) 已贯通多输出线性子网络、混频和后级合路；当前采用匹配阶段边界，跨阶段反馈、非线性/噪声图和 SystemVue 路径预算仍未完成。
+
+
+[双源相位/时钟扫描](systemvue-coherent-network.md) 新增六组实测，24 个路径复幅度
+和六组来源关系通过；RFPwrIn 比较五组失败，清缓存后仍有差异。相关报告保留
+passed=false，完整相干合并功率不能列为已验收。

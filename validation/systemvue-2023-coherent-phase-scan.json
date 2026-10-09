@@ -1,0 +1,470 @@
+{
+  "scope": "Two-source TLE/tee/attenuator: path waves, clock relations and a separate RFPwrIn comparison",
+  "relative_tolerance": 1e-07,
+  "cancellation_absolute_tolerance_w": 1e-15,
+  "coherency_assignment": "Native source/reference-clock resolver; compare relations, not numeric IDs",
+  "path_wave_and_clock_relation_passed": true,
+  "rfpwrin_agreement_passed": false,
+  "limitation": "This reference does not validate nonlinear/LO propagation or a split-source fixture; RFPwrIn is a separately compared measurement, not assumed equivalent to coherent drive",
+  "reports": [
+    {
+      "locked": true,
+      "second_phase_deg": 0.0,
+      "line_length_rad": 0.523598775598299,
+      "raw_capture_sha256": "b230e3c0aa46af0dca89e9bf6a190bf11c98e05b829bf95cc0b069a5d13570fd",
+      "checks": [
+        {
+          "source": 1,
+          "coherency_number": 1,
+          "rfmodel_coherence_group": 1,
+          "rfmodel_wave": [
+            0.010266900960803408,
+            -0.005927598033463076
+          ],
+          "systemvue_boundary_waves": [
+            [
+              0.010266900819608574,
+              -0.005927597898960083
+            ],
+            [
+              0.010266900816504896,
+              -0.005927597904335827
+            ]
+          ],
+          "relative_complex_errors": [
+            1.644892440724607e-08,
+            1.6333648225256543e-08
+          ],
+          "passed": true
+        },
+        {
+          "source": 2,
+          "coherency_number": 1,
+          "rfmodel_coherence_group": 1,
+          "rfmodel_wave": [
+            0.010266900960803408,
+            -0.005927598033463076
+          ],
+          "systemvue_boundary_waves": [
+            [
+              0.010266900819608587,
+              -0.005927597898960072
+            ],
+            [
+              0.010266900816504889,
+              -0.005927597904335827
+            ]
+          ],
+          "relative_complex_errors": [
+            1.6448924321633157e-08,
+            1.6333648661422184e-08
+          ],
+          "passed": true
+        },
+        {
+          "measurement": "RFPwrIn(Attn1)",
+          "rfmodel_w": 0.0017777777777777779,
+          "systemvue_w": 0.0017777777261943082,
+          "absolute_error_w": 5.1583469700550166e-11,
+          "tolerance_w": 1.777777726194308e-10,
+          "passed": true
+        },
+        {
+          "measurement": "source_clock_coherence_relation",
+          "systemvue_groups": [
+            1,
+            1
+          ],
+          "rfmodel_groups": [
+            1,
+            1
+          ],
+          "passed": true
+        }
+      ]
+    },
+    {
+      "locked": true,
+      "second_phase_deg": 90.0,
+      "line_length_rad": 0.5235987755982988,
+      "raw_capture_sha256": "1984eda752d09b686b6d78a51cd8dc321afbbc4b09265abebb419212af6dccb4",
+      "checks": [
+        {
+          "source": 1,
+          "coherency_number": 1,
+          "rfmodel_coherence_group": 1,
+          "rfmodel_wave": [
+            0.010266900960803408,
+            -0.005927598033463074
+          ],
+          "systemvue_boundary_waves": [
+            [
+              0.010266900819608583,
+              -0.0059275978989600684
+            ],
+            [
+              0.01026690081650489,
+              -0.005927597904335818
+            ]
+          ],
+          "relative_complex_errors": [
+            1.644892463445677e-08,
+            1.6333648991477307e-08
+          ],
+          "passed": true
+        },
+        {
+          "source": 2,
+          "coherency_number": 1,
+          "rfmodel_coherence_group": 1,
+          "rfmodel_wave": [
+            0.005927598033463075,
+            0.010266900960803408
+          ],
+          "systemvue_boundary_waves": [
+            [
+              0.0059275978989600745,
+              0.01026690081960859
+            ],
+            [
+              0.005927597904335822,
+              0.010266900816504889
+            ]
+          ],
+          "relative_complex_errors": [
+            1.6448923907882566e-08,
+            1.6333648905364698e-08
+          ],
+          "passed": true
+        },
+        {
+          "measurement": "RFPwrIn(Attn1)",
+          "rfmodel_w": 0.0008888888888888889,
+          "systemvue_w": 0.0017777777261943077,
+          "absolute_error_w": 0.0008888888373054188,
+          "tolerance_w": 1.7777777261943078e-10,
+          "passed": false
+        },
+        {
+          "measurement": "source_clock_coherence_relation",
+          "systemvue_groups": [
+            1,
+            1
+          ],
+          "rfmodel_groups": [
+            1,
+            1
+          ],
+          "passed": true
+        }
+      ]
+    },
+    {
+      "locked": true,
+      "second_phase_deg": 180.0,
+      "line_length_rad": 0.5235987755982988,
+      "raw_capture_sha256": "2413b72d3ff30ee9618c561b8a5c49bec7422e237688adfd5f0a4057b1f69b2c",
+      "checks": [
+        {
+          "source": 1,
+          "coherency_number": 1,
+          "rfmodel_coherence_group": 1,
+          "rfmodel_wave": [
+            0.010266900960803408,
+            -0.005927598033463074
+          ],
+          "systemvue_boundary_waves": [
+            [
+              0.010266900819608583,
+              -0.0059275978989600684
+            ],
+            [
+              0.01026690081650489,
+              -0.005927597904335818
+            ]
+          ],
+          "relative_complex_errors": [
+            1.644892463445677e-08,
+            1.6333648991477307e-08
+          ],
+          "passed": true
+        },
+        {
+          "source": 2,
+          "coherency_number": 1,
+          "rfmodel_coherence_group": 1,
+          "rfmodel_wave": [
+            -0.010266900960803408,
+            0.005927598033463075
+          ],
+          "systemvue_boundary_waves": [
+            [
+              -0.010266900819608592,
+              0.0059275978989600745
+            ],
+            [
+              -0.010266900816504889,
+              0.005927597904335822
+            ]
+          ],
+          "relative_complex_errors": [
+            1.644892380193425e-08,
+            1.6333648905364698e-08
+          ],
+          "passed": true
+        },
+        {
+          "measurement": "RFPwrIn(Attn1)",
+          "rfmodel_w": 3.009265538105056e-36,
+          "systemvue_w": 0.0017777777261943082,
+          "absolute_error_w": 0.0017777777261943082,
+          "tolerance_w": 1.777777726194308e-10,
+          "passed": false
+        },
+        {
+          "measurement": "source_clock_coherence_relation",
+          "systemvue_groups": [
+            1,
+            1
+          ],
+          "rfmodel_groups": [
+            1,
+            1
+          ],
+          "passed": true
+        }
+      ]
+    },
+    {
+      "locked": false,
+      "second_phase_deg": 0.0,
+      "line_length_rad": 0.5235987755982988,
+      "raw_capture_sha256": "4d6f1b667d6497336af285894f2fd89a61b7032183d77be7038946520ebf9b7d",
+      "checks": [
+        {
+          "source": 1,
+          "coherency_number": 1,
+          "rfmodel_coherence_group": 1,
+          "rfmodel_wave": [
+            0.010266900960803408,
+            -0.005927598033463074
+          ],
+          "systemvue_boundary_waves": [
+            [
+              0.010266900819608583,
+              -0.0059275978989600684
+            ],
+            [
+              0.01026690081650489,
+              -0.005927597904335818
+            ]
+          ],
+          "relative_complex_errors": [
+            1.644892463445677e-08,
+            1.6333648991477307e-08
+          ],
+          "passed": true
+        },
+        {
+          "source": 2,
+          "coherency_number": 2,
+          "rfmodel_coherence_group": 2,
+          "rfmodel_wave": [
+            0.010266900960803408,
+            -0.005927598033463074
+          ],
+          "systemvue_boundary_waves": [
+            [
+              0.01026690081960859,
+              -0.0059275978989600684
+            ],
+            [
+              0.010266900816504889,
+              -0.005927597904335822
+            ]
+          ],
+          "relative_complex_errors": [
+            1.6448924210663506e-08,
+            1.6333648856576196e-08
+          ],
+          "passed": true
+        },
+        {
+          "measurement": "RFPwrIn(Attn1)",
+          "rfmodel_w": 0.0008888888888888887,
+          "systemvue_w": 0.0017777777261943077,
+          "absolute_error_w": 0.000888888837305419,
+          "tolerance_w": 1.7777777261943078e-10,
+          "passed": false
+        },
+        {
+          "measurement": "source_clock_coherence_relation",
+          "systemvue_groups": [
+            1,
+            2
+          ],
+          "rfmodel_groups": [
+            1,
+            2
+          ],
+          "passed": true
+        }
+      ]
+    },
+    {
+      "locked": false,
+      "second_phase_deg": 90.0,
+      "line_length_rad": 0.5235987755982988,
+      "raw_capture_sha256": "6f9435761b01d8efc501a3606eae59b3c0da95d8e8ac8325844c716ec0e6b4b0",
+      "checks": [
+        {
+          "source": 1,
+          "coherency_number": 1,
+          "rfmodel_coherence_group": 1,
+          "rfmodel_wave": [
+            0.010266900960803408,
+            -0.005927598033463074
+          ],
+          "systemvue_boundary_waves": [
+            [
+              0.010266900819608583,
+              -0.0059275978989600684
+            ],
+            [
+              0.01026690081650489,
+              -0.005927597904335818
+            ]
+          ],
+          "relative_complex_errors": [
+            1.644892463445677e-08,
+            1.6333648991477307e-08
+          ],
+          "passed": true
+        },
+        {
+          "source": 2,
+          "coherency_number": 2,
+          "rfmodel_coherence_group": 2,
+          "rfmodel_wave": [
+            0.005927598033463075,
+            0.010266900960803408
+          ],
+          "systemvue_boundary_waves": [
+            [
+              0.0059275978989600745,
+              0.01026690081960859
+            ],
+            [
+              0.005927597904335822,
+              0.010266900816504889
+            ]
+          ],
+          "relative_complex_errors": [
+            1.6448923907882566e-08,
+            1.6333648905364698e-08
+          ],
+          "passed": true
+        },
+        {
+          "measurement": "RFPwrIn(Attn1)",
+          "rfmodel_w": 0.0008888888888888887,
+          "systemvue_w": 0.0017777777261943077,
+          "absolute_error_w": 0.000888888837305419,
+          "tolerance_w": 1.7777777261943078e-10,
+          "passed": false
+        },
+        {
+          "measurement": "source_clock_coherence_relation",
+          "systemvue_groups": [
+            1,
+            2
+          ],
+          "rfmodel_groups": [
+            1,
+            2
+          ],
+          "passed": true
+        }
+      ]
+    },
+    {
+      "locked": false,
+      "second_phase_deg": 180.0,
+      "line_length_rad": 0.5235987755982988,
+      "raw_capture_sha256": "b39071ee2f90187fa7a9a08a66462158b40442d215ea604dd4cd47c7fd039abb",
+      "checks": [
+        {
+          "source": 1,
+          "coherency_number": 1,
+          "rfmodel_coherence_group": 1,
+          "rfmodel_wave": [
+            0.010266900960803408,
+            -0.005927598033463074
+          ],
+          "systemvue_boundary_waves": [
+            [
+              0.010266900819608583,
+              -0.0059275978989600684
+            ],
+            [
+              0.01026690081650489,
+              -0.005927597904335818
+            ]
+          ],
+          "relative_complex_errors": [
+            1.644892463445677e-08,
+            1.6333648991477307e-08
+          ],
+          "passed": true
+        },
+        {
+          "source": 2,
+          "coherency_number": 2,
+          "rfmodel_coherence_group": 2,
+          "rfmodel_wave": [
+            -0.010266900960803408,
+            0.005927598033463075
+          ],
+          "systemvue_boundary_waves": [
+            [
+              -0.010266900819608592,
+              0.0059275978989600745
+            ],
+            [
+              -0.010266900816504889,
+              0.005927597904335822
+            ]
+          ],
+          "relative_complex_errors": [
+            1.644892380193425e-08,
+            1.6333648905364698e-08
+          ],
+          "passed": true
+        },
+        {
+          "measurement": "RFPwrIn(Attn1)",
+          "rfmodel_w": 0.0008888888888888887,
+          "systemvue_w": 0.0017777777261943082,
+          "absolute_error_w": 0.0008888888373054194,
+          "tolerance_w": 1.777777726194308e-10,
+          "passed": false
+        },
+        {
+          "measurement": "source_clock_coherence_relation",
+          "systemvue_groups": [
+            1,
+            2
+          ],
+          "rfmodel_groups": [
+            1,
+            2
+          ],
+          "passed": true
+        }
+      ]
+    }
+  ],
+  "passed": false,
+  "captures_sha256": "46895f937cbf30b9e9079264cbdc81a452b05282de1fb762bdea8cfed04cdbac",
+  "library_sha256": "bab8dec3b7eed55c3f84566004bcde41a569bfa23ae60c359c7e2f0e5f6cfdd2"
+}

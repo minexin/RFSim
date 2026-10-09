@@ -1,0 +1,4238 @@
+[
+  {
+    "run_started_utc": "2026-10-09T04:01:00.0456420Z",
+    "run_returned_utc": "2026-10-09T04:01:00.2913928Z",
+    "manager_errors": "",
+    "nodes": [
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/Attn1/ParamSet/L",
+        "data": 3.1622776601683795,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "5"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/Attn1/ParamSet/ZIN",
+        "data": 50,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "50"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/Attn1/ParamSet/ZOUT",
+        "data": 50,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "50"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/AutoDesc",
+        "data": [
+          1
+        ],
+        "dimensions": [
+          1
+        ],
+        "timestamp": null,
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/BW",
+        "data": 1000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "1"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/Carriers",
+        "data": 2,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "2"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/Dataset",
+        "data": "GSM",
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "GSM"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/Descrip",
+        "data": "1000 MHz at 0 dBm",
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "1000 MHz at 0 dBm"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/Enable",
+        "data": 1,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "[1]"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/EnablePN",
+        "data": 0,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "[0]"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/FOff",
+        "data": 50000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "50"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/Freq",
+        "data": 1000000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "1000"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/MultiCarrier",
+        "data": 0,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "[0]"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/Name",
+        "data": "Source1",
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "Source1"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/NoisePoints",
+        "data": 10,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "10"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/NoisePower",
+        "data": 1e-18,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "-150"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/NoiseStart",
+        "data": 50000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "50"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/NoiseStop",
+        "data": 250000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "250"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/PNFreq",
+        "data": [
+          1000,
+          10000,
+          100000,
+          1000000
+        ],
+        "dimensions": [
+          4,
+          1
+        ],
+        "timestamp": null,
+        "data_entry": "[1e-3;0.01;0.1;1]"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/PNIndex",
+        "data": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "dimensions": [
+          4
+        ],
+        "timestamp": null,
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/PNPwr",
+        "data": [
+          1e-07,
+          1e-09,
+          1e-10,
+          3.1622776601683794e-11
+        ],
+        "dimensions": [
+          4,
+          1
+        ],
+        "timestamp": null,
+        "data_entry": "[-70;-90;-100;-105]"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/PORT",
+        "data": 1,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "1"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/POff",
+        "data": 1,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "0"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/PhOff",
+        "data": 0,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "0"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/Phase",
+        "data": 0,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "0"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/Pts",
+        "data": 2,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "2"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/Pwr",
+        "data": 0.001,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "0"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/R",
+        "data": 50,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "50"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/RefClk",
+        "data": "RFModelClock",
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "RFModelClock"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/Show",
+        "data": [
+          1
+        ],
+        "dimensions": [
+          1
+        ],
+        "timestamp": null,
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/SrcType",
+        "data": 0,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "[0]"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/AutoDesc",
+        "data": [
+          1
+        ],
+        "dimensions": [
+          1
+        ],
+        "timestamp": null,
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/BW",
+        "data": 1000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "1"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/Carriers",
+        "data": 2,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "2"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/Dataset",
+        "data": "GSM",
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "GSM"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/Descrip",
+        "data": "1200 MHz at 0 dBm",
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "1200 MHz at 0 dBm"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/Enable",
+        "data": 1,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "[1]"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/EnablePN",
+        "data": 0,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "[0]"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/FOff",
+        "data": 50000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "50"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/Freq",
+        "data": 1000000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "1000"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/MultiCarrier",
+        "data": 0,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "[0]"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/Name",
+        "data": "Source2",
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "Source2"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/NoisePoints",
+        "data": 10,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "10"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/NoisePower",
+        "data": 1e-18,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "-150"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/NoiseStart",
+        "data": 50000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "50"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/NoiseStop",
+        "data": 250000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "250"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/PNFreq",
+        "data": [
+          1000,
+          10000,
+          100000,
+          1000000
+        ],
+        "dimensions": [
+          4,
+          1
+        ],
+        "timestamp": null,
+        "data_entry": "[1e-3;0.01;0.1;1]"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/PNIndex",
+        "data": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "dimensions": [
+          4
+        ],
+        "timestamp": null,
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/PNPwr",
+        "data": [
+          1e-07,
+          1e-09,
+          1e-10,
+          3.1622776601683794e-11
+        ],
+        "dimensions": [
+          4,
+          1
+        ],
+        "timestamp": null,
+        "data_entry": "[-70;-90;-100;-105]"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/PORT",
+        "data": 2,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "2"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/POff",
+        "data": 1,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "0"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/PhOff",
+        "data": 0,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "0"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/Phase",
+        "data": 0,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "0"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/Pts",
+        "data": 2,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "2"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/Pwr",
+        "data": 0.001,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "0"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/R",
+        "data": 50,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "50"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/RefClk",
+        "data": "RFModelClock",
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "RFModelClock"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/Show",
+        "data": [
+          1
+        ],
+        "dimensions": [
+          1
+        ],
+        "timestamp": null,
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/SrcType",
+        "data": 0,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "[0]"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/Port_3/ParamSet/PORT",
+        "data": 3,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "3"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/Port_3/ParamSet/ZO",
+        "data": 50,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "50"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/TL1/ParamSet/A",
+        "data": 0,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "0"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/TL1/ParamSet/F",
+        "data": 1000000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "1000"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/TL1/ParamSet/L",
+        "data": 0.523598775598299,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/TL1/ParamSet/Z",
+        "data": 50,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "50"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/TL2/ParamSet/A",
+        "data": 0,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "0"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/TL2/ParamSet/F",
+        "data": 1000000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "1000"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/TL2/ParamSet/L",
+        "data": 0.523598775598299,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/TL2/ParamSet/Z",
+        "data": 50,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "50"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/System1_Data",
+        "data": null,
+        "dimensions": null,
+        "timestamp": "1791518460",
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/System1_Data/Eqns/VarBlock/F3",
+        "data": [
+          999999999.5,
+          1000000000.5,
+          999999999.5,
+          1000000000.5
+        ],
+        "dimensions": [
+          4
+        ],
+        "timestamp": null,
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/System1_Data/Eqns/VarBlock/ID3",
+        "data": [
+          89,
+          89,
+          88,
+          88
+        ],
+        "dimensions": [
+          4
+        ],
+        "timestamp": null,
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/System1_Data/Eqns/VarBlock/IDName",
+        "data": [
+          "{1}D[(MultiSource1.Source1)],MultiSource1,TL1",
+          "{1}D[(MultiSource2.Source2)],MultiSource2,TL2",
+          "{1}D[(MultiSource1.Source1)],MultiSource1,TL1,Attn1",
+          "{1}D[(MultiSource2.Source2)],MultiSource2,TL2,Attn1",
+          "{1}D[(MultiSource1.Source1)],MultiSource1",
+          "{1}D[(MultiSource2.Source2)],MultiSource2,TL2,TL1",
+          "{1}D[(MultiSource2.Source2)],MultiSource2",
+          "{1}D[(MultiSource1.Source1)],MultiSource1,TL1,TL2"
+        ],
+        "dimensions": [
+          8
+        ],
+        "timestamp": null,
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/System1_Data/Eqns/VarBlock/IDNo",
+        "data": [
+          86,
+          87,
+          88,
+          89,
+          90,
+          91,
+          92,
+          93
+        ],
+        "dimensions": [
+          8
+        ],
+        "timestamp": null,
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/System1_Data/Eqns/VarBlock/P3",
+        "data": [
+          0.00014054566929143532,
+          0.00014054566929143527,
+          0.0001405456692914352,
+          0.00014054566929143537
+        ],
+        "dimensions": [
+          4
+        ],
+        "timestamp": null,
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/System1_Data/Eqns/VarBlock/RFElemList",
+        "data": [
+          "Attn1",
+          "TL1",
+          "TL2"
+        ],
+        "dimensions": [
+          3
+        ],
+        "timestamp": null,
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/System1_Data/Eqns/VarBlock/RFPwrIn",
+        "data": [
+          0.0017777777261943082,
+          0.001777777730086282,
+          0.001777777730086282
+        ],
+        "dimensions": [
+          3
+        ],
+        "timestamp": null,
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/System1_Data/Eqns/VarBlock/V3",
+        "data": [
+          0.10266900793941332,
+          -0.05927597884141076,
+          0.10266900790837637,
+          -0.05927597889516832,
+          0.1026690079394132,
+          -0.05927597884141087,
+          0.10266900790837644,
+          -0.05927597889516832
+        ],
+        "dimensions": [
+          8
+        ],
+        "timestamp": null,
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/System1_Data/Eqns/VarBlock/Z3",
+        "data": [
+          49.99999974999998,
+          1.431552756466877e-15,
+          49.99999974999999,
+          7.734768782614211e-16,
+          49.99999974999998,
+          1.431552756466877e-15,
+          49.99999974999999,
+          7.734768782614211e-16
+        ],
+        "dimensions": [
+          8
+        ],
+        "timestamp": null,
+        "data_entry": null
+      }
+    ],
+    "locked": true,
+    "second_phase_deg": 0.0,
+    "line_length_rad": 0.523598775598299,
+    "raw_capture_sha256": "b230e3c0aa46af0dca89e9bf6a190bf11c98e05b829bf95cc0b069a5d13570fd",
+    "source_workspace_sha256": "0116ade3cd94d3e286c68424f5450bfff74f926a398d93c0155247cd05dc9156",
+    "systemvue_version": "2023.0.0.11903",
+    "workspace_hash_scope": "on_disk_source_copy_at_archive_time"
+  },
+  {
+    "run_started_utc": "2026-10-09T04:02:36.7207346Z",
+    "run_returned_utc": "2026-10-09T04:02:36.9858577Z",
+    "manager_errors": "",
+    "nodes": [
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/Attn1/ParamSet/L",
+        "data": 3.1622776601683795,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "5"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/Attn1/ParamSet/ZIN",
+        "data": 50,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "50"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/Attn1/ParamSet/ZOUT",
+        "data": 50,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "50"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/AutoDesc",
+        "data": [
+          1
+        ],
+        "dimensions": [
+          1
+        ],
+        "timestamp": null,
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/BW",
+        "data": 1000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "1"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/Carriers",
+        "data": 2,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "2"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/Dataset",
+        "data": "GSM",
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "GSM"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/Descrip",
+        "data": "1000 MHz at 0 dBm",
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "1000 MHz at 0 dBm"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/Enable",
+        "data": 1,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "[1]"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/EnablePN",
+        "data": 0,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "[0]"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/FOff",
+        "data": 50000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "50"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/Freq",
+        "data": 1000000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "1000"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/MultiCarrier",
+        "data": 0,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "[0]"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/Name",
+        "data": "Source1",
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "Source1"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/NoisePoints",
+        "data": 10,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "10"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/NoisePower",
+        "data": 1e-18,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "-150"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/NoiseStart",
+        "data": 50000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "50"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/NoiseStop",
+        "data": 250000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "250"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/PNFreq",
+        "data": [
+          1000,
+          10000,
+          100000,
+          1000000
+        ],
+        "dimensions": [
+          4,
+          1
+        ],
+        "timestamp": null,
+        "data_entry": "[1e-3;0.01;0.1;1]"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/PNIndex",
+        "data": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "dimensions": [
+          4
+        ],
+        "timestamp": null,
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/PNPwr",
+        "data": [
+          1e-07,
+          1e-09,
+          1e-10,
+          3.1622776601683794e-11
+        ],
+        "dimensions": [
+          4,
+          1
+        ],
+        "timestamp": null,
+        "data_entry": "[-70;-90;-100;-105]"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/PORT",
+        "data": 1,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "1"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/POff",
+        "data": 1,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "0"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/PhOff",
+        "data": 0,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "0"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/Phase",
+        "data": 0,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "0"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/Pts",
+        "data": 2,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "2"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/Pwr",
+        "data": 0.001,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "0"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/R",
+        "data": 50,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "50"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/RefClk",
+        "data": "RFModelClock",
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "RFModelClock"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/Show",
+        "data": [
+          1
+        ],
+        "dimensions": [
+          1
+        ],
+        "timestamp": null,
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/SrcType",
+        "data": 0,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "[0]"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/AutoDesc",
+        "data": [
+          1
+        ],
+        "dimensions": [
+          1
+        ],
+        "timestamp": null,
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/BW",
+        "data": 1000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "1"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/Carriers",
+        "data": 2,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "2"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/Dataset",
+        "data": "GSM",
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "GSM"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/Descrip",
+        "data": "1200 MHz at 0 dBm",
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "1200 MHz at 0 dBm"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/Enable",
+        "data": 1,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "[1]"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/EnablePN",
+        "data": 0,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "[0]"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/FOff",
+        "data": 50000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "50"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/Freq",
+        "data": 1000000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "1000"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/MultiCarrier",
+        "data": 0,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "[0]"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/Name",
+        "data": "Source2",
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "Source2"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/NoisePoints",
+        "data": 10,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "10"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/NoisePower",
+        "data": 1e-18,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "-150"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/NoiseStart",
+        "data": 50000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "50"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/NoiseStop",
+        "data": 250000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "250"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/PNFreq",
+        "data": [
+          1000,
+          10000,
+          100000,
+          1000000
+        ],
+        "dimensions": [
+          4,
+          1
+        ],
+        "timestamp": null,
+        "data_entry": "[1e-3;0.01;0.1;1]"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/PNIndex",
+        "data": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "dimensions": [
+          4
+        ],
+        "timestamp": null,
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/PNPwr",
+        "data": [
+          1e-07,
+          1e-09,
+          1e-10,
+          3.1622776601683794e-11
+        ],
+        "dimensions": [
+          4,
+          1
+        ],
+        "timestamp": null,
+        "data_entry": "[-70;-90;-100;-105]"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/PORT",
+        "data": 2,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "2"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/POff",
+        "data": 1,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "0"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/PhOff",
+        "data": 0,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "0"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/Phase",
+        "data": 1.5707963267948966,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "90"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/Pts",
+        "data": 2,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "2"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/Pwr",
+        "data": 0.001,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "0"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/R",
+        "data": 50,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "50"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/RefClk",
+        "data": "RFModelClock",
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "RFModelClock"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/Show",
+        "data": [
+          1
+        ],
+        "dimensions": [
+          1
+        ],
+        "timestamp": null,
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/SrcType",
+        "data": 0,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "[0]"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/Port_3/ParamSet/PORT",
+        "data": 3,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "3"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/Port_3/ParamSet/ZO",
+        "data": 50,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "50"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/TL1/ParamSet/A",
+        "data": 0,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "0"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/TL1/ParamSet/F",
+        "data": 1000000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "1000"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/TL1/ParamSet/L",
+        "data": 0.5235987755982988,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/TL1/ParamSet/Z",
+        "data": 50,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "50"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/TL2/ParamSet/A",
+        "data": 0,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "0"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/TL2/ParamSet/F",
+        "data": 1000000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "1000"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/TL2/ParamSet/L",
+        "data": 0.5235987755982988,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/TL2/ParamSet/Z",
+        "data": 50,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "50"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/System1_Data",
+        "data": null,
+        "dimensions": null,
+        "timestamp": "1791518556",
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/System1_Data/Eqns/VarBlock/F3",
+        "data": [
+          999999999.5,
+          1000000000.5,
+          999999999.5,
+          1000000000.5
+        ],
+        "dimensions": [
+          4
+        ],
+        "timestamp": null,
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/System1_Data/Eqns/VarBlock/ID3",
+        "data": [
+          89,
+          89,
+          88,
+          88
+        ],
+        "dimensions": [
+          4
+        ],
+        "timestamp": null,
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/System1_Data/Eqns/VarBlock/IDName",
+        "data": [
+          "{1}D[(MultiSource1.Source1)],MultiSource1,TL1",
+          "{1}D[(MultiSource2.Source2)],MultiSource2,TL2",
+          "{1}D[(MultiSource1.Source1)],MultiSource1,TL1,Attn1",
+          "{1}D[(MultiSource2.Source2)],MultiSource2,TL2,Attn1",
+          "{1}D[(MultiSource1.Source1)],MultiSource1",
+          "{1}D[(MultiSource2.Source2)],MultiSource2,TL2,TL1",
+          "{1}D[(MultiSource2.Source2)],MultiSource2",
+          "{1}D[(MultiSource1.Source1)],MultiSource1,TL1,TL2"
+        ],
+        "dimensions": [
+          8
+        ],
+        "timestamp": null,
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/System1_Data/Eqns/VarBlock/IDNo",
+        "data": [
+          86,
+          87,
+          88,
+          89,
+          90,
+          91,
+          92,
+          93
+        ],
+        "dimensions": [
+          8
+        ],
+        "timestamp": null,
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/System1_Data/Eqns/VarBlock/P3",
+        "data": [
+          0.00014054566929143546,
+          0.00014054566929143516,
+          0.0001405456692914352,
+          0.00014054566929143516
+        ],
+        "dimensions": [
+          4
+        ],
+        "timestamp": null,
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/System1_Data/Eqns/VarBlock/RFElemList",
+        "data": [
+          "Attn1",
+          "TL1",
+          "TL2"
+        ],
+        "dimensions": [
+          3
+        ],
+        "timestamp": null,
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/System1_Data/Eqns/VarBlock/RFPwrIn",
+        "data": [
+          0.0017777777261943077,
+          0.0017777777300862821,
+          0.0017777777300862815
+        ],
+        "dimensions": [
+          3
+        ],
+        "timestamp": null,
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/System1_Data/Eqns/VarBlock/V3",
+        "data": [
+          0.0592759788414108,
+          0.1026690079394134,
+          0.05927597889516825,
+          0.10266900790837633,
+          0.10266900793941332,
+          -0.05927597884141075,
+          0.10266900790837634,
+          -0.0592759788951682
+        ],
+        "dimensions": [
+          8
+        ],
+        "timestamp": null,
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/System1_Data/Eqns/VarBlock/Z3",
+        "data": [
+          49.99999975000001,
+          -9.442590087096816e-16,
+          49.999999749999965,
+          -1.275412750872359e-15,
+          49.99999975000001,
+          -9.442590087096816e-16,
+          49.999999749999965,
+          -1.275412750872359e-15
+        ],
+        "dimensions": [
+          8
+        ],
+        "timestamp": null,
+        "data_entry": null
+      }
+    ],
+    "locked": true,
+    "second_phase_deg": 90.0,
+    "line_length_rad": 0.5235987755982988,
+    "raw_capture_sha256": "1984eda752d09b686b6d78a51cd8dc321afbbc4b09265abebb419212af6dccb4",
+    "source_workspace_sha256": "0116ade3cd94d3e286c68424f5450bfff74f926a398d93c0155247cd05dc9156",
+    "systemvue_version": "2023.0.0.11903",
+    "workspace_hash_scope": "on_disk_source_copy_at_archive_time"
+  },
+  {
+    "run_started_utc": "2026-10-09T04:02:39.3267635Z",
+    "run_returned_utc": "2026-10-09T04:02:39.5772412Z",
+    "manager_errors": "",
+    "nodes": [
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/Attn1/ParamSet/L",
+        "data": 3.1622776601683795,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "5"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/Attn1/ParamSet/ZIN",
+        "data": 50,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "50"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/Attn1/ParamSet/ZOUT",
+        "data": 50,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "50"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/AutoDesc",
+        "data": [
+          1
+        ],
+        "dimensions": [
+          1
+        ],
+        "timestamp": null,
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/BW",
+        "data": 1000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "1"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/Carriers",
+        "data": 2,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "2"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/Dataset",
+        "data": "GSM",
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "GSM"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/Descrip",
+        "data": "1000 MHz at 0 dBm",
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "1000 MHz at 0 dBm"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/Enable",
+        "data": 1,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "[1]"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/EnablePN",
+        "data": 0,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "[0]"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/FOff",
+        "data": 50000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "50"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/Freq",
+        "data": 1000000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "1000"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/MultiCarrier",
+        "data": 0,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "[0]"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/Name",
+        "data": "Source1",
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "Source1"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/NoisePoints",
+        "data": 10,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "10"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/NoisePower",
+        "data": 1e-18,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "-150"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/NoiseStart",
+        "data": 50000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "50"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/NoiseStop",
+        "data": 250000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "250"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/PNFreq",
+        "data": [
+          1000,
+          10000,
+          100000,
+          1000000
+        ],
+        "dimensions": [
+          4,
+          1
+        ],
+        "timestamp": null,
+        "data_entry": "[1e-3;0.01;0.1;1]"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/PNIndex",
+        "data": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "dimensions": [
+          4
+        ],
+        "timestamp": null,
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/PNPwr",
+        "data": [
+          1e-07,
+          1e-09,
+          1e-10,
+          3.1622776601683794e-11
+        ],
+        "dimensions": [
+          4,
+          1
+        ],
+        "timestamp": null,
+        "data_entry": "[-70;-90;-100;-105]"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/PORT",
+        "data": 1,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "1"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/POff",
+        "data": 1,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "0"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/PhOff",
+        "data": 0,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "0"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/Phase",
+        "data": 0,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "0"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/Pts",
+        "data": 2,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "2"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/Pwr",
+        "data": 0.001,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "0"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/R",
+        "data": 50,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "50"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/RefClk",
+        "data": "RFModelClock",
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "RFModelClock"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/Show",
+        "data": [
+          1
+        ],
+        "dimensions": [
+          1
+        ],
+        "timestamp": null,
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/SrcType",
+        "data": 0,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "[0]"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/AutoDesc",
+        "data": [
+          1
+        ],
+        "dimensions": [
+          1
+        ],
+        "timestamp": null,
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/BW",
+        "data": 1000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "1"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/Carriers",
+        "data": 2,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "2"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/Dataset",
+        "data": "GSM",
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "GSM"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/Descrip",
+        "data": "1200 MHz at 0 dBm",
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "1200 MHz at 0 dBm"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/Enable",
+        "data": 1,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "[1]"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/EnablePN",
+        "data": 0,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "[0]"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/FOff",
+        "data": 50000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "50"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/Freq",
+        "data": 1000000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "1000"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/MultiCarrier",
+        "data": 0,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "[0]"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/Name",
+        "data": "Source2",
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "Source2"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/NoisePoints",
+        "data": 10,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "10"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/NoisePower",
+        "data": 1e-18,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "-150"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/NoiseStart",
+        "data": 50000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "50"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/NoiseStop",
+        "data": 250000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "250"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/PNFreq",
+        "data": [
+          1000,
+          10000,
+          100000,
+          1000000
+        ],
+        "dimensions": [
+          4,
+          1
+        ],
+        "timestamp": null,
+        "data_entry": "[1e-3;0.01;0.1;1]"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/PNIndex",
+        "data": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "dimensions": [
+          4
+        ],
+        "timestamp": null,
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/PNPwr",
+        "data": [
+          1e-07,
+          1e-09,
+          1e-10,
+          3.1622776601683794e-11
+        ],
+        "dimensions": [
+          4,
+          1
+        ],
+        "timestamp": null,
+        "data_entry": "[-70;-90;-100;-105]"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/PORT",
+        "data": 2,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "2"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/POff",
+        "data": 1,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "0"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/PhOff",
+        "data": 0,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "0"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/Phase",
+        "data": 3.141592653589793,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "180"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/Pts",
+        "data": 2,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "2"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/Pwr",
+        "data": 0.001,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "0"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/R",
+        "data": 50,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "50"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/RefClk",
+        "data": "RFModelClock",
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "RFModelClock"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/Show",
+        "data": [
+          1
+        ],
+        "dimensions": [
+          1
+        ],
+        "timestamp": null,
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/SrcType",
+        "data": 0,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "[0]"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/Port_3/ParamSet/PORT",
+        "data": 3,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "3"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/Port_3/ParamSet/ZO",
+        "data": 50,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "50"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/TL1/ParamSet/A",
+        "data": 0,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "0"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/TL1/ParamSet/F",
+        "data": 1000000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "1000"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/TL1/ParamSet/L",
+        "data": 0.5235987755982988,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/TL1/ParamSet/Z",
+        "data": 50,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "50"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/TL2/ParamSet/A",
+        "data": 0,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "0"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/TL2/ParamSet/F",
+        "data": 1000000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "1000"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/TL2/ParamSet/L",
+        "data": 0.5235987755982988,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/TL2/ParamSet/Z",
+        "data": 50,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "50"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/System1_Data",
+        "data": null,
+        "dimensions": null,
+        "timestamp": "1791518559",
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/System1_Data/Eqns/VarBlock/F3",
+        "data": [
+          999999999.5,
+          1000000000.5,
+          999999999.5,
+          1000000000.5
+        ],
+        "dimensions": [
+          4
+        ],
+        "timestamp": null,
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/System1_Data/Eqns/VarBlock/ID3",
+        "data": [
+          89,
+          89,
+          88,
+          88
+        ],
+        "dimensions": [
+          4
+        ],
+        "timestamp": null,
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/System1_Data/Eqns/VarBlock/IDName",
+        "data": [
+          "{1}D[(MultiSource1.Source1)],MultiSource1,TL1",
+          "{1}D[(MultiSource2.Source2)],MultiSource2,TL2",
+          "{1}D[(MultiSource1.Source1)],MultiSource1,TL1,Attn1",
+          "{1}D[(MultiSource2.Source2)],MultiSource2,TL2,Attn1",
+          "{1}D[(MultiSource1.Source1)],MultiSource1",
+          "{1}D[(MultiSource2.Source2)],MultiSource2,TL2,TL1",
+          "{1}D[(MultiSource2.Source2)],MultiSource2",
+          "{1}D[(MultiSource1.Source1)],MultiSource1,TL1,TL2"
+        ],
+        "dimensions": [
+          8
+        ],
+        "timestamp": null,
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/System1_Data/Eqns/VarBlock/IDNo",
+        "data": [
+          86,
+          87,
+          88,
+          89,
+          90,
+          91,
+          92,
+          93
+        ],
+        "dimensions": [
+          8
+        ],
+        "timestamp": null,
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/System1_Data/Eqns/VarBlock/P3",
+        "data": [
+          0.00014054566929143548,
+          0.00014054566929143516,
+          0.0001405456692914352,
+          0.00014054566929143516
+        ],
+        "dimensions": [
+          4
+        ],
+        "timestamp": null,
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/System1_Data/Eqns/VarBlock/RFElemList",
+        "data": [
+          "Attn1",
+          "TL1",
+          "TL2"
+        ],
+        "dimensions": [
+          3
+        ],
+        "timestamp": null,
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/System1_Data/Eqns/VarBlock/RFPwrIn",
+        "data": [
+          0.0017777777261943082,
+          0.0017777777300862824,
+          0.001777777730086282
+        ],
+        "dimensions": [
+          3
+        ],
+        "timestamp": null,
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/System1_Data/Eqns/VarBlock/V3",
+        "data": [
+          -0.10266900793941341,
+          0.0592759788414108,
+          -0.10266900790837633,
+          0.05927597889516825,
+          0.10266900793941332,
+          -0.05927597884141075,
+          0.10266900790837634,
+          -0.0592759788951682
+        ],
+        "dimensions": [
+          8
+        ],
+        "timestamp": null,
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/System1_Data/Eqns/VarBlock/Z3",
+        "data": [
+          49.99999975000001,
+          -9.442590087096816e-16,
+          49.999999749999965,
+          -1.275412750872359e-15,
+          49.99999975000001,
+          -9.442590087096816e-16,
+          49.999999749999965,
+          -1.275412750872359e-15
+        ],
+        "dimensions": [
+          8
+        ],
+        "timestamp": null,
+        "data_entry": null
+      }
+    ],
+    "locked": true,
+    "second_phase_deg": 180.0,
+    "line_length_rad": 0.5235987755982988,
+    "raw_capture_sha256": "2413b72d3ff30ee9618c561b8a5c49bec7422e237688adfd5f0a4057b1f69b2c",
+    "source_workspace_sha256": "0116ade3cd94d3e286c68424f5450bfff74f926a398d93c0155247cd05dc9156",
+    "systemvue_version": "2023.0.0.11903",
+    "workspace_hash_scope": "on_disk_source_copy_at_archive_time"
+  },
+  {
+    "run_started_utc": "2026-10-09T04:02:41.7221369Z",
+    "run_returned_utc": "2026-10-09T04:02:41.9778997Z",
+    "manager_errors": "",
+    "nodes": [
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/Attn1/ParamSet/L",
+        "data": 3.1622776601683795,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "5"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/Attn1/ParamSet/ZIN",
+        "data": 50,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "50"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/Attn1/ParamSet/ZOUT",
+        "data": 50,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "50"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/AutoDesc",
+        "data": [
+          1
+        ],
+        "dimensions": [
+          1
+        ],
+        "timestamp": null,
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/BW",
+        "data": 1000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "1"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/Carriers",
+        "data": 2,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "2"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/Dataset",
+        "data": "GSM",
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "GSM"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/Descrip",
+        "data": "1000 MHz at 0 dBm",
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "1000 MHz at 0 dBm"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/Enable",
+        "data": 1,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "[1]"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/EnablePN",
+        "data": 0,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "[0]"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/FOff",
+        "data": 50000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "50"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/Freq",
+        "data": 1000000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "1000"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/MultiCarrier",
+        "data": 0,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "[0]"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/Name",
+        "data": "Source1",
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "Source1"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/NoisePoints",
+        "data": 10,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "10"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/NoisePower",
+        "data": 1e-18,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "-150"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/NoiseStart",
+        "data": 50000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "50"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/NoiseStop",
+        "data": 250000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "250"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/PNFreq",
+        "data": [
+          1000,
+          10000,
+          100000,
+          1000000
+        ],
+        "dimensions": [
+          4,
+          1
+        ],
+        "timestamp": null,
+        "data_entry": "[1e-3;0.01;0.1;1]"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/PNIndex",
+        "data": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "dimensions": [
+          4
+        ],
+        "timestamp": null,
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/PNPwr",
+        "data": [
+          1e-07,
+          1e-09,
+          1e-10,
+          3.1622776601683794e-11
+        ],
+        "dimensions": [
+          4,
+          1
+        ],
+        "timestamp": null,
+        "data_entry": "[-70;-90;-100;-105]"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/PORT",
+        "data": 1,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "1"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/POff",
+        "data": 1,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "0"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/PhOff",
+        "data": 0,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "0"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/Phase",
+        "data": 0,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "0"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/Pts",
+        "data": 2,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "2"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/Pwr",
+        "data": 0.001,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "0"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/R",
+        "data": 50,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "50"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/RefClk",
+        "data": "",
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": ""
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/Show",
+        "data": [
+          1
+        ],
+        "dimensions": [
+          1
+        ],
+        "timestamp": null,
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/SrcType",
+        "data": 0,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "[0]"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/AutoDesc",
+        "data": [
+          1
+        ],
+        "dimensions": [
+          1
+        ],
+        "timestamp": null,
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/BW",
+        "data": 1000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "1"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/Carriers",
+        "data": 2,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "2"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/Dataset",
+        "data": "GSM",
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "GSM"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/Descrip",
+        "data": "1200 MHz at 0 dBm",
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "1200 MHz at 0 dBm"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/Enable",
+        "data": 1,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "[1]"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/EnablePN",
+        "data": 0,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "[0]"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/FOff",
+        "data": 50000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "50"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/Freq",
+        "data": 1000000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "1000"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/MultiCarrier",
+        "data": 0,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "[0]"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/Name",
+        "data": "Source2",
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "Source2"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/NoisePoints",
+        "data": 10,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "10"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/NoisePower",
+        "data": 1e-18,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "-150"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/NoiseStart",
+        "data": 50000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "50"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/NoiseStop",
+        "data": 250000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "250"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/PNFreq",
+        "data": [
+          1000,
+          10000,
+          100000,
+          1000000
+        ],
+        "dimensions": [
+          4,
+          1
+        ],
+        "timestamp": null,
+        "data_entry": "[1e-3;0.01;0.1;1]"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/PNIndex",
+        "data": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "dimensions": [
+          4
+        ],
+        "timestamp": null,
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/PNPwr",
+        "data": [
+          1e-07,
+          1e-09,
+          1e-10,
+          3.1622776601683794e-11
+        ],
+        "dimensions": [
+          4,
+          1
+        ],
+        "timestamp": null,
+        "data_entry": "[-70;-90;-100;-105]"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/PORT",
+        "data": 2,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "2"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/POff",
+        "data": 1,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "0"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/PhOff",
+        "data": 0,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "0"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/Phase",
+        "data": 0,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "0"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/Pts",
+        "data": 2,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "2"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/Pwr",
+        "data": 0.001,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "0"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/R",
+        "data": 50,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "50"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/RefClk",
+        "data": "",
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": ""
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/Show",
+        "data": [
+          1
+        ],
+        "dimensions": [
+          1
+        ],
+        "timestamp": null,
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/SrcType",
+        "data": 0,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "[0]"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/Port_3/ParamSet/PORT",
+        "data": 3,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "3"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/Port_3/ParamSet/ZO",
+        "data": 50,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "50"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/TL1/ParamSet/A",
+        "data": 0,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "0"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/TL1/ParamSet/F",
+        "data": 1000000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "1000"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/TL1/ParamSet/L",
+        "data": 0.5235987755982988,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/TL1/ParamSet/Z",
+        "data": 50,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "50"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/TL2/ParamSet/A",
+        "data": 0,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "0"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/TL2/ParamSet/F",
+        "data": 1000000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "1000"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/TL2/ParamSet/L",
+        "data": 0.5235987755982988,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/TL2/ParamSet/Z",
+        "data": 50,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "50"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/System1_Data",
+        "data": null,
+        "dimensions": null,
+        "timestamp": "1791518561",
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/System1_Data/Eqns/VarBlock/F3",
+        "data": [
+          999999999.5,
+          1000000000.5,
+          999999999.5,
+          1000000000.5
+        ],
+        "dimensions": [
+          4
+        ],
+        "timestamp": null,
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/System1_Data/Eqns/VarBlock/ID3",
+        "data": [
+          89,
+          89,
+          88,
+          88
+        ],
+        "dimensions": [
+          4
+        ],
+        "timestamp": null,
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/System1_Data/Eqns/VarBlock/IDName",
+        "data": [
+          "{1}D[(MultiSource1.Source1)],MultiSource1,TL1",
+          "{2}D[(MultiSource2.Source2)],MultiSource2,TL2",
+          "{1}D[(MultiSource1.Source1)],MultiSource1,TL1,Attn1",
+          "{2}D[(MultiSource2.Source2)],MultiSource2,TL2,Attn1",
+          "{1}D[(MultiSource1.Source1)],MultiSource1",
+          "{2}D[(MultiSource2.Source2)],MultiSource2,TL2,TL1",
+          "{2}D[(MultiSource2.Source2)],MultiSource2",
+          "{1}D[(MultiSource1.Source1)],MultiSource1,TL1,TL2"
+        ],
+        "dimensions": [
+          8
+        ],
+        "timestamp": null,
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/System1_Data/Eqns/VarBlock/IDNo",
+        "data": [
+          86,
+          87,
+          88,
+          89,
+          90,
+          91,
+          92,
+          93
+        ],
+        "dimensions": [
+          8
+        ],
+        "timestamp": null,
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/System1_Data/Eqns/VarBlock/P3",
+        "data": [
+          0.00014054566929143537,
+          0.00014054566929143516,
+          0.0001405456692914352,
+          0.00014054566929143516
+        ],
+        "dimensions": [
+          4
+        ],
+        "timestamp": null,
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/System1_Data/Eqns/VarBlock/RFElemList",
+        "data": [
+          "Attn1",
+          "TL1",
+          "TL2"
+        ],
+        "dimensions": [
+          3
+        ],
+        "timestamp": null,
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/System1_Data/Eqns/VarBlock/RFPwrIn",
+        "data": [
+          0.0017777777261943077,
+          0.0017777777300862821,
+          0.0017777777300862817
+        ],
+        "dimensions": [
+          3
+        ],
+        "timestamp": null,
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/System1_Data/Eqns/VarBlock/V3",
+        "data": [
+          0.1026690079394134,
+          -0.05927597884141075,
+          0.10266900790837633,
+          -0.05927597889516825,
+          0.10266900793941332,
+          -0.05927597884141075,
+          0.10266900790837634,
+          -0.0592759788951682
+        ],
+        "dimensions": [
+          8
+        ],
+        "timestamp": null,
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/System1_Data/Eqns/VarBlock/Z3",
+        "data": [
+          49.99999975000001,
+          -9.442590087096816e-16,
+          49.999999749999965,
+          -1.275412750872359e-15,
+          49.99999975000001,
+          -9.442590087096816e-16,
+          49.999999749999965,
+          -1.275412750872359e-15
+        ],
+        "dimensions": [
+          8
+        ],
+        "timestamp": null,
+        "data_entry": null
+      }
+    ],
+    "locked": false,
+    "second_phase_deg": 0.0,
+    "line_length_rad": 0.5235987755982988,
+    "raw_capture_sha256": "4d6f1b667d6497336af285894f2fd89a61b7032183d77be7038946520ebf9b7d",
+    "source_workspace_sha256": "0116ade3cd94d3e286c68424f5450bfff74f926a398d93c0155247cd05dc9156",
+    "systemvue_version": "2023.0.0.11903",
+    "workspace_hash_scope": "on_disk_source_copy_at_archive_time"
+  },
+  {
+    "run_started_utc": "2026-10-09T04:02:43.8590383Z",
+    "run_returned_utc": "2026-10-09T04:02:44.1021225Z",
+    "manager_errors": "",
+    "nodes": [
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/Attn1/ParamSet/L",
+        "data": 3.1622776601683795,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "5"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/Attn1/ParamSet/ZIN",
+        "data": 50,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "50"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/Attn1/ParamSet/ZOUT",
+        "data": 50,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "50"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/AutoDesc",
+        "data": [
+          1
+        ],
+        "dimensions": [
+          1
+        ],
+        "timestamp": null,
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/BW",
+        "data": 1000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "1"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/Carriers",
+        "data": 2,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "2"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/Dataset",
+        "data": "GSM",
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "GSM"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/Descrip",
+        "data": "1000 MHz at 0 dBm",
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "1000 MHz at 0 dBm"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/Enable",
+        "data": 1,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "[1]"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/EnablePN",
+        "data": 0,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "[0]"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/FOff",
+        "data": 50000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "50"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/Freq",
+        "data": 1000000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "1000"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/MultiCarrier",
+        "data": 0,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "[0]"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/Name",
+        "data": "Source1",
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "Source1"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/NoisePoints",
+        "data": 10,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "10"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/NoisePower",
+        "data": 1e-18,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "-150"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/NoiseStart",
+        "data": 50000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "50"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/NoiseStop",
+        "data": 250000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "250"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/PNFreq",
+        "data": [
+          1000,
+          10000,
+          100000,
+          1000000
+        ],
+        "dimensions": [
+          4,
+          1
+        ],
+        "timestamp": null,
+        "data_entry": "[1e-3;0.01;0.1;1]"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/PNIndex",
+        "data": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "dimensions": [
+          4
+        ],
+        "timestamp": null,
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/PNPwr",
+        "data": [
+          1e-07,
+          1e-09,
+          1e-10,
+          3.1622776601683794e-11
+        ],
+        "dimensions": [
+          4,
+          1
+        ],
+        "timestamp": null,
+        "data_entry": "[-70;-90;-100;-105]"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/PORT",
+        "data": 1,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "1"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/POff",
+        "data": 1,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "0"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/PhOff",
+        "data": 0,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "0"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/Phase",
+        "data": 0,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "0"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/Pts",
+        "data": 2,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "2"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/Pwr",
+        "data": 0.001,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "0"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/R",
+        "data": 50,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "50"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/RefClk",
+        "data": "",
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": ""
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/Show",
+        "data": [
+          1
+        ],
+        "dimensions": [
+          1
+        ],
+        "timestamp": null,
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/SrcType",
+        "data": 0,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "[0]"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/AutoDesc",
+        "data": [
+          1
+        ],
+        "dimensions": [
+          1
+        ],
+        "timestamp": null,
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/BW",
+        "data": 1000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "1"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/Carriers",
+        "data": 2,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "2"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/Dataset",
+        "data": "GSM",
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "GSM"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/Descrip",
+        "data": "1200 MHz at 0 dBm",
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "1200 MHz at 0 dBm"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/Enable",
+        "data": 1,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "[1]"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/EnablePN",
+        "data": 0,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "[0]"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/FOff",
+        "data": 50000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "50"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/Freq",
+        "data": 1000000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "1000"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/MultiCarrier",
+        "data": 0,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "[0]"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/Name",
+        "data": "Source2",
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "Source2"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/NoisePoints",
+        "data": 10,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "10"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/NoisePower",
+        "data": 1e-18,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "-150"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/NoiseStart",
+        "data": 50000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "50"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/NoiseStop",
+        "data": 250000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "250"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/PNFreq",
+        "data": [
+          1000,
+          10000,
+          100000,
+          1000000
+        ],
+        "dimensions": [
+          4,
+          1
+        ],
+        "timestamp": null,
+        "data_entry": "[1e-3;0.01;0.1;1]"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/PNIndex",
+        "data": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "dimensions": [
+          4
+        ],
+        "timestamp": null,
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/PNPwr",
+        "data": [
+          1e-07,
+          1e-09,
+          1e-10,
+          3.1622776601683794e-11
+        ],
+        "dimensions": [
+          4,
+          1
+        ],
+        "timestamp": null,
+        "data_entry": "[-70;-90;-100;-105]"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/PORT",
+        "data": 2,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "2"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/POff",
+        "data": 1,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "0"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/PhOff",
+        "data": 0,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "0"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/Phase",
+        "data": 1.5707963267948966,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "90"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/Pts",
+        "data": 2,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "2"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/Pwr",
+        "data": 0.001,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "0"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/R",
+        "data": 50,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "50"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/RefClk",
+        "data": "",
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": ""
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/Show",
+        "data": [
+          1
+        ],
+        "dimensions": [
+          1
+        ],
+        "timestamp": null,
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/SrcType",
+        "data": 0,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "[0]"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/Port_3/ParamSet/PORT",
+        "data": 3,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "3"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/Port_3/ParamSet/ZO",
+        "data": 50,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "50"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/TL1/ParamSet/A",
+        "data": 0,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "0"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/TL1/ParamSet/F",
+        "data": 1000000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "1000"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/TL1/ParamSet/L",
+        "data": 0.5235987755982988,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/TL1/ParamSet/Z",
+        "data": 50,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "50"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/TL2/ParamSet/A",
+        "data": 0,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "0"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/TL2/ParamSet/F",
+        "data": 1000000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "1000"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/TL2/ParamSet/L",
+        "data": 0.5235987755982988,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/TL2/ParamSet/Z",
+        "data": 50,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "50"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/System1_Data",
+        "data": null,
+        "dimensions": null,
+        "timestamp": "1791518564",
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/System1_Data/Eqns/VarBlock/F3",
+        "data": [
+          999999999.5,
+          1000000000.5,
+          999999999.5,
+          1000000000.5
+        ],
+        "dimensions": [
+          4
+        ],
+        "timestamp": null,
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/System1_Data/Eqns/VarBlock/ID3",
+        "data": [
+          89,
+          89,
+          88,
+          88
+        ],
+        "dimensions": [
+          4
+        ],
+        "timestamp": null,
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/System1_Data/Eqns/VarBlock/IDName",
+        "data": [
+          "{1}D[(MultiSource1.Source1)],MultiSource1,TL1",
+          "{2}D[(MultiSource2.Source2)],MultiSource2,TL2",
+          "{1}D[(MultiSource1.Source1)],MultiSource1,TL1,Attn1",
+          "{2}D[(MultiSource2.Source2)],MultiSource2,TL2,Attn1",
+          "{1}D[(MultiSource1.Source1)],MultiSource1",
+          "{2}D[(MultiSource2.Source2)],MultiSource2,TL2,TL1",
+          "{2}D[(MultiSource2.Source2)],MultiSource2",
+          "{1}D[(MultiSource1.Source1)],MultiSource1,TL1,TL2"
+        ],
+        "dimensions": [
+          8
+        ],
+        "timestamp": null,
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/System1_Data/Eqns/VarBlock/IDNo",
+        "data": [
+          86,
+          87,
+          88,
+          89,
+          90,
+          91,
+          92,
+          93
+        ],
+        "dimensions": [
+          8
+        ],
+        "timestamp": null,
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/System1_Data/Eqns/VarBlock/P3",
+        "data": [
+          0.00014054566929143546,
+          0.00014054566929143516,
+          0.0001405456692914352,
+          0.00014054566929143516
+        ],
+        "dimensions": [
+          4
+        ],
+        "timestamp": null,
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/System1_Data/Eqns/VarBlock/RFElemList",
+        "data": [
+          "Attn1",
+          "TL1",
+          "TL2"
+        ],
+        "dimensions": [
+          3
+        ],
+        "timestamp": null,
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/System1_Data/Eqns/VarBlock/RFPwrIn",
+        "data": [
+          0.0017777777261943077,
+          0.0017777777300862821,
+          0.0017777777300862815
+        ],
+        "dimensions": [
+          3
+        ],
+        "timestamp": null,
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/System1_Data/Eqns/VarBlock/V3",
+        "data": [
+          0.0592759788414108,
+          0.1026690079394134,
+          0.05927597889516825,
+          0.10266900790837633,
+          0.10266900793941332,
+          -0.05927597884141075,
+          0.10266900790837634,
+          -0.0592759788951682
+        ],
+        "dimensions": [
+          8
+        ],
+        "timestamp": null,
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/System1_Data/Eqns/VarBlock/Z3",
+        "data": [
+          49.99999975000001,
+          -9.442590087096816e-16,
+          49.999999749999965,
+          -1.275412750872359e-15,
+          49.99999975000001,
+          -9.442590087096816e-16,
+          49.999999749999965,
+          -1.275412750872359e-15
+        ],
+        "dimensions": [
+          8
+        ],
+        "timestamp": null,
+        "data_entry": null
+      }
+    ],
+    "locked": false,
+    "second_phase_deg": 90.0,
+    "line_length_rad": 0.5235987755982988,
+    "raw_capture_sha256": "6f9435761b01d8efc501a3606eae59b3c0da95d8e8ac8325844c716ec0e6b4b0",
+    "source_workspace_sha256": "0116ade3cd94d3e286c68424f5450bfff74f926a398d93c0155247cd05dc9156",
+    "systemvue_version": "2023.0.0.11903",
+    "workspace_hash_scope": "on_disk_source_copy_at_archive_time"
+  },
+  {
+    "run_started_utc": "2026-10-09T04:02:45.9674287Z",
+    "run_returned_utc": "2026-10-09T04:02:46.1836659Z",
+    "manager_errors": "",
+    "nodes": [
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/Attn1/ParamSet/L",
+        "data": 3.1622776601683795,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "5"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/Attn1/ParamSet/ZIN",
+        "data": 50,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "50"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/Attn1/ParamSet/ZOUT",
+        "data": 50,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "50"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/AutoDesc",
+        "data": [
+          1
+        ],
+        "dimensions": [
+          1
+        ],
+        "timestamp": null,
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/BW",
+        "data": 1000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "1"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/Carriers",
+        "data": 2,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "2"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/Dataset",
+        "data": "GSM",
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "GSM"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/Descrip",
+        "data": "1000 MHz at 0 dBm",
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "1000 MHz at 0 dBm"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/Enable",
+        "data": 1,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "[1]"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/EnablePN",
+        "data": 0,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "[0]"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/FOff",
+        "data": 50000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "50"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/Freq",
+        "data": 1000000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "1000"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/MultiCarrier",
+        "data": 0,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "[0]"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/Name",
+        "data": "Source1",
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "Source1"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/NoisePoints",
+        "data": 10,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "10"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/NoisePower",
+        "data": 1e-18,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "-150"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/NoiseStart",
+        "data": 50000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "50"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/NoiseStop",
+        "data": 250000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "250"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/PNFreq",
+        "data": [
+          1000,
+          10000,
+          100000,
+          1000000
+        ],
+        "dimensions": [
+          4,
+          1
+        ],
+        "timestamp": null,
+        "data_entry": "[1e-3;0.01;0.1;1]"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/PNIndex",
+        "data": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "dimensions": [
+          4
+        ],
+        "timestamp": null,
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/PNPwr",
+        "data": [
+          1e-07,
+          1e-09,
+          1e-10,
+          3.1622776601683794e-11
+        ],
+        "dimensions": [
+          4,
+          1
+        ],
+        "timestamp": null,
+        "data_entry": "[-70;-90;-100;-105]"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/PORT",
+        "data": 1,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "1"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/POff",
+        "data": 1,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "0"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/PhOff",
+        "data": 0,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "0"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/Phase",
+        "data": 0,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "0"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/Pts",
+        "data": 2,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "2"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/Pwr",
+        "data": 0.001,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "0"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/R",
+        "data": 50,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "50"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/RefClk",
+        "data": "",
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": ""
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/Show",
+        "data": [
+          1
+        ],
+        "dimensions": [
+          1
+        ],
+        "timestamp": null,
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource1/ParamSet/SrcType",
+        "data": 0,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "[0]"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/AutoDesc",
+        "data": [
+          1
+        ],
+        "dimensions": [
+          1
+        ],
+        "timestamp": null,
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/BW",
+        "data": 1000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "1"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/Carriers",
+        "data": 2,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "2"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/Dataset",
+        "data": "GSM",
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "GSM"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/Descrip",
+        "data": "1200 MHz at 0 dBm",
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "1200 MHz at 0 dBm"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/Enable",
+        "data": 1,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "[1]"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/EnablePN",
+        "data": 0,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "[0]"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/FOff",
+        "data": 50000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "50"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/Freq",
+        "data": 1000000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "1000"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/MultiCarrier",
+        "data": 0,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "[0]"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/Name",
+        "data": "Source2",
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "Source2"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/NoisePoints",
+        "data": 10,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "10"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/NoisePower",
+        "data": 1e-18,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "-150"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/NoiseStart",
+        "data": 50000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "50"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/NoiseStop",
+        "data": 250000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "250"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/PNFreq",
+        "data": [
+          1000,
+          10000,
+          100000,
+          1000000
+        ],
+        "dimensions": [
+          4,
+          1
+        ],
+        "timestamp": null,
+        "data_entry": "[1e-3;0.01;0.1;1]"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/PNIndex",
+        "data": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "dimensions": [
+          4
+        ],
+        "timestamp": null,
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/PNPwr",
+        "data": [
+          1e-07,
+          1e-09,
+          1e-10,
+          3.1622776601683794e-11
+        ],
+        "dimensions": [
+          4,
+          1
+        ],
+        "timestamp": null,
+        "data_entry": "[-70;-90;-100;-105]"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/PORT",
+        "data": 2,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "2"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/POff",
+        "data": 1,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "0"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/PhOff",
+        "data": 0,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "0"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/Phase",
+        "data": 3.141592653589793,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "180"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/Pts",
+        "data": 2,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "2"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/Pwr",
+        "data": 0.001,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "0"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/R",
+        "data": 50,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "50"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/RefClk",
+        "data": "",
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": ""
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/Show",
+        "data": [
+          1
+        ],
+        "dimensions": [
+          1
+        ],
+        "timestamp": null,
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/MultiSource2/ParamSet/SrcType",
+        "data": 0,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "[0]"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/Port_3/ParamSet/PORT",
+        "data": 3,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "3"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/Port_3/ParamSet/ZO",
+        "data": 50,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "50"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/TL1/ParamSet/A",
+        "data": 0,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "0"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/TL1/ParamSet/F",
+        "data": 1000000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "1000"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/TL1/ParamSet/L",
+        "data": 0.5235987755982988,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/TL1/ParamSet/Z",
+        "data": 50,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "50"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/TL2/ParamSet/A",
+        "data": 0,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "0"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/TL2/ParamSet/F",
+        "data": 1000000000,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "1000"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/TL2/ParamSet/L",
+        "data": 0.5235987755982988,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/Example/PartList/TL2/ParamSet/Z",
+        "data": 50,
+        "dimensions": null,
+        "timestamp": null,
+        "data_entry": "50"
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/System1_Data",
+        "data": null,
+        "dimensions": null,
+        "timestamp": "1791518566",
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/System1_Data/Eqns/VarBlock/F3",
+        "data": [
+          999999999.5,
+          1000000000.5,
+          999999999.5,
+          1000000000.5
+        ],
+        "dimensions": [
+          4
+        ],
+        "timestamp": null,
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/System1_Data/Eqns/VarBlock/ID3",
+        "data": [
+          89,
+          89,
+          88,
+          88
+        ],
+        "dimensions": [
+          4
+        ],
+        "timestamp": null,
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/System1_Data/Eqns/VarBlock/IDName",
+        "data": [
+          "{1}D[(MultiSource1.Source1)],MultiSource1,TL1",
+          "{2}D[(MultiSource2.Source2)],MultiSource2,TL2",
+          "{1}D[(MultiSource1.Source1)],MultiSource1,TL1,Attn1",
+          "{2}D[(MultiSource2.Source2)],MultiSource2,TL2,Attn1",
+          "{1}D[(MultiSource1.Source1)],MultiSource1",
+          "{2}D[(MultiSource2.Source2)],MultiSource2,TL2,TL1",
+          "{2}D[(MultiSource2.Source2)],MultiSource2",
+          "{1}D[(MultiSource1.Source1)],MultiSource1,TL1,TL2"
+        ],
+        "dimensions": [
+          8
+        ],
+        "timestamp": null,
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/System1_Data/Eqns/VarBlock/IDNo",
+        "data": [
+          86,
+          87,
+          88,
+          89,
+          90,
+          91,
+          92,
+          93
+        ],
+        "dimensions": [
+          8
+        ],
+        "timestamp": null,
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/System1_Data/Eqns/VarBlock/P3",
+        "data": [
+          0.00014054566929143548,
+          0.00014054566929143516,
+          0.0001405456692914352,
+          0.00014054566929143516
+        ],
+        "dimensions": [
+          4
+        ],
+        "timestamp": null,
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/System1_Data/Eqns/VarBlock/RFElemList",
+        "data": [
+          "Attn1",
+          "TL1",
+          "TL2"
+        ],
+        "dimensions": [
+          3
+        ],
+        "timestamp": null,
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/System1_Data/Eqns/VarBlock/RFPwrIn",
+        "data": [
+          0.0017777777261943082,
+          0.0017777777300862824,
+          0.001777777730086282
+        ],
+        "dimensions": [
+          3
+        ],
+        "timestamp": null,
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/System1_Data/Eqns/VarBlock/V3",
+        "data": [
+          -0.10266900793941341,
+          0.0592759788414108,
+          -0.10266900790837633,
+          0.05927597889516825,
+          0.10266900793941332,
+          -0.05927597884141075,
+          0.10266900790837634,
+          -0.0592759788951682
+        ],
+        "dimensions": [
+          8
+        ],
+        "timestamp": null,
+        "data_entry": null
+      },
+      {
+        "path": "RFModel_PhaseCombiner/Phase Prj/System1_Data/Eqns/VarBlock/Z3",
+        "data": [
+          49.99999975000001,
+          -9.442590087096816e-16,
+          49.999999749999965,
+          -1.275412750872359e-15,
+          49.99999975000001,
+          -9.442590087096816e-16,
+          49.999999749999965,
+          -1.275412750872359e-15
+        ],
+        "dimensions": [
+          8
+        ],
+        "timestamp": null,
+        "data_entry": null
+      }
+    ],
+    "locked": false,
+    "second_phase_deg": 180.0,
+    "line_length_rad": 0.5235987755982988,
+    "raw_capture_sha256": "b39071ee2f90187fa7a9a08a66462158b40442d215ea604dd4cd47c7fd039abb",
+    "source_workspace_sha256": "0116ade3cd94d3e286c68424f5450bfff74f926a398d93c0155247cd05dc9156",
+    "systemvue_version": "2023.0.0.11903",
+    "workspace_hash_scope": "on_disk_source_copy_at_archive_time"
+  }
+]

@@ -120,6 +120,7 @@ public static class ReferenceWorkspaceInspector
         public string data_entry;
         public string data_source;
         public string evaluation_error;
+        public Dictionary<string, object> analysis_settings;
     }
 
     private static void Visit(GENESYS.IItem item, string path, int depth, List<Node> nodes)
@@ -145,6 +146,17 @@ public static class ReferenceWorkspaceInspector
         for (int index = 0; index < variables.Length; ++index)
         {
             string name = item.GetVarName(index);
+            if (path.EndsWith("/System1") &&
+                (name == "CoherentIM" || name == "ShowTotals" || name == "CalcNoise" ||
+                 name == "CalcHarmonics" || name == "CalcIntermods" || name == "PhaseNoise" ||
+                 name == "UseSourcePts" || name == "NeedRun" || name == "AutoCalc"))
+            {
+                if (node.analysis_settings == null)
+                {
+                    node.analysis_settings = new Dictionary<string, object>();
+                }
+                node.analysis_settings[name] = item.GetVarValue(index);
+            }
             if (name == "DataEntry")
             {
                 node.data_entry = Convert.ToString(item.GetVarValue(index));
@@ -384,7 +396,8 @@ public static class ReferenceWorkspaceInspector
                             RunStartedUtc = DateTime.UtcNow.ToString("o");
                             Console.Error.WriteLine("phase: run-analysis " + RunStartedUtc);
                             string analysis = coherent
-                                ? "wsdoc.GetItemByName(\"Phase Prj\").System1.RunAnalysis()\r\n"
+                                ? "wsdoc.GetItemByName(\"Phase Prj\").System1.ClearModelCache()\r\n" +
+                                  "wsdoc.GetItemByName(\"Phase Prj\").System1.RunAnalysis()\r\n"
                                 : antenna
                                 ? "wsdoc.GetItemByName(\"RF Design\").GetItemByName(\"System1\").RunAnalysis()\r\n"
                                 : "wsdoc.Designs.System1.RunAnalysis()\r\n";

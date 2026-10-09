@@ -1,87 +1,114 @@
-# SystemVue 2023 双源相干合路参考
+# SystemVue 2023 双源相干网络参考
 
-## 当前证据
+本机 SystemVue 2023.0.0.11903 已完成两类采集：早期 30 rad 传输线的同相基准，
+以及新增 pi/6 rad、共时钟/独立时钟各 0°、90°、180° 的六组扫描。
 
-2026-10-09 从本机 SystemVue 2023.0.0.11903 官方
-RF Design Kit/Phase/Spectrum Phase.wsv 复制到项目 build-reference，
-通过既有后台 COM/RunScript 接口执行。原安装文件未改动。
-上一专用放大器工作区先 SaveAs 到新备份文件，再关闭；切换时确认实例中仅有指定副本。
+**新增扫描的路径复幅度和源时钟相干关系通过，但 RFPwrIn 比较有五组失败。**
+这说明此前同相一点的吻合不能证明 RFPwrIn 与相干合路驱动功率普遍等价。
+不修改 RFModel 数值模型、不放宽容差，也不把已知差异标记成兼容通过。
 
-电路保留示例原有连接：两个 MultiSource 各经过一条 TLE，在同一节点连接，
-再经过 5 dB ATTN_Linear 到 50 ohm 输出。三端节点按等参考阻抗理想 tee 建模，
-对角 S=-1/3、非对角 S=2/3。这里没有 SPLIT2 或 HYBRID 器件，
-不能据此验收其有限隔离、默认相位或不平衡参数。
+## 参考电路与参数
 
-本轮成功记录只有一个配置：
-- 两路均为 1 GHz、0 dBm CW，源相位均为 0；
-- 两路 RefClk 都为 RFModelClock，参考结果中的相干编号相同；
-- 两条线均为 50 ohm、无损，电长度 **30 rad**，标定频率 1 GHz；
-- 衰减器输入输出及源/负载阻抗均为 50 ohm。
+参考副本为 build-reference/RFModel_PhaseCombiner.wsv，来自官方
+RF Design Kit/Phase/Spectrum Phase.wsv。该电路是两个 MultiSource，
+各经过 TLE 后通过理想三端 tee 合路，再经过 5 dB 匹配衰减器到 Port_3；
+不是 SPLIT/HYBRID 器件的完整参考。
 
-30 rad 是采集后由参数回读确认的实际配置，不是 30 度。官方例子中的 TLE 长度
-为可调参数，Set 后直接存储原生弧度；普通源 Phase.Set 则以显示角度解析。
-检查器强制比对原生参数值，不把意图当成生效参数。
-运行器新增 --coherent-length-rad 明确这一单位，默认 pi/6，重放本记录要传 30。
+两源均为 1 GHz、0 dBm CW，50 ohm，Phase 为 0°/扫描相位。源的 BW 参数回读
+为 1 MHz，实际 CW 输出以中心频率 ±0.5 Hz 两个边界点表示。RefClk 同为
+RFModelClock 时实测相干编号相同；两个 RefClk 为空时编号不同。
+两条线均为 50 ohm、无损、1 GHz 标定，电长度回读为 pi/6 rad。
+早期基准的实际长度为 30 rad，仍独立保存，没有改写成 30 度。
 
-## 比较范围与结果
+TLE 可调参数 L.Set 以原生弧度存储；普通源 Phase.Set 以显示角度解析。
+归档器核对命令、参数回读、数据集新鲜度、版本和来源 ID，不把设置意图当成
+参数已生效的证据。
 
-compare-coherent-network.py 使用 RFModel 的 Network.transmit_coherent，
-构造两条线、三端 tee 和衰减器的完整连接网络。全局端口刻意乱序选择，
-每路单独激励以验证来源项的复幅度，再共同激励以验证合并功率。
+## 路径复幅度和相干关系
 
-两个来源分别导出 CW 上下边界的 V3/Z3/P3，检查输出阻抗接近实 50 ohm、
-峰值电压与功率一致，然后转换为 sqrt(W) 功率波。RFModel 在中心频率建模；
-边界距中心为 0.5 Hz，30 rad 传输线引起的小相位变化包含在原 1e-7 容差内。
+比较器为每个来源构建两条线、三端 tee 和衰减器的完整 RFModel 网络。
+由 SystemVue V3/Z3 还原 sqrt(W) 波幅，先检查其与 P3 自洽，再比较原生预测。
+预测来源组由 RFModel 源/参考时钟解析器生成，不使用 SystemVue 编号作为输入。
 
-- 四个边界复幅度比较最大相对差异 1.90636e-8；
-- 合路后衰减器输入 RFPwrIn(Attn1) 为 0.0017777777412593342 W；
-- RFModel 为 0.0017777777777777776 W，绝对差异 3.65185e-11 W，
-  小于相对 1e-7 所对应的 1.77778e-10 W。
+六组、两来源、两个 CW 边界共 24 个复幅度比较全部满足原有相对 1e-7 阈值，
+最大相对误差约 1.645e-8。六组时钟关系也全部符合。相位旋转是实测电压变化，
+没有用功率数据反推相位；不同软件的编号数值不需要相等，只比较分组关系。
 
-RFPwrIn 是参考软件独立导出的合并 RF 输入功率，未从待比较的预测值反推。
-本轮没有启用节点总谱，未将两个路径功率直接相加冒充相干合并后的测量值。
-输出功率波预测及输入功率检查分别保留在报告中。
+## RFPwrIn 的已观察差异
 
-精简采集 validation/systemvue-2023-coherent-network-captures.json 保存参数、
-频率/功率/复电压/复阻抗/相干编号、数据集时间戳、原始采集 SHA256 和工作区
-文件 SHA256。比较器拒绝过期或重复记录、错误版本、模式/相位/长度不匹配、
-编码错误和时钟关系与实测相干编号不一致的输入。
-报告 validation/systemvue-2023-coherent-network.json 另存采集文件与原生 DLL 散列。
+官方本机帮助 sim/Spectrasys_Total_RF_Power_Entering_a_Part.html 将 RFPwrIn
+定义为所有器件端口上进入器件的总 RF 功率。原先将它直接解释为相干合路驱动
+的证据不足；这次扫描显示它在下述配置间几乎不变：
 
-    python scripts/reference/compare-coherent-network.py build-msvc/Release/rfmodel_c.dll validation/systemvue-2023-coherent-network-captures.json build-reference/coherent-network-report.json
+| 时钟 | 源 2 相位 | RFModel 合并功率 W | SystemVue RFPwrIn(Attn1) W | 比较 |
+|---|---:|---:|---:|---|
+| 共时钟 | 0° | 0.001777777778 | 0.001777777726 | 通过 |
+| 共时钟 | 90° | 0.000888888889 | 0.001777777726 | 不通过 |
+| 共时钟 | 180° | 近零 | 0.001777777726 | 不通过 |
+| 独立 | 0° | 0.000888888889 | 0.001777777726 | 不通过 |
+| 独立 | 90° | 0.000888888889 | 0.001777777726 | 不通过 |
+| 独立 | 180° | 0.000888888889 | 0.001777777726 | 不通过 |
 
-## 后台重放与错误恢复
+沿用相对 1e-7 / 绝对 1e-15 W 下限，不作拟合。各来源传播相位与时钟 ID 均正确，
+因此不能用“相位或时钟未设置成功”解释这些结果。
 
-    python scripts/reference/run-systemvue-reference.py coherent build-reference/RFModel_PhaseCombiner.wsv build-reference/coherent-new-run --coherent-locked --coherent-phase-deg 0 --coherent-length-rad 30
+对独立时钟 180° 另行调用官方对象公开的 ClearModelCache 后重算，仍有同样差异。
+同时回读 CoherentIM=1、ShowTotals=0、CalcNoise=0、NeedRun=0。
+该控制实验不支持“旧模型缓存未更新”这个解释，但尚不能确定 RFPwrIn 内部语义
+或其他分析配置的具体影响；不据此断言厂商算法有错。
 
-输出目录必须全新；工作区应为同名官方示例副本，且为该实例唯一打开的工作区。
-仅在实例没有工作区时添加 --open-copy。独立时钟省略 --coherent-locked；
-源 2 相位由 --coherent-phase-deg 控制。不得在前一采集仍在运行时再次提交。
+官方 Composite_Spectrum_Tab.html 说明 Show Totals 显示节点各方向的总谱。
+仍需成功采集方向总谱或另一独立总功率测量，才能对反相抵消做厂商测量验收。
+当前相位扫描**不代表合并功率通过**。
 
-尝试修正长度并开启总谱时，新增 SetValue/SetProperty 调用触发了
-“Error Running Script”模态提示；尚未读取到具体报错，不能确定两者中是哪一处。
-该次运行目录 coherent-locked-phase0-003 为 timeout_unresolved，**不作为验收数据**。
-代码已撤回这两种调用，改回成功使用过的 Set 字符串形式，并离线编译检查。
-修正版尚需在错误提示解除后重新实际采集，不能只凭离线编译宣称恢复成功。
-电脑操作运行时遇到 Windows sandbox setup refresh 错误，因此已请用户提供提示内容
-并关闭错误提示；没有强制终止 SystemVue 或重启仍存活的采集任务。
+## 数据、报告与重放
+
+- 早期同相基准：validation/systemvue-2023-coherent-network-captures.json。
+- 新六组扫描：validation/systemvue-2023-coherent-phase-scan-captures.json。
+- 清缓存控制：validation/systemvue-2023-coherent-cache-control-captures.json。
+- 对应后两份报告为同名去掉 -captures 的 JSON；其 passed=false，
+  path_wave_and_clock_relation_passed=true，rfpwrin_agreement_passed=false。
+
+采集保留原始数据 SHA256、参数、频率/功率/电压/阻抗、相干编号与时间戳。
+source_workspace_sha256 明确是归档时磁盘上的源工作区副本散列，不是内存中
+修改参数后的整个工作区快照。数值报告另保留归档文件和 DLL 的 SHA256。
+
+```powershell
+python scripts/reference/run-systemvue-reference.py coherent build-reference/RFModel_PhaseCombiner.wsv build-reference/coherent-new-run --coherent-locked --coherent-phase-deg 90 --coherent-length-rad 0.5235987755982988
+python scripts/reference/archive-coherent-captures.py build-reference/coherent-new-run --workspace build-reference/RFModel_PhaseCombiner.wsv --systemvue-version 2023.0.0.11903 --output build-reference/one-capture.json
+python scripts/reference/compare-coherent-network.py build-msvc/Release/rfmodel_c.dll validation/systemvue-2023-coherent-phase-scan-captures.json build-reference/phase-scan-report.json
+```
+
+最后一条命令目前应返回 1，表示保留了真实比较失败，不能作为“已通过”执行。
+归档工具只接受已正常结束的采集，且要求命令显式给出相位和线长；独立时钟省略
+--coherent-locked。比较器仍拒绝过期、重复、错误模式及相干编号矛盾的数据。
+
+12 项比较/归档回归覆盖基准、已观察差异、缓存控制、篡改波幅、错误分组、
+不完整采集和命令/回读不一致。CI 通过表示这些验证工具和既有模型回归通过，
+**不表示五项测量差异消失**。
+
+## 后台恢复与当前阻塞
+
+旧 coherent-locked-phase0-003 在 2026-10-09 03:55:56 UTC 返回，随后因没有
+新鲜数据集而失败；原采集进程已退出。只读 COM 探针确认唯一专用参考工作区
+可用后才启动新运行。修正后的 Set 字符串采集成功完成六组扫描及缓存控制。
+
+随后仅为启用总谱加入 SetProperty("ShowTotals", CByte(1))，使用 VBScript Call
+语法，仍触发 Error Running Script。该次目录
+coherent-locked-phase180-totals-001 为 timeout_unresolved；采集进程仍等待对话框，
+不属于任何验收数据。具体错误文字仍待读取，不能猜测其原因。
+该调用已从脚本撤回；已实际成功的 ClearModelCache 与分析设置回读保留。
+
+电脑操作运行时再次因 Windows sandbox setup refresh 错误无法初始化，已请用户
+提供错误文字并关闭提示。没有强制终止 SystemVue，也没有重复提交仍在运行的采集。
 
 ## 待完成
 
-1. 共时钟 90/180 度及独立时钟 0/90/180 度扫描；
+1. 获取可独立验证相干相消的方向总谱/总功率，并解释 RFPwrIn 差异；
 2. 单源真实功分后经过不同支路再合路的实测；
-3. SPLIT/HYBRID 全复数矩阵、有限隔离和阻抗参数；
-4. 自动时钟/相干 ID 推导，以及第二非线性级和变频联合传播。
+3. SPLIT/HYBRID 全复数矩阵、有限隔离与阻抗参数；
+4. 非线性产物及 Mixer 相干传播的实测，而不仅是原生/系统图解析回归。
 
-新增比较器 6 项回归覆盖真实数据、相位翻转仍保持功率、篡改合并功率、
-错误相干编号、过期/重复数据以及元数据/复杂数组错误。
-本阶段不是完整分支相干或 RF System Analysis 兼容验收。
-
-2026-10-09 本地全套 CTest：Debug/Release 各 62/62；后台运行器 12 项回归通过，修正版 C# 采集器离线编译通过。原生 C++/C API 本轮未改动，沿用上一提交已验证的安装包；跨平台结果以本阶段 CI 为准。
-
-## 源时钟分组扩展
-
-后续比较器已改用 RFModel 原生源/参考时钟解析器生成输入组，不再把 SystemVue
-相干编号作为预测输入。以实测编号核对源关系等价性，并继续比较同一批路径复幅度
-和 RFPwrIn；详见 source-coherence.md。这是对已有一组数据的更强验证，
-没有增加独立时钟或反相实测点。比较器现有 7 项回归，新增错误原生分组的失败测试。
+本阶段本地 CTest Debug/Release 各 66/66 通过；比较/归档 12 项、后台运行器
+12 项单元回归通过。原生库、Python 绑定与数值容差均未改动。新扫描和缓存
+控制报告仍为未通过；远端 CI 只用于工程回归，不替代该兼容性结论。

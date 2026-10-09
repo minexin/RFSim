@@ -184,10 +184,14 @@ def compare(library, captures):
         reports.append({"locked": capture["locked"], "second_phase_deg": phase,
                         "line_length_rad": length, "raw_capture_sha256": capture["raw_capture_sha256"],
                         "checks": checks})
-    return {"scope": "Two-source TLE/tee/attenuator, output path waves and merged attenuator RF drive",
+    return {"scope": "Two-source TLE/tee/attenuator: path waves, clock relations and a separate RFPwrIn comparison",
             "relative_tolerance": 1e-7, "cancellation_absolute_tolerance_w": 1e-15,
             "coherency_assignment": "Native source/reference-clock resolver; compare relations, not numeric IDs",
-            "limitation": "No nonlinear/LO coherence propagation or split-source fixture",
+            "path_wave_and_clock_relation_passed": all(
+                c["passed"] for r in reports for c in (r["checks"][0], r["checks"][1], r["checks"][3])),
+            "rfpwrin_agreement_passed": all(r["checks"][2]["passed"] for r in reports),
+            "limitation": "This reference does not validate nonlinear/LO propagation or a split-source fixture; "
+                          "RFPwrIn is a separately compared measurement, not assumed equivalent to coherent drive",
             "reports": reports, "passed": all(c["passed"] for r in reports for c in r["checks"])}
 
 
