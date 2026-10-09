@@ -103,6 +103,14 @@ class CoherentComponent(NamedTuple):
     amplitude: complex
 
 
+class CoherentMixerInput(NamedTuple):
+    component: CoherentComponent
+    lo_bin: int
+    conversion_gain_db: float
+    lo_phase_radians: float
+    lo_coherence_group: int
+
+
 class PortCoherentComponent(NamedTuple):
     input_port: int
     component: CoherentComponent
@@ -117,6 +125,12 @@ class CoherentReduction(NamedTuple):
 class _CoherentComponent(ct.Structure):
     _fields_ = [("index", ct.c_int), ("kind", ct.c_int), ("bandwidth_hz", ct.c_double),
                 ("coherence_group", ct.c_uint64), ("amplitude", _Complex)]
+
+
+class _CoherentMixerInput(ct.Structure):
+    _fields_ = [("component", _CoherentComponent), ("lo_index", ct.c_int),
+                ("conversion_gain_db", ct.c_double), ("lo_phase_radians", ct.c_double),
+                ("lo_coherence_group", ct.c_uint64)]
 
 
 class _PortCoherentComponent(ct.Structure):
@@ -219,6 +233,9 @@ class Library:
         size = ct.c_size_t
         complex_pointer = ct.POINTER(_Complex)
         signatures = {
+            "rfmodel_mix_coherent_components": (
+                ct.c_int, [ct.c_double, ct.POINTER(_CoherentMixerInput), size, ct.c_uint64,
+                           ct.POINTER(_CoherentComponent), size, ct.POINTER(size)]),
             "rfmodel_assign_source_coherence": (
                 ct.c_int, [ct.POINTER(_SourceCoherence), size, ct.POINTER(ct.c_uint64), size]),
             "rfmodel_reduce_coherent_components": (
@@ -444,6 +461,34 @@ class Library:
         for component in output[:count.value]:
             families[component.order - 1][component.index] = component.amplitude.value()
         return LimitedAmplifierResponse(*families, drive.total_input_power_w, drive.limited_input_power_w)
+
+    def mix_coherent_components(self, spacing_hz, inputs, *, reserved_group_max=0):
+        """Convert parallel RF branches; return [difference, sum] per input without merging."""
+        inputs = tuple(inputs)
+        if len(inputs) > 2048:
+            raise ValueError("Expected at most 2048 mixer inputs")
+
+        def group_id(value, minimum):
+            if isinstance(value, bool):
+                raise TypeError("Coherence group must be an integer, not bool")
+            value = operator.index(value)
+            if not minimum <= value <= 18446744073709551615:
+                raise ValueError("Coherence group outside uint64 range")
+            return value
+
+        reserved = group_id(reserved_group_max, 0)
+        incident = (_CoherentMixerInput * len(inputs))(*[
+            _CoherentMixerInput(_coherent_component(value.component), _bin(value.lo_bin),
+                                value.conversion_gain_db, value.lo_phase_radians,
+                                group_id(value.lo_coherence_group, 1))
+            for value in inputs])
+        output = (_CoherentComponent * (2 * len(inputs)))()
+        count = ct.c_size_t()
+        self._check(self._dll.rfmodel_mix_coherent_components(
+            spacing_hz, incident, len(incident), reserved, output, len(output), ct.byref(count)))
+        return tuple(CoherentComponent(c.index, SpectrumKind(c.kind), c.bandwidth_hz,
+                                       c.coherence_group, c.amplitude.value())
+                     for c in output[:count.value])
 
     def assign_source_coherence(self, sources):
         """Resolve source/reference-clock relationships; IDs are local to this source set."""

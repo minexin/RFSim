@@ -1,3 +1,4 @@
+#include <rfmodel/coherent_mixer.hpp>
 #include <rfmodel/source_coherence.hpp>
 #include <rfmodel/coherent_network.hpp>
 #include <rfmodel/coherence.hpp>
@@ -21,6 +22,12 @@
 #include <rfmodel/term_propagation.hpp>
 
 int main() {
+    const auto mixed = rfmodel::mix_coherent_components(
+        1e8, {{{10, rfmodel::SpectrumKind::source, 1., 7, 1.}, 8, 0., 0., 9}});
+    if (mixed.size() != 2 || mixed[0].bin != 2 || mixed[1].bin != 18 ||
+        std::abs(mixed[0].amplitude - 1.) > 1e-12 || mixed[0].coherence_group <= 9) {
+        return 28;
+    }
     const auto source_groups = rfmodel::assign_source_coherence({{"a", "clock"}, {"b", "clock"}});
     if (source_groups.size() != 2 || source_groups[0] != source_groups[1] ||
         source_groups[0] == 0) {

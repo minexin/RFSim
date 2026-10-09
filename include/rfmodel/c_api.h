@@ -65,6 +65,31 @@ typedef struct rfmodel_coherent_component {
     rfmodel_complex amplitude;
 } rfmodel_coherent_component;
 
+typedef struct rfmodel_coherent_mixer_input {
+    rfmodel_coherent_component component;
+    int lo_index;
+    double conversion_gain_db;
+    double lo_phase_radians;
+    uint64_t lo_coherence_group;
+} rfmodel_coherent_mixer_input;
+
+/* Prescribed noiseless CW LOs, equal positive real RF/IF reference resistances.
+ * Batch all parallel branches (<=2048). Output is exactly 2*input_count:
+ * [difference, sum] per input, including zero waves. Kind/bandwidth are retained.
+ * Equal (RF group, LO group) pairs share new IDs above every input/LO ID and
+ * reserved_group_max. Reserve bypass group IDs there before later combination.
+ * IDs are local to this batch; never combine separately assigned batch outputs.
+ * RF/LO equality (DC), bands crossing DC, invalid/overflowed values are errors.
+ * NULL arrays are valid for empty input; output_count is always required.
+ * Buffers/scalars must not overlap. All outputs remain unchanged on failure. */
+RFMODEL_API int rfmodel_mix_coherent_components(double spacing_hz,
+                                                const rfmodel_coherent_mixer_input *input,
+                                                size_t input_count,
+                                                uint64_t reserved_group_max,
+                                                rfmodel_coherent_component *output,
+                                                size_t output_capacity,
+                                                size_t *output_count);
+
 typedef struct rfmodel_bin_power {
     int index;
     double power_w;

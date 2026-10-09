@@ -1,3 +1,4 @@
+#include "rfmodel/coherent_mixer.hpp"
 #include "rfmodel/source_coherence.hpp"
 #include "rfmodel/coherent_network.hpp"
 #include "rfmodel/coherence.hpp"
@@ -137,6 +138,45 @@ void write_coherence(const rfmodel::CoherentReduction &result,
 } // namespace
 
 extern "C" {
+int rfmodel_mix_coherent_components(double spacing_hz,
+                                    const rfmodel_coherent_mixer_input *input,
+                                    size_t input_count,
+                                    uint64_t reserved_group_max,
+                                    rfmodel_coherent_component *output,
+                                    size_t output_capacity,
+                                    size_t *output_count) {
+    return guarded([&] {
+        require(input_count <= 2048 && output_count && output_capacity >= 2 * input_count);
+        require(input_count == 0 || (input && output));
+        std::vector<rfmodel::CoherentMixerInput> components;
+        components.reserve(input_count);
+        for (size_t i = 0; i < input_count; ++i) {
+            const auto &entry = input[i];
+            const auto &c = entry.component;
+            components.push_back({{c.index,
+                                   static_cast<rfmodel::SpectrumKind>(c.kind),
+                                   c.bandwidth_hz,
+                                   c.coherence_group,
+                                   {c.amplitude.real, c.amplitude.imag}},
+                                  entry.lo_index,
+                                  entry.conversion_gain_db,
+                                  entry.lo_phase_radians,
+                                  entry.lo_coherence_group});
+        }
+        const auto result =
+            rfmodel::mix_coherent_components(spacing_hz, components, reserved_group_max);
+        for (size_t i = 0; i < result.size(); ++i) {
+            const auto &c = result[i];
+            output[i] = {c.bin,
+                         static_cast<int>(c.kind),
+                         c.bandwidth_hz,
+                         c.coherence_group,
+                         {c.amplitude.real(), c.amplitude.imag()}};
+        }
+        *output_count = result.size();
+    });
+}
+
 int rfmodel_assign_source_coherence(const rfmodel_source_coherence *sources,
                                     size_t count,
                                     uint64_t *groups,

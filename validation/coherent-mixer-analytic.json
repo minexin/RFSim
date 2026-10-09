@@ -1,0 +1,79 @@
+{
+  "format": "rfmodel.analytic-validation",
+  "version": 1,
+  "generated_utc": "2026-10-09T03:44:14.096823+00:00",
+  "scope": "Ideal coherent RF/LO mixing followed by a matched three-port combiner",
+  "basis": "Analytic expectation; not a SystemVue measurement",
+  "rerun": "PYTHONPATH=python python examples/coherent-image-rejection.py <native-library>",
+  "native_library_sha256": "bab8dec3b7eed55c3f84566004bcde41a569bfa23ae60c359c7e2f0e5f6cfdd2",
+  "parameters": {
+    "spacing_hz": 100000000.0,
+    "rf_bin": 10,
+    "lo_bin": 8,
+    "rf_power_per_branch_w": 1.0,
+    "rf_phase_degrees": [
+      0.0,
+      90.0
+    ],
+    "lo_phase_degrees": [
+      0.0,
+      90.0
+    ],
+    "conversion_gain_db": 0.0,
+    "combiner_arm_power_gain": 0.5
+  },
+  "checks": [
+    {
+      "case": "locked_lo",
+      "measurement": "difference_200MHz_w",
+      "expected_w": 2.0,
+      "observed_w": 1.9999999999999996,
+      "absolute_tolerance_w": 1e-12,
+      "passed": true
+    },
+    {
+      "case": "locked_lo",
+      "measurement": "sum_1800MHz_w",
+      "expected_w": 0.0,
+      "observed_w": 1.8746997283273213e-33,
+      "absolute_tolerance_w": 1e-28,
+      "passed": true
+    },
+    {
+      "case": "independent_lo",
+      "measurement": "difference_200MHz_w",
+      "expected_w": 1.0,
+      "observed_w": 0.9999999999999998,
+      "absolute_tolerance_w": 1e-12,
+      "passed": true
+    },
+    {
+      "case": "independent_lo",
+      "measurement": "sum_1800MHz_w",
+      "expected_w": 1.0,
+      "observed_w": 0.9999999999999998,
+      "absolute_tolerance_w": 1e-12,
+      "passed": true
+    }
+  ],
+  "local_msvc_validation": {
+    "Debug": {
+      "ctest_total": 65,
+      "ctest_failures": 0,
+      "installed_consumers_passed": 2
+    },
+    "Release": {
+      "ctest_total": 65,
+      "ctest_failures": 0,
+      "installed_consumers_passed": 2
+    }
+  },
+  "wheel_python_tests_passed": 60,
+  "limitations": [
+    "No SystemVue mixer measurement yet",
+    "No solved LO port or LO drive power",
+    "No DC coherent components",
+    "No mixer noise, spurs or compression",
+    "Parallel coherent branches require one batch; no global provenance registry"
+  ]
+}

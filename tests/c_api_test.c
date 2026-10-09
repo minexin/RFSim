@@ -22,6 +22,37 @@ int main(int argc, char **argv) {
     double residual = -1;
     CHECK(rfmodel_abi_version() == 1);
     {
+        rfmodel_coherent_mixer_input input[] = {
+            {{10, RFMODEL_SPECTRUM_SOURCE, 1., 7, {1., 0.}}, 8, 0., 0., 9},
+            {{10, RFMODEL_SPECTRUM_SOURCE, 1., 7, {0., 1.}}, 8, 0., 1.5707963267948966, 9}};
+        rfmodel_coherent_component output[4] = {{99, 0, 9., 9, {9., 0.}}};
+        rfmodel_coherent_component before[4];
+        size_t produced = 99;
+        memcpy(before, output, sizeof(output));
+        CHECK(rfmodel_mix_coherent_components(1e8, input, 2, 100, output, 3, &produced) ==
+              RFMODEL_INVALID_ARGUMENT);
+        CHECK(produced == 99 && memcmp(before, output, sizeof(output)) == 0);
+        input[1].lo_index = 10;
+        CHECK(rfmodel_mix_coherent_components(1e8, input, 2, 100, output, 4, &produced) ==
+              RFMODEL_INVALID_ARGUMENT);
+        CHECK(produced == 99 && memcmp(before, output, sizeof(output)) == 0);
+        input[1].lo_index = 8;
+        CHECK(rfmodel_mix_coherent_components(1e8, input, 2, UINT64_MAX, output, 4, &produced) ==
+              RFMODEL_SOLVER_ERROR);
+        CHECK(produced == 99 && memcmp(before, output, sizeof(output)) == 0);
+        CHECK(rfmodel_mix_coherent_components(1e8, input, 2, 100, output, 4, &produced) ==
+              RFMODEL_OK);
+        CHECK(produced == 4 && output[0].index == 2 && output[1].index == 18);
+        CHECK(output[0].coherence_group == output[3].coherence_group &&
+              output[0].coherence_group > 100);
+        CHECK(fabs(output[2].amplitude.real - 1.) < 1e-12 &&
+              fabs(output[3].amplitude.real + 1.) < 1e-12);
+        CHECK(rfmodel_mix_coherent_components(1., NULL, 0, 0, NULL, 0, &produced) == RFMODEL_OK);
+        CHECK(produced == 0);
+        CHECK(rfmodel_mix_coherent_components(1., NULL, 0, 0, NULL, 0, NULL) ==
+              RFMODEL_INVALID_ARGUMENT);
+    }
+    {
         rfmodel_source_coherence sources[] = {{"a", "clock"}, {"b", "clock"}, {"clock", NULL}};
         uint64_t groups[3] = {777, 888, 999};
         CHECK(rfmodel_assign_source_coherence(sources, 3, groups, 2) == RFMODEL_INVALID_ARGUMENT);

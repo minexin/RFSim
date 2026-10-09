@@ -3,6 +3,18 @@
 
 int main(int argc, char **argv) {
     {
+        const rfmodel_coherent_mixer_input input = {
+            {3, RFMODEL_SPECTRUM_SOURCE, 1., 7, {0., 1.}}, 8, 0., 1.5707963267948966, 9};
+        rfmodel_coherent_component output[2];
+        size_t produced = 0;
+        if (rfmodel_mix_coherent_components(1., &input, 1, 0, output, 2, &produced) != RFMODEL_OK ||
+            produced != 2 || output[0].index != 5 || output[1].index != 11 ||
+            fabs(output[0].amplitude.real - 1.) > 1e-12 ||
+            fabs(output[1].amplitude.real + 1.) > 1e-12 || output[0].coherence_group <= 9) {
+            return 28;
+        }
+    }
+    {
         const rfmodel_source_coherence sources[] = {{"a", "clock"}, {"clock", NULL}};
         uint64_t groups[2];
         if (rfmodel_assign_source_coherence(sources, 2, groups, 2) != RFMODEL_OK ||

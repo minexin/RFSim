@@ -28,6 +28,48 @@ class PythonApiTests(unittest.TestCase):
     def setUpClass(cls):
         cls.library = Library(LIBRARY_PATH)
 
+    def test_coherent_mixer_clock_phase_and_network_combination(self):
+        source = rfmodel.SourceCoherence
+        rf_group, lo_group, other_lo = self.library.assign_source_coherence(
+            [source("rf"), source("lo"), source("other-lo")])
+        c = rfmodel.CoherentComponent(10, rfmodel.SpectrumKind.SOURCE, 1., rf_group, 1.)
+        branch = rfmodel.CoherentMixerInput
+        inputs = [branch(c, 8, 0., 0., lo_group),
+                  branch(c._replace(amplitude=1j), 8, 0., math.pi / 2, lo_group)]
+
+        def combine(inputs):
+            waves = self.library.mix_coherent_components(1e8, inputs, reserved_group_max=100)
+            self.assertEqual([v.bin for v in waves], [2, 18, 2, 18])
+            self.assertTrue(all(v.coherence_group > 100 for v in waves))
+            with self.library.network() as network:
+                k = 1 / math.sqrt(2)
+                network.add([[0, 0, k], [0, 0, k], [k, k, 0]])
+                return network.transmit_coherent(
+                    spacing_hz=1e8,
+                    components=[rfmodel.PortCoherentComponent(i // 2, wave)
+                                for i, wave in enumerate(waves)],
+                    external_ports=[2, 0, 1], output_port=2)
+
+        coherent = combine(inputs)
+        self.assertAlmostEqual(coherent.power_by_bin_w[2], 2.)
+        self.assertLess(coherent.power_by_bin_w[18], 1e-28)
+        inputs[1] = inputs[1]._replace(lo_coherence_group=other_lo)
+        independent = combine(inputs)
+        self.assertAlmostEqual(independent.power_by_bin_w[2], 1.)
+        self.assertAlmostEqual(independent.power_by_bin_w[18], 1.)
+        self.assertEqual(self.library.mix_coherent_components(1., []), ())
+        for changes in ({"lo_bin": 10}, {"lo_bin": 0}, {"lo_bin": True},
+                        {"lo_bin": 2**31}, {"lo_coherence_group": 0},
+                        {"lo_coherence_group": 2**64}, {"lo_coherence_group": True},
+                        {"lo_phase_radians": float("nan")}):
+            with self.subTest(changes=changes), self.assertRaises((RFModelError, ValueError, TypeError)):
+                self.library.mix_coherent_components(1e8, [inputs[0]._replace(**changes)])
+        for reserved in (-1, True, 2**64, 2**64 - 1):
+            with self.subTest(reserved=reserved), self.assertRaises((RFModelError, ValueError, TypeError)):
+                self.library.mix_coherent_components(1e8, inputs, reserved_group_max=reserved)
+        with self.assertRaises(ValueError):
+            self.library.mix_coherent_components(1e8, [inputs[0]] * 2049)
+
     def test_source_clock_assignment_and_utf8_validation(self):
         source = rfmodel.SourceCoherence
         definitions = [source("a", "参考"), source("b", "参考"), source("参考"), source("other")]
