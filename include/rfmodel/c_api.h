@@ -240,9 +240,17 @@ typedef struct rfmodel_saturating_amplifier_parameters {
     int include_output_drive; /* Exactly 0 or 1; input port always drives compression. */
 } rfmodel_saturating_amplifier_parameters;
 
+/* Real voltage polynomial c[0..11], including optional constant/DC term. */
+typedef struct rfmodel_polynomial_amplifier_parameters {
+    const double *voltage_coefficients;
+    size_t coefficient_count; /* 1..12; pointed array remains valid throughout the call. */
+    size_t input_port, output_port;
+} rfmodel_polynomial_amplifier_parameters;
+
 enum rfmodel_conversion_nonlinear_kind {
     RFMODEL_NONLINEAR_BILINEAR_MIXER = 1,
-    RFMODEL_NONLINEAR_SATURATING_AMPLIFIER = 2
+    RFMODEL_NONLINEAR_SATURATING_AMPLIFIER = 2,
+    RFMODEL_NONLINEAR_POLYNOMIAL_AMPLIFIER = 3
 };
 
 /* parameters points to the matching typed parameter struct. Unknown kinds fail.
@@ -445,6 +453,34 @@ typedef struct rfmodel_saturating_amplifier_request {
 RFMODEL_API int
 rfmodel_linearize_saturating_amplifier(const rfmodel_saturating_amplifier_request *request,
                                        const rfmodel_conversion_linearization_output *output);
+
+typedef struct rfmodel_polynomial_amplifier_request {
+    size_t count;
+    double spacing_hz, reference_ohms;
+    const size_t *physical_ports;
+    const int *bins;
+    const rfmodel_complex *operating_incident;
+    rfmodel_polynomial_amplifier_parameters model;
+} rfmodel_polynomial_amplifier_request;
+
+/* Full DC/harmonic/intermodulation support is required even at zero drive.
+ * Parameters and coefficient storage are protected from output aliasing.
+ * Same capacity/non-overlap/atomicity contract as other local linearizations. */
+RFMODEL_API int
+rfmodel_linearize_polynomial_amplifier(const rfmodel_polynomial_amplifier_request *request,
+                                       const rfmodel_conversion_linearization_output *output);
+
+/* Full local structural output bins, sorted. NULL output and zero capacity query
+ * the count. Otherwise capacity must suffice. On failure all outputs, including
+ * output_count, remain unchanged. Entire declared output ranges must be disjoint
+ * from each other and from both input arrays. Input count is 1..512. */
+RFMODEL_API int rfmodel_polynomial_output_bins(const int *input_bins,
+                                               size_t input_count,
+                                               const double *voltage_coefficients,
+                                               size_t coefficient_count,
+                                               int *output_bins,
+                                               size_t output_capacity,
+                                               size_t *output_count);
 
 typedef enum rfmodel_butterworth_response {
     RFMODEL_BUTTERWORTH_LOWPASS = 0,

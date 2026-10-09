@@ -53,35 +53,37 @@ inline SMatrix solve(SMatrix a, SMatrix b, double scale_floor = 0.) {
             b(r, col) /= a(r, r);
         }
     }
-    // Check every right-hand side against the original equations. Scale both
-    // equations and solutions before products to avoid residual overflow.
-    double equation_scale = 0., solution_scale = 1.;
+    // Per-RHS normwise backward error, with row-local equation scaling.
+    // Structural zeros may retain tiny pivoting roundoff: normalizing by only
+    // their nonzero residue incorrectly reports a relative error of one.
+    double matrix_scale = 0.;
     for (auto value : original_a.values) {
-        equation_scale = std::max(equation_scale, std::abs(value));
+        matrix_scale = std::max(matrix_scale, std::abs(value));
     }
-    for (auto value : original_b.values) {
-        equation_scale = std::max(equation_scale, std::abs(value));
-    }
-    for (auto value : b.values) {
-        if (!std::isfinite(value.real()) || !std::isfinite(value.imag())) {
-            throw std::overflow_error("parameter solution overflow");
+    for (std::size_t col = 0; col < n; ++col) {
+        double equation_scale = matrix_scale, column_scale = 0.;
+        for (std::size_t r = 0; r < n; ++r) {
+            if (!std::isfinite(b(r, col).real()) || !std::isfinite(b(r, col).imag())) {
+                throw std::overflow_error("parameter solution overflow");
+            }
+            equation_scale = std::max(equation_scale, std::abs(original_b(r, col)));
+            column_scale = std::max(column_scale, std::abs(b(r, col)));
         }
-        solution_scale = std::max(solution_scale, std::abs(value));
-    }
-    if (!std::isfinite(equation_scale) || !std::isfinite(solution_scale)) {
-        throw std::overflow_error("parameter residual scale overflow");
-    }
-    for (std::size_t r = 0; r < n; ++r) {
-        for (std::size_t col = 0; col < n; ++col) {
+        if (!std::isfinite(equation_scale) || !std::isfinite(column_scale)) {
+            throw std::overflow_error("parameter residual scale overflow");
+        }
+        const double solution_scale = std::max(1., column_scale);
+        const double normalized_column = column_scale / solution_scale;
+        for (std::size_t r = 0; r < n; ++r) {
             const auto rhs = (original_b(r, col) / equation_scale) / solution_scale;
             Complex residual = -rhs;
-            double denominator = std::abs(rhs);
+            double row_norm = 0.;
             for (std::size_t c = 0; c < n; ++c) {
-                const auto term =
-                    (original_a(r, c) / equation_scale) * (b(c, col) / solution_scale);
-                residual += term;
-                denominator += std::abs(term);
+                const auto coefficient = original_a(r, c) / equation_scale;
+                residual += coefficient * (b(c, col) / solution_scale);
+                row_norm += std::abs(coefficient);
             }
+            const double denominator = std::abs(rhs) + row_norm * normalized_column;
             if (std::abs(residual) >
                 256 * std::numeric_limits<double>::epsilon() * n * denominator) {
                 throw std::domain_error("parameter conversion residual exceeds tolerance");

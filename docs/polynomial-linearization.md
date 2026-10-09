@@ -1,6 +1,6 @@
 # 高阶多项式的工作点、谐波与噪声导数
 
-`polynomial_linearization.hpp` 将既有 `MemorylessPolynomial` 的零至十一阶电压多项式接入通用非线性工作点求解器。它同时返回真实 DC/谐波/互调输出和直接、共轭导数，支持在收敛点计算跨频率 C/P 噪声。此阶段提供 C++ 接口与安装 SDK；专用 C/Python/JSON 模型类型尚待接入。
+`polynomial_linearization.hpp` 将既有 `MemorylessPolynomial` 的零至十一阶电压多项式接入通用非线性工作点求解器。它同时返回真实 DC/谐波/互调输出和直接、共轭导数，支持在收敛点计算跨频率 C/P 噪声。已提供 C++/C/Python/JSON 接口与安装 SDK，可在同一网络中混合双线性混频器、基波压缩放大器和高阶多项式。
 
 这是明确的无记忆电压多项式模型。它复用已有稀疏频谱计算，不把 RFAMP_HO 的饱和、限幅、IMN 标定或来源追踪规则隐含成同一种行为，也不构成新增的 SystemVue 实测验收。
 
@@ -64,6 +64,56 @@ ConversionNonlinearDevice nonlinear{
 
 函数可显式指定 input_port、output_port、reference_ohms，默认 0、1、50。返回的 `ConversionLinearization` 可直接加入通用求解器；噪声仍由器件显式提供的源/内禀 C/P 定义。
 
+## C ABI 与 Python
+
+`rfmodel_polynomial_amplifier_parameters` 包含 voltage_coefficients 指针、coefficient_count、input_port 和 output_port。系数数组必须包含 c[0] 至最高声明阶的 1..12 个有限实数，调用期间保持有效。`rfmodel_polynomial_amplifier_request` 增加频点、工作点、间隔和参考阻抗；`rfmodel_linearize_polynomial_amplifier` 返回 A/B 和名义出射波，采用已有 `rfmodel_conversion_linearization_output` 布局。
+
+在 `rfmodel_conversion_network_solve_nonlinear` 的模型列表中，kind 填 `RFMODEL_NONLINEAR_POLYNOMIAL_AMPLIFIER`，parameters 指向上述多项式参数。模型描述符和整个系数数组都参与输出别名检查，包括波、C/P、加载噪声和诊断。错误时所有输出保持原值。原有函数和结构布局不变。
+
+`rfmodel_polynomial_output_bins` 接受输入 bin 数组与系数数组。先以 output_bins=NULL、output_capacity=0 查询数量，再提供足够容量的输出数组；数量也属于受保护的输出。容量不足时数据与数量均不写入。全零多项式返回空频点集合；转换器件仍须声明输入及输出端口通道，零响应可使用任意显式输出通道。
+
+```python
+coefficients = [0.0, 2.0, 0.0, -0.02]
+bins = library.polynomial_output_bins([1], coefficients)  # (1, 3)
+channels = [(0, 1)] + [(1, b) for b in bins]
+local = library.linearize_polynomial_amplifier(
+    1e6, channels, [0.1, 0, 0], voltage_coefficients=coefficients
+)
+point = library.solve_conversion_operating_point(
+    1e6,
+    [dict(channels=channels, direct=[[0]*3 for _ in range(3)], source=[0.1, 0, 0])],
+    polynomials=[dict(device=0, voltage_coefficients=coefficients)],
+    loaded_noise=True,
+)
+```
+
+local 返回 `AmplifierLinearization` 的四个字段：direct、conjugate、operating_outgoing、output_offset，偏置按一般公式计算。polynomials 可与 mixers、amplifiers 同时传入；三份列表的 device 索引必须共同唯一。Library.conversion_network 的显式 operating_point 字典也接受 polynomials。
+
+## JSON/CLI 与示例
+
+`rfmodel.conversion-network` v1 顶层必须显式提供 operating_point 对象。器件填写完整 channels、noise，model 为：
+
+```json
+{
+  "type": "polynomial_amplifier",
+  "voltage_coefficients": [0, 2, 0, -0.02]
+}
+```
+
+可选 input_port/output_port 默认为 0/1；系数必须是长度 1..12 的实数数组。布尔数字、未知字段、非有限系数、复 DC、缺失生成频点均拒绝。频点规划 API 可用于生成模型文件，但 JSON 运行时不自动改变网络网格。
+
+收敛后的真实出射波、A/B、一般仿射偏置共同用于后续噪声和测量。noise_analyses 在收敛导数上进行独立 NF 实验，不使用零矩阵占位或小信号固定增益。新增两个完整示例：
+
+- [多项式谐波反馈](../examples/nonlinear-polynomial-feedback.json)：三次模型的基波反馈，三次谐波显式进入反馈网络的匹配终端；含反馈侧噪声与加载 C/P。
+- [混合非线性网络](../examples/nonlinear-mixed-amplifiers.json)：双线性混频器产生两频点，再经过三次多项式和公共基波压缩；全部谐波/互调频点继续传入后级。
+
+```powershell
+python -m rfmodel examples/nonlinear-polynomial-feedback.json --library build-msvc/Release/rfmodel_c.dll --output build-reference/polynomial-feedback-result.json
+python -m rfmodel examples/nonlinear-mixed-amplifiers.json --library build-msvc/Release/rfmodel_c.dll --output build-reference/mixed-amplifiers-result.json
+```
+
+不收敛或输入校验失败时 CLI 返回非零，并保留已有结果文件。这些例子是确定性模型与数学回归，不是 SystemVue RFAMP_HO 的新增实测。
+
 ## 验证与边界
 
 新增原生专项覆盖：
@@ -78,10 +128,20 @@ ConversionNonlinearDevice nonlinear{
 
 当前只计算收敛工作点的一阶噪声传播，不包括噪声乘噪声引起的均值偏移或高阶随机混频。模型没有饱和保护，不能把三次压缩多项式外推为物理 PA 的完整大信号响应。高阶 RFAMP/RFAMP_HO 标定、AM-PM、来源语义、网络频率自适应和厂商反馈基准仍需继续实现/验证。
 
-## 工程验证记录
+## C++ 核心阶段验证记录
 
 2026-10-10：MSVC Debug/Release clean-first 构建成功，CTest 各 114/114；两种配置安装后的独立 C/C++ consumer 各 2/2。144 个 C/C++ 文件格式检查及 git diff --check 通过。
 
-本阶段未修改 Python/C ABI。独立 Python 3.12 使用上一阶段 wheel 连接本阶段安装的 Release DLL，14 组共 278 项旧接口回归通过：放大器工作点 14、既有工作点 13、仿射 11、混频线性化 13、共享相噪 13、相噪 13、通道测量 11、加载噪声 9、变频 NF 12、转换网络 13、单器件变频 11、API 85、相干系统 51、线性噪声 9。该证据用于旧接口兼容；新的高阶导数由原生专项和安装 C++ consumer 验证。
+上述 C++ 核心阶段未修改 Python/C ABI。独立 Python 3.12 使用上一阶段 wheel 连接本阶段安装的 Release DLL，14 组共 278 项旧接口回归通过：放大器工作点 14、既有工作点 13、仿射 11、混频线性化 13、共享相噪 13、相噪 13、通道测量 11、加载噪声 9、变频 NF 12、转换网络 13、单器件变频 11、API 85、相干系统 51、线性噪声 9。该证据用于旧接口兼容；新的高阶导数由原生专项和安装 C++ consumer 验证。
 
 SystemVue 仍停留在既有 Error Running Script 提示，本阶段没有重发采集调用或新增厂商实测。
+
+## 跨语言接口阶段验证记录
+
+2026-10-10：MSVC Debug/Release clean-first 构建成功，CTest 各 116/116；两种配置安装后的独立 C/C++ consumer 各 2/2。145 个 C/C++ 文件格式检查及 git diff --check 通过。C consumer 调用新增频点数量查询/填充、局部导数和混合模型求解入口。
+
+独立 Python 3.12 从本阶段 wheel 加载接口，连接安装后的 Release DLL，15 组共 293 项回归通过：多项式工作点 15、压缩放大器工作点 14、既有工作点 13、仿射 11、混频线性化 13、共享相噪 13、相噪 13、通道测量 11、加载噪声 9、变频 NF 12、转换网络 13、单器件变频 11、API 85、相干系统 51、线性噪声 9。
+
+新增 C ABI 专项含 22 个失败场景，验证系数数组/参数/输出别名、容量查询与不足、非法系数数量、非有限系数，以及全部结果和诊断保持原值。Python 专项覆盖时域独立傅里叶/复导数、含常数项的一般偏置、谐波反馈、三类模型串接、未占用输入的互补噪声、DC 整流、收敛点 NF、暖启动和 CLI 失败保护。
+
+混合网络同时发现并推动修复了共享参数求解器对结构零项的残差误判；[修复依据与独立三角系统回归](network-parameters.md)记录逐右端尺度和后向误差判据。网络收敛容差与主元奇异性判据保持原值。SystemVue 仍被原脚本提示阻塞，本阶段没有新增厂商实测。

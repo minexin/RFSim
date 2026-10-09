@@ -13,6 +13,7 @@ from .model_file import (
 from .operating_point import (
     bilinear_spec,
     amplifier_spec,
+    polynomial_spec,
     operating_options,
     update_converged_models,
 )
@@ -127,7 +128,7 @@ def analyze_conversion_network(library, document, base_directory=None):
     devices, names, labels, lookup = [], {}, [], {}
     output_offsets, operating_points = [], []
     use_affine = False
-    nonlinear_mixers, nonlinear_amplifiers = [], []
+    nonlinear_mixers, nonlinear_amplifiers, nonlinear_polynomials = [], [], []
     for entry in entries:
         if (
             not isinstance(entry, dict)
@@ -151,7 +152,14 @@ def analyze_conversion_network(library, document, base_directory=None):
                 if type(channel["port"]) is not int or type(channel["bin"]) is not int:
                     raise ValueError("Conversion indices must be integers")
                 channels.append((channel["port"], channel["bin"]))
-            if isinstance(model, dict) and model.get("type") == "saturating_amplifier":
+            if isinstance(model, dict) and model.get("type") == "polynomial_amplifier":
+                if "operating_point" not in document:
+                    raise ValueError(
+                        "Polynomial amplifiers require explicit operating_point options"
+                    )
+                nonlinear_polynomials.append(dict(device=len(devices), **polynomial_spec(model)))
+                a, b = zero(len(channels)), zero(len(channels))
+            elif isinstance(model, dict) and model.get("type") == "saturating_amplifier":
                 if "operating_point" not in document:
                     raise ValueError(
                         "Saturating amplifiers require explicit operating_point options"
@@ -310,6 +318,7 @@ def analyze_conversion_network(library, document, base_directory=None):
         solve_options = dict(
             mixers=nonlinear_mixers,
             amplifiers=nonlinear_amplifiers,
+            polynomials=nonlinear_polynomials,
             **operating_options(document["operating_point"], len(labels)),
         )
     result = library.conversion_network(
@@ -343,6 +352,7 @@ def analyze_conversion_network(library, document, base_directory=None):
             result,
             output_offsets,
             nonlinear_amplifiers,
+            nonlinear_polynomials,
         )
         use_affine = True
     operating_reports = check_operating_points(operating_points, result)

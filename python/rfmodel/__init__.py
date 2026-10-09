@@ -342,6 +342,47 @@ class _SaturatingAmplifierRequest(ct.Structure):
     ]
 
 
+class _PolynomialAmplifierParameters(ct.Structure):
+    _fields_ = [
+        ("voltage_coefficients", ct.POINTER(ct.c_double)),
+        ("coefficient_count", ct.c_size_t),
+        ("input_port", ct.c_size_t),
+        ("output_port", ct.c_size_t),
+    ]
+
+
+class _PolynomialAmplifierRequest(ct.Structure):
+    _fields_ = _SaturatingAmplifierRequest._fields_[:-1] + [
+        ("model", _PolynomialAmplifierParameters)
+    ]
+
+
+def _polynomial_coefficients(values):
+    if isinstance(values, (str, bytes, dict)):
+        raise ValueError("Polynomial coefficients must be a numeric sequence")
+    values = tuple(values)
+    if not 1 <= len(values) <= 12 or any(type(v) not in (int, float) for v in values):
+        raise ValueError("Polynomial requires 1..12 real voltage coefficients")
+    return (ct.c_double * len(values))(*values)
+
+
+def _polynomial_parameters(spec):
+    if (
+        not isinstance(spec, dict)
+        or "voltage_coefficients" not in spec
+        or set(spec) - {"voltage_coefficients", "input_port", "output_port"}
+    ):
+        raise ValueError("Invalid polynomial amplifier parameters")
+    coefficients = _polynomial_coefficients(spec["voltage_coefficients"])
+    parameters = _PolynomialAmplifierParameters(
+        coefficients,
+        len(coefficients),
+        _index(spec.get("input_port", 0)),
+        _index(spec.get("output_port", 1)),
+    )
+    return parameters, coefficients
+
+
 def _amplifier_parameters(spec):
     required = {"power_gain_db", "output_p1db_dbm", "output_saturation_dbm"}
     if (
@@ -421,6 +462,7 @@ def _operating_inputs(spec, total):
     if not isinstance(spec, dict) or set(spec) - {
         "mixers",
         "amplifiers",
+        "polynomials",
         "initial_incident",
         "max_iterations",
         "max_backtracks",
@@ -465,10 +507,11 @@ def _operating_inputs(spec, total):
         float(absolute),
     )
     amplifier_entries = tuple(spec.get("amplifiers", ()))
-    if len(amplifier_entries) + len(packed) > 512:
+    polynomial_entries = tuple(spec.get("polynomials", ()))
+    if len(amplifier_entries) + len(polynomial_entries) + len(packed) > 512:
         raise ValueError("Too many nonlinear devices")
     models, parameters = None, []
-    if amplifier_entries:
+    if amplifier_entries or polynomial_entries:
         entries = []
         for mixer in packed:
             parameters.append(mixer.model)
@@ -487,6 +530,17 @@ def _operating_inputs(spec, total):
                 _ConversionNonlinearModel(
                     device, 2, ct.cast(ct.pointer(parameters[-1]), ct.c_void_p)
                 )
+            )
+        for polynomial in polynomial_entries:
+            if not isinstance(polynomial, dict) or "device" not in polynomial:
+                raise ValueError("Polynomial requires device index")
+            fields = dict(polynomial)
+            device = _index(fields.pop("device"))
+            model, coefficients = _polynomial_parameters(fields)
+            # Keep both the descriptor and its pointed coefficient storage alive.
+            parameters.extend([model, coefficients])
+            entries.append(
+                _ConversionNonlinearModel(device, 3, ct.cast(ct.pointer(model), ct.c_void_p))
             )
         models = (_ConversionNonlinearModel * len(entries))(*entries)
     return options, mixers, initial, models, parameters
@@ -1150,6 +1204,22 @@ class Library:
                     ct.POINTER(_Complex),
                     ct.POINTER(_Complex),
                     size,
+                ],
+            ),
+            "rfmodel_linearize_polynomial_amplifier": (
+                ct.c_int,
+                [ct.POINTER(_PolynomialAmplifierRequest), ct.POINTER(_MixerLinearizationOutput)],
+            ),
+            "rfmodel_polynomial_output_bins": (
+                ct.c_int,
+                [
+                    ct.POINTER(ct.c_int),
+                    size,
+                    ct.POINTER(ct.c_double),
+                    size,
+                    ct.POINTER(ct.c_int),
+                    size,
+                    ct.POINTER(size),
                 ],
             ),
             "rfmodel_linearize_saturating_amplifier": (
@@ -2307,6 +2377,83 @@ class Library:
             *(getattr(output, name) for name in ConversionNoiseAnalysis._fields)
         )
 
+    def polynomial_output_bins(self, input_bins, voltage_coefficients):
+        """Sorted complete output support, including products of unoccupied channels."""
+        bins = tuple(input_bins)
+        if not 1 <= len(bins) <= 512 or any(
+            type(b) is not int or not 0 <= b <= 2147483647 for b in bins
+        ):
+            raise ValueError("Expected 1..512 nonnegative integer input bins")
+        native = (ct.c_int * len(bins))(*bins)
+        coefficients = _polynomial_coefficients(voltage_coefficients)
+        count = ct.c_size_t()
+        self._check(
+            self._dll.rfmodel_polynomial_output_bins(
+                native, len(bins), coefficients, len(coefficients), None, 0, ct.byref(count)
+            )
+        )
+        if not count.value:
+            return ()
+        output = (ct.c_int * count.value)()
+        self._check(
+            self._dll.rfmodel_polynomial_output_bins(
+                native,
+                len(bins),
+                coefficients,
+                len(coefficients),
+                output,
+                len(output),
+                ct.byref(count),
+            )
+        )
+        return tuple(output[: count.value])
+
+    def linearize_polynomial_amplifier(
+        self,
+        spacing_hz,
+        channels,
+        operating_incident,
+        *,
+        voltage_coefficients,
+        input_port=0,
+        output_port=1,
+        reference_ohms=50.0,
+    ):
+        """Full voltage polynomial response, exact A/B and general affine offset."""
+        ports, bins = _conversion_channels(channels)
+        count = len(ports)
+        waves = tuple(complex(value) for value in operating_incident)
+        if len(waves) != count:
+            raise ValueError("Polynomial operating point must cover every channel")
+        native = (_Complex * count)(*(_Complex.from_value(v) for v in waves))
+        parameters, coefficients = _polynomial_parameters(
+            dict(
+                voltage_coefficients=voltage_coefficients,
+                input_port=input_port,
+                output_port=output_port,
+            )
+        )
+        request = _PolynomialAmplifierRequest(
+            count, float(spacing_hz), float(reference_ohms), ports, bins, native, parameters
+        )
+        direct, conjugate = (_Complex * (count * count))(), (_Complex * (count * count))()
+        nominal = (_Complex * count)()
+        output = _MixerLinearizationOutput(direct, conjugate, nominal, count * count, count)
+        self._check(
+            self._dll.rfmodel_linearize_polynomial_amplifier(ct.byref(request), ct.byref(output))
+        )
+        a, b, values = (
+            _rows(direct, count),
+            _rows(conjugate, count),
+            tuple(v.value() for v in nominal),
+        )
+        offset = tuple(
+            values[i]
+            - sum(a[i][j] * waves[j] + b[i][j] * waves[j].conjugate() for j in range(count))
+            for i in range(count)
+        )
+        return AmplifierLinearization(a, b, values, offset)
+
     def linearize_saturating_amplifier(
         self,
         spacing_hz,
@@ -2407,6 +2554,7 @@ class Library:
         *,
         mixers=(),
         amplifiers=(),
+        polynomials=(),
         initial_incident=None,
         max_iterations=50,
         max_backtracks=24,
@@ -2414,7 +2562,7 @@ class Library:
         absolute_tolerance=1e-12,
         **network_options,
     ):
-        """Native damped Newton with bilinear mixer and shared-drive amplifier overrides."""
+        """Native damped Newton with mixer, compressed and polynomial amplifier overrides."""
         return self.conversion_network(
             spacing_hz,
             devices,
@@ -2422,6 +2570,7 @@ class Library:
             operating_point=dict(
                 mixers=mixers,
                 amplifiers=amplifiers,
+                polynomials=polynomials,
                 initial_incident=initial_incident,
                 max_iterations=max_iterations,
                 max_backtracks=max_backtracks,

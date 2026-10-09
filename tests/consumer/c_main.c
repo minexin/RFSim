@@ -4,6 +4,61 @@
 int main(int argc, char **argv) {
 
     {
+        const double coefficients[4] = {0., 2., 0., -.02};
+        const size_t ports[3] = {0, 1, 1};
+        const int bins[3] = {1, 1, 3}, input = 1;
+        const rfmodel_complex source[3] = {{.1, 0.}, {0}, {0}}, zero[9] = {{0}};
+        rfmodel_polynomial_amplifier_request request = {
+            3, 1e6, 50., ports, bins, source, {coefficients, 4, 0, 1}};
+        rfmodel_complex local_values[21], values[24];
+        rfmodel_conversion_linearization_output local = {
+            local_values, local_values + 9, local_values + 18, 9, 3};
+        rfmodel_conversion_request device = {0};
+        rfmodel_conversion_nonlinear_model model = {
+            0, RFMODEL_NONLINEAR_POLYNOMIAL_AMPLIFIER, &request.model};
+        rfmodel_conversion_operating_options options = {NULL, 0, 50, 24, 1e-9, 1e-12};
+        rfmodel_conversion_operating_diagnostics diagnostics;
+        double residual;
+        rfmodel_conversion_output output = {
+            values, values + 3, values + 6, values + 15, 3, 9, &residual};
+        size_t count;
+        int output_bins[2];
+        if (rfmodel_polynomial_output_bins(&input, 1, coefficients, 4, NULL, 0, &count) !=
+                RFMODEL_OK ||
+            count != 2 ||
+            rfmodel_polynomial_output_bins(&input, 1, coefficients, 4, output_bins, 2, &count) !=
+                RFMODEL_OK ||
+            output_bins[1] != 3 ||
+            rfmodel_linearize_polynomial_amplifier(&request, &local) != RFMODEL_OK ||
+            fabs(local_values[20].real + .0005) > 1e-12) {
+            return 106;
+        }
+        device.count = 3;
+        device.spacing_hz = 1e6;
+        device.reference_ohms = 50.;
+        device.physical_ports = ports;
+        device.bins = bins;
+        device.direct = zero;
+        device.conjugate = zero;
+        device.source = source;
+        if (rfmodel_conversion_network_solve_nonlinear(&device,
+                                                       1,
+                                                       NULL,
+                                                       0,
+                                                       &model,
+                                                       1,
+                                                       &options,
+                                                       NULL,
+                                                       NULL,
+                                                       &output,
+                                                       NULL,
+                                                       &diagnostics) != RFMODEL_OK ||
+            fabs(values[4].real - .1985) > 1e-12 || fabs(values[5].real + .0005) > 1e-12) {
+            return 107;
+        }
+    }
+
+    {
         const size_t ports[2] = {0, 1};
         const int bins[2] = {1, 1};
         const rfmodel_complex zero[4] = {{0}}, source[2] = {{.01, 0.}, {0., 0.}};

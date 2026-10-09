@@ -1,6 +1,6 @@
 # 公共基波压缩的工作点与导数
 
-C++ 接口 linearize_saturating_amplifier 将既有 SaturatingFundamentalCompression 适配到自动非线性工作点求解器。所有选定驱动端口的 RF 通道共享同一个总功率和压缩增益，并保留跨频点的直接/共轭导数。已提供 C++/C/Python/JSON 接口，可与固定系数双线性混频器在同一物理网络中联立求解。高阶生成模型尚未接入该求解路径。
+C++ 接口 linearize_saturating_amplifier 将既有 SaturatingFundamentalCompression 适配到自动非线性工作点求解器。所有选定驱动端口的 RF 通道共享同一个总功率和压缩增益，并保留跨频点的直接/共轭导数。已提供 C++/C/Python/JSON 接口，可与固定系数双线性混频器在同一物理网络中联立求解。本基波模型不生成高阶项；独立电压多项式模型已接入同一求解器。
 
 ## 既有模型与导数
 
@@ -67,8 +67,9 @@ rfmodel_conversion_network_solve_nonlinear 接受 rfmodel_conversion_nonlinear_m
 |---|---|
 | RFMODEL_NONLINEAR_BILINEAR_MIXER | rfmodel_bilinear_mixer_parameters |
 | RFMODEL_NONLINEAR_SATURATING_AMPLIFIER | rfmodel_saturating_amplifier_parameters |
+| RFMODEL_NONLINEAR_POLYNOMIAL_AMPLIFIER | rfmodel_polynomial_amplifier_parameters |
 
-同一次调用允许混合两类模型；device 索引必须唯一，参数指针在调用期间有效。选项、确定性固定偏置、额外源 C/P、加载噪声和诊断沿用原工作点接口。模型数组、每个参数结构、所有描述符及输入数组均参与完整输出范围的别名检查；失败不修改波、噪声或诊断。原 mixer-only C 函数和结构布局保持不变。
+同一次调用允许混合三类模型；device 索引必须唯一，参数指针在调用期间有效。选项、确定性固定偏置、额外源 C/P、加载噪声和诊断沿用原工作点接口。模型数组、每个参数结构、所有描述符及输入数组均参与完整输出范围的别名检查；失败不修改波、噪声或诊断。原 mixer-only C 函数和结构布局保持不变。
 
 ```python
 parameters = dict(
@@ -144,4 +145,4 @@ SystemVue 仍显示既有 Error Running Script 提示，本阶段没有新增厂
 
 本阶段仍未新增 SystemVue 实测；现有语言识别提示及后续执行错误需要单独处理，不能以本地数学回归替代厂商验收。
 
-独立的[高阶电压多项式适配](polynomial-linearization.md)已提供 C++ DC/谐波/互调工作点导数。它不改变本页公共基波压缩模型，也尚未组合厂商 RFAMP_HO 限幅与标定规则。
+独立的[高阶电压多项式适配](polynomial-linearization.md)已提供 C++/C/Python/JSON DC/谐波/互调工作点导数。它不改变本页公共基波压缩模型，也尚未组合厂商 RFAMP_HO 限幅与标定规则。

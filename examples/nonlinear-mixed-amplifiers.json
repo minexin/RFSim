@@ -1,0 +1,268 @@
+{
+  "format": "rfmodel.conversion-network",
+  "version": 1,
+  "spacing_hz": 1000000.0,
+  "devices": [
+    {
+      "id": "mixer",
+      "channels": [
+        {
+          "port": 0,
+          "bin": 12
+        },
+        {
+          "port": 1,
+          "bin": 10
+        },
+        {
+          "port": 2,
+          "bin": 2
+        },
+        {
+          "port": 2,
+          "bin": 22
+        }
+      ],
+      "model": {
+        "type": "bilinear_real_mixer",
+        "lo_reference_amplitude": 1
+      },
+      "noise": {
+        "noiseless": true
+      }
+    },
+    {
+      "id": "polynomial",
+      "channels": [
+        {
+          "port": 0,
+          "bin": 2
+        },
+        {
+          "port": 0,
+          "bin": 22
+        },
+        {
+          "port": 1,
+          "bin": 2
+        },
+        {
+          "port": 1,
+          "bin": 6
+        },
+        {
+          "port": 1,
+          "bin": 18
+        },
+        {
+          "port": 1,
+          "bin": 22
+        },
+        {
+          "port": 1,
+          "bin": 26
+        },
+        {
+          "port": 1,
+          "bin": 42
+        },
+        {
+          "port": 1,
+          "bin": 46
+        },
+        {
+          "port": 1,
+          "bin": 66
+        }
+      ],
+      "model": {
+        "type": "polynomial_amplifier",
+        "voltage_coefficients": [
+          0,
+          2,
+          0,
+          -0.02
+        ]
+      },
+      "noise": {
+        "noiseless": true
+      }
+    },
+    {
+      "id": "compressor",
+      "channels": [
+        {
+          "port": 0,
+          "bin": 2
+        },
+        {
+          "port": 0,
+          "bin": 6
+        },
+        {
+          "port": 0,
+          "bin": 18
+        },
+        {
+          "port": 0,
+          "bin": 22
+        },
+        {
+          "port": 0,
+          "bin": 26
+        },
+        {
+          "port": 0,
+          "bin": 42
+        },
+        {
+          "port": 0,
+          "bin": 46
+        },
+        {
+          "port": 0,
+          "bin": 66
+        },
+        {
+          "port": 1,
+          "bin": 2
+        },
+        {
+          "port": 1,
+          "bin": 6
+        },
+        {
+          "port": 1,
+          "bin": 18
+        },
+        {
+          "port": 1,
+          "bin": 22
+        },
+        {
+          "port": 1,
+          "bin": 26
+        },
+        {
+          "port": 1,
+          "bin": 42
+        },
+        {
+          "port": 1,
+          "bin": 46
+        },
+        {
+          "port": 1,
+          "bin": 66
+        }
+      ],
+      "model": {
+        "type": "saturating_amplifier",
+        "power_gain_db": 20,
+        "output_p1db_dbm": 20,
+        "output_saturation_dbm": 23
+      },
+      "noise": {
+        "noiseless": true
+      }
+    }
+  ],
+  "connections": [
+    [
+      [
+        "mixer",
+        2
+      ],
+      [
+        "polynomial",
+        0
+      ]
+    ],
+    [
+      [
+        "polynomial",
+        1
+      ],
+      [
+        "compressor",
+        0
+      ]
+    ]
+  ],
+  "boundaries": [
+    {
+      "channel": [
+        "mixer",
+        0,
+        12
+      ],
+      "source": 0.02
+    },
+    {
+      "channel": [
+        "mixer",
+        1,
+        10
+      ],
+      "source": 1
+    },
+    {
+      "channel": [
+        "compressor",
+        1,
+        2
+      ]
+    },
+    {
+      "channel": [
+        "compressor",
+        1,
+        6
+      ]
+    },
+    {
+      "channel": [
+        "compressor",
+        1,
+        18
+      ]
+    },
+    {
+      "channel": [
+        "compressor",
+        1,
+        22
+      ]
+    },
+    {
+      "channel": [
+        "compressor",
+        1,
+        26
+      ]
+    },
+    {
+      "channel": [
+        "compressor",
+        1,
+        42
+      ]
+    },
+    {
+      "channel": [
+        "compressor",
+        1,
+        46
+      ]
+    },
+    {
+      "channel": [
+        "compressor",
+        1,
+        66
+      ]
+    }
+  ],
+  "operating_point": {},
+  "loaded_noise": true
+}

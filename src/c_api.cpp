@@ -1,3 +1,4 @@
+#include "rfmodel/polynomial_linearization.hpp"
 #include "rfmodel/amplifier_linearization.hpp"
 #include "rfmodel/conversion_operating_point.hpp"
 #include "rfmodel/channel_noise.hpp"
@@ -465,6 +466,21 @@ amplifier_point(double spacing,
                                                    reference);
 }
 
+std::pair<const void *, size_t>
+polynomial_coefficient_range(const rfmodel_polynomial_amplifier_parameters &parameters) {
+    require(parameters.voltage_coefficients && parameters.coefficient_count > 0 &&
+            parameters.coefficient_count <= rfmodel::maximum_polynomial_order + 1);
+    return {parameters.voltage_coefficients, parameters.coefficient_count * sizeof(double)};
+}
+
+rfmodel::MemorylessPolynomial
+polynomial_model(const rfmodel_polynomial_amplifier_parameters &parameters) {
+    polynomial_coefficient_range(parameters);
+    return rfmodel::MemorylessPolynomial(
+        std::vector<double>(parameters.voltage_coefficients,
+                            parameters.voltage_coefficients + parameters.coefficient_count));
+}
+
 void analyze_conversion_network_outputs(
     const rfmodel_conversion_request *devices,
     size_t device_count,
@@ -547,6 +563,12 @@ void analyze_conversion_network_outputs(
             case RFMODEL_NONLINEAR_SATURATING_AMPLIFIER:
                 bytes = sizeof(rfmodel_saturating_amplifier_parameters);
                 break;
+            case RFMODEL_NONLINEAR_POLYNOMIAL_AMPLIFIER:
+                bytes = sizeof(rfmodel_polynomial_amplifier_parameters);
+                inputs.push_back(polynomial_coefficient_range(
+                    *static_cast<const rfmodel_polynomial_amplifier_parameters *>(
+                        models[i].parameters)));
+                break;
             default:
                 throw std::invalid_argument("unknown nonlinear conversion model kind");
             }
@@ -607,6 +629,22 @@ void analyze_conversion_network_outputs(
                     spec.device,
                     base,
                     *static_cast<const rfmodel_bilinear_mixer_parameters *>(spec.parameters)));
+            } else if (spec.kind == RFMODEL_NONLINEAR_POLYNOMIAL_AMPLIFIER) {
+                const auto parameters =
+                    *static_cast<const rfmodel_polynomial_amplifier_parameters *>(spec.parameters);
+                const auto polynomial = polynomial_model(parameters);
+                const auto channels = base.channels();
+                const double spacing = base.spacing_hz(), reference = base.reference_ohms();
+                nonlinear.push_back({spec.device, [=](const std::vector<rfmodel::Complex> &wave) {
+                                         return rfmodel::linearize_polynomial_amplifier(
+                                             spacing,
+                                             channels,
+                                             wave,
+                                             polynomial,
+                                             parameters.input_port,
+                                             parameters.output_port,
+                                             reference);
+                                     }});
             } else {
                 const auto parameters =
                     *static_cast<const rfmodel_saturating_amplifier_parameters *>(spec.parameters);
@@ -681,9 +719,11 @@ void analyze_conversion_network_outputs(
 
 namespace {
 template <class Request, class Evaluate>
-void linearize_conversion_outputs(const Request *request,
-                                  const rfmodel_mixer_linearization_output *output,
-                                  Evaluate evaluate) {
+void linearize_conversion_outputs(
+    const Request *request,
+    const rfmodel_mixer_linearization_output *output,
+    Evaluate evaluate,
+    const std::vector<std::pair<const void *, size_t>> &extra_inputs = {}) {
     require(request && output);
     const auto &r = *request;
     const auto &o = *output;
@@ -692,12 +732,13 @@ void linearize_conversion_outputs(const Request *request,
             o.matrix_capacity >= r.count * r.count && o.wave_capacity >= r.count &&
             o.matrix_capacity <= std::numeric_limits<size_t>::max() / sizeof(rfmodel_complex) &&
             o.wave_capacity <= std::numeric_limits<size_t>::max() / sizeof(rfmodel_complex));
-    const std::vector<std::pair<const void *, size_t>> inputs{
+    std::vector<std::pair<const void *, size_t>> inputs{
         {request, sizeof(*request)},
         {output, sizeof(*output)},
         {r.physical_ports, r.count * sizeof(size_t)},
         {r.bins, r.count * sizeof(int)},
         {r.operating_incident, r.count * sizeof(rfmodel_complex)}};
+    inputs.insert(inputs.end(), extra_inputs.begin(), extra_inputs.end());
     const std::vector<std::pair<const void *, size_t>> outputs{
         {o.direct, o.matrix_capacity * sizeof(rfmodel_complex)},
         {o.conjugate, o.matrix_capacity * sizeof(rfmodel_complex)},
@@ -2099,6 +2140,59 @@ int rfmodel_linearize_saturating_amplifier(const rfmodel_saturating_amplifier_re
             request, output, [](const auto &r, const auto &channels, const auto &waves) {
                 return amplifier_point(r.spacing_hz, channels, waves, r.model, r.reference_ohms);
             });
+    });
+}
+
+int rfmodel_linearize_polynomial_amplifier(const rfmodel_polynomial_amplifier_request *request,
+                                           const rfmodel_conversion_linearization_output *output) {
+    return guarded([&] {
+        require(request);
+        const auto range = polynomial_coefficient_range(request->model);
+        linearize_conversion_outputs(request,
+                                     output,
+                                     [](const auto &r, const auto &channels, const auto &waves) {
+                                         return rfmodel::linearize_polynomial_amplifier(
+                                             r.spacing_hz,
+                                             channels,
+                                             waves,
+                                             polynomial_model(r.model),
+                                             r.model.input_port,
+                                             r.model.output_port,
+                                             r.reference_ohms);
+                                     },
+                                     {range});
+    });
+}
+
+int rfmodel_polynomial_output_bins(const int *input_bins,
+                                   size_t input_count,
+                                   const double *voltage_coefficients,
+                                   size_t coefficient_count,
+                                   int *output_bins,
+                                   size_t output_capacity,
+                                   size_t *output_count) {
+    return guarded([&] {
+        require(input_bins && input_count > 0 && input_count <= 512 && output_count);
+        require((!output_bins && output_capacity == 0) || (output_bins && output_capacity > 0));
+        require(output_capacity <= std::numeric_limits<size_t>::max() / sizeof(int));
+        const rfmodel_polynomial_amplifier_parameters parameters{
+            voltage_coefficients, coefficient_count, 0, 1};
+        const auto coefficients = polynomial_coefficient_range(parameters);
+        disjoint(output_count, sizeof(size_t), input_bins, input_count * sizeof(int));
+        disjoint(output_count, sizeof(size_t), coefficients.first, coefficients.second);
+        if (output_bins) {
+            const auto bytes = output_capacity * sizeof(int);
+            disjoint(output_bins, bytes, output_count, sizeof(size_t));
+            disjoint(output_bins, bytes, input_bins, input_count * sizeof(int));
+            disjoint(output_bins, bytes, coefficients.first, coefficients.second);
+        }
+        const auto result = rfmodel::polynomial_output_bins(
+            std::vector<int>(input_bins, input_bins + input_count), polynomial_model(parameters));
+        if (output_bins) {
+            require(output_capacity >= result.size());
+            std::copy(result.begin(), result.end(), output_bins);
+        }
+        *output_count = result.size();
     });
 }
 

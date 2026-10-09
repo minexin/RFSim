@@ -181,7 +181,197 @@ static int test_saturating_conversion_abi(void) {
     return 0;
 }
 
+static int test_polynomial_conversion_abi(void) {
+    const size_t ports[3] = {0, 1, 1};
+    const int bins[3] = {1, 1, 3};
+    double coefficients[4] = {0., 2., 0., -.02};
+    const rfmodel_complex source[3] = {{.1, 0.}, {0}, {0}};
+    const rfmodel_complex zero[9] = {{0}}, noise[9] = {{1e-9, 0.}};
+    rfmodel_polynomial_amplifier_request request = {
+        3, 1e6, 50., ports, bins, source, {coefficients, 4, 0, 1}};
+    rfmodel_complex local_values[21], saved_local[21];
+    rfmodel_conversion_linearization_output local = {
+        local_values, local_values + 9, local_values + 18, 9, 3};
+    int scenario;
+    CHECK(rfmodel_linearize_polynomial_amplifier(&request, &local) == RFMODEL_OK);
+    CHECK(fabs(local_values[19].real - .1985) < 1e-12);
+    CHECK(fabs(local_values[20].real + .0005) < 1e-12);
+    CHECK(fabs(local_values[3].real - 1.97) < 1e-12);
+    CHECK(fabs(local_values[12].real + .015) < 1e-12);
+    memcpy(saved_local, local_values, sizeof(local_values));
+    for (scenario = 0; scenario < 8; ++scenario) {
+        rfmodel_polynomial_amplifier_request attempted = request;
+        rfmodel_conversion_linearization_output output = local;
+        switch (scenario) {
+        case 0:
+            attempted.model.voltage_coefficients = NULL;
+            break;
+        case 1:
+            attempted.model.coefficient_count = 0;
+            break;
+        case 2:
+            attempted.model.coefficient_count = 13;
+            break;
+        case 3:
+            output.direct = (rfmodel_complex *)coefficients;
+            break;
+        case 4:
+            output.operating_outgoing = (rfmodel_complex *)&attempted.model;
+            break;
+        case 5:
+            output.matrix_capacity = (size_t)-1;
+            break;
+        case 6:
+            attempted.model.input_port = 1;
+            break;
+        case 7:
+            coefficients[3] = NAN;
+            break;
+        }
+        CHECK(rfmodel_linearize_polynomial_amplifier(&attempted, &output) != RFMODEL_OK);
+        coefficients[3] = -.02;
+        CHECK(memcmp(saved_local, local_values, sizeof(local_values)) == 0);
+        CHECK(coefficients[0] == 0. && coefficients[1] == 2. && coefficients[2] == 0.);
+    }
+    {
+        rfmodel_conversion_request device = {0};
+        rfmodel_conversion_nonlinear_model model = {
+            0, RFMODEL_NONLINEAR_POLYNOMIAL_AMPLIFIER, &request.model};
+        rfmodel_conversion_operating_options options = {NULL, 0, 50, 24, 1e-9, 1e-12};
+        rfmodel_conversion_operating_diagnostics diagnostics = {0}, saved_diagnostics;
+        rfmodel_complex values[24], loaded_values[36], saved[24], saved_loaded[36];
+        double residual, net[3], saved_residual, saved_net[3];
+        rfmodel_conversion_output output = {
+            values, values + 3, values + 6, values + 15, 3, 9, &residual};
+        rfmodel_conversion_loaded_output loaded = {
+            loaded_values, loaded_values + 9, loaded_values + 18, loaded_values + 27, net, 9, 3};
+        device.count = 3;
+        device.spacing_hz = 1e6;
+        device.reference_ohms = 50.;
+        device.physical_ports = ports;
+        device.bins = bins;
+        device.direct = zero;
+        device.conjugate = zero;
+        device.source = source;
+        device.source_covariance = noise;
+        CHECK(rfmodel_conversion_network_solve_nonlinear(&device,
+                                                         1,
+                                                         NULL,
+                                                         0,
+                                                         &model,
+                                                         1,
+                                                         &options,
+                                                         NULL,
+                                                         NULL,
+                                                         &output,
+                                                         &loaded,
+                                                         &diagnostics) == RFMODEL_OK);
+        CHECK(fabs(values[4].real - .1985) < 1e-12 && fabs(values[5].real + .0005) < 1e-12);
+        CHECK(fabs(values[10].real / 1e-9 - (1.97 * 1.97 + .015 * .015)) < 1e-11);
+        memcpy(saved, values, sizeof(values));
+        memcpy(saved_loaded, loaded_values, sizeof(loaded_values));
+        memcpy(saved_net, net, sizeof(net));
+        memcpy(&saved_diagnostics, &diagnostics, sizeof(diagnostics));
+        saved_residual = residual;
+        for (scenario = 0; scenario < 7; ++scenario) {
+            rfmodel_conversion_output attempt = output;
+            rfmodel_conversion_loaded_output attempted_loaded = loaded;
+            rfmodel_conversion_operating_diagnostics *attempted_diagnostics = &diagnostics;
+            switch (scenario) {
+            case 0:
+                request.model.voltage_coefficients = NULL;
+                break;
+            case 1:
+                request.model.coefficient_count = (size_t)-1;
+                break;
+            case 2:
+                attempt.outgoing = (rfmodel_complex *)coefficients;
+                break;
+            case 3:
+                attempted_loaded.net_noise_into_device_w_per_hz = coefficients;
+                break;
+            case 4:
+                attempted_diagnostics = (rfmodel_conversion_operating_diagnostics *)coefficients;
+                break;
+            case 5:
+                attempt.incident = (rfmodel_complex *)&request.model;
+                break;
+            case 6:
+                coefficients[3] = INFINITY;
+                break;
+            }
+            CHECK(rfmodel_conversion_network_solve_nonlinear(&device,
+                                                             1,
+                                                             NULL,
+                                                             0,
+                                                             &model,
+                                                             1,
+                                                             &options,
+                                                             NULL,
+                                                             NULL,
+                                                             &attempt,
+                                                             &attempted_loaded,
+                                                             attempted_diagnostics) != RFMODEL_OK);
+            request.model.voltage_coefficients = coefficients;
+            request.model.coefficient_count = 4;
+            coefficients[3] = -.02;
+            CHECK(memcmp(saved, values, sizeof(values)) == 0);
+            CHECK(memcmp(saved_loaded, loaded_values, sizeof(loaded_values)) == 0);
+            CHECK(memcmp(saved_net, net, sizeof(net)) == 0 && residual == saved_residual);
+            CHECK(memcmp(&saved_diagnostics, &diagnostics, sizeof(diagnostics)) == 0);
+            CHECK(coefficients[0] == 0. && coefficients[1] == 2. && coefficients[2] == 0.);
+        }
+    }
+    {
+        int input = 1, result[3] = {91, 92, 93};
+        size_t count = 99;
+        CHECK(rfmodel_polynomial_output_bins(&input, 1, coefficients, 4, NULL, 0, &count) ==
+              RFMODEL_OK);
+        CHECK(count == 2 && result[0] == 91);
+        CHECK(rfmodel_polynomial_output_bins(&input, 1, coefficients, 4, result, 3, &count) ==
+              RFMODEL_OK);
+        CHECK(count == 2 && result[0] == 1 && result[1] == 3 && result[2] == 93);
+        count = 99;
+        for (scenario = 0; scenario < 7; ++scenario) {
+            int *output = result;
+            size_t capacity = 3, *produced = &count, coefficient_count = 4;
+            const double *values = coefficients;
+            switch (scenario) {
+            case 0:
+                capacity = 1;
+                break;
+            case 1:
+                output = &input;
+                break;
+            case 2:
+                output = (int *)coefficients;
+                break;
+            case 3:
+                produced = (size_t *)coefficients;
+                break;
+            case 4:
+                capacity = (size_t)-1;
+                break;
+            case 5:
+                coefficient_count = 13;
+                break;
+            case 6:
+                values = NULL;
+                break;
+            }
+            CHECK(rfmodel_polynomial_output_bins(
+                      &input, 1, values, coefficient_count, output, capacity, produced) !=
+                  RFMODEL_OK);
+            CHECK(count == 99 && result[0] == 1 && result[1] == 3 && result[2] == 93 && input == 1);
+            CHECK(coefficients[0] == 0. && coefficients[1] == 2. && coefficients[2] == 0. &&
+                  coefficients[3] == -.02);
+        }
+    }
+    return 0;
+}
+
 int main(int argc, char **argv) {
+    CHECK(test_polynomial_conversion_abi() == 0);
     CHECK(test_saturating_conversion_abi() == 0);
     {
         const size_t ports[3] = {0, 1, 2};

@@ -39,6 +39,20 @@ def amplifier_spec(model):
     return result
 
 
+def polynomial_spec(model):
+    _object(model, ("type", "voltage_coefficients"), ("input_port", "output_port"))
+    coefficients = model["voltage_coefficients"]
+    if not isinstance(coefficients, list) or not 1 <= len(coefficients) <= 12:
+        raise ValueError("Polynomial requires 1..12 real voltage coefficients")
+    result = {"voltage_coefficients": [_number(value) for value in coefficients]}
+    for name, default in [("input_port", 0), ("output_port", 1)]:
+        value = model.get(name, default)
+        if type(value) is not int:
+            raise ValueError("Polynomial port must be an integer")
+        result[name] = value
+    return result
+
+
 def operating_options(value, total):
     _object(
         value,
@@ -68,22 +82,22 @@ def operating_options(value, total):
 
 
 def update_converged_models(
-    library, spacing, reference, devices, specs, waves, offsets, amplifiers=()
+    library, spacing, reference, devices, specs, waves, offsets, amplifiers=(), polynomials=()
 ):
     starts, total = [], 0
     for device in devices:
         starts.append(total)
         total += len(device["channels"])
-    for spec, is_amplifier in [(s, False) for s in specs] + [(s, True) for s in amplifiers]:
+    models = (
+        [(s, library.linearize_bilinear_mixer) for s in specs]
+        + [(s, library.linearize_saturating_amplifier) for s in amplifiers]
+        + [(s, library.linearize_polynomial_amplifier) for s in polynomials]
+    )
+    for spec, linearize in models:
         parameters = dict(spec)
         index = parameters.pop("device")
         device, start = devices[index], starts[index]
         count = len(device["channels"])
-        linearize = (
-            library.linearize_saturating_amplifier
-            if is_amplifier
-            else library.linearize_bilinear_mixer
-        )
         point = linearize(
             spacing,
             device["channels"],

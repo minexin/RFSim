@@ -2,7 +2,7 @@
 
 C++17 接口 solve_conversion_operating_point 根据固定器件方程、物理接线、外部源和反射自动求解入射/出射复功率波，再在收敛工作点计算一阶 C/P 噪声。它扩展了此前只能检查已给定工作点的仿射网络。
 
-通用 C++ 求解器支持自定义确定性器件回调。C ABI、Python、JSON/CLI 已接入固定系数双线性混频器、公共基波压缩放大器及原有线性/仿射器件；其他非线性器件与自定义回调的跨语言接口尚未适配。旧分析入口默认保持原语义，自动求解必须显式启用。完整 SystemVue RF Design 库兼容仍未完成。
+通用 C++ 求解器支持自定义确定性器件回调。C ABI、Python、JSON/CLI 已接入固定系数双线性混频器、公共基波压缩放大器、高阶电压多项式及原有线性/仿射器件；其他非线性器件与自定义回调的跨语言接口尚未适配。旧分析入口默认保持原语义，自动求解必须显式启用。完整 SystemVue RF Design 库兼容仍未完成。
 
 ## 固定器件方程
 
@@ -119,6 +119,6 @@ python -m rfmodel examples/nonlinear-mixer-feedback.json --library build-msvc/Re
 
 新增验证包括独立傅里叶卷积/复导数、实际 LO 幅度变化、多解初值、反射 IF 自动求解、收敛点 NF、共享相噪、线性退化的加载/额外噪声、C 描述符与输出别名拒绝、错误时输出不变，以及 CLI 不收敛保护已有文件。SystemVue 实测尚未恢复。
 
-压缩放大器已有[公共基波 C++/C/Python/JSON 接口](amplifier-linearization.md)。C 使用带 kind 的 rfmodel_conversion_network_solve_nonlinear；Python 在求解器中传 amplifiers，可与 mixers 同时使用；JSON 声明 saturating_amplifier。高阶生成项和自定义回调的跨语言入口仍待接入。
+压缩放大器已有[公共基波 C++/C/Python/JSON 接口](amplifier-linearization.md)。C 使用带 kind 的 rfmodel_conversion_network_solve_nonlinear；Python 在求解器中传 amplifiers，可与 mixers 同时使用；JSON 声明 saturating_amplifier。厂商高阶压缩规则和自定义回调的跨语言入口仍待接入；通用电压多项式已提供独立模型类型。
 
-[高阶多项式 C++ 适配](polynomial-linearization.md)已将既有电压多项式的完整 DC/谐波/互调和解析导数接入通用回调。模型要求显式完整频点集合；专用 C/Python/JSON 类型、高阶厂商压缩规则及网络级频率扩展仍待完成。
+[高阶多项式接口](polynomial-linearization.md)已将完整 DC/谐波/互调及解析导数接入 C++/C/Python/JSON。模型要求显式完整频点集合；高阶厂商压缩规则及网络级频率扩展仍待完成。

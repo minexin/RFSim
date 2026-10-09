@@ -1,0 +1,122 @@
+{
+  "format": "rfmodel.conversion-network",
+  "version": 1,
+  "spacing_hz": 1000000.0,
+  "devices": [
+    {
+      "id": "polynomial",
+      "channels": [
+        {
+          "port": 0,
+          "bin": 1
+        },
+        {
+          "port": 1,
+          "bin": 1
+        },
+        {
+          "port": 1,
+          "bin": 3
+        }
+      ],
+      "model": {
+        "type": "polynomial_amplifier",
+        "voltage_coefficients": [
+          0,
+          2,
+          0,
+          -0.02
+        ]
+      },
+      "noise": {
+        "noiseless": true
+      }
+    },
+    {
+      "id": "feedback",
+      "channels": [
+        {
+          "port": 0,
+          "bin": 1
+        },
+        {
+          "port": 0,
+          "bin": 3
+        },
+        {
+          "port": 1,
+          "bin": 1
+        }
+      ],
+      "model": {
+        "type": "matrix",
+        "direct": [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            -0.2,
+            0,
+            0
+          ]
+        ]
+      },
+      "noise": {
+        "covariance": [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            1e-09
+          ]
+        ]
+      },
+      "output_offset": [
+        0,
+        0,
+        0.2
+      ]
+    }
+  ],
+  "connections": [
+    [
+      [
+        "polynomial",
+        1
+      ],
+      [
+        "feedback",
+        0
+      ]
+    ],
+    [
+      [
+        "polynomial",
+        0
+      ],
+      [
+        "feedback",
+        1
+      ]
+    ]
+  ],
+  "boundaries": [],
+  "operating_point": {},
+  "loaded_noise": true
+}
