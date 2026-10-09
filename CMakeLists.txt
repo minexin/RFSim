@@ -85,6 +85,9 @@ if(RFMODEL_BUILD_C_API)
         add_test(NAME amplifier_term_reference COMMAND ${Python3_EXECUTABLE}
             ${CMAKE_CURRENT_SOURCE_DIR}/scripts/reference/test_compare_amplifier_terms.py
             $<TARGET_FILE:rfmodel_c>)
+        add_test(NAME coherent_carrier_reference COMMAND ${Python3_EXECUTABLE}
+            ${CMAKE_CURRENT_SOURCE_DIR}/scripts/reference/test_compare_coherent_carriers.py
+            $<TARGET_FILE:rfmodel_c>)
         add_test(NAME total_drive_diagnostic COMMAND ${Python3_EXECUTABLE}
             ${CMAKE_CURRENT_SOURCE_DIR}/scripts/reference/test_diagnose_total_drive.py
             $<TARGET_FILE:rfmodel_c>)
@@ -204,6 +207,9 @@ add_test(NAME single_tone_amplifier_test COMMAND single_tone_amplifier_test)
 add_executable(multitone_amplifier_test tests/multitone_amplifier_test.cpp)
 target_link_libraries(multitone_amplifier_test PRIVATE rfmodel)
 add_test(NAME multitone_amplifier_test COMMAND multitone_amplifier_test)
+add_executable(coherence_test tests/coherence_test.cpp)
+target_link_libraries(coherence_test PRIVATE rfmodel)
+add_test(NAME coherence_test COMMAND coherence_test)
 add_executable(term_propagation_test tests/term_propagation_test.cpp)
 target_link_libraries(term_propagation_test PRIVATE rfmodel)
 add_test(NAME term_propagation_test COMMAND term_propagation_test)

@@ -1,0 +1,47 @@
+{
+  "format": "rfmodel.coherence",
+  "version": 1,
+  "spacing_hz": 100000000.0,
+  "components": [
+    {
+      "bin": 10,
+      "kind": "source",
+      "bandwidth_hz": 1,
+      "coherence_group": 1,
+      "amplitude": [
+        1,
+        0
+      ]
+    },
+    {
+      "bin": 10,
+      "kind": "source",
+      "bandwidth_hz": 1,
+      "coherence_group": 1,
+      "amplitude": [
+        -1,
+        0
+      ]
+    },
+    {
+      "bin": 10,
+      "kind": "source",
+      "bandwidth_hz": 1,
+      "coherence_group": 2,
+      "amplitude": [
+        0,
+        1
+      ]
+    },
+    {
+      "bin": 10,
+      "kind": "intermod",
+      "bandwidth_hz": 3,
+      "coherence_group": 2,
+      "amplitude": [
+        0.25,
+        0
+      ]
+    }
+  ]
+}

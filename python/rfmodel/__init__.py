@@ -1,5 +1,6 @@
 """Standard-library Python bindings for the RFModel linear-network C ABI."""
 import ctypes as ct
+from enum import IntEnum
 import operator
 from pathlib import Path
 from threading import RLock
@@ -79,6 +80,35 @@ class _AmplifierTerm(ct.Structure):
                 ("amplitude", _Complex)]
 
 
+class SpectrumKind(IntEnum):
+    SOURCE = 0
+    HARMONIC = 1
+    INTERMOD = 2
+
+
+class CoherentComponent(NamedTuple):
+    bin: int
+    kind: SpectrumKind
+    bandwidth_hz: float
+    coherence_group: int
+    amplitude: complex
+
+
+class CoherentReduction(NamedTuple):
+    components: tuple
+    power_by_bin_w: dict
+    total_power_w: float
+
+
+class _CoherentComponent(ct.Structure):
+    _fields_ = [("index", ct.c_int), ("kind", ct.c_int), ("bandwidth_hz", ct.c_double),
+                ("coherence_group", ct.c_uint64), ("amplitude", _Complex)]
+
+
+class _BinPower(ct.Structure):
+    _fields_ = [("index", ct.c_int), ("power_w", ct.c_double)]
+
+
 class AmplifierMixingTerm(NamedTuple):
     order: int
     bin: int
@@ -152,6 +182,10 @@ class Library:
         size = ct.c_size_t
         complex_pointer = ct.POINTER(_Complex)
         signatures = {
+            "rfmodel_reduce_coherent_components": (
+                ct.c_int, [ct.c_double, ct.POINTER(_CoherentComponent), size,
+                           ct.POINTER(_CoherentComponent), size, ct.POINTER(size),
+                           ct.POINTER(_BinPower), size, ct.POINTER(size), ct.POINTER(ct.c_double)]),
             "rfmodel_last_error": (ct.c_char_p, []),
             "rfmodel_abi_version": (ct.c_uint, []),
             "rfmodel_saturating_fundamental": (
@@ -366,6 +400,32 @@ class Library:
         for component in output[:count.value]:
             families[component.order - 1][component.index] = component.amplitude.value()
         return LimitedAmplifierResponse(*families, drive.total_input_power_w, drive.limited_input_power_w)
+
+    def reduce_coherent_components(self, spacing_hz, components):
+        components = list(components)
+        if len(components) > 4096:
+            raise ValueError("Coherent reduction accepts at most 4096 components")
+        incident = (_CoherentComponent * len(components))()
+        for index, value in enumerate(components):
+            if isinstance(value.kind, bool) or isinstance(value.coherence_group, bool):
+                raise TypeError("Kind and coherence group must be integers, not bool")
+            kind = SpectrumKind(operator.index(value.kind))
+            group = operator.index(value.coherence_group)
+            if not 1 <= group <= 18446744073709551615:
+                raise ValueError("Coherence group must be a positive uint64")
+            incident[index] = _CoherentComponent(_bin(value.bin), kind, value.bandwidth_hz,
+                                                  group, _Complex.from_value(value.amplitude))
+        groups = (_CoherentComponent * len(components))()
+        powers = (_BinPower * len(components))()
+        group_count, power_count, total = ct.c_size_t(), ct.c_size_t(), ct.c_double()
+        self._check(self._dll.rfmodel_reduce_coherent_components(
+            spacing_hz, incident, len(incident), groups, len(groups), ct.byref(group_count),
+            powers, len(powers), ct.byref(power_count), ct.byref(total)))
+        return CoherentReduction(
+            tuple(CoherentComponent(g.index, SpectrumKind(g.kind), g.bandwidth_hz,
+                                    g.coherence_group, g.amplitude.value())
+                  for g in groups[:group_count.value]),
+            {p.index: p.power_w for p in powers[:power_count.value]}, total.value)
 
     def multitone_amplifier_terms(self, spacing_hz, amplitudes, *, power_gain_db, output_p1db_dbm,
                                   output_saturation_dbm, input_ip2_dbm, input_ip3_dbm, reference_ohms=50.):

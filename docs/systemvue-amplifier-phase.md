@@ -85,3 +85,6 @@ build-reference/compression-phase-restored-001；新数据、参数、零相位�
 
 本轮 MSVC Debug/Release 全套 CTest 各 58/58 通过；数值核心及 C ABI 未修改。
 跨平台结果绑定本阶段提交的 CI，不能从此推断全部相干传播已通过对照。
+
+后续 [显式相干合并接口](coherence.md) 已提供给定分组后的离散功率合并，
+相干关系仍由调用者或参考数据明确提供，不依赖同频率假设。

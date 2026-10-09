@@ -1,6 +1,7 @@
 #ifndef RFMODEL_C_API_H
 #define RFMODEL_C_API_H
 #include <stddef.h>
+#include <stdint.h>
 
 #if defined(_WIN32)
 #if defined(RFMODEL_C_API_BUILD)
@@ -31,6 +32,43 @@ typedef struct rfmodel_complex {
     double real;
     double imag;
 } rfmodel_complex;
+
+enum rfmodel_spectrum_kind {
+    RFMODEL_SPECTRUM_SOURCE = 0,
+    RFMODEL_SPECTRUM_HARMONIC = 1,
+    RFMODEL_SPECTRUM_INTERMOD = 2
+};
+
+typedef struct rfmodel_coherent_component {
+    int index;
+    int kind;
+    double bandwidth_hz;
+    uint64_t coherence_group;
+    rfmodel_complex amplitude;
+} rfmodel_coherent_component;
+
+typedef struct rfmodel_bin_power {
+    int index;
+    double power_w;
+} rfmodel_bin_power;
+
+/* Up to 4096 deterministic RF components, RMS power waves in sqrt(W).
+ * Equal (index,kind,bandwidth,group) keys add amplitudes; other groups add power.
+ * Positive nonzero group IDs must be assigned by the caller; no clock inference.
+ * Zero-amplitude merged groups remain. Group and bin-power arrays are sorted.
+ * All arrays/scalars must be non-overlapping. On any failure all outputs remain
+ * unchanged. Empty input accepts NULL arrays but requires both counts and total.
+ * This is not a noise PSD or general overlapping-band integration operation. */
+RFMODEL_API int rfmodel_reduce_coherent_components(double spacing_hz,
+                                                   const rfmodel_coherent_component *input,
+                                                   size_t input_count,
+                                                   rfmodel_coherent_component *groups,
+                                                   size_t group_capacity,
+                                                   size_t *group_count,
+                                                   rfmodel_bin_power *powers,
+                                                   size_t power_capacity,
+                                                   size_t *power_count,
+                                                   double *total_power_w);
 
 /* Single-tone fundamental wave in sqrt(W), matched ports, no AM/PM.
  * Rejects power above the P1dB domain; does not predict harmonics or saturation.

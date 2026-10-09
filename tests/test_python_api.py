@@ -28,6 +28,50 @@ class PythonApiTests(unittest.TestCase):
     def setUpClass(cls):
         cls.library = Library(LIBRARY_PATH)
 
+    def test_coherent_reduction_and_explicit_group_validation(self):
+        component = rfmodel.CoherentComponent(10, rfmodel.SpectrumKind.SOURCE, 1., 1, 1.)
+        result = self.library.reduce_coherent_components(1e8, [component, component])
+        self.assertEqual(result.total_power_w, 4.)
+        self.assertEqual(result.components[0].amplitude, 2)
+        result = self.library.reduce_coherent_components(
+            1e8, [component, component._replace(amplitude=-1)])
+        self.assertEqual(result.total_power_w, 0)
+        self.assertEqual(len(result.components), 1)
+        self.assertEqual(result.power_by_bin_w, {10: 0.})
+        for change in ({"coherence_group": 2}, {"kind": rfmodel.SpectrumKind.INTERMOD},
+                       {"bandwidth_hz": 3}, {"bin": 11}):
+            result = self.library.reduce_coherent_components(
+                1e8, [component, component._replace(amplitude=-1, **change)])
+            self.assertEqual(result.total_power_w, 2)
+        for change in ({"coherence_group": 0}, {"coherence_group": 2**64},
+                       {"coherence_group": True}, {"kind": True}, {"kind": 3},
+                       {"amplitude": float("nan")}, {"bin": 0}, {"bandwidth_hz": -1}):
+            with self.subTest(change=change), self.assertRaises((ValueError, TypeError, RFModelError)):
+                self.library.reduce_coherent_components(1e8, [component._replace(**change)])
+        self.assertEqual(self.library.reduce_coherent_components(1e8, []).total_power_w, 0)
+        maximum = component._replace(coherence_group=2**64-1)
+        self.assertEqual(self.library.reduce_coherent_components(1e8, [maximum]).components[0], maximum)
+
+    def test_coherence_json_cli_and_strict_schema(self):
+        from rfmodel.coherence_file import analyze_coherence
+        root = Path(__file__).resolve().parents[1]
+        model = root / "examples/coherence.json"
+        document = load(model)
+        result = analyze_coherence(self.library, document)
+        self.assertEqual(result["total_power_w"], 1.0625)
+        self.assertEqual(len(result["components"]), 3)
+        for change in ({"version": True}, {"noise": []}, {"components": [{}]}):
+            with self.subTest(change=change), self.assertRaises(ValueError):
+                analyze_coherence(self.library, dict(document, **change))
+        with tempfile.TemporaryDirectory() as directory:
+            output = Path(directory) / "result.json"
+            env = dict(os.environ, PYTHONPATH=str(root / "python"))
+            run = subprocess.run([sys.executable, "-m", "rfmodel", str(model),
+                                  "--library", str(self.library.path), "--output", str(output)],
+                                 capture_output=True, text=True, env=env)
+            self.assertEqual(run.returncode, 0, run.stderr)
+            self.assertEqual(json.loads(output.read_text())["total_power_w"], 1.0625)
+
     def test_complex_cascade_and_waves(self):
         with self.library.network(75.) as network:
             self.assertEqual(network.add([[0, -0.5j], [-0.5j, 0]]), 0)
@@ -90,7 +134,7 @@ class PythonApiTests(unittest.TestCase):
 
     def test_touchstone_unicode_snapshot_interpolation_and_lifetime(self):
         with tempfile.TemporaryDirectory() as directory:
-            path = Path(directory) / "测量器件.s2p"
+            path = Path(directory) / "娴嬮噺鍣ㄤ欢.s2p"
             path.write_text("# GHz S RI R 75\n1 0 0 .5 0 .1 0 0 0\n"
                             "3 0 0 .25 -.25 .3 .2 0 0\n", encoding="ascii")
             model = self.library.touchstone(path)

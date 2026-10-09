@@ -21,3 +21,5 @@
 - [SystemVue 不等功率双音交叉验证](systemvue-unequal-two-tone.md)
 
 - [SystemVue 复幅度与相干语义验证](systemvue-amplifier-phase.md)
+
+- [显式相干分组与离散功率合并](coherence.md)

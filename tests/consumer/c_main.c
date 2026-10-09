@@ -2,6 +2,21 @@
 #include <math.h>
 
 int main(int argc, char **argv) {
+    {
+        const rfmodel_coherent_component input[] = {
+            {10, RFMODEL_SPECTRUM_SOURCE, 1., 1, {1., 0.}},
+            {10, RFMODEL_SPECTRUM_SOURCE, 1., 2, {-1., 0.}}};
+        rfmodel_coherent_component groups[2];
+        rfmodel_bin_power powers[2];
+        size_t group_count, power_count;
+        double total;
+        if (rfmodel_reduce_coherent_components(
+                1e8, input, 2, groups, 2, &group_count, powers, 2, &power_count, &total) !=
+                RFMODEL_OK ||
+            group_count != 2 || power_count != 1 || total != 2.) {
+            return 25;
+        }
+    }
     rfmodel_network *network = NULL;
     const rfmodel_complex s[4] = {{0, 0}, {0, -0.5}, {0, -0.5}, {0, 0}};
     const size_t ports[2] = {0, 1};

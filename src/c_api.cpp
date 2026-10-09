@@ -1,3 +1,4 @@
+#include "rfmodel/coherence.hpp"
 #include "rfmodel/c_api.h"
 #include "rfmodel/fundamental_compression.hpp"
 #include "rfmodel/saturating_fundamental.hpp"
@@ -104,6 +105,51 @@ void write_spectrum(const rfmodel::PowerWaveSpectrum &spectrum,
 } // namespace
 
 extern "C" {
+int rfmodel_reduce_coherent_components(double spacing_hz,
+                                       const rfmodel_coherent_component *input,
+                                       size_t input_count,
+                                       rfmodel_coherent_component *groups,
+                                       size_t group_capacity,
+                                       size_t *group_count,
+                                       rfmodel_bin_power *powers,
+                                       size_t power_capacity,
+                                       size_t *power_count,
+                                       double *total_power_w) {
+    return guarded([&] {
+        require(input_count <= 4096 && (input || input_count == 0));
+        require(group_count && power_count && total_power_w);
+        std::vector<rfmodel::CoherentComponent> components;
+        components.reserve(input_count);
+        for (size_t i = 0; i < input_count; ++i) {
+            const auto &value = input[i];
+            components.push_back({value.index,
+                                  static_cast<rfmodel::SpectrumKind>(value.kind),
+                                  value.bandwidth_hz,
+                                  value.coherence_group,
+                                  {value.amplitude.real, value.amplitude.imag}});
+        }
+        const auto result = rfmodel::reduce_coherent_components(spacing_hz, components);
+        require(group_capacity >= result.components.size() &&
+                power_capacity >= result.power_by_bin_w.size());
+        require((groups || result.components.empty()) && (powers || result.power_by_bin_w.empty()));
+        for (size_t i = 0; i < result.components.size(); ++i) {
+            const auto &value = result.components[i];
+            groups[i] = {value.bin,
+                         static_cast<int>(value.kind),
+                         value.bandwidth_hz,
+                         value.coherence_group,
+                         {value.amplitude.real(), value.amplitude.imag()}};
+        }
+        size_t index = 0;
+        for (const auto &entry : result.power_by_bin_w) {
+            powers[index++] = {entry.first, entry.second};
+        }
+        *group_count = result.components.size();
+        *power_count = result.power_by_bin_w.size();
+        *total_power_w = result.total_power_w;
+    });
+}
+
 const char *rfmodel_last_error(void) {
     return last_error;
 }

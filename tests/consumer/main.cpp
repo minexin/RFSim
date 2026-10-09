@@ -1,3 +1,4 @@
+#include <rfmodel/coherence.hpp>
 #include <rfmodel/linear_analysis.hpp>
 #include <rfmodel/interpolation.hpp>
 #include <rfmodel/measurements.hpp>
@@ -18,6 +19,14 @@
 #include <rfmodel/term_propagation.hpp>
 
 int main() {
+    const auto coherence =
+        rfmodel::reduce_coherent_components(1e8,
+                                            {{10, rfmodel::SpectrumKind::source, 1., 1, 1.},
+                                             {10, rfmodel::SpectrumKind::source, 1., 1, -1.}});
+    if (coherence.components.size() != 1 || coherence.total_power_w != 0.) {
+        return 25;
+    }
+
     const rfmodel::MultiToneLimitedAmplifier multitone(20., 20., 23., 20., 10.);
     const auto traced = multitone.evaluate_terms({1e8, {{10, .001}, {11, .001}}});
     const auto propagated =

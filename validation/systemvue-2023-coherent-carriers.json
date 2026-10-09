@@ -1,0 +1,132 @@
+{
+  "scope": "Two carrier-center powers with three explicit independent groups each",
+  "coherency_assignment": "Imported from SystemVue; not inferred by RFModel",
+  "limitation": "No automatic clocks, coherent path merging, noise prediction or band integration",
+  "relative_tolerance": 1e-07,
+  "individual_terms_passed": true,
+  "reports": [
+    {
+      "profile": "sample",
+      "source_powers_dbm": [
+        -3,
+        -12
+      ],
+      "source_phases_deg": [
+        0,
+        0
+      ],
+      "raw_capture_sha256": "8e2efa90585df1b01cd38e6332f4969d4ae48f691fe1c2b772517e7659874050",
+      "checks": [
+        {
+          "bin": 10,
+          "systemvue_total_w": 0.0454841481685659,
+          "rfmodel_signal_w": 0.04548414919502793,
+          "exported_noise_fraction_bound": 1.5893382525925473e-11,
+          "signed_relative_error": 2.256746745032956e-08,
+          "passed": true
+        },
+        {
+          "bin": 11,
+          "systemvue_total_w": 0.00577236968222689,
+          "rfmodel_signal_w": 0.005772369814170392,
+          "exported_noise_fraction_bound": 1.252340036250083e-10,
+          "signed_relative_error": 2.285777056520999e-08,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "profile": "sample",
+      "source_powers_dbm": [
+        -3,
+        -12
+      ],
+      "source_phases_deg": [
+        30,
+        -45
+      ],
+      "raw_capture_sha256": "44037b9118eab2d9d9d0667842381fa1b38943428581125bfae30b373a83130d",
+      "checks": [
+        {
+          "bin": 10,
+          "systemvue_total_w": 0.045484148168565885,
+          "rfmodel_signal_w": 0.045484149195027926,
+          "exported_noise_fraction_bound": 1.5893382525925476e-11,
+          "signed_relative_error": 2.2567467672374164e-08,
+          "passed": true
+        },
+        {
+          "bin": 11,
+          "systemvue_total_w": 0.005772369682226887,
+          "rfmodel_signal_w": 0.005772369814170394,
+          "exported_noise_fraction_bound": 1.2523400362500835e-10,
+          "signed_relative_error": 2.285777145338841e-08,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "profile": "sample",
+      "source_powers_dbm": [
+        -3,
+        -12
+      ],
+      "source_phases_deg": [
+        120,
+        90
+      ],
+      "raw_capture_sha256": "d89564b0dd15974b77d8aad1df1a68541e3b217447d748148bcd4e1b85afbb4b",
+      "checks": [
+        {
+          "bin": 10,
+          "systemvue_total_w": 0.04548414816856588,
+          "rfmodel_signal_w": 0.04548414919502792,
+          "exported_noise_fraction_bound": 1.589338252592548e-11,
+          "signed_relative_error": 2.2567467672374164e-08,
+          "passed": true
+        },
+        {
+          "bin": 11,
+          "systemvue_total_w": 0.00577236968222689,
+          "rfmodel_signal_w": 0.005772369814170392,
+          "exported_noise_fraction_bound": 1.252340036250083e-10,
+          "signed_relative_error": 2.285777056520999e-08,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "profile": "limiter",
+      "source_powers_dbm": [
+        3,
+        -6
+      ],
+      "source_phases_deg": [
+        30,
+        -45
+      ],
+      "raw_capture_sha256": "062ebd81196956900c080e05d0e25a4c2e72508becff372c9282a2f14a67903f",
+      "checks": [
+        {
+          "bin": 10,
+          "systemvue_total_w": 0.0175869578623009,
+          "rfmodel_signal_w": 0.0175869582447821,
+          "exported_noise_fraction_bound": 4.002066097060249e-12,
+          "signed_relative_error": 2.174800228793572e-08,
+          "passed": true
+        },
+        {
+          "bin": 11,
+          "systemvue_total_w": 0.00221686125997751,
+          "rfmodel_signal_w": 0.002216861308256666,
+          "exported_noise_fraction_bound": 3.17494689820398e-11,
+          "signed_relative_error": 2.1778158387775193e-08,
+          "passed": true
+        }
+      ]
+    }
+  ],
+  "passed": true,
+  "captures_sha256": "646b1221be3379491106b2750ace3a405edfb7f58a8f9dc9a86c826f67691b66",
+  "library_sha256": "38d9675410bce1baf651492f45687ed6d8d26e13181a94d1843d643d50780f62"
+}

@@ -7,6 +7,7 @@ from . import Library
 from .model_file import analyze, load, referenced_touchstone_paths
 from .spectrum_file import analyze_spectrum
 from .amplifier_file import analyze_amplifier
+from .coherence_file import analyze_coherence
 
 
 def main():
@@ -23,7 +24,8 @@ def main():
             raise ValueError("Model must be an object")
         if args.output.resolve() in referenced_touchstone_paths(document, args.model.parent):
             raise ValueError("Output must not overwrite Touchstone input data")
-        operation = {"rfmodel.spectrum-chain": analyze_spectrum,
+        operation = {"rfmodel.coherence": analyze_coherence,
+                     "rfmodel.spectrum-chain": analyze_spectrum,
                      "rfmodel.amplifier-components": analyze_amplifier}.get(document.get("format"), analyze)
         result = operation(Library(args.library), document, base_directory=args.model.parent)
         text = json.dumps(result, indent=2, allow_nan=False) + "\n"

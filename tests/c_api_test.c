@@ -22,6 +22,31 @@ int main(int argc, char **argv) {
     double residual = -1;
     CHECK(rfmodel_abi_version() == 1);
     {
+        const rfmodel_coherent_component input[] = {
+            {10, RFMODEL_SPECTRUM_SOURCE, 1., 1, {1., 0.}},
+            {10, RFMODEL_SPECTRUM_SOURCE, 1., 1, {-1., 0.}},
+            {10, RFMODEL_SPECTRUM_INTERMOD, 1., 1, {1., 0.}}};
+        rfmodel_coherent_component output[3] = {{99, 0, 9., 9, {9., 0.}}};
+        rfmodel_bin_power powers[3] = {{99, 9.}};
+        size_t group_count = 777, power_count = 888;
+        double total = 999.;
+        CHECK(rfmodel_reduce_coherent_components(
+                  1e8, input, 3, output, 3, &group_count, powers, 0, &power_count, &total) !=
+              RFMODEL_OK);
+        CHECK(group_count == 777 && power_count == 888 && total == 999.);
+        CHECK(output[0].index == 99 && powers[0].index == 99);
+        CHECK(rfmodel_reduce_coherent_components(
+                  1e8, input, 3, output, 3, &group_count, powers, 3, &power_count, &total) ==
+              RFMODEL_OK);
+        CHECK(group_count == 2 && power_count == 1 && total == 1.);
+        CHECK(output[0].amplitude.real == 0. && powers[0].power_w == 1.);
+        CHECK(rfmodel_reduce_coherent_components(
+                  1e8, NULL, 0, NULL, 0, &group_count, NULL, 0, &power_count, &total) ==
+              RFMODEL_OK);
+        CHECK(group_count == 0 && power_count == 0 && total == 0.);
+    }
+
+    {
         rfmodel_network *term_network = NULL;
         rfmodel_amplifier_term terms[] = {{3, 10, {-11, 10, 11}, {1., 0.}},
                                           {3, 10, {-10, 10, 10}, {-1., 0.}}};
