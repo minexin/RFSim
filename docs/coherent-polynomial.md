@@ -29,8 +29,9 @@ a[n]×(sqrt(R/2))^(n−1)，再乘相应多项式排列数和带共轭的输入�
 这些是**本级输入来源**，不是递归展开后的原始源身份。例如，对前级 H2
 再次求三次幂，本地阶数是 3，而原始源阶数可能为 6。调用方仍须展开来源、
 应用全局阶数限制并确定跨级相干归并。新系统图 polynomial_amplifier 阶段
-现通过[递归来源](recursive-mixing-origins.md)接入上述处理；含混频器的表达式之和
-尚未支持。现有 cascaded_amplifier 的数值模型未改变。
+现通过[递归来源](recursive-mixing-origins.md)接入上述处理；后续
+[混合图](mixed-polynomial-graphs.md)已接入多来源表达式。共同压缩组合及
+SystemVue 高阶语义尚未验收。现有 cascaded_amplifier 的数值模型未改变。
 
 ## RF 投影与资源边界
 

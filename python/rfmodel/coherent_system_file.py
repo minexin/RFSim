@@ -1,24 +1,12 @@
 """Feed-forward coherent RF graphs with networks, mixers and nonlinear amplifiers."""
 from . import CoherentMixerInput, SpectrumKind
 from .coherent_origins import OriginRegistry
+from .coherent_graph_support import _array, _label
 from .coherence_file import _encode_reduction
 from .coherent_network_file import (
     _analyze_ports, _endpoint, _resolve_sources, _source_component,
 )
 from .model_file import _number, _object
-
-
-def _label(value):
-    if (not isinstance(value, str) or not value or chr(0) in value or
-            len(value.encode("utf-8")) > 1024):
-        raise ValueError("Expected a nonempty label of at most 1024 UTF-8 bytes")
-    return value
-
-
-def _array(value, maximum, *, nonempty=False):
-    if not isinstance(value, list) or len(value) > maximum or (nonempty and not value):
-        raise ValueError("Invalid graph array size")
-    return value
 
 
 def analyze_coherent_system(library, document, *, base_directory=None):
@@ -36,7 +24,8 @@ def analyze_coherent_system(library, document, *, base_directory=None):
                         for stage in stages)
     if trace_origins and any(isinstance(stage, dict) and stage.get("type") == "ideal_mixer_bank"
                              for stage in stages):
-        raise ValueError("Polynomial graphs with mixers require multi-origin coherent sums, not yet supported")
+        from .expression_system import analyze_expression_system
+        return analyze_expression_system(library, document, base_directory=base_directory)
     groups, resolved_sources = _resolve_sources(library, document["sources"])
     highest_group = max(groups.values(), default=0)
     lineage = OriginRegistry(library, highest_group)

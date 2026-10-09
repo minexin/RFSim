@@ -53,6 +53,328 @@ class CoherentSystemFileTests(unittest.TestCase):
     def evaluate(self, model, **kwargs):
         return analyze_coherent_system(self.library, model, **kwargs)
 
+    def mixed_model(self):
+        return load(ROOT / "examples/coherent-mixed-polynomial.json")
+
+    def assert_history(self, result):
+        roots = {root["root_id"]: root for root in result["origin_roots"]}
+        for value in result["streams"]:
+            for component, origin in zip(value["components"], value["origins"]):
+                self.assertEqual(component["coherence_group"], origin["coherence_group"])
+                wave = sum(complex(*term["amplitude"]) for term in origin["terms"])
+                self.assertAlmostEqual(wave, complex(*component["amplitude"]))
+                for term in origin["terms"]:
+                    factors = term["source_factors"]
+                    self.assertEqual(term["source_order"], len(factors))
+                    self.assertEqual(
+                        sum(f["sign"] * roots[f["root_id"]]["bin"] for f in factors),
+                        component["bin"],
+                    )
+                    self.assertAlmostEqual(
+                        math.fsum(roots[f["root_id"]]["bandwidth_hz"] for f in factors),
+                        component["bandwidth_hz"],
+                    )
+                    self.assertEqual(
+                        term["rf_order"], sum(roots[f["root_id"]]["role"] == "rf" for f in factors)
+                    )
+
+    def test_mixed_polynomial_matches_independent_spectrum(self):
+        model = self.mixed_model()
+        original = copy.deepcopy(model)
+        result = self.evaluate(model)
+        self.assertEqual(model, original)
+        expected_mixed = self.library.ideal_mixer(
+            1e8,
+            {8: 0.01 + 0.003j, 12: 0.02 - 0.002j},
+            lo_bin=10,
+            conversion_gain_db=0,
+            lo_phase_radians=0.3,
+        )
+        expected = self.library.polynomial_amplifier(
+            1e8, expected_mixed, voltage_coefficients=[0, 1, 0.5]
+        )
+        expected.pop(0, None)
+        actual = {}
+        for c in stream(result)["components"]:
+            actual[c["bin"]] = actual.get(c["bin"], 0j) + complex(*c["amplitude"])
+        self.assertEqual(set(actual), set(expected))
+        for index in expected:
+            self.assertLessEqual(
+                abs(actual[index] - expected[index]), 1e-16 + 1e-11 * abs(expected[index])
+            )
+        folded = next(c for c in stream(result, "mixed")["components"] if c["bin"] == 2)
+        folded_origin = next(o for o in stream(result, "mixed")["origins"] if o["bin"] == 2)
+        self.assertEqual(len(folded_origin["terms"]), 2)
+        self.assertAlmostEqual(complex(*folded["amplitude"]), expected_mixed[2])
+        self.assertAlmostEqual(powers(result, "mixed")[2], abs(expected_mixed[2]) ** 2)
+        harmonic = next(
+            o for o in stream(result)["origins"] if o["bin"] == 4 and o["kind"] == "harmonic"
+        )
+        self.assertEqual(len(harmonic["terms"]), 3)
+        self.assertEqual({t["source_order"] for t in harmonic["terms"]}, {4})
+        self.assertEqual(result["source_order_policy"], "rf-and-lo-factors")
+        self.assert_history(result)
+
+    def test_mixed_cancellation_retains_nonlinear_cross_contributions(self):
+        model = self.mixed_model()
+        model["inputs"][0]["components"][0]["amplitude"] = 0.01
+        model["inputs"][0]["components"][1]["amplitude"] = -0.01
+        model["stages"][0]["branches"][0]["lo_phase_radians"] = 0
+        model["stages"][1]["voltage_coefficients"] = [0, 0, 0.5]
+        result = self.evaluate(model)
+        self.assertEqual(powers(result, "mixed")[2], 0)
+        harmonic = next(
+            o for o in stream(result)["origins"] if o["bin"] == 4 and o["kind"] == "harmonic"
+        )
+        self.assertEqual(len(harmonic["terms"]), 3)
+        self.assertAlmostEqual(sum(complex(*t["amplitude"]) for t in harmonic["terms"]), 0)
+        self.assertTrue(all(abs(complex(*t["amplitude"])) > 0 for t in harmonic["terms"]))
+        self.assert_history(result)
+
+    def test_mixed_origins_are_local_to_streams_and_linear_paths(self):
+        model = self.mixed_model()
+        left, right = model["inputs"][0]["components"]
+        model["inputs"] = [
+            {"id": "left", "components": [left]},
+            {"id": "right", "components": [right]},
+        ]
+        branch = model["stages"][0]["branches"][0]
+        model["stages"][0]["branches"] = [
+            dict(branch, id="a", input="left"),
+            dict(branch, id="b", input="right"),
+        ]
+        model["stages"].insert(
+            1,
+            {
+                "id": "combine",
+                "type": "linear_network",
+                "network": {
+                    "devices": [{"id": "n", "s": [[0, 0, 0], [0, 0, 0], [0.5, [0, 0.5], 0]]}],
+                    "external_ports": [["n", 0], ["n", 1], ["n", 2]],
+                },
+                "inputs": [{"stream": "a", "port": ["n", 0]}, {"stream": "b", "port": ["n", 1]}],
+                "outputs": [{"id": "mixed", "port": ["n", 2]}],
+            },
+        )
+        result = self.evaluate(model)
+        a = next(o for o in stream(result, "a")["origins"] if o["bin"] == 2)
+        b = next(o for o in stream(result, "b")["origins"] if o["bin"] == 2)
+        self.assertEqual(a["coherence_group"], b["coherence_group"])
+        self.assertNotEqual(a["terms"][0]["source_factors"], b["terms"][0]["source_factors"])
+        self.assertEqual(len(a["terms"]), 1)
+        self.assertEqual(len(b["terms"]), 1)
+        expected = 0.5 * (0.01 - 0.003j) * cmath.exp(0.3j) + 0.5j * (0.02 - 0.002j) * cmath.exp(
+            -0.3j
+        )
+        self.assertAlmostEqual(powers(result, "mixed")[2], abs(expected) ** 2)
+        combined = next(o for o in stream(result, "mixed")["origins"] if o["bin"] == 2)
+        self.assertEqual(len(combined["terms"]), 2)
+        self.assert_history(result)
+
+    def test_mixed_recursive_mixer_conjugates_entire_history(self):
+        model = self.mixed_model()
+        model["sources"].append({"id": "lo2"})
+        model["stages"].append(
+            {
+                "id": "again",
+                "type": "ideal_mixer_bank",
+                "branches": [
+                    {
+                        "id": "again",
+                        "input": "result",
+                        "lo_source": "lo2",
+                        "lo_bin": 101,
+                        "conversion_gain_db": -2,
+                        "lo_phase_radians": -0.4,
+                    }
+                ],
+            }
+        )
+        model["outputs"] = ["again"]
+        result = self.evaluate(model)
+        physical = {}
+        for component in stream(result)["components"]:
+            physical[component["bin"]] = physical.get(component["bin"], 0j) + complex(
+                *component["amplitude"]
+            )
+        expected = self.library.ideal_mixer(
+            1e8, physical, lo_bin=101, conversion_gain_db=-2, lo_phase_radians=-0.4
+        )
+        actual = {}
+        for component in stream(result, "again")["components"]:
+            actual[component["bin"]] = actual.get(component["bin"], 0j) + complex(
+                *component["amplitude"]
+            )
+        self.assertEqual(set(actual), set(expected))
+        for index in expected:
+            self.assertLessEqual(
+                abs(actual[index] - expected[index]), 1e-16 + 1e-11 * abs(expected[index])
+            )
+        before = next(
+            o for o in stream(result)["origins"] if o["bin"] == 4 and o["kind"] == "harmonic"
+        )
+        after = next(
+            o
+            for o in stream(result, "again")["origins"]
+            if o["bin"] == 97 and o["kind"] == "harmonic"
+        )
+        for old in before["terms"]:
+            negated = sorted((f["root_id"], -f["sign"]) for f in old["source_factors"])
+            self.assertTrue(
+                any(
+                    sorted(
+                        (f["root_id"], f["sign"])
+                        for f in new["source_factors"]
+                        if f["root_id"] <= 3
+                    )
+                    == negated
+                    for new in after["terms"]
+                )
+            )
+        self.assert_history(result)
+
+    def test_mixed_source_order_counts_lo_and_filters_each_contribution(self):
+        model = self.mixed_model()
+        model["stages"][1]["max_source_order"] = 3
+        result = self.evaluate(model)
+        self.assertGreater(result["stages"][1]["discarded_term_count"], 0)
+        self.assertEqual(result["stages"][1]["discarded_by_source_order"][0]["source_order"], 4)
+        self.assertEqual(stream(result)["power_by_bin"], stream(result, "mixed")["power_by_bin"])
+        model["stages"][1]["max_source_order"] = 1
+        self.assertEqual(stream(self.evaluate(model))["components"], [])
+
+    def test_polynomial_mixer_polynomial_matches_independent_chain(self):
+        model = self.mixed_model()
+        model["stages"].insert(
+            0,
+            {
+                "id": "pre",
+                "type": "polynomial_amplifier",
+                "input": "input",
+                "output": "pre",
+                "voltage_coefficients": [0, 1, 0.1],
+                "max_source_order": 2,
+            },
+        )
+        model["stages"][1]["branches"][0]["input"] = "pre"
+        model["stages"][1]["branches"][0]["lo_bin"] = 101
+        model["stages"][2]["max_source_order"] = 6
+        result = self.evaluate(model)
+        expected = self.library.polynomial_amplifier(
+            1e8, {8: 0.01 + 0.003j, 12: 0.02 - 0.002j}, voltage_coefficients=[0, 1, 0.1]
+        )
+        expected.pop(0, None)
+        expected = self.library.ideal_mixer(
+            1e8, expected, lo_bin=101, conversion_gain_db=0, lo_phase_radians=0.3
+        )
+        expected = self.library.polynomial_amplifier(
+            1e8, expected, voltage_coefficients=[0, 1, 0.5]
+        )
+        expected.pop(0, None)
+        actual = {}
+        for c in stream(result)["components"]:
+            actual[c["bin"]] = actual.get(c["bin"], 0j) + complex(*c["amplitude"])
+        self.assertEqual(set(actual), set(expected))
+        for index in expected:
+            self.assertLessEqual(
+                abs(actual[index] - expected[index]), 1e-16 + 1e-11 * abs(expected[index])
+            )
+        self.assert_history(result)
+
+    def test_mixed_graph_retains_calibrated_compression_boundary(self):
+        model = self.mixed_model()
+        model["stages"].append({"id": "compression", "type": "fundamental_compression"})
+        with self.assertRaisesRegex(ValueError, "calibrated amplifier"):
+            self.evaluate(model)
+
+    def test_mixed_graph_cli_and_failure_preserve_existing_result(self):
+        model = self.mixed_model()
+        with tempfile.TemporaryDirectory() as directory:
+            source = Path(directory) / "mixed.json"
+            output = Path(directory) / "result.json"
+            source.write_text(json.dumps(model), encoding="utf-8")
+            env = (
+                dict(os.environ) if INSTALLED else dict(os.environ, PYTHONPATH=str(ROOT / "python"))
+            )
+            command = [
+                sys.executable,
+                "-m",
+                "rfmodel",
+                str(source),
+                "--library",
+                str(LIBRARY_PATH),
+                "--output",
+                str(output),
+            ]
+            completed = subprocess.run(command, env=env, capture_output=True, text=True)
+            self.assertEqual(completed.returncode, 0, completed.stderr)
+            self.assertEqual(json.loads(output.read_text()), self.evaluate(model))
+            saved = output.read_bytes()
+            model["stages"][0]["branches"][0]["lo_bin"] = 8
+            source.write_text(json.dumps(model), encoding="utf-8")
+            completed = subprocess.run(command, env=env, capture_output=True, text=True)
+            self.assertNotEqual(completed.returncode, 0)
+            self.assertEqual(output.read_bytes(), saved)
+
+    def test_mixed_polynomial_preserves_independent_coherence_classes(self):
+        model = self.mixed_model()
+        model["sources"].append({"id": "other"})
+        model["inputs"][0]["components"][1]["source"] = "other"
+        model["stages"][1]["voltage_coefficients"] = [0, 1]
+        result = self.evaluate(model)
+        folded = [c for c in stream(result)["components"] if c["bin"] == 2]
+        self.assertEqual(len(folded), 2)
+        self.assertNotEqual(folded[0]["coherence_group"], folded[1]["coherence_group"])
+        self.assertAlmostEqual(powers(result)[2], abs(0.01 + 0.003j) ** 2 + abs(0.02 - 0.002j) ** 2)
+        self.assert_history(result)
+
+    def test_mixed_linear_polynomial_preserves_existing_image_rejection(self):
+        model = fixture()
+        original = self.evaluate(model)
+        model["stages"].append(
+            {
+                "id": "poly",
+                "type": "polynomial_amplifier",
+                "input": "result",
+                "output": "poly",
+                "voltage_coefficients": [0, 1],
+                "max_source_order": 4,
+            }
+        )
+        model["outputs"] = ["poly"]
+        result = self.evaluate(model)
+        for index, power in powers(original).items():
+            self.assertAlmostEqual(powers(result, "poly")[index], power, places=14)
+        self.assert_history(result)
+
+    def test_mixed_expanded_contribution_limit_and_silent_validation(self):
+        model = self.mixed_model()
+        model["inputs"][0]["components"] = [
+            {"source": "rf", "bin": index, "bandwidth_hz": 1, "amplitude": 0.001}
+            for index in range(100, 165)
+        ]
+        with self.assertRaisesRegex(RFModelError, "64 active"):
+            self.evaluate(model)
+        model["inputs"][0]["components"] = []
+        self.assertEqual(stream(self.evaluate(model))["components"], [])
+        model["stages"][0]["branches"][0]["lo_bin"] = 0
+        with self.assertRaises((ValueError, RFModelError)):
+            self.evaluate(model)
+
+    def test_mixed_network_extracts_once_and_preserves_fractional_bandwidth(self):
+        model = self.mixed_model()
+        for component in model["inputs"][0]["components"]:
+            component["bandwidth_hz"] = 0.1
+        baseline = self.evaluate(model)
+        post_network(model, {"s": [[0, 0.5], [0.5, 0]]})
+        with patch("rfmodel.coherent_network_file.analyze", wraps=analyze) as extraction:
+            result = self.evaluate(model)
+        self.assertEqual(extraction.call_count, 1)
+        self.assertEqual(len(extraction.call_args.args[1]["frequencies_hz"]), len(powers(baseline)))
+        for index, power in powers(baseline).items():
+            self.assertAlmostEqual(powers(result, "filtered")[index], 0.25 * power)
+        self.assert_history(result)
+
     def test_recursive_polynomial_aliases_same_root_harmonics(self):
         model = load(ROOT / "examples/coherent-recursive-polynomial.json")
         original = copy.deepcopy(model)
@@ -178,7 +500,7 @@ class CoherentSystemFileTests(unittest.TestCase):
             identities.add(key)
             self.assertEqual(origin["bandwidth_hz"], math.fsum([0.1] * origin["source_order"]))
 
-    def test_polynomial_validates_cutoff_and_rejects_unrepresented_mixer_sums(self):
+    def test_polynomial_validates_cutoff_and_empty_mixer_bank(self):
         model = load(ROOT / "examples/coherent-recursive-polynomial.json")
         for value in (0, 257, True, 2.5):
             changed = copy.deepcopy(model)
@@ -186,7 +508,7 @@ class CoherentSystemFileTests(unittest.TestCase):
             with self.subTest(value=value), self.assertRaises(ValueError):
                 self.evaluate(changed)
         model["stages"].append({"id": "mixer", "type": "ideal_mixer_bank", "branches": []})
-        with self.assertRaisesRegex(ValueError, "multi-origin"):
+        with self.assertRaisesRegex(ValueError, "array size"):
             self.evaluate(model)
 
     def test_recursive_polynomial_cli_and_failure_preserve_output(self):
