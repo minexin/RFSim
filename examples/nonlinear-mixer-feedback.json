@@ -1,0 +1,111 @@
+{
+  "format": "rfmodel.conversion-network",
+  "version": 1,
+  "spacing_hz": 1,
+  "devices": [
+    {
+      "id": "mixer",
+      "channels": [
+        {
+          "port": 0,
+          "bin": 0
+        },
+        {
+          "port": 1,
+          "bin": 0
+        },
+        {
+          "port": 2,
+          "bin": 0
+        }
+      ],
+      "model": {
+        "type": "bilinear_real_mixer",
+        "lo_reference_amplitude": 1,
+        "gain_db": -3.010299956639812
+      },
+      "noise": {
+        "noiseless": true
+      }
+    },
+    {
+      "id": "feedback",
+      "channels": [
+        {
+          "port": 0,
+          "bin": 0
+        },
+        {
+          "port": 1,
+          "bin": 0
+        },
+        {
+          "port": 2,
+          "bin": 0
+        }
+      ],
+      "model": {
+        "type": "matrix",
+        "direct": [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0.1,
+            0,
+            0
+          ],
+          [
+            0.2,
+            0,
+            0
+          ]
+        ]
+      },
+      "noise": {
+        "noiseless": true
+      },
+      "output_offset": [
+        0,
+        1,
+        2
+      ]
+    }
+  ],
+  "connections": [
+    [
+      [
+        "mixer",
+        2
+      ],
+      [
+        "feedback",
+        0
+      ]
+    ],
+    [
+      [
+        "mixer",
+        0
+      ],
+      [
+        "feedback",
+        1
+      ]
+    ],
+    [
+      [
+        "mixer",
+        1
+      ],
+      [
+        "feedback",
+        2
+      ]
+    ]
+  ],
+  "boundaries": [],
+  "operating_point": {}
+}

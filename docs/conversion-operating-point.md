@@ -1,8 +1,8 @@
-# 自动非线性频率转换工作点：C++ 核心
+# 自动非线性频率转换工作点
 
 C++17 接口 solve_conversion_operating_point 根据固定器件方程、物理接线、外部源和反射自动求解入射/出射复功率波，再在收敛工作点计算一阶 C/P 噪声。它扩展了此前只能检查已给定工作点的仿射网络。
 
-本阶段交付通用 C++ 求解器、固定系数双线性混频器、回归和安装 SDK。新增求解器的 C ABI、Python、JSON/CLI 尚未接入；原有 C/Python/JSON 仿射接口保持原语义，不会隐式运行迭代。完整 SystemVue RF Design 库兼容仍未完成。
+通用 C++ 求解器支持自定义确定性器件回调。C ABI、Python、JSON/CLI 已接入固定系数双线性混频器及原有线性/仿射器件；其他非线性器件与自定义回调的跨语言接口尚未适配。旧分析入口默认保持原语义，自动求解必须显式启用。完整 SystemVue RF Design 库兼容仍未完成。
 
 ## 固定器件方程
 
@@ -60,7 +60,7 @@ ConversionPortConnection 依次保存 first_device、first_port、second_device�
 
 ## 后续工作
 
-接入 C ABI/Python/JSON 的显式求解选项和诊断；适配现有压缩/高阶放大器；支持工作点相关噪声、频率扩展及更高效的大网络求解；恢复 SystemVue 实测并逐项校准厂商语义。这些均未由本阶段数学回归证明完成。
+适配现有压缩/高阶放大器及其他非线性器件；支持工作点相关噪声、频率扩展及更高效的大网络求解；恢复 SystemVue 实测并逐项校准厂商语义。这些均未由本阶段数学回归证明完成。
 
 ## 工程验证记录
 
@@ -69,3 +69,52 @@ ConversionPortConnection 依次保存 first_device、first_port、second_device�
 Python 源码本阶段未变更。独立 Python 3.12 使用上一阶段 wheel 加载本阶段安装的 Release DLL，12 组共 251 项既有接口回归通过：仿射 11、混频线性化 13、共享相噪 13、相噪 13、通道测量 11、加载噪声 9、变频 NF 12、转换网络 13、单器件变频 11、API 85、相干系统 51、线性噪声 9。该记录证明旧接口兼容，不代表新的自动求解器已有 Python 入口。
 
 SystemVue 实测仍被现有 Error Running Script 弹窗阻塞。
+
+## C ABI 与 Python 接入
+
+rfmodel_bilinear_mixer_parameters 定义 gain_db、lo_reference_amplitude 与 rf_port/lo_port/if_port。rfmodel_linearize_bilinear_mixer 接受 rfmodel_bilinear_mixer_request 并返回与单泵接口一致的 A/B/名义输出；其频率检查为完整乘积闭合。
+
+rfmodel_conversion_network_solve_operating_point 接受原设备数组、物理接线、rfmodel_conversion_bilinear_mixer 数组、求解选项，以及可选固定偏置和额外源 C/P。混频器数组以唯一 device 索引选择覆盖的非线性器件；其他设备继续使用输入 A/B。被覆盖设备的 A/B 仍须是有效矩阵，可以提供零矩阵占位。
+
+rfmodel_conversion_operating_options 必需：initial_incident=NULL 且 initial_count=0 使用默认初值，或提供覆盖全部通道的数组；max_iterations、max_backtracks、relative_tolerance、absolute_tolerance 按前述范围填写。诊断输出 rfmodel_conversion_operating_diagnostics 必需。普通波/噪声输出必需，loaded 输出可选。诊断、所有输出数组及标量必须与全部输入和描述符分离，失败不修改任何输出。原有 C 结构布局和函数保持不变。
+
+```python
+point = library.solve_conversion_operating_point(
+    spacing_hz, devices, connections,
+    mixers=[dict(device=1, lo_reference_amplitude=1.0, gain_db=0.0)],
+    max_iterations=50, max_backtracks=24,
+    relative_tolerance=1e-9, absolute_tolerance=1e-12,
+    loaded_noise=True,
+)
+# point.waves 是原 ConversionResult/ConversionLoadedResult；
+# point.iterations / backtracks / scaled_residual 为求解诊断。
+```
+
+可选 initial_incident 为全局器件/本地通道顺序，output_offset 为固定确定性偏置，additional_source_covariance/complementary 为额外源统计。Library.linearize_bilinear_mixer 提供独立固定系数模型计算。Library.conversion_network 也接受显式 operating_point 字典（含 mixers 及求解选项），此时返回 ConversionOperatingResult；不传该参数时返回类型与行为保持不变。
+
+## JSON/CLI 自动求解
+
+rfmodel.conversion-network v1 顶层增加 operating_point 对象。空对象使用默认设置，可选 initial_incident、max_iterations、max_backtracks、relative_tolerance、absolute_tolerance；不接受未知字段、布尔数字或缺失通道的初值。
+
+器件 model.type=bilinear_real_mixer 必需 lo_reference_amplitude，可选 gain_db、rf_port、lo_port、if_port。不填 operating_incident，也不填 lo_bin；实际 RF/LO 谱由网络求解得到。此器件必须配合显式 operating_point，否则报错。器件 output_offset 仍可提供额外固定出射项。
+
+成功结果 wave_relation=nonlinear_operating_point，operating_point 返回 method=damped_newton、迭代/回溯次数、尺度化残差及容差。每通道 incident/outgoing 是真实非线性工作点；output_offset 表示收敛处等效仿射偏置（包含固定偏置）。已有 channel_measurements 使用工作点信号与该点噪声，noise_analyses 使用重建后的收敛 Jacobian 执行独立参考 NF 实验。源相噪仍按显式边界载波构建。
+
+[RF 混频网络](../examples/nonlinear-mixer-network.json) 自动求解输入滤波器、RF/LO 混频器和输出滤波器，保留共享参考相噪。IF 2/22 MHz 输出均为 0.125 sqrt(W)，和频边带各为 6.25e-12 W/Hz，差频共享相噪相消。
+
+[双线性反馈示例](../examples/nonlinear-mixer-feedback.json) 的混频输出同时反馈到两个输入，默认初值选择低幅解析根。它用于数值反馈验证，不能视为实际射频混频器电路或 SystemVue 器件验收。
+
+```powershell
+python -m rfmodel examples/nonlinear-mixer-network.json --library build-msvc/Release/rfmodel_c.dll --output build-reference/nonlinear-mixer-result.json
+python -m rfmodel examples/nonlinear-mixer-feedback.json --library build-msvc/Release/rfmodel_c.dll --output build-reference/nonlinear-feedback-result.json
+```
+
+不收敛或输入错误时 CLI 返回非零并保留已有结果文件。模型仍是固定系数理想双线性器件，不包含实际 LO 限幅、压缩、杂散或自动频率扩展。
+
+## 跨语言接口验证记录
+
+2026-10-09：MSVC Debug/Release clean-first 构建成功，CTest 各 111/111；两种配置安装后的 C/C++ consumer 各 2/2。140 个 C/C++ 文件格式检查及 git diff --check 通过。
+
+独立 Python 3.12 加载本阶段 wheel 和安装后的 Release DLL，13 组共 264 项回归通过：新增自动工作点 13、仿射 11、混频线性化 13、共享相噪 13、相噪 13、通道测量 11、加载噪声 9、变频 NF 12、转换网络 13、单器件变频 11、API 85、相干系统 51、线性噪声 9。
+
+新增验证包括独立傅里叶卷积/复导数、实际 LO 幅度变化、多解初值、反射 IF 自动求解、收敛点 NF、共享相噪、线性退化的加载/额外噪声、C 描述符与输出别名拒绝、错误时输出不变，以及 CLI 不收敛保护已有文件。SystemVue 实测尚未恢复。

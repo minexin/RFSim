@@ -1,3 +1,4 @@
+#include "rfmodel/conversion_operating_point.hpp"
 #include "rfmodel/channel_noise.hpp"
 #include "rfmodel/phase_noise.hpp"
 #include "rfmodel/mixer_linearization.hpp"
@@ -364,12 +365,9 @@ conversion_input_ranges(const rfmodel_conversion_request *devices,
     return inputs;
 }
 
-rfmodel::FrequencyConversionNetwork
-decode_conversion_network(const rfmodel_conversion_request *devices,
-                          size_t device_count,
-                          const rfmodel_conversion_connection *connections,
-                          size_t connection_count) {
-    rfmodel::FrequencyConversionNetwork network(devices[0].spacing_hz, devices[0].reference_ohms);
+std::vector<rfmodel::ConversionDevice>
+decode_conversion_devices(const rfmodel_conversion_request *devices, size_t device_count) {
+    std::vector<rfmodel::ConversionDevice> decoded;
     for (size_t device = 0; device < device_count; ++device) {
         const auto &r = devices[device];
         const auto n = r.count;
@@ -395,11 +393,23 @@ decode_conversion_network(const rfmodel_conversion_request *devices,
         }
         rfmodel::FrequencyConversionModel model(
             r.spacing_hz, channels, matrix(r.direct), matrix(r.conjugate), r.reference_ohms);
-        network.add({std::move(model),
-                     source,
-                     reflection,
-                     {matrix(r.source_covariance), matrix(r.source_complementary)},
-                     {matrix(r.intrinsic_covariance), matrix(r.intrinsic_complementary)}});
+        decoded.push_back({std::move(model),
+                           source,
+                           reflection,
+                           {matrix(r.source_covariance), matrix(r.source_complementary)},
+                           {matrix(r.intrinsic_covariance), matrix(r.intrinsic_complementary)}});
+    }
+    return decoded;
+}
+
+rfmodel::FrequencyConversionNetwork
+decode_conversion_network(const rfmodel_conversion_request *devices,
+                          size_t device_count,
+                          const rfmodel_conversion_connection *connections,
+                          size_t connection_count) {
+    rfmodel::FrequencyConversionNetwork network(devices[0].spacing_hz, devices[0].reference_ohms);
+    for (auto device : decode_conversion_devices(devices, device_count)) {
+        network.add(std::move(device));
     }
     for (size_t i = 0; i < connection_count; ++i) {
         const auto &c = connections[i];
@@ -410,14 +420,19 @@ decode_conversion_network(const rfmodel_conversion_request *devices,
 } // namespace
 
 namespace {
-void analyze_conversion_network_outputs(const rfmodel_conversion_request *devices,
-                                        size_t device_count,
-                                        const rfmodel_conversion_connection *connections,
-                                        size_t connection_count,
-                                        const rfmodel_conversion_output *output,
-                                        const rfmodel_conversion_loaded_output *loaded,
-                                        const rfmodel_conversion_source_noise *additional = nullptr,
-                                        const rfmodel_conversion_affine_offset *offset = nullptr) {
+void analyze_conversion_network_outputs(
+    const rfmodel_conversion_request *devices,
+    size_t device_count,
+    const rfmodel_conversion_connection *connections,
+    size_t connection_count,
+    const rfmodel_conversion_output *output,
+    const rfmodel_conversion_loaded_output *loaded,
+    const rfmodel_conversion_source_noise *additional = nullptr,
+    const rfmodel_conversion_affine_offset *offset = nullptr,
+    const rfmodel_conversion_operating_options *operating = nullptr,
+    const rfmodel_conversion_bilinear_mixer *mixers = nullptr,
+    size_t mixer_count = 0,
+    rfmodel_conversion_operating_diagnostics *diagnostics = nullptr) {
     require(output);
     const auto &o = *output;
     size_t total;
@@ -466,6 +481,16 @@ void analyze_conversion_network_outputs(const rfmodel_conversion_request *device
         outputs.push_back(
             {loaded->net_noise_into_device_w_per_hz, loaded->power_capacity * sizeof(double)});
     }
+    if (operating) {
+        require(diagnostics && mixer_count <= device_count && (!mixer_count || mixers));
+        require((!operating->initial_incident && operating->initial_count == 0) ||
+                (operating->initial_incident && operating->initial_count == total));
+        inputs.push_back({operating, sizeof(*operating)});
+        inputs.push_back({mixers, mixer_count * sizeof(*mixers)});
+        inputs.push_back(
+            {operating->initial_incident, operating->initial_count * sizeof(rfmodel_complex)});
+        outputs.push_back({diagnostics, sizeof(*diagnostics)});
+    }
     for (size_t i = 0; i < outputs.size(); ++i) {
         for (const auto &input : inputs) {
             if (input.second) {
@@ -497,7 +522,61 @@ void analyze_conversion_network_outputs(const rfmodel_conversion_request *device
             emission.emplace_back(offset->values[i].real, offset->values[i].imag);
         }
     }
-    const auto result = network.analyze(loaded != nullptr, additional ? &extra : nullptr, emission);
+    rfmodel::ConversionResult result;
+    rfmodel::ConversionOperatingResult solved;
+    if (operating) {
+        const auto decoded = decode_conversion_devices(devices, device_count);
+        std::vector<rfmodel::ConversionNonlinearDevice> nonlinear;
+        for (size_t i = 0; i < mixer_count; ++i) {
+            const auto spec = mixers[i];
+            require(spec.device < device_count);
+            const auto channels = decoded[spec.device].model.channels();
+            const auto spacing = devices[spec.device].spacing_hz;
+            const auto reference = devices[spec.device].reference_ohms;
+            nonlinear.push_back(
+                {spec.device,
+                 [spec, channels, spacing, reference](const std::vector<rfmodel::Complex> &wave) {
+                     const auto &m = spec.model;
+                     const auto point = rfmodel::linearize_bilinear_mixer(spacing,
+                                                                          channels,
+                                                                          wave,
+                                                                          m.gain_db,
+                                                                          m.lo_reference_amplitude,
+                                                                          m.rf_port,
+                                                                          m.lo_port,
+                                                                          m.if_port,
+                                                                          reference);
+                     return rfmodel::ConversionLinearization{point.incremental_model,
+                                                             point.operating_outgoing};
+                 }});
+        }
+        std::vector<rfmodel::ConversionPortConnection> wires;
+        for (size_t i = 0; i < connection_count; ++i) {
+            const auto &w = connections[i];
+            wires.push_back({w.first_device, w.first_port, w.second_device, w.second_port});
+        }
+        std::vector<rfmodel::Complex> initial;
+        for (size_t i = 0; i < operating->initial_count; ++i) {
+            initial.emplace_back(operating->initial_incident[i].real,
+                                 operating->initial_incident[i].imag);
+        }
+        const rfmodel::ConversionOperatingOptions options{operating->max_iterations,
+                                                          operating->max_backtracks,
+                                                          operating->relative_tolerance,
+                                                          operating->absolute_tolerance};
+        solved = rfmodel::solve_conversion_operating_point(decoded,
+                                                           wires,
+                                                           nonlinear,
+                                                           initial,
+                                                           options,
+                                                           loaded != nullptr,
+                                                           additional ? &extra : nullptr,
+                                                           emission);
+        result = std::move(solved.waves);
+    } else {
+        result = network.analyze(loaded != nullptr, additional ? &extra : nullptr, emission);
+    }
+
     for (size_t i = 0; i < total; ++i) {
         o.incident[i] = {result.incident[i].real(), result.incident[i].imag()};
         o.outgoing[i] = {result.outgoing[i].real(), result.outgoing[i].imag()};
@@ -507,6 +586,9 @@ void analyze_conversion_network_outputs(const rfmodel_conversion_request *device
                    p = result.outgoing_noise.complementary.values[i];
         o.noise_covariance[i] = {c.real(), c.imag()};
         o.noise_complementary[i] = {p.real(), p.imag()};
+    }
+    if (operating) {
+        *diagnostics = {solved.iterations, solved.backtracks, solved.scaled_residual};
     }
     *o.relative_residual = result.relative_residual;
     if (loaded) {
@@ -525,6 +607,57 @@ void analyze_conversion_network_outputs(const rfmodel_conversion_request *device
         for (size_t i = 0; i < total; ++i) {
             loaded->net_noise_into_device_w_per_hz[i] = result.net_noise_into_device_w_per_hz[i];
         }
+    }
+}
+} // namespace
+
+namespace {
+template <class Request, class Evaluate>
+void linearize_mixer_outputs(const Request *request,
+                             const rfmodel_mixer_linearization_output *output,
+                             Evaluate evaluate) {
+    require(request && output);
+    const auto &r = *request;
+    const auto &o = *output;
+    require(r.count && r.count <= 512 && r.physical_ports && r.bins && r.operating_incident &&
+            o.direct && o.conjugate && o.operating_outgoing &&
+            o.matrix_capacity >= r.count * r.count && o.wave_capacity >= r.count &&
+            o.matrix_capacity <= std::numeric_limits<size_t>::max() / sizeof(rfmodel_complex) &&
+            o.wave_capacity <= std::numeric_limits<size_t>::max() / sizeof(rfmodel_complex));
+    const std::vector<std::pair<const void *, size_t>> inputs{
+        {request, sizeof(*request)},
+        {output, sizeof(*output)},
+        {r.physical_ports, r.count * sizeof(size_t)},
+        {r.bins, r.count * sizeof(int)},
+        {r.operating_incident, r.count * sizeof(rfmodel_complex)}};
+    const std::vector<std::pair<const void *, size_t>> outputs{
+        {o.direct, o.matrix_capacity * sizeof(rfmodel_complex)},
+        {o.conjugate, o.matrix_capacity * sizeof(rfmodel_complex)},
+        {o.operating_outgoing, o.wave_capacity * sizeof(rfmodel_complex)}};
+    for (size_t i = 0; i < outputs.size(); ++i) {
+        for (const auto &input : inputs) {
+            disjoint(outputs[i].first, outputs[i].second, input.first, input.second);
+        }
+        for (size_t j = 0; j < i; ++j) {
+            disjoint(outputs[i].first, outputs[i].second, outputs[j].first, outputs[j].second);
+        }
+    }
+    std::vector<rfmodel::ConversionChannel> channels;
+    std::vector<rfmodel::Complex> waves;
+    for (size_t i = 0; i < r.count; ++i) {
+        channels.push_back({r.physical_ports[i], r.bins[i]});
+        waves.push_back({r.operating_incident[i].real, r.operating_incident[i].imag});
+    }
+    const auto result = evaluate(r, channels, waves);
+    for (size_t i = 0; i < r.count * r.count; ++i) {
+        const auto a = result.incremental_model.direct().values[i];
+        const auto b = result.incremental_model.conjugate().values[i];
+        o.direct[i] = {a.real(), a.imag()};
+        o.conjugate[i] = {b.real(), b.imag()};
+    }
+    for (size_t i = 0; i < r.count; ++i) {
+        const auto value = result.operating_outgoing[i];
+        o.operating_outgoing[i] = {value.real(), value.imag()};
     }
 }
 } // namespace
@@ -1853,57 +1986,67 @@ int rfmodel_phase_noise_sidebands(const size_t *physical_ports,
 int rfmodel_linearize_real_mixer(const rfmodel_mixer_linearization_request *request,
                                  const rfmodel_mixer_linearization_output *output) {
     return guarded([&] {
-        require(request && output);
-        const auto &r = *request;
-        const auto &o = *output;
-        require(r.count && r.count <= 512 && r.physical_ports && r.bins && r.operating_incident &&
-                o.direct && o.conjugate && o.operating_outgoing &&
-                o.matrix_capacity >= r.count * r.count && o.wave_capacity >= r.count &&
-                o.matrix_capacity <= std::numeric_limits<size_t>::max() / sizeof(rfmodel_complex) &&
-                o.wave_capacity <= std::numeric_limits<size_t>::max() / sizeof(rfmodel_complex));
-        const std::vector<std::pair<const void *, size_t>> inputs{
-            {request, sizeof(*request)},
-            {output, sizeof(*output)},
-            {r.physical_ports, r.count * sizeof(size_t)},
-            {r.bins, r.count * sizeof(int)},
-            {r.operating_incident, r.count * sizeof(rfmodel_complex)}};
-        const std::vector<std::pair<const void *, size_t>> outputs{
-            {o.direct, o.matrix_capacity * sizeof(rfmodel_complex)},
-            {o.conjugate, o.matrix_capacity * sizeof(rfmodel_complex)},
-            {o.operating_outgoing, o.wave_capacity * sizeof(rfmodel_complex)}};
-        for (size_t i = 0; i < outputs.size(); ++i) {
-            for (const auto &input : inputs) {
-                disjoint(outputs[i].first, outputs[i].second, input.first, input.second);
-            }
-            for (size_t j = 0; j < i; ++j) {
-                disjoint(outputs[i].first, outputs[i].second, outputs[j].first, outputs[j].second);
-            }
-        }
-        std::vector<rfmodel::ConversionChannel> channels;
-        std::vector<rfmodel::Complex> waves;
-        for (size_t i = 0; i < r.count; ++i) {
-            channels.push_back({r.physical_ports[i], r.bins[i]});
-            waves.push_back({r.operating_incident[i].real, r.operating_incident[i].imag});
-        }
-        const auto result = rfmodel::linearize_real_mixer(r.spacing_hz,
-                                                          channels,
-                                                          waves,
-                                                          r.lo_bin,
-                                                          r.gain_db,
-                                                          r.rf_port,
-                                                          r.lo_port,
-                                                          r.if_port,
-                                                          r.reference_ohms);
-        for (size_t i = 0; i < r.count * r.count; ++i) {
-            const auto a = result.incremental_model.direct().values[i];
-            const auto b = result.incremental_model.conjugate().values[i];
-            o.direct[i] = {a.real(), a.imag()};
-            o.conjugate[i] = {b.real(), b.imag()};
-        }
-        for (size_t i = 0; i < r.count; ++i) {
-            const auto value = result.operating_outgoing[i];
-            o.operating_outgoing[i] = {value.real(), value.imag()};
-        }
+        linearize_mixer_outputs(
+            request, output, [](const auto &r, const auto &channels, const auto &waves) {
+                return rfmodel::linearize_real_mixer(r.spacing_hz,
+                                                     channels,
+                                                     waves,
+                                                     r.lo_bin,
+                                                     r.gain_db,
+                                                     r.rf_port,
+                                                     r.lo_port,
+                                                     r.if_port,
+                                                     r.reference_ohms);
+            });
+    });
+}
+
+int rfmodel_linearize_bilinear_mixer(const rfmodel_bilinear_mixer_request *request,
+                                     const rfmodel_mixer_linearization_output *output) {
+    return guarded([&] {
+        linearize_mixer_outputs(
+            request, output, [](const auto &r, const auto &channels, const auto &waves) {
+                const auto &m = r.model;
+                return rfmodel::linearize_bilinear_mixer(r.spacing_hz,
+                                                         channels,
+                                                         waves,
+                                                         m.gain_db,
+                                                         m.lo_reference_amplitude,
+                                                         m.rf_port,
+                                                         m.lo_port,
+                                                         m.if_port,
+                                                         r.reference_ohms);
+            });
+    });
+}
+
+int rfmodel_conversion_network_solve_operating_point(
+    const rfmodel_conversion_request *devices,
+    size_t device_count,
+    const rfmodel_conversion_connection *connections,
+    size_t connection_count,
+    const rfmodel_conversion_bilinear_mixer *mixers,
+    size_t mixer_count,
+    const rfmodel_conversion_operating_options *options,
+    const rfmodel_conversion_affine_offset *fixed_offset,
+    const rfmodel_conversion_source_noise *additional_source_noise,
+    const rfmodel_conversion_output *output,
+    const rfmodel_conversion_loaded_output *loaded,
+    rfmodel_conversion_operating_diagnostics *diagnostics) {
+    return guarded([&] {
+        require(options && diagnostics);
+        analyze_conversion_network_outputs(devices,
+                                           device_count,
+                                           connections,
+                                           connection_count,
+                                           output,
+                                           loaded,
+                                           additional_source_noise,
+                                           fixed_offset,
+                                           options,
+                                           mixers,
+                                           mixer_count,
+                                           diagnostics);
     });
 }
 

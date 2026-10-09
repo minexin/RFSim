@@ -222,6 +222,51 @@ RFMODEL_API int rfmodel_conversion_network_analyze_affine(
     const rfmodel_conversion_output *output,
     const rfmodel_conversion_loaded_output *loaded);
 
+/* Fixed-coefficient bilinear mixer: k=10^(gain_db/20)/lo_reference_amplitude.
+ * The LO reference is positive in sqrt(W); actual LO waves may be zero/multitone/DC. */
+typedef struct rfmodel_bilinear_mixer_parameters {
+    double gain_db, lo_reference_amplitude;
+    size_t rf_port, lo_port, if_port;
+} rfmodel_bilinear_mixer_parameters;
+
+typedef struct rfmodel_conversion_bilinear_mixer {
+    size_t device;
+    rfmodel_bilinear_mixer_parameters model;
+} rfmodel_conversion_bilinear_mixer;
+
+typedef struct rfmodel_conversion_operating_options {
+    const rfmodel_complex *initial_incident; /* NULL and count=0 uses boundary sources. */
+    size_t initial_count;
+    size_t max_iterations, max_backtracks;         /* 1..200 and 0..40. */
+    double relative_tolerance, absolute_tolerance; /* (0,.01] and >0, both finite. */
+} rfmodel_conversion_operating_options;
+
+typedef struct rfmodel_conversion_operating_diagnostics {
+    size_t iterations, backtracks;
+    double scaled_residual;
+} rfmodel_conversion_operating_diagnostics;
+
+/* Explicit damped Newton solve. Options and diagnostics required; mixer entries
+ * select unique devices whose deterministic A/B are replaced by bilinear laws.
+ * Base A/B remain required valid matrices (zero placeholders are allowed).
+ * All RF/LO product frequencies must be declared. Noise is evaluated only after
+ * convergence. Optional fixed offset is added to each device's true output.
+ * Initial vector covers all channels or is absent. Every output, including
+ * diagnostics, is disjoint from all inputs/descriptors and unchanged on failure. */
+RFMODEL_API int rfmodel_conversion_network_solve_operating_point(
+    const rfmodel_conversion_request *devices,
+    size_t device_count,
+    const rfmodel_conversion_connection *connections,
+    size_t connection_count,
+    const rfmodel_conversion_bilinear_mixer *mixers,
+    size_t mixer_count,
+    const rfmodel_conversion_operating_options *options,
+    const rfmodel_conversion_affine_offset *fixed_offset,
+    const rfmodel_conversion_source_noise *additional_source_noise,
+    const rfmodel_conversion_output *output,
+    const rfmodel_conversion_loaded_output *loaded,
+    rfmodel_conversion_operating_diagnostics *diagnostics);
+
 /* Reference-temperature noise experiment on a conversion network. Channel indices
  * follow device/local order. Reference channels are a nonempty unique subset of
  * thermal channels. These and the output must be external and positive-frequency.
@@ -332,6 +377,20 @@ typedef struct rfmodel_mixer_linearization_output {
  * input arrays. Failure preserves every output. Capacities count complex values. */
 RFMODEL_API int rfmodel_linearize_real_mixer(const rfmodel_mixer_linearization_request *request,
                                              const rfmodel_mixer_linearization_output *output);
+
+typedef struct rfmodel_bilinear_mixer_request {
+    size_t count;
+    double spacing_hz, reference_ohms;
+    const size_t *physical_ports;
+    const int *bins;
+    const rfmodel_complex *operating_incident;
+    rfmodel_bilinear_mixer_parameters model;
+} rfmodel_bilinear_mixer_request;
+
+/* Same output capacity/non-overlap/atomicity contract as the single-pump adapter.
+ * Checks full RF/LO sum/difference closure, even when incident waves are zero. */
+RFMODEL_API int rfmodel_linearize_bilinear_mixer(const rfmodel_bilinear_mixer_request *request,
+                                                 const rfmodel_mixer_linearization_output *output);
 
 typedef enum rfmodel_butterworth_response {
     RFMODEL_BUTTERWORTH_LOWPASS = 0,

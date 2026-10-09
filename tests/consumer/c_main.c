@@ -3,6 +3,62 @@
 
 int main(int argc, char **argv) {
     {
+        const size_t ports[3] = {0, 1, 2};
+        const int bins[3] = {0, 0, 0};
+        const rfmodel_complex zero[9] = {{0}};
+        const rfmodel_complex source[3] = {{1., 0.}, {2., 0.}, {0., 0.}};
+        const rfmodel_complex noise[9] = {{1e-9, 0.}};
+        rfmodel_complex initial[3] = {{0}};
+        rfmodel_conversion_request device = {0};
+        rfmodel_conversion_bilinear_mixer mixer = {0, {-3.010299956639812, 1., 0, 1, 2}};
+        rfmodel_conversion_operating_options options = {initial, 3, 50, 24, 1e-9, 1e-12};
+        rfmodel_conversion_operating_diagnostics diagnostics;
+        rfmodel_complex values[24], loaded_values[36];
+        double residual, net[3];
+        rfmodel_conversion_output output = {
+            values, values + 3, values + 6, values + 15, 3, 9, &residual};
+        rfmodel_conversion_loaded_output loaded = {
+            loaded_values, loaded_values + 9, loaded_values + 18, loaded_values + 27, net, 9, 3};
+        device.count = 3;
+        device.spacing_hz = 1.;
+        device.reference_ohms = 50.;
+        device.physical_ports = ports;
+        device.bins = bins;
+        device.direct = zero;
+        device.conjugate = zero;
+        device.source = source;
+        device.source_covariance = noise;
+        device.source_complementary = noise;
+        if (rfmodel_conversion_network_solve_operating_point(&device,
+                                                             1,
+                                                             NULL,
+                                                             0,
+                                                             &mixer,
+                                                             1,
+                                                             &options,
+                                                             NULL,
+                                                             NULL,
+                                                             &output,
+                                                             &loaded,
+                                                             &diagnostics) != RFMODEL_OK ||
+            fabs(values[5].real - 2.) > 1e-12 || diagnostics.iterations != 1 ||
+            diagnostics.scaled_residual > 1. || fabs(values[14].real / 1e-9 - 4.) > 1e-12) {
+            return 101;
+        }
+
+        {
+            rfmodel_bilinear_mixer_request request = {
+                3, 1., 50., ports, bins, source, {-3.010299956639812, 1., 0, 1, 2}};
+            rfmodel_complex a[9], b[9], nominal[3];
+            rfmodel_mixer_linearization_output linearized = {a, b, nominal, 9, 3};
+            if (rfmodel_linearize_bilinear_mixer(&request, &linearized) != RFMODEL_OK ||
+                fabs(nominal[2].real - 2.) > 1e-12 || fabs(a[6].real - 2.) > 1e-12) {
+                return 102;
+            }
+        }
+    }
+
+    {
         const size_t port = 0;
         int bin = 1;
         const rfmodel_complex direct = {.5, 0.}, zero = {0., 0.};

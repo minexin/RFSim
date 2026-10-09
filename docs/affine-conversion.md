@@ -8,7 +8,7 @@
 
 `linearized_real_mixer` JSON 器件同时生成 A/B/d，完成网络求解后核对每个本地通道的入射波与提供的 operating_incident，包括 IF 负载反射。允许误差为 `1e-12 + 1e-9*max(abs(actual),abs(expected))` sqrt(W)。不一致即报错，不能继续输出基于错误工作点的噪声报告。成功结果包含 operating_point_checks，记录最大误差及容差。
 
-这是**给定工作点的一致性检查**。此 JSON 路径不自动迭代非线性网络工作点，也不自动扩展混频频率；A/B/d 在本次分析中固定。对于手工 matrix 或显式 output_offset，调用者负责其物理含义与工作点有效性。
+这是**给定工作点的一致性检查**。linearized_real_mixer 路径不自动迭代非线性工作点；显式自动求解另见[工作点接口](conversion-operating-point.md)。两者都不自动扩展混频频率；A/B/d 在本次分析中固定。对于手工 matrix 或显式 output_offset，调用者负责其物理含义与工作点有效性。
 
 ## C++、C、Python 接口
 
@@ -55,7 +55,7 @@ d 是确定性项，不改变固定 A/B 下的出射、入射、交叉噪声 C/P
 
 专项覆盖复反射共轭反馈的独立闭式解、内部接线偏置传播、混频名义波翻倍修正、零偏置退化、噪声不变性、共享相噪、反射 IF 工作点检查、严格 JSON、C 输出原子性和 CLI 失败保护。
 
-自动工作点已提供[通用 C++ 核心](conversion-operating-point.md)，其 C/Python/JSON 接入、实际 LO 驱动/压缩、厂商转换矩阵标定和 SystemVue 实测仍未完成。当前解析证据不等于 SystemVue RF Design 库全覆盖。
+自动工作点已提供[通用 C++ 核心及双线性模型 C/Python/JSON 接入](conversion-operating-point.md)；其他非线性模型、实际 LO 驱动/压缩、厂商标定和 SystemVue 实测仍未完成。当前解析证据不等于 SystemVue RF Design 库全覆盖。
 
 ## 工程验证记录
 

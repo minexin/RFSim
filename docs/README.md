@@ -92,4 +92,4 @@
 
 [绝对波仿射网络](affine-conversion.md)：确定性偏置、给定混频工作点的网络一致性检查及 C++/C/Python/JSON 接口。
 
-[自动非线性工作点 C++ 核心](conversion-operating-point.md)：固定系数双线性混频、阻尼迭代、真实残差及收敛噪声。
+[自动非线性工作点](conversion-operating-point.md)：C++ 通用核心及固定系数双线性混频的 C/Python/JSON 接口、真实残差与收敛噪声。

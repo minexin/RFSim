@@ -287,6 +287,128 @@ class ConversionNoiseAnalysis(NamedTuple):
     equivalent_input_temperature_k: float
 
 
+class ConversionOperatingResult(NamedTuple):
+    waves: object
+    iterations: int
+    backtracks: int
+    scaled_residual: float
+
+
+class _BilinearMixerParameters(ct.Structure):
+    _fields_ = [
+        ("gain_db", ct.c_double),
+        ("lo_reference_amplitude", ct.c_double),
+        ("rf_port", ct.c_size_t),
+        ("lo_port", ct.c_size_t),
+        ("if_port", ct.c_size_t),
+    ]
+
+
+class _ConversionBilinearMixer(ct.Structure):
+    _fields_ = [("device", ct.c_size_t), ("model", _BilinearMixerParameters)]
+
+
+class _ConversionOperatingOptions(ct.Structure):
+    _fields_ = [
+        ("initial_incident", ct.POINTER(_Complex)),
+        ("initial_count", ct.c_size_t),
+        ("max_iterations", ct.c_size_t),
+        ("max_backtracks", ct.c_size_t),
+        ("relative_tolerance", ct.c_double),
+        ("absolute_tolerance", ct.c_double),
+    ]
+
+
+class _ConversionOperatingDiagnostics(ct.Structure):
+    _fields_ = [
+        ("iterations", ct.c_size_t),
+        ("backtracks", ct.c_size_t),
+        ("scaled_residual", ct.c_double),
+    ]
+
+
+class _BilinearMixerRequest(ct.Structure):
+    _fields_ = [
+        ("count", ct.c_size_t),
+        ("spacing_hz", ct.c_double),
+        ("reference_ohms", ct.c_double),
+        ("physical_ports", ct.POINTER(ct.c_size_t)),
+        ("bins", ct.POINTER(ct.c_int)),
+        ("operating_incident", ct.POINTER(_Complex)),
+        ("model", _BilinearMixerParameters),
+    ]
+
+
+def _bilinear_parameters(spec):
+    if (
+        not isinstance(spec, dict)
+        or "lo_reference_amplitude" not in spec
+        or set(spec) - {"gain_db", "lo_reference_amplitude", "rf_port", "lo_port", "if_port"}
+    ):
+        raise ValueError("Invalid bilinear mixer parameters")
+    if any(
+        type(spec.get(key, default)) not in (int, float)
+        for key, default in [("gain_db", 0.0), ("lo_reference_amplitude", 1.0)]
+    ):
+        raise TypeError("Mixer gain and LO reference must be numbers")
+    return _BilinearMixerParameters(
+        float(spec.get("gain_db", 0.0)),
+        float(spec["lo_reference_amplitude"]),
+        _index(spec.get("rf_port", 0)),
+        _index(spec.get("lo_port", 1)),
+        _index(spec.get("if_port", 2)),
+    )
+
+
+def _operating_inputs(spec, total):
+    if not isinstance(spec, dict) or set(spec) - {
+        "mixers",
+        "initial_incident",
+        "max_iterations",
+        "max_backtracks",
+        "relative_tolerance",
+        "absolute_tolerance",
+    }:
+        raise ValueError("Invalid operating-point options")
+    entries = tuple(spec.get("mixers", ()))
+    if len(entries) > 512:
+        raise ValueError("Too many nonlinear mixers")
+    packed = []
+    for entry in entries:
+        if not isinstance(entry, dict) or "device" not in entry:
+            raise ValueError("Mixer requires device index")
+        fields = dict(entry)
+        device = _index(fields.pop("device"))
+        packed.append(_ConversionBilinearMixer(device, _bilinear_parameters(fields)))
+    mixers = (_ConversionBilinearMixer * len(packed))(*packed)
+    initial = None
+    if spec.get("initial_incident") is not None:
+        values = tuple(spec["initial_incident"])
+        if len(values) != total:
+            raise ValueError("Initial incident wave must cover every channel")
+        initial = (_Complex * total)(*(_Complex.from_value(v) for v in values))
+    iterations, backtracks = spec.get("max_iterations", 50), spec.get("max_backtracks", 24)
+    if (
+        type(iterations) is not int
+        or not 1 <= iterations <= 200
+        or type(backtracks) is not int
+        or not 0 <= backtracks <= 40
+    ):
+        raise ValueError("Invalid iteration/backtrack limits")
+    relative, absolute = spec.get("relative_tolerance", 1e-9), spec.get("absolute_tolerance", 1e-12)
+    if type(relative) not in (int, float) or type(absolute) not in (int, float):
+        raise TypeError("Operating-point tolerances must be numbers")
+    options = _ConversionOperatingOptions(
+        initial,
+        total if initial is not None else 0,
+        iterations,
+        backtracks,
+        float(relative),
+        float(absolute),
+    )
+    return options, mixers, initial
+
+
 class MixerLinearization(NamedTuple):
     direct: object
     conjugate: object
@@ -719,6 +841,14 @@ class Library:
                 ct.c_int, [ct.POINTER(ct.c_size_t), ct.POINTER(ct.c_int), size,
                            ct.POINTER(_PhaseNoiseCarrier), size, ct.POINTER(ct.c_int),
                            ct.POINTER(ct.c_double), size, ct.POINTER(_Complex), ct.POINTER(_Complex), size]),
+            "rfmodel_linearize_bilinear_mixer": (
+                ct.c_int, [ct.POINTER(_BilinearMixerRequest), ct.POINTER(_MixerLinearizationOutput)]),
+            "rfmodel_conversion_network_solve_operating_point": (
+                ct.c_int, [ct.POINTER(_ConversionRequest), size,
+                    ct.POINTER(_ConversionConnection), size, ct.POINTER(_ConversionBilinearMixer), size,
+                    ct.POINTER(_ConversionOperatingOptions), ct.POINTER(_ConversionAffineOffset),
+                    ct.POINTER(_ConversionSourceNoise), ct.POINTER(_ConversionOutput),
+                    ct.POINTER(_ConversionLoadedOutput), ct.POINTER(_ConversionOperatingDiagnostics)]),
             "rfmodel_linearize_real_mixer": (
                 ct.c_int, [ct.POINTER(_MixerLinearizationRequest), ct.POINTER(_MixerLinearizationOutput)]),
             "rfmodel_phase_noise_sidebands": (
@@ -1685,6 +1815,76 @@ class Library:
             *(getattr(output, name) for name in ConversionNoiseAnalysis._fields)
         )
 
+    def linearize_bilinear_mixer(
+        self,
+        spacing_hz,
+        channels,
+        operating_incident,
+        *,
+        lo_reference_amplitude,
+        gain_db=0.0,
+        rf_port=0,
+        lo_port=1,
+        if_port=2,
+        reference_ohms=50.0,
+    ):
+        """Evaluate fixed-coefficient RF/LO product and its exact local derivative."""
+        ports, bins = _conversion_channels(channels)
+        count = len(ports)
+        waves = tuple(operating_incident)
+        if len(waves) != count:
+            raise ValueError("Mixer operating point must cover every channel")
+        native = (_Complex * count)(*(_Complex.from_value(v) for v in waves))
+        parameters = _bilinear_parameters(
+            dict(
+                lo_reference_amplitude=lo_reference_amplitude,
+                gain_db=gain_db,
+                rf_port=rf_port,
+                lo_port=lo_port,
+                if_port=if_port,
+            )
+        )
+        request = _BilinearMixerRequest(
+            count, float(spacing_hz), float(reference_ohms), ports, bins, native, parameters
+        )
+        direct, conjugate = (_Complex * (count * count))(), (_Complex * (count * count))()
+        nominal = (_Complex * count)()
+        output = _MixerLinearizationOutput(direct, conjugate, nominal, count * count, count)
+        self._check(self._dll.rfmodel_linearize_bilinear_mixer(ct.byref(request), ct.byref(output)))
+        return MixerLinearization(
+            _rows(direct, count), _rows(conjugate, count), tuple(v.value() for v in nominal)
+        )
+
+    def solve_conversion_operating_point(
+        self,
+        spacing_hz,
+        devices,
+        connections=(),
+        *,
+        mixers=(),
+        initial_incident=None,
+        max_iterations=50,
+        max_backtracks=24,
+        relative_tolerance=1e-9,
+        absolute_tolerance=1e-12,
+        **network_options,
+    ):
+        """Native damped Newton with fixed-coefficient bilinear device overrides."""
+        return self.conversion_network(
+            spacing_hz,
+            devices,
+            connections,
+            operating_point=dict(
+                mixers=mixers,
+                initial_incident=initial_incident,
+                max_iterations=max_iterations,
+                max_backtracks=max_backtracks,
+                relative_tolerance=relative_tolerance,
+                absolute_tolerance=absolute_tolerance,
+            ),
+            **network_options,
+        )
+
     def linearize_real_mixer(
         self,
         spacing_hz,
@@ -1824,6 +2024,7 @@ class Library:
         additional_source_covariance=None,
         additional_source_complementary=None,
         output_offset=None,
+        operating_point=None,
     ):
         """Connect physical ports of conversion devices; output order is device/channel order."""
         if type(loaded_noise) is not bool:
@@ -1861,12 +2062,34 @@ class Library:
             matrices = [(_Complex * (total * total))() for _ in range(4)]
             net = (ct.c_double * total)()
             loaded = _ConversionLoadedOutput(*matrices, net, total * total, total)
+        affine = None
         if output_offset is not None:
             output_offset = tuple(output_offset)
             if len(output_offset) != total:
                 raise ValueError("Conversion output offset dimensions differ")
             native_offset = (_Complex * total)(*(_Complex.from_value(v) for v in output_offset))
             affine = _ConversionAffineOffset(total, native_offset)
+        diagnostics = None
+        if operating_point is not None:
+            options, mixers, initial = _operating_inputs(operating_point, total)
+            diagnostics = _ConversionOperatingDiagnostics()
+            self._check(
+                self._dll.rfmodel_conversion_network_solve_operating_point(
+                    native_requests,
+                    len(native_requests),
+                    native_connections,
+                    len(native_connections),
+                    mixers,
+                    len(mixers),
+                    ct.byref(options),
+                    ct.byref(affine) if affine is not None else None,
+                    ct.byref(extra) if extra is not None else None,
+                    ct.byref(output),
+                    ct.byref(loaded) if loaded_noise else None,
+                    ct.byref(diagnostics),
+                )
+            )
+        elif affine is not None:
             self._check(
                 self._dll.rfmodel_conversion_network_analyze_affine(
                     native_requests,
@@ -1921,8 +2144,15 @@ class Library:
         )
 
         if loaded_noise:
-            return ConversionLoadedResult(
+            ordinary = ConversionLoadedResult(
                 *ordinary, *(_rows(matrix, total) for matrix in matrices), tuple(net)
+            )
+        if diagnostics is not None:
+            return ConversionOperatingResult(
+                ordinary,
+                diagnostics.iterations,
+                diagnostics.backtracks,
+                diagnostics.scaled_residual,
             )
         return ordinary
 

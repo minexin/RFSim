@@ -10,6 +10,7 @@ from .model_file import (
     _device_noise,
     _touchstone_samples,
 )
+from .operating_point import bilinear_spec, operating_options, update_converged_mixers
 from .affine_conversion import offset_vector, linearized_mixer, check_operating_points
 from .conversion_file import conversion_matrices
 from .phase_noise import apply_phase_noise_sources, build_phase_noise_groups
@@ -102,6 +103,7 @@ def analyze_conversion_network(library, document, base_directory=None):
             "phase_noise_sources",
             "phase_noise_groups",
             "additional_source_noise",
+            "operating_point",
         ),
     )
     if (
@@ -120,6 +122,7 @@ def analyze_conversion_network(library, document, base_directory=None):
     devices, names, labels, lookup = [], {}, [], {}
     output_offsets, operating_points = [], []
     use_affine = False
+    nonlinear_mixers = []
     for entry in entries:
         if (
             not isinstance(entry, dict)
@@ -143,7 +146,12 @@ def analyze_conversion_network(library, document, base_directory=None):
                 if type(channel["port"]) is not int or type(channel["bin"]) is not int:
                     raise ValueError("Conversion indices must be integers")
                 channels.append((channel["port"], channel["bin"]))
-            if isinstance(model, dict) and model.get("type") == "linearized_real_mixer":
+            if isinstance(model, dict) and model.get("type") == "bilinear_real_mixer":
+                if "operating_point" not in document:
+                    raise ValueError("Bilinear mixers require explicit operating_point options")
+                nonlinear_mixers.append(dict(device=len(devices), **bilinear_spec(model)))
+                a, b = zero(len(channels)), zero(len(channels))
+            elif isinstance(model, dict) and model.get("type") == "linearized_real_mixer":
                 if "output_offset" in entry:
                     raise ValueError("Linearized mixer computes its own output offset")
                 lin, operating = linearized_mixer(library, spacing, channels, model, reference)
@@ -285,6 +293,11 @@ def analyze_conversion_network(library, document, base_directory=None):
     need_incident = loaded_noise or any(
         request["wave"] == "incident" for request in channel_requests
     )
+    solve_options = None
+    if "operating_point" in document:
+        solve_options = dict(
+            mixers=nonlinear_mixers, **operating_options(document["operating_point"], len(labels))
+        )
     result = library.conversion_network(
         spacing,
         devices,
@@ -294,7 +307,23 @@ def analyze_conversion_network(library, document, base_directory=None):
         additional_source_covariance=extra_c,
         additional_source_complementary=extra_p,
         output_offset=output_offsets if use_affine else None,
+        operating_point=solve_options,
     )
+    diagnostics = None
+    if solve_options is not None:
+        diagnostics = dict(
+            method="damped_newton",
+            iterations=result.iterations,
+            backtracks=result.backtracks,
+            scaled_residual=result.scaled_residual,
+            relative_tolerance=solve_options["relative_tolerance"],
+            absolute_tolerance_sqrt_w=solve_options["absolute_tolerance"],
+        )
+        result = result.waves
+        update_converged_mixers(
+            library, spacing, reference, devices, nonlinear_mixers, result, output_offsets
+        )
+        use_affine = True
     operating_reports = check_operating_points(operating_points, result)
     channels = []
     for i, (name, port, index) in enumerate(labels):
@@ -325,6 +354,9 @@ def analyze_conversion_network(library, document, base_directory=None):
     if use_affine:
         output["wave_relation"] = "affine"
         output["output_offset"] = [[v.real, v.imag] for v in output_offsets]
+    if diagnostics is not None:
+        output["wave_relation"] = "nonlinear_operating_point"
+        output["operating_point"] = diagnostics
     if operating_reports:
         output["operating_point_checks"] = operating_reports
     if phase_noise_groups:

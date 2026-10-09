@@ -29,7 +29,7 @@ b approximately equals b0 + delta_b
 
 A/B 由真实实部、虚部基向量的精确双线性导数构造；这不是数值差分实现。RF 导数使用名义 LO，LO 导数使用名义 RF。输入 IF 扰动不影响这个单向模型的出射波。
 
-不能把 a0 直接作为增量 source 使用：双线性乘积满足 J(a0)*a0=2*F(a0)，这样会将名义输出翻倍。使用[绝对波仿射网络](affine-conversion.md)可加入 b0-J(a0)*a0，并检查给定工作点与网络边界的一致性；这里的独立增量接口不隐式执行该流程，自动工作点另见[通用 C++ 核心](conversion-operating-point.md)，尚未接入本 JSON 路径。
+不能把 a0 直接作为增量 source 使用：双线性乘积满足 J(a0)*a0=2*F(a0)，这样会将名义输出翻倍。使用[绝对波仿射网络](affine-conversion.md)可加入 b0-J(a0)*a0，并检查给定工作点与网络边界的一致性；这里的独立增量接口不隐式执行该流程，自动工作点另见[通用 C++ 核心](conversion-operating-point.md)，其双线性模型已有独立的显式 JSON 自动求解选项。
 
 通道集合必须包含名义输出及所有一阶扰动生成的 IF 频率，包括仅由 LO 偏移扰动产生的通道；缺失即报错。RF/LO 扰动之间的二阶乘积不属于一阶矩阵，也不要求为该项自动扩展频率。频点仍由调用者显式提供。
 
@@ -84,7 +84,7 @@ python -m rfmodel examples/mixer-lo-phase-noise.json --library build-msvc/Releas
 
 SystemVue 2023 本机相噪帮助指出混频输出包含 RF/LO 相噪，及共享参考时钟下的和/差关系；来源见[帮助页记录](../validation/systemvue-2023-phase-noise-help-provenance.json)。这里的双线性定义和数值证据不等于厂商 Mixer 模型验收。
 
-绝对波仿射接口与给定工作点一致性检查已见[仿射网络](affine-conversion.md)。[自动工作点 C++ 核心](conversion-operating-point.md)已增加阻尼迭代；后续仍需 C/Python/JSON 接入及完整器件适配、实际 LO 驱动/限幅/压缩、PLL 频率相关传递、相噪连续谱及 PNCP 路径测量、厂商实测。当前模型忽略噪声乘噪声、高阶随机乘积和大角度调制。
+绝对波仿射接口与给定工作点一致性检查已见[仿射网络](affine-conversion.md)。[自动工作点 C++ 核心](conversion-operating-point.md)已增加阻尼迭代；固定系数双线性模型已接入 C/Python/JSON；后续仍需完整器件适配、实际 LO 驱动/限幅/压缩、PLL 频率相关传递、相噪连续谱及 PNCP 路径测量、厂商实测。当前模型忽略噪声乘噪声、高阶随机乘积和大角度调制。
 
 ## 工程验证记录
 

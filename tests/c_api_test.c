@@ -14,6 +14,245 @@
 
 int main(int argc, char **argv) {
     {
+        const size_t ports[3] = {0, 1, 2};
+        const int bins[3] = {0, 0, 0};
+        const rfmodel_complex zero[9] = {{0}};
+        const rfmodel_complex source[3] = {{1., 0.}, {2., 0.}, {0., 0.}};
+        const rfmodel_complex noise[9] = {{1e-9, 0.}};
+        rfmodel_complex initial[3] = {{0}};
+        rfmodel_conversion_request device = {0};
+        rfmodel_conversion_bilinear_mixer mixer = {0, {-3.010299956639812, 1., 0, 1, 2}};
+        rfmodel_conversion_operating_options options = {initial, 3, 50, 24, 1e-9, 1e-12};
+        rfmodel_conversion_operating_diagnostics diagnostics;
+        rfmodel_complex values[24], loaded_values[36];
+        double residual, net[3];
+        rfmodel_conversion_output output = {
+            values, values + 3, values + 6, values + 15, 3, 9, &residual};
+        rfmodel_conversion_loaded_output loaded = {
+            loaded_values, loaded_values + 9, loaded_values + 18, loaded_values + 27, net, 9, 3};
+        device.count = 3;
+        device.spacing_hz = 1.;
+        device.reference_ohms = 50.;
+        device.physical_ports = ports;
+        device.bins = bins;
+        device.direct = zero;
+        device.conjugate = zero;
+        device.source = source;
+        device.source_covariance = noise;
+        device.source_complementary = noise;
+        if (rfmodel_conversion_network_solve_operating_point(&device,
+                                                             1,
+                                                             NULL,
+                                                             0,
+                                                             &mixer,
+                                                             1,
+                                                             &options,
+                                                             NULL,
+                                                             NULL,
+                                                             &output,
+                                                             &loaded,
+                                                             &diagnostics) != RFMODEL_OK ||
+            fabs(values[5].real - 2.) > 1e-12 || diagnostics.iterations != 1 ||
+            diagnostics.scaled_residual > 1. || fabs(values[14].real / 1e-9 - 4.) > 1e-12) {
+            return 101;
+        }
+        {
+            rfmodel_complex saved[24], saved_loaded[36];
+            double saved_net[3], saved_residual = residual;
+            rfmodel_conversion_operating_diagnostics saved_diagnostics = diagnostics;
+            memcpy(saved, values, sizeof(values));
+            memcpy(saved_loaded, loaded_values, sizeof(loaded_values));
+            memcpy(saved_net, net, sizeof(net));
+            options.max_iterations = 0;
+            CHECK(rfmodel_conversion_network_solve_operating_point(&device,
+                                                                   1,
+                                                                   NULL,
+                                                                   0,
+                                                                   &mixer,
+                                                                   1,
+                                                                   &options,
+                                                                   NULL,
+                                                                   NULL,
+                                                                   &output,
+                                                                   &loaded,
+                                                                   &diagnostics) != RFMODEL_OK);
+            options.max_iterations = 50;
+            options.initial_count = 2;
+            CHECK(rfmodel_conversion_network_solve_operating_point(&device,
+                                                                   1,
+                                                                   NULL,
+                                                                   0,
+                                                                   &mixer,
+                                                                   1,
+                                                                   &options,
+                                                                   NULL,
+                                                                   NULL,
+                                                                   &output,
+                                                                   &loaded,
+                                                                   &diagnostics) != RFMODEL_OK);
+            options.initial_count = 3;
+            initial[0].imag = 1.;
+            CHECK(rfmodel_conversion_network_solve_operating_point(&device,
+                                                                   1,
+                                                                   NULL,
+                                                                   0,
+                                                                   &mixer,
+                                                                   1,
+                                                                   &options,
+                                                                   NULL,
+                                                                   NULL,
+                                                                   &output,
+                                                                   &loaded,
+                                                                   &diagnostics) != RFMODEL_OK);
+            initial[0].imag = 0.;
+            mixer.model.lo_reference_amplitude = 0.;
+            CHECK(rfmodel_conversion_network_solve_operating_point(&device,
+                                                                   1,
+                                                                   NULL,
+                                                                   0,
+                                                                   &mixer,
+                                                                   1,
+                                                                   &options,
+                                                                   NULL,
+                                                                   NULL,
+                                                                   &output,
+                                                                   &loaded,
+                                                                   &diagnostics) != RFMODEL_OK);
+            mixer.model.lo_reference_amplitude = 1.;
+            output.wave_capacity = 2;
+            CHECK(rfmodel_conversion_network_solve_operating_point(&device,
+                                                                   1,
+                                                                   NULL,
+                                                                   0,
+                                                                   &mixer,
+                                                                   1,
+                                                                   &options,
+                                                                   NULL,
+                                                                   NULL,
+                                                                   &output,
+                                                                   &loaded,
+                                                                   &diagnostics) != RFMODEL_OK);
+            output.wave_capacity = (size_t)-1;
+            CHECK(rfmodel_conversion_network_solve_operating_point(&device,
+                                                                   1,
+                                                                   NULL,
+                                                                   0,
+                                                                   &mixer,
+                                                                   1,
+                                                                   &options,
+                                                                   NULL,
+                                                                   NULL,
+                                                                   &output,
+                                                                   &loaded,
+                                                                   &diagnostics) != RFMODEL_OK);
+            output.wave_capacity = 3;
+            output.outgoing = initial;
+            CHECK(rfmodel_conversion_network_solve_operating_point(&device,
+                                                                   1,
+                                                                   NULL,
+                                                                   0,
+                                                                   &mixer,
+                                                                   1,
+                                                                   &options,
+                                                                   NULL,
+                                                                   NULL,
+                                                                   &output,
+                                                                   &loaded,
+                                                                   &diagnostics) != RFMODEL_OK);
+            output.outgoing = values + 3;
+            loaded.incident_covariance = (rfmodel_complex *)&mixer;
+            CHECK(rfmodel_conversion_network_solve_operating_point(&device,
+                                                                   1,
+                                                                   NULL,
+                                                                   0,
+                                                                   &mixer,
+                                                                   1,
+                                                                   &options,
+                                                                   NULL,
+                                                                   NULL,
+                                                                   &output,
+                                                                   &loaded,
+                                                                   &diagnostics) != RFMODEL_OK);
+            loaded.incident_covariance = loaded_values;
+            CHECK(rfmodel_conversion_network_solve_operating_point(
+                      &device,
+                      1,
+                      NULL,
+                      0,
+                      &mixer,
+                      1,
+                      &options,
+                      NULL,
+                      NULL,
+                      &output,
+                      &loaded,
+                      (rfmodel_conversion_operating_diagnostics *)&options) != RFMODEL_OK);
+            CHECK(rfmodel_conversion_network_solve_operating_point(
+                      &device,
+                      1,
+                      NULL,
+                      0,
+                      &mixer,
+                      1,
+                      &options,
+                      NULL,
+                      NULL,
+                      &output,
+                      &loaded,
+                      (rfmodel_conversion_operating_diagnostics *)values) != RFMODEL_OK);
+            CHECK(rfmodel_conversion_network_solve_operating_point(&device,
+                                                                   1,
+                                                                   NULL,
+                                                                   0,
+                                                                   &mixer,
+                                                                   1,
+                                                                   NULL,
+                                                                   NULL,
+                                                                   NULL,
+                                                                   &output,
+                                                                   &loaded,
+                                                                   &diagnostics) != RFMODEL_OK);
+            CHECK(
+                rfmodel_conversion_network_solve_operating_point(
+                    &device, 1, NULL, 0, &mixer, 1, &options, NULL, NULL, &output, &loaded, NULL) !=
+                RFMODEL_OK);
+            CHECK(memcmp(saved, values, sizeof(values)) == 0 &&
+                  memcmp(saved_loaded, loaded_values, sizeof(loaded_values)) == 0);
+            CHECK(memcmp(saved_net, net, sizeof(net)) == 0 && residual == saved_residual);
+            CHECK(memcmp(&saved_diagnostics, &diagnostics, sizeof(diagnostics)) == 0);
+            CHECK(options.max_iterations == 50 && mixer.model.lo_reference_amplitude == 1. &&
+                  initial[0].real == 0.);
+        }
+        {
+            rfmodel_bilinear_mixer_request request = {
+                3, 1., 50., ports, bins, source, {-3.010299956639812, 1., 0, 1, 2}};
+            rfmodel_complex a[9], b[9], nominal[3];
+            rfmodel_mixer_linearization_output linearized = {a, b, nominal, 9, 3};
+            if (rfmodel_linearize_bilinear_mixer(&request, &linearized) != RFMODEL_OK ||
+                fabs(nominal[2].real - 2.) > 1e-12 || fabs(a[6].real - 2.) > 1e-12) {
+                return 102;
+            }
+            {
+                rfmodel_complex saved_a[9], saved_b[9], saved_nominal[3];
+                memcpy(saved_a, a, sizeof(a));
+                memcpy(saved_b, b, sizeof(b));
+                memcpy(saved_nominal, nominal, sizeof(nominal));
+                request.model.lo_reference_amplitude = 0.;
+                CHECK(rfmodel_linearize_bilinear_mixer(&request, &linearized) != RFMODEL_OK);
+                request.model.lo_reference_amplitude = 1.;
+                linearized.wave_capacity = 2;
+                CHECK(rfmodel_linearize_bilinear_mixer(&request, &linearized) != RFMODEL_OK);
+                linearized.wave_capacity = 3;
+                linearized.direct = (rfmodel_complex *)&request;
+                CHECK(rfmodel_linearize_bilinear_mixer(&request, &linearized) != RFMODEL_OK);
+                linearized.direct = a;
+                CHECK(memcmp(saved_a, a, sizeof(a)) == 0 && memcmp(saved_b, b, sizeof(b)) == 0 &&
+                      memcmp(saved_nominal, nominal, sizeof(nominal)) == 0);
+            }
+        }
+    }
+
+    {
         const size_t port = 0;
         int bin = 1;
         const rfmodel_complex direct = {.5, 0.}, zero = {0., 0.};
