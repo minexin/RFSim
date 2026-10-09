@@ -79,3 +79,5 @@ passed=false，完整相干合并功率不能列为已验收。
 [递归来源与多项式系统图](recursive-mixing-origins.md) 新增原始源因子展开、同源失真归并及显式全局来源阶数限制。带混频器的来源表达式之和与 SystemVue 高阶子谱语义仍待完成。
 
 [混合多项式系统图](mixed-polynomial-graphs.md) 已支持线性网络、理想混频与多项式递归链路，按流保存不同来源贡献并保持物理相干归并；证据为独立数值卷积与工程回归。含共同压缩的混合图已由[公共工作点](common-amplifier-response.md)实现并做数值回归；SystemVue 的高阶系数、LO 阶数、子谱合并尚未验收。
+
+[RFAMP 四阶与五阶诊断](systemvue-highorder-diagnostic.md)：六组实测中，公开四阶规则的 23 个已记录来源项吻合，单点识别的五阶系数通过另外 27 项检查；双音缺少 12 个预测标签，仍按诊断记录，完整高阶兼容未验收。

@@ -91,6 +91,9 @@ if(RFMODEL_BUILD_C_API)
         add_test(NAME coherent_network_file_test COMMAND ${Python3_EXECUTABLE}
             ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_coherent_network_file.py
             $<TARGET_FILE:rfmodel_c>)
+        add_test(NAME highorder_amplifier_diagnostic COMMAND ${Python3_EXECUTABLE}
+            ${CMAKE_CURRENT_SOURCE_DIR}/scripts/reference/test_diagnose_highorder_amplifier.py
+            $<TARGET_FILE:rfmodel_c>)
         add_test(NAME cascade_unity_gain_diagnostic COMMAND ${Python3_EXECUTABLE}
             ${CMAKE_CURRENT_SOURCE_DIR}/scripts/reference/test_diagnose_cascade_unity_gain.py
             $<TARGET_FILE:rfmodel_c>)

@@ -1,0 +1,41 @@
+{
+  "source": "Installed Keysight SystemVue 2023 official help",
+  "reference_version": "2023.0.0.11903",
+  "qch_path": "C:\\Program Files\\Keysight\\SystemVue2023\\Help\\systemvue.qch",
+  "qch_sha256": "eacdae962108181a917525b8e233d5b33d97f683674d1c79007c1c2b7a24bd83",
+  "extraction": "Read-only SQLite FileNameTable/FileDataTable join; Qt four-byte size prefix followed by zlib HTML. Full vendor pages are not distributed.",
+  "pages": [
+    {
+      "path": "rfdesign/RFAMP.html",
+      "uncompressed_html_sha256": "84b3b35eba9f3015924368d2e3a4004030e7357f3de1218b6dc837c22a6705ca",
+      "paraphrased_notes": [
+        "RFAMP wraps RFAMP_HO and exposes OP1dB, OPSAT, OIP2 and OIP3.",
+        "The documented RFAMP maximum-order selector lists orders through eleven."
+      ]
+    },
+    {
+      "path": "rfdesign/RFAMP_HO.html",
+      "uncompressed_html_sha256": "4448631e6c300b155606dd9caadf142d8389a8dc40fc48ba61210acc4b2b0b93",
+      "paraphrased_notes": [
+        "RFAMP_HO derives polynomial coefficients from its IMN intermodulation list.",
+        "Higher-order products may overlap lower-order frequencies; arbitrary intercept choices need not represent a physical amplifier."
+      ]
+    },
+    {
+      "path": "sim/Gain_Compression_and_Intermod_Generation.html",
+      "uncompressed_html_sha256": "eb1fdef2c779272edbfa97dcdd6ad9acf6db44f59dd51d115cdf0a09b2e8107c",
+      "paraphrased_notes": [
+        "The documented guideline is IP4=P1dB+13 dB, IP6=P1dB+11 dB, IP8=P1dB+9 dB and IP10=P1dB+8 dB.",
+        "Odd coefficients of orders five, seven, nine and eleven are derived by proprietary algorithms from OP1dB, OPSAT and OIP3; this page supplies no exact coefficient formula."
+      ]
+    },
+    {
+      "path": "sim/Maximum_Intermod_and_Harmonic_Order.html",
+      "uncompressed_html_sha256": "523029c0f8ca78739d958e498de4a0f49f9aebb7a421a21c98ed4ff66391536d",
+      "paraphrased_notes": [
+        "The model maximum order cannot exceed the System Analysis maximum order."
+      ]
+    }
+  ],
+  "interpretation": "This diagnostic applies the fourth-order guideline to output-referred intercepts. Fifth-order coefficients are experimentally fitted, not derived from a published exact formula."
+}
