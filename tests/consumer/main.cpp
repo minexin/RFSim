@@ -1,3 +1,4 @@
+#include "rfmodel/butterworth_filter.hpp"
 #include "rfmodel/power_wave_noise.hpp"
 #include <rfmodel/power_wave_reference.hpp>
 #include <rfmodel/intermod_levels.hpp>
@@ -32,6 +33,13 @@
 #include <rfmodel/term_propagation.hpp>
 
 int main() {
+    {
+        rfmodel::ButterworthFilterModel filter("filter", {});
+        if (std::abs(filter.s_parameters(0.)(1, 0) - 1.) > 1e-12) {
+            return 89;
+        }
+    }
+
     {
         const rfmodel::SMatrix pad{2, {0., .5, .5, 0.}};
         const auto noise = rfmodel::passive_thermal_noise(pad, 290.);

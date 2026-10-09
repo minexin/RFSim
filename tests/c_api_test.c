@@ -14,6 +14,27 @@
 
 int main(int argc, char **argv) {
     {
+        rfmodel_butterworth_parameters p = {
+            RFMODEL_BUTTERWORTH_LOWPASS, 3, 1e9, 0., 3.010299956639812, 1, 50.};
+        rfmodel_complex out[4] = {{7., 8.}, {9., 10.}, {11., 12.}, {13., 14.}}, saved[4];
+        memcpy(saved, out, sizeof(out));
+        CHECK(rfmodel_butterworth_s(1e9, &p, out, 3) != RFMODEL_OK);
+        CHECK(memcmp(out, saved, sizeof(out)) == 0);
+        p.input_stopband_open = 2;
+        CHECK(rfmodel_butterworth_s(1e9, &p, out, 4) != RFMODEL_OK);
+        CHECK(memcmp(out, saved, sizeof(out)) == 0);
+        p.input_stopband_open = 1;
+        CHECK(rfmodel_butterworth_s(1e9, &p, (rfmodel_complex *)&p, 4) != RFMODEL_OK);
+        CHECK(p.order == 3);
+        CHECK(rfmodel_butterworth_s(1e9, &p, out, 4) == RFMODEL_OK);
+        CHECK(fabs(out[2].real * out[2].real + out[2].imag * out[2].imag - .5) < 1e-12);
+        p.order = 1;
+        memcpy(saved, out, sizeof(out));
+        CHECK(rfmodel_butterworth_s(1e9, &p, out, 4) != RFMODEL_OK);
+        CHECK(memcmp(out, saved, sizeof(out)) == 0);
+    }
+
+    {
         rfmodel_complex output[16], saved[16], branches[2] = {{.5, 0.}, {0., .5}};
         size_t i;
         for (i = 0; i < 16; ++i) {

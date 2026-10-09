@@ -223,6 +223,18 @@ class CoherentPolynomialResponse(NamedTuple):
     terms: tuple
 
 
+class _ButterworthParameters(ct.Structure):
+    _fields_ = [
+        ("response", ct.c_int),
+        ("order", ct.c_size_t),
+        ("lower_passband_hz", ct.c_double),
+        ("upper_passband_hz", ct.c_double),
+        ("passband_attenuation_db", ct.c_double),
+        ("input_stopband_open", ct.c_int),
+        ("reference_ohms", ct.c_double),
+    ]
+
+
 class NoiseParameters(NamedTuple):
     minimum_noise_figure_db: float
     optimum_source_reflection: complex
@@ -479,6 +491,9 @@ class Library:
                 ct.c_int, [handle, ct.POINTER(size), size, ct.c_double,
                            ct.POINTER(_SpectrumBin), size, ct.POINTER(_SpectrumBin),
                            size, ct.POINTER(size)]),
+            "rfmodel_butterworth_s": (
+                ct.c_int, [ct.c_double, ct.POINTER(_ButterworthParameters), complex_pointer, size],
+            ),
             "rfmodel_ideal_rlc_s": (
                 ct.c_int, [ct.c_double, ct.c_int, ct.c_int, ct.c_double, ct.c_double,
                            complex_pointer, size],
@@ -1260,6 +1275,53 @@ class Library:
             float(spacing_hz), incident, len(incident), _bin(lo_bin), float(conversion_gain_db),
             float(lo_phase_radians), float(reference_ohms), output, len(output), ct.byref(count)))
         return {output[i].index: output[i].amplitude.value() for i in range(count.value)}
+
+    def butterworth_filter(
+        self,
+        frequency_hz,
+        *,
+        response,
+        order,
+        passband_hz=None,
+        lower_passband_hz=None,
+        upper_passband_hz=None,
+        passband_attenuation_db=3.010299956639812,
+        input_stopband="open",
+        reference_ohms=50.0,
+    ):
+        """Lossless reciprocal LC ladder; order is the lowpass prototype order."""
+        kinds = {"lowpass": 0, "highpass": 1, "bandpass": 2, "bandstop": 3}
+        if response not in kinds or input_stopband not in ("open", "short"):
+            raise ValueError("Unknown Butterworth response or stopband topology")
+        order = _index(order)
+        if not 2 <= order <= 64:
+            raise ValueError("Butterworth prototype order must be 2..64")
+        if response in ("lowpass", "highpass"):
+            if (
+                passband_hz is None
+                or lower_passband_hz is not None
+                or upper_passband_hz is not None
+            ):
+                raise ValueError("Low/high pass requires only passband_hz")
+            low, high = float(passband_hz), 0.0
+        else:
+            if passband_hz is not None or lower_passband_hz is None or upper_passband_hz is None:
+                raise ValueError("Band filters require lower/upper_passband_hz")
+            low, high = float(lower_passband_hz), float(upper_passband_hz)
+        parameters = _ButterworthParameters(
+            kinds[response],
+            order,
+            low,
+            high,
+            float(passband_attenuation_db),
+            int(input_stopband == "open"),
+            float(reference_ohms),
+        )
+        output = (_Complex * 4)()
+        self._check(
+            self._dll.rfmodel_butterworth_s(float(frequency_hz), ct.byref(parameters), output, 4)
+        )
+        return _rows(output, 2)
 
     def ideal_rlc(self, frequency_hz, *, element, connection, value, reference_ohms=50.0):
         """Ideal positive R/L/C (ohm/H/F), connected in series or shunt."""

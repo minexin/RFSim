@@ -3,6 +3,16 @@
 
 int main(int argc, char **argv) {
     {
+        rfmodel_butterworth_parameters parameters = {
+            RFMODEL_BUTTERWORTH_LOWPASS, 3, 1e9, 0., 3.010299956639812, 1, 50.};
+        rfmodel_complex output[4];
+        if (rfmodel_butterworth_s(0., &parameters, output, 4) != RFMODEL_OK ||
+            fabs(output[2].real - 1.) > 1e-12) {
+            return 89;
+        }
+    }
+
+    {
         rfmodel_complex output[16], branches[2] = {{.5, 0.}, {0., .5}};
         if (rfmodel_ideal_rlc_s(
                 0., RFMODEL_IDEAL_CAPACITOR, RFMODEL_SHUNT_ADMITTANCE, 1e-12, 50., output, 4) !=

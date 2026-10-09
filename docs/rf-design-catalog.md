@@ -42,3 +42,5 @@ python scripts/reference/test_extract_rf_models.py
 ## 理想原语接口覆盖（2026-10-09）
 
 已有 R/L/C、匹配衰减/延迟、隔离功分器和正交耦合器核心现提供[统一 C/Python/JSON 入口](passive-model-interfaces.md)，可形成参数化 RC 和相干网络案例。这是 RFModel 原语层的工程覆盖，未完成厂商模型参数及实测对照；原目录条目的 assessment 不因此自动升级。
+
+新增[理想无损 Butterworth 原型](butterworth-filter.md)，四类频率变换已贯通接口。该实现尚无滤波器实测证据，未升级 LPF_BUTTER/HPF_BUTTER/BPF_BUTTER/BSF_BUTTER 的兼容评定。

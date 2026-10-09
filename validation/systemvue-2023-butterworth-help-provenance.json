@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "reference": "SystemVue 2023 installed help",
+  "source_qch": "C:/Program Files/Keysight/SystemVue2023/Help/systemvue.qch",
+  "read_date": "2026-10-09",
+  "sources": [
+    {
+      "path": "rfdesign/LPF_BUTTER.html",
+      "sha256_decompressed_html": "289735376a7fac17136690d5015b857451a7b3a78a0eb6a52bf46ff6279facbc"
+    },
+    {
+      "path": "rfdesign/HPF_BUTTER.html",
+      "sha256_decompressed_html": "69aa20164d09700e0024eeaaf89d94eb5778a2e2ba1a7a4b31aab205addd9cda"
+    },
+    {
+      "path": "rfdesign/BPF_BUTTER.html",
+      "sha256_decompressed_html": "9a73190fdcabc2e5b720a3453f9f18b4a4c85d9b24f6f8c3b8dba6af4f57ecf3"
+    },
+    {
+      "path": "rfdesign/BSF_BUTTER.html",
+      "sha256_decompressed_html": "39187c51a1e729d242663284741ff315d9668fcb0a422aa5cc6ab1a090abbcbd"
+    }
+  ],
+  "parameter_facts": {
+    "prototype_order_min": 2,
+    "default_passband_attenuation_db": 3.010299957,
+    "default_insertion_loss_db": 0.01,
+    "default_maximum_attenuation_db": 100,
+    "default_reference_ohms": 50,
+    "bandpass_center": "geometric mean of Flo and Fhi",
+    "input_stopband_type_listed_for": [
+      "LPF_BUTTER",
+      "HPF_BUTTER",
+      "BPF_BUTTER"
+    ],
+    "bandstop_type_parameter": "not listed in BSF_BUTTER parameter table"
+  },
+  "implemented_scope": "RFModel ideal lossless Butterworth LC ladder with four frequency transformations; not a vendor-equivalent model",
+  "pending_vendor_compatibility": [
+    "live complex S-parameter comparison",
+    "IL implementation including reflection behavior",
+    "Amax parallel-resistor and topology semantics",
+    "Z1/Z2 terminal behavior",
+    "Ta temperature mapping",
+    "Apass=0 limiting semantics",
+    "BSF_BUTTER topology selection"
+  ],
+  "vendor_numerical_validation": "not performed for this stage"
+}

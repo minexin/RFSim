@@ -79,6 +79,31 @@ rfmodel_polynomial_coefficients_from_intermod_levels(double power_gain_db,
                                                      size_t capacity,
                                                      size_t *coefficient_count);
 
+typedef enum rfmodel_butterworth_response {
+    RFMODEL_BUTTERWORTH_LOWPASS = 0,
+    RFMODEL_BUTTERWORTH_HIGHPASS = 1,
+    RFMODEL_BUTTERWORTH_BANDPASS = 2,
+    RFMODEL_BUTTERWORTH_BANDSTOP = 3
+} rfmodel_butterworth_response;
+
+typedef struct rfmodel_butterworth_parameters {
+    rfmodel_butterworth_response response;
+    size_t order;                   /* Prototype order 2..64; band transforms double it. */
+    double lower_passband_hz;       /* Single edge for low/high pass. */
+    double upper_passband_hz;       /* Must be 0 for low/high pass. */
+    double passband_attenuation_db; /* Strictly positive. */
+    int input_stopband_open;        /* Exactly 0 (short) or 1 (open). */
+    double reference_ohms;
+} rfmodel_butterworth_parameters;
+
+/* Lossless reciprocal LC ladder; no insertion-loss or Amax approximation.
+ * Four row-major entries. Output must not overlap parameters and is unchanged
+ * on failure. Frequencies are Hz, reference is common positive real ohms. */
+RFMODEL_API int rfmodel_butterworth_s(double frequency_hz,
+                                      const rfmodel_butterworth_parameters *parameters,
+                                      rfmodel_complex *output,
+                                      size_t capacity);
+
 typedef enum rfmodel_ideal_element {
     RFMODEL_IDEAL_RESISTOR = 0,
     RFMODEL_IDEAL_INDUCTOR = 1,

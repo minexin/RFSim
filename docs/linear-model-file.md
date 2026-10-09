@@ -220,3 +220,5 @@ noise_analysis 对象支持恒定或逐频点的物理源阻抗及参考温度�
 ## 理想无源参数化器件
 
 resistor、inductor、capacitor、matched_transmission、equal_power_divider、isolated_power_divider、quadrature_coupler 已接入 model。它们沿用网络公共参考与显式噪声配置，也可在相干 network 节点中使用。参数单位、端口次序、理想化边界及 RC 示例见[无源器件接口](passive-model-interfaces.md)。
+
+参数化模型现增加 type=butterworth_ladder，支持四类理想无损响应。阶数、带边与拓扑字段见 [Butterworth 接口](butterworth-filter.md)，示例为 examples/butterworth-bandpass.json。未实现的 IL/Amax 等字段会被拒绝。

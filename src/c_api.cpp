@@ -1,3 +1,4 @@
+#include "rfmodel/butterworth_filter.hpp"
 #include "rfmodel/ideal_devices.hpp"
 #include "rfmodel/rlc_model.hpp"
 #include "rfmodel/multiport_devices.hpp"
@@ -1563,6 +1564,28 @@ int rfmodel_linear_amplifier_s(double frequency_hz,
         for (size_t i = 0; i < 4; ++i) {
             values[i] = {matrix.values[i].real(), matrix.values[i].imag()};
         }
+    });
+}
+
+int rfmodel_butterworth_s(double frequency_hz,
+                          const rfmodel_butterworth_parameters *parameters,
+                          rfmodel_complex *output,
+                          size_t capacity) {
+    return guarded([&] {
+        require(parameters && output && capacity >= 4 &&
+                capacity <= std::numeric_limits<size_t>::max() / sizeof(*output));
+        require(parameters->input_stopband_open == 0 || parameters->input_stopband_open == 1);
+        disjoint(parameters, sizeof(*parameters), output, capacity * sizeof(*output));
+        rfmodel::ButterworthFilterParameters decoded;
+        decoded.response = static_cast<rfmodel::ButterworthResponse>(parameters->response);
+        decoded.order = parameters->order;
+        decoded.lower_passband_hz = parameters->lower_passband_hz;
+        decoded.upper_passband_hz = parameters->upper_passband_hz;
+        decoded.passband_attenuation_db = parameters->passband_attenuation_db;
+        decoded.input_stopband_open = parameters->input_stopband_open == 1;
+        decoded.reference_ohms = parameters->reference_ohms;
+        const rfmodel::ButterworthFilterModel model("butterworth_ladder", decoded);
+        write_passive_s(model.s_parameters(frequency_hz), output, capacity);
     });
 }
 

@@ -112,6 +112,36 @@ def _parameter_samples(library, model, frequencies, reference, base_directory=No
     kind = model.get("type")
     if kind == "touchstone":
         return _touchstone_samples(library, model, frequencies, reference, base_directory)[0]
+    if kind == "butterworth_ladder":
+        response = model.get("response")
+        if response in ("lowpass", "highpass"):
+            edges = ("passband_hz",)
+        elif response in ("bandpass", "bandstop"):
+            edges = ("lower_passband_hz", "upper_passband_hz")
+        else:
+            raise ValueError("Unknown Butterworth response")
+        _object(
+            model,
+            ("type", "response", "order") + edges,
+            ("passband_attenuation_db", "input_stopband"),
+        )
+        if type(model["order"]) is not int or not 2 <= model["order"] <= 64:
+            raise ValueError("Butterworth prototype order must be an integer in 2..64")
+        parameters = {key: _number(model[key]) for key in edges}
+        parameters["passband_attenuation_db"] = _number(
+            model.get("passband_attenuation_db", 3.010299956639812)
+        )
+        return [
+            library.butterworth_filter(
+                frequency,
+                response=response,
+                order=model["order"],
+                input_stopband=model.get("input_stopband", "open"),
+                reference_ohms=reference,
+                **parameters,
+            )
+            for frequency in frequencies
+        ]
     if kind in ("resistor", "inductor", "capacitor"):
         value_field = {
             "resistor": "resistance_ohms",
