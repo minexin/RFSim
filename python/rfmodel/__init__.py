@@ -479,6 +479,22 @@ class Library:
                 ct.c_int, [handle, ct.POINTER(size), size, ct.c_double,
                            ct.POINTER(_SpectrumBin), size, ct.POINTER(_SpectrumBin),
                            size, ct.POINTER(size)]),
+            "rfmodel_ideal_rlc_s": (
+                ct.c_int, [ct.c_double, ct.c_int, ct.c_int, ct.c_double, ct.c_double,
+                           complex_pointer, size],
+            ),
+            "rfmodel_matched_transmission_s": (
+                ct.c_int, [ct.c_double] * 4 + [complex_pointer, size],
+            ),
+            "rfmodel_equal_power_divider_s": (
+                ct.c_int, [ct.c_double, size, ct.c_double, ct.c_double, complex_pointer, size],
+            ),
+            "rfmodel_isolated_power_divider_s": (
+                ct.c_int, [ct.c_double, complex_pointer, size, ct.c_double, complex_pointer, size],
+            ),
+            "rfmodel_quadrature_coupler_s": (
+                ct.c_int, [ct.c_double] * 4 + [complex_pointer, size],
+            ),
             "rfmodel_power_wave_noise_figure": (
                 ct.c_int, [complex_pointer, size, complex_pointer, complex_pointer,
                            _Complex, ct.c_double, ct.POINTER(ct.c_double)],
@@ -1244,6 +1260,99 @@ class Library:
             float(spacing_hz), incident, len(incident), _bin(lo_bin), float(conversion_gain_db),
             float(lo_phase_radians), float(reference_ohms), output, len(output), ct.byref(count)))
         return {output[i].index: output[i].amplitude.value() for i in range(count.value)}
+
+    def ideal_rlc(self, frequency_hz, *, element, connection, value, reference_ohms=50.0):
+        """Ideal positive R/L/C (ohm/H/F), connected in series or shunt."""
+        elements = {"resistor": 0, "inductor": 1, "capacitor": 2}
+        connections = {"series": 0, "shunt": 1}
+        if element not in elements or connection not in connections:
+            raise ValueError("Unknown RLC element or connection")
+        output = (_Complex * 4)()
+        self._check(
+            self._dll.rfmodel_ideal_rlc_s(
+                float(frequency_hz),
+                elements[element],
+                connections[connection],
+                float(value),
+                float(reference_ohms),
+                output,
+                4,
+            )
+        )
+        return _rows(output, 2)
+
+    def matched_transmission(self, frequency_hz, *, loss_db=0.0, delay_s=0.0, reference_ohms=50.0):
+        """Reciprocal matched attenuator/delay line; loss and delay are nonnegative."""
+        output = (_Complex * 4)()
+        self._check(
+            self._dll.rfmodel_matched_transmission_s(
+                float(frequency_hz),
+                float(loss_db),
+                float(delay_s),
+                float(reference_ohms),
+                output,
+                4,
+            )
+        )
+        return _rows(output, 2)
+
+    def equal_power_divider(
+        self, frequency_hz, *, branches, excess_loss_db=0.0, reference_ohms=50.0
+    ):
+        """Matched isolated divider: port 0 common, ports 1..N branches."""
+        branches = _index(branches)
+        if not 2 <= branches <= 64:
+            raise ValueError("Divider requires 2..64 branches")
+        ports = branches + 1
+        output = (_Complex * (ports * ports))()
+        self._check(
+            self._dll.rfmodel_equal_power_divider_s(
+                float(frequency_hz),
+                branches,
+                float(excess_loss_db),
+                float(reference_ohms),
+                output,
+                ports * ports,
+            )
+        )
+        return _rows(output, ports)
+
+    def isolated_power_divider(self, frequency_hz, branch_transmissions, *, reference_ohms=50.0):
+        """Reciprocal complex branch S amplitudes, with total branch power at most one."""
+        values = list(branch_transmissions)
+        if not 2 <= len(values) <= 64:
+            raise ValueError("Divider requires 2..64 branches")
+        native = (_Complex * len(values))(*[_Complex.from_value(value) for value in values])
+        ports = len(values) + 1
+        output = (_Complex * (ports * ports))()
+        self._check(
+            self._dll.rfmodel_isolated_power_divider_s(
+                float(frequency_hz),
+                native,
+                len(values),
+                float(reference_ohms),
+                output,
+                ports * ports,
+            )
+        )
+        return _rows(output, ports)
+
+    def quadrature_coupler(
+        self, frequency_hz, *, coupled_power_fraction, excess_loss_db=0.0, reference_ohms=50.0
+    ):
+        """Four ports: real through at 1, +j coupled at 2, isolation at 3 for input 0."""
+        output = (_Complex * 16)()
+        self._check(
+            self._dll.rfmodel_quadrature_coupler_s(
+                float(frequency_hz),
+                float(coupled_power_fraction),
+                float(excess_loss_db),
+                float(reference_ohms),
+                output,
+                16,
+            )
+        )
+        return _rows(output, 4)
 
     @staticmethod
     def _noise_two_port(scattering, references):

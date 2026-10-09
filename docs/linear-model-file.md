@@ -216,3 +216,7 @@ S 和噪声从同一次打开的快照取得，文件修改不会造成一次分
 ## 二端口噪声后处理
 
 noise_analysis 对象支持恒定或逐频点的物理源阻抗及参考温度。默认源阻抗保持 reference_ohms 的物理值，不随输出参考转换改变。需显式内生噪声和恰好两个外部端口；分析方向按 external_ports 顺序定义，结果增加 noise_analysis 对象。输入字段、单位、源反射约定和错误语义见[逐频点噪声分析](linear-noise-analysis.md)。
+
+## 理想无源参数化器件
+
+resistor、inductor、capacitor、matched_transmission、equal_power_divider、isolated_power_divider、quadrature_coupler 已接入 model。它们沿用网络公共参考与显式噪声配置，也可在相干 network 节点中使用。参数单位、端口次序、理想化边界及 RC 示例见[无源器件接口](passive-model-interfaces.md)。

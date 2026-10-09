@@ -3,6 +3,7 @@
 - [M1 建设目标](m1-goal.md)
 - [总体架构](architecture.md)
 - [核心接口](api.md)
+- [理想无源器件的 C/Python/JSON 接口](passive-model-interfaces.md)
 - [独立复参考阻抗与功率波](power-wave-references.md)
 - [独立复参考下的二端口噪声参数](power-wave-noise.md)
 - [线性 JSON 的逐频点噪声分析](linear-noise-analysis.md)

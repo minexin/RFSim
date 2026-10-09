@@ -1,3 +1,6 @@
+#include "rfmodel/ideal_devices.hpp"
+#include "rfmodel/rlc_model.hpp"
+#include "rfmodel/multiport_devices.hpp"
 #include "rfmodel/power_wave_reference.hpp"
 #include "rfmodel/power_wave_noise.hpp"
 #include "rfmodel/intermod_levels.hpp"
@@ -302,6 +305,15 @@ void noise_output_disjoint(const rfmodel_complex *scattering,
     disjoint(references, 2 * sizeof(*references), output, bytes);
     if (noise) {
         disjoint(noise, 4 * sizeof(*noise), output, bytes);
+    }
+}
+} // namespace
+
+namespace {
+void write_passive_s(const rfmodel::SMatrix &matrix, rfmodel_complex *output, size_t capacity) {
+    require(output && capacity >= matrix.values.size());
+    for (size_t i = 0; i < matrix.values.size(); ++i) {
+        output[i] = {matrix.values[i].real(), matrix.values[i].imag()};
     }
 }
 } // namespace
@@ -1551,6 +1563,85 @@ int rfmodel_linear_amplifier_s(double frequency_hz,
         for (size_t i = 0; i < 4; ++i) {
             values[i] = {matrix.values[i].real(), matrix.values[i].imag()};
         }
+    });
+}
+
+int rfmodel_ideal_rlc_s(double frequency_hz,
+                        rfmodel_ideal_element element,
+                        rfmodel_lumped_connection connection,
+                        double value,
+                        double reference_ohms,
+                        rfmodel_complex *output,
+                        size_t capacity) {
+    return guarded([&] {
+        const rfmodel::IdealRLCModel model("ideal_rlc",
+                                           static_cast<rfmodel::IdealElement>(element),
+                                           static_cast<rfmodel::LumpedConnection>(connection),
+                                           value,
+                                           reference_ohms);
+        write_passive_s(model.s_parameters(frequency_hz), output, capacity);
+    });
+}
+
+int rfmodel_matched_transmission_s(double frequency_hz,
+                                   double loss_db,
+                                   double delay_s,
+                                   double reference_ohms,
+                                   rfmodel_complex *output,
+                                   size_t capacity) {
+    return guarded([&] {
+        const rfmodel::MatchedTransmissionModel model(
+            "matched_transmission", loss_db, delay_s, reference_ohms);
+        write_passive_s(model.s_parameters(frequency_hz), output, capacity);
+    });
+}
+
+int rfmodel_equal_power_divider_s(double frequency_hz,
+                                  size_t branches,
+                                  double excess_loss_db,
+                                  double reference_ohms,
+                                  rfmodel_complex *output,
+                                  size_t capacity) {
+    return guarded([&] {
+        const rfmodel::EqualPowerDividerModel model(
+            "equal_power_divider", branches, excess_loss_db, reference_ohms);
+        write_passive_s(model.s_parameters(frequency_hz), output, capacity);
+    });
+}
+
+int rfmodel_isolated_power_divider_s(double frequency_hz,
+                                     const rfmodel_complex *branch_transmissions,
+                                     size_t branches,
+                                     double reference_ohms,
+                                     rfmodel_complex *output,
+                                     size_t capacity) {
+    return guarded([&] {
+        require(branch_transmissions && output && branches >= 2 && branches <= 64);
+        require(capacity <= std::numeric_limits<size_t>::max() / sizeof(*output));
+        disjoint(branch_transmissions,
+                 branches * sizeof(*branch_transmissions),
+                 output,
+                 capacity * sizeof(*output));
+        std::vector<rfmodel::Complex> gains;
+        for (size_t i = 0; i < branches; ++i) {
+            gains.push_back({branch_transmissions[i].real, branch_transmissions[i].imag});
+        }
+        const rfmodel::IsolatedPowerDividerModel model(
+            "isolated_power_divider", gains, reference_ohms);
+        write_passive_s(model.s_parameters(frequency_hz), output, capacity);
+    });
+}
+
+int rfmodel_quadrature_coupler_s(double frequency_hz,
+                                 double coupled_power_fraction,
+                                 double excess_loss_db,
+                                 double reference_ohms,
+                                 rfmodel_complex *output,
+                                 size_t capacity) {
+    return guarded([&] {
+        const rfmodel::QuadratureCouplerModel model(
+            "quadrature_coupler", coupled_power_fraction, excess_loss_db, reference_ohms);
+        write_passive_s(model.s_parameters(frequency_hz), output, capacity);
     });
 }
 

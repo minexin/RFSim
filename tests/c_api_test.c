@@ -14,6 +14,46 @@
 
 int main(int argc, char **argv) {
     {
+        rfmodel_complex output[16], saved[16], branches[2] = {{.5, 0.}, {0., .5}};
+        size_t i;
+        for (i = 0; i < 16; ++i) {
+            output[i].real = 7.;
+            output[i].imag = 8.;
+        }
+        memcpy(saved, output, sizeof(output));
+        CHECK(rfmodel_ideal_rlc_s(
+                  1e9, RFMODEL_IDEAL_RESISTOR, RFMODEL_SERIES_IMPEDANCE, 50., 50., output, 3) !=
+              RFMODEL_OK);
+        CHECK(memcmp(output, saved, sizeof(output)) == 0);
+        CHECK(rfmodel_ideal_rlc_s(
+                  1e9, (rfmodel_ideal_element)9, RFMODEL_SERIES_IMPEDANCE, 50., 50., output, 4) !=
+              RFMODEL_OK);
+        CHECK(memcmp(output, saved, sizeof(output)) == 0);
+        CHECK(rfmodel_matched_transmission_s(1e9, -1., 0., 50., output, 4) != RFMODEL_OK);
+        CHECK(memcmp(output, saved, sizeof(output)) == 0);
+        CHECK(rfmodel_equal_power_divider_s(1e9, 65, 0., 50., output, 16) != RFMODEL_OK);
+        CHECK(memcmp(output, saved, sizeof(output)) == 0);
+        CHECK(rfmodel_quadrature_coupler_s(1e9, 2., 0., 50., output, 16) != RFMODEL_OK);
+        CHECK(memcmp(output, saved, sizeof(output)) == 0);
+        CHECK(rfmodel_isolated_power_divider_s(1e9, branches, 2, 50., branches, 9) != RFMODEL_OK);
+        CHECK(branches[0].real == .5 && branches[1].imag == .5);
+        CHECK(rfmodel_isolated_power_divider_s(1e9, branches, 2, 50., output, 8) != RFMODEL_OK);
+        CHECK(memcmp(output, saved, sizeof(output)) == 0);
+        CHECK(rfmodel_ideal_rlc_s(
+                  1e9, RFMODEL_IDEAL_RESISTOR, RFMODEL_SERIES_IMPEDANCE, 50., 50., output, 4) ==
+              RFMODEL_OK);
+        CHECK(fabs(output[0].real - 1. / 3.) < 1e-12 && fabs(output[2].real - 2. / 3.) < 1e-12);
+        CHECK(rfmodel_matched_transmission_s(1e9, 20., .25e-9, 50., output, 4) == RFMODEL_OK);
+        CHECK(fabs(output[2].real) < 1e-12 && fabs(output[2].imag + .1) < 1e-12);
+        CHECK(rfmodel_equal_power_divider_s(1e9, 2, 0., 50., output, 9) == RFMODEL_OK);
+        CHECK(fabs(output[3].real - 1. / sqrt(2.)) < 1e-12);
+        CHECK(rfmodel_isolated_power_divider_s(1e9, branches, 2, 50., output, 9) == RFMODEL_OK);
+        CHECK(output[6].imag == .5 && output[2].imag == .5);
+        CHECK(rfmodel_quadrature_coupler_s(1e9, .25, 0., 50., output, 16) == RFMODEL_OK);
+        CHECK(fabs(output[8].imag - .5) < 1e-12 && output[12].real == 0.);
+    }
+
+    {
         const double kt = 1.380649e-23 * 290.;
         rfmodel_complex scattering[4] = {{0., 0.}, {.5, 0.}, {.5, 0.}, {0., 0.}};
         rfmodel_complex refs[2] = {{50., 0.}, {50., 0.}};

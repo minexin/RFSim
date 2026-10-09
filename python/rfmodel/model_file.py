@@ -112,25 +112,108 @@ def _parameter_samples(library, model, frequencies, reference, base_directory=No
     kind = model.get("type")
     if kind == "touchstone":
         return _touchstone_samples(library, model, frequencies, reference, base_directory)[0]
+    if kind in ("resistor", "inductor", "capacitor"):
+        value_field = {
+            "resistor": "resistance_ohms",
+            "inductor": "inductance_h",
+            "capacitor": "capacitance_f",
+        }[kind]
+        _object(model, ("type", "connection", value_field))
+        if model["connection"] not in ("series", "shunt"):
+            raise ValueError("RLC connection must be series or shunt")
+        value = _number(model[value_field])
+        return [
+            library.ideal_rlc(
+                frequency,
+                element=kind,
+                connection=model["connection"],
+                value=value,
+                reference_ohms=reference,
+            )
+            for frequency in frequencies
+        ]
+    if kind == "matched_transmission":
+        _object(model, ("type",), ("loss_db", "delay_s"))
+        loss, delay = _number(model.get("loss_db", 0.0)), _number(model.get("delay_s", 0.0))
+        return [
+            library.matched_transmission(
+                frequency, loss_db=loss, delay_s=delay, reference_ohms=reference
+            )
+            for frequency in frequencies
+        ]
+    if kind == "equal_power_divider":
+        _object(model, ("type", "branches"), ("excess_loss_db",))
+        if type(model["branches"]) is not int or not 2 <= model["branches"] <= 64:
+            raise ValueError("Divider requires 2..64 integer branches")
+        loss = _number(model.get("excess_loss_db", 0.0))
+        return [
+            library.equal_power_divider(
+                frequency, branches=model["branches"], excess_loss_db=loss, reference_ohms=reference
+            )
+            for frequency in frequencies
+        ]
+    if kind == "isolated_power_divider":
+        _object(model, ("type", "branch_transmissions"))
+        values = model["branch_transmissions"]
+        if not isinstance(values, list) or not 2 <= len(values) <= 64:
+            raise ValueError("Divider requires 2..64 complex branch transmissions")
+        values = [_complex(value) for value in values]
+        return [
+            library.isolated_power_divider(frequency, values, reference_ohms=reference)
+            for frequency in frequencies
+        ]
+    if kind == "quadrature_coupler":
+        _object(model, ("type", "coupled_power_fraction"), ("excess_loss_db",))
+        fraction = _number(model["coupled_power_fraction"])
+        loss = _number(model.get("excess_loss_db", 0.0))
+        return [
+            library.quadrature_coupler(
+                frequency,
+                coupled_power_fraction=fraction,
+                excess_loss_db=loss,
+                reference_ohms=reference,
+            )
+            for frequency in frequencies
+        ]
     if kind == "transmission_line":
         _object(model, ("type", "characteristic_ohms", "delay_s"), ("propagation_loss_db",))
         evaluate = library.transmission_line
     elif kind == "rlgc_line":
-        _object(model, ("type", "length_m"),
-                ("resistance_ohms_per_m", "inductance_h_per_m", "conductance_s_per_m",
-                 "capacitance_f_per_m"))
+        _object(
+            model,
+            ("type", "length_m"),
+            (
+                "resistance_ohms_per_m",
+                "inductance_h_per_m",
+                "conductance_s_per_m",
+                "capacitance_f_per_m",
+            ),
+        )
         evaluate = library.rlgc_line
     elif kind == "linear_amplifier":
-        _object(model, ("type", "gain_db"),
-                ("gain_phase_degrees", "reverse_isolation_db", "reverse_phase_degrees",
-                 "input_impedance_ohms", "output_impedance_ohms"))
+        _object(
+            model,
+            ("type", "gain_db"),
+            (
+                "gain_phase_degrees",
+                "reverse_isolation_db",
+                "reverse_phase_degrees",
+                "input_impedance_ohms",
+                "output_impedance_ohms",
+            ),
+        )
         evaluate = library.linear_amplifier
     else:
         raise ValueError("Unknown parameter model type")
     complex_fields = {"input_impedance_ohms", "output_impedance_ohms"}
-    parameters = {key: (_complex(value) if key in complex_fields else _number(value))
-                  for key, value in model.items() if key != "type"}
-    return [evaluate(frequency, reference_ohms=reference, **parameters) for frequency in frequencies]
+    parameters = {
+        key: (_complex(value) if key in complex_fields else _number(value))
+        for key, value in model.items()
+        if key != "type"
+    }
+    return [
+        evaluate(frequency, reference_ohms=reference, **parameters) for frequency in frequencies
+    ]
 
 
 def load(path):

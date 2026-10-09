@@ -3,6 +3,20 @@
 
 int main(int argc, char **argv) {
     {
+        rfmodel_complex output[16], branches[2] = {{.5, 0.}, {0., .5}};
+        if (rfmodel_ideal_rlc_s(
+                0., RFMODEL_IDEAL_CAPACITOR, RFMODEL_SHUNT_ADMITTANCE, 1e-12, 50., output, 4) !=
+                RFMODEL_OK ||
+            output[2].real != 1. ||
+            rfmodel_matched_transmission_s(0., 0., 0., 50., output, 4) != RFMODEL_OK ||
+            rfmodel_equal_power_divider_s(0., 2, 0., 50., output, 9) != RFMODEL_OK ||
+            rfmodel_isolated_power_divider_s(0., branches, 2, 50., output, 9) != RFMODEL_OK ||
+            rfmodel_quadrature_coupler_s(0., .5, 0., 50., output, 16) != RFMODEL_OK) {
+            return 88;
+        }
+    }
+
+    {
         const double kt = 1.380649e-23 * 290.;
         rfmodel_complex pad[4] = {{0., 0.}, {.5, 0.}, {.5, 0.}, {0., 0.}};
         rfmodel_complex refs[2] = {{50., 0.}, {50., 0.}};

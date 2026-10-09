@@ -71,3 +71,5 @@ Windows 本机可运行 `scripts/build-msvc.ps1` 自动定位已有 VS 工具链
 新增[复参考二端口噪声后处理](docs/power-wave-noise.md)：C++/C/Python 支持 NF、NFmin、源端 GammaOpt、物理 Rn 及相关矩阵重建，SystemVue 对照仍待完成。
 
 线性 JSON 的[noise_analysis 配置](docs/linear-noise-analysis.md)支持物理源阻抗扫描及逐频点 NF/NFmin/GammaOpt/Rn 输出，示例为 examples/linear-noise-analysis.json。
+
+[理想无源器件参数化入口](docs/passive-model-interfaces.md)覆盖 R/L/C、匹配衰减与延迟、等功率/复分支隔离功分器和正交耦合器；可用于线性及相干网络 JSON，示例为 examples/passive-rc-network.json。

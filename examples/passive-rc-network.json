@@ -1,0 +1,80 @@
+{
+  "format": "rfmodel.linear-network",
+  "version": 1,
+  "reference_ohms": 50,
+  "frequencies_hz": [
+    0,
+    1000000000.0,
+    2000000000.0
+  ],
+  "devices": [
+    {
+      "id": "r",
+      "model": {
+        "type": "resistor",
+        "connection": "series",
+        "resistance_ohms": 50
+      },
+      "noise": {
+        "temperature_k": 290
+      }
+    },
+    {
+      "id": "rload",
+      "model": {
+        "type": "resistor",
+        "connection": "shunt",
+        "resistance_ohms": 100
+      },
+      "noise": {
+        "temperature_k": 290
+      }
+    },
+    {
+      "id": "c",
+      "model": {
+        "type": "capacitor",
+        "connection": "shunt",
+        "capacitance_f": 3.1830988618379067e-12
+      },
+      "noise": {
+        "noiseless": true
+      }
+    }
+  ],
+  "connections": [
+    [
+      [
+        "r",
+        1
+      ],
+      [
+        "rload",
+        0
+      ]
+    ],
+    [
+      [
+        "rload",
+        1
+      ],
+      [
+        "c",
+        0
+      ]
+    ]
+  ],
+  "external_ports": [
+    [
+      "r",
+      0
+    ],
+    [
+      "c",
+      1
+    ]
+  ],
+  "noise_analysis": {
+    "source_impedance_ohms": 50
+  }
+}

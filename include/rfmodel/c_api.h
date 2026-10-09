@@ -79,6 +79,60 @@ rfmodel_polynomial_coefficients_from_intermod_levels(double power_gain_db,
                                                      size_t capacity,
                                                      size_t *coefficient_count);
 
+typedef enum rfmodel_ideal_element {
+    RFMODEL_IDEAL_RESISTOR = 0,
+    RFMODEL_IDEAL_INDUCTOR = 1,
+    RFMODEL_IDEAL_CAPACITOR = 2
+} rfmodel_ideal_element;
+
+typedef enum rfmodel_lumped_connection {
+    RFMODEL_SERIES_IMPEDANCE = 0,
+    RFMODEL_SHUNT_ADMITTANCE = 1
+} rfmodel_lumped_connection;
+
+/* Ideal passive S models, common positive real reference in ohms.
+ * Output is row-major N*N; capacity counts complex entries.
+ * No output is written on failure. R/L/C value units: ohm/henry/farad. */
+RFMODEL_API int rfmodel_ideal_rlc_s(double frequency_hz,
+                                    rfmodel_ideal_element element,
+                                    rfmodel_lumped_connection connection,
+                                    double value,
+                                    double reference_ohms,
+                                    rfmodel_complex *output,
+                                    size_t capacity);
+
+RFMODEL_API int rfmodel_matched_transmission_s(double frequency_hz,
+                                               double loss_db,
+                                               double delay_s,
+                                               double reference_ohms,
+                                               rfmodel_complex *output,
+                                               size_t capacity);
+
+/* Common port 0, branches 1..N; 2..64 branches. Matrix has (N+1)^2 entries. */
+RFMODEL_API int rfmodel_equal_power_divider_s(double frequency_hz,
+                                              size_t branches,
+                                              double excess_loss_db,
+                                              double reference_ohms,
+                                              rfmodel_complex *output,
+                                              size_t capacity);
+
+/* Complex branch transmissions are reciprocal S amplitudes, not powers.
+ * Sum of squared magnitudes <=1. Output must not overlap branch_transmissions. */
+RFMODEL_API int rfmodel_isolated_power_divider_s(double frequency_hz,
+                                                 const rfmodel_complex *branch_transmissions,
+                                                 size_t branches,
+                                                 double reference_ohms,
+                                                 rfmodel_complex *output,
+                                                 size_t capacity);
+
+/* Four ports: excite 0 -> real through at 1, +j coupled at 2, isolated 3. */
+RFMODEL_API int rfmodel_quadrature_coupler_s(double frequency_hz,
+                                             double coupled_power_fraction,
+                                             double excess_loss_db,
+                                             double reference_ohms,
+                                             rfmodel_complex *output,
+                                             size_t capacity);
+
 /* Two-port noise: NFmin in dB, physical Rn in ohms; GammaOpt is the
  * source boundary a=GammaOpt*b in the specified power-wave references. */
 typedef struct rfmodel_noise_parameters {
