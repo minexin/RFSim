@@ -202,6 +202,66 @@ static void encode_origin_expression(const rfmodel::OriginExpression &result,
 
 } // namespace
 
+namespace {
+template <std::size_t MaxOrder, class EncodedTerm>
+int coherent_polynomial_evaluate_impl(double spacing_hz,
+                                      const rfmodel_coherent_component *input,
+                                      size_t input_count,
+                                      const double *voltage_coefficients,
+                                      size_t coefficient_count,
+                                      double reference_ohms,
+                                      uint64_t reserved_group_max,
+                                      rfmodel_coherent_component *reduced_inputs,
+                                      size_t reduced_capacity,
+                                      size_t *reduced_count,
+                                      EncodedTerm *terms,
+                                      size_t term_capacity,
+                                      size_t *term_count) {
+    return guarded([&] {
+        require(input_count <= 4096 && (input || input_count == 0));
+        require(voltage_coefficients && coefficient_count >= 1 &&
+                coefficient_count <= MaxOrder + 1);
+        require(reduced_count && term_count);
+        std::vector<rfmodel::CoherentComponent> components;
+        for (size_t i = 0; i < input_count; ++i) {
+            const auto &c = input[i];
+            components.push_back({c.index,
+                                  static_cast<rfmodel::SpectrumKind>(c.kind),
+                                  c.bandwidth_hz,
+                                  c.coherence_group,
+                                  {c.amplitude.real, c.amplitude.imag}});
+        }
+        const rfmodel::CoherentPolynomial model(
+            std::vector<double>(voltage_coefficients, voltage_coefficients + coefficient_count),
+            reference_ohms);
+        const auto result = model.evaluate(spacing_hz, components, reserved_group_max);
+        require(reduced_capacity >= result.inputs.size() && term_capacity >= result.terms.size());
+        require((reduced_inputs || result.inputs.empty()) && (terms || result.terms.empty()));
+        auto encode = [](const rfmodel::CoherentComponent &c) {
+            return rfmodel_coherent_component{c.bin,
+                                              static_cast<int>(c.kind),
+                                              c.bandwidth_hz,
+                                              c.coherence_group,
+                                              {c.amplitude.real(), c.amplitude.imag()}};
+        };
+        for (size_t i = 0; i < result.inputs.size(); ++i) {
+            reduced_inputs[i] = encode(result.inputs[i]);
+        }
+        for (size_t i = 0; i < result.terms.size(); ++i) {
+            const auto &term = result.terms[i];
+            EncodedTerm encoded{};
+            encoded.order = term.order;
+            std::copy_n(term.input_indices.begin(), MaxOrder, encoded.input_indices);
+            encoded.component = encode(term.component);
+            terms[i] = encoded;
+        }
+        *reduced_count = result.inputs.size();
+        *term_count = result.terms.size();
+    });
+}
+
+} // namespace
+
 extern "C" {
 int rfmodel_mix_coherent_components(double spacing_hz,
                                     const rfmodel_coherent_mixer_input *input,
@@ -345,7 +405,7 @@ int rfmodel_product_origin_expressions(const rfmodel_origin_expression *parents,
                                        size_t *factor_count,
                                        rfmodel_complex *total_amplitude) {
     return guarded([&] {
-        require(indices && index_count >= 1 && index_count <= 9);
+        require(indices && index_count >= 1 && index_count <= rfmodel::maximum_polynomial_order);
         const auto result =
             rfmodel::product_origin_expressions(decode_origin_expressions(parents, parent_count),
                                                 std::vector<int>(indices, indices + index_count),
@@ -370,7 +430,8 @@ int rfmodel_expand_mixing_origin(const rfmodel_mixing_origin *parents,
                                  size_t *count) {
     return guarded([&] {
         require(parents && parent_count >= 1 && parent_count <= 4096);
-        require(indices && index_count >= 1 && index_count <= 9 && count);
+        require(indices && index_count >= 1 && index_count <= rfmodel::maximum_polynomial_order &&
+                count);
         std::vector<rfmodel::MixingOrigin> decoded;
         size_t stored = 0;
         for (size_t i = 0; i < parent_count; ++i) {
@@ -407,46 +468,48 @@ int rfmodel_coherent_polynomial_evaluate(double spacing_hz,
                                          rfmodel_coherent_polynomial_term *terms,
                                          size_t term_capacity,
                                          size_t *term_count) {
-    return guarded([&] {
-        require(input_count <= 4096 && (input || input_count == 0));
-        require(voltage_coefficients && coefficient_count >= 1 && coefficient_count <= 10);
-        require(reduced_count && term_count);
-        std::vector<rfmodel::CoherentComponent> components;
-        for (size_t i = 0; i < input_count; ++i) {
-            const auto &c = input[i];
-            components.push_back({c.index,
-                                  static_cast<rfmodel::SpectrumKind>(c.kind),
-                                  c.bandwidth_hz,
-                                  c.coherence_group,
-                                  {c.amplitude.real, c.amplitude.imag}});
-        }
-        const rfmodel::CoherentPolynomial model(
-            std::vector<double>(voltage_coefficients, voltage_coefficients + coefficient_count),
-            reference_ohms);
-        const auto result = model.evaluate(spacing_hz, components, reserved_group_max);
-        require(reduced_capacity >= result.inputs.size() && term_capacity >= result.terms.size());
-        require((reduced_inputs || result.inputs.empty()) && (terms || result.terms.empty()));
-        auto encode = [](const rfmodel::CoherentComponent &c) {
-            return rfmodel_coherent_component{c.bin,
-                                              static_cast<int>(c.kind),
-                                              c.bandwidth_hz,
-                                              c.coherence_group,
-                                              {c.amplitude.real(), c.amplitude.imag()}};
-        };
-        for (size_t i = 0; i < result.inputs.size(); ++i) {
-            reduced_inputs[i] = encode(result.inputs[i]);
-        }
-        for (size_t i = 0; i < result.terms.size(); ++i) {
-            const auto &term = result.terms[i];
-            rfmodel_coherent_polynomial_term encoded{};
-            encoded.order = term.order;
-            std::copy(term.input_indices.begin(), term.input_indices.end(), encoded.input_indices);
-            encoded.component = encode(term.component);
-            terms[i] = encoded;
-        }
-        *reduced_count = result.inputs.size();
-        *term_count = result.terms.size();
-    });
+    return coherent_polynomial_evaluate_impl<9>(spacing_hz,
+                                                input,
+                                                input_count,
+                                                voltage_coefficients,
+                                                coefficient_count,
+                                                reference_ohms,
+                                                reserved_group_max,
+                                                reduced_inputs,
+                                                reduced_capacity,
+                                                reduced_count,
+                                                terms,
+                                                term_capacity,
+                                                term_count);
+}
+
+int rfmodel_coherent_polynomial_evaluate_v2(double spacing_hz,
+                                            const rfmodel_coherent_component *input,
+                                            size_t input_count,
+                                            const double *voltage_coefficients,
+                                            size_t coefficient_count,
+                                            double reference_ohms,
+                                            uint64_t reserved_group_max,
+                                            rfmodel_coherent_component *reduced_inputs,
+                                            size_t reduced_capacity,
+                                            size_t *reduced_count,
+                                            rfmodel_coherent_polynomial_term_v2 *terms,
+                                            size_t term_capacity,
+                                            size_t *term_count) {
+    return coherent_polynomial_evaluate_impl<rfmodel::maximum_polynomial_order>(
+        spacing_hz,
+        input,
+        input_count,
+        voltage_coefficients,
+        coefficient_count,
+        reference_ohms,
+        reserved_group_max,
+        reduced_inputs,
+        reduced_capacity,
+        reduced_count,
+        terms,
+        term_capacity,
+        term_count);
 }
 
 static int coherent_amplifier_evaluate_impl(double spacing_hz,
@@ -908,7 +971,8 @@ int rfmodel_polynomial_coefficients_from_intercepts(double power_gain_db,
                                                     size_t capacity,
                                                     size_t *coefficient_count) {
     return guarded([&] {
-        require(intercept_count <= 8 && (intercepts || intercept_count == 0));
+        require(intercept_count <= rfmodel::maximum_polynomial_order - 1 &&
+                (intercepts || intercept_count == 0));
         require(coefficients && coefficient_count && capacity >= 2);
         require(capacity <= std::numeric_limits<size_t>::max() / sizeof(double));
         const auto disjoint = [](const void *a, size_t a_bytes, const void *b, size_t b_bytes) {
@@ -960,7 +1024,8 @@ int rfmodel_polynomial_amplifier_transmit(double spacing_hz,
                                           size_t capacity,
                                           size_t *output_count) {
     return guarded([&] {
-        require(output_count && coefficients && coefficient_count > 0 && coefficient_count <= 10);
+        require(output_count && coefficients && coefficient_count > 0 &&
+                coefficient_count <= rfmodel::maximum_polynomial_order + 1);
         const auto incident = read_spectrum(spacing_hz, input, input_count);
         const rfmodel::MatchedPolynomialAmplifier model(
             "C API polynomial amplifier",

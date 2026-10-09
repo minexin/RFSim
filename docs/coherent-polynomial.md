@@ -1,23 +1,23 @@
-# 带本地来源的九阶相干 RF 多项式
+# 带本地来源的十一阶相干 RF 多项式
 
 ## 能力与接口
 
-`CoherentPolynomial` 为确定性 RF 分量提供 1..9 阶实电压多项式展开。
+`CoherentPolynomial` 为确定性 RF 分量提供 1..11 阶实电压多项式展开。
 与原有仅由 source 生成失真的限幅放大器不同，本接口让输入的 source、
 harmonic、intermod 都参与生成。它为后续高阶模型和失真再混频提供数值
 原语；没有自动套用 RFAMP 的 P1dB、饱和或高阶截点标定。
 
 - C++：`CoherentPolynomial(coefficients, reference_ohms).evaluate(spacing_hz, inputs, reserved_group_max)`。
-- C：`rfmodel_coherent_polynomial_evaluate`。
+- C：`rfmodel_coherent_polynomial_evaluate_v2`，输出结构为 `rfmodel_coherent_polynomial_term_v2`。旧 `rfmodel_coherent_polynomial_evaluate` 保持九阶及九项下标布局。
 - Python：`Library.coherent_polynomial(spacing_hz, components, coefficients, reference_ohms=50., reserved_group_max=0)`。
 
-coefficients 为实电压系数 a[0]..a[n]，满足 y(t)=Σa[n]v(t)^n，最多 10 个，
+coefficients 为实电压系数 a[0]..a[n]，满足 y(t)=Σa[n]v(t)^n，最多 12 个，
 a[0] 必须为零。输入输出幅度为 sqrt(W) 的 RMS 功率波，共同参考阻抗为正实数。
 实电压傅里叶系数为正频率功率波乘 sqrt(R/2)；所以第 n 阶输出波的系数为
 a[n]×(sqrt(R/2))^(n−1)，再乘相应多项式排列数和带共轭的输入波乘积。
 
 输入先按既有相干键合并，返回 reduced inputs。每个输出项携带本地阶数
-以及最多九个带符号的一基输入下标：负数表示共轭，重复表示幂次，
+以及最多十一个带符号的一基输入下标：负数表示共轭，重复表示幂次，
 不做正负来源相消；C/C++ 数组剩余位置补零，Python 只返回有效下标。
 输出按阶数、频率 bin、下标序列排序。
 
@@ -56,10 +56,10 @@ $env:PYTHONPATH = "$PWD/python"
 python examples/coherent-polynomial-cascade.py --library build-msvc/Release/rfmodel_c.dll
 ```
 
-数值回归使用独立的稀疏傅里叶卷积实现验证 50 Ω / 75 Ω 下全部一至九阶
+数值回归使用独立的稀疏傅里叶卷积实现验证 50 Ω / 75 Ω 下全部一至十一阶
 RF bin，包括复相位、共轭和排列数。另有两级级间去 DC 后的独立卷积对照，
 以及相干输入合并、抵消、组号/频率溢出、阶数与项数边界检查。
-C 回归验证容量不足不改变输出；C/C++ 安装消费和 Python 回归覆盖九阶符号。
+C 回归验证容量不足不改变输出；C/C++ 安装消费和 Python 回归覆盖十一阶符号及旧 C 九阶接口。
 
 ## SystemVue 参考实验
 
@@ -80,8 +80,8 @@ C 回归验证容量不足不改变输出；C/C++ 安装消费和 Python 回归�
 python scripts/reference/audit-cascade-secondary-controls.py validation/systemvue-2023-secondary-controls-captures.json build-reference/secondary-controls-replay.json
 ```
 
-该工具只审计开关对照，报告固定为 diagnostic_only，不能充当九阶模型的
-SystemVue 兼容性报告。当前九阶模型的证据是解析计算及独立数值算法验证。
+该工具只审计开关对照，报告固定为 diagnostic_only，不能充当十一阶模型的
+SystemVue 兼容性报告。当前十一阶模型的证据是解析计算及独立数值算法验证。
 
 ## 本阶段工程验证
 
@@ -95,4 +95,4 @@ SystemVue 兼容性报告。当前九阶模型的证据是解析计算及独立�
 
 [频谱削减配对诊断](systemvue-spectrum-reduction.md)：三组双音功率配置关闭 UseSpecReduction 后均恢复完整的 44 个四、五阶来源项；开启时较弱重叠项缺失，共有的 92 项复波不变。五阶系数仍属固定参数识别，总谱与完整削减算法尚未验收。
 
-[显式高阶截点转换](polynomial-intercepts.md)新增二至九阶 C++/C/Python 参数接口，指定双音参考项、截点参考面及实系数符号，可接入现有多项式系统图；SystemVue 四阶诊断已使用此接口，自动高阶 RFAMP 系数仍待完成。
+[显式高阶截点转换](polynomial-intercepts.md)新增二至十一阶 C++/C/Python 参数接口，指定双音参考项、截点参考面及实系数符号，可接入现有多项式系统图；SystemVue 四阶诊断已使用此接口，自动高阶 RFAMP 系数仍待完成。

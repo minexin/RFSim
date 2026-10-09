@@ -108,8 +108,8 @@ def analyze_spectrum(library, document, *, base_directory=None):
         elif kind == "polynomial_amplifier":
             _object(stage, ("id", "type", "voltage_coefficients"))
             coefficients = stage["voltage_coefficients"]
-            if not isinstance(coefficients, list) or not 1 <= len(coefficients) <= 10:
-                raise ValueError("Expected 1..10 voltage coefficients")
+            if not isinstance(coefficients, list) or not 1 <= len(coefficients) <= 12:
+                raise ValueError("Expected 1..12 voltage coefficients")
             parameters = {"voltage_coefficients": [_number(value) for value in coefficients]}
             operation = library.polynomial_amplifier
         elif kind == "p1db_fundamental":

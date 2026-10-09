@@ -8,9 +8,9 @@ int main() {
     const std::vector<CoherentComponent> inputs{{10, SpectrumKind::source, 1., 7, {.01, .003}},
                                                 {13, SpectrumKind::harmonic, 2., 9, {-.002, .006}}};
     // Compare every RF bin to the independent sparse-convolution implementation,
-    // including fifth/ninth order conjugations, multiplicities and phases.
+    // including orders through eleven with conjugations, multiplicities and phases.
     for (double reference : {50., 75.}) {
-        for (int order = 1; order <= 9; ++order) {
+        for (int order = 1; order <= 11; ++order) {
             std::vector<double> coefficients(order + 1, 0.);
             coefficients.back() = order % 2 == 0 ? .7 : -.4;
             const auto result =
@@ -23,7 +23,7 @@ int main() {
             for (const auto &term : result.terms) {
                 require(term.order == order, "homogeneous order");
                 require(term.input_indices[order - 1] != 0, "complete provenance");
-                for (int i = order; i < 9; ++i) {
+                for (int i = order; i < 11; ++i) {
                     require(term.input_indices[i] == 0, "zero padding");
                 }
                 if (order > 1) {
@@ -90,7 +90,7 @@ int main() {
         CoherentPolynomial({1., 1.});
     });
     rejects<std::invalid_argument>([] {
-        CoherentPolynomial(std::vector<double>(11));
+        CoherentPolynomial(std::vector<double>(13));
     });
     rejects<std::invalid_argument>([] {
         CoherentPolynomial({0., std::numeric_limits<double>::infinity()});

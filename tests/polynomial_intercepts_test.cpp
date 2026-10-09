@@ -9,7 +9,7 @@ int main() {
     // Independently project sampled real waveforms instead of reusing the
     // polynomial enumerator or its multiplicity calculation.
     for (double reference : {50., 75.}) {
-        for (int order = 2; order <= 9; ++order) {
+        for (int order = 2; order <= 11; ++order) {
             const int first = order % 2 ? (order + 1) / 2 : order - 1;
             const int second = first - order;
             const int sign = order % 2 ? -1 : 1;
@@ -66,8 +66,8 @@ int main() {
             "balanced units preserve coefficient");
     for (const auto &bad :
          std::vector<TwoToneIntercept>{{0, 1, 20., 1},
-                                       {9, 1, 20., 1},
-                                       {5, 5, 20., 1},
+                                       {11, 1, 20., 1},
+                                       {6, 6, 20., 1},
                                        {std::numeric_limits<int>::min(), 1, 20., 1},
                                        {1, 1, 20., 0},
                                        {1, 1, 20., 2},
@@ -87,7 +87,7 @@ int main() {
         polynomial_coefficients_from_intercepts(std::numeric_limits<double>::infinity(), {});
     });
     rejects<std::invalid_argument>([] {
-        polynomial_coefficients_from_intercepts(0., std::vector<TwoToneIntercept>(9));
+        polynomial_coefficients_from_intercepts(0., std::vector<TwoToneIntercept>(11));
     });
     for (double extreme : {-1e308, 1e308}) {
         rejects<std::overflow_error>([&] {

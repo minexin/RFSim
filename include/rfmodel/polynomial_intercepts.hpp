@@ -1,4 +1,5 @@
 #pragma once
+#include "polynomial_limits.hpp"
 #include <algorithm>
 #include <array>
 #include <cmath>
@@ -27,7 +28,7 @@ polynomial_coefficients_from_intercepts(double power_gain_db,
                                         const std::vector<TwoToneIntercept> &intercepts,
                                         double reference_ohms = 50.) {
     if (!std::isfinite(power_gain_db) || !std::isfinite(reference_ohms) || reference_ohms <= 0. ||
-        intercepts.size() > 8) {
+        intercepts.size() > maximum_polynomial_order - 1) {
         throw std::invalid_argument("invalid polynomial intercept gain/reference/count");
     }
     const double log_ten = std::log(10.);
@@ -37,11 +38,11 @@ polynomial_coefficients_from_intercepts(double power_gain_db,
         throw std::overflow_error("polynomial intercept gain is not representable");
     }
     std::vector<double> coefficients{0., gain};
-    std::array<bool, 10> used{};
+    std::array<bool, maximum_polynomial_order + 1> used{};
     for (const auto &intercept : intercepts) {
         const int first = intercept.first_tone_order;
         const int second = intercept.second_tone_order;
-        if (first == 0 || second == 0 || first < -8 || first > 8 || second < -8 || second > 8 ||
+        if (first == 0 || second == 0 || first < -10 || first > 10 || second < -10 || second > 10 ||
             !std::isfinite(intercept.intercept_dbm) ||
             (intercept.coefficient_sign != -1 && intercept.coefficient_sign != 1) ||
             (intercept.reference != InterceptReference::input &&
@@ -51,7 +52,7 @@ polynomial_coefficients_from_intercepts(double power_gain_db,
         const int count_first = std::abs(first);
         const int count_second = std::abs(second);
         const int order = count_first + count_second;
-        if (order > 9 || used[order]) {
+        if (order > static_cast<int>(maximum_polynomial_order) || used[order]) {
             throw std::invalid_argument("duplicate or unsupported polynomial intercept order");
         }
         used[order] = true;

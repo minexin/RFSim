@@ -48,7 +48,7 @@ class OriginRegistry:
             raise ValueError("Missing origin for a propagated component") from error
 
     def compose(self, parents, indices):
-        # Only the selected parents need native encoding, at most nine per product.
+        # Only the selected parents need native encoding, at most eleven per product.
         selected = [parents[abs(index) - 1] for index in indices]
         local = [
             position + 1 if index > 0 else -(position + 1) for position, index in enumerate(indices)

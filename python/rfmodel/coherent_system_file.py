@@ -152,7 +152,7 @@ def analyze_coherent_system(library, document, *, base_directory=None):
             if type(maximum) is not int or not 1 <= maximum <= 256:
                 raise ValueError("max_source_order must be an integer from 1 to 256")
             coefficients = [_number(value) for value in
-                            _array(stage["voltage_coefficients"], 10, nonempty=True)]
+                            _array(stage["voltage_coefficients"], 12, nonempty=True)]
             names = new_ids([stage["output"]])
             lineage.highest_group = highest_group
             result = library.coherent_polynomial(

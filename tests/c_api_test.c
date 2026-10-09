@@ -14,6 +14,129 @@
 
 int main(int argc, char **argv) {
     {
+        /* V1 must retain the historical layout and stride, including in arrays. */
+        struct legacy_term_layout {
+            int order;
+            int input_indices[9];
+            rfmodel_coherent_component component;
+        };
+
+        struct guarded_legacy_buffer {
+            rfmodel_coherent_polynomial_term terms[5];
+            unsigned char canary[32];
+        } legacy;
+
+        double coefficients[12] = {0.};
+        rfmodel_coherent_component input = {10, RFMODEL_SPECTRUM_SOURCE, 1., 7, {.01, 0.}};
+        rfmodel_coherent_component reduced, saved_reduced;
+        rfmodel_coherent_polynomial_term_v2 terms[6], saved_terms[6];
+        size_t reduced_count = 77, term_count = 88, i, j;
+        CHECK(sizeof(rfmodel_coherent_polynomial_term) == sizeof(struct legacy_term_layout));
+        CHECK(offsetof(rfmodel_coherent_polynomial_term, component) ==
+              offsetof(struct legacy_term_layout, component));
+        memset(&legacy, 0, sizeof(legacy));
+        memset(legacy.canary, 0xA5, sizeof(legacy.canary));
+        memset(terms, 0x5A, sizeof(terms));
+        memset(&reduced, 0x5A, sizeof(reduced));
+        memcpy(saved_terms, terms, sizeof(terms));
+        memcpy(&saved_reduced, &reduced, sizeof(reduced));
+        coefficients[11] = 1.;
+        CHECK(rfmodel_coherent_polynomial_evaluate(1e8,
+                                                   &input,
+                                                   1,
+                                                   coefficients,
+                                                   12,
+                                                   50.,
+                                                   100,
+                                                   &reduced,
+                                                   1,
+                                                   &reduced_count,
+                                                   legacy.terms,
+                                                   5,
+                                                   &term_count) != RFMODEL_OK);
+        CHECK(reduced_count == 77 && term_count == 88 && legacy.terms[0].order == 0);
+        CHECK(memcmp(&reduced, &saved_reduced, sizeof(reduced)) == 0);
+        /* Capacity failure is atomic across both buffers and both counts. */
+        CHECK(rfmodel_coherent_polynomial_evaluate_v2(1e8,
+                                                      &input,
+                                                      1,
+                                                      coefficients,
+                                                      12,
+                                                      50.,
+                                                      100,
+                                                      &reduced,
+                                                      1,
+                                                      &reduced_count,
+                                                      terms,
+                                                      5,
+                                                      &term_count) != RFMODEL_OK);
+        CHECK(reduced_count == 77 && term_count == 88);
+        CHECK(memcmp(terms, saved_terms, sizeof(terms)) == 0);
+        CHECK(memcmp(&reduced, &saved_reduced, sizeof(reduced)) == 0);
+        CHECK(rfmodel_coherent_polynomial_evaluate_v2(1e8,
+                                                      &input,
+                                                      1,
+                                                      coefficients,
+                                                      12,
+                                                      50.,
+                                                      100,
+                                                      &reduced,
+                                                      1,
+                                                      &reduced_count,
+                                                      terms,
+                                                      6,
+                                                      &term_count) == RFMODEL_OK);
+        CHECK(reduced_count == 1 && term_count == 6 && terms[5].order == 11);
+        CHECK(terms[5].component.index == 110 && terms[5].input_indices[10] == 1);
+        CHECK(fabs(terms[5].component.amplitude.real / (pow(5., 10.) * pow(.01, 11.)) - 1.) <
+              1e-12);
+        coefficients[11] = 0.;
+        coefficients[9] = 1.;
+        CHECK(rfmodel_coherent_polynomial_evaluate(1e8,
+                                                   &input,
+                                                   1,
+                                                   coefficients,
+                                                   10,
+                                                   50.,
+                                                   100,
+                                                   &reduced,
+                                                   1,
+                                                   &reduced_count,
+                                                   legacy.terms,
+                                                   5,
+                                                   &term_count) == RFMODEL_OK);
+        CHECK(term_count == 5);
+        CHECK(rfmodel_coherent_polynomial_evaluate_v2(1e8,
+                                                      &input,
+                                                      1,
+                                                      coefficients,
+                                                      10,
+                                                      50.,
+                                                      100,
+                                                      &reduced,
+                                                      1,
+                                                      &reduced_count,
+                                                      terms,
+                                                      6,
+                                                      &term_count) == RFMODEL_OK);
+        CHECK(term_count == 5);
+        for (i = 0; i < 5; ++i) {
+            CHECK(legacy.terms[i].order == terms[i].order);
+            CHECK(legacy.terms[i].component.index == terms[i].component.index);
+            CHECK(legacy.terms[i].component.amplitude.real == terms[i].component.amplitude.real);
+            CHECK(legacy.terms[i].component.amplitude.imag == terms[i].component.amplitude.imag);
+            CHECK(legacy.terms[i].component.coherence_group == terms[i].component.coherence_group);
+            for (j = 0; j < 9; ++j) {
+                CHECK(legacy.terms[i].input_indices[j] == terms[i].input_indices[j]);
+            }
+            CHECK(terms[i].input_indices[9] == 0 && terms[i].input_indices[10] == 0);
+        }
+        for (i = 0; i < sizeof(legacy.canary); ++i) {
+            CHECK(legacy.canary[i] == 0xA5);
+        }
+    }
+
+    {
         rfmodel_two_tone_intercept intercept = {3, -1, 33., 1, RFMODEL_INTERCEPT_OUTPUT};
         double coefficients[10];
         double original[10];

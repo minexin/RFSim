@@ -6,7 +6,7 @@ int main() {
     using namespace rfmodel;
     const OriginExpression a{{{{7, 1}}, {.25, .1}}, {{{9, 1}}, {-.05, .2}}};
     const Complex wave = origin_expression_amplitude(a);
-    for (int order = 1; order <= 9; ++order) {
+    for (int order = 1; order <= 11; ++order) {
         const auto product = product_origin_expressions({a}, std::vector<int>(order, 1));
         require(product.size() == static_cast<std::size_t>(order + 1), "binomial term count");
         require(std::abs(origin_expression_amplitude(product) - std::pow(wave, order)) < 1e-14,
@@ -53,7 +53,7 @@ int main() {
         product_origin_expressions({a}, {std::numeric_limits<int>::min()});
     });
     rejects<std::invalid_argument>([&] {
-        product_origin_expressions({a}, std::vector<int>(10, 1));
+        product_origin_expressions({a}, std::vector<int>(12, 1));
     });
     rejects<std::invalid_argument>([] {
         sum_origin_expressions({{{{{0, 1}}, 1.}}});

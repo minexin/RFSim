@@ -52,6 +52,15 @@ int main() {
         return 73;
     }
 
+    static_assert(rfmodel::maximum_polynomial_order == 11, "installed order limit");
+    std::vector<double> eleven_coefficients(12, 0.);
+    eleven_coefficients.back() = 1.;
+    const auto eleventh = rfmodel::CoherentPolynomial(eleven_coefficients)
+                              .evaluate(1e8, {{10, rfmodel::SpectrumKind::source, 1., 7, .01}});
+    if (eleventh.terms.size() != 6 || eleventh.terms.back().input_indices[10] != 1 ||
+        eleventh.terms.back().component.bin != 110) {
+        return 83;
+    }
     const auto ninth = rfmodel::CoherentPolynomial({0., 0., 0., 0., 0., 0., 0., 0., 0., 1.})
                            .evaluate(1e8, {{10, rfmodel::SpectrumKind::harmonic, 1., 7, .01}});
     if (ninth.terms.size() != 5 || ninth.terms.back().input_indices[8] != 1) {

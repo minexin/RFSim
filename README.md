@@ -42,7 +42,7 @@ Windows 本机可运行 `scripts/build-msvc.ps1` 自动定位已有 VS 工具链
 
 [RFAMP 单位增益诊断](docs/systemvue-unity-gain-diagnostic.md)：17 组受控采集支持等效功率增益 1.00000023 的行为解释；名义增益验收仍保留失败，诊断不算兼容性通过。
 
-[九阶相干多项式](docs/coherent-polynomial.md) 新增 C++/C/Python 接口，可由谐波、互调输入继续生成带本地来源的 RF 项；已做独立卷积验证，尚未完成 RFAMP 高阶系数、递归身份及子谱合并的兼容验收。
+[十一阶相干多项式](docs/coherent-polynomial.md) 新增 C++/C/Python 接口，可由谐波、互调输入继续生成带本地来源的 RF 项；已做独立卷积验证，尚未完成 RFAMP 高阶系数、递归身份及子谱合并的兼容验收。
 
 [递归来源与多项式系统图](docs/recursive-mixing-origins.md) 新增原始源因子展开、同源失真归并及显式全局来源阶数限制。混频多来源传播已在后续阶段接入；SystemVue 高阶子谱语义仍待完成。
 
@@ -56,4 +56,6 @@ Windows 本机可运行 `scripts/build-msvc.ps1` 自动定位已有 VS 工具链
 
 [频谱削减配对诊断](docs/systemvue-spectrum-reduction.md)：三组双音功率配置关闭 UseSpecReduction 后均恢复完整的 44 个四、五阶来源项；开启时较弱重叠项缺失，共有的 92 项复波不变。五阶系数仍属固定参数识别，总谱与完整削减算法尚未验收。
 
-[显式高阶截点转换](docs/polynomial-intercepts.md)新增二至九阶 C++/C/Python 参数接口，指定双音参考项、截点参考面及实系数符号，可接入现有多项式系统图；SystemVue 四阶诊断已使用此接口，自动高阶 RFAMP 系数仍待完成。
+[显式高阶截点转换](docs/polynomial-intercepts.md)新增二至十一阶 C++/C/Python 参数接口，指定双音参考项、截点参考面及实系数符号，可接入现有多项式系统图；SystemVue 四阶诊断已使用此接口，自动高阶 RFAMP 系数仍待完成。
+
+[十一阶多项式与 ABI 兼容](docs/eleventh-order-polynomial.md)：C++/Python、显式 IP2..IP11 及系统图已扩展到十一阶；新增 C v2 符号，旧九阶结构与函数保留。证据为独立数值与工程回归，SystemVue 十一阶实测尚未完成。

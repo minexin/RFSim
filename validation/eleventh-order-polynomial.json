@@ -1,0 +1,70 @@
+{
+  "format": "rfmodel.engineering-validation",
+  "version": 1,
+  "date": "2026-10-09",
+  "feature": "polynomial orders through eleven with legacy C ABI preserved",
+  "classification": "independent_numeric_and_engineering",
+  "systemvue_eleventh_order_compatibility_accepted": false,
+  "toolchains": [
+    "MSVC 2022 / C++17 / x64",
+    "SystemVue bundled Python 3.10 (CTest)",
+    "Python 3.12.14 (wheel)"
+  ],
+  "maximum_local_order": 11,
+  "legacy_c_maximum_order": 9,
+  "polynomial_coefficients_maximum": 12,
+  "wheel_import": "PYTHONPATH=build-reference/eleventh-order-dist/rfmodel-0.1.0-py3-none-any.whl",
+  "library": {
+    "path": "build-msvc/Release/rfmodel_c.dll",
+    "sha256": "8105964392f69cf91bc725d9ed47f11bd5566a5255db546c75c5f2c48002bf0e"
+  },
+  "checks": [
+    {
+      "name": "debug_ctest",
+      "result": "passed",
+      "command": "ctest --test-dir build-msvc -C Debug --output-on-failure --timeout 60",
+      "log": "build-reference/eleventh-debug-test.log",
+      "log_sha256": "5ded514f536859fb7f02903575269a82296edbd059dc093794c82285c139da64"
+    },
+    {
+      "name": "release_ctest",
+      "result": "passed",
+      "command": "ctest --test-dir build-msvc -C Release --output-on-failure --timeout 60",
+      "log": "build-reference/eleventh-release-test.log",
+      "log_sha256": "7e89dcfdf3a7a63e03fa9e3d07906e6fb181c8158e0bb70029375ca003863531"
+    },
+    {
+      "name": "installed_debug",
+      "result": "passed",
+      "command": "ctest --test-dir build-consumer-capi -C Debug --output-on-failure --timeout 60",
+      "log": "build-reference/eleventh-consumer-Debug-test.log",
+      "log_sha256": "84f064a1a16251aa9d3d9ccdc2fceaeaa68456deb1a48dfee7524a48ebf50645"
+    },
+    {
+      "name": "installed_release",
+      "result": "passed",
+      "command": "ctest --test-dir build-consumer-capi -C Release --output-on-failure --timeout 60",
+      "log": "build-reference/eleventh-consumer-Release-test.log",
+      "log_sha256": "c996a4625f97a6d6d06dbdac96d7ef253b5a42256369019870d0ad1c1f610d7e"
+    },
+    {
+      "name": "wheel_api",
+      "result": "passed",
+      "command": "python tests/test_python_api.py build-msvc/Release/rfmodel_c.dll --installed",
+      "log": "build-reference/eleventh-wheel-api.log",
+      "log_sha256": "2d47dc5f6bca23d1f0292d6865874fea3f236f858585822b0e67397199b78a0f"
+    },
+    {
+      "name": "wheel_system",
+      "result": "passed",
+      "command": "python tests/test_coherent_system_file.py build-msvc/Release/rfmodel_c.dll --installed",
+      "log": "build-reference/eleventh-wheel-system.log",
+      "log_sha256": "4f1e4dfb4bad66f75d26b1a1363883f27ffafdfa718d67b75f4e1164361441c7"
+    }
+  ],
+  "limitations": [
+    "No new SystemVue order-11 capture",
+    "RFAMP automatic odd-order coefficient synthesis remains open",
+    "Existing enumeration and provenance resource limits remain enforced"
+  ]
+}

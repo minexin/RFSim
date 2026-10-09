@@ -3,6 +3,32 @@
 
 int main(int argc, char **argv) {
     {
+        double coefficients[12] = {0.};
+        rfmodel_coherent_component input = {10, RFMODEL_SPECTRUM_SOURCE, 1., 7, {.01, 0.}};
+        rfmodel_coherent_component reduced;
+        rfmodel_coherent_polynomial_term_v2 terms[6];
+        size_t reduced_count = 0, term_count = 0;
+        coefficients[11] = 1.;
+        if (rfmodel_coherent_polynomial_evaluate_v2(1e8,
+                                                    &input,
+                                                    1,
+                                                    coefficients,
+                                                    12,
+                                                    50.,
+                                                    100,
+                                                    &reduced,
+                                                    1,
+                                                    &reduced_count,
+                                                    terms,
+                                                    6,
+                                                    &term_count) != RFMODEL_OK ||
+            reduced_count != 1 || term_count != 6 || terms[5].input_indices[10] != 1 ||
+            terms[5].component.index != 110) {
+            return 83;
+        }
+    }
+
+    {
         const rfmodel_two_tone_intercept entry = {3, -1, 33., 1, RFMODEL_INTERCEPT_OUTPUT};
         double coefficients[10];
         size_t count = 0;

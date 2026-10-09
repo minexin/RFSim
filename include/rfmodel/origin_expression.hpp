@@ -1,4 +1,5 @@
 #pragma once
+#include "polynomial_limits.hpp"
 #include "coherence.hpp"
 #include "mixing_origin.hpp"
 #include <map>
@@ -102,7 +103,7 @@ inline OriginExpression sum_origin_expressions(const std::vector<OriginExpressio
     return accumulator.result();
 }
 
-// Distributive product of 1..9 signed one-based expression indices. Negative
+// Distributive product of 1..11 signed one-based expression indices. Negative
 // indices conjugate both the root factors and the actual complex contribution.
 // There is no source-order truncation here and no division by a parent wave.
 inline OriginExpression product_origin_expressions(const std::vector<OriginExpression> &parents,
@@ -110,8 +111,8 @@ inline OriginExpression product_origin_expressions(const std::vector<OriginExpre
                                                    Complex coefficient = {1., 0.}) {
     origin_expression_detail::validate(parents);
     origin_expression_detail::validate_wave(coefficient);
-    if (indices.empty() || indices.size() > 9) {
-        throw std::invalid_argument("origin-expression product requires 1..9 indices");
+    if (indices.empty() || indices.size() > maximum_polynomial_order) {
+        throw std::invalid_argument("origin-expression product requires 1..11 indices");
     }
     for (int index : indices) {
         const auto absolute = std::abs(static_cast<long long>(index));

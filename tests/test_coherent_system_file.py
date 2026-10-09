@@ -78,6 +78,49 @@ class CoherentSystemFileTests(unittest.TestCase):
                         term["rf_order"], sum(roots[f["root_id"]]["role"] == "rf" for f in factors)
                     )
 
+    def test_eleventh_order_pure_and_mixed_graphs(self):
+        for mixed in (False, True):
+            with self.subTest(mixed=mixed):
+                model = self.mixed_model()
+                model["inputs"][0]["components"] = model["inputs"][0]["components"][:1]
+                stage = model["stages"][-1]
+                stage.update(
+                    voltage_coefficients=[0] * 11 + [1], max_source_order=22 if mixed else 11
+                )
+                if not mixed:
+                    model["stages"] = [stage]
+                    stage["input"] = "input"
+                result = self.evaluate(model)
+                incoming = {8: 0.01 + 0.003j}
+                if mixed:
+                    incoming = self.library.ideal_mixer(
+                        1e8, incoming, lo_bin=10, lo_phase_radians=0.3
+                    )
+                expected = self.library.polynomial_amplifier(
+                    1e8, incoming, voltage_coefficients=[0] * 11 + [1]
+                )
+                expected.pop(0, None)
+                actual = {}
+                for component in stream(result)["components"]:
+                    index = component["bin"]
+                    actual[index] = actual.get(index, 0j) + complex(*component["amplitude"])
+                self.assertEqual(set(actual), set(expected))
+                for index in expected:
+                    self.assertLess(abs(actual[index] / expected[index] - 1), 1e-10)
+                origins = stream(result)["origins"]
+                if mixed:
+                    self.assert_history(result)
+                    terms = [term for origin in origins for term in origin["terms"]]
+                    self.assertEqual({term["source_order"] for term in terms}, {22})
+                    self.assertEqual({term["rf_order"] for term in terms}, {11})
+                else:
+                    self.assertEqual({origin["source_order"] for origin in origins}, {11})
+                stage["max_source_order"] -= 1
+                self.assertEqual(stream(self.evaluate(model))["components"], [])
+                stage["voltage_coefficients"] = [0] * 12 + [1]
+                with self.assertRaises(ValueError):
+                    self.evaluate(model)
+
     def test_mixed_polynomial_matches_independent_spectrum(self):
         model = self.mixed_model()
         original = copy.deepcopy(model)

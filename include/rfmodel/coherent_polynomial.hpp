@@ -1,4 +1,5 @@
 #pragma once
+#include "polynomial_limits.hpp"
 #include "coherence.hpp"
 #include <algorithm>
 #include <array>
@@ -9,7 +10,7 @@ namespace rfmodel {
 struct CoherentPolynomialTerm {
     int order{};
     // Signed one-based indices into the reduced input array; zero padded.
-    std::array<int, 9> input_indices{};
+    std::array<int, maximum_polynomial_order> input_indices{};
     CoherentComponent component;
 };
 
@@ -29,8 +30,8 @@ public:
     explicit CoherentPolynomial(std::vector<double> voltage_coefficients,
                                 double reference_ohms = 50.)
         : coefficients_(std::move(voltage_coefficients)) {
-        if (coefficients_.empty() || coefficients_.size() > 10 || !std::isfinite(reference_ohms) ||
-            reference_ohms <= 0) {
+        if (coefficients_.empty() || coefficients_.size() > maximum_polynomial_order + 1 ||
+            !std::isfinite(reference_ohms) || reference_ohms <= 0) {
             throw std::invalid_argument("invalid coherent polynomial degree/reference");
         }
         for (double value : coefficients_) {
@@ -81,7 +82,7 @@ public:
             if (!std::isfinite(coefficient)) {
                 throw std::overflow_error("coherent polynomial wave coefficient overflow");
             }
-            std::array<int, 9> indices{};
+            std::array<int, maximum_polynomial_order> indices{};
             auto append = [&] {
                 long long bin = 0;
                 double bandwidth = 0.;

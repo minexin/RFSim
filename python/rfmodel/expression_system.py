@@ -185,7 +185,7 @@ class _ExpressionGraph:
         if type(maximum) is not int or not 1 <= maximum <= 256:
             raise ValueError("max_source_order must be an integer from 1 to 256")
         coefficients = [
-            _number(v) for v in _array(stage["voltage_coefficients"], 10, nonempty=True)
+            _number(v) for v in _array(stage["voltage_coefficients"], 12, nonempty=True)
         ]
         names = self.new_ids([stage["output"]])
         output, measurements = self.generate(self.read(stage["input"]), coefficients, maximum)

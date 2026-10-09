@@ -95,10 +95,10 @@ int main() {
     for (const auto &entry : pure.transmit(input).amplitudes) {
         near(combined.amplitudes.at(entry.first), entry.second);
     }
-    require(pure.homogeneous_component(9).transmit(input).amplitudes.empty(),
+    require(pure.homogeneous_component(11).transmit(input).amplitudes.empty(),
             "absent polynomial orders must be zero");
     rejects<std::invalid_argument>([&] {
-        pure.homogeneous_component(10);
+        pure.homogeneous_component(12);
     });
 
     // Reference-independent high-drive checks: common scaling, saturation and

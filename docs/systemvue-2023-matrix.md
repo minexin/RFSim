@@ -74,9 +74,9 @@ passed=false，完整相干合并功率不能列为已验收。
 
 [RFAMP 单位增益诊断](systemvue-unity-gain-diagnostic.md)：17 组受控采集支持等效功率增益 1.00000023 的行为解释；名义增益验收仍保留失败，诊断不算兼容性通过。
 
-[九阶相干多项式](coherent-polynomial.md) 新增 C++/C/Python 接口，可由谐波、互调输入继续生成带本地来源的 RF 项；已做独立卷积验证，尚未完成 RFAMP 高阶系数、递归身份及子谱合并的兼容验收。
+[十一阶相干多项式](coherent-polynomial.md) 新增 C++/C/Python 接口，可由谐波、互调输入继续生成带本地来源的 RF 项；已做独立卷积验证，尚未完成 RFAMP 高阶系数、递归身份及子谱合并的兼容验收。
 
-[递归来源与多项式系统图](recursive-mixing-origins.md) 新增原始源因子展开、同源失真归并及显式全局来源阶数限制。带混频器的来源表达式之和与 SystemVue 高阶子谱语义仍待完成。
+[递归来源与多项式系统图](recursive-mixing-origins.md) 新增原始源因子展开、同源失真归并及显式全局来源阶数限制。带混频器的来源表达式之和已实现；SystemVue 高阶子谱语义仍待完成。
 
 [混合多项式系统图](mixed-polynomial-graphs.md) 已支持线性网络、理想混频与多项式递归链路，按流保存不同来源贡献并保持物理相干归并；证据为独立数值卷积与工程回归。含共同压缩的混合图已由[公共工作点](common-amplifier-response.md)实现并做数值回归；SystemVue 的高阶系数、LO 阶数、子谱合并尚未验收。
 
@@ -84,4 +84,6 @@ passed=false，完整相干合并功率不能列为已验收。
 
 [频谱削减配对诊断](systemvue-spectrum-reduction.md)：三组双音功率配置关闭 UseSpecReduction 后均恢复完整的 44 个四、五阶来源项；开启时较弱重叠项缺失，共有的 92 项复波不变。五阶系数仍属固定参数识别，总谱与完整削减算法尚未验收。
 
-[显式高阶截点转换](polynomial-intercepts.md)新增二至九阶 C++/C/Python 参数接口，指定双音参考项、截点参考面及实系数符号，可接入现有多项式系统图；SystemVue 四阶诊断已使用此接口，自动高阶 RFAMP 系数仍待完成。
+[显式高阶截点转换](polynomial-intercepts.md)新增二至十一阶 C++/C/Python 参数接口，指定双音参考项、截点参考面及实系数符号，可接入现有多项式系统图；SystemVue 四阶诊断已使用此接口，自动高阶 RFAMP 系数仍待完成。
+
+[十一阶多项式与 ABI 兼容](eleventh-order-polynomial.md)：C++/Python、显式 IP2..IP11 及系统图已扩展到十一阶；新增 C v2 符号，旧九阶结构与函数保留。证据为独立数值与工程回归，SystemVue 十一阶实测尚未完成。

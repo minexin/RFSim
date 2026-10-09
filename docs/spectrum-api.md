@@ -69,4 +69,4 @@ external_ports 必须恰有两个元素，依次为输入和输出；端口外�
 
 需要保留独立 RF/LO 来源时，使用 [相干混频接口](coherent-mixer.md)，然后按支路连接多端口网络。
 
-[显式高阶截点转换](polynomial-intercepts.md)新增二至九阶 C++/C/Python 参数接口，指定双音参考项、截点参考面及实系数符号，可接入现有多项式系统图；SystemVue 四阶诊断已使用此接口，自动高阶 RFAMP 系数仍待完成。
+[显式高阶截点转换](polynomial-intercepts.md)新增二至十一阶 C++/C/Python 参数接口，指定双音参考项、截点参考面及实系数符号，可接入现有多项式系统图；SystemVue 四阶诊断已使用此接口，自动高阶 RFAMP 系数仍待完成。

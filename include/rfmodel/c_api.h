@@ -47,12 +47,12 @@ typedef struct rfmodel_two_tone_intercept {
 } rfmodel_two_tone_intercept;
 
 /* Extrapolated equal per-tone intercepts for k1*f1+k2*f2. Both k values
- * are nonzero; abs(k1)+abs(k2) is 2..9 and unique per entry. Sign is +/-1.
+ * are nonzero; abs(k1)+abs(k2) is 2..11 and unique per entry. Sign is +/-1.
  * Input/output reference affects IP units, not the required positive real R.
- * At most eight entries; omitted nonlinear orders are zero. Empty entries
+ * At most ten entries; omitted nonlinear orders are zero. Empty entries
  * produce [0, amplitude_gain]. Returns coefficients a[0]..a[maximum_order].
  * This is not a P1dB fit or an automatic RFAMP higher-order coefficient rule.
- * Output and count are required, capacity must suffice (up to 10). All
+ * Output and count are required, capacity must suffice (up to 12). All
  * buffers/scalars must be non-overlapping; all outputs are unchanged on failure. */
 RFMODEL_API int
 rfmodel_polynomial_coefficients_from_intercepts(double power_gain_db,
@@ -310,7 +310,7 @@ typedef struct rfmodel_mixing_origin {
     size_t count;
 } rfmodel_mixing_origin;
 
-/* Compose 1..9 signed one-based parent indices; retain repeated/opposite factors.
+/* Compose 1..11 signed one-based parent indices; retain repeated/opposite factors.
  * At most 4096 parents, 256 factors per parent/output and 65536 parent factors.
  * Canonical output is sorted by (root_id, sign). Root IDs must be nonzero.
  * Output and count must not overlap; both stay unchanged on any failure. */
@@ -393,6 +393,29 @@ RFMODEL_API int rfmodel_coherent_polynomial_evaluate(double spacing_hz,
                                                      rfmodel_coherent_polynomial_term *terms,
                                                      size_t term_capacity,
                                                      size_t *term_count);
+
+/* Version 2 supports RF orders 1..11 and 1..12 voltage coefficients.
+ * The original nine-index structure/function retain their layout and limit.
+ * Same input, resource limits and failure contract as the original function. */
+typedef struct rfmodel_coherent_polynomial_term_v2 {
+    int order;
+    int input_indices[11];
+    rfmodel_coherent_component component;
+} rfmodel_coherent_polynomial_term_v2;
+
+RFMODEL_API int rfmodel_coherent_polynomial_evaluate_v2(double spacing_hz,
+                                                        const rfmodel_coherent_component *input,
+                                                        size_t input_count,
+                                                        const double *voltage_coefficients,
+                                                        size_t coefficient_count,
+                                                        double reference_ohms,
+                                                        uint64_t reserved_group_max,
+                                                        rfmodel_coherent_component *reduced_inputs,
+                                                        size_t reduced_capacity,
+                                                        size_t *reduced_count,
+                                                        rfmodel_coherent_polynomial_term_v2 *terms,
+                                                        size_t term_capacity,
+                                                        size_t *term_count);
 
 /* Local generating input bins, ascending signed order. Negative means conjugate;
  * only the first order entries are used, with zero padding to three entries. */
@@ -560,7 +583,7 @@ RFMODEL_API int rfmodel_cubic_amplifier_transmit(double spacing_hz,
                                                  size_t capacity,
                                                  size_t *output_count);
 
-/* y(t) = sum coefficients[n] * v(t)^n, voltage coefficients, degree 0..9.
+/* y(t) = sum coefficients[n] * v(t)^n, voltage coefficients, degree 0..11.
  * Input/output are RMS power waves at reference_ohms; DC is retained.
  * Uses the same spectrum buffer contract as the cubic amplifier. */
 RFMODEL_API int rfmodel_polynomial_amplifier_transmit(double spacing_hz,

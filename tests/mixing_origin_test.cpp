@@ -12,6 +12,11 @@ int main() {
     require(conjugated == MixingOrigin{{7, -1}, {7, 1}, {9, 1}}, "conjugate every factor");
     require(expand_mixing_origin({conjugated}, {-1}) == expanded, "double conjugation");
     require(expand_mixing_origin({a}, {1, 1, -1}).size() == 3, "opposite signs do not cancel");
+    require(expand_mixing_origin({a}, std::vector<int>(11, -1)) == MixingOrigin(11, {7, -1}),
+            "eleven conjugated factors");
+    rejects<std::invalid_argument>([&] {
+        expand_mixing_origin({a}, std::vector<int>(12, 1));
+    });
     MixingOrigin boundary(256, {UINT64_MAX, 1});
     require(expand_mixing_origin({boundary}, {1}).size() == 256, "factor boundary");
     rejects<std::length_error>([&] {

@@ -36,6 +36,24 @@ int main() {
         const double x = waveform(phased, theta);
         near(waveform(transformed, theta), x + .1 * x * x * x);
     }
+    for (int order : {10, 11}) {
+        std::vector<double> coefficients(order + 1, 0.);
+        coefficients.back() = 1.;
+        const MemorylessPolynomial model(coefficients);
+        const auto high_order = model.evaluate(phased);
+        near(model.coefficient(order), 1.);
+        const auto homogeneous = model.homogeneous_component(order).evaluate(phased);
+        require(high_order.positive_frequency_coefficients ==
+                    homogeneous.positive_frequency_coefficients,
+                "highest homogeneous component remains available");
+        for (int i = 0; i < 31; ++i) {
+            const double theta = i * .17;
+            near(waveform(high_order, theta), std::pow(waveform(phased, theta), order));
+        }
+    }
+    rejects<std::invalid_argument>([] {
+        MemorylessPolynomial(std::vector<double>(13));
+    });
     near(MemorylessPolynomial({3.}).evaluate({1., {}}).positive_frequency_coefficients.at(0), 3.);
     rejects<std::invalid_argument>([&] {
         cubic.evaluate({0., {}});

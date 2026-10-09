@@ -207,8 +207,8 @@ class _OriginExpressionTerm(ct.Structure):
     ]
 
 
-class _CoherentPolynomialTerm(ct.Structure):
-    _fields_ = [("order", ct.c_int), ("input_indices", ct.c_int * 9),
+class _CoherentPolynomialTermV2(ct.Structure):
+    _fields_ = [("order", ct.c_int), ("input_indices", ct.c_int * 11),
                 ("component", _CoherentComponent)]
 
 
@@ -368,11 +368,11 @@ class Library:
                 ct.c_int, [ct.POINTER(_OriginExpression), size, ct.POINTER(ct.c_int), size, _Complex,
                            ct.POINTER(_OriginExpressionTerm), size, ct.POINTER(size),
                            ct.POINTER(_OriginFactor), size, ct.POINTER(size), complex_pointer]),
-            "rfmodel_coherent_polynomial_evaluate": (
+            "rfmodel_coherent_polynomial_evaluate_v2": (
                 ct.c_int, [ct.c_double, ct.POINTER(_CoherentComponent), size,
                            ct.POINTER(ct.c_double), size, ct.c_double, ct.c_uint64,
                            ct.POINTER(_CoherentComponent), size, ct.POINTER(size),
-                           ct.POINTER(_CoherentPolynomialTerm), size, ct.POINTER(size)]),
+                           ct.POINTER(_CoherentPolynomialTermV2), size, ct.POINTER(size)]),
             "rfmodel_coherent_amplifier_evaluate": (
                 ct.c_int, [ct.c_double, ct.POINTER(_CoherentComponent), size,
                            ct.c_double, ct.c_double, ct.c_double, ct.c_double,
@@ -730,8 +730,8 @@ class Library:
     def expand_mixing_origin(self, parents, indices):
         """Compose local signed parent indices into canonical root factors."""
         parents, indices = [list(parent) for parent in parents], list(indices)
-        if not 1 <= len(parents) <= 4096 or not 1 <= len(indices) <= 9:
-            raise ValueError("Expected 1..4096 parents and 1..9 indices")
+        if not 1 <= len(parents) <= 4096 or not 1 <= len(indices) <= 11:
+            raise ValueError("Expected 1..4096 parents and 1..11 indices")
         if any(not 1 <= len(parent) <= 256 for parent in parents) or sum(map(len, parents)) > 65536:
             raise ValueError("Invalid parent origin sizes")
         arrays = []
@@ -810,8 +810,8 @@ class Library:
             self._check(self._dll.rfmodel_sum_origin_expressions(encoded, len(encoded), *outputs))
         else:
             indices = list(indices)
-            if not 1 <= len(indices) <= 9:
-                raise ValueError("Origin-expression product requires 1..9 indices")
+            if not 1 <= len(indices) <= 11:
+                raise ValueError("Origin-expression product requires 1..11 indices")
             selected = []
             for index in indices:
                 if isinstance(index, bool):
@@ -852,11 +852,11 @@ class Library:
 
     def coherent_polynomial(self, spacing_hz, components, voltage_coefficients, *,
                             reference_ohms=50., reserved_group_max=0):
-        """Evaluate RF orders 1..9, including distortion inputs; return local provenance."""
+        """Evaluate RF orders 1..11, including distortion inputs; return local provenance."""
         components = list(components)
         coefficients = list(voltage_coefficients)
-        if len(components) > 4096 or not 1 <= len(coefficients) <= 10:
-            raise ValueError("Expected at most 4096 components and 1..10 coefficients")
+        if len(components) > 4096 or not 1 <= len(coefficients) <= 12:
+            raise ValueError("Expected at most 4096 components and 1..12 coefficients")
         if isinstance(reserved_group_max, bool):
             raise TypeError("Reserved group must be an integer, not bool")
         reserved = operator.index(reserved_group_max)
@@ -866,9 +866,9 @@ class Library:
             *[_coherent_component(value) for value in components])
         values = (ct.c_double * len(coefficients))(*coefficients)
         reduced = (_CoherentComponent * len(components))()
-        terms = (_CoherentPolynomialTerm * 4096)()
+        terms = (_CoherentPolynomialTermV2 * 4096)()
         reduced_count, term_count = ct.c_size_t(), ct.c_size_t()
-        self._check(self._dll.rfmodel_coherent_polynomial_evaluate(
+        self._check(self._dll.rfmodel_coherent_polynomial_evaluate_v2(
             spacing_hz, incident, len(incident), values, len(values), reference_ohms,
             reserved, reduced, len(reduced), ct.byref(reduced_count),
             terms, len(terms), ct.byref(term_count)))
@@ -972,10 +972,10 @@ class Library:
     def polynomial_coefficients_from_intercepts(
         self, power_gain_db, intercepts, *, reference_ohms=50.0
     ):
-        """Convert explicit equal-tone IP2..IP9 definitions into real voltage coefficients."""
+        """Convert explicit equal-tone IP2..IP11 definitions into real voltage coefficients."""
         entries = list(intercepts)
-        if len(entries) > 8:
-            raise ValueError("At most eight nonlinear intercept orders are allowed")
+        if len(entries) > 10:
+            raise ValueError("At most ten nonlinear intercept orders are allowed")
         encoded = []
         for entry in entries:
             entry = TwoToneIntercept(*entry)
@@ -988,15 +988,15 @@ class Library:
             if any(isinstance(value, bool) for value in integers):
                 raise TypeError("Intercept orders, sign and reference must be integers, not bool")
             first, second, sign, reference = map(operator.index, integers)
-            if not -8 <= first <= 8 or not -8 <= second <= 8:
-                raise ValueError("Two-tone orders must be in [-8, 8]")
+            if not -10 <= first <= 10 or not -10 <= second <= 10:
+                raise ValueError("Two-tone orders must be in [-10, 10]")
             if sign not in (-1, 1) or reference not in (0, 1):
                 raise ValueError("Invalid coefficient sign or intercept reference")
             encoded.append(
                 _TwoToneIntercept(first, second, float(entry.intercept_dbm), sign, reference)
             )
         native = (_TwoToneIntercept * len(encoded))(*encoded)
-        output = (ct.c_double * 10)()
+        output = (ct.c_double * 12)()
         count = ct.c_size_t()
         self._check(
             self._dll.rfmodel_polynomial_coefficients_from_intercepts(
@@ -1013,10 +1013,10 @@ class Library:
 
     def polynomial_amplifier(self, spacing_hz, amplitudes, *, voltage_coefficients,
                              reference_ohms=50.):
-        """Evaluate voltage polynomial degree 0..9; return all generated bins including DC."""
+        """Evaluate voltage polynomial degree 0..11; return all generated bins including DC."""
         coefficients = list(voltage_coefficients)
-        if not 1 <= len(coefficients) <= 10:
-            raise ValueError("Expected 1..10 voltage coefficients")
+        if not 1 <= len(coefficients) <= 12:
+            raise ValueError("Expected 1..12 voltage coefficients")
         native_coefficients = (ct.c_double * len(coefficients))(*map(float, coefficients))
         incident = _spectrum(amplitudes)
         output = (_SpectrumBin * 4096)()

@@ -1,4 +1,5 @@
 #pragma once
+#include "polynomial_limits.hpp"
 #include "device_model.hpp"
 #include <cmath>
 #include <limits>
@@ -19,8 +20,8 @@ public:
     // y(t)=sum_n coefficients[n]*v(t)^n. Units: V_out / V_in^n.
     explicit MemorylessPolynomial(std::vector<double> coefficients)
         : coefficients_(std::move(coefficients)) {
-        if (coefficients_.empty() || coefficients_.size() > 10) {
-            throw std::invalid_argument("polynomial requires degree zero through nine");
+        if (coefficients_.empty() || coefficients_.size() > maximum_polynomial_order + 1) {
+            throw std::invalid_argument("polynomial requires degree zero through eleven");
         }
         for (double coefficient : coefficients_) {
             if (!std::isfinite(coefficient)) {
@@ -33,15 +34,15 @@ public:
     }
 
     double coefficient(std::size_t order) const {
-        if (order > 9) {
-            throw std::invalid_argument("polynomial coefficient order exceeds nine");
+        if (order > maximum_polynomial_order) {
+            throw std::invalid_argument("polynomial coefficient order exceeds eleven");
         }
         return order < coefficients_.size() ? coefficients_[order] : 0.;
     }
 
     MemorylessPolynomial homogeneous_component(std::size_t order) const {
-        if (order > 9) {
-            throw std::invalid_argument("polynomial component order exceeds nine");
+        if (order > maximum_polynomial_order) {
+            throw std::invalid_argument("polynomial component order exceeds eleven");
         }
         std::vector<double> selected(order + 1, 0.);
         if (order < coefficients_.size()) {

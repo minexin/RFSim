@@ -1,4 +1,5 @@
 #pragma once
+#include "polynomial_limits.hpp"
 #include <algorithm>
 #include <cstdint>
 #include <cstdlib>
@@ -23,7 +24,7 @@ using MixingOrigin = std::vector<OriginFactor>;
 // Parent order need not be canonical; the result is sorted by (root_id, sign).
 inline MixingOrigin expand_mixing_origin(const std::vector<MixingOrigin> &parents,
                                          const std::vector<int> &indices) {
-    if (parents.size() > 4096 || indices.empty() || indices.size() > 9) {
+    if (parents.size() > 4096 || indices.empty() || indices.size() > maximum_polynomial_order) {
         throw std::invalid_argument("invalid mixing-origin parent/product count");
     }
     std::size_t stored = 0;

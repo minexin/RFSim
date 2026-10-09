@@ -80,7 +80,7 @@ class PythonApiTests(unittest.TestCase):
         Entry = rfmodel.TwoToneIntercept
         for entry in [
             Entry(0, 1, 20, 1),
-            Entry(5, 5, 20, 1),
+            Entry(6, 6, 20, 1),
             Entry(1, 1, math.nan, 1),
             Entry(1, 1, 1e308, 1),
             Entry(1, 1, -1e308, 1),
@@ -100,9 +100,34 @@ class PythonApiTests(unittest.TestCase):
         with self.assertRaises(RFModelError):
             self.library.polynomial_coefficients_from_intercepts(10, [Entry(1, 1, 20, 1)] * 2)
         with self.assertRaises(ValueError):
-            self.library.polynomial_coefficients_from_intercepts(10, [Entry(1, 1, 20, 1)] * 9)
+            self.library.polynomial_coefficients_from_intercepts(10, [Entry(1, 1, 20, 1)] * 11)
         with self.assertRaises(RFModelError):
             self.library.polynomial_coefficients_from_intercepts(10, [], reference_ohms=0)
+
+    def test_tenth_and_eleventh_order_end_to_end(self):
+        source = rfmodel.CoherentComponent(10, rfmodel.SpectrumKind.SOURCE, 1, 7, 0.01 + 0.003j)
+        for order in (10, 11):
+            coefficients = [0.0] * order + [1.0]
+            result = self.library.coherent_polynomial(1e8, [source], coefficients)
+            expected = self.library.polynomial_amplifier(
+                1e8, {10: source.amplitude}, voltage_coefficients=coefficients
+            )
+            expected.pop(0, None)
+            actual = {term.component.bin: term.component.amplitude for term in result.terms}
+            self.assertEqual(set(actual), set(expected))
+            for index in expected:
+                self.assertLess(abs(actual[index] / expected[index] - 1), 1e-11)
+            highest = next(term for term in result.terms if term.component.bin == 10 * order)
+            self.assertEqual(highest.input_indices, (1,) * order)
+            self.assertLess(
+                abs(highest.component.amplitude / (5 ** (order - 1) * source.amplitude**order) - 1),
+                1e-11,
+            )
+        entries = [rfmodel.TwoToneIntercept(order - 1, -1, 20, 1) for order in range(2, 12)]
+        coefficients = self.library.polynomial_coefficients_from_intercepts(10, entries)
+        self.assertEqual(len(coefficients), 12)
+        self.assertTrue(all(value > 0 for value in coefficients[1:]))
+        self.assertEqual(self.library.expand_mixing_origin([((7, 1),)], [-1] * 11), ((7, -1),) * 11)
 
     def test_common_amplifier_operating_point(self):
         parameters = dict(power_gain_db=20, output_p1db_dbm=20, output_saturation_dbm=23)
@@ -150,7 +175,7 @@ class PythonApiTests(unittest.TestCase):
     def test_origin_expression_distribution_and_cancellation(self):
         a = [(((7, 1),), 0.25 + 0.1j), (((9, 1),), -0.05 + 0.2j)]
         wave = sum(term[1] for term in a)
-        for order in range(1, 10):
+        for order in range(1, 12):
             result = self.library.product_origin_expressions([a], [1] * order)
             self.assertEqual(len(result.terms), order + 1)
             self.assertAlmostEqual(result.amplitude, wave**order)
@@ -177,7 +202,7 @@ class PythonApiTests(unittest.TestCase):
 
     def test_origin_expression_rejects_invalid_inputs(self):
         a = [(((7, 1),), 1)]
-        for indices in ([], [0], [-2], [True], [1.5], [2147483648], [1] * 10, None):
+        for indices in ([], [0], [-2], [True], [1.5], [2147483648], [1] * 12, None):
             with self.subTest(indices=indices), self.assertRaises((ValueError, TypeError)):
                 self.library.product_origin_expressions([a], indices)
         for origin in (
@@ -230,7 +255,7 @@ class PythonApiTests(unittest.TestCase):
         self.assertEqual(highest.input_indices, (1,) * 9)
         self.assertGreater(highest.component.coherence_group, 100)
         self.assertAlmostEqual(highest.component.amplitude / (5. ** 8 * .01 ** 9), 1.)
-        for coefficients in ([1.], [], [0.] * 11, [0., float("nan")]):
+        for coefficients in ([1.], [], [0.] * 13, [0., float("nan")]):
             with self.subTest(coefficients=coefficients), self.assertRaises((ValueError, RFModelError)):
                 self.library.coherent_polynomial(1e8, [first], coefficients)
 
@@ -1008,7 +1033,7 @@ class PythonApiTests(unittest.TestCase):
             self.assertAlmostEqual(mixed[index], expected)
         bias = self.library.polynomial_amplifier(1e6, {}, voltage_coefficients=[.5])
         self.assertAlmostEqual(bias[0], .5 / math.sqrt(50))
-        for coefficients in ([], [0] * 11):
+        for coefficients in ([], [0] * 13):
             with self.assertRaises(ValueError):
                 self.library.polynomial_amplifier(1e6, {}, voltage_coefficients=coefficients)
         with self.assertRaises(RFModelError):
@@ -1016,12 +1041,20 @@ class PythonApiTests(unittest.TestCase):
 
     def test_json_square_law_spectrum(self):
         from rfmodel.spectrum_file import analyze_spectrum
+
         document = load(Path(__file__).resolve().parents[1] / "examples/square-law-spectrum.json")
         result = analyze_spectrum(self.library, document)
         spectrum = {entry["bin"]: entry for entry in result["stages"][0]["spectrum"]}
         self.assertEqual(set(spectrum), {0, 20})
-        self.assertAlmostEqual(spectrum[0]["power_w"], .005)
-        self.assertAlmostEqual(spectrum[20]["power_w"], .0025)
+        self.assertAlmostEqual(spectrum[0]["power_w"], 0.005)
+        self.assertAlmostEqual(spectrum[20]["power_w"], 0.0025)
+        document["stages"][0]["voltage_coefficients"] = [0] * 11 + [1]
+        eleventh = analyze_spectrum(self.library, document)
+        highest = next(entry for entry in eleventh["stages"][0]["spectrum"] if entry["bin"] == 110)
+        self.assertAlmostEqual(highest["power_w"] / (5**10 * 0.1**11) ** 2, 1)
+        document["stages"][0]["voltage_coefficients"] = [0] * 12 + [1]
+        with self.assertRaises(ValueError):
+            analyze_spectrum(self.library, document)
         document["stages"][0]["voltage_coefficients"] = "0,0,1"
         with self.assertRaises(ValueError):
             analyze_spectrum(self.library, document)

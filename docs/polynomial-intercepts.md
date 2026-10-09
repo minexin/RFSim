@@ -2,7 +2,7 @@
 
 ## 能力与定义
 
-新增 C++、C 和 Python 接口，将调用者明确给出的二至九阶双音截点转换为
+新增 C++、C 和 Python 接口，将调用者明确给出的二至十一阶双音截点转换为
 实电压多项式 `y(t)=Σ a[n]v(t)^n` 的系数。结果可直接用于现有
 `CoherentPolynomial`、`MatchedPolynomialAmplifier` 及系统图的
 `polynomial_amplifier.voltage_coefficients`。
@@ -16,7 +16,7 @@
 | coefficient_sign | 实多项式系数的 +1 或 −1 符号，不能从截点功率推断 |
 | reference | INPUT / OUTPUT；默认 INPUT |
 
-两个 k 都必须非零，`n=|k1|+|k2|` 为 2..9，每个 n 最多定义一次。
+两个 k 都必须非零，`n=|k1|+|k2|` 为 2..11，每个 n 最多定义一次。
 同阶不同互调项具有不同排列数，因此只写“IP4=某值”不足以确定系数。
 例如三倍第一音减第二音的排列数为 4，两倍第一音减两倍第二音的排列数为 6。
 调用者须选择和测量定义相符的参考项。负号表示相应音的共轭因子，不表示系数负号。
@@ -45,7 +45,7 @@
 
 C++：`rfmodel::polynomial_coefficients_from_intercepts`，头文件
 `rfmodel/polynomial_intercepts.hpp`，接收 `std::vector<TwoToneIntercept>`。
-C：`rfmodel_polynomial_coefficients_from_intercepts`，最多八条定义，输出至多十个
+C：`rfmodel_polynomial_coefficients_from_intercepts`，最多十条定义，输出至多十二个
 系数。缓冲区容量不足、别名重叠或参数错误时，系数数组和计数都保持不变。
 Python：`Library.polynomial_coefficients_from_intercepts` 返回系数元组；
 在 Python 内直接构造 JSON 系统图时，使用 `list(coefficients)` 作为数组。
@@ -76,7 +76,7 @@ python examples/highorder-intercepts.py --library build-msvc/Release/rfmodel_c.d
 
 ## 验证与 SystemVue 边界
 
-原生测试以独立的实波形采样和傅里叶投影检查二至九阶所选互调项在截点处
+原生测试以独立的实波形采样和傅里叶投影检查二至十一阶所选互调项在截点处
 的幅度与相位，覆盖 50 Ω / 75 Ω；另对照原有二、三阶公式，测试参考面换算、
 对数域极端单位、无效阶数、重复定义和不可表示结果。C/Python 测试验证绑定、
 整数不被 ctypes 截断，以及错误时输出保持不变；安装消费者直接使用新增符号。
@@ -87,11 +87,11 @@ python examples/highorder-intercepts.py --library build-msvc/Release/rfmodel_c.d
 的 86 个四阶已记录项检查整个转换与展开链路。
 
 这不等于已经复现 RFAMP 从 OP1dB、OPSAT、OIP3 自动生成五、七、九、十一阶
-系数的专有算法。当前五阶实测诊断仍使用独立单音识别值，七至九阶的本接口
-证据为解析关系及独立数值验证。更广泛 RFAMP 参数化、十一阶、总谱与多级
+系数的专有算法。当前五阶实测诊断仍使用独立单音识别值，七至十一阶的本接口
+证据为解析关系及独立数值验证。更广泛 RFAMP 参数化、十一阶实测、总谱与多级
 高阶兼容仍属长期目标中的未完成项。
 
-## 本阶段工程验证
+## 截点接口初次提交的工程验证（fc47263）
 
 - MSVC Debug / Release 均清理重建，完整 CTest 各 79/79。
 - 安装后独立 C/C++ 消费项目，两种配置各 2/2。
@@ -100,6 +100,8 @@ python examples/highorder-intercepts.py --library build-msvc/Release/rfmodel_c.d
 - [通过新截点 API 重放的 SystemVue 报告](../validation/systemvue-2023-intercept-api-diagnostic.json)
   记录输入文件与本机 Release 动态库哈希；86 个四阶来源项的最大相对误差约
   5.01e-8，保留既有 1e-7 容差。五阶仍使用独立单音识别值，报告为诊断分类。
+
+后续十一阶扩展与新版接口的验证见[十一阶多项式与 ABI 兼容](eleventh-order-polynomial.md)。
 
 重放命令：
 
