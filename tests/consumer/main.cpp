@@ -1,3 +1,4 @@
+#include "rfmodel/conversion_operating_point.hpp"
 #include "rfmodel/mixer_linearization.hpp"
 #include "rfmodel/phase_noise.hpp"
 #include "rfmodel/channel_noise.hpp"
@@ -39,6 +40,26 @@
 #include <rfmodel/term_propagation.hpp>
 
 int main() {
+    {
+        const std::vector<rfmodel::ConversionChannel> channels{{0, 0}, {1, 0}, {2, 0}};
+        const auto zero = rfmodel::conversion_detail::zero(3);
+        rfmodel::FrequencyConversionModel base(1., channels, zero, zero);
+        rfmodel::ConversionDevice device{
+            base, {1., 2., 0.}, {0., 0., 0.}, base.zero_noise(), base.zero_noise()};
+        rfmodel::ConversionNonlinearDevice law{
+            0, [channels](const std::vector<rfmodel::Complex> &wave) {
+                const auto m = rfmodel::linearize_bilinear_mixer(
+                    1., channels, wave, -10. * std::log10(2.), 1.);
+                return rfmodel::ConversionLinearization{m.incremental_model, m.operating_outgoing};
+            }};
+        const auto result =
+            rfmodel::solve_conversion_operating_point({device}, {}, {law}, {0., 0., 0.});
+        if (std::abs(result.waves.outgoing[2] - rfmodel::Complex{2., 0.}) > 1e-12 ||
+            result.scaled_residual > 1.) {
+            return 100;
+        }
+    }
+
     {
         rfmodel::FrequencyConversionNetwork network(1.);
         network.add(rfmodel::FrequencyConversionModel(1., {{0, 1}}, {1, {.5}}, {1, {0.}}));

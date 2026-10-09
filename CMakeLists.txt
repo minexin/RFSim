@@ -389,3 +389,7 @@ add_test(NAME mixer_linearization_test COMMAND mixer_linearization_test)
 add_executable(affine_conversion_test tests/affine_conversion_test.cpp)
 target_link_libraries(affine_conversion_test PRIVATE rfmodel)
 add_test(NAME affine_conversion_test COMMAND affine_conversion_test)
+
+add_executable(conversion_operating_point_test tests/conversion_operating_point_test.cpp)
+target_link_libraries(conversion_operating_point_test PRIVATE rfmodel)
+add_test(NAME conversion_operating_point_test COMMAND conversion_operating_point_test)

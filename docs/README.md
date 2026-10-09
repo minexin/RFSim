@@ -91,3 +91,5 @@
 [RF/LO 工作点线性化](mixer-linearization.md)：双线性乘积导数、LO 相噪及共享时钟和/差传播的 C++/C/Python/JSON 接口。
 
 [绝对波仿射网络](affine-conversion.md)：确定性偏置、给定混频工作点的网络一致性检查及 C++/C/Python/JSON 接口。
+
+[自动非线性工作点 C++ 核心](conversion-operating-point.md)：固定系数双线性混频、阻尼迭代、真实残差及收敛噪声。

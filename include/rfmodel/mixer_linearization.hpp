@@ -19,25 +19,25 @@ struct MixerLinearization {
 
 // RMS power-wave product y(t)=sqrt(2)*k*x_RF(t)*x_LO(t). The constant k is
 // fixed at the supplied LO operating amplitude, never renormalized by noise.
-inline MixerLinearization linearize_real_mixer(double spacing_hz,
-                                               const std::vector<ConversionChannel> &channels,
-                                               const std::vector<Complex> &operating_incident,
-                                               int lo_bin,
-                                               double gain_db,
-                                               std::size_t rf_port = 0,
-                                               std::size_t lo_port = 1,
-                                               std::size_t if_port = 2,
-                                               double reference_ohms = 50.) {
+namespace mixer_detail {
+inline MixerLinearization linearize_product(double spacing_hz,
+                                            const std::vector<ConversionChannel> &channels,
+                                            const std::vector<Complex> &operating_incident,
+                                            double k,
+                                            bool full_closure,
+                                            std::size_t rf_port = 0,
+                                            std::size_t lo_port = 1,
+                                            std::size_t if_port = 2,
+                                            double reference_ohms = 50.) {
     const auto n = channels.size();
     if (!n || n > 512 || operating_incident.size() != n || !std::isfinite(spacing_hz) ||
-        spacing_hz <= 0. || !std::isfinite(reference_ohms) || reference_ohms <= 0. || lo_bin <= 0 ||
-        !std::isfinite(gain_db) || rf_port >= 1024 || lo_port >= 1024 || if_port >= 1024 ||
+        spacing_hz <= 0. || !std::isfinite(reference_ohms) || reference_ohms <= 0. ||
+        !std::isfinite(k) || k <= 0. || rf_port >= 1024 || lo_port >= 1024 || if_port >= 1024 ||
         rf_port == lo_port || rf_port == if_port || lo_port == if_port) {
         throw std::invalid_argument("invalid mixer linearization parameters");
     }
     std::map<std::pair<std::size_t, int>, std::size_t> indices;
     std::vector<std::size_t> rf, lo;
-    Complex pump;
     for (std::size_t i = 0; i < n; ++i) {
         const auto channel = channels[i];
         if ((channel.port != rf_port && channel.port != lo_port && channel.port != if_port) ||
@@ -51,21 +51,23 @@ inline MixerLinearization linearize_real_mixer(double spacing_hz,
             rf.push_back(i);
         } else if (channel.port == lo_port) {
             lo.push_back(i);
-            if (channel.bin == lo_bin) {
-                pump = operating_incident[i];
-            } else if (operating_incident[i] != Complex{}) {
-                throw std::invalid_argument("LO operating point must be a single declared pump");
-            }
         }
     }
-    const double amplitude = std::abs(pump), gain = std::pow(10., gain_db / 20.);
-    if (rf.empty() || !std::isfinite(amplitude) || amplitude <= 0. || !std::isfinite(gain) ||
-        gain <= 0.) {
-        throw std::invalid_argument("mixer needs RF channels and a finite nonzero LO pump");
+    if (rf.empty() || lo.empty()) {
+        throw std::invalid_argument("mixer requires RF and LO channels");
     }
-    const double k = gain / amplitude;
-    if (!std::isfinite(k) || k <= 0.) {
-        throw std::overflow_error("mixer normalization is not representable");
+    if (full_closure) {
+        for (auto r : rf) {
+            for (auto q : lo) {
+                const long long rb = channels[r].bin, lb = channels[q].bin;
+                for (auto bin : {rb + lb, std::abs(rb - lb)}) {
+                    if (bin > std::numeric_limits<int>::max() ||
+                        !indices.count({if_port, static_cast<int>(bin)})) {
+                        throw std::invalid_argument("missing bilinear mixer product channel");
+                    }
+                }
+            }
+        }
     }
     auto product = [&](const std::vector<Complex> &x, const std::vector<Complex> &l) {
         std::vector<Complex> out(n);
@@ -139,5 +141,65 @@ inline MixerLinearization linearize_real_mixer(double spacing_hz,
         }
     }
     return {FrequencyConversionModel(spacing_hz, channels, a, b, reference_ohms), nominal};
+}
+} // namespace mixer_detail
+
+// A fixed device coefficient: k=gain/LO_reference_amplitude. Unlike the
+// supplied-pump adapter below, all LO channels (including zero/DC) may vary.
+inline MixerLinearization linearize_bilinear_mixer(double spacing_hz,
+                                                   const std::vector<ConversionChannel> &channels,
+                                                   const std::vector<Complex> &incident,
+                                                   double gain_db,
+                                                   double lo_reference_amplitude,
+                                                   std::size_t rf_port = 0,
+                                                   std::size_t lo_port = 1,
+                                                   std::size_t if_port = 2,
+                                                   double reference_ohms = 50.) {
+    const double gain = std::pow(10., gain_db / 20.);
+    if (!std::isfinite(gain_db) || !std::isfinite(gain) || gain <= 0. ||
+        !std::isfinite(lo_reference_amplitude) || lo_reference_amplitude <= 0.) {
+        throw std::invalid_argument("invalid fixed mixer gain or LO reference amplitude");
+    }
+    const double k = gain / lo_reference_amplitude;
+    if (!std::isfinite(k) || k <= 0.) {
+        throw std::overflow_error("mixer normalization is not representable");
+    }
+    return mixer_detail::linearize_product(
+        spacing_hz, channels, incident, k, true, rf_port, lo_port, if_port, reference_ohms);
+}
+
+// Preserve the original single-pump normalization and first-order closure.
+inline MixerLinearization linearize_real_mixer(double spacing_hz,
+                                               const std::vector<ConversionChannel> &channels,
+                                               const std::vector<Complex> &incident,
+                                               int lo_bin,
+                                               double gain_db,
+                                               std::size_t rf_port = 0,
+                                               std::size_t lo_port = 1,
+                                               std::size_t if_port = 2,
+                                               double reference_ohms = 50.) {
+    if (lo_bin <= 0 || channels.size() != incident.size() || !std::isfinite(gain_db)) {
+        throw std::invalid_argument("invalid supplied mixer operating point");
+    }
+    Complex pump;
+    for (std::size_t i = 0; i < channels.size(); ++i) {
+        if (channels[i].port == lo_port) {
+            if (channels[i].bin == lo_bin) {
+                pump = incident[i];
+            } else if (incident[i] != Complex{}) {
+                throw std::invalid_argument("LO operating point must be a single declared pump");
+            }
+        }
+    }
+    const double amplitude = std::abs(pump), gain = std::pow(10., gain_db / 20.);
+    if (!std::isfinite(amplitude) || amplitude <= 0. || !std::isfinite(gain) || gain <= 0.) {
+        throw std::invalid_argument("mixer needs a finite nonzero LO pump");
+    }
+    const double k = gain / amplitude;
+    if (!std::isfinite(k) || k <= 0.) {
+        throw std::overflow_error("mixer normalization is not representable");
+    }
+    return mixer_detail::linearize_product(
+        spacing_hz, channels, incident, k, false, rf_port, lo_port, if_port, reference_ohms);
 }
 } // namespace rfmodel
