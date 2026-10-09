@@ -68,3 +68,5 @@
 [RFAMP 四至十一阶实测诊断](systemvue-eleventh-order-diagnostic.md)：七组采集验证公共限幅与固定参数奇数阶系数；807 个奇数阶校准外来源项通过，八/十阶小残差及 10 个低功率缺项保留，自动系数算法仍未实现。
 
 [高阶输入端口参考诊断](systemvue-highorder-input-reference.md)：从原采集归档九个源的实际输入电压，1413 个独立高阶评分项在原容差下通过；八/十阶名义残差由输入参考差异解释，完整网络输入求解和自动奇数阶系数仍未完成。
+
+[显式高阶放大器](coherent-highorder-amplifier.md)：二至十一阶显式系数、共同压缩/限幅的 C++/C/Python/JSON 接口，以及失真传播、来源阶数裁剪和归档重放证据。

@@ -3,6 +3,15 @@
 
 int main(int argc, char **argv) {
     {
+        const double coefficients[] = {0., 0., .01};
+        rfmodel_amplifier_operating_point point;
+        if (rfmodel_get_highorder_amplifier_operating_point(
+                .01, 10., 20., 23., coefficients, 3, 50., &point) != RFMODEL_OK ||
+            point.nonlinear_input_scale >= 1.) {
+            return 84;
+        }
+    }
+    {
         double coefficients[12] = {0.};
         rfmodel_coherent_component input = {10, RFMODEL_SPECTRUM_SOURCE, 1., 7, {.01, 0.}};
         rfmodel_coherent_component reduced;

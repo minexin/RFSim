@@ -1,3 +1,4 @@
+#include <rfmodel/coherent_highorder_amplifier.hpp>
 #include <rfmodel/polynomial_intercepts.hpp>
 #include <rfmodel/origin_expression.hpp>
 #include <rfmodel/mixing_origin.hpp>
@@ -28,6 +29,11 @@
 #include <rfmodel/term_propagation.hpp>
 
 int main() {
+    const auto high_order = rfmodel::CoherentHighOrderAmplifier(10., 20., 23., {0., 0., .01})
+                                .evaluate(1e8, {{10, rfmodel::SpectrumKind::source, 1., 7, .01}});
+    if (high_order.terms.size() != 3 || high_order.terms.back().order != 4) {
+        return 84;
+    }
     const auto intercept_coefficients = rfmodel::polynomial_coefficients_from_intercepts(
         10., {{3, -1, 33., 1, rfmodel::InterceptReference::output}});
     if (intercept_coefficients.size() != 5 ||

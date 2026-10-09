@@ -20,6 +20,10 @@ def analyze_coherent_system(library, document, *, base_directory=None):
     if spacing <= 0 or reference <= 0:
         raise ValueError("Spacing and reference impedance must be positive")
     stages = _array(document["stages"], 512)
+    if any(isinstance(stage, dict) and stage.get("type") == "highorder_amplifier"
+           for stage in stages):
+        from .expression_system import analyze_expression_system
+        return analyze_expression_system(library, document, base_directory=base_directory)
     trace_origins = any(isinstance(stage, dict) and stage.get("type") == "polynomial_amplifier"
                         for stage in stages)
     if trace_origins and any(isinstance(stage, dict) and stage.get("type") == "ideal_mixer_bank"

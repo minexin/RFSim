@@ -245,6 +245,59 @@ class _ExpressionGraph:
         self.store(names[0], output)
         return names, measurements
 
+    def highorder_amplifier(self, stage):
+        parameters = ("power_gain_db", "output_p1db_dbm", "output_saturation_dbm")
+        _object(
+            stage,
+            ("id", "type", "input", "output", "nonlinear_voltage_coefficients", "max_source_order")
+            + parameters,
+            ("propagate_distortion",),
+        )
+        maximum = stage["max_source_order"]
+        if type(maximum) is not int or not 1 <= maximum <= 256:
+            raise ValueError("max_source_order must be an integer from 1 to 256")
+        propagate = stage.get("propagate_distortion", False)
+        if type(propagate) is not bool:
+            raise TypeError("propagate_distortion must be bool")
+        coefficients = [_number(v) for v in _array(stage["nonlinear_voltage_coefficients"], 10)]
+        values = {key: _number(stage[key]) for key in parameters}
+        names = self.new_ids([stage["output"]])
+        parents = self.read(stage["input"])
+        if not propagate and any(r.component.kind != SpectrumKind.SOURCE for r in parents):
+            raise ValueError("High-order amplification requires source-kind inputs")
+        drive = self.reductions[stage["input"]].total_power_w
+        point = self.library.highorder_amplifier_operating_point(
+            drive, coefficients, reference_ohms=self.reference, **values
+        )
+        output, direct_discarded = [], 0
+        for record in self.scaled(parents, point.fundamental_amplitude_gain):
+            retained = tuple(term for term in record.terms if len(term.factors) <= maximum)
+            direct_discarded += len(record.terms) - len(retained)
+            if retained:
+                expression = self.library.sum_origin_expressions([retained])
+                output.append(
+                    _Record(
+                        record.component._replace(amplitude=expression.amplitude),
+                        record.identity,
+                        expression.terms,
+                    )
+                )
+        carriers = [record for record in parents if record.component.kind == SpectrumKind.SOURCE]
+        nonlinear, measurements = self.generate(
+            self.scaled(carriers, point.nonlinear_input_scale), [0.0, 0.0] + coefficients, maximum
+        )
+        output.extend(nonlinear)
+        measurements.update(
+            input_power_w=drive,
+            limited_input_power_w=point.limited_input_power_w,
+            fundamental_amplitude_gain=point.fundamental_amplitude_gain,
+            nonlinear_input_scale=point.nonlinear_input_scale,
+            max_source_order=maximum,
+            discarded_direct_contributions=direct_discarded,
+        )
+        self.store(names[0], output)
+        return names, measurements
+
     def mixer(self, stage):
         _object(stage, ("id", "type", "branches"))
         branches = _array(stage["branches"], 2048, nonempty=True)
@@ -360,6 +413,7 @@ def analyze_expression_system(library, document, *, base_directory=None):
         "fundamental_compression",
         "limited_amplifier",
         "cascaded_amplifier",
+        "highorder_amplifier",
     }
     if any(not isinstance(stage, dict) or stage.get("type") not in supported for stage in stages):
         raise ValueError("Unsupported stage in multi-origin coherent graph")
@@ -394,6 +448,7 @@ def analyze_expression_system(library, document, *, base_directory=None):
         "fundamental_compression": graph.amplifier,
         "limited_amplifier": graph.amplifier,
         "cascaded_amplifier": graph.amplifier,
+        "highorder_amplifier": graph.highorder_amplifier,
     }
     for stage in stages:
         name = _label(stage.get("id"))

@@ -417,6 +417,42 @@ RFMODEL_API int rfmodel_coherent_polynomial_evaluate_v2(double spacing_hz,
                                                         size_t term_capacity,
                                                         size_t *term_count);
 
+/* Explicit coefficients are a2..an (0..10 entries); no constant/linear entries.
+ * Empty coefficients select compressed direct propagation only. Generated terms
+ * use common limited carrier inputs; existing distortion only propagates when
+ * propagate_distortion=1. All output buffers/scalars must be disjoint and stay
+ * unchanged on failure. Uses v2 eleven-index terms, at most 4096 combined terms. */
+RFMODEL_API int
+rfmodel_get_highorder_amplifier_operating_point(double total_input_power_w,
+                                                double power_gain_db,
+                                                double output_p1db_dbm,
+                                                double output_saturation_dbm,
+                                                const double *nonlinear_voltage_coefficients,
+                                                size_t coefficient_count,
+                                                double reference_ohms,
+                                                rfmodel_amplifier_operating_point *output);
+
+RFMODEL_API int
+rfmodel_highorder_amplifier_evaluate(double spacing_hz,
+                                     const rfmodel_coherent_component *input,
+                                     size_t input_count,
+                                     double power_gain_db,
+                                     double output_p1db_dbm,
+                                     double output_saturation_dbm,
+                                     const double *nonlinear_voltage_coefficients,
+                                     size_t coefficient_count,
+                                     double reference_ohms,
+                                     uint64_t reserved_group_max,
+                                     int propagate_distortion,
+                                     rfmodel_coherent_component *reduced_inputs,
+                                     size_t reduced_capacity,
+                                     size_t *reduced_count,
+                                     rfmodel_coherent_polynomial_term_v2 *terms,
+                                     size_t term_capacity,
+                                     size_t *term_count,
+                                     rfmodel_amplifier_drive *drive,
+                                     rfmodel_amplifier_operating_point *operating_point);
+
 /* Local generating input bins, ascending signed order. Negative means conjugate;
  * only the first order entries are used, with zero padding to three entries. */
 typedef struct rfmodel_coherent_amplifier_term {

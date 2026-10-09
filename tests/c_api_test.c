@@ -14,6 +14,73 @@
 
 int main(int argc, char **argv) {
     {
+        double coefficients[10] = {0.};
+        rfmodel_coherent_component input = {10, RFMODEL_SPECTRUM_SOURCE, 1., 7, {.01, 0.}};
+        rfmodel_coherent_component reduced = {0}, saved_reduced;
+        rfmodel_coherent_polynomial_term_v2 terms[7] = {{0}}, saved_terms[7];
+        rfmodel_amplifier_drive drive = {77., 88.};
+        rfmodel_amplifier_operating_point point = {1., 2., 3., 4., 5.}, saved_point;
+        size_t reduced_count = 55, term_count = 66;
+        coefficients[9] = 1.;
+        memcpy(&saved_reduced, &reduced, sizeof(reduced));
+        memcpy(saved_terms, terms, sizeof(terms));
+        memcpy(&saved_point, &point, sizeof(point));
+        CHECK(rfmodel_highorder_amplifier_evaluate(1e8,
+                                                   &input,
+                                                   1,
+                                                   10.,
+                                                   20.,
+                                                   23.,
+                                                   coefficients,
+                                                   10,
+                                                   50.,
+                                                   100,
+                                                   0,
+                                                   &reduced,
+                                                   1,
+                                                   &reduced_count,
+                                                   terms,
+                                                   6,
+                                                   &term_count,
+                                                   &drive,
+                                                   &point) != RFMODEL_OK);
+        CHECK(memcmp(&saved_reduced, &reduced, sizeof(reduced)) == 0);
+        CHECK(memcmp(saved_terms, terms, sizeof(terms)) == 0);
+        CHECK(memcmp(&saved_point, &point, sizeof(point)) == 0);
+        CHECK(reduced_count == 55 && term_count == 66 && drive.total_input_power_w == 77.);
+        CHECK(rfmodel_highorder_amplifier_evaluate(1e8,
+                                                   &input,
+                                                   1,
+                                                   10.,
+                                                   20.,
+                                                   23.,
+                                                   coefficients,
+                                                   10,
+                                                   50.,
+                                                   100,
+                                                   0,
+                                                   &reduced,
+                                                   1,
+                                                   &reduced_count,
+                                                   terms,
+                                                   7,
+                                                   &term_count,
+                                                   &drive,
+                                                   &point) == RFMODEL_OK);
+        CHECK(reduced_count == 1 && term_count == 7 && terms[6].order == 11);
+        CHECK(terms[6].input_indices[10] == 1 && terms[6].component.index == 110);
+        CHECK(fabs(terms[6].component.amplitude.real / (pow(5., 10.) * pow(.01, 11.)) - 1.) <
+              1e-12);
+        CHECK(point.nonlinear_input_scale == 1. && reduced.amplitude.real == .01);
+        memcpy(&saved_point, &point, sizeof(point));
+        CHECK(rfmodel_get_highorder_amplifier_operating_point(
+                  -1., 10., 20., 23., coefficients, 10, 50., &point) != RFMODEL_OK);
+        CHECK(memcmp(&saved_point, &point, sizeof(point)) == 0);
+        CHECK(rfmodel_get_highorder_amplifier_operating_point(
+                  0., 10., 20., 23., NULL, 0, 50., &point) == RFMODEL_OK);
+        CHECK(point.nonlinear_input_scale == 1. && point.quadratic_voltage_coefficient == 0.);
+    }
+    {
         /* V1 must retain the historical layout and stride, including in arrays. */
         struct legacy_term_layout {
             int order;

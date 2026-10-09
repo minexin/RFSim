@@ -63,3 +63,5 @@ Windows 本机可运行 `scripts/build-msvc.ps1` 自动定位已有 VS 工具链
 [RFAMP 四至十一阶实测诊断](docs/systemvue-eleventh-order-diagnostic.md)：七组采集验证公共限幅与固定参数奇数阶系数；807 个奇数阶校准外来源项通过，八/十阶小残差及 10 个低功率缺项保留，自动系数算法仍未实现。
 
 [高阶输入端口参考诊断](docs/systemvue-highorder-input-reference.md)：从原采集归档九个源的实际输入电压，1413 个独立高阶评分项在原容差下通过；八/十阶名义残差由输入参考差异解释，完整网络输入求解和自动奇数阶系数仍未完成。
+
+[显式高阶放大器](docs/coherent-highorder-amplifier.md) 将二至十一阶系数、共同基波压缩与输入限幅接入 C++/C/Python/JSON，保留相消来源历史并支持已有失真传播。统一原生入口重放通过 1413 个独立来源项；自动 RFAMP 系数、完整总谱及次级失真再混频仍待完成。

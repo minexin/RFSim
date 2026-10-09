@@ -78,6 +78,101 @@ class CoherentSystemFileTests(unittest.TestCase):
                         term["rf_order"], sum(roots[f["root_id"]]["role"] == "rf" for f in factors)
                     )
 
+    def test_highorder_stage_matches_native_and_preserves_mixed_histories(self):
+        for mixed in (False, True):
+            with self.subTest(mixed=mixed):
+                model = self.mixed_model()
+                stage = model["stages"][-1]
+                stage.pop("voltage_coefficients")
+                stage.update(
+                    type="highorder_amplifier",
+                    nonlinear_voltage_coefficients=[0.2, -0.1],
+                    power_gain_db=10,
+                    output_p1db_dbm=20,
+                    output_saturation_dbm=23,
+                    max_source_order=6,
+                )
+                if not mixed:
+                    model["stages"] = [stage]
+                    stage["input"] = "input"
+                result = self.evaluate(model)
+                incoming = stream(result, "mixed" if mixed else "input")["components"]
+                native_inputs = [
+                    CoherentComponent(
+                        c["bin"],
+                        SpectrumKind[c["kind"].upper()],
+                        c["bandwidth_hz"],
+                        c["coherence_group"],
+                        complex(*c["amplitude"]),
+                    )
+                    for c in incoming
+                ]
+                expected = self.library.highorder_amplifier(
+                    1e8,
+                    native_inputs,
+                    [0.2, -0.1],
+                    power_gain_db=10,
+                    output_p1db_dbm=20,
+                    output_saturation_dbm=23,
+                )
+                waves, actual = {}, {}
+                for term in expected.terms:
+                    c = term.component
+                    waves[c.bin] = waves.get(c.bin, 0j) + c.amplitude
+                for c in stream(result)["components"]:
+                    actual[c["bin"]] = actual.get(c["bin"], 0j) + complex(*c["amplitude"])
+                self.assertEqual(set(actual), set(waves))
+                for index in waves:
+                    self.assertLess(abs(actual[index] - waves[index]), 1e-12)
+                self.assert_history(result)
+                if mixed:
+                    model["inputs"][0]["components"][0]["amplitude"] = 0.01
+                    model["inputs"][0]["components"][1]["amplitude"] = -0.01
+                    model["stages"][0]["branches"][0]["lo_phase_radians"] = 0
+                    cancelled = self.evaluate(model)
+                    self.assert_history(cancelled)
+                    origin = next(
+                        o
+                        for o in stream(cancelled)["origins"]
+                        if o["bin"] == 4 and o["kind"] == "harmonic"
+                    )
+                    self.assertEqual(len(origin["terms"]), 3)
+                    self.assertAlmostEqual(
+                        sum(complex(*t["amplitude"]) for t in origin["terms"]), 0
+                    )
+
+    def test_highorder_cascade_applies_source_cutoff_to_direct_histories(self):
+        model = self.mixed_model()
+        model["stages"] = [
+            dict(
+                id="generate",
+                type="polynomial_amplifier",
+                input="input",
+                output="harmonics",
+                voltage_coefficients=[0, 1, 0.5],
+                max_source_order=2,
+            ),
+            dict(
+                id="high",
+                type="highorder_amplifier",
+                input="harmonics",
+                output="result",
+                nonlinear_voltage_coefficients=[],
+                power_gain_db=10,
+                output_p1db_dbm=20,
+                output_saturation_dbm=23,
+                max_source_order=1,
+                propagate_distortion=True,
+            ),
+        ]
+        result = self.evaluate(model)
+        self.assert_history(result)
+        self.assertEqual({c["kind"] for c in stream(result)["components"]}, {"source"})
+        self.assertGreater(result["stages"][-1]["discarded_direct_contributions"], 0)
+        model["stages"][-1]["propagate_distortion"] = False
+        with self.assertRaises(ValueError):
+            self.evaluate(model)
+
     def test_eleventh_order_pure_and_mixed_graphs(self):
         for mixed in (False, True):
             with self.subTest(mixed=mixed):

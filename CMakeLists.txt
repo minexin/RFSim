@@ -91,6 +91,9 @@ if(RFMODEL_BUILD_C_API)
         add_test(NAME coherent_network_file_test COMMAND ${Python3_EXECUTABLE}
             ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_coherent_network_file.py
             $<TARGET_FILE:rfmodel_c>)
+        add_test(NAME highorder_model_reference COMMAND ${Python3_EXECUTABLE}
+            ${CMAKE_CURRENT_SOURCE_DIR}/scripts/reference/test_highorder_model_reference.py
+            $<TARGET_FILE:rfmodel_c>)
         add_test(NAME highorder_input_reference_diagnostic COMMAND ${Python3_EXECUTABLE}
             ${CMAKE_CURRENT_SOURCE_DIR}/scripts/reference/test_highorder_input_reference.py
             $<TARGET_FILE:rfmodel_c>)
@@ -250,6 +253,9 @@ add_test(NAME origin_expression_test COMMAND origin_expression_test)
 add_executable(mixing_origin_test tests/mixing_origin_test.cpp)
 target_link_libraries(mixing_origin_test PRIVATE rfmodel)
 add_test(NAME mixing_origin_test COMMAND mixing_origin_test)
+add_executable(coherent_highorder_amplifier_test tests/coherent_highorder_amplifier_test.cpp)
+target_link_libraries(coherent_highorder_amplifier_test PRIVATE rfmodel)
+add_test(NAME coherent_highorder_amplifier_test COMMAND coherent_highorder_amplifier_test)
 add_executable(coherent_polynomial_test tests/coherent_polynomial_test.cpp)
 target_link_libraries(coherent_polynomial_test PRIVATE rfmodel)
 add_test(NAME coherent_polynomial_test COMMAND coherent_polynomial_test)

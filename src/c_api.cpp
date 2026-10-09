@@ -1,3 +1,4 @@
+#include "rfmodel/coherent_highorder_amplifier.hpp"
 #include "rfmodel/polynomial_intercepts.hpp"
 #include "rfmodel/origin_expression.hpp"
 #include "rfmodel/mixing_origin.hpp"
@@ -510,6 +511,108 @@ int rfmodel_coherent_polynomial_evaluate_v2(double spacing_hz,
         terms,
         term_capacity,
         term_count);
+}
+
+int rfmodel_get_highorder_amplifier_operating_point(double total_input_power_w,
+                                                    double power_gain_db,
+                                                    double output_p1db_dbm,
+                                                    double output_saturation_dbm,
+                                                    const double *nonlinear_voltage_coefficients,
+                                                    size_t coefficient_count,
+                                                    double reference_ohms,
+                                                    rfmodel_amplifier_operating_point *output) {
+    return guarded([&] {
+        require(output && coefficient_count <= 10 &&
+                (nonlinear_voltage_coefficients || coefficient_count == 0));
+        std::vector<double> coefficients;
+        if (coefficient_count) {
+            coefficients.assign(nonlinear_voltage_coefficients,
+                                nonlinear_voltage_coefficients + coefficient_count);
+        }
+        const rfmodel::CoherentHighOrderAmplifier model(
+            power_gain_db, output_p1db_dbm, output_saturation_dbm, coefficients, reference_ohms);
+        const auto point = model.operating_point(total_input_power_w);
+        *output = {point.fundamental_amplitude_gain,
+                   point.nonlinear_input_scale,
+                   point.limited_input_power_w,
+                   point.quadratic_voltage_coefficient,
+                   point.cubic_voltage_coefficient};
+    });
+}
+
+int rfmodel_highorder_amplifier_evaluate(double spacing_hz,
+                                         const rfmodel_coherent_component *input,
+                                         size_t input_count,
+                                         double power_gain_db,
+                                         double output_p1db_dbm,
+                                         double output_saturation_dbm,
+                                         const double *nonlinear_voltage_coefficients,
+                                         size_t coefficient_count,
+                                         double reference_ohms,
+                                         uint64_t reserved_group_max,
+                                         int propagate_distortion,
+                                         rfmodel_coherent_component *reduced_inputs,
+                                         size_t reduced_capacity,
+                                         size_t *reduced_count,
+                                         rfmodel_coherent_polynomial_term_v2 *terms,
+                                         size_t term_capacity,
+                                         size_t *term_count,
+                                         rfmodel_amplifier_drive *drive,
+                                         rfmodel_amplifier_operating_point *operating_point) {
+    return guarded([&] {
+        require(input_count <= 4096 && (input || input_count == 0));
+        require(coefficient_count <= 10 &&
+                (nonlinear_voltage_coefficients || coefficient_count == 0));
+        require(propagate_distortion == 0 || propagate_distortion == 1);
+        require(reduced_count && term_count && drive && operating_point);
+        std::vector<double> coefficients;
+        if (coefficient_count) {
+            coefficients.assign(nonlinear_voltage_coefficients,
+                                nonlinear_voltage_coefficients + coefficient_count);
+        }
+        std::vector<rfmodel::CoherentComponent> components;
+        for (size_t i = 0; i < input_count; ++i) {
+            const auto &c = input[i];
+            components.push_back({c.index,
+                                  static_cast<rfmodel::SpectrumKind>(c.kind),
+                                  c.bandwidth_hz,
+                                  c.coherence_group,
+                                  {c.amplitude.real, c.amplitude.imag}});
+        }
+        const rfmodel::CoherentHighOrderAmplifier model(
+            power_gain_db, output_p1db_dbm, output_saturation_dbm, coefficients, reference_ohms);
+        const auto result =
+            model.evaluate(spacing_hz, components, reserved_group_max, propagate_distortion != 0);
+        require(reduced_capacity >= result.inputs.size() && term_capacity >= result.terms.size());
+        require((reduced_inputs || result.inputs.empty()) && (terms || result.terms.empty()));
+        auto encode = [](const rfmodel::CoherentComponent &c) {
+            return rfmodel_coherent_component{c.bin,
+                                              static_cast<int>(c.kind),
+                                              c.bandwidth_hz,
+                                              c.coherence_group,
+                                              {c.amplitude.real(), c.amplitude.imag()}};
+        };
+        for (size_t i = 0; i < result.inputs.size(); ++i) {
+            reduced_inputs[i] = encode(result.inputs[i]);
+        }
+        for (size_t i = 0; i < result.terms.size(); ++i) {
+            const auto &term = result.terms[i];
+            rfmodel_coherent_polynomial_term_v2 encoded{};
+            encoded.order = term.order;
+            std::copy(term.input_indices.begin(), term.input_indices.end(), encoded.input_indices);
+            encoded.component = encode(term.component);
+            terms[i] = encoded;
+        }
+        *reduced_count = result.inputs.size();
+        *term_count = result.terms.size();
+        *drive = {result.total_input_power_w, result.operating_point.limited_input_power_w};
+        const auto &point = result.operating_point;
+        *operating_point = {point.fundamental_amplitude_gain,
+                            point.nonlinear_input_scale,
+                            point.limited_input_power_w,
+                            point.quadratic_voltage_coefficient,
+                            point.cubic_voltage_coefficient};
+    });
 }
 
 static int coherent_amplifier_evaluate_impl(double spacing_hz,

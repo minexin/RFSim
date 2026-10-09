@@ -223,6 +223,13 @@ class CoherentPolynomialResponse(NamedTuple):
     terms: tuple
 
 
+class CoherentHighOrderAmplifierResponse(NamedTuple):
+    inputs: tuple
+    terms: tuple
+    total_input_power_w: float
+    operating_point: AmplifierOperatingPoint
+
+
 class _CoherentAmplifierTerm(ct.Structure):
     _fields_ = [("order", ct.c_int), ("input_indices", ct.c_int * 3),
                 ("component", _CoherentComponent)]
@@ -368,6 +375,20 @@ class Library:
                 ct.c_int, [ct.POINTER(_OriginExpression), size, ct.POINTER(ct.c_int), size, _Complex,
                            ct.POINTER(_OriginExpressionTerm), size, ct.POINTER(size),
                            ct.POINTER(_OriginFactor), size, ct.POINTER(size), complex_pointer]),
+            "rfmodel_get_highorder_amplifier_operating_point": (
+                ct.c_int,
+                [ct.c_double, ct.c_double, ct.c_double, ct.c_double,
+                 ct.POINTER(ct.c_double), size, ct.c_double, ct.POINTER(_AmplifierOperatingPoint)],
+            ),
+            "rfmodel_highorder_amplifier_evaluate": (
+                ct.c_int,
+                [ct.c_double, ct.POINTER(_CoherentComponent), size,
+                 ct.c_double, ct.c_double, ct.c_double, ct.POINTER(ct.c_double), size,
+                 ct.c_double, ct.c_uint64, ct.c_int,
+                 ct.POINTER(_CoherentComponent), size, ct.POINTER(size),
+                 ct.POINTER(_CoherentPolynomialTermV2), size, ct.POINTER(size),
+                 ct.POINTER(_AmplifierDrive), ct.POINTER(_AmplifierOperatingPoint)],
+            ),
             "rfmodel_coherent_polynomial_evaluate_v2": (
                 ct.c_int, [ct.c_double, ct.POINTER(_CoherentComponent), size,
                            ct.POINTER(ct.c_double), size, ct.c_double, ct.c_uint64,
@@ -883,6 +904,117 @@ class Library:
             tuple(CoherentPolynomialTerm(
                 term.order, tuple(term.input_indices[:term.order]), decode(term.component))
                 for term in terms[:term_count.value]))
+
+    def highorder_amplifier_operating_point(
+        self,
+        total_input_power_w,
+        nonlinear_voltage_coefficients,
+        *,
+        power_gain_db,
+        output_p1db_dbm,
+        output_saturation_dbm,
+        reference_ohms=50.0,
+    ):
+        """Common response for explicit a2..a11; no automatic RFAMP coefficient fit."""
+        coefficients = list(nonlinear_voltage_coefficients)
+        if len(coefficients) > 10:
+            raise ValueError("Expected at most ten coefficients a2..a11")
+        native = (ct.c_double * len(coefficients))(*coefficients)
+        output = _AmplifierOperatingPoint()
+        self._check(
+            self._dll.rfmodel_get_highorder_amplifier_operating_point(
+                total_input_power_w,
+                power_gain_db,
+                output_p1db_dbm,
+                output_saturation_dbm,
+                native,
+                len(native),
+                reference_ohms,
+                ct.byref(output),
+            )
+        )
+        return AmplifierOperatingPoint(
+            *(getattr(output, name) for name in AmplifierOperatingPoint._fields)
+        )
+
+    def highorder_amplifier(
+        self,
+        spacing_hz,
+        components,
+        nonlinear_voltage_coefficients,
+        *,
+        power_gain_db,
+        output_p1db_dbm,
+        output_saturation_dbm,
+        reference_ohms=50.0,
+        reserved_group_max=0,
+        propagate_distortion=False,
+    ):
+        """Compressed direct terms plus limited a2..a11 carrier products."""
+        components, coefficients = list(components), list(nonlinear_voltage_coefficients)
+        if len(components) > 4096 or len(coefficients) > 10:
+            raise ValueError("Expected at most 4096 inputs and ten coefficients a2..a11")
+        if type(propagate_distortion) is not bool:
+            raise TypeError("propagate_distortion must be bool")
+        if isinstance(reserved_group_max, bool):
+            raise TypeError("Reserved group must be an integer, not bool")
+        reserved = operator.index(reserved_group_max)
+        if not 0 <= reserved <= 18446744073709551615:
+            raise ValueError("Reserved group must fit uint64")
+        incident = (_CoherentComponent * len(components))(
+            *[_coherent_component(value) for value in components]
+        )
+        native = (ct.c_double * len(coefficients))(*coefficients)
+        reduced = (_CoherentComponent * len(components))()
+        terms = (_CoherentPolynomialTermV2 * 4096)()
+        reduced_count, term_count = ct.c_size_t(), ct.c_size_t()
+        drive, point = _AmplifierDrive(), _AmplifierOperatingPoint()
+        self._check(
+            self._dll.rfmodel_highorder_amplifier_evaluate(
+                spacing_hz,
+                incident,
+                len(incident),
+                power_gain_db,
+                output_p1db_dbm,
+                output_saturation_dbm,
+                native,
+                len(native),
+                reference_ohms,
+                reserved,
+                int(propagate_distortion),
+                reduced,
+                len(reduced),
+                ct.byref(reduced_count),
+                terms,
+                len(terms),
+                ct.byref(term_count),
+                ct.byref(drive),
+                ct.byref(point),
+            )
+        )
+
+        def decode(component):
+            return CoherentComponent(
+                component.index,
+                SpectrumKind(component.kind),
+                component.bandwidth_hz,
+                component.coherence_group,
+                component.amplitude.value(),
+            )
+
+        return CoherentHighOrderAmplifierResponse(
+            tuple(decode(value) for value in reduced[: reduced_count.value]),
+            tuple(
+                CoherentPolynomialTerm(
+                    value.order, tuple(value.input_indices[: value.order]), decode(value.component)
+                )
+                for value in terms[: term_count.value]
+            ),
+            drive.total_input_power_w,
+            AmplifierOperatingPoint(
+                *(getattr(point, name) for name in AmplifierOperatingPoint._fields)
+            ),
+        )
 
     def coherent_amplifier(self, spacing_hz, components, *, power_gain_db,
                            output_p1db_dbm, output_saturation_dbm, input_ip2_dbm,

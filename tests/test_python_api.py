@@ -129,6 +129,60 @@ class PythonApiTests(unittest.TestCase):
         self.assertTrue(all(value > 0 for value in coefficients[1:]))
         self.assertEqual(self.library.expand_mixing_origin([((7, 1),)], [-1] * 11), ((7, -1),) * 11)
 
+    def test_unified_highorder_amplifier_and_operating_point(self):
+        parameters = dict(power_gain_db=10, output_p1db_dbm=20, output_saturation_dbm=23)
+        coefficients = self.library.polynomial_coefficients_from_intercepts(
+            10, [rfmodel.TwoToneIntercept(1, 1, 30, 1), rfmodel.TwoToneIntercept(2, -1, 20, -1)]
+        )[2:]
+        for wave in (0j, 0.001 + 0.002j, 0.05 + 0.03j, 0.2j):
+            inputs = [rfmodel.CoherentComponent(10, rfmodel.SpectrumKind.SOURCE, 1, 7, wave)]
+            actual = self.library.highorder_amplifier(1e8, inputs, coefficients, **parameters)
+            expected = self.library.coherent_amplifier(
+                1e8, inputs, input_ip2_dbm=30, input_ip3_dbm=20, **parameters
+            )
+            self.assertEqual(len(actual.terms), len(expected.terms))
+            for a, b in zip(actual.terms, expected.terms):
+                self.assertEqual(
+                    (a.order, a.input_indices, a.component.bin, a.component.kind),
+                    (b.order, b.input_indices, b.component.bin, b.component.kind),
+                )
+                self.assertAlmostEqual(a.component.amplitude, b.component.amplitude)
+            point = self.library.highorder_amplifier_operating_point(
+                actual.total_input_power_w, coefficients, **parameters
+            )
+            self.assertEqual(actual.operating_point, point)
+        high = self.library.highorder_amplifier(
+            1e8,
+            [rfmodel.CoherentComponent(10, rfmodel.SpectrumKind.SOURCE, 1, 7, 0.01)],
+            [0] * 9 + [1],
+            **parameters,
+        )
+        self.assertEqual(len(high.terms), 7)
+        self.assertEqual(high.terms[-1].input_indices, (1,) * 11)
+
+    def test_highorder_rejects_invalid_parameters_and_propagates_only_when_enabled(self):
+        parameters = dict(power_gain_db=10, output_p1db_dbm=20, output_saturation_dbm=23)
+        harmonic = rfmodel.CoherentComponent(20, rfmodel.SpectrumKind.HARMONIC, 1, 7, 0.1)
+        with self.assertRaises(RFModelError):
+            self.library.highorder_amplifier(1e8, [harmonic], [1], **parameters)
+        result = self.library.highorder_amplifier(
+            1e8, [harmonic], [1], propagate_distortion=True, **parameters
+        )
+        self.assertEqual(len(result.terms), 1)
+        self.assertEqual(result.terms[0].component.kind, rfmodel.SpectrumKind.HARMONIC)
+        for coefficients in ([0] * 11, [math.nan]):
+            with self.assertRaises((ValueError, RFModelError)):
+                self.library.highorder_amplifier(1e8, [], coefficients, **parameters)
+            with self.assertRaises((ValueError, RFModelError)):
+                self.library.highorder_amplifier_operating_point(0, coefficients, **parameters)
+        for extra in (
+            dict(propagate_distortion=1),
+            dict(reserved_group_max=True),
+            dict(reserved_group_max=-1),
+        ):
+            with self.assertRaises((ValueError, TypeError)):
+                self.library.highorder_amplifier(1e8, [], [], **parameters, **extra)
+
     def test_common_amplifier_operating_point(self):
         parameters = dict(power_gain_db=20, output_p1db_dbm=20, output_saturation_dbm=23)
         self.assertEqual(self.library.saturating_amplitude_gain(0, **parameters), 10)
