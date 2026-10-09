@@ -1,0 +1,374 @@
+{
+  "format": "rfmodel.conversion-network",
+  "version": 1,
+  "spacing_hz": 1000000.0,
+  "devices": [
+    {
+      "id": "rf_filter",
+      "bins": [
+        11,
+        12,
+        13
+      ],
+      "model": {
+        "type": "linear",
+        "s": [
+          [
+            0,
+            0.5
+          ],
+          [
+            0.5,
+            0
+          ]
+        ]
+      },
+      "noise": {
+        "noiseless": true
+      }
+    },
+    {
+      "id": "mixer",
+      "channels": [
+        {
+          "port": 0,
+          "bin": 11
+        },
+        {
+          "port": 0,
+          "bin": 12
+        },
+        {
+          "port": 0,
+          "bin": 13
+        },
+        {
+          "port": 1,
+          "bin": 9
+        },
+        {
+          "port": 1,
+          "bin": 10
+        },
+        {
+          "port": 1,
+          "bin": 11
+        },
+        {
+          "port": 2,
+          "bin": 0
+        },
+        {
+          "port": 2,
+          "bin": 1
+        },
+        {
+          "port": 2,
+          "bin": 2
+        },
+        {
+          "port": 2,
+          "bin": 3
+        },
+        {
+          "port": 2,
+          "bin": 4
+        },
+        {
+          "port": 2,
+          "bin": 20
+        },
+        {
+          "port": 2,
+          "bin": 21
+        },
+        {
+          "port": 2,
+          "bin": 22
+        },
+        {
+          "port": 2,
+          "bin": 23
+        },
+        {
+          "port": 2,
+          "bin": 24
+        }
+      ],
+      "model": {
+        "type": "bilinear_real_mixer",
+        "lo_reference_amplitude": 1
+      },
+      "noise": {
+        "noiseless": true
+      }
+    },
+    {
+      "id": "amplifier",
+      "model": {
+        "type": "saturating_amplifier",
+        "power_gain_db": 20,
+        "output_p1db_dbm": 20,
+        "output_saturation_dbm": 23
+      },
+      "noise": {
+        "noiseless": true
+      },
+      "channels": [
+        {
+          "port": 0,
+          "bin": 0
+        },
+        {
+          "port": 1,
+          "bin": 0
+        },
+        {
+          "port": 0,
+          "bin": 1
+        },
+        {
+          "port": 1,
+          "bin": 1
+        },
+        {
+          "port": 0,
+          "bin": 2
+        },
+        {
+          "port": 1,
+          "bin": 2
+        },
+        {
+          "port": 0,
+          "bin": 3
+        },
+        {
+          "port": 1,
+          "bin": 3
+        },
+        {
+          "port": 0,
+          "bin": 4
+        },
+        {
+          "port": 1,
+          "bin": 4
+        },
+        {
+          "port": 0,
+          "bin": 20
+        },
+        {
+          "port": 1,
+          "bin": 20
+        },
+        {
+          "port": 0,
+          "bin": 21
+        },
+        {
+          "port": 1,
+          "bin": 21
+        },
+        {
+          "port": 0,
+          "bin": 22
+        },
+        {
+          "port": 1,
+          "bin": 22
+        },
+        {
+          "port": 0,
+          "bin": 23
+        },
+        {
+          "port": 1,
+          "bin": 23
+        },
+        {
+          "port": 0,
+          "bin": 24
+        },
+        {
+          "port": 1,
+          "bin": 24
+        }
+      ]
+    }
+  ],
+  "connections": [
+    [
+      [
+        "rf_filter",
+        1
+      ],
+      [
+        "mixer",
+        0
+      ]
+    ],
+    [
+      [
+        "mixer",
+        2
+      ],
+      [
+        "amplifier",
+        0
+      ]
+    ]
+  ],
+  "boundaries": [
+    {
+      "channel": [
+        "rf_filter",
+        0,
+        11
+      ],
+      "source": 0
+    },
+    {
+      "channel": [
+        "rf_filter",
+        0,
+        12
+      ],
+      "source": 1
+    },
+    {
+      "channel": [
+        "rf_filter",
+        0,
+        13
+      ],
+      "source": 0
+    },
+    {
+      "channel": [
+        "mixer",
+        1,
+        9
+      ],
+      "source": 0
+    },
+    {
+      "channel": [
+        "mixer",
+        1,
+        10
+      ],
+      "source": 1
+    },
+    {
+      "channel": [
+        "mixer",
+        1,
+        11
+      ],
+      "source": 0
+    },
+    {
+      "channel": [
+        "amplifier",
+        1,
+        0
+      ]
+    },
+    {
+      "channel": [
+        "amplifier",
+        1,
+        1
+      ]
+    },
+    {
+      "channel": [
+        "amplifier",
+        1,
+        2
+      ]
+    },
+    {
+      "channel": [
+        "amplifier",
+        1,
+        3
+      ]
+    },
+    {
+      "channel": [
+        "amplifier",
+        1,
+        4
+      ]
+    },
+    {
+      "channel": [
+        "amplifier",
+        1,
+        20
+      ]
+    },
+    {
+      "channel": [
+        "amplifier",
+        1,
+        21
+      ]
+    },
+    {
+      "channel": [
+        "amplifier",
+        1,
+        22
+      ]
+    },
+    {
+      "channel": [
+        "amplifier",
+        1,
+        23
+      ]
+    },
+    {
+      "channel": [
+        "amplifier",
+        1,
+        24
+      ]
+    }
+  ],
+  "phase_noise_groups": [
+    {
+      "name": "reference",
+      "carriers": [
+        {
+          "carrier_channel": [
+            "rf_filter",
+            0,
+            12
+          ],
+          "phase_gain": 1
+        },
+        {
+          "carrier_channel": [
+            "mixer",
+            1,
+            10
+          ],
+          "phase_gain": 1
+        }
+      ],
+      "offsets": [
+        {
+          "offset_bin": 1,
+          "ssb_dbc_per_hz": -100
+        }
+      ]
+    }
+  ],
+  "loaded_noise": true,
+  "operating_point": {}
+}

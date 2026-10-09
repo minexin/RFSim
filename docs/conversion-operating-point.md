@@ -2,7 +2,7 @@
 
 C++17 接口 solve_conversion_operating_point 根据固定器件方程、物理接线、外部源和反射自动求解入射/出射复功率波，再在收敛工作点计算一阶 C/P 噪声。它扩展了此前只能检查已给定工作点的仿射网络。
 
-通用 C++ 求解器支持自定义确定性器件回调。C ABI、Python、JSON/CLI 已接入固定系数双线性混频器及原有线性/仿射器件；其他非线性器件与自定义回调的跨语言接口尚未适配。旧分析入口默认保持原语义，自动求解必须显式启用。完整 SystemVue RF Design 库兼容仍未完成。
+通用 C++ 求解器支持自定义确定性器件回调。C ABI、Python、JSON/CLI 已接入固定系数双线性混频器、公共基波压缩放大器及原有线性/仿射器件；其他非线性器件与自定义回调的跨语言接口尚未适配。旧分析入口默认保持原语义，自动求解必须显式启用。完整 SystemVue RF Design 库兼容仍未完成。
 
 ## 固定器件方程
 
@@ -60,7 +60,7 @@ ConversionPortConnection 依次保存 first_device、first_port、second_device�
 
 ## 后续工作
 
-适配现有压缩/高阶放大器及其他非线性器件；支持工作点相关噪声、频率扩展及更高效的大网络求解；恢复 SystemVue 实测并逐项校准厂商语义。这些均未由本阶段数学回归证明完成。
+适配高阶生成放大器及其他非线性器件；支持工作点相关噪声、频率扩展及更高效的大网络求解；恢复 SystemVue 实测并逐项校准厂商语义。这些均未由本阶段数学回归证明完成。
 
 ## 工程验证记录
 
@@ -119,4 +119,4 @@ python -m rfmodel examples/nonlinear-mixer-feedback.json --library build-msvc/Re
 
 新增验证包括独立傅里叶卷积/复导数、实际 LO 幅度变化、多解初值、反射 IF 自动求解、收敛点 NF、共享相噪、线性退化的加载/额外噪声、C 描述符与输出别名拒绝、错误时输出不变，以及 CLI 不收敛保护已有文件。SystemVue 实测尚未恢复。
 
-压缩放大器已有[公共基波 C++ 适配](amplifier-linearization.md)，可通过通用回调加入求解；其专用跨语言入口与高阶项仍待接入。
+压缩放大器已有[公共基波 C++/C/Python/JSON 接口](amplifier-linearization.md)。C 使用带 kind 的 rfmodel_conversion_network_solve_nonlinear；Python 在求解器中传 amplifiers，可与 mixers 同时使用；JSON 声明 saturating_amplifier。高阶生成项和自定义回调的跨语言入口仍待接入。

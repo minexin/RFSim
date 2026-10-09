@@ -1,6 +1,6 @@
 # 公共基波压缩的工作点与导数
 
-C++ 接口 linearize_saturating_amplifier 将既有 SaturatingFundamentalCompression 适配到自动非线性工作点求解器。所有选定驱动端口的 RF 通道共享同一个总功率和压缩增益，并保留跨频点的直接/共轭导数。该阶段提供 C++ 适配与安装 SDK；放大器专用 C/Python/JSON 入口及高阶生成模型尚未接入。
+C++ 接口 linearize_saturating_amplifier 将既有 SaturatingFundamentalCompression 适配到自动非线性工作点求解器。所有选定驱动端口的 RF 通道共享同一个总功率和压缩增益，并保留跨频点的直接/共轭导数。已提供 C++/C/Python/JSON 接口，可与固定系数双线性混频器在同一物理网络中联立求解。高阶生成模型尚未接入该求解路径。
 
 ## 既有模型与导数
 
@@ -57,6 +57,63 @@ ConversionNonlinearDevice nonlinear{
 
 返回类型为通用 ConversionLinearization，可直接用作器件回调。模型参数在迭代中固定。通道噪声仍由 ConversionDevice 的 source_noise/intrinsic_noise 提供；新增适配不凭压缩曲线推断噪声系数或工作点相关器件噪声。
 
+## C、Python 与 JSON 接口
+
+C ABI 新增 rfmodel_saturating_amplifier_parameters，包含 power_gain_db、output_p1db_dbm、output_saturation_dbm、input_port、output_port 和 include_output_drive。最后一项必须为 0 或 1；三个功率/增益参数的单位分别为 dB、dBm、dBm。独立调用 rfmodel_linearize_saturating_amplifier，返回 A、B 和真实名义输出，输出描述符 rfmodel_conversion_linearization_output 与既有混频输出布局相同。
+
+rfmodel_conversion_network_solve_nonlinear 接受 rfmodel_conversion_nonlinear_model 数组。每项由 device、kind 和 parameters 指针组成：
+
+| kind | parameters 指向的类型 |
+|---|---|
+| RFMODEL_NONLINEAR_BILINEAR_MIXER | rfmodel_bilinear_mixer_parameters |
+| RFMODEL_NONLINEAR_SATURATING_AMPLIFIER | rfmodel_saturating_amplifier_parameters |
+
+同一次调用允许混合两类模型；device 索引必须唯一，参数指针在调用期间有效。选项、确定性固定偏置、额外源 C/P、加载噪声和诊断沿用原工作点接口。模型数组、每个参数结构、所有描述符及输入数组均参与完整输出范围的别名检查；失败不修改波、噪声或诊断。原 mixer-only C 函数和结构布局保持不变。
+
+```python
+parameters = dict(
+    power_gain_db=20.0,
+    output_p1db_dbm=20.0,
+    output_saturation_dbm=23.0,
+)
+local = library.linearize_saturating_amplifier(
+    1e6, [(0, 1), (1, 1)], [0.01, 0.0], **parameters
+)
+point = library.solve_conversion_operating_point(
+    1e6,
+    [dict(channels=[(0, 1), (1, 1)],
+          direct=[[0, 0], [0, 0]], source=[0.01, 0])],
+    amplifiers=[dict(device=0, **parameters)],
+    loaded_noise=True,
+)
+```
+
+local 是 AmplifierLinearization，包含 direct、conjugate、operating_outgoing 和 output_offset。放大器的仿射偏置必须计算为 d=F(a)-A*a-B*conj(a)，不能使用双线性混频器的 -F(a) 简式。原 MixerLinearization 的字段和行为保持不变。求解的 mixers 与 amplifiers 参数可同时传入；include_output_drive 默认为 False，必须为布尔值。
+
+JSON 使用 rfmodel.conversion-network v1，顶层显式填写 operating_point 对象，设备声明完整 channels、noise 和以下 model：
+
+```json
+{
+  "type": "saturating_amplifier",
+  "power_gain_db": 20,
+  "output_p1db_dbm": 20,
+  "output_saturation_dbm": 23,
+  "include_output_drive": false
+}
+```
+
+可选 input_port/output_port 默认为 0/1。未知字段、布尔数值、非布尔驱动标志、非法锚点和通道集合均拒绝。输出含真实工作点和收敛诊断；noise_analyses 使用收敛处的完整 A/B，保留幅度方向与相位方向的差异。固定器件噪声由输入显式指定，不根据压缩曲线推断。
+
+两个可运行示例：
+
+- [压缩放大器负反馈](../examples/nonlinear-amplifier-feedback.json)：a=0.2-0.2*F(a)，含反馈侧噪声。回归用独立二分求根及径向/切向闭环增益检查工作点和 C/P。
+- [混频器与压缩放大器](../examples/nonlinear-mixer-amplifier.json)：输入滤波、双线性 RF/LO 混频、公共基波压缩，保留共享参考相噪。两个 RF 输出频点共同决定压缩增益；并非新增高阶谱再生模型。
+
+```powershell
+python -m rfmodel examples/nonlinear-amplifier-feedback.json --library build-msvc/Release/rfmodel_c.dll --output build-reference/amplifier-feedback-result.json
+python -m rfmodel examples/nonlinear-mixer-amplifier.json --library build-msvc/Release/rfmodel_c.dll --output build-reference/mixer-amplifier-result.json
+```
+
 ## 数值验证
 
 原生专项包括：
@@ -69,10 +126,20 @@ ConversionNonlinearDevice nonlinear{
 
 当前证据证明与既有数学模型的一致性。厂商 RFAMP/RFAMP_HO 的完整高阶、来源追踪、AM-PM、真实宽带噪声与网络反馈仍需逐项实现和 SystemVue 比对，不能用基波验证替代。
 
-## 工程验证记录
+## C++ 适配阶段验证记录
 
 2026-10-10：MSVC Debug/Release clean-first 构建成功，CTest 各 112/112；两种配置安装后的独立 C/C++ consumer 各 2/2。142 个 C/C++ 文件格式检查及 git diff --check 通过。
 
-Python 源码与 C ABI 本阶段没有新增放大器入口。独立 Python 3.12 使用上一阶段 wheel 连接本阶段安装的 Release DLL，13 组共 264 项既有接口回归全部通过（工作点 13、仿射 11、混频线性化 13、共享相噪 13、相噪 13、通道测量 11、加载噪声 9、变频 NF 12、转换网络 13、单器件变频 11、API 85、相干系统 51、线性噪声 9）。该证据用于旧接口兼容，新适配本身由原生专项与安装 C++ consumer 验证。
+在上述 C++ 适配阶段，Python 源码与 C ABI 尚未新增放大器入口。独立 Python 3.12 使用上一阶段 wheel 连接本阶段安装的 Release DLL，13 组共 264 项既有接口回归全部通过（工作点 13、仿射 11、混频线性化 13、共享相噪 13、相噪 13、通道测量 11、加载噪声 9、变频 NF 12、转换网络 13、单器件变频 11、API 85、相干系统 51、线性噪声 9）。该证据用于旧接口兼容，新适配本身由原生专项与安装 C++ consumer 验证。
 
 SystemVue 仍显示既有 Error Running Script 提示，本阶段没有新增厂商实测。
+
+## 跨语言接口阶段验证记录
+
+2026-10-10：MSVC Debug/Release clean-first 构建成功，CTest 各 113/113；两种配置安装后的独立 C/C++ consumer 各 2/2。142 个 C/C++ 文件格式检查及 git diff --check 通过。安装 C consumer 直接调用新增局部导数和带类型模型列表的求解入口。
+
+独立 Python 3.12 从本阶段 wheel 加载接口，连接安装后的 Release DLL，14 组共 278 项回归全部通过：放大器工作点 14、既有工作点 13、仿射 11、混频线性化 13、共享相噪 13、相噪 13、通道测量 11、加载噪声 9、变频 NF 12、转换网络 13、单器件变频 11、API 85、相干系统 51、线性噪声 9。
+
+新增跨语言验证覆盖 P1dB 两侧的复导数、一般仿射偏置、混合器件求解、跨频点 C/P、反射侧驱动选择、解析反馈根及噪声、收敛点 NF、暖启动、严格参数校验、CLI 失败保留已有文件。C ABI 专项增加 22 个失败场景，检查非法类型/参数、模型描述符/参数/初值/输出之间的别名、不收敛及容量边界，所有波/噪声/诊断输出保持原值。绑定格式整理前后，77 个既有 ctypes 函数签名逐项一致，仅增加两个新函数。
+
+本阶段仍未新增 SystemVue 实测；现有语言识别提示及后续执行错误需要单独处理，不能以本地数学回归替代厂商验收。

@@ -234,6 +234,25 @@ typedef struct rfmodel_conversion_bilinear_mixer {
     rfmodel_bilinear_mixer_parameters model;
 } rfmodel_conversion_bilinear_mixer;
 
+typedef struct rfmodel_saturating_amplifier_parameters {
+    double power_gain_db, output_p1db_dbm, output_saturation_dbm;
+    size_t input_port, output_port;
+    int include_output_drive; /* Exactly 0 or 1; input port always drives compression. */
+} rfmodel_saturating_amplifier_parameters;
+
+enum rfmodel_conversion_nonlinear_kind {
+    RFMODEL_NONLINEAR_BILINEAR_MIXER = 1,
+    RFMODEL_NONLINEAR_SATURATING_AMPLIFIER = 2
+};
+
+/* parameters points to the matching typed parameter struct. Unknown kinds fail.
+ * Device indices must be unique across all kinds. */
+typedef struct rfmodel_conversion_nonlinear_model {
+    size_t device;
+    int kind;
+    const void *parameters;
+} rfmodel_conversion_nonlinear_model;
+
 typedef struct rfmodel_conversion_operating_options {
     const rfmodel_complex *initial_incident; /* NULL and count=0 uses boundary sources. */
     size_t initial_count;
@@ -260,6 +279,23 @@ RFMODEL_API int rfmodel_conversion_network_solve_operating_point(
     size_t connection_count,
     const rfmodel_conversion_bilinear_mixer *mixers,
     size_t mixer_count,
+    const rfmodel_conversion_operating_options *options,
+    const rfmodel_conversion_affine_offset *fixed_offset,
+    const rfmodel_conversion_source_noise *additional_source_noise,
+    const rfmodel_conversion_output *output,
+    const rfmodel_conversion_loaded_output *loaded,
+    rfmodel_conversion_operating_diagnostics *diagnostics);
+
+/* Mixed nonlinear devices using the same operating-point contract. Parameter
+ * structs, model array and all existing inputs are protected from output aliasing.
+ * The original mixer-only entry point and descriptor layouts are unchanged. */
+RFMODEL_API int rfmodel_conversion_network_solve_nonlinear(
+    const rfmodel_conversion_request *devices,
+    size_t device_count,
+    const rfmodel_conversion_connection *connections,
+    size_t connection_count,
+    const rfmodel_conversion_nonlinear_model *models,
+    size_t model_count,
     const rfmodel_conversion_operating_options *options,
     const rfmodel_conversion_affine_offset *fixed_offset,
     const rfmodel_conversion_source_noise *additional_source_noise,
@@ -391,6 +427,24 @@ typedef struct rfmodel_bilinear_mixer_request {
  * Checks full RF/LO sum/difference closure, even when incident waves are zero. */
 RFMODEL_API int rfmodel_linearize_bilinear_mixer(const rfmodel_bilinear_mixer_request *request,
                                                  const rfmodel_mixer_linearization_output *output);
+
+typedef rfmodel_mixer_linearization_output rfmodel_conversion_linearization_output;
+
+typedef struct rfmodel_saturating_amplifier_request {
+    size_t count;
+    double spacing_hz, reference_ohms;
+    const size_t *physical_ports;
+    const int *bins;
+    const rfmodel_complex *operating_incident;
+    rfmodel_saturating_amplifier_parameters model;
+} rfmodel_saturating_amplifier_request;
+
+/* Common-drive fundamental compression, matched unilateral ports. Port bin sets
+ * must match; DC waves must be zero. No new harmonic/intermodulation bins.
+ * Same capacity/non-overlap/atomicity contract as other local linearizations. */
+RFMODEL_API int
+rfmodel_linearize_saturating_amplifier(const rfmodel_saturating_amplifier_request *request,
+                                       const rfmodel_conversion_linearization_output *output);
 
 typedef enum rfmodel_butterworth_response {
     RFMODEL_BUTTERWORTH_LOWPASS = 0,

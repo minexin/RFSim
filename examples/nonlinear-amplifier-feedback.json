@@ -1,0 +1,96 @@
+{
+  "format": "rfmodel.conversion-network",
+  "version": 1,
+  "spacing_hz": 1000000.0,
+  "devices": [
+    {
+      "id": "amplifier",
+      "channels": [
+        {
+          "port": 0,
+          "bin": 1
+        },
+        {
+          "port": 1,
+          "bin": 1
+        }
+      ],
+      "model": {
+        "type": "saturating_amplifier",
+        "power_gain_db": 20,
+        "output_p1db_dbm": 20,
+        "output_saturation_dbm": 23
+      },
+      "noise": {
+        "noiseless": true
+      }
+    },
+    {
+      "id": "feedback",
+      "channels": [
+        {
+          "port": 0,
+          "bin": 1
+        },
+        {
+          "port": 1,
+          "bin": 1
+        }
+      ],
+      "model": {
+        "type": "matrix",
+        "direct": [
+          [
+            0,
+            0
+          ],
+          [
+            -0.2,
+            0
+          ]
+        ]
+      },
+      "noise": {
+        "covariance": [
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            1e-09
+          ]
+        ]
+      },
+      "output_offset": [
+        0,
+        0.2
+      ]
+    }
+  ],
+  "connections": [
+    [
+      [
+        "amplifier",
+        1
+      ],
+      [
+        "feedback",
+        0
+      ]
+    ],
+    [
+      [
+        "amplifier",
+        0
+      ],
+      [
+        "feedback",
+        1
+      ]
+    ]
+  ],
+  "boundaries": [],
+  "operating_point": {},
+  "loaded_noise": true
+}

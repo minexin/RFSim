@@ -12,7 +12,177 @@
         }                                                                                          \
     } while (0)
 
+static int test_saturating_conversion_abi(void) {
+    const size_t ports[2] = {0, 1};
+    const int bins[2] = {1, 1};
+    const rfmodel_complex zero[4] = {{0}};
+    const rfmodel_complex source[2] = {{.01, 0.}, {0., 0.}};
+    const rfmodel_complex noise[4] = {{1e-9, 0.}};
+    rfmodel_complex reflection[2] = {{0}}, initial[2] = {{0}};
+    const rfmodel_saturating_amplifier_parameters original = {20., 20., 23., 0, 1, 0};
+    rfmodel_saturating_amplifier_parameters parameters = original;
+    rfmodel_conversion_nonlinear_model model = {
+        0, RFMODEL_NONLINEAR_SATURATING_AMPLIFIER, &parameters};
+    rfmodel_conversion_request device = {0};
+    rfmodel_conversion_operating_options options = {NULL, 0, 50, 24, 1e-9, 1e-12};
+    rfmodel_conversion_operating_diagnostics diagnostics = {0}, saved_diagnostics;
+    rfmodel_complex values[12], loaded_values[16], saved[12], saved_loaded[16];
+    double net[2], residual, saved_net[2], saved_residual;
+    rfmodel_conversion_output output = {
+        values, values + 2, values + 4, values + 8, 2, 4, &residual};
+    rfmodel_conversion_loaded_output loaded = {
+        loaded_values, loaded_values + 4, loaded_values + 8, loaded_values + 12, net, 4, 2};
+    const double compression = (1. - pow(10., -.05)) * .0001 / pow(10., -2.9);
+    const double gain = 10. * (1. - compression), radial = 10. * (1. - 3. * compression);
+    int scenario;
+    device.count = 2;
+    device.spacing_hz = 1e6;
+    device.reference_ohms = 50.;
+    device.physical_ports = ports;
+    device.bins = bins;
+    device.direct = zero;
+    device.conjugate = zero;
+    device.source = source;
+    device.reflection = reflection;
+    device.source_covariance = noise;
+    CHECK(
+        rfmodel_conversion_network_solve_nonlinear(
+            &device, 1, NULL, 0, &model, 1, &options, NULL, NULL, &output, &loaded, &diagnostics) ==
+        RFMODEL_OK);
+    CHECK(fabs(values[3].real - .01 * gain) < 1e-12 && diagnostics.scaled_residual <= 1.);
+    CHECK(fabs(values[7].real / 1e-9 - .5 * (gain * gain + radial * radial)) < 1e-10);
+    CHECK(fabs(values[11].real / 1e-9 - .5 * (radial * radial - gain * gain)) < 1e-10);
+    memcpy(saved, values, sizeof(values));
+    memcpy(saved_loaded, loaded_values, sizeof(loaded_values));
+    memcpy(saved_net, net, sizeof(net));
+    memcpy(&saved_diagnostics, &diagnostics, sizeof(diagnostics));
+    saved_residual = residual;
+    for (scenario = 0; scenario < 16; ++scenario) {
+        rfmodel_conversion_output attempt = output;
+        rfmodel_conversion_loaded_output attempted_loaded = loaded;
+        rfmodel_conversion_operating_options attempted_options = options;
+        rfmodel_conversion_operating_diagnostics *attempted_diagnostics = &diagnostics;
+        parameters = original;
+        model.device = 0;
+        model.kind = RFMODEL_NONLINEAR_SATURATING_AMPLIFIER;
+        model.parameters = &parameters;
+        reflection[1].real = 0.;
+        switch (scenario) {
+        case 0:
+            model.kind = 999;
+            break;
+        case 1:
+            model.parameters = NULL;
+            break;
+        case 2:
+            model.device = 1;
+            break;
+        case 3:
+            parameters.include_output_drive = 2;
+            break;
+        case 4:
+            parameters.output_saturation_dbm = 20.;
+            break;
+        case 5:
+            attempt.outgoing = (rfmodel_complex *)&parameters;
+            break;
+        case 6:
+            attempted_loaded.incident_covariance = (rfmodel_complex *)&model;
+            break;
+        case 7:
+            attempted_diagnostics = (rfmodel_conversion_operating_diagnostics *)&parameters;
+            break;
+        case 8:
+            attempt.wave_capacity = 1;
+            break;
+        case 9:
+            attempt.matrix_capacity = (size_t)-1;
+            break;
+        case 10:
+            attempted_options.initial_incident = initial;
+            attempted_options.initial_count = 2;
+            attempt.outgoing = initial;
+            break;
+        case 11:
+            attempted_diagnostics = NULL;
+            break;
+        case 12:
+            attempted_options.max_iterations = 1;
+            reflection[1].real = .4;
+            parameters.include_output_drive = 1;
+            break;
+        case 13:
+            attempted_loaded.net_noise_into_device_w_per_hz = &parameters.output_p1db_dbm;
+            break;
+        case 14:
+            attempt.outgoing = (rfmodel_complex *)&device;
+            break;
+        case 15:
+            attempted_options.initial_count = 2;
+            break;
+        }
+        CHECK(rfmodel_conversion_network_solve_nonlinear(&device,
+                                                         1,
+                                                         NULL,
+                                                         0,
+                                                         &model,
+                                                         1,
+                                                         &attempted_options,
+                                                         NULL,
+                                                         NULL,
+                                                         &attempt,
+                                                         &attempted_loaded,
+                                                         attempted_diagnostics) != RFMODEL_OK);
+        CHECK(memcmp(saved, values, sizeof(values)) == 0);
+        CHECK(memcmp(saved_loaded, loaded_values, sizeof(loaded_values)) == 0);
+        CHECK(memcmp(saved_net, net, sizeof(net)) == 0 && residual == saved_residual);
+        CHECK(memcmp(&saved_diagnostics, &diagnostics, sizeof(diagnostics)) == 0);
+        CHECK(initial[0].real == 0. && initial[1].real == 0.);
+    }
+    {
+        rfmodel_saturating_amplifier_request request = {
+            2, 1e6, 50., ports, bins, source, {20., 20., 23., 0, 1, 0}};
+        rfmodel_complex matrices[10], saved_matrices[10];
+        rfmodel_conversion_linearization_output local = {
+            matrices, matrices + 4, matrices + 8, 4, 2};
+        CHECK(rfmodel_linearize_saturating_amplifier(&request, &local) == RFMODEL_OK);
+        CHECK(fabs(matrices[2].real - .5 * (gain + radial)) < 1e-12);
+        CHECK(fabs(matrices[6].real - .5 * (radial - gain)) < 1e-12);
+        CHECK(fabs(matrices[9].real - .01 * gain) < 1e-12);
+        memcpy(saved_matrices, matrices, sizeof(matrices));
+        for (scenario = 0; scenario < 6; ++scenario) {
+            rfmodel_saturating_amplifier_request attempted_request = request;
+            rfmodel_conversion_linearization_output attempt = local;
+            switch (scenario) {
+            case 0:
+                attempted_request.model.include_output_drive = -1;
+                break;
+            case 1:
+                attempt.direct = (rfmodel_complex *)&attempted_request;
+                break;
+            case 2:
+                attempt.operating_outgoing = (rfmodel_complex *)source;
+                break;
+            case 3:
+                attempt.conjugate = attempt.direct;
+                break;
+            case 4:
+                attempt.wave_capacity = (size_t)-1;
+                break;
+            case 5:
+                attempted_request.model.output_port = 0;
+                break;
+            }
+            CHECK(rfmodel_linearize_saturating_amplifier(&attempted_request, &attempt) !=
+                  RFMODEL_OK);
+            CHECK(memcmp(saved_matrices, matrices, sizeof(matrices)) == 0);
+        }
+    }
+    return 0;
+}
+
 int main(int argc, char **argv) {
+    CHECK(test_saturating_conversion_abi() == 0);
     {
         const size_t ports[3] = {0, 1, 2};
         const int bins[3] = {0, 0, 0};

@@ -308,6 +308,63 @@ class _ConversionBilinearMixer(ct.Structure):
     _fields_ = [("device", ct.c_size_t), ("model", _BilinearMixerParameters)]
 
 
+class AmplifierLinearization(NamedTuple):
+    direct: object
+    conjugate: object
+    operating_outgoing: tuple
+    output_offset: tuple
+
+
+class _SaturatingAmplifierParameters(ct.Structure):
+    _fields_ = [
+        ("power_gain_db", ct.c_double),
+        ("output_p1db_dbm", ct.c_double),
+        ("output_saturation_dbm", ct.c_double),
+        ("input_port", ct.c_size_t),
+        ("output_port", ct.c_size_t),
+        ("include_output_drive", ct.c_int),
+    ]
+
+
+class _ConversionNonlinearModel(ct.Structure):
+    _fields_ = [("device", ct.c_size_t), ("kind", ct.c_int), ("parameters", ct.c_void_p)]
+
+
+class _SaturatingAmplifierRequest(ct.Structure):
+    _fields_ = [
+        ("count", ct.c_size_t),
+        ("spacing_hz", ct.c_double),
+        ("reference_ohms", ct.c_double),
+        ("physical_ports", ct.POINTER(ct.c_size_t)),
+        ("bins", ct.POINTER(ct.c_int)),
+        ("operating_incident", ct.POINTER(_Complex)),
+        ("model", _SaturatingAmplifierParameters),
+    ]
+
+
+def _amplifier_parameters(spec):
+    required = {"power_gain_db", "output_p1db_dbm", "output_saturation_dbm"}
+    if (
+        not isinstance(spec, dict)
+        or not required <= spec.keys()
+        or set(spec) - required - {"input_port", "output_port", "include_output_drive"}
+    ):
+        raise ValueError("Invalid saturating amplifier parameters")
+    if any(type(spec[name]) not in (int, float) for name in required):
+        raise TypeError("Amplifier gain and power anchors must be numbers")
+    driven = spec.get("include_output_drive", False)
+    if type(driven) is not bool:
+        raise TypeError("include_output_drive must be bool")
+    return _SaturatingAmplifierParameters(
+        float(spec["power_gain_db"]),
+        float(spec["output_p1db_dbm"]),
+        float(spec["output_saturation_dbm"]),
+        _index(spec.get("input_port", 0)),
+        _index(spec.get("output_port", 1)),
+        int(driven),
+    )
+
+
 class _ConversionOperatingOptions(ct.Structure):
     _fields_ = [
         ("initial_incident", ct.POINTER(_Complex)),
@@ -363,6 +420,7 @@ def _bilinear_parameters(spec):
 def _operating_inputs(spec, total):
     if not isinstance(spec, dict) or set(spec) - {
         "mixers",
+        "amplifiers",
         "initial_incident",
         "max_iterations",
         "max_backtracks",
@@ -406,7 +464,32 @@ def _operating_inputs(spec, total):
         float(relative),
         float(absolute),
     )
-    return options, mixers, initial
+    amplifier_entries = tuple(spec.get("amplifiers", ()))
+    if len(amplifier_entries) + len(packed) > 512:
+        raise ValueError("Too many nonlinear devices")
+    models, parameters = None, []
+    if amplifier_entries:
+        entries = []
+        for mixer in packed:
+            parameters.append(mixer.model)
+            entries.append(
+                _ConversionNonlinearModel(
+                    mixer.device, 1, ct.cast(ct.pointer(parameters[-1]), ct.c_void_p)
+                )
+            )
+        for amplifier in amplifier_entries:
+            if not isinstance(amplifier, dict) or "device" not in amplifier:
+                raise ValueError("Amplifier requires device index")
+            fields = dict(amplifier)
+            device = _index(fields.pop("device"))
+            parameters.append(_amplifier_parameters(fields))
+            entries.append(
+                _ConversionNonlinearModel(
+                    device, 2, ct.cast(ct.pointer(parameters[-1]), ct.c_void_p)
+                )
+            )
+        models = (_ConversionNonlinearModel * len(entries))(*entries)
+    return options, mixers, initial, models, parameters
 
 
 class MixerLinearization(NamedTuple):
@@ -719,219 +802,585 @@ class Library:
         complex_pointer = ct.POINTER(_Complex)
         signatures = {
             "rfmodel_mix_coherent_components": (
-                ct.c_int, [ct.c_double, ct.POINTER(_CoherentMixerInput), size, ct.c_uint64,
-                           ct.POINTER(_CoherentComponent), size, ct.POINTER(size)]),
+                ct.c_int,
+                [
+                    ct.c_double,
+                    ct.POINTER(_CoherentMixerInput),
+                    size,
+                    ct.c_uint64,
+                    ct.POINTER(_CoherentComponent),
+                    size,
+                    ct.POINTER(size),
+                ],
+            ),
             "rfmodel_assign_source_coherence": (
-                ct.c_int, [ct.POINTER(_SourceCoherence), size, ct.POINTER(ct.c_uint64), size]),
+                ct.c_int,
+                [ct.POINTER(_SourceCoherence), size, ct.POINTER(ct.c_uint64), size],
+            ),
             "rfmodel_expand_mixing_origin": (
-                ct.c_int, [ct.POINTER(_MixingOrigin), size, ct.POINTER(ct.c_int), size,
-                           ct.POINTER(_OriginFactor), size, ct.POINTER(size)]),
+                ct.c_int,
+                [
+                    ct.POINTER(_MixingOrigin),
+                    size,
+                    ct.POINTER(ct.c_int),
+                    size,
+                    ct.POINTER(_OriginFactor),
+                    size,
+                    ct.POINTER(size),
+                ],
+            ),
             "rfmodel_sum_origin_expressions": (
-                ct.c_int, [ct.POINTER(_OriginExpression), size,
-                           ct.POINTER(_OriginExpressionTerm), size, ct.POINTER(size),
-                           ct.POINTER(_OriginFactor), size, ct.POINTER(size), complex_pointer]),
+                ct.c_int,
+                [
+                    ct.POINTER(_OriginExpression),
+                    size,
+                    ct.POINTER(_OriginExpressionTerm),
+                    size,
+                    ct.POINTER(size),
+                    ct.POINTER(_OriginFactor),
+                    size,
+                    ct.POINTER(size),
+                    complex_pointer,
+                ],
+            ),
             "rfmodel_product_origin_expressions": (
-                ct.c_int, [ct.POINTER(_OriginExpression), size, ct.POINTER(ct.c_int), size, _Complex,
-                           ct.POINTER(_OriginExpressionTerm), size, ct.POINTER(size),
-                           ct.POINTER(_OriginFactor), size, ct.POINTER(size), complex_pointer]),
+                ct.c_int,
+                [
+                    ct.POINTER(_OriginExpression),
+                    size,
+                    ct.POINTER(ct.c_int),
+                    size,
+                    _Complex,
+                    ct.POINTER(_OriginExpressionTerm),
+                    size,
+                    ct.POINTER(size),
+                    ct.POINTER(_OriginFactor),
+                    size,
+                    ct.POINTER(size),
+                    complex_pointer,
+                ],
+            ),
             "rfmodel_get_highorder_amplifier_operating_point": (
                 ct.c_int,
-                [ct.c_double, ct.c_double, ct.c_double, ct.c_double,
-                 ct.POINTER(ct.c_double), size, ct.c_double, ct.POINTER(_AmplifierOperatingPoint)],
+                [
+                    ct.c_double,
+                    ct.c_double,
+                    ct.c_double,
+                    ct.c_double,
+                    ct.POINTER(ct.c_double),
+                    size,
+                    ct.c_double,
+                    ct.POINTER(_AmplifierOperatingPoint),
+                ],
             ),
             "rfmodel_highorder_amplifier_evaluate": (
                 ct.c_int,
-                [ct.c_double, ct.POINTER(_CoherentComponent), size,
-                 ct.c_double, ct.c_double, ct.c_double, ct.POINTER(ct.c_double), size,
-                 ct.c_double, ct.c_uint64, ct.c_int,
-                 ct.POINTER(_CoherentComponent), size, ct.POINTER(size),
-                 ct.POINTER(_CoherentPolynomialTermV2), size, ct.POINTER(size),
-                 ct.POINTER(_AmplifierDrive), ct.POINTER(_AmplifierOperatingPoint)],
+                [
+                    ct.c_double,
+                    ct.POINTER(_CoherentComponent),
+                    size,
+                    ct.c_double,
+                    ct.c_double,
+                    ct.c_double,
+                    ct.POINTER(ct.c_double),
+                    size,
+                    ct.c_double,
+                    ct.c_uint64,
+                    ct.c_int,
+                    ct.POINTER(_CoherentComponent),
+                    size,
+                    ct.POINTER(size),
+                    ct.POINTER(_CoherentPolynomialTermV2),
+                    size,
+                    ct.POINTER(size),
+                    ct.POINTER(_AmplifierDrive),
+                    ct.POINTER(_AmplifierOperatingPoint),
+                ],
             ),
             "rfmodel_coherent_polynomial_evaluate_v2": (
-                ct.c_int, [ct.c_double, ct.POINTER(_CoherentComponent), size,
-                           ct.POINTER(ct.c_double), size, ct.c_double, ct.c_uint64,
-                           ct.POINTER(_CoherentComponent), size, ct.POINTER(size),
-                           ct.POINTER(_CoherentPolynomialTermV2), size, ct.POINTER(size)]),
+                ct.c_int,
+                [
+                    ct.c_double,
+                    ct.POINTER(_CoherentComponent),
+                    size,
+                    ct.POINTER(ct.c_double),
+                    size,
+                    ct.c_double,
+                    ct.c_uint64,
+                    ct.POINTER(_CoherentComponent),
+                    size,
+                    ct.POINTER(size),
+                    ct.POINTER(_CoherentPolynomialTermV2),
+                    size,
+                    ct.POINTER(size),
+                ],
+            ),
             "rfmodel_coherent_amplifier_evaluate": (
-                ct.c_int, [ct.c_double, ct.POINTER(_CoherentComponent), size,
-                           ct.c_double, ct.c_double, ct.c_double, ct.c_double,
-                           ct.c_double, ct.c_double, ct.c_uint64,
-                           ct.POINTER(_CoherentComponent), size, ct.POINTER(size),
-                           ct.POINTER(_CoherentAmplifierTerm), size, ct.POINTER(size),
-                           ct.POINTER(_AmplifierDrive)]),
+                ct.c_int,
+                [
+                    ct.c_double,
+                    ct.POINTER(_CoherentComponent),
+                    size,
+                    ct.c_double,
+                    ct.c_double,
+                    ct.c_double,
+                    ct.c_double,
+                    ct.c_double,
+                    ct.c_double,
+                    ct.c_uint64,
+                    ct.POINTER(_CoherentComponent),
+                    size,
+                    ct.POINTER(size),
+                    ct.POINTER(_CoherentAmplifierTerm),
+                    size,
+                    ct.POINTER(size),
+                    ct.POINTER(_AmplifierDrive),
+                ],
+            ),
             "rfmodel_coherent_amplifier_cascade": (
-                ct.c_int, [ct.c_double, ct.POINTER(_CoherentComponent), size,
-                           ct.c_double, ct.c_double, ct.c_double, ct.c_double,
-                           ct.c_double, ct.c_double, ct.c_uint64,
-                           ct.POINTER(_CoherentComponent), size, ct.POINTER(size),
-                           ct.POINTER(_CoherentAmplifierTerm), size, ct.POINTER(size),
-                           ct.POINTER(_AmplifierDrive)]),
+                ct.c_int,
+                [
+                    ct.c_double,
+                    ct.POINTER(_CoherentComponent),
+                    size,
+                    ct.c_double,
+                    ct.c_double,
+                    ct.c_double,
+                    ct.c_double,
+                    ct.c_double,
+                    ct.c_double,
+                    ct.c_uint64,
+                    ct.POINTER(_CoherentComponent),
+                    size,
+                    ct.POINTER(size),
+                    ct.POINTER(_CoherentAmplifierTerm),
+                    size,
+                    ct.POINTER(size),
+                    ct.POINTER(_AmplifierDrive),
+                ],
+            ),
             "rfmodel_compress_coherent_fundamentals": (
-                ct.c_int, [ct.c_double, ct.c_double, ct.c_double, ct.c_double,
-                           ct.POINTER(_CoherentComponent), size,
-                           ct.POINTER(_CoherentComponent), size, ct.POINTER(size),
-                           ct.POINTER(_BinPower), size, ct.POINTER(size),
-                           ct.POINTER(ct.c_double), ct.POINTER(ct.c_double)]),
+                ct.c_int,
+                [
+                    ct.c_double,
+                    ct.c_double,
+                    ct.c_double,
+                    ct.c_double,
+                    ct.POINTER(_CoherentComponent),
+                    size,
+                    ct.POINTER(_CoherentComponent),
+                    size,
+                    ct.POINTER(size),
+                    ct.POINTER(_BinPower),
+                    size,
+                    ct.POINTER(size),
+                    ct.POINTER(ct.c_double),
+                    ct.POINTER(ct.c_double),
+                ],
+            ),
             "rfmodel_reduce_coherent_components": (
-                ct.c_int, [ct.c_double, ct.POINTER(_CoherentComponent), size,
-                           ct.POINTER(_CoherentComponent), size, ct.POINTER(size),
-                           ct.POINTER(_BinPower), size, ct.POINTER(size), ct.POINTER(ct.c_double)]),
+                ct.c_int,
+                [
+                    ct.c_double,
+                    ct.POINTER(_CoherentComponent),
+                    size,
+                    ct.POINTER(_CoherentComponent),
+                    size,
+                    ct.POINTER(size),
+                    ct.POINTER(_BinPower),
+                    size,
+                    ct.POINTER(size),
+                    ct.POINTER(ct.c_double),
+                ],
+            ),
             "rfmodel_network_transmit_coherent": (
-                ct.c_int, [handle, ct.POINTER(size), size, size, ct.c_double,
-                           ct.POINTER(_PortCoherentComponent), size,
-                           ct.POINTER(_CoherentComponent), size, ct.POINTER(size),
-                           ct.POINTER(_BinPower), size, ct.POINTER(size), ct.POINTER(ct.c_double)]),
+                ct.c_int,
+                [
+                    handle,
+                    ct.POINTER(size),
+                    size,
+                    size,
+                    ct.c_double,
+                    ct.POINTER(_PortCoherentComponent),
+                    size,
+                    ct.POINTER(_CoherentComponent),
+                    size,
+                    ct.POINTER(size),
+                    ct.POINTER(_BinPower),
+                    size,
+                    ct.POINTER(size),
+                    ct.POINTER(ct.c_double),
+                ],
+            ),
             "rfmodel_last_error": (ct.c_char_p, []),
             "rfmodel_abi_version": (ct.c_uint, []),
             "rfmodel_saturating_amplitude_gain": (
-                ct.c_int, [ct.c_double] * 4 + [ct.POINTER(ct.c_double)]),
+                ct.c_int,
+                [ct.c_double] * 4 + [ct.POINTER(ct.c_double)],
+            ),
             "rfmodel_get_amplifier_operating_point": (
-                ct.c_int, [ct.c_double] * 7 + [ct.POINTER(_AmplifierOperatingPoint)]),
+                ct.c_int,
+                [ct.c_double] * 7 + [ct.POINTER(_AmplifierOperatingPoint)],
+            ),
             "rfmodel_saturating_fundamental": (
-                ct.c_int, [ct.c_double, ct.c_double, ct.c_double, _Complex, ct.c_double, complex_pointer]),
+                ct.c_int,
+                [ct.c_double, ct.c_double, ct.c_double, _Complex, ct.c_double, complex_pointer],
+            ),
             "rfmodel_p1db_fundamental": (
-                ct.c_int, [ct.c_double, ct.c_double, _Complex, complex_pointer]),
+                ct.c_int,
+                [ct.c_double, ct.c_double, _Complex, complex_pointer],
+            ),
             "rfmodel_p1db_driven_fundamental": (
-                ct.c_int, [ct.c_double, ct.c_double, _Complex, ct.c_double, complex_pointer]),
+                ct.c_int,
+                [ct.c_double, ct.c_double, _Complex, ct.c_double, complex_pointer],
+            ),
             "rfmodel_p1db_spectral_fundamental": (
-                ct.c_int, [ct.c_double, ct.c_double, ct.POINTER(_IncidentSpectrum), size,
-                           size, ct.c_int, complex_pointer, ct.POINTER(ct.c_double)]),
+                ct.c_int,
+                [
+                    ct.c_double,
+                    ct.c_double,
+                    ct.POINTER(_IncidentSpectrum),
+                    size,
+                    size,
+                    ct.c_int,
+                    complex_pointer,
+                    ct.POINTER(ct.c_double),
+                ],
+            ),
             "rfmodel_touchstone_open": (ct.c_int, [ct.c_char_p, ct.c_int, ct.POINTER(handle)]),
             "rfmodel_touchstone_close": (None, [handle]),
             "rfmodel_touchstone_get_info": (ct.c_int, [handle, ct.POINTER(_TouchstoneInfo)]),
             "rfmodel_touchstone_s": (
-                ct.c_int, [handle, ct.c_double, ct.c_double, complex_pointer, size]),
+                ct.c_int,
+                [handle, ct.c_double, ct.c_double, complex_pointer, size],
+            ),
             "rfmodel_touchstone_noise": (
-                ct.c_int, [handle, ct.c_double, ct.c_double, ct.c_double, complex_pointer, size]),
+                ct.c_int,
+                [handle, ct.c_double, ct.c_double, ct.c_double, complex_pointer, size],
+            ),
             "rfmodel_network_create": (ct.c_int, [ct.c_double, ct.POINTER(handle)]),
             "rfmodel_network_destroy": (None, [handle]),
             "rfmodel_network_add": (
-                ct.c_int, [handle, size, complex_pointer, size, ct.c_double, ct.POINTER(size)]),
+                ct.c_int,
+                [handle, size, complex_pointer, size, ct.c_double, ct.POINTER(size)],
+            ),
             "rfmodel_network_connect": (ct.c_int, [handle, size, size]),
             "rfmodel_network_terminate": (ct.c_int, [handle, size, _Complex, _Complex]),
             "rfmodel_network_port_count": (ct.c_int, [handle, ct.POINTER(size)]),
             "rfmodel_network_solve": (
-                ct.c_int, [handle, complex_pointer, complex_pointer, size, ct.POINTER(ct.c_double)]),
+                ct.c_int,
+                [handle, complex_pointer, complex_pointer, size, ct.POINTER(ct.c_double)],
+            ),
             "rfmodel_network_external_s": (
-                ct.c_int, [handle, ct.POINTER(size), size, complex_pointer, size]),
+                ct.c_int,
+                [handle, ct.POINTER(size), size, complex_pointer, size],
+            ),
             "rfmodel_network_transmit_spectrum": (
-                ct.c_int, [handle, ct.POINTER(size), size, ct.c_double,
-                           ct.POINTER(_SpectrumBin), size, ct.POINTER(_SpectrumBin),
-                           size, ct.POINTER(size)]),
+                ct.c_int,
+                [
+                    handle,
+                    ct.POINTER(size),
+                    size,
+                    ct.c_double,
+                    ct.POINTER(_SpectrumBin),
+                    size,
+                    ct.POINTER(_SpectrumBin),
+                    size,
+                    ct.POINTER(size),
+                ],
+            ),
             "rfmodel_conversion_network_noise_analysis": (
-                ct.c_int, [ct.POINTER(_ConversionRequest), size,
-                           ct.POINTER(_ConversionConnection), size,
-                           ct.POINTER(_ConversionNoiseRequest), ct.POINTER(_ConversionNoiseResult)]),
+                ct.c_int,
+                [
+                    ct.POINTER(_ConversionRequest),
+                    size,
+                    ct.POINTER(_ConversionConnection),
+                    size,
+                    ct.POINTER(_ConversionNoiseRequest),
+                    ct.POINTER(_ConversionNoiseResult),
+                ],
+            ),
             "rfmodel_conversion_network_analyze_loaded": (
-                ct.c_int, [ct.POINTER(_ConversionRequest), size,
-                           ct.POINTER(_ConversionConnection), size, ct.POINTER(_ConversionOutput),
-                           ct.POINTER(_ConversionLoadedOutput)]),
+                ct.c_int,
+                [
+                    ct.POINTER(_ConversionRequest),
+                    size,
+                    ct.POINTER(_ConversionConnection),
+                    size,
+                    ct.POINTER(_ConversionOutput),
+                    ct.POINTER(_ConversionLoadedOutput),
+                ],
+            ),
             "rfmodel_conversion_network_analyze_affine": (
-                ct.c_int, [ct.POINTER(_ConversionRequest), size,
-                           ct.POINTER(_ConversionConnection), size,
-                           ct.POINTER(_ConversionAffineOffset), ct.POINTER(_ConversionSourceNoise),
-                           ct.POINTER(_ConversionOutput), ct.POINTER(_ConversionLoadedOutput)]),
+                ct.c_int,
+                [
+                    ct.POINTER(_ConversionRequest),
+                    size,
+                    ct.POINTER(_ConversionConnection),
+                    size,
+                    ct.POINTER(_ConversionAffineOffset),
+                    ct.POINTER(_ConversionSourceNoise),
+                    ct.POINTER(_ConversionOutput),
+                    ct.POINTER(_ConversionLoadedOutput),
+                ],
+            ),
             "rfmodel_conversion_network_analyze_correlated": (
-                ct.c_int, [ct.POINTER(_ConversionRequest), size,
-                           ct.POINTER(_ConversionConnection), size,
-                           ct.POINTER(_ConversionSourceNoise), ct.POINTER(_ConversionOutput),
-                           ct.POINTER(_ConversionLoadedOutput)]),
+                ct.c_int,
+                [
+                    ct.POINTER(_ConversionRequest),
+                    size,
+                    ct.POINTER(_ConversionConnection),
+                    size,
+                    ct.POINTER(_ConversionSourceNoise),
+                    ct.POINTER(_ConversionOutput),
+                    ct.POINTER(_ConversionLoadedOutput),
+                ],
+            ),
             "rfmodel_phase_noise_group": (
-                ct.c_int, [ct.POINTER(ct.c_size_t), ct.POINTER(ct.c_int), size,
-                           ct.POINTER(_PhaseNoiseCarrier), size, ct.POINTER(ct.c_int),
-                           ct.POINTER(ct.c_double), size, ct.POINTER(_Complex), ct.POINTER(_Complex), size]),
+                ct.c_int,
+                [
+                    ct.POINTER(ct.c_size_t),
+                    ct.POINTER(ct.c_int),
+                    size,
+                    ct.POINTER(_PhaseNoiseCarrier),
+                    size,
+                    ct.POINTER(ct.c_int),
+                    ct.POINTER(ct.c_double),
+                    size,
+                    ct.POINTER(_Complex),
+                    ct.POINTER(_Complex),
+                    size,
+                ],
+            ),
+            "rfmodel_linearize_saturating_amplifier": (
+                ct.c_int,
+                [ct.POINTER(_SaturatingAmplifierRequest), ct.POINTER(_MixerLinearizationOutput)],
+            ),
+            "rfmodel_conversion_network_solve_nonlinear": (
+                ct.c_int,
+                [
+                    ct.POINTER(_ConversionRequest),
+                    size,
+                    ct.POINTER(_ConversionConnection),
+                    size,
+                    ct.POINTER(_ConversionNonlinearModel),
+                    size,
+                    ct.POINTER(_ConversionOperatingOptions),
+                    ct.POINTER(_ConversionAffineOffset),
+                    ct.POINTER(_ConversionSourceNoise),
+                    ct.POINTER(_ConversionOutput),
+                    ct.POINTER(_ConversionLoadedOutput),
+                    ct.POINTER(_ConversionOperatingDiagnostics),
+                ],
+            ),
             "rfmodel_linearize_bilinear_mixer": (
-                ct.c_int, [ct.POINTER(_BilinearMixerRequest), ct.POINTER(_MixerLinearizationOutput)]),
+                ct.c_int,
+                [ct.POINTER(_BilinearMixerRequest), ct.POINTER(_MixerLinearizationOutput)],
+            ),
             "rfmodel_conversion_network_solve_operating_point": (
-                ct.c_int, [ct.POINTER(_ConversionRequest), size,
-                    ct.POINTER(_ConversionConnection), size, ct.POINTER(_ConversionBilinearMixer), size,
-                    ct.POINTER(_ConversionOperatingOptions), ct.POINTER(_ConversionAffineOffset),
-                    ct.POINTER(_ConversionSourceNoise), ct.POINTER(_ConversionOutput),
-                    ct.POINTER(_ConversionLoadedOutput), ct.POINTER(_ConversionOperatingDiagnostics)]),
+                ct.c_int,
+                [
+                    ct.POINTER(_ConversionRequest),
+                    size,
+                    ct.POINTER(_ConversionConnection),
+                    size,
+                    ct.POINTER(_ConversionBilinearMixer),
+                    size,
+                    ct.POINTER(_ConversionOperatingOptions),
+                    ct.POINTER(_ConversionAffineOffset),
+                    ct.POINTER(_ConversionSourceNoise),
+                    ct.POINTER(_ConversionOutput),
+                    ct.POINTER(_ConversionLoadedOutput),
+                    ct.POINTER(_ConversionOperatingDiagnostics),
+                ],
+            ),
             "rfmodel_linearize_real_mixer": (
-                ct.c_int, [ct.POINTER(_MixerLinearizationRequest), ct.POINTER(_MixerLinearizationOutput)]),
+                ct.c_int,
+                [ct.POINTER(_MixerLinearizationRequest), ct.POINTER(_MixerLinearizationOutput)],
+            ),
             "rfmodel_phase_noise_sidebands": (
                 ct.c_int,
-                [ct.POINTER(ct.c_size_t), ct.POINTER(ct.c_int), ct.c_size_t,
-                 ct.c_size_t, _Complex, ct.POINTER(ct.c_int), ct.POINTER(ct.c_double),
-                 ct.c_size_t, ct.POINTER(_Complex), ct.POINTER(_Complex), ct.c_size_t]),
+                [
+                    ct.POINTER(ct.c_size_t),
+                    ct.POINTER(ct.c_int),
+                    ct.c_size_t,
+                    ct.c_size_t,
+                    _Complex,
+                    ct.POINTER(ct.c_int),
+                    ct.POINTER(ct.c_double),
+                    ct.c_size_t,
+                    ct.POINTER(_Complex),
+                    ct.POINTER(_Complex),
+                    ct.c_size_t,
+                ],
+            ),
             "rfmodel_measure_channel_noise": (
-                ct.c_int, [ct.POINTER(_ChannelNoiseRequest), ct.POINTER(_ChannelNoiseResult)]),
+                ct.c_int,
+                [ct.POINTER(_ChannelNoiseRequest), ct.POINTER(_ChannelNoiseResult)],
+            ),
             "rfmodel_conversion_network_analyze": (
-                ct.c_int, [ct.POINTER(_ConversionRequest), size,
-                    ct.POINTER(_ConversionConnection), size, ct.POINTER(_ConversionOutput)]),
+                ct.c_int,
+                [
+                    ct.POINTER(_ConversionRequest),
+                    size,
+                    ct.POINTER(_ConversionConnection),
+                    size,
+                    ct.POINTER(_ConversionOutput),
+                ],
+            ),
             "rfmodel_conversion_analyze": (
-                ct.c_int, [ct.POINTER(_ConversionRequest), ct.POINTER(_ConversionOutput)]),
+                ct.c_int,
+                [ct.POINTER(_ConversionRequest), ct.POINTER(_ConversionOutput)],
+            ),
             "rfmodel_ideal_mixer_conversion": (
-                ct.c_int, [ct.c_double, ct.POINTER(size), ct.POINTER(ct.c_int), size,
-                    ct.c_int, ct.c_double, ct.c_double, size, size, ct.c_double,
-                    complex_pointer, complex_pointer, size]),
+                ct.c_int,
+                [
+                    ct.c_double,
+                    ct.POINTER(size),
+                    ct.POINTER(ct.c_int),
+                    size,
+                    ct.c_int,
+                    ct.c_double,
+                    ct.c_double,
+                    size,
+                    size,
+                    ct.c_double,
+                    complex_pointer,
+                    complex_pointer,
+                    size,
+                ],
+            ),
             "rfmodel_butterworth_s": (
-                ct.c_int, [ct.c_double, ct.POINTER(_ButterworthParameters), complex_pointer, size],
+                ct.c_int,
+                [ct.c_double, ct.POINTER(_ButterworthParameters), complex_pointer, size],
             ),
             "rfmodel_chebyshev_s": (
-                ct.c_int, [ct.c_double, ct.POINTER(_ChebyshevParameters), complex_pointer, size],
+                ct.c_int,
+                [ct.c_double, ct.POINTER(_ChebyshevParameters), complex_pointer, size],
             ),
             "rfmodel_ideal_rlc_s": (
-                ct.c_int, [ct.c_double, ct.c_int, ct.c_int, ct.c_double, ct.c_double,
-                           complex_pointer, size],
+                ct.c_int,
+                [ct.c_double, ct.c_int, ct.c_int, ct.c_double, ct.c_double, complex_pointer, size],
             ),
             "rfmodel_matched_transmission_s": (
-                ct.c_int, [ct.c_double] * 4 + [complex_pointer, size],
+                ct.c_int,
+                [ct.c_double] * 4 + [complex_pointer, size],
             ),
             "rfmodel_equal_power_divider_s": (
-                ct.c_int, [ct.c_double, size, ct.c_double, ct.c_double, complex_pointer, size],
+                ct.c_int,
+                [ct.c_double, size, ct.c_double, ct.c_double, complex_pointer, size],
             ),
             "rfmodel_isolated_power_divider_s": (
-                ct.c_int, [ct.c_double, complex_pointer, size, ct.c_double, complex_pointer, size],
+                ct.c_int,
+                [ct.c_double, complex_pointer, size, ct.c_double, complex_pointer, size],
             ),
             "rfmodel_quadrature_coupler_s": (
-                ct.c_int, [ct.c_double] * 4 + [complex_pointer, size],
+                ct.c_int,
+                [ct.c_double] * 4 + [complex_pointer, size],
             ),
             "rfmodel_power_wave_noise_figure": (
-                ct.c_int, [complex_pointer, size, complex_pointer, complex_pointer,
-                           _Complex, ct.c_double, ct.POINTER(ct.c_double)],
+                ct.c_int,
+                [
+                    complex_pointer,
+                    size,
+                    complex_pointer,
+                    complex_pointer,
+                    _Complex,
+                    ct.c_double,
+                    ct.POINTER(ct.c_double),
+                ],
             ),
             "rfmodel_power_wave_extract_noise_parameters": (
-                ct.c_int, [complex_pointer, size, complex_pointer, complex_pointer,
-                           ct.c_double, ct.POINTER(_NoiseParameters)],
+                ct.c_int,
+                [
+                    complex_pointer,
+                    size,
+                    complex_pointer,
+                    complex_pointer,
+                    ct.c_double,
+                    ct.POINTER(_NoiseParameters),
+                ],
             ),
             "rfmodel_power_wave_noise_from_parameters": (
-                ct.c_int, [complex_pointer, size, ct.POINTER(_NoiseParameters), complex_pointer,
-                           ct.c_double, complex_pointer, size],
+                ct.c_int,
+                [
+                    complex_pointer,
+                    size,
+                    ct.POINTER(_NoiseParameters),
+                    complex_pointer,
+                    ct.c_double,
+                    complex_pointer,
+                    size,
+                ],
             ),
             "rfmodel_power_wave_renormalize": (
                 ct.c_int,
-                [size, complex_pointer, size, complex_pointer, complex_pointer,
-                 complex_pointer, complex_pointer, complex_pointer, size],
+                [
+                    size,
+                    complex_pointer,
+                    size,
+                    complex_pointer,
+                    complex_pointer,
+                    complex_pointer,
+                    complex_pointer,
+                    complex_pointer,
+                    size,
+                ],
             ),
             "rfmodel_power_wave_s_to_parameters": (
                 ct.c_int,
                 [size, complex_pointer, size, complex_pointer, ct.c_int, complex_pointer, size],
             ),
             "rfmodel_passive_noise": (
-                ct.c_int, [size, complex_pointer, size, ct.c_double, complex_pointer, size]),
+                ct.c_int,
+                [size, complex_pointer, size, ct.c_double, complex_pointer, size],
+            ),
             "rfmodel_loaded_noise": (
-                ct.c_int, [size, complex_pointer, complex_pointer, complex_pointer, size,
-                           complex_pointer, size, complex_pointer, complex_pointer, size,
-                           ct.POINTER(ct.c_double), size]),
+                ct.c_int,
+                [
+                    size,
+                    complex_pointer,
+                    complex_pointer,
+                    complex_pointer,
+                    size,
+                    complex_pointer,
+                    size,
+                    complex_pointer,
+                    complex_pointer,
+                    size,
+                    ct.POINTER(ct.c_double),
+                    size,
+                ],
+            ),
             "rfmodel_thermal_boundary_noise": (
-                ct.c_int, [size, complex_pointer, ct.POINTER(ct.c_double), complex_pointer, size]),
-            "rfmodel_transmission_line_s": (
-                ct.c_int, [ct.c_double] * 5 + [complex_pointer, size]),
-            "rfmodel_rlgc_line_s": (
-                ct.c_int, [ct.c_double] * 7 + [complex_pointer, size]),
+                ct.c_int,
+                [size, complex_pointer, ct.POINTER(ct.c_double), complex_pointer, size],
+            ),
+            "rfmodel_transmission_line_s": (ct.c_int, [ct.c_double] * 5 + [complex_pointer, size]),
+            "rfmodel_rlgc_line_s": (ct.c_int, [ct.c_double] * 7 + [complex_pointer, size]),
             "rfmodel_linear_amplifier_s": (
-                ct.c_int, [ct.c_double] * 5 + [_Complex, _Complex, ct.c_double,
-                                             complex_pointer, size]),
+                ct.c_int,
+                [ct.c_double] * 5 + [_Complex, _Complex, ct.c_double, complex_pointer, size],
+            ),
             "rfmodel_cubic_amplifier_transmit": (
-                ct.c_int, [ct.c_double, ct.POINTER(_SpectrumBin), size] + [ct.c_double] * 3 +
-                [ct.POINTER(_SpectrumBin), size, ct.POINTER(size)]),
+                ct.c_int,
+                [ct.c_double, ct.POINTER(_SpectrumBin), size]
+                + [ct.c_double] * 3
+                + [ct.POINTER(_SpectrumBin), size, ct.POINTER(size)],
+            ),
             "rfmodel_polynomial_coefficients_from_intermod_levels": (
                 ct.c_int,
-                [ct.c_double, ct.POINTER(ct.c_double), size, ct.POINTER(ct.c_int), size,
-                 ct.c_double, ct.POINTER(ct.c_double), size, ct.POINTER(size)],
+                [
+                    ct.c_double,
+                    ct.POINTER(ct.c_double),
+                    size,
+                    ct.POINTER(ct.c_int),
+                    size,
+                    ct.c_double,
+                    ct.POINTER(ct.c_double),
+                    size,
+                    ct.POINTER(size),
+                ],
             ),
             "rfmodel_polynomial_coefficients_from_intercepts": (
                 ct.c_int,
@@ -946,29 +1395,72 @@ class Library:
                 ],
             ),
             "rfmodel_polynomial_amplifier_transmit": (
-                ct.c_int, [ct.c_double, ct.POINTER(_SpectrumBin), size, ct.POINTER(ct.c_double),
-                           size, ct.c_double, ct.POINTER(_SpectrumBin), size, ct.POINTER(size)]),
+                ct.c_int,
+                [
+                    ct.c_double,
+                    ct.POINTER(_SpectrumBin),
+                    size,
+                    ct.POINTER(ct.c_double),
+                    size,
+                    ct.c_double,
+                    ct.POINTER(_SpectrumBin),
+                    size,
+                    ct.POINTER(size),
+                ],
+            ),
             "rfmodel_intercept_amplifier_transmit": (
-                ct.c_int, [ct.c_double, ct.POINTER(_SpectrumBin), size] + [ct.c_double] * 4 +
-                [ct.POINTER(_SpectrumBin), size, ct.POINTER(size)]),
+                ct.c_int,
+                [ct.c_double, ct.POINTER(_SpectrumBin), size]
+                + [ct.c_double] * 4
+                + [ct.POINTER(_SpectrumBin), size, ct.POINTER(size)],
+            ),
             "rfmodel_ideal_mixer_transmit": (
-                ct.c_int, [ct.c_double, ct.POINTER(_SpectrumBin), size, ct.c_int] +
-                [ct.c_double] * 3 + [ct.POINTER(_SpectrumBin), size, ct.POINTER(size)]),
+                ct.c_int,
+                [ct.c_double, ct.POINTER(_SpectrumBin), size, ct.c_int]
+                + [ct.c_double] * 3
+                + [ct.POINTER(_SpectrumBin), size, ct.POINTER(size)],
+            ),
             "rfmodel_single_tone_amplifier_transmit": (
-                ct.c_int, [ct.c_double, ct.POINTER(_SpectrumBin), size] + [ct.c_double] * 6 +
-                [ct.POINTER(_SpectrumBin), size, ct.POINTER(size)]),
+                ct.c_int,
+                [ct.c_double, ct.POINTER(_SpectrumBin), size]
+                + [ct.c_double] * 6
+                + [ct.POINTER(_SpectrumBin), size, ct.POINTER(size)],
+            ),
             "rfmodel_multitone_amplifier_evaluate": (
-                ct.c_int, [ct.c_double, ct.POINTER(_SpectrumBin), size] + [ct.c_double] * 6 +
-                [ct.POINTER(_AmplifierComponent), size, ct.POINTER(size), ct.POINTER(_AmplifierDrive)]),
+                ct.c_int,
+                [ct.c_double, ct.POINTER(_SpectrumBin), size]
+                + [ct.c_double] * 6
+                + [
+                    ct.POINTER(_AmplifierComponent),
+                    size,
+                    ct.POINTER(size),
+                    ct.POINTER(_AmplifierDrive),
+                ],
+            ),
             "rfmodel_multitone_amplifier_terms": (
-                ct.c_int, [ct.c_double, ct.POINTER(_SpectrumBin), size] + [ct.c_double] * 6 +
-                [ct.POINTER(_AmplifierTerm), size, ct.POINTER(size), ct.POINTER(_AmplifierDrive)]),
+                ct.c_int,
+                [ct.c_double, ct.POINTER(_SpectrumBin), size]
+                + [ct.c_double] * 6
+                + [ct.POINTER(_AmplifierTerm), size, ct.POINTER(size), ct.POINTER(_AmplifierDrive)],
+            ),
             "rfmodel_network_transmit_terms": (
-                ct.c_int, [handle, ct.POINTER(size), size, ct.c_double,
-                           ct.POINTER(_AmplifierTerm), size, ct.POINTER(_AmplifierTerm), size, ct.POINTER(size)]),
+                ct.c_int,
+                [
+                    handle,
+                    ct.POINTER(size),
+                    size,
+                    ct.c_double,
+                    ct.POINTER(_AmplifierTerm),
+                    size,
+                    ct.POINTER(_AmplifierTerm),
+                    size,
+                    ct.POINTER(size),
+                ],
+            ),
             "rfmodel_network_external_noise": (
-                ct.c_int, [handle, ct.POINTER(size), size, complex_pointer, size,
-                           complex_pointer, size]),
+                ct.c_int,
+                [handle, ct.POINTER(size), size, complex_pointer, size, complex_pointer, size],
+            ),
         }
         for name, (result, arguments) in signatures.items():
             function = getattr(self._dll, name)
@@ -1815,6 +2307,58 @@ class Library:
             *(getattr(output, name) for name in ConversionNoiseAnalysis._fields)
         )
 
+    def linearize_saturating_amplifier(
+        self,
+        spacing_hz,
+        channels,
+        operating_incident,
+        *,
+        power_gain_db,
+        output_p1db_dbm,
+        output_saturation_dbm,
+        input_port=0,
+        output_port=1,
+        include_output_drive=False,
+        reference_ohms=50.0,
+    ):
+        """Shared-drive fundamental response, exact A/B and general affine offset."""
+        ports, bins = _conversion_channels(channels)
+        count = len(ports)
+        waves = tuple(complex(value) for value in operating_incident)
+        if len(waves) != count:
+            raise ValueError("Amplifier operating point must cover every channel")
+        native = (_Complex * count)(*(_Complex.from_value(v) for v in waves))
+        parameters = _amplifier_parameters(
+            dict(
+                power_gain_db=power_gain_db,
+                output_p1db_dbm=output_p1db_dbm,
+                output_saturation_dbm=output_saturation_dbm,
+                input_port=input_port,
+                output_port=output_port,
+                include_output_drive=include_output_drive,
+            )
+        )
+        request = _SaturatingAmplifierRequest(
+            count, float(spacing_hz), float(reference_ohms), ports, bins, native, parameters
+        )
+        direct, conjugate = (_Complex * (count * count))(), (_Complex * (count * count))()
+        nominal = (_Complex * count)()
+        output = _MixerLinearizationOutput(direct, conjugate, nominal, count * count, count)
+        self._check(
+            self._dll.rfmodel_linearize_saturating_amplifier(ct.byref(request), ct.byref(output))
+        )
+        a, b, values = (
+            _rows(direct, count),
+            _rows(conjugate, count),
+            tuple(v.value() for v in nominal),
+        )
+        offset = tuple(
+            values[i]
+            - sum(a[i][j] * waves[j] + b[i][j] * waves[j].conjugate() for j in range(count))
+            for i in range(count)
+        )
+        return AmplifierLinearization(a, b, values, offset)
+
     def linearize_bilinear_mixer(
         self,
         spacing_hz,
@@ -1862,6 +2406,7 @@ class Library:
         connections=(),
         *,
         mixers=(),
+        amplifiers=(),
         initial_incident=None,
         max_iterations=50,
         max_backtracks=24,
@@ -1869,13 +2414,14 @@ class Library:
         absolute_tolerance=1e-12,
         **network_options,
     ):
-        """Native damped Newton with fixed-coefficient bilinear device overrides."""
+        """Native damped Newton with bilinear mixer and shared-drive amplifier overrides."""
         return self.conversion_network(
             spacing_hz,
             devices,
             connections,
             operating_point=dict(
                 mixers=mixers,
+                amplifiers=amplifiers,
                 initial_incident=initial_incident,
                 max_iterations=max_iterations,
                 max_backtracks=max_backtracks,
@@ -2071,16 +2617,22 @@ class Library:
             affine = _ConversionAffineOffset(total, native_offset)
         diagnostics = None
         if operating_point is not None:
-            options, mixers, initial = _operating_inputs(operating_point, total)
+            options, mixers, initial, models, parameters = _operating_inputs(operating_point, total)
             diagnostics = _ConversionOperatingDiagnostics()
+            solve = (
+                self._dll.rfmodel_conversion_network_solve_nonlinear
+                if models is not None
+                else self._dll.rfmodel_conversion_network_solve_operating_point
+            )
+            nonlinear = models if models is not None else mixers
             self._check(
-                self._dll.rfmodel_conversion_network_solve_operating_point(
+                solve(
                     native_requests,
                     len(native_requests),
                     native_connections,
                     len(native_connections),
-                    mixers,
-                    len(mixers),
+                    nonlinear,
+                    len(nonlinear),
                     ct.byref(options),
                     ct.byref(affine) if affine is not None else None,
                     ct.byref(extra) if extra is not None else None,

@@ -10,7 +10,12 @@ from .model_file import (
     _device_noise,
     _touchstone_samples,
 )
-from .operating_point import bilinear_spec, operating_options, update_converged_mixers
+from .operating_point import (
+    bilinear_spec,
+    amplifier_spec,
+    operating_options,
+    update_converged_models,
+)
 from .affine_conversion import offset_vector, linearized_mixer, check_operating_points
 from .conversion_file import conversion_matrices
 from .phase_noise import apply_phase_noise_sources, build_phase_noise_groups
@@ -122,7 +127,7 @@ def analyze_conversion_network(library, document, base_directory=None):
     devices, names, labels, lookup = [], {}, [], {}
     output_offsets, operating_points = [], []
     use_affine = False
-    nonlinear_mixers = []
+    nonlinear_mixers, nonlinear_amplifiers = [], []
     for entry in entries:
         if (
             not isinstance(entry, dict)
@@ -146,7 +151,14 @@ def analyze_conversion_network(library, document, base_directory=None):
                 if type(channel["port"]) is not int or type(channel["bin"]) is not int:
                     raise ValueError("Conversion indices must be integers")
                 channels.append((channel["port"], channel["bin"]))
-            if isinstance(model, dict) and model.get("type") == "bilinear_real_mixer":
+            if isinstance(model, dict) and model.get("type") == "saturating_amplifier":
+                if "operating_point" not in document:
+                    raise ValueError(
+                        "Saturating amplifiers require explicit operating_point options"
+                    )
+                nonlinear_amplifiers.append(dict(device=len(devices), **amplifier_spec(model)))
+                a, b = zero(len(channels)), zero(len(channels))
+            elif isinstance(model, dict) and model.get("type") == "bilinear_real_mixer":
                 if "operating_point" not in document:
                     raise ValueError("Bilinear mixers require explicit operating_point options")
                 nonlinear_mixers.append(dict(device=len(devices), **bilinear_spec(model)))
@@ -296,7 +308,9 @@ def analyze_conversion_network(library, document, base_directory=None):
     solve_options = None
     if "operating_point" in document:
         solve_options = dict(
-            mixers=nonlinear_mixers, **operating_options(document["operating_point"], len(labels))
+            mixers=nonlinear_mixers,
+            amplifiers=nonlinear_amplifiers,
+            **operating_options(document["operating_point"], len(labels)),
         )
     result = library.conversion_network(
         spacing,
@@ -320,8 +334,15 @@ def analyze_conversion_network(library, document, base_directory=None):
             absolute_tolerance_sqrt_w=solve_options["absolute_tolerance"],
         )
         result = result.waves
-        update_converged_mixers(
-            library, spacing, reference, devices, nonlinear_mixers, result, output_offsets
+        update_converged_models(
+            library,
+            spacing,
+            reference,
+            devices,
+            nonlinear_mixers,
+            result,
+            output_offsets,
+            nonlinear_amplifiers,
         )
         use_affine = True
     operating_reports = check_operating_points(operating_points, result)

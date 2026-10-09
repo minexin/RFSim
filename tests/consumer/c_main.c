@@ -2,6 +2,54 @@
 #include <math.h>
 
 int main(int argc, char **argv) {
+
+    {
+        const size_t ports[2] = {0, 1};
+        const int bins[2] = {1, 1};
+        const rfmodel_complex zero[4] = {{0}}, source[2] = {{.01, 0.}, {0., 0.}};
+        rfmodel_saturating_amplifier_request request = {
+            2, 1e6, 50., ports, bins, source, {20., 20., 23., 0, 1, 0}};
+        rfmodel_complex a[4], b[4], nominal[2], values[12];
+        rfmodel_conversion_linearization_output local = {a, b, nominal, 4, 2};
+        rfmodel_conversion_request device = {0};
+        rfmodel_conversion_nonlinear_model model = {
+            0, RFMODEL_NONLINEAR_SATURATING_AMPLIFIER, &request.model};
+        rfmodel_conversion_operating_options options = {NULL, 0, 50, 24, 1e-9, 1e-12};
+        rfmodel_conversion_operating_diagnostics diagnostics;
+        double residual;
+        rfmodel_conversion_output output = {
+            values, values + 2, values + 4, values + 8, 2, 4, &residual};
+        const double compression = (1. - pow(10., -.05)) * .0001 / pow(10., -2.9);
+        if (rfmodel_linearize_saturating_amplifier(&request, &local) != RFMODEL_OK ||
+            fabs(nominal[1].real - .1 * (1. - compression)) > 1e-12 ||
+            fabs(a[2].real + b[2].real - 10. * (1. - 3. * compression)) > 1e-12) {
+            return 103;
+        }
+        device.count = 2;
+        device.spacing_hz = 1e6;
+        device.reference_ohms = 50.;
+        device.physical_ports = ports;
+        device.bins = bins;
+        device.direct = zero;
+        device.conjugate = zero;
+        device.source = source;
+        if (rfmodel_conversion_network_solve_nonlinear(&device,
+                                                       1,
+                                                       NULL,
+                                                       0,
+                                                       &model,
+                                                       1,
+                                                       &options,
+                                                       NULL,
+                                                       NULL,
+                                                       &output,
+                                                       NULL,
+                                                       &diagnostics) != RFMODEL_OK ||
+            fabs(values[3].real - nominal[1].real) > 1e-12 || diagnostics.scaled_residual > 1.) {
+            return 104;
+        }
+    }
+
     {
         const size_t ports[3] = {0, 1, 2};
         const int bins[3] = {0, 0, 0};

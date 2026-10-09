@@ -17,6 +17,28 @@ def bilinear_spec(model):
     return result
 
 
+def amplifier_spec(model):
+    _object(
+        model,
+        ("type", "power_gain_db", "output_p1db_dbm", "output_saturation_dbm"),
+        ("input_port", "output_port", "include_output_drive"),
+    )
+    result = {
+        field: _number(model[field])
+        for field in ("power_gain_db", "output_p1db_dbm", "output_saturation_dbm")
+    }
+    for field, default in [("input_port", 0), ("output_port", 1)]:
+        value = model.get(field, default)
+        if type(value) is not int:
+            raise ValueError("Amplifier port must be an integer")
+        result[field] = value
+    driven = model.get("include_output_drive", False)
+    if type(driven) is not bool:
+        raise ValueError("include_output_drive must be boolean")
+    result["include_output_drive"] = driven
+    return result
+
+
 def operating_options(value, total):
     _object(
         value,
@@ -45,17 +67,24 @@ def operating_options(value, total):
     return options
 
 
-def update_converged_mixers(library, spacing, reference, devices, specs, waves, offsets):
+def update_converged_models(
+    library, spacing, reference, devices, specs, waves, offsets, amplifiers=()
+):
     starts, total = [], 0
     for device in devices:
         starts.append(total)
         total += len(device["channels"])
-    for spec in specs:
+    for spec, is_amplifier in [(s, False) for s in specs] + [(s, True) for s in amplifiers]:
         parameters = dict(spec)
         index = parameters.pop("device")
         device, start = devices[index], starts[index]
         count = len(device["channels"])
-        point = library.linearize_bilinear_mixer(
+        linearize = (
+            library.linearize_saturating_amplifier
+            if is_amplifier
+            else library.linearize_bilinear_mixer
+        )
+        point = linearize(
             spacing,
             device["channels"],
             waves.incident[start : start + count],
