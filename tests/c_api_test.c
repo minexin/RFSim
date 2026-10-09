@@ -13,6 +13,50 @@
     } while (0)
 
 int main(int argc, char **argv) {
+    {
+        const double coefficients[10] = {0., 0., 0., 0., 0., 0., 0., 0., 0., 1.};
+        rfmodel_coherent_component input = {10, RFMODEL_SPECTRUM_HARMONIC, 1., 7, {.01, 0.}};
+        rfmodel_coherent_component reduced = {99, 0, 1., 1, {0., 0.}};
+        rfmodel_coherent_polynomial_term terms[5] = {{0}};
+        size_t reduced_count = 77, term_count = 88;
+        terms[0].order = 99;
+        if (rfmodel_coherent_polynomial_evaluate(1e8,
+                                                 &input,
+                                                 1,
+                                                 coefficients,
+                                                 10,
+                                                 50.,
+                                                 100,
+                                                 &reduced,
+                                                 1,
+                                                 &reduced_count,
+                                                 terms,
+                                                 4,
+                                                 &term_count) == RFMODEL_OK ||
+            reduced.index != 99 || reduced_count != 77 || term_count != 88 ||
+            terms[0].order != 99) {
+            return 71;
+        }
+        if (rfmodel_coherent_polynomial_evaluate(1e8,
+                                                 &input,
+                                                 1,
+                                                 coefficients,
+                                                 10,
+                                                 50.,
+                                                 100,
+                                                 &reduced,
+                                                 1,
+                                                 &reduced_count,
+                                                 terms,
+                                                 5,
+                                                 &term_count) != RFMODEL_OK ||
+            reduced_count != 1 || term_count != 5 || terms[4].order != 9 ||
+            terms[4].component.index != 90 || terms[4].input_indices[8] != 1 ||
+            terms[4].component.coherence_group <= 100) {
+            return 72;
+        }
+    }
+
     rfmodel_network *network = NULL;
     const rfmodel_complex pad[4] = {{0, 0}, {0.5, 0}, {0.5, 0}, {0, 0}};
     const rfmodel_complex zero = {0, 0}, one = {1, 0};

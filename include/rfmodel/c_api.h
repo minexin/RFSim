@@ -240,6 +240,32 @@ typedef struct rfmodel_amplifier_drive {
     double limited_input_power_w;
 } rfmodel_amplifier_drive;
 
+/* RF polynomial orders 1..9. Signed one-based reduced-input indices.
+ * Harmonic/intermod inputs generate new terms. DC is projected out.
+ * Generated group IDs are local; callers resolve recursive source identities. */
+typedef struct rfmodel_coherent_polynomial_term {
+    int order;
+    int input_indices[9];
+    rfmodel_coherent_component component;
+} rfmodel_coherent_polynomial_term;
+
+/* voltage_coefficients contains a[0]..a[n], 1..10 entries, with a[0]=0.
+ * Up to 4096 inputs, 64 active reduced inputs, 4096 output terms.
+ * Output buffers/counts must not overlap. On any failure all outputs stay unchanged. */
+RFMODEL_API int rfmodel_coherent_polynomial_evaluate(double spacing_hz,
+                                                     const rfmodel_coherent_component *input,
+                                                     size_t input_count,
+                                                     const double *voltage_coefficients,
+                                                     size_t coefficient_count,
+                                                     double reference_ohms,
+                                                     uint64_t reserved_group_max,
+                                                     rfmodel_coherent_component *reduced_inputs,
+                                                     size_t reduced_capacity,
+                                                     size_t *reduced_count,
+                                                     rfmodel_coherent_polynomial_term *terms,
+                                                     size_t term_capacity,
+                                                     size_t *term_count);
+
 /* Local generating input bins, ascending signed order. Negative means conjugate;
  * only the first order entries are used, with zero padding to three entries. */
 typedef struct rfmodel_coherent_amplifier_term {

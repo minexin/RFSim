@@ -34,6 +34,29 @@ class CascadeReferenceTests(unittest.TestCase):
     def setUp(self):
         self.captures = copy.deepcopy(self.original)
 
+    def test_fifth_order_evidence_is_not_cubic_acceptance(self):
+        captures = json.loads(
+            (ROOT / "validation/systemvue-2023-secondary-controls-captures.json").read_text()
+        )
+        audit_module = load_module("secondary_audit", "audit-cascade-secondary-controls.py")
+        report = audit_module.audit(captures)
+        self.assertFalse(report["eligible_for_compatibility"])
+        self.assertTrue(report["controls_unchanged"])
+        self.assertEqual(
+            {item["rf_origins"] for item in report["observations"] if item["port"] == 2}, {30, 94}
+        )
+        for capture in captures:
+            if capture["maximum_order"] == 5:
+                comparison.inspect(capture)
+                with self.assertRaisesRegex(ValueError, "maximum_order=3"):
+                    comparison.compare(self.library, [capture])
+        with self.assertRaises(ValueError):
+            audit_module.audit(captures[:-1])
+        changed = copy.deepcopy(captures)
+        changed[0]["two_tone"] = False
+        with self.assertRaises(ValueError):
+            audit_module.audit(changed)
+
     def test_actual_cascades_and_unresolved_zero_gain_gap(self):
         report = comparison.compare(self.library, self.captures)
         self.assertFalse(report["passed"])

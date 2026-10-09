@@ -1,0 +1,118 @@
+{
+  "classification": "diagnostic_only",
+  "eligible_for_compatibility": false,
+  "observations": [
+    {
+      "maximum_order": 3,
+      "secondary_spectrum": false,
+      "secondary_range_db": -140,
+      "port": 2,
+      "rf_origins": 30,
+      "raw_capture_sha256": "0ecdba06cdd387f152adb74a6a009b12d2984c1dc549b5727277d9f5efc1241c",
+      "max_relative_wave_change": 0.0
+    },
+    {
+      "maximum_order": 3,
+      "secondary_spectrum": false,
+      "secondary_range_db": -140,
+      "port": 3,
+      "rf_origins": 30,
+      "raw_capture_sha256": "0ecdba06cdd387f152adb74a6a009b12d2984c1dc549b5727277d9f5efc1241c",
+      "max_relative_wave_change": 0.0
+    },
+    {
+      "maximum_order": 3,
+      "secondary_spectrum": true,
+      "secondary_range_db": -140,
+      "port": 2,
+      "rf_origins": 30,
+      "raw_capture_sha256": "2130a054a7dd58a625c36fc6a75e0147707cec39ea09e8290cd36eb5353a11e2",
+      "max_relative_wave_change": 0.0
+    },
+    {
+      "maximum_order": 3,
+      "secondary_spectrum": true,
+      "secondary_range_db": -140,
+      "port": 3,
+      "rf_origins": 30,
+      "raw_capture_sha256": "2130a054a7dd58a625c36fc6a75e0147707cec39ea09e8290cd36eb5353a11e2",
+      "max_relative_wave_change": 0.0
+    },
+    {
+      "maximum_order": 3,
+      "secondary_spectrum": true,
+      "secondary_range_db": 50,
+      "port": 2,
+      "rf_origins": 30,
+      "raw_capture_sha256": "3a6f87e4f180225e40d4ab896aa1d8f094c358a3023679f343ac21a1345c5a1c",
+      "max_relative_wave_change": 0.0
+    },
+    {
+      "maximum_order": 3,
+      "secondary_spectrum": true,
+      "secondary_range_db": 50,
+      "port": 3,
+      "rf_origins": 30,
+      "raw_capture_sha256": "3a6f87e4f180225e40d4ab896aa1d8f094c358a3023679f343ac21a1345c5a1c",
+      "max_relative_wave_change": 0.0
+    },
+    {
+      "maximum_order": 3,
+      "secondary_spectrum": true,
+      "secondary_range_db": 140,
+      "port": 2,
+      "rf_origins": 30,
+      "raw_capture_sha256": "becc5064a681b70035292cea91685769694e802d18b1156d91c20271d5f2253d",
+      "max_relative_wave_change": 0.0
+    },
+    {
+      "maximum_order": 3,
+      "secondary_spectrum": true,
+      "secondary_range_db": 140,
+      "port": 3,
+      "rf_origins": 30,
+      "raw_capture_sha256": "becc5064a681b70035292cea91685769694e802d18b1156d91c20271d5f2253d",
+      "max_relative_wave_change": 0.0
+    },
+    {
+      "maximum_order": 5,
+      "secondary_spectrum": false,
+      "secondary_range_db": -140,
+      "port": 2,
+      "rf_origins": 94,
+      "raw_capture_sha256": "09d40db3a99eec1743012fcf63104c944a783b0ffd8cef1224f2c9c9924cf18b",
+      "max_relative_wave_change": 0.0
+    },
+    {
+      "maximum_order": 5,
+      "secondary_spectrum": false,
+      "secondary_range_db": -140,
+      "port": 3,
+      "rf_origins": 82,
+      "raw_capture_sha256": "09d40db3a99eec1743012fcf63104c944a783b0ffd8cef1224f2c9c9924cf18b",
+      "max_relative_wave_change": 0.0
+    },
+    {
+      "maximum_order": 5,
+      "secondary_spectrum": true,
+      "secondary_range_db": -140,
+      "port": 2,
+      "rf_origins": 94,
+      "raw_capture_sha256": "096d1fd4946e8cee77a8d2d7d03f7489644d99c2a970e83ec3004d28ea5de8f9",
+      "max_relative_wave_change": 0.0
+    },
+    {
+      "maximum_order": 5,
+      "secondary_spectrum": true,
+      "secondary_range_db": -140,
+      "port": 3,
+      "rf_origins": 82,
+      "raw_capture_sha256": "096d1fd4946e8cee77a8d2d7d03f7489644d99c2a970e83ec3004d28ea5de8f9",
+      "max_relative_wave_change": 0.0
+    }
+  ],
+  "controls_unchanged": true,
+  "conclusion": "No secondary-switch effect observed in these controlled cascades",
+  "limitation": "Five-order native paths do not establish their coefficients, recursive order rules or sub-spectrum merging",
+  "captures_sha256": "22174bc4516eb4a3c2af86008eddaab5b305c48d3826348674e1d3d2a3cce594"
+}

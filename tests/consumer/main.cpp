@@ -1,3 +1,4 @@
+#include <rfmodel/coherent_polynomial.hpp>
 #include <rfmodel/coherent_amplifier.hpp>
 #include <rfmodel/coherent_mixer.hpp>
 #include <rfmodel/coherent_compression.hpp>
@@ -24,6 +25,12 @@
 #include <rfmodel/term_propagation.hpp>
 
 int main() {
+    const auto ninth = rfmodel::CoherentPolynomial({0., 0., 0., 0., 0., 0., 0., 0., 0., 1.})
+                           .evaluate(1e8, {{10, rfmodel::SpectrumKind::harmonic, 1., 7, .01}});
+    if (ninth.terms.size() != 5 || ninth.terms.back().input_indices[8] != 1) {
+        return 71;
+    }
+
     const auto coherent_products = rfmodel::CoherentLimitedAmplifier(20., 20., 23., 20., 10.)
                                        .evaluate(1e8,
                                                  {{10, rfmodel::SpectrumKind::source, 1., 7, .01},

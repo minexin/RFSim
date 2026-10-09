@@ -1,3 +1,4 @@
+#include "rfmodel/coherent_polynomial.hpp"
 #include "rfmodel/coherent_amplifier.hpp"
 #include "rfmodel/coherent_mixer.hpp"
 #include "rfmodel/source_coherence.hpp"
@@ -243,6 +244,61 @@ int rfmodel_reduce_coherent_components(double spacing_hz,
                         power_capacity,
                         power_count,
                         total_power_w);
+    });
+}
+
+int rfmodel_coherent_polynomial_evaluate(double spacing_hz,
+                                         const rfmodel_coherent_component *input,
+                                         size_t input_count,
+                                         const double *voltage_coefficients,
+                                         size_t coefficient_count,
+                                         double reference_ohms,
+                                         uint64_t reserved_group_max,
+                                         rfmodel_coherent_component *reduced_inputs,
+                                         size_t reduced_capacity,
+                                         size_t *reduced_count,
+                                         rfmodel_coherent_polynomial_term *terms,
+                                         size_t term_capacity,
+                                         size_t *term_count) {
+    return guarded([&] {
+        require(input_count <= 4096 && (input || input_count == 0));
+        require(voltage_coefficients && coefficient_count >= 1 && coefficient_count <= 10);
+        require(reduced_count && term_count);
+        std::vector<rfmodel::CoherentComponent> components;
+        for (size_t i = 0; i < input_count; ++i) {
+            const auto &c = input[i];
+            components.push_back({c.index,
+                                  static_cast<rfmodel::SpectrumKind>(c.kind),
+                                  c.bandwidth_hz,
+                                  c.coherence_group,
+                                  {c.amplitude.real, c.amplitude.imag}});
+        }
+        const rfmodel::CoherentPolynomial model(
+            std::vector<double>(voltage_coefficients, voltage_coefficients + coefficient_count),
+            reference_ohms);
+        const auto result = model.evaluate(spacing_hz, components, reserved_group_max);
+        require(reduced_capacity >= result.inputs.size() && term_capacity >= result.terms.size());
+        require((reduced_inputs || result.inputs.empty()) && (terms || result.terms.empty()));
+        auto encode = [](const rfmodel::CoherentComponent &c) {
+            return rfmodel_coherent_component{c.bin,
+                                              static_cast<int>(c.kind),
+                                              c.bandwidth_hz,
+                                              c.coherence_group,
+                                              {c.amplitude.real(), c.amplitude.imag()}};
+        };
+        for (size_t i = 0; i < result.inputs.size(); ++i) {
+            reduced_inputs[i] = encode(result.inputs[i]);
+        }
+        for (size_t i = 0; i < result.terms.size(); ++i) {
+            const auto &term = result.terms[i];
+            rfmodel_coherent_polynomial_term encoded{};
+            encoded.order = term.order;
+            std::copy(term.input_indices.begin(), term.input_indices.end(), encoded.input_indices);
+            encoded.component = encode(term.component);
+            terms[i] = encoded;
+        }
+        *reduced_count = result.inputs.size();
+        *term_count = result.terms.size();
     });
 }
 

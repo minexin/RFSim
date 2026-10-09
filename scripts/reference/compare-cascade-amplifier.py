@@ -138,16 +138,16 @@ def inspect(capture):
         or riso not in (100, 140)
         or bandwidth not in (1, 1e6)
         or type(capture["maximum_order"]) is not int
-        or capture["maximum_order"] != 3
+        or capture["maximum_order"] not in (3, 5)
         or type(capture["secondary_range_db"]) is not int
-        or capture["secondary_range_db"] not in (-50, -140)
+        or capture["secondary_range_db"] not in (-140, -50, 50, 140)
     ):
         raise ValueError("Uncontrolled cascade settings")
     settings = node(capture, "System3")["analysis_settings"]
     if any(type(settings.get(k)) is not int or settings[k] != v for k, v in SETTINGS.items()):
         raise ValueError("Unexpected analysis readback")
     expected = {
-        "System3/MaxOrder": 3,
+        "System3/MaxOrder": capture["maximum_order"],
         "System3/ChanBW": bandwidth,
         "System3/UseVolterra": int(capture["secondary_spectrum"]),
         "System3/UseWithin": 10 ** (capture["secondary_range_db"] / 10),
@@ -267,6 +267,8 @@ def compare(library, captures):
     reports, seen = [], set()
     for capture in captures:
         tones, parameters = inspect(capture)
+        if capture["maximum_order"] != 3:
+            raise ValueError("Cubic comparison requires maximum_order=3")
         configuration = tuple(capture[k] for k in META)
         if configuration in seen:
             raise ValueError("Duplicate configuration")

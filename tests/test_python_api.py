@@ -28,6 +28,24 @@ class PythonApiTests(unittest.TestCase):
     def setUpClass(cls):
         cls.library = Library(LIBRARY_PATH)
 
+    def test_coherent_polynomial_high_order_and_secondary_inputs(self):
+        first = rfmodel.CoherentComponent(10, rfmodel.SpectrumKind.SOURCE, 1., 7, .01)
+        harmonic = rfmodel.CoherentComponent(20, rfmodel.SpectrumKind.HARMONIC, 2., 8, .002j)
+        result = self.library.coherent_polynomial(1e8, [first, harmonic], [0., 0., 1.])
+        sum_term = next(term for term in result.terms if term.input_indices == (1, 2))
+        self.assertEqual(sum_term.component.bin, 30)
+        self.assertAlmostEqual(sum_term.component.amplitude, .0002j)
+        ninth = self.library.coherent_polynomial(
+            1e8, [first], [0.] * 9 + [1.], reserved_group_max=100)
+        highest = next(term for term in ninth.terms if term.component.bin == 90)
+        self.assertEqual(highest.order, 9)
+        self.assertEqual(highest.input_indices, (1,) * 9)
+        self.assertGreater(highest.component.coherence_group, 100)
+        self.assertAlmostEqual(highest.component.amplitude / (5. ** 8 * .01 ** 9), 1.)
+        for coefficients in ([1.], [], [0.] * 11, [0., float("nan")]):
+            with self.subTest(coefficients=coefficients), self.assertRaises((ValueError, RFModelError)):
+                self.library.coherent_polynomial(1e8, [first], coefficients)
+
     def test_coherent_amplifier_origins_and_downstream(self):
         parameters = dict(power_gain_db=20., output_p1db_dbm=20., output_saturation_dbm=23.,
                           input_ip2_dbm=20., input_ip3_dbm=10.)
