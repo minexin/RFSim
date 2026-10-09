@@ -1,0 +1,557 @@
+{
+  "classification": "diagnostic_only",
+  "eligible_for_compatibility": false,
+  "nominal_passed": false,
+  "nominal_relative_tolerance": 1e-07,
+  "fit_capture_sha256": [
+    "921dbd3fa9128f63b2b0d57512dfc8fcd4b5688956e4a9ef4138b66b775fc68d",
+    "678561b935b67ad15090bc5d2322c735333d0c3906aab9f1dbb714aef0ca7159"
+  ],
+  "gain_estimates": [
+    {
+      "identity": "[2x(Source.Source1)],RFAmp2",
+      "order": 2,
+      "linear_power_gain": 1.0000002300000006,
+      "ratio_phase_radians": 2.3794438869807913e-32
+    },
+    {
+      "identity": "[3x(Source.Source1)],RFAmp2",
+      "order": 3,
+      "linear_power_gain": 1.0000002300000004,
+      "ratio_phase_radians": 0.0
+    },
+    {
+      "identity": "[-(Source.Source1)+2x(Source.Source1)],RFAmp2",
+      "order": 3,
+      "linear_power_gain": 1.0000002300000002,
+      "ratio_phase_radians": 3.527396030875546e-32
+    }
+  ],
+  "inferred_linear_power_gain": 1.0000002300000006,
+  "inferred_gain_db": 9.988771961149053e-07,
+  "estimates_agree": true,
+  "explicit_equivalent_capture_sha256": "80829ad258ac7b9c6a4d92f9f2f44e92e808a0d749dc0c42492d0adac44d85ed",
+  "explicit_equivalent_max_relative_wave_difference": 1.6945044746921894e-15,
+  "explicit_equivalent_matches": true,
+  "hypothesis_consistent": true,
+  "cases": [
+    {
+      "configuration": {
+        "source_power_dbm": -20,
+        "source_phase_deg": 90,
+        "maximum_order": 3,
+        "second_gain_db": 9.988771941862506e-07,
+        "reverse_isolation_db": 140,
+        "channel_bandwidth_hz": 1000000,
+        "two_tone": false,
+        "secondary_spectrum": false,
+        "secondary_range_db": -50
+      },
+      "raw_capture_sha256": "80829ad258ac7b9c6a4d92f9f2f44e92e808a0d749dc0c42492d0adac44d85ed",
+      "nominal": {
+        "passed": true,
+        "check_count": 17,
+        "failed_check_count": 0,
+        "max_relative_complex_error": 4.499352027239157e-08,
+        "max_relative_power_error": 8.998704270624103e-08,
+        "max_relative_drive_error": 2.4995755909529294e-08
+      },
+      "gain_hypothesis": {
+        "passed": true,
+        "check_count": 17,
+        "failed_check_count": 0,
+        "max_relative_complex_error": 4.499352027239157e-08,
+        "max_relative_power_error": 8.998704270624103e-08,
+        "max_relative_drive_error": 2.4995755909529294e-08
+      }
+    },
+    {
+      "configuration": {
+        "source_power_dbm": -10,
+        "source_phase_deg": 45,
+        "maximum_order": 3,
+        "second_gain_db": 0,
+        "reverse_isolation_db": 140,
+        "channel_bandwidth_hz": 1000000,
+        "two_tone": false,
+        "secondary_spectrum": false,
+        "secondary_range_db": -50
+      },
+      "raw_capture_sha256": "259a1c2f708cf6d886c2d9ccaef4721c73c3884dd8c5efdee4d4d8325079540c",
+      "nominal": {
+        "passed": false,
+        "check_count": 17,
+        "failed_check_count": 11,
+        "max_relative_complex_error": 3.000647585392574e-07,
+        "max_relative_power_error": 6.001294270419066e-07,
+        "max_relative_drive_error": 2.495758466558584e-08
+      },
+      "gain_hypothesis": {
+        "passed": true,
+        "check_count": 17,
+        "failed_check_count": 0,
+        "max_relative_complex_error": 4.4935159922337206e-08,
+        "max_relative_power_error": 8.987032185103772e-08,
+        "max_relative_drive_error": 2.495758466558584e-08
+      }
+    },
+    {
+      "configuration": {
+        "source_power_dbm": -30,
+        "source_phase_deg": 0,
+        "maximum_order": 3,
+        "second_gain_db": 0,
+        "reverse_isolation_db": 140,
+        "channel_bandwidth_hz": 1000000,
+        "two_tone": false,
+        "secondary_spectrum": false,
+        "secondary_range_db": -50
+      },
+      "raw_capture_sha256": "4215d47e94ae19125fe68099e38c5635b9883b73d0a8bece478f4f68f83751fa",
+      "nominal": {
+        "passed": false,
+        "check_count": 17,
+        "failed_check_count": 11,
+        "max_relative_complex_error": 3.000005633807725e-07,
+        "max_relative_power_error": 6.000010367435138e-07,
+        "max_relative_drive_error": 2.4999575520823214e-08
+      },
+      "gain_hypothesis": {
+        "passed": true,
+        "check_count": 17,
+        "failed_check_count": 0,
+        "max_relative_complex_error": 4.499935459309021e-08,
+        "max_relative_power_error": 8.999871115022984e-08,
+        "max_relative_drive_error": 2.4999575520823214e-08
+      }
+    },
+    {
+      "configuration": {
+        "source_power_dbm": -10,
+        "source_phase_deg": 90,
+        "maximum_order": 3,
+        "second_gain_db": 0,
+        "reverse_isolation_db": 140,
+        "channel_bandwidth_hz": 1000000,
+        "two_tone": true,
+        "secondary_spectrum": false,
+        "secondary_range_db": -50
+      },
+      "raw_capture_sha256": "45dde1a8a2974fc963ffa5ed767e4e0ca79e9fa6b7fd13c18521a69c58c1e29b",
+      "nominal": {
+        "passed": false,
+        "check_count": 64,
+        "failed_check_count": 46,
+        "max_relative_complex_error": 3.001297140210166e-07,
+        "max_relative_power_error": 6.002593380127763e-07,
+        "max_relative_drive_error": 2.491763395617852e-08
+      },
+      "gain_hypothesis": {
+        "passed": true,
+        "check_count": 64,
+        "failed_check_count": 0,
+        "max_relative_complex_error": 4.48702040101981e-08,
+        "max_relative_power_error": 8.974041021403423e-08,
+        "max_relative_drive_error": 2.491763395617852e-08
+      }
+    },
+    {
+      "configuration": {
+        "source_power_dbm": -30,
+        "source_phase_deg": 90,
+        "maximum_order": 3,
+        "second_gain_db": 0,
+        "reverse_isolation_db": 140,
+        "channel_bandwidth_hz": 1000000,
+        "two_tone": true,
+        "secondary_spectrum": false,
+        "secondary_range_db": -50
+      },
+      "raw_capture_sha256": "653cdc05aca619a00c74d1cbf951ab101ada6f54054c94b1ffb7316cbfa3a935",
+      "nominal": {
+        "passed": false,
+        "check_count": 64,
+        "failed_check_count": 46,
+        "max_relative_complex_error": 3.0000121039607317e-07,
+        "max_relative_power_error": 6.000023305974267e-07,
+        "max_relative_drive_error": 2.4999174286222114e-08
+      },
+      "gain_hypothesis": {
+        "passed": true,
+        "check_count": 64,
+        "failed_check_count": 0,
+        "max_relative_complex_error": 4.499870789198873e-08,
+        "max_relative_power_error": 8.999741774040615e-08,
+        "max_relative_drive_error": 2.4999174286222114e-08
+      }
+    },
+    {
+      "configuration": {
+        "source_power_dbm": -20,
+        "source_phase_deg": 90,
+        "maximum_order": 3,
+        "second_gain_db": -0.001,
+        "reverse_isolation_db": 140,
+        "channel_bandwidth_hz": 1000000,
+        "two_tone": false,
+        "secondary_spectrum": false,
+        "secondary_range_db": -50
+      },
+      "raw_capture_sha256": "fa846de2d8af1992ad47c44ac6ef3db43601c6472871b5cd0de70e97f9780164",
+      "nominal": {
+        "passed": true,
+        "check_count": 17,
+        "failed_check_count": 0,
+        "max_relative_complex_error": 4.499352221542809e-08,
+        "max_relative_power_error": 8.998704648099931e-08,
+        "max_relative_drive_error": 2.4995756353618503e-08
+      },
+      "gain_hypothesis": {
+        "passed": true,
+        "check_count": 17,
+        "failed_check_count": 0,
+        "max_relative_complex_error": 4.499352221542809e-08,
+        "max_relative_power_error": 8.998704648099931e-08,
+        "max_relative_drive_error": 2.4995756353618503e-08
+      }
+    },
+    {
+      "configuration": {
+        "source_power_dbm": -20,
+        "source_phase_deg": 90,
+        "maximum_order": 3,
+        "second_gain_db": -1,
+        "reverse_isolation_db": 140,
+        "channel_bandwidth_hz": 1000000,
+        "two_tone": false,
+        "secondary_spectrum": false,
+        "secondary_range_db": -50
+      },
+      "raw_capture_sha256": "2e0c8a3c1400bb9e0d857ffe3c46e6c0ffeafdc17c67bc6f89ec1ecff3f83ef1",
+      "nominal": {
+        "passed": true,
+        "check_count": 17,
+        "failed_check_count": 0,
+        "max_relative_complex_error": 4.4993521245594174e-08,
+        "max_relative_power_error": 8.998704448259787e-08,
+        "max_relative_drive_error": 2.4995756353618503e-08
+      },
+      "gain_hypothesis": {
+        "passed": true,
+        "check_count": 17,
+        "failed_check_count": 0,
+        "max_relative_complex_error": 4.4993521245594174e-08,
+        "max_relative_power_error": 8.998704448259787e-08,
+        "max_relative_drive_error": 2.4995756353618503e-08
+      }
+    },
+    {
+      "configuration": {
+        "source_power_dbm": -20,
+        "source_phase_deg": 90,
+        "maximum_order": 3,
+        "second_gain_db": -1e-06,
+        "reverse_isolation_db": 140,
+        "channel_bandwidth_hz": 1000000,
+        "two_tone": false,
+        "secondary_spectrum": false,
+        "secondary_range_db": -50
+      },
+      "raw_capture_sha256": "1d1108e208e1f7ca92c0e382fb5f322f626ca486ca00cf098d395c1c64a8f2ea",
+      "nominal": {
+        "passed": true,
+        "check_count": 17,
+        "failed_check_count": 0,
+        "max_relative_complex_error": 4.4993521946294186e-08,
+        "max_relative_power_error": 8.99870460369101e-08,
+        "max_relative_drive_error": 2.4995756353618503e-08
+      },
+      "gain_hypothesis": {
+        "passed": true,
+        "check_count": 17,
+        "failed_check_count": 0,
+        "max_relative_complex_error": 4.4993521946294186e-08,
+        "max_relative_power_error": 8.99870460369101e-08,
+        "max_relative_drive_error": 2.4995756353618503e-08
+      }
+    },
+    {
+      "configuration": {
+        "source_power_dbm": -20,
+        "source_phase_deg": 90,
+        "maximum_order": 3,
+        "second_gain_db": -1e-08,
+        "reverse_isolation_db": 140,
+        "channel_bandwidth_hz": 1000000,
+        "two_tone": false,
+        "secondary_spectrum": false,
+        "secondary_range_db": -50
+      },
+      "raw_capture_sha256": "d214351eb73a7d55d51b951be107fbcb52d236bc7835835ed884f75ea3a1d99d",
+      "nominal": {
+        "passed": true,
+        "check_count": 17,
+        "failed_check_count": 0,
+        "max_relative_complex_error": 4.499352181203258e-08,
+        "max_relative_power_error": 8.998704559282089e-08,
+        "max_relative_drive_error": 2.4995756353618503e-08
+      },
+      "gain_hypothesis": {
+        "passed": true,
+        "check_count": 17,
+        "failed_check_count": 0,
+        "max_relative_complex_error": 4.499352181203258e-08,
+        "max_relative_power_error": 8.998704559282089e-08,
+        "max_relative_drive_error": 2.4995756353618503e-08
+      }
+    },
+    {
+      "configuration": {
+        "source_power_dbm": -20,
+        "source_phase_deg": 90,
+        "maximum_order": 3,
+        "second_gain_db": 0.001,
+        "reverse_isolation_db": 140,
+        "channel_bandwidth_hz": 1000000,
+        "two_tone": false,
+        "secondary_spectrum": false,
+        "secondary_range_db": -50
+      },
+      "raw_capture_sha256": "3a2411749d7720a6056f76e5a76bae3b0a7a190a9d5548bae41ee00f717c1f30",
+      "nominal": {
+        "passed": true,
+        "check_count": 17,
+        "failed_check_count": 0,
+        "max_relative_complex_error": 4.499352197900279e-08,
+        "max_relative_power_error": 8.99870460369101e-08,
+        "max_relative_drive_error": 2.4995756353618503e-08
+      },
+      "gain_hypothesis": {
+        "passed": true,
+        "check_count": 17,
+        "failed_check_count": 0,
+        "max_relative_complex_error": 4.499352197900279e-08,
+        "max_relative_power_error": 8.99870460369101e-08,
+        "max_relative_drive_error": 2.4995756353618503e-08
+      }
+    },
+    {
+      "configuration": {
+        "source_power_dbm": -20,
+        "source_phase_deg": 90,
+        "maximum_order": 3,
+        "second_gain_db": 1,
+        "reverse_isolation_db": 140,
+        "channel_bandwidth_hz": 1000000,
+        "two_tone": false,
+        "secondary_spectrum": false,
+        "secondary_range_db": -50
+      },
+      "raw_capture_sha256": "dfd9b76f970d39c0c39de89b88b61a13ce2620dc3cde1bb2cb32769a974ba07a",
+      "nominal": {
+        "passed": true,
+        "check_count": 17,
+        "failed_check_count": 0,
+        "max_relative_complex_error": 4.4993520884286626e-08,
+        "max_relative_power_error": 8.998704381646405e-08,
+        "max_relative_drive_error": 2.4995756353618503e-08
+      },
+      "gain_hypothesis": {
+        "passed": true,
+        "check_count": 17,
+        "failed_check_count": 0,
+        "max_relative_complex_error": 4.4993520884286626e-08,
+        "max_relative_power_error": 8.998704381646405e-08,
+        "max_relative_drive_error": 2.4995756353618503e-08
+      }
+    },
+    {
+      "configuration": {
+        "source_power_dbm": -20,
+        "source_phase_deg": 90,
+        "maximum_order": 3,
+        "second_gain_db": 10,
+        "reverse_isolation_db": 140,
+        "channel_bandwidth_hz": 1000000,
+        "two_tone": false,
+        "secondary_spectrum": false,
+        "secondary_range_db": -50
+      },
+      "raw_capture_sha256": "b0b87fe414e9c37dcd4ec0a325b32ebd414819be67a6185b36eef4453fd3a826",
+      "nominal": {
+        "passed": true,
+        "check_count": 17,
+        "failed_check_count": 0,
+        "max_relative_complex_error": 4.4993522539692315e-08,
+        "max_relative_power_error": 8.998704714713313e-08,
+        "max_relative_drive_error": 2.49957561315739e-08
+      },
+      "gain_hypothesis": {
+        "passed": true,
+        "check_count": 17,
+        "failed_check_count": 0,
+        "max_relative_complex_error": 4.4993522539692315e-08,
+        "max_relative_power_error": 8.998704714713313e-08,
+        "max_relative_drive_error": 2.49957561315739e-08
+      }
+    },
+    {
+      "configuration": {
+        "source_power_dbm": -20,
+        "source_phase_deg": 90,
+        "maximum_order": 3,
+        "second_gain_db": 1e-06,
+        "reverse_isolation_db": 140,
+        "channel_bandwidth_hz": 1000000,
+        "two_tone": false,
+        "secondary_spectrum": false,
+        "secondary_range_db": -50
+      },
+      "raw_capture_sha256": "2bde3015ffe103bf367bd15f08204cbae76e5a612a71c76e6eae1801c38b967a",
+      "nominal": {
+        "passed": true,
+        "check_count": 17,
+        "failed_check_count": 0,
+        "max_relative_complex_error": 4.4993521314008284e-08,
+        "max_relative_power_error": 8.998704470464247e-08,
+        "max_relative_drive_error": 2.4995755909529294e-08
+      },
+      "gain_hypothesis": {
+        "passed": true,
+        "check_count": 17,
+        "failed_check_count": 0,
+        "max_relative_complex_error": 4.4993521314008284e-08,
+        "max_relative_power_error": 8.998704470464247e-08,
+        "max_relative_drive_error": 2.4995755909529294e-08
+      }
+    },
+    {
+      "configuration": {
+        "source_power_dbm": -20,
+        "source_phase_deg": 90,
+        "maximum_order": 3,
+        "second_gain_db": 1e-08,
+        "reverse_isolation_db": 140,
+        "channel_bandwidth_hz": 1000000,
+        "two_tone": false,
+        "secondary_spectrum": false,
+        "secondary_range_db": -50
+      },
+      "raw_capture_sha256": "678561b935b67ad15090bc5d2322c735333d0c3906aab9f1dbb714aef0ca7159",
+      "nominal": {
+        "passed": true,
+        "check_count": 17,
+        "failed_check_count": 0,
+        "max_relative_complex_error": 4.499352245438745e-08,
+        "max_relative_power_error": 8.998704692508852e-08,
+        "max_relative_drive_error": 2.4995756353618503e-08
+      },
+      "gain_hypothesis": {
+        "passed": true,
+        "check_count": 17,
+        "failed_check_count": 0,
+        "max_relative_complex_error": 4.499352245438745e-08,
+        "max_relative_power_error": 8.998704692508852e-08,
+        "max_relative_drive_error": 2.4995756353618503e-08
+      }
+    },
+    {
+      "configuration": {
+        "source_power_dbm": -20,
+        "source_phase_deg": 90,
+        "maximum_order": 3,
+        "second_gain_db": 20,
+        "reverse_isolation_db": 140,
+        "channel_bandwidth_hz": 1000000,
+        "two_tone": false,
+        "secondary_spectrum": false,
+        "secondary_range_db": -50
+      },
+      "raw_capture_sha256": "ed83a4370702ebea22f4960dda79bed62497b0c3afc71fba2818c44bea288ab1",
+      "nominal": {
+        "passed": true,
+        "check_count": 17,
+        "failed_check_count": 0,
+        "max_relative_complex_error": 4.499352447247436e-08,
+        "max_relative_power_error": 8.998705092189141e-08,
+        "max_relative_drive_error": 2.499575524339548e-08
+      },
+      "gain_hypothesis": {
+        "passed": true,
+        "check_count": 17,
+        "failed_check_count": 0,
+        "max_relative_complex_error": 4.499352447247436e-08,
+        "max_relative_power_error": 8.998705092189141e-08,
+        "max_relative_drive_error": 2.499575524339548e-08
+      }
+    },
+    {
+      "configuration": {
+        "source_power_dbm": -20,
+        "source_phase_deg": 90,
+        "maximum_order": 3,
+        "second_gain_db": 5,
+        "reverse_isolation_db": 140,
+        "channel_bandwidth_hz": 1000000,
+        "two_tone": false,
+        "secondary_spectrum": false,
+        "secondary_range_db": -50
+      },
+      "raw_capture_sha256": "f0bcd817983934ea1f70642b0e724dc614f236d17169fe546ed7e7855cfc0763",
+      "nominal": {
+        "passed": true,
+        "check_count": 17,
+        "failed_check_count": 0,
+        "max_relative_complex_error": 4.4993522506698264e-08,
+        "max_relative_power_error": 8.998704714713313e-08,
+        "max_relative_drive_error": 2.49957561315739e-08
+      },
+      "gain_hypothesis": {
+        "passed": true,
+        "check_count": 17,
+        "failed_check_count": 0,
+        "max_relative_complex_error": 4.4993522506698264e-08,
+        "max_relative_power_error": 8.998704714713313e-08,
+        "max_relative_drive_error": 2.49957561315739e-08
+      }
+    },
+    {
+      "configuration": {
+        "source_power_dbm": -20,
+        "source_phase_deg": 90,
+        "maximum_order": 3,
+        "second_gain_db": 0,
+        "reverse_isolation_db": 140,
+        "channel_bandwidth_hz": 1000000,
+        "two_tone": false,
+        "secondary_spectrum": false,
+        "secondary_range_db": -50
+      },
+      "raw_capture_sha256": "921dbd3fa9128f63b2b0d57512dfc8fcd4b5688956e4a9ef4138b66b775fc68d",
+      "nominal": {
+        "passed": false,
+        "check_count": 17,
+        "failed_check_count": 11,
+        "max_relative_complex_error": 3.000063948254518e-07,
+        "max_relative_power_error": 6.000126996363875e-07,
+        "max_relative_drive_error": 2.4995755909529294e-08
+      },
+      "gain_hypothesis": {
+        "passed": true,
+        "check_count": 17,
+        "failed_check_count": 0,
+        "max_relative_complex_error": 4.499352323777448e-08,
+        "max_relative_power_error": 8.998704870144536e-08,
+        "max_relative_drive_error": 2.4995755909529294e-08
+      }
+    }
+  ],
+  "limitations": [
+    "Empirical behavior in SystemVue 2023.0.0.11903, not a verified internal implementation",
+    "Only matched RFAMP cascades, 140 dB isolation, tested gain/power/phase settings",
+    "No extrapolation to other versions, devices, mismatch, noise or compressed drive",
+    "Core APIs retain the requested gain; this diagnostic does not grant nominal compatibility"
+  ],
+  "captures_sha256": "543f9e377afad9fc104ec623ccf375f21a8dee3d21f1a1caa91925738bc988e2",
+  "library_sha256": "fb44b9134afd34198dc3af86625e0b0238f4bed5f25b46513f05a8fcd2a8bfe7"
+}

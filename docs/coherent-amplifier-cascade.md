@@ -57,7 +57,9 @@ python -m rfmodel examples/coherent-amplifier-cascade.json --library build-msvc/
 阈值保持复幅度与功率相对误差各 1e-7。共 214 个复幅度/功率检查和 16 个
 RF 输入功率检查；6 组完全通过。两组 0 dB 增益合计 22 项未通过，
 最大复幅度相对误差约 3.0001e-7，功率误差约 6.0001e-7。
-提高反向隔离没有解决差异，原因尚未确定；不将它归因于反向泄漏，也不调松容差。
+提高反向隔离没有解决差异；后续受控扫描识别出单位增益的等效参数偏移，
+详见[单位增益诊断](systemvue-unity-gain-diagnostic.md)。核心名义增益仍不变，
+因此本报告继续保留差异，不调整容差。
 全部 RFPwrIn 检查通过。总体报告保持 passed=false。
 
 本轮单音的次级谱开关对照未改变结果。双音开启该设置后仍只有本级载波失真
@@ -89,7 +91,7 @@ python scripts/reference/run-systemvue-reference.py cascade build-reference/RFMo
 ```
 
 采集器只附着已有实例，要求唯一且命名正确的专用工作区。可控制第二级增益
-0/10 dB、RISO 100/140 dB、通道 1/1e6 Hz、单音/双音、相位及次级谱设置。
+−10 到 20 dB（含小数）、RISO 100/140 dB、通道 1/1e6 Hz、单音/双音、相位及次级谱设置。
 新运行目录必须不存在；超时后先检查原收集进程，不能盲目重发。
 `archive-cascade-reference.py` 核对命令、参数回读和状态后归档；有警告、
 旧时间戳、错误拓扑、错误开关及缺失谱项均不进入通过报告。

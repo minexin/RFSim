@@ -131,7 +131,7 @@ def main():
     parser.add_argument("--cascade-riso-db", type=int, choices=(100, 140))
     parser.add_argument("--cascade-max-order", type=int, choices=(2, 3))
     parser.add_argument("--cascade-phase-deg", type=float)
-    parser.add_argument("--cascade-second-gain-db", type=int, choices=(0, 10))
+    parser.add_argument("--cascade-second-gain-db", type=float)
     parser.add_argument("--coherent-phase-deg", type=float)
     parser.add_argument("--coherent-length-rad", type=float)
     parser.add_argument("--coherent-locked", action="store_true")
@@ -170,6 +170,10 @@ def main():
         if (args.source_power_dbm is None or not math.isfinite(args.source_power_dbm)
                 or not -60 <= args.source_power_dbm <= -10):
             parser.error("Cascade requires source power from -60 to -10 dBm")
+        if args.cascade_second_gain_db is not None and (
+                not math.isfinite(args.cascade_second_gain_db)
+                or not -10 <= args.cascade_second_gain_db <= 20):
+            parser.error("Cascade second gain must be finite and from -10 to 20 dB")
         if args.cascade_phase_deg is not None and (
                 not math.isfinite(args.cascade_phase_deg) or not -180 <= args.cascade_phase_deg <= 180):
             parser.error("Cascade phase must be finite and from -180 to 180 degrees")

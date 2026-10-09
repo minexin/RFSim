@@ -3,7 +3,7 @@ param(
     [ValidateRange(-60,-10)][double]$SourcePowerDbm = -30,
     [ValidateRange(-180,180)][double]$SourcePhaseDeg = 0,
     [ValidateSet(2,3)][int]$MaximumOrder = 3,
-    [ValidateSet(0,10)][int]$SecondGainDb = 10,
+    [ValidateRange(-10,20)][double]$SecondGainDb = 10,
     [ValidateSet(100,140)][int]$ReverseIsolationDb = 100,
     [ValidateSet(1,1000000)][double]$ChannelBandwidthHz = 1000000,
     [switch]$SecondarySpectrum,
@@ -174,7 +174,7 @@ public static class CascadeReference
         }
     }
 
-    public static Node[] Run(double power, double phase, int order, int secondGain,
+    public static Node[] Run(double power, double phase, int order, double secondGain,
                              double channelBandwidth, bool secondary, int secondaryRange,
                              bool twoTone, int reverseIsolation)
     {
@@ -227,20 +227,22 @@ public static class CascadeReference
                             "ZOUT",     "RISO",         "PortParamType", "AMtoPM_Mode",
                             "EnablePN", "FrequencyMode"
                         };
-                        string[] values = { i == 1 ? "10" : secondGain.ToString(),
-                                            "3",
-                                            "20",
-                                            "23",
-                                            "40",
-                                            "30",
-                                            "50",
-                                            "50",
-                                            "50",
-                                            reverseIsolation.ToString(),
-                                            "0",
-                                            "0",
-                                            "0",
-                                            "0" };
+                        string[] values = {
+                            i == 1 ? "10" : secondGain.ToString("R", CultureInfo.InvariantCulture),
+                            "3",
+                            "20",
+                            "23",
+                            "40",
+                            "30",
+                            "50",
+                            "50",
+                            "50",
+                            reverseIsolation.ToString(),
+                            "0",
+                            "0",
+                            "0",
+                            "0"
+                        };
                         for (int j = 0; j < names.Length; ++j)
                         {
                             calls.Add(amp + names[j] + ".Set(\"" + values[j] + "\")");

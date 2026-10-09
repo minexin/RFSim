@@ -134,7 +134,7 @@ def inspect(capture):
     if (
         not -60 <= power <= -10
         or not -180 <= phase <= 180
-        or gain not in (0, 10)
+        or not -10 <= gain <= 20
         or riso not in (100, 140)
         or bandwidth not in (1, 1e6)
         or type(capture["maximum_order"]) is not int
