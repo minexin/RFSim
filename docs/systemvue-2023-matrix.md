@@ -89,3 +89,5 @@ passed=false，完整相干合并功率不能列为已验收。
 [十一阶多项式与 ABI 兼容](eleventh-order-polynomial.md)：C++/Python、显式 IP2..IP11 及系统图已扩展到十一阶；新增 C v2 符号，旧九阶结构与函数保留。证据为独立数值与工程回归，SystemVue 完整十一阶兼容尚未完成。
 
 [RFAMP 四至十一阶实测诊断](systemvue-eleventh-order-diagnostic.md)：七组采集验证公共限幅与固定参数奇数阶系数；807 个奇数阶校准外来源项通过，八/十阶小残差及 10 个低功率缺项保留，自动系数算法仍未实现。
+
+[高阶输入端口参考诊断](systemvue-highorder-input-reference.md)：从原采集归档九个源的实际输入电压，1413 个独立高阶评分项在原容差下通过；八/十阶名义残差由输入参考差异解释，完整网络输入求解和自动奇数阶系数仍未完成。

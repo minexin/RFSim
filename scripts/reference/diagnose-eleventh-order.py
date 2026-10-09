@@ -51,7 +51,7 @@ def term_label(term, inputs):
     return comparison.label(comparison.traced.expression(indices), 1)
 
 
-def diagnose(library, captures):
+def diagnose(library, captures, *, source_provider=helpers.source_components):
     if not isinstance(captures, list):
         raise ValueError("Capture list required")
     indexed = {}
@@ -75,7 +75,7 @@ def diagnose(library, captures):
 
     calibration = indexed[CALIBRATION]
     observed = comparison.spectrum(calibration, 3)
-    wave = helpers.source_components(calibration)[0].amplitude
+    wave = source_provider(calibration)[0].amplitude
     coefficients = [0.0] * 12
     odd_fits = {}
     for order in ODD_ORDERS:
@@ -111,7 +111,7 @@ def diagnose(library, captures):
     cases = []
     aggregate = {order: [] for order in range(4, 12)}
     for key, capture in sorted(indexed.items()):
-        sources = helpers.source_components(capture)
+        sources = source_provider(capture)
         drive = math.fsum(abs(source.amplitude) ** 2 for source in sources)
         point = library.amplifier_operating_point(
             drive,

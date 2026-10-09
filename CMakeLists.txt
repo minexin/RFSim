@@ -91,6 +91,9 @@ if(RFMODEL_BUILD_C_API)
         add_test(NAME coherent_network_file_test COMMAND ${Python3_EXECUTABLE}
             ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_coherent_network_file.py
             $<TARGET_FILE:rfmodel_c>)
+        add_test(NAME highorder_input_reference_diagnostic COMMAND ${Python3_EXECUTABLE}
+            ${CMAKE_CURRENT_SOURCE_DIR}/scripts/reference/test_highorder_input_reference.py
+            $<TARGET_FILE:rfmodel_c>)
         add_test(NAME eleventh_order_diagnostic COMMAND ${Python3_EXECUTABLE}
             ${CMAKE_CURRENT_SOURCE_DIR}/scripts/reference/test_diagnose_eleventh_order.py
             $<TARGET_FILE:rfmodel_c>)

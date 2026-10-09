@@ -1,0 +1,321 @@
+[
+  {
+    "raw_capture_sha256": "2b6fd13a8415ed5bf738db96addb357c350a8be29b79b87bd7b1b7b0c8f538c1",
+    "reference_ohms": 50,
+    "source_port": 1,
+    "sources": [
+      {
+        "source_index": 1,
+        "label": "D[(Source.Source1)],Source",
+        "samples": [
+          {
+            "frequency_hz": 999999999.5,
+            "power_w": 0.0009999999799999997,
+            "peak_voltage": [
+              0.3162277620639906,
+              0
+            ],
+            "impedance_ohms": [
+              49.99999974999994,
+              0
+            ]
+          },
+          {
+            "frequency_hz": 1000000000.5,
+            "power_w": 0.0009999999799999997,
+            "peak_voltage": [
+              0.3162277620639906,
+              0
+            ],
+            "impedance_ohms": [
+              49.99999974999994,
+              0
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "raw_capture_sha256": "048544502c1e6c6451737c89e6cdf8e5ed46e21b6741762c1c38460ed7aff20b",
+    "reference_ohms": 50,
+    "source_port": 1,
+    "sources": [
+      {
+        "source_index": 1,
+        "label": "D[(Source.Source1)],Source",
+        "samples": [
+          {
+            "frequency_hz": 999999999.5,
+            "power_w": 0.003162277596922826,
+            "peak_voltage": [
+              0.5623413181610821,
+              0
+            ],
+            "impedance_ohms": [
+              49.99999974999994,
+              0
+            ]
+          },
+          {
+            "frequency_hz": 1000000000.5,
+            "power_w": 0.003162277596922826,
+            "peak_voltage": [
+              0.5623413181610821,
+              0
+            ],
+            "impedance_ohms": [
+              49.99999974999994,
+              0
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "raw_capture_sha256": "a81bb3ed937ca51c99db1b2d149ecfd00887f72f3c6fd7151d6ce20d7cf305bf",
+    "reference_ohms": 50,
+    "source_port": 1,
+    "sources": [
+      {
+        "source_index": 1,
+        "label": "D[(Source.Source1)],Source",
+        "samples": [
+          {
+            "frequency_hz": 999999999.5,
+            "power_w": 0.003162277596922826,
+            "peak_voltage": [
+              0.39763535941308303,
+              0.39763535941308303
+            ],
+            "impedance_ohms": [
+              49.99999974999994,
+              0
+            ]
+          },
+          {
+            "frequency_hz": 1000000000.5,
+            "power_w": 0.003162277596922826,
+            "peak_voltage": [
+              0.39763535941308303,
+              0.39763535941308303
+            ],
+            "impedance_ohms": [
+              49.99999974999994,
+              0
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "raw_capture_sha256": "aa9b6977c571534f0c842c66fb00d46a1d4f750120fa9cf349d170458627cb69",
+    "reference_ohms": 50,
+    "source_port": 1,
+    "sources": [
+      {
+        "source_index": 1,
+        "label": "D[(Source.Source1)],Source",
+        "samples": [
+          {
+            "frequency_hz": 999999999.5,
+            "power_w": 0.003162277596922826,
+            "peak_voltage": [
+              0.5623413181610821,
+              0
+            ],
+            "impedance_ohms": [
+              49.99999974999994,
+              0
+            ]
+          },
+          {
+            "frequency_hz": 1000000000.5,
+            "power_w": 0.003162277596922826,
+            "peak_voltage": [
+              0.5623413181610821,
+              0
+            ],
+            "impedance_ohms": [
+              49.99999974999994,
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "source_index": 2,
+        "label": "D[(Source.Source2)],Source",
+        "samples": [
+          {
+            "frequency_hz": 1099999999.5,
+            "power_w": 0.003162277596922826,
+            "peak_voltage": [
+              3.443347476571363e-17,
+              0.5623413181610821
+            ],
+            "impedance_ohms": [
+              49.99999974999994,
+              0
+            ]
+          },
+          {
+            "frequency_hz": 1100000000.5,
+            "power_w": 0.003162277596922826,
+            "peak_voltage": [
+              3.443347476571363e-17,
+              0.5623413181610821
+            ],
+            "impedance_ohms": [
+              49.99999974999994,
+              0
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "raw_capture_sha256": "54d21fcd5969800c29749cf8dd4ffb9a6318972eb1c301c050361785709b20f1",
+    "reference_ohms": 50,
+    "source_port": 1,
+    "sources": [
+      {
+        "source_index": 1,
+        "label": "D[(Source.Source1)],Source",
+        "samples": [
+          {
+            "frequency_hz": 999999999.5,
+            "power_w": 0.003162277596922826,
+            "peak_voltage": [
+              0.5623413181610821,
+              0
+            ],
+            "impedance_ohms": [
+              49.99999974999994,
+              0
+            ]
+          },
+          {
+            "frequency_hz": 1000000000.5,
+            "power_w": 0.003162277596922826,
+            "peak_voltage": [
+              0.5623413181610821,
+              0
+            ],
+            "impedance_ohms": [
+              49.99999974999994,
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "source_index": 2,
+        "label": "D[(Source.Source2)],Source",
+        "samples": [
+          {
+            "frequency_hz": 1099999999.5,
+            "power_w": 0.0009999999799999997,
+            "peak_voltage": [
+              1.9363365830659846e-17,
+              0.3162277620639906
+            ],
+            "impedance_ohms": [
+              49.99999974999994,
+              0
+            ]
+          },
+          {
+            "frequency_hz": 1100000000.5,
+            "power_w": 0.0009999999799999997,
+            "peak_voltage": [
+              1.9363365830659846e-17,
+              0.3162277620639906
+            ],
+            "impedance_ohms": [
+              49.99999974999994,
+              0
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "raw_capture_sha256": "c1ce282c246b6b014c9e957c2e3eb8e1ae5b1fccffa6ad3ca2c4543be1125cd9",
+    "reference_ohms": 50,
+    "source_port": 1,
+    "sources": [
+      {
+        "source_index": 1,
+        "label": "D[(Source.Source1)],Source",
+        "samples": [
+          {
+            "frequency_hz": 999999999.5,
+            "power_w": 0.003162277596922826,
+            "peak_voltage": [
+              0.5623413181610821,
+              0
+            ],
+            "impedance_ohms": [
+              49.99999974999994,
+              0
+            ]
+          },
+          {
+            "frequency_hz": 1000000000.5,
+            "power_w": 0.003162277596922826,
+            "peak_voltage": [
+              0.5623413181610821,
+              0
+            ],
+            "impedance_ohms": [
+              49.99999974999994,
+              0
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "raw_capture_sha256": "cd0e1107c6f9c6364d3905c6e44a8b9684433c1c0146383d5c29faa0e56d7f3a",
+    "reference_ohms": 50,
+    "source_port": 1,
+    "sources": [
+      {
+        "source_index": 1,
+        "label": "D[(Source.Source1)],Source",
+        "samples": [
+          {
+            "frequency_hz": 999999999.5,
+            "power_w": 0.003162277596922826,
+            "peak_voltage": [
+              0.5623413181610821,
+              0
+            ],
+            "impedance_ohms": [
+              49.99999974999994,
+              0
+            ]
+          },
+          {
+            "frequency_hz": 1000000000.5,
+            "power_w": 0.003162277596922826,
+            "peak_voltage": [
+              0.5623413181610821,
+              0
+            ],
+            "impedance_ohms": [
+              49.99999974999994,
+              0
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]
