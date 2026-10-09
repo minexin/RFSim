@@ -122,7 +122,8 @@ public:
     // Additional source noise may correlate external channels across devices. It is
     // independent of the per-device source blocks and is validated before addition.
     ConversionResult analyze(bool loaded_noise = false,
-                             const ConversionNoise *additional_source_noise = nullptr) const {
+                             const ConversionNoise *additional_source_noise = nullptr,
+                             const std::vector<Complex> &output_offset = {}) const {
         if (devices_.empty()) {
             throw std::invalid_argument("empty conversion network");
         }
@@ -182,8 +183,13 @@ public:
                     additional_source_noise->complementary.values[i];
             }
         }
-        return combined.analyze(
-            source, reflection, source_noise, intrinsic_noise, connections_, loaded_noise);
+        return combined.analyze(source,
+                                reflection,
+                                source_noise,
+                                intrinsic_noise,
+                                connections_,
+                                loaded_noise,
+                                output_offset);
     }
 
     // A separate reference-temperature experiment. Original deterministic sources

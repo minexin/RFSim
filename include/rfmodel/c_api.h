@@ -202,6 +202,26 @@ RFMODEL_API int rfmodel_conversion_network_analyze_correlated(
     const rfmodel_conversion_output *output,
     const rfmodel_conversion_loaded_output *loaded);
 
+/* Deterministic device emission d in b=A*a+B*conj(a)+d. Full device/local
+ * channel order; offsets may be emitted at wired device ports. */
+typedef struct rfmodel_conversion_affine_offset {
+    size_t count;
+    const rfmodel_complex *values;
+} rfmodel_conversion_affine_offset;
+
+/* Offset descriptor/values required. Additional source C/P and loaded outputs
+ * are optional. All outputs remain atomic and disjoint from all inputs, now
+ * including the offset descriptor and vector. Noise transfer is unchanged. */
+RFMODEL_API int rfmodel_conversion_network_analyze_affine(
+    const rfmodel_conversion_request *devices,
+    size_t device_count,
+    const rfmodel_conversion_connection *connections,
+    size_t connection_count,
+    const rfmodel_conversion_affine_offset *offset,
+    const rfmodel_conversion_source_noise *additional_source_noise,
+    const rfmodel_conversion_output *output,
+    const rfmodel_conversion_loaded_output *loaded);
+
 /* Reference-temperature noise experiment on a conversion network. Channel indices
  * follow device/local order. Reference channels are a nonempty unique subset of
  * thermal channels. These and the output must be external and positive-frequency.

@@ -292,6 +292,11 @@ class MixerLinearization(NamedTuple):
     conjugate: object
     operating_outgoing: tuple
 
+    @property
+    def output_offset(self):
+        """Absolute-wave affine offset; tuple layout remains unchanged."""
+        return tuple(-value for value in self.operating_outgoing)
+
 
 class _MixerLinearizationRequest(ct.Structure):
     _fields_ = [
@@ -317,6 +322,10 @@ class _MixerLinearizationOutput(ct.Structure):
         ("matrix_capacity", ct.c_size_t),
         ("wave_capacity", ct.c_size_t),
     ]
+
+
+class _ConversionAffineOffset(ct.Structure):
+    _fields_ = [("count", ct.c_size_t), ("values", ct.POINTER(_Complex))]
 
 
 class _ConversionSourceNoise(ct.Structure):
@@ -696,6 +705,11 @@ class Library:
                 ct.c_int, [ct.POINTER(_ConversionRequest), size,
                            ct.POINTER(_ConversionConnection), size, ct.POINTER(_ConversionOutput),
                            ct.POINTER(_ConversionLoadedOutput)]),
+            "rfmodel_conversion_network_analyze_affine": (
+                ct.c_int, [ct.POINTER(_ConversionRequest), size,
+                           ct.POINTER(_ConversionConnection), size,
+                           ct.POINTER(_ConversionAffineOffset), ct.POINTER(_ConversionSourceNoise),
+                           ct.POINTER(_ConversionOutput), ct.POINTER(_ConversionLoadedOutput)]),
             "rfmodel_conversion_network_analyze_correlated": (
                 ct.c_int, [ct.POINTER(_ConversionRequest), size,
                            ct.POINTER(_ConversionConnection), size,
@@ -1809,6 +1823,7 @@ class Library:
         loaded_noise=False,
         additional_source_covariance=None,
         additional_source_complementary=None,
+        output_offset=None,
     ):
         """Connect physical ports of conversion devices; output order is device/channel order."""
         if type(loaded_noise) is not bool:
@@ -1846,7 +1861,25 @@ class Library:
             matrices = [(_Complex * (total * total))() for _ in range(4)]
             net = (ct.c_double * total)()
             loaded = _ConversionLoadedOutput(*matrices, net, total * total, total)
-        if extra is not None:
+        if output_offset is not None:
+            output_offset = tuple(output_offset)
+            if len(output_offset) != total:
+                raise ValueError("Conversion output offset dimensions differ")
+            native_offset = (_Complex * total)(*(_Complex.from_value(v) for v in output_offset))
+            affine = _ConversionAffineOffset(total, native_offset)
+            self._check(
+                self._dll.rfmodel_conversion_network_analyze_affine(
+                    native_requests,
+                    len(native_requests),
+                    native_connections,
+                    len(native_connections),
+                    ct.byref(affine),
+                    ct.byref(extra) if extra is not None else None,
+                    ct.byref(output),
+                    ct.byref(loaded) if loaded_noise else None,
+                )
+            )
+        elif extra is not None:
             self._check(
                 self._dll.rfmodel_conversion_network_analyze_correlated(
                     native_requests,
@@ -1907,10 +1940,26 @@ class Library:
         intrinsic_covariance=None,
         intrinsic_complementary=None,
         reference_ohms=50.0,
+        output_offset=None,
     ):
         """Solve b=A*a+B*conj(a)+c and a=Gamma*b+source, including C/P noise."""
         if direct is None:
             raise ValueError("Conversion direct matrix is required")
+        if output_offset is not None:
+            device = dict(
+                channels=channels,
+                direct=direct,
+                conjugate=conjugate,
+                source=source,
+                reflection=reflection,
+                source_covariance=source_covariance,
+                source_complementary=source_complementary,
+                intrinsic_covariance=intrinsic_covariance,
+                intrinsic_complementary=intrinsic_complementary,
+            )
+            return self.conversion_network(
+                spacing_hz, [device], reference_ohms=reference_ohms, output_offset=output_offset
+            )
         ports, bins = _conversion_channels(channels)
         count = len(ports)
 

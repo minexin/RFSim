@@ -84,3 +84,5 @@ python -m rfmodel examples/filtered-conversion-network.json --library build-msvc
 可用 [phase_noise_sources](phase-noise.md) 从外部载波边界生成一阶相位相关边带，与现有源噪声独立相加。
 
 [全局相关源与共享参考相噪](shared-phase-noise.md)可通过 additional_source_noise 或 phase_noise_groups 接入，并保留跨器件统计量。
+
+绝对波器件偏置和 linearized_real_mixer 装配见[仿射网络](affine-conversion.md)；原默认转换矩阵分析保持不变。

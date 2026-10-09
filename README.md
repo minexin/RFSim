@@ -93,3 +93,5 @@ Windows 本机可运行 `scripts/build-msvc.ps1` 自动定位已有 VS 工具链
 [共享参考相噪与跨器件相关噪声](docs/shared-phase-noise.md)支持多载波相位增益和相关统计在转换网络中的传播。
 
 [RF/LO 混频小信号模型](docs/mixer-linearization.md)支持给定工作点的 LO 扰动、共享相噪和阻塞波互易混频解析验证。
+
+[绝对波仿射网络](docs/affine-conversion.md)将给定工作点混频器接入物理网络，检查工作点一致性并保留 RF/LO 相关噪声。

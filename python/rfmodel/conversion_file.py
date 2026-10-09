@@ -7,7 +7,14 @@ def analyze_conversion(library, document, base_directory=None):
     _object(
         document,
         ("format", "version", "spacing_hz", "channels", "model"),
-        ("reference_ohms", "source", "reflection", "source_noise", "intrinsic_noise"),
+        (
+            "reference_ohms",
+            "source",
+            "reflection",
+            "source_noise",
+            "intrinsic_noise",
+            "output_offset",
+        ),
     )
     if (
         document["format"] != "rfmodel.frequency-conversion"
@@ -30,7 +37,7 @@ def analyze_conversion(library, document, base_directory=None):
         library, spacing, channels, document["model"], reference
     )
     options = {}
-    for field in ("source", "reflection"):
+    for field in ("source", "reflection", "output_offset"):
         if field in document:
             value = document[field]
             if not isinstance(value, list) or len(value) != len(channels):

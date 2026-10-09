@@ -10,6 +10,7 @@ from .model_file import (
     _device_noise,
     _touchstone_samples,
 )
+from .affine_conversion import offset_vector, linearized_mixer, check_operating_points
 from .conversion_file import conversion_matrices
 from .phase_noise import apply_phase_noise_sources, build_phase_noise_groups
 from .channel_measurements import parse_channel_measurements, measure_conversion_channels
@@ -31,7 +32,7 @@ def noise_pair(specification, count):
 
 
 def linear_device(library, device, spacing, reference, base_directory):
-    _object(device, ("id", "bins", "model", "noise"), ("source_noise",))
+    _object(device, ("id", "bins", "model", "noise"), ("source_noise", "output_offset"))
     bins = device["bins"]
     if (
         not isinstance(bins, list)
@@ -117,6 +118,8 @@ def analyze_conversion_network(library, document, base_directory=None):
     if not isinstance(entries, list) or not 1 <= len(entries) <= 512:
         raise ValueError("Expected 1..512 conversion devices")
     devices, names, labels, lookup = [], {}, [], {}
+    output_offsets, operating_points = [], []
+    use_affine = False
     for entry in entries:
         if (
             not isinstance(entry, dict)
@@ -127,10 +130,11 @@ def analyze_conversion_network(library, document, base_directory=None):
             raise ValueError("Conversion device IDs must be unique nonempty strings")
         name = entry["id"]
         model = entry.get("model")
+        generated_offset = None
         if isinstance(model, dict) and model.get("type") == "linear":
             native = linear_device(library, entry, spacing, reference, base_directory)
         else:
-            _object(entry, ("id", "channels", "model", "noise"), ("source_noise",))
+            _object(entry, ("id", "channels", "model", "noise"), ("source_noise", "output_offset"))
             if not isinstance(entry["channels"], list) or not 1 <= len(entry["channels"]) <= 512:
                 raise ValueError("Expected conversion channel list")
             channels = []
@@ -139,7 +143,15 @@ def analyze_conversion_network(library, document, base_directory=None):
                 if type(channel["port"]) is not int or type(channel["bin"]) is not int:
                     raise ValueError("Conversion indices must be integers")
                 channels.append((channel["port"], channel["bin"]))
-            a, b = conversion_matrices(library, spacing, channels, model, reference)
+            if isinstance(model, dict) and model.get("type") == "linearized_real_mixer":
+                if "output_offset" in entry:
+                    raise ValueError("Linearized mixer computes its own output offset")
+                lin, operating = linearized_mixer(library, spacing, channels, model, reference)
+                a, b = lin.direct, lin.conjugate
+                generated_offset = list(lin.output_offset)
+                operating_points.append((name, len(labels), operating))
+            else:
+                a, b = conversion_matrices(library, spacing, channels, model, reference)
             c, p = noise_pair(entry["noise"], len(channels))
             native = {
                 "channels": channels,
@@ -151,6 +163,14 @@ def analyze_conversion_network(library, document, base_directory=None):
         count = len(native["channels"])
         if len(labels) + count > 512:
             raise ValueError("Conversion network exceeds 512 channels")
+        if generated_offset is not None:
+            output_offsets.extend(generated_offset)
+            use_affine = True
+        elif "output_offset" in entry:
+            output_offsets.extend(offset_vector(entry["output_offset"], count))
+            use_affine = True
+        else:
+            output_offsets.extend([0j] * count)
         native["source"] = [0j] * count
         native["reflection"] = [0j] * count
         if "source_noise" in entry:
@@ -273,7 +293,9 @@ def analyze_conversion_network(library, document, base_directory=None):
         loaded_noise=need_incident,
         additional_source_covariance=extra_c,
         additional_source_complementary=extra_p,
+        output_offset=output_offsets if use_affine else None,
     )
+    operating_reports = check_operating_points(operating_points, result)
     channels = []
     for i, (name, port, index) in enumerate(labels):
         a, b = result.incident[i], result.outgoing[i]
@@ -300,6 +322,11 @@ def analyze_conversion_network(library, document, base_directory=None):
         "noise_complementary_w_per_hz": _encode(result.noise_complementary),
         "relative_residual": result.relative_residual,
     }
+    if use_affine:
+        output["wave_relation"] = "affine"
+        output["output_offset"] = [[v.real, v.imag] for v in output_offsets]
+    if operating_reports:
+        output["operating_point_checks"] = operating_reports
     if phase_noise_groups:
         output["phase_noise_groups"] = phase_noise_groups
     if phase_noise_sources:

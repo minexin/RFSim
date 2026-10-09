@@ -410,14 +410,14 @@ decode_conversion_network(const rfmodel_conversion_request *devices,
 } // namespace
 
 namespace {
-void analyze_conversion_network_outputs(
-    const rfmodel_conversion_request *devices,
-    size_t device_count,
-    const rfmodel_conversion_connection *connections,
-    size_t connection_count,
-    const rfmodel_conversion_output *output,
-    const rfmodel_conversion_loaded_output *loaded,
-    const rfmodel_conversion_source_noise *additional = nullptr) {
+void analyze_conversion_network_outputs(const rfmodel_conversion_request *devices,
+                                        size_t device_count,
+                                        const rfmodel_conversion_connection *connections,
+                                        size_t connection_count,
+                                        const rfmodel_conversion_output *output,
+                                        const rfmodel_conversion_loaded_output *loaded,
+                                        const rfmodel_conversion_source_noise *additional = nullptr,
+                                        const rfmodel_conversion_affine_offset *offset = nullptr) {
     require(output);
     const auto &o = *output;
     size_t total;
@@ -430,6 +430,11 @@ void analyze_conversion_network_outputs(
         if (additional->complementary) {
             inputs.push_back({additional->complementary, total * total * sizeof(rfmodel_complex)});
         }
+    }
+    if (offset) {
+        require(offset->count == total && offset->values);
+        inputs.push_back({offset, sizeof(*offset)});
+        inputs.push_back({offset->values, total * sizeof(rfmodel_complex)});
     }
     inputs.push_back({output, sizeof(*output)});
     require(o.incident && o.outgoing && o.noise_covariance && o.noise_complementary &&
@@ -485,7 +490,14 @@ void analyze_conversion_network_outputs(
             }
         }
     }
-    const auto result = network.analyze(loaded != nullptr, additional ? &extra : nullptr);
+    std::vector<rfmodel::Complex> emission;
+    if (offset) {
+        emission.reserve(total);
+        for (size_t i = 0; i < total; ++i) {
+            emission.emplace_back(offset->values[i].real, offset->values[i].imag);
+        }
+    }
+    const auto result = network.analyze(loaded != nullptr, additional ? &extra : nullptr, emission);
     for (size_t i = 0; i < total; ++i) {
         o.incident[i] = {result.incident[i].real(), result.incident[i].imag()};
         o.outgoing[i] = {result.outgoing[i].real(), result.outgoing[i].imag()};
@@ -1948,6 +1960,28 @@ int rfmodel_conversion_network_analyze(const rfmodel_conversion_request *devices
     return guarded([&] {
         analyze_conversion_network_outputs(
             devices, device_count, connections, connection_count, output, nullptr);
+    });
+}
+
+int rfmodel_conversion_network_analyze_affine(
+    const rfmodel_conversion_request *devices,
+    size_t device_count,
+    const rfmodel_conversion_connection *connections,
+    size_t connection_count,
+    const rfmodel_conversion_affine_offset *offset,
+    const rfmodel_conversion_source_noise *additional_source_noise,
+    const rfmodel_conversion_output *output,
+    const rfmodel_conversion_loaded_output *loaded) {
+    return guarded([&] {
+        require(offset);
+        analyze_conversion_network_outputs(devices,
+                                           device_count,
+                                           connections,
+                                           connection_count,
+                                           output,
+                                           loaded,
+                                           additional_source_noise,
+                                           offset);
     });
 }
 

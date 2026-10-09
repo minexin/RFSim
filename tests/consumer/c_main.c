@@ -3,6 +3,42 @@
 
 int main(int argc, char **argv) {
     {
+        const size_t port = 0;
+        int bin = 1;
+        const rfmodel_complex direct = {.5, 0.}, zero = {0., 0.};
+        const rfmodel_complex source = {1., 0.}, reflection = {.2, 0.};
+        const rfmodel_complex noise = {1e-9, 0.}, additional = {2e-9, 0.};
+        rfmodel_complex emission = {.3, 0.};
+        rfmodel_conversion_affine_offset offset = {1, &emission};
+        rfmodel_conversion_source_noise extra = {1, &additional, NULL};
+        rfmodel_conversion_request device = {0};
+        rfmodel_complex values[4], loaded_values[4];
+        double net, residual;
+        rfmodel_conversion_output output = {
+            values, values + 1, values + 2, values + 3, 1, 1, &residual};
+        rfmodel_conversion_loaded_output loaded = {
+            loaded_values, loaded_values + 1, loaded_values + 2, loaded_values + 3, &net, 1, 1};
+        device.count = 1;
+        device.spacing_hz = 1.;
+        device.reference_ohms = 50.;
+        device.physical_ports = &port;
+        device.bins = &bin;
+        device.direct = &direct;
+        device.conjugate = &zero;
+        device.source = &source;
+        device.reflection = &reflection;
+        device.source_covariance = &noise;
+        if (rfmodel_conversion_network_analyze_affine(
+                &device, 1, NULL, 0, &offset, &extra, &output, &loaded) != RFMODEL_OK ||
+            fabs(values[1].real - .8 / .9) > 1e-12 ||
+            fabs(values[0].real - (1. + .2 * .8 / .9)) > 1e-12 ||
+            fabs(values[2].real / 3e-9 - .25 / .81) > 1e-12 ||
+            fabs(loaded_values[2].real / 3e-9 - .5 / .81) > 1e-12) {
+            return 99;
+        }
+    }
+
+    {
         const size_t ports[4] = {0, 1, 2, 2};
         const int bins[4] = {12, 10, 2, 22};
         rfmodel_complex operating[4] = {{1., 0.}, {2., 0.}, {0., 0.}, {0., 0.}};

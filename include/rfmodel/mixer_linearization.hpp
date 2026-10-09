@@ -6,6 +6,15 @@ namespace rfmodel {
 struct MixerLinearization {
     FrequencyConversionModel incremental_model;
     std::vector<Complex> operating_outgoing;
+
+    // Bilinear Euler identity: J(a0)*a0 = 2*F(a0), hence d = -F(a0).
+    std::vector<Complex> output_offset() const {
+        auto result = operating_outgoing;
+        for (auto &value : result) {
+            value = -value;
+        }
+        return result;
+    }
 };
 
 // RMS power-wave product y(t)=sqrt(2)*k*x_RF(t)*x_LO(t). The constant k is

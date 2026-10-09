@@ -40,9 +40,19 @@
 
 int main() {
     {
+        rfmodel::FrequencyConversionNetwork network(1.);
+        network.add(rfmodel::FrequencyConversionModel(1., {{0, 1}}, {1, {.5}}, {1, {0.}}));
+        const auto result = network.analyze(false, nullptr, {.3});
+        if (std::abs(result.outgoing[0] - rfmodel::Complex{.3, 0.}) > 1e-12) {
+            return 99;
+        }
+    }
+
+    {
         const auto mixer = rfmodel::linearize_real_mixer(
             1e6, {{0, 12}, {1, 10}, {2, 2}, {2, 22}}, {1., 2., 0., 0.}, 10, 0.);
-        if (std::abs(mixer.operating_outgoing[2] - rfmodel::Complex{1., 0.}) > 1e-12 ||
+        if (std::abs(mixer.output_offset()[2] + rfmodel::Complex{1., 0.}) > 1e-12 ||
+            std::abs(mixer.operating_outgoing[2] - rfmodel::Complex{1., 0.}) > 1e-12 ||
             std::abs(mixer.incremental_model.conjugate()(2, 1) - rfmodel::Complex{.5, 0.}) >
                 1e-12) {
             return 98;

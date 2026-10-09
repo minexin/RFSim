@@ -209,8 +209,20 @@ public:
             const ConversionNoise &source_noise,
             const ConversionNoise &intrinsic_noise,
             const std::vector<std::pair<std::size_t, std::size_t>> &connections = {},
-            bool loaded_noise = false) const {
+            bool loaded_noise = false,
+            const std::vector<Complex> &output_offset = {}) const {
         const auto n = channels_.size(), m = 2 * n;
+        if (!output_offset.empty()) {
+            if (output_offset.size() != n) {
+                throw std::invalid_argument("conversion output offset dimensions differ");
+            }
+            for (std::size_t i = 0; i < n; ++i) {
+                if (!conversion_detail::finite(output_offset[i]) ||
+                    (channels_[i].bin == 0 && output_offset[i].imag() != 0.)) {
+                    throw std::invalid_argument("invalid conversion output offset or complex DC");
+                }
+            }
+        }
         if (source.size() != n || reflection.size() != n) {
             throw std::invalid_argument("conversion boundary dimensions differ");
         }
@@ -270,6 +282,10 @@ public:
             for (std::size_t j = 0; j < n; ++j) {
                 outgoing[i] += transfer(i, 2 * j).real() * source[j].real() +
                                transfer(i, 2 * j + 1).real() * source[j].imag();
+                if (!output_offset.empty()) {
+                    outgoing[i] += inverse(i, 2 * j).real() * output_offset[j].real() +
+                                   inverse(i, 2 * j + 1).real() * output_offset[j].imag();
+                }
             }
         }
         for (std::size_t i = 0; i < n; ++i) {
@@ -286,6 +302,10 @@ public:
         for (std::size_t i = 0; i < n; ++i) {
             Complex residual = -result.outgoing[i];
             double scale = std::abs(result.outgoing[i]);
+            if (!output_offset.empty()) {
+                residual += output_offset[i];
+                scale += std::abs(output_offset[i]);
+            }
             for (std::size_t j = 0; j < n; ++j) {
                 const auto first = direct_(i, j) * result.incident[j];
                 const auto second = conjugate_(i, j) * std::conj(result.incident[j]);

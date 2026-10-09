@@ -63,6 +63,8 @@ if(RFMODEL_BUILD_C_API)
             ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_python_api.py $<TARGET_FILE:rfmodel_c>)
         add_test(NAME linear_noise_analysis_file_test COMMAND ${Python3_EXECUTABLE}
             ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_linear_noise_analysis.py $<TARGET_FILE:rfmodel_c>)
+        add_test(NAME affine_conversion_file_test COMMAND ${Python3_EXECUTABLE}
+            ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_affine_conversion.py $<TARGET_FILE:rfmodel_c>)
         add_test(NAME mixer_linearization_file_test COMMAND ${Python3_EXECUTABLE}
             ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_mixer_linearization.py $<TARGET_FILE:rfmodel_c>)
         add_test(NAME shared_phase_noise_file_test COMMAND ${Python3_EXECUTABLE}
@@ -383,3 +385,7 @@ add_test(NAME shared_phase_noise_test COMMAND shared_phase_noise_test)
 add_executable(mixer_linearization_test tests/mixer_linearization_test.cpp)
 target_link_libraries(mixer_linearization_test PRIVATE rfmodel)
 add_test(NAME mixer_linearization_test COMMAND mixer_linearization_test)
+
+add_executable(affine_conversion_test tests/affine_conversion_test.cpp)
+target_link_libraries(affine_conversion_test PRIVATE rfmodel)
+add_test(NAME affine_conversion_test COMMAND affine_conversion_test)
