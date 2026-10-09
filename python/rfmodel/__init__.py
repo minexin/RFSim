@@ -223,6 +223,40 @@ class CoherentPolynomialResponse(NamedTuple):
     terms: tuple
 
 
+class ChannelNoiseMeasurement(NamedTuple):
+    lower_frequency_hz: float
+    upper_frequency_hz: float
+    effective_bandwidth_hz: float
+    noise_power_w: float
+    mean_noise_density_w_per_hz: float
+    desired_signal_power_w: float
+    carrier_to_noise_db: object
+    ratio_state: str
+    interpolation_intervals: int
+    desired_line_count: int
+
+
+class _ChannelNoiseRequest(ct.Structure):
+    _fields_ = [
+        ("noise_frequencies_hz", ct.POINTER(ct.c_double)),
+        ("noise_densities_w_per_hz", ct.POINTER(ct.c_double)),
+        ("noise_count", ct.c_size_t),
+        ("line_frequencies_hz", ct.POINTER(ct.c_double)),
+        ("line_powers_w", ct.POINTER(ct.c_double)),
+        ("line_count", ct.c_size_t),
+        ("center_hz", ct.c_double),
+        ("bandwidth_hz", ct.c_double),
+    ]
+
+
+class _ChannelNoiseResult(ct.Structure):
+    _fields_ = [(name, ct.c_double) for name in ChannelNoiseMeasurement._fields[:7]] + [
+        ("ratio_state", ct.c_int),
+        ("interpolation_intervals", ct.c_size_t),
+        ("desired_line_count", ct.c_size_t),
+    ]
+
+
 class ConversionResult(NamedTuple):
     incident: tuple
     outgoing: tuple
@@ -618,6 +652,8 @@ class Library:
                 ct.c_int, [ct.POINTER(_ConversionRequest), size,
                            ct.POINTER(_ConversionConnection), size, ct.POINTER(_ConversionOutput),
                            ct.POINTER(_ConversionLoadedOutput)]),
+            "rfmodel_measure_channel_noise": (
+                ct.c_int, [ct.POINTER(_ChannelNoiseRequest), ct.POINTER(_ChannelNoiseResult)]),
             "rfmodel_conversion_network_analyze": (
                 ct.c_int, [ct.POINTER(_ConversionRequest), size,
                     ct.POINTER(_ConversionConnection), size, ct.POINTER(_ConversionOutput)]),
@@ -1573,6 +1609,32 @@ class Library:
         )
         return ConversionNoiseAnalysis(
             *(getattr(output, name) for name in ConversionNoiseAnalysis._fields)
+        )
+
+    def channel_noise(self, noise_samples, *, center_hz, bandwidth_hz, desired_lines=()):
+        """Integrate a sampled W/Hz PSD and sum selected discrete line powers in watts.
+
+        Noise and line frequencies must strictly increase. The clipped channel
+        band must be fully covered by noise samples; no extrapolation is used.
+        """
+        samples, lines = tuple(noise_samples), tuple(desired_lines)
+        if not 2 <= len(samples) <= 1000000 or len(lines) > 1000000:
+            raise ValueError("Invalid channel sample/line count")
+        nf = (ct.c_double * len(samples))(*(float(f) for f, _ in samples))
+        nd = (ct.c_double * len(samples))(*(float(d) for _, d in samples))
+        lf = (ct.c_double * len(lines))(*(float(f) for f, _ in lines))
+        lp = (ct.c_double * len(lines))(*(float(p) for _, p in lines))
+        request = _ChannelNoiseRequest(
+            nf, nd, len(samples), lf, lp, len(lines), float(center_hz), float(bandwidth_hz)
+        )
+        output = _ChannelNoiseResult()
+        self._check(self._dll.rfmodel_measure_channel_noise(ct.byref(request), ct.byref(output)))
+        return ChannelNoiseMeasurement(
+            *(getattr(output, name) for name in ChannelNoiseMeasurement._fields[:6]),
+            output.carrier_to_noise_db if output.ratio_state == 0 else None,
+            ("finite", "noise_free", "no_signal", "empty")[output.ratio_state],
+            output.interpolation_intervals,
+            output.desired_line_count,
         )
 
     def conversion_network(

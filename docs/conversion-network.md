@@ -78,3 +78,5 @@ python -m rfmodel examples/filtered-conversion-network.json --library build-msvc
 [参考温度噪声分析](conversion-noise-analysis.md) 已支持显式信号/热源频带与 SSB/多频带归一化；输出热负载和宽带路径约定仍待补齐。
 
 [热负载与噪声功率流](conversion-loaded-noise.md) 已提供 loaded_noise 可选输出及 noise_temperature_k 边界参数，保留原默认结果和 C ABI。
+
+[channel_measurements](channel-noise-measurements.md) 已提供端口入射/出射方向的带宽噪声积分和显式所需谱线载噪比；频率采样覆盖不足会报错。

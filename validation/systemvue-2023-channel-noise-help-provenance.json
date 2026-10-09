@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "reference": "SystemVue 2023 installed help",
+  "source_qch": "C:/Program Files/Keysight/SystemVue2023/Help/systemvue.qch",
+  "read_date": "2026-10-09",
+  "sources": [
+    {
+      "path": "sim/Spectrasys_Channel_Noise_Power.html",
+      "sha256_decompressed_html": "003360c593390c015128467d2111155171e4b82c3a29e9853075c0e831330983"
+    },
+    {
+      "path": "sim/Spectrasys_Channel_Noise_Density.html",
+      "sha256_decompressed_html": "d646b7e808547ba199bcc35bd6555624ee9fe16bc1c01c506de54ed37511359f"
+    },
+    {
+      "path": "sim/Spectrasys_Carrier_to_Noise_Ratio.html",
+      "sha256_decompressed_html": "995f42af3e78bda90e713cbb96df9e3e11b7157757bfd9a1f26433898c3f1645"
+    }
+  ],
+  "definition_facts": {
+    "channel_edges": "center +/- bandwidth/2, lower edge clipped to zero",
+    "cnp": "noise power integrated over the main channel in the forward path direction",
+    "cnd": "one Hz channel power rather than mean density over an arbitrary band",
+    "cnr": "desired channel power over thermal plus phase-noise channel power",
+    "first_node_reference": "internal source plane, not automatically the delivered input power"
+  },
+  "implemented_scope": {
+    "noise_integration": "piecewise-linear interpolation of nonnegative W/Hz samples; complete clipped-band coverage required",
+    "desired_signal": "explicit already-combined discrete line powers inside inclusive edges",
+    "conversion_network": "explicit physical port and incident/outgoing wave; selected desired bins",
+    "zero_ratio": "explicit status plus absent dB result"
+  },
+  "not_yet_validated": [
+    "SystemVue CNP/CND/CNR numerical equivalence",
+    "path direction and internal source reference mapping",
+    "automatic desired-spectrum classification",
+    "phase-noise generation and separate PNCP",
+    "modulated spectrum integration",
+    "adaptive noise sampling"
+  ]
+}

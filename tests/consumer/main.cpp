@@ -1,3 +1,4 @@
+#include "rfmodel/channel_noise.hpp"
 #include "rfmodel/conversion_network.hpp"
 #include "rfmodel/frequency_conversion.hpp"
 #include "rfmodel/chebyshev_filter.hpp"
@@ -36,6 +37,14 @@
 #include <rfmodel/term_propagation.hpp>
 
 int main() {
+    {
+        const auto metric =
+            rfmodel::measure_channel_noise({{0., 1.}, {10., 3.}}, {{5., 4.}}, 5., 4.);
+        if (std::abs(metric.noise_power_w - 8.) > 1e-12 || !metric.carrier_to_noise_db) {
+            return 94;
+        }
+    }
+
     {
         const rfmodel::SMatrix pad{2, {0., .5, .5, 0.}};
         const auto noise = rfmodel::passive_thermal_noise(pad, 290.);

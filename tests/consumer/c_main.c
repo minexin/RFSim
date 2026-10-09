@@ -3,6 +3,18 @@
 
 int main(int argc, char **argv) {
     {
+        const double frequency[2] = {0., 10.}, density[2] = {1., 3.};
+        const double line_frequency = 5., line_power = 4.;
+        const rfmodel_channel_noise_request request = {
+            frequency, density, 2, &line_frequency, &line_power, 1, 5., 4.};
+        rfmodel_channel_noise_result result;
+        if (rfmodel_measure_channel_noise(&request, &result) != RFMODEL_OK ||
+            fabs(result.noise_power_w - 8.) > 1e-12 || result.ratio_state != 0) {
+            return 94;
+        }
+    }
+
+    {
         const size_t ports[2] = {0, 1};
         const int bins[2] = {1, 1};
         rfmodel_complex direct[4] = {{0., 0.}, {.5, 0.}, {.5, 0.}, {0., 0.}};

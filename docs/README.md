@@ -3,6 +3,7 @@
 - [M1 建设目标](m1-goal.md)
 - [总体架构](architecture.md)
 - [核心接口](api.md)
+- [通道噪声积分与载噪比](channel-noise-measurements.md)
 - [变频网络热负载与噪声功率流](conversion-loaded-noise.md)
 - [变频网络参考温度噪声分析](conversion-noise-analysis.md)
 - [多器件转换网络与线性器件接入](conversion-network.md)

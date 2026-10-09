@@ -79,6 +79,33 @@ rfmodel_polynomial_coefficients_from_intermod_levels(double power_gain_db,
                                                      size_t capacity,
                                                      size_t *coefficient_count);
 
+/* A sampled nonnegative PSD and already-combined desired spectral line powers.
+ * Frequency arrays must strictly increase. Noise samples (2..1000000) must
+ * cover max(0,center-bandwidth/2)..center+bandwidth/2; no extrapolation.
+ * Desired lines (0..1000000) are included at both band edges. */
+typedef struct rfmodel_channel_noise_request {
+    const double *noise_frequencies_hz;
+    const double *noise_densities_w_per_hz;
+    size_t noise_count;
+    const double *line_frequencies_hz;
+    const double *line_powers_w;
+    size_t line_count;
+    double center_hz;
+    double bandwidth_hz;
+} rfmodel_channel_noise_request;
+
+typedef struct rfmodel_channel_noise_result {
+    double lower_frequency_hz, upper_frequency_hz, effective_bandwidth_hz;
+    double noise_power_w, mean_noise_density_w_per_hz, desired_signal_power_w;
+    double carrier_to_noise_db; /* Meaningful only if ratio_state == 0. */
+    int ratio_state;            /* 0 finite, 1 noise-free, 2 no signal, 3 both zero. */
+    size_t interpolation_intervals, desired_line_count;
+} rfmodel_channel_noise_result;
+
+/* Output must not overlap the request or any input array; unchanged on error. */
+RFMODEL_API int rfmodel_measure_channel_noise(const rfmodel_channel_noise_request *request,
+                                              rfmodel_channel_noise_result *output);
+
 /* Fixed-pump finite-channel conversion b=A*a+B*conj(a)+c, a=Gamma*b+source.
  * Channels are unique (physical_port, nonnegative bin), frequency=bin*spacing.
  * N is 1..512. A/B and C/P arrays contain N*N row-major complex entries.

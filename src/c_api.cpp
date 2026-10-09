@@ -1,3 +1,4 @@
+#include "rfmodel/channel_noise.hpp"
 #include "rfmodel/conversion_network.hpp"
 #include "rfmodel/frequency_conversion.hpp"
 #include "rfmodel/chebyshev_filter.hpp"
@@ -1737,6 +1738,46 @@ int rfmodel_linear_amplifier_s(double frequency_hz,
         for (size_t i = 0; i < 4; ++i) {
             values[i] = {matrix.values[i].real(), matrix.values[i].imag()};
         }
+    });
+}
+
+int rfmodel_measure_channel_noise(const rfmodel_channel_noise_request *request,
+                                  rfmodel_channel_noise_result *output) {
+    return guarded([&] {
+        require(request && output && request->noise_count >= 2 && request->noise_count <= 1000000 &&
+                request->line_count <= 1000000 && request->noise_frequencies_hz &&
+                request->noise_densities_w_per_hz &&
+                (!request->line_count || (request->line_frequencies_hz && request->line_powers_w)));
+        disjoint(output, sizeof(*output), request, sizeof(*request));
+        for (auto *input : {request->noise_frequencies_hz, request->noise_densities_w_per_hz}) {
+            disjoint(output, sizeof(*output), input, request->noise_count * sizeof(double));
+        }
+        if (request->line_count) {
+            for (auto *input : {request->line_frequencies_hz, request->line_powers_w}) {
+                disjoint(output, sizeof(*output), input, request->line_count * sizeof(double));
+            }
+        }
+        std::vector<rfmodel::NoiseDensitySample> noise;
+        std::vector<rfmodel::ChannelSignalLine> lines;
+        for (size_t i = 0; i < request->noise_count; ++i) {
+            noise.push_back(
+                {request->noise_frequencies_hz[i], request->noise_densities_w_per_hz[i]});
+        }
+        for (size_t i = 0; i < request->line_count; ++i) {
+            lines.push_back({request->line_frequencies_hz[i], request->line_powers_w[i]});
+        }
+        const auto result =
+            rfmodel::measure_channel_noise(noise, lines, request->center_hz, request->bandwidth_hz);
+        *output = {result.lower_frequency_hz,
+                   result.upper_frequency_hz,
+                   result.effective_bandwidth_hz,
+                   result.noise_power_w,
+                   result.mean_noise_density_w_per_hz,
+                   result.desired_signal_power_w,
+                   result.carrier_to_noise_db.value_or(0.),
+                   static_cast<int>(result.ratio_state),
+                   result.interpolation_intervals,
+                   result.desired_line_count};
     });
 }
 

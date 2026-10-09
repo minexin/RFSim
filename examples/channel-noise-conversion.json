@@ -1,0 +1,297 @@
+{
+  "format": "rfmodel.conversion-network",
+  "version": 1,
+  "spacing_hz": 100000000.0,
+  "devices": [
+    {
+      "id": "rf_filter",
+      "bins": [
+        7,
+        8,
+        9,
+        11,
+        12,
+        13
+      ],
+      "model": {
+        "type": "linear",
+        "device": {
+          "type": "butterworth_ladder",
+          "response": "lowpass",
+          "order": 3,
+          "passband_hz": 1000000000.0
+        }
+      },
+      "noise": {
+        "temperature_k": 290
+      }
+    },
+    {
+      "id": "mixer",
+      "channels": [
+        {
+          "port": 0,
+          "bin": 7
+        },
+        {
+          "port": 0,
+          "bin": 8
+        },
+        {
+          "port": 0,
+          "bin": 9
+        },
+        {
+          "port": 0,
+          "bin": 11
+        },
+        {
+          "port": 0,
+          "bin": 12
+        },
+        {
+          "port": 0,
+          "bin": 13
+        },
+        {
+          "port": 1,
+          "bin": 1
+        },
+        {
+          "port": 1,
+          "bin": 2
+        },
+        {
+          "port": 1,
+          "bin": 3
+        },
+        {
+          "port": 1,
+          "bin": 17
+        },
+        {
+          "port": 1,
+          "bin": 18
+        },
+        {
+          "port": 1,
+          "bin": 19
+        },
+        {
+          "port": 1,
+          "bin": 21
+        },
+        {
+          "port": 1,
+          "bin": 22
+        },
+        {
+          "port": 1,
+          "bin": 23
+        }
+      ],
+      "model": {
+        "type": "ideal_real_mixer",
+        "lo_bin": 10
+      },
+      "noise": {
+        "noiseless": true
+      }
+    },
+    {
+      "id": "if_filter",
+      "bins": [
+        1,
+        2,
+        3,
+        17,
+        18,
+        19,
+        21,
+        22,
+        23
+      ],
+      "model": {
+        "type": "linear",
+        "device": {
+          "type": "chebyshev_lossless",
+          "response": "lowpass",
+          "order": 3,
+          "passband_hz": 300000000.0,
+          "ripple_db": 0.1
+        }
+      },
+      "noise": {
+        "temperature_k": 290
+      }
+    }
+  ],
+  "connections": [
+    [
+      [
+        "rf_filter",
+        1
+      ],
+      [
+        "mixer",
+        0
+      ]
+    ],
+    [
+      [
+        "mixer",
+        1
+      ],
+      [
+        "if_filter",
+        0
+      ]
+    ]
+  ],
+  "boundaries": [
+    {
+      "channel": [
+        "rf_filter",
+        0,
+        7
+      ],
+      "source": 0,
+      "noise_w_per_hz": 1e-20
+    },
+    {
+      "channel": [
+        "rf_filter",
+        0,
+        8
+      ],
+      "source": 0,
+      "noise_w_per_hz": 1e-20
+    },
+    {
+      "channel": [
+        "rf_filter",
+        0,
+        9
+      ],
+      "source": 0,
+      "noise_w_per_hz": 1e-20
+    },
+    {
+      "channel": [
+        "rf_filter",
+        0,
+        11
+      ],
+      "source": 0,
+      "noise_w_per_hz": 1e-20
+    },
+    {
+      "channel": [
+        "rf_filter",
+        0,
+        12
+      ],
+      "source": 1,
+      "noise_w_per_hz": 1e-20
+    },
+    {
+      "channel": [
+        "rf_filter",
+        0,
+        13
+      ],
+      "source": 0,
+      "noise_w_per_hz": 1e-20
+    },
+    {
+      "channel": [
+        "if_filter",
+        1,
+        1
+      ]
+    },
+    {
+      "channel": [
+        "if_filter",
+        1,
+        2
+      ]
+    },
+    {
+      "channel": [
+        "if_filter",
+        1,
+        3
+      ]
+    },
+    {
+      "channel": [
+        "if_filter",
+        1,
+        17
+      ]
+    },
+    {
+      "channel": [
+        "if_filter",
+        1,
+        18
+      ]
+    },
+    {
+      "channel": [
+        "if_filter",
+        1,
+        19
+      ]
+    },
+    {
+      "channel": [
+        "if_filter",
+        1,
+        21
+      ]
+    },
+    {
+      "channel": [
+        "if_filter",
+        1,
+        22
+      ]
+    },
+    {
+      "channel": [
+        "if_filter",
+        1,
+        23
+      ]
+    }
+  ],
+  "channel_measurements": [
+    {
+      "name": "if_channel",
+      "port": [
+        "if_filter",
+        1
+      ],
+      "center_hz": 200000000.0,
+      "bandwidth_hz": 200000000.0,
+      "desired_bins": [
+        2
+      ]
+    },
+    {
+      "name": "input_channel",
+      "port": [
+        "rf_filter",
+        0
+      ],
+      "wave": "incident",
+      "center_hz": 1200000000.0,
+      "bandwidth_hz": 200000000.0,
+      "desired_bins": [
+        12
+      ]
+    }
+  ]
+}

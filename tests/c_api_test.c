@@ -14,6 +14,37 @@
 
 int main(int argc, char **argv) {
     {
+        const double frequency[2] = {0., 10.}, line_frequency = 5., line_power = 4.;
+        double density[2] = {1., 3.};
+        rfmodel_channel_noise_request request = {
+            frequency, density, 2, &line_frequency, &line_power, 1, 5., 4.};
+        rfmodel_channel_noise_result result, saved;
+        CHECK(rfmodel_measure_channel_noise(&request, &result) == RFMODEL_OK);
+        CHECK(fabs(result.noise_power_w - 8.) < 1e-12 && result.desired_signal_power_w == 4. &&
+              result.ratio_state == 0);
+        memcpy(&saved, &result, sizeof(result));
+        request.bandwidth_hz = 30.;
+        CHECK(rfmodel_measure_channel_noise(&request, &result) != RFMODEL_OK);
+        CHECK(memcmp(&saved, &result, sizeof(result)) == 0);
+        request.bandwidth_hz = 4.;
+        density[0] = -1.;
+        CHECK(rfmodel_measure_channel_noise(&request, &result) != RFMODEL_OK);
+        CHECK(memcmp(&saved, &result, sizeof(result)) == 0);
+        density[0] = 1.;
+        CHECK(rfmodel_measure_channel_noise(&request, (rfmodel_channel_noise_result *)&request) !=
+              RFMODEL_OK);
+        CHECK(request.noise_count == 2 && request.center_hz == 5.);
+        CHECK(rfmodel_measure_channel_noise(&request, (rfmodel_channel_noise_result *)density) !=
+              RFMODEL_OK);
+        CHECK(density[0] == 1. && density[1] == 3.);
+        request.line_count = 0;
+        request.line_frequencies_hz = request.line_powers_w = NULL;
+        CHECK(rfmodel_measure_channel_noise(&request, &result) == RFMODEL_OK &&
+              result.ratio_state == 2);
+        CHECK(rfmodel_measure_channel_noise(NULL, &result) != RFMODEL_OK);
+    }
+
+    {
         const size_t ports[2] = {0, 1};
         const int bins[2] = {1, 1};
         rfmodel_complex direct[4] = {{0., 0.}, {.5, 0.}, {.5, 0.}, {0., 0.}};

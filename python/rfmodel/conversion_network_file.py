@@ -11,6 +11,7 @@ from .model_file import (
     _touchstone_samples,
 )
 from .conversion_file import conversion_matrices
+from .channel_measurements import parse_channel_measurements, measure_conversion_channels
 
 
 def zero(n):
@@ -90,7 +91,7 @@ def analyze_conversion_network(library, document, base_directory=None):
     _object(
         document,
         ("format", "version", "spacing_hz", "devices", "boundaries"),
-        ("reference_ohms", "connections", "noise_analyses", "loaded_noise"),
+        ("reference_ohms", "connections", "noise_analyses", "loaded_noise", "channel_measurements"),
     )
     if (
         document["format"] != "rfmodel.conversion-network"
@@ -229,8 +230,16 @@ def analyze_conversion_network(library, document, base_directory=None):
     required = {key for key in labels if key[:2] not in connected_ports}
     if assigned != required:
         raise ValueError("Every unconnected channel requires one explicit boundary")
+    channel_requests = (
+        parse_channel_measurements(document["channel_measurements"], labels)
+        if "channel_measurements" in document
+        else []
+    )
+    need_incident = loaded_noise or any(
+        request["wave"] == "incident" for request in channel_requests
+    )
     result = library.conversion_network(
-        spacing, devices, connections, reference_ohms=reference, loaded_noise=loaded_noise
+        spacing, devices, connections, reference_ohms=reference, loaded_noise=need_incident
     )
     channels = []
     for i, (name, port, index) in enumerate(labels):
@@ -270,6 +279,10 @@ def analyze_conversion_network(library, document, base_directory=None):
             channel["incident_noise_w_per_hz"] = result.incident_noise_covariance[i][i].real
             channel["outgoing_noise_w_per_hz"] = result.noise_covariance[i][i].real
             channel["net_noise_into_device_w_per_hz"] = result.net_noise_into_device_w_per_hz[i]
+    if channel_requests:
+        output["channel_measurements"] = measure_conversion_channels(
+            library, channel_requests, labels, result, spacing
+        )
     if "noise_analyses" in document:
         analyses = document["noise_analyses"]
         if not isinstance(analyses, list) or not 1 <= len(analyses) <= 512:
