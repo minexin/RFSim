@@ -2,7 +2,8 @@
   "scope": "Two-source TLE/tee/attenuator, output path waves and merged attenuator RF drive",
   "relative_tolerance": 1e-07,
   "cancellation_absolute_tolerance_w": 1e-15,
-  "limitation": "Clock IDs imported and checked; no automatic clock inference or split-source fixture",
+  "coherency_assignment": "Native source/reference-clock resolver; compare relations, not numeric IDs",
+  "limitation": "No nonlinear/LO coherence propagation or split-source fixture",
   "reports": [
     {
       "locked": true,
@@ -13,6 +14,7 @@
         {
           "source": 1,
           "coherency_number": 1,
+          "rfmodel_coherence_group": 1,
           "rfmodel_wave": [
             0.0018286811820249424,
             0.011713308623944353
@@ -36,6 +38,7 @@
         {
           "source": 2,
           "coherency_number": 1,
+          "rfmodel_coherence_group": 1,
           "rfmodel_wave": [
             0.0018286811820249424,
             0.011713308623944353
@@ -63,11 +66,23 @@
           "absolute_error_w": 3.651844343414978e-11,
           "tolerance_w": 1.7777777412593341e-10,
           "passed": true
+        },
+        {
+          "measurement": "source_clock_coherence_relation",
+          "systemvue_groups": [
+            1,
+            1
+          ],
+          "rfmodel_groups": [
+            1,
+            1
+          ],
+          "passed": true
         }
       ]
     }
   ],
   "passed": true,
   "captures_sha256": "c404669488e137a55a75ebeb1d0c009e11e254a50e3b087140bb5091a9208af2",
-  "library_sha256": "695b8af285eb58f35f4bf112296acdc2df8b749ea6d741769469da4237b62f7c"
+  "library_sha256": "3f9b26a6f57724c5c1ec445215a6b27c523292caae337cd401bc841ec0f40177"
 }

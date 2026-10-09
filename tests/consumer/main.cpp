@@ -1,3 +1,4 @@
+#include <rfmodel/source_coherence.hpp>
 #include <rfmodel/coherent_network.hpp>
 #include <rfmodel/coherence.hpp>
 #include <rfmodel/linear_analysis.hpp>
@@ -20,6 +21,11 @@
 #include <rfmodel/term_propagation.hpp>
 
 int main() {
+    const auto source_groups = rfmodel::assign_source_coherence({{"a", "clock"}, {"b", "clock"}});
+    if (source_groups.size() != 2 || source_groups[0] != source_groups[1] ||
+        source_groups[0] == 0) {
+        return 27;
+    }
     const auto combined = rfmodel::transmit_coherent_network(
         1e8,
         {{0, {10, rfmodel::SpectrumKind::source, 1., 7, 1.}},

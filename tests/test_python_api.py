@@ -28,6 +28,21 @@ class PythonApiTests(unittest.TestCase):
     def setUpClass(cls):
         cls.library = Library(LIBRARY_PATH)
 
+    def test_source_clock_assignment_and_utf8_validation(self):
+        source = rfmodel.SourceCoherence
+        definitions = [source("a", "参考"), source("b", "参考"), source("参考"), source("other")]
+        groups = self.library.assign_source_coherence(definitions)
+        self.assertEqual(groups[0], groups[1])
+        self.assertEqual(len(set(groups)), 3)
+        self.assertEqual(groups, self.library.assign_source_coherence(definitions[::-1])[::-1])
+        self.assertEqual(self.library.assign_source_coherence([]), ())
+        for bad in ([source("")], [source("a"), source("a")], [source("a", None)],
+                    [source("a" + chr(0) + "b")], [source("a", "x" + chr(0) + "y")],
+                    [source("测" * 342)], [source("a", "c" * 1025)], [source("a")] * 4097):
+            with self.subTest(bad=repr(bad)[:60]), self.assertRaises((ValueError, TypeError, RFModelError)):
+                self.library.assign_source_coherence(bad)
+        self.assertNotEqual(*self.library.assign_source_coherence([source("a", "Clock"), source("b", "clock")]))
+
     def test_multiport_coherent_interference_and_closed_handle(self):
         source = rfmodel.CoherentComponent(10, rfmodel.SpectrumKind.SOURCE, 1., 7, 1.)
         port = rfmodel.PortCoherentComponent

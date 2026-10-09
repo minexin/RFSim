@@ -33,6 +33,24 @@ typedef struct rfmodel_complex {
     double imag;
 } rfmodel_complex;
 
+typedef struct rfmodel_source_coherence {
+    const char *source_id;
+    const char *reference_clock;
+} rfmodel_source_coherence;
+
+/* Up to 4096 unique sources. Labels are NUL-terminated, case-sensitive bytes,
+ * at most 1024 bytes; source_id is nonempty. NULL/empty clock means independent.
+ * Same nonempty clock gets the same group; independent source names cannot
+ * collide with clock names. Output follows input order and is permutation-stable
+ * for a fixed source set. IDs may change when the source set changes.
+ * Empty input accepts NULL arrays. Output has exactly count elements; all buffers
+ * must be non-overlapping and groups remain unchanged on any failure.
+ * This resolves source clocks only, not harmonic/intermod/LO relationships. */
+RFMODEL_API int rfmodel_assign_source_coherence(const rfmodel_source_coherence *sources,
+                                                size_t count,
+                                                uint64_t *groups,
+                                                size_t capacity);
+
 enum rfmodel_spectrum_kind {
     RFMODEL_SPECTRUM_SOURCE = 0,
     RFMODEL_SPECTRUM_HARMONIC = 1,

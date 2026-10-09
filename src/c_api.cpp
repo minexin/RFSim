@@ -1,3 +1,4 @@
+#include "rfmodel/source_coherence.hpp"
 #include "rfmodel/coherent_network.hpp"
 #include "rfmodel/coherence.hpp"
 #include "rfmodel/c_api.h"
@@ -136,6 +137,38 @@ void write_coherence(const rfmodel::CoherentReduction &result,
 } // namespace
 
 extern "C" {
+int rfmodel_assign_source_coherence(const rfmodel_source_coherence *sources,
+                                    size_t count,
+                                    uint64_t *groups,
+                                    size_t capacity) {
+    return guarded([&] {
+        require(count <= 4096 && capacity >= count);
+        require(count == 0 || (sources && groups));
+        auto label = [](const char *value, bool optional) {
+            if (!value) {
+                require(optional);
+                return std::string{};
+            }
+            size_t length = 0;
+            while (length <= 1024 && value[length] != '\0') {
+                ++length;
+            }
+            require(length <= 1024);
+            return std::string(value, length);
+        };
+        std::vector<rfmodel::SourceCoherence> input;
+        input.reserve(count);
+        for (size_t i = 0; i < count; ++i) {
+            input.push_back(
+                {label(sources[i].source_id, false), label(sources[i].reference_clock, true)});
+        }
+        const auto resolved = rfmodel::assign_source_coherence(input);
+        for (size_t i = 0; i < count; ++i) {
+            groups[i] = resolved[i];
+        }
+    });
+}
+
 int rfmodel_reduce_coherent_components(double spacing_hz,
                                        const rfmodel_coherent_component *input,
                                        size_t input_count,

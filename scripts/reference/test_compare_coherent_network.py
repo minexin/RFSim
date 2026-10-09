@@ -4,6 +4,7 @@ import json
 from pathlib import Path
 import sys
 import unittest
+from unittest.mock import patch
 
 spec = importlib.util.spec_from_file_location(
     "comparison", Path(__file__).with_name("compare-coherent-network.py"))
@@ -24,8 +25,15 @@ class CoherentNetworkTests(unittest.TestCase):
     def test_real_capture_path_waves_and_merged_drive(self):
         report = comparison.compare(self.library, self.captures)
         self.assertTrue(report["passed"])
-        self.assertEqual(len(report["reports"][0]["checks"]), 3)
+        self.assertEqual(len(report["reports"][0]["checks"]), 4)
         self.assertGreater(report["reports"][0]["checks"][2]["systemvue_w"], .0017)
+
+    def test_incorrect_native_source_partition_fails_reference(self):
+        with patch.object(self.library, "assign_source_coherence", return_value=(1, 2)):
+            report = comparison.compare(self.library, self.captures)
+        self.assertFalse(report["passed"])
+        self.assertFalse(report["reports"][0]["checks"][2]["passed"])
+        self.assertFalse(report["reports"][0]["checks"][3]["passed"])
 
     def test_phase_reversal_preserves_power_but_fails_complex_check(self):
         node = self.node("/V3")

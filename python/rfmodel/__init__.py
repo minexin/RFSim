@@ -80,6 +80,15 @@ class _AmplifierTerm(ct.Structure):
                 ("amplitude", _Complex)]
 
 
+class SourceCoherence(NamedTuple):
+    source_id: str
+    reference_clock: str = ""
+
+
+class _SourceCoherence(ct.Structure):
+    _fields_ = [("source_id", ct.c_char_p), ("reference_clock", ct.c_char_p)]
+
+
 class SpectrumKind(IntEnum):
     SOURCE = 0
     HARMONIC = 1
@@ -210,6 +219,8 @@ class Library:
         size = ct.c_size_t
         complex_pointer = ct.POINTER(_Complex)
         signatures = {
+            "rfmodel_assign_source_coherence": (
+                ct.c_int, [ct.POINTER(_SourceCoherence), size, ct.POINTER(ct.c_uint64), size]),
             "rfmodel_reduce_coherent_components": (
                 ct.c_int, [ct.c_double, ct.POINTER(_CoherentComponent), size,
                            ct.POINTER(_CoherentComponent), size, ct.POINTER(size),
@@ -433,6 +444,27 @@ class Library:
         for component in output[:count.value]:
             families[component.order - 1][component.index] = component.amplitude.value()
         return LimitedAmplifierResponse(*families, drive.total_input_power_w, drive.limited_input_power_w)
+
+    def assign_source_coherence(self, sources):
+        """Resolve source/reference-clock relationships; IDs are local to this source set."""
+        sources = list(sources)
+        if len(sources) > 4096:
+            raise ValueError("At most 4096 source definitions")
+
+        def label(value, *, optional=False):
+            if not isinstance(value, str):
+                raise TypeError("Source and clock labels must be strings")
+            encoded = value.encode("utf-8")
+            if chr(0) in value or len(encoded) > 1024 or (not optional and not encoded):
+                raise ValueError("Labels must be nonempty source IDs or optional clocks, at most 1024 UTF-8 bytes")
+            return encoded
+
+        incident = (_SourceCoherence * len(sources))(
+            *[_SourceCoherence(label(source.source_id), label(source.reference_clock, optional=True))
+              for source in sources])
+        groups = (ct.c_uint64 * len(sources))()
+        self._check(self._dll.rfmodel_assign_source_coherence(incident, len(incident), groups, len(groups)))
+        return tuple(groups)
 
     def reduce_coherent_components(self, spacing_hz, components):
         components = list(components)

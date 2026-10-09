@@ -1,0 +1,83 @@
+{
+  "format": "rfmodel.coherent-network",
+  "version": 1,
+  "spacing_hz": 100000000.0,
+  "sources": [
+    {
+      "id": "first",
+      "reference_clock": "lab-clock"
+    },
+    {
+      "id": "second",
+      "reference_clock": "lab-clock"
+    }
+  ],
+  "network": {
+    "devices": [
+      {
+        "id": "sum",
+        "s": [
+          [
+            0,
+            0,
+            0.5
+          ],
+          [
+            0,
+            0,
+            0.5
+          ],
+          [
+            0.5,
+            0.5,
+            0
+          ]
+        ]
+      }
+    ],
+    "external_ports": [
+      [
+        "sum",
+        2
+      ],
+      [
+        "sum",
+        0
+      ],
+      [
+        "sum",
+        1
+      ]
+    ]
+  },
+  "inputs": [
+    {
+      "port": [
+        "sum",
+        0
+      ],
+      "component": {
+        "source": "first",
+        "bin": 10,
+        "bandwidth_hz": 1,
+        "amplitude": 1
+      }
+    },
+    {
+      "port": [
+        "sum",
+        1
+      ],
+      "component": {
+        "source": "second",
+        "bin": 10,
+        "bandwidth_hz": 1,
+        "amplitude": -1
+      }
+    }
+  ],
+  "output_port": [
+    "sum",
+    2
+  ]
+}

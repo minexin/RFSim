@@ -11,7 +11,7 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "python"))
-from rfmodel import Library, CoherentComponent, PortCoherentComponent, SpectrumKind
+from rfmodel import Library, CoherentComponent, PortCoherentComponent, SpectrumKind, SourceCoherence
 
 spec = importlib.util.spec_from_file_location("runner", Path(__file__).with_name("run-systemvue-reference.py"))
 runner = importlib.util.module_from_spec(spec)
@@ -149,32 +149,45 @@ def compare(library, captures):
     reports, seen = [], set()
     for capture in captures:
         phase, length, groups, waves, measured_drive = inspect(capture)
+        parameters = {node["path"]: node["data"] for node in capture["nodes"]}
+        definitions = [
+            SourceCoherence("MultiSource" + str(index) + ".Source" + str(index),
+                            parameters[BASE + "Example/PartList/MultiSource" + str(index) + "/ParamSet/RefClk"])
+            for index in (1, 2)]
+        assigned = library.assign_source_coherence(definitions)
+        resolved = dict(zip((1, 2), assigned))
+        same_relation = (resolved[1] == resolved[2]) == (groups[1] == groups[2])
         key = capture["locked"], phase, length
         if key in seen:
             raise ValueError("Duplicate reference configuration")
         seen.add(key)
         checks = []
         for source in (1, 2):
-            result = predict(library, phase, length, groups, attenuator=True, selected_sources=(source,))
+            result = predict(library, phase, length, resolved, attenuator=True, selected_sources=(source,))
             predicted = result.components[0].amplitude
             errors = [abs(predicted-observed) / abs(observed) for observed in waves[source]]
             checks.append({"source": source, "coherency_number": groups[source],
+                           "rfmodel_coherence_group": resolved[source],
                            "rfmodel_wave": [predicted.real, predicted.imag],
                            "systemvue_boundary_waves": [[w.real, w.imag] for w in waves[source]],
                            "relative_complex_errors": errors, "passed": max(errors) <= 1e-7})
-        input_drive = predict(library, phase, length, groups, attenuator=False)
+        input_drive = predict(library, phase, length, resolved, attenuator=False)
         # Use an absolute floor at cancellation; relative error alone is undefined at zero.
         tolerance = max(1e-15, measured_drive * 1e-7)
         delta = abs(input_drive.total_power_w - measured_drive)
         checks.append({"measurement": "RFPwrIn(Attn1)", "rfmodel_w": input_drive.total_power_w,
                        "systemvue_w": measured_drive, "absolute_error_w": delta,
                        "tolerance_w": tolerance, "passed": delta <= tolerance})
+        checks.append({"measurement": "source_clock_coherence_relation",
+                       "systemvue_groups": [groups[1], groups[2]], "rfmodel_groups": list(assigned),
+                       "passed": same_relation})
         reports.append({"locked": capture["locked"], "second_phase_deg": phase,
                         "line_length_rad": length, "raw_capture_sha256": capture["raw_capture_sha256"],
                         "checks": checks})
     return {"scope": "Two-source TLE/tee/attenuator, output path waves and merged attenuator RF drive",
             "relative_tolerance": 1e-7, "cancellation_absolute_tolerance_w": 1e-15,
-            "limitation": "Clock IDs imported and checked; no automatic clock inference or split-source fixture",
+            "coherency_assignment": "Native source/reference-clock resolver; compare relations, not numeric IDs",
+            "limitation": "No nonlinear/LO coherence propagation or split-source fixture",
             "reports": reports, "passed": all(c["passed"] for r in reports for c in r["checks"])}
 
 

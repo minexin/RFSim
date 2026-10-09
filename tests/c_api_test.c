@@ -22,6 +22,22 @@ int main(int argc, char **argv) {
     double residual = -1;
     CHECK(rfmodel_abi_version() == 1);
     {
+        rfmodel_source_coherence sources[] = {{"a", "clock"}, {"b", "clock"}, {"clock", NULL}};
+        uint64_t groups[3] = {777, 888, 999};
+        CHECK(rfmodel_assign_source_coherence(sources, 3, groups, 2) == RFMODEL_INVALID_ARGUMENT);
+        CHECK(groups[0] == 777 && groups[1] == 888 && groups[2] == 999);
+        sources[2].source_id = "a";
+        CHECK(rfmodel_assign_source_coherence(sources, 3, groups, 3) == RFMODEL_INVALID_ARGUMENT);
+        CHECK(groups[0] == 777 && groups[1] == 888 && groups[2] == 999);
+        sources[2].source_id = NULL;
+        CHECK(rfmodel_assign_source_coherence(sources, 3, groups, 3) == RFMODEL_INVALID_ARGUMENT);
+        CHECK(groups[0] == 777 && groups[1] == 888 && groups[2] == 999);
+        sources[2].source_id = "clock";
+        CHECK(rfmodel_assign_source_coherence(sources, 3, groups, 3) == RFMODEL_OK);
+        CHECK(groups[0] == groups[1] && groups[0] != groups[2] && groups[2] != 0);
+        CHECK(rfmodel_assign_source_coherence(NULL, 0, NULL, 0) == RFMODEL_OK);
+    }
+    {
         rfmodel_network *combiner = NULL;
         const rfmodel_complex matrix[] = {
             {0, 0}, {0, 0}, {.5, 0}, {0, 0}, {0, 0}, {.5, 0}, {.5, 0}, {.5, 0}, {0, 0}};

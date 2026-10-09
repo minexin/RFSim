@@ -8,7 +8,7 @@ Python 负责文件解析、端口映射与逐频调度。
 ## 输入契约
 
 顶层必填 format、version、spacing_hz、network、inputs、output_port；
-可选 reference_ohms，默认 50。间隔与实参考阻抗必须有限且为正数。
+可选 reference_ohms（默认 50）和 sources。间隔与实参考阻抗必须有限且为正数。
 
 network 必填 devices、external_ports，可选 connections、terminations。
 字段沿用 rfmodel.linear-network，但不包含频率表、噪声或外部激励边界：
@@ -33,7 +33,8 @@ output_port 也使用 [device_id, local_port_index]，必须为选中的外部�
 
 拒绝未知字段，包括设备噪声、温度、signal_boundaries 和 noise_boundaries。
 独立噪声协方差及外部源失配不属于本工作流，不能静默忽略这些字段。
-模型中的相干组 ID 始终由调用者明确提供。
+未提供 sources 时，相干组 ID 由调用者明确提供；提供 sources 时由原生源/参考时钟解析器生成。
+源定义模式仅接受确定性 source 分量，具体字段与限制见 [源相干关系](source-coherence.md)。
 
 ## 逐频求解与结果
 

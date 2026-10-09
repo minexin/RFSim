@@ -86,3 +86,5 @@ compare-coherent-carriers.py 复用四组已验收的复幅度采集，先逐项
 跨平台结果以本阶段提交的六项 CI 作业为准。
 
 多端口传播扩展见 [coherent-network.md](coherent-network.md)：显式输入组已可进入完整线性网络，分支/再合路的 SystemVue 实测验收仍待完成。
+
+源与参考时钟的自动分组入口现已补充，见 [source-coherence.md](source-coherence.md)。底层合并接口仍消费明确分组，非线性产物和 Mixer LO 关系尚未自动推导。

@@ -3,6 +3,14 @@
 
 int main(int argc, char **argv) {
     {
+        const rfmodel_source_coherence sources[] = {{"a", "clock"}, {"clock", NULL}};
+        uint64_t groups[2];
+        if (rfmodel_assign_source_coherence(sources, 2, groups, 2) != RFMODEL_OK ||
+            groups[0] == 0 || groups[1] == 0 || groups[0] == groups[1]) {
+            return 27;
+        }
+    }
+    {
         const rfmodel_coherent_component input[] = {
             {10, RFMODEL_SPECTRUM_SOURCE, 1., 1, {1., 0.}},
             {10, RFMODEL_SPECTRUM_SOURCE, 1., 2, {-1., 0.}}};

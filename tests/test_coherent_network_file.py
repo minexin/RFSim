@@ -43,6 +43,34 @@ class CoherentNetworkFileTests(unittest.TestCase):
     def evaluate(self, model, **kwargs):
         return analyze_coherent_network(self.library, model, **kwargs)
 
+    def test_source_definitions_resolve_clock_relationships(self):
+        model = combiner()
+        model["sources"] = [{"id": "a", "reference_clock": "clock"},
+                            {"id": "b", "reference_clock": "clock"}]
+        for value, source in zip(model["inputs"], ("a", "b")):
+            value["component"].pop("kind")
+            value["component"].pop("coherence_group")
+            value["component"]["source"] = source
+        result = self.evaluate(model)
+        self.assertEqual(result["total_power_w"], 1.)
+        self.assertEqual(result["sources"][0]["coherence_group"], result["sources"][1]["coherence_group"])
+        model["sources"][1].pop("reference_clock")
+        result = self.evaluate(model)
+        self.assertEqual(result["total_power_w"], .5)
+        self.assertNotEqual(result["sources"][0]["coherence_group"], result["sources"][1]["coherence_group"])
+        model["inputs"][1]["component"]["source"] = "a"
+        self.assertEqual(self.evaluate(model)["total_power_w"], 1.)
+        for mutate in (
+                lambda m: m["inputs"][0]["component"].update(coherence_group=1),
+                lambda m: m["inputs"][0]["component"].update(kind="harmonic"),
+                lambda m: m["inputs"][0]["component"].update(source="missing"),
+                lambda m: m["sources"].append({"id": "a"}),
+                lambda m: m["sources"][0].update(reference_clock=True)):
+            bad = copy.deepcopy(model)
+            mutate(bad)
+            with self.assertRaises((ValueError, TypeError, RFModelError)):
+                self.evaluate(bad)
+
     def test_split_delay_recombine_at_actual_frequencies(self):
         model = load(ROOT / "examples/coherent-split-delay.json")
         original = copy.deepcopy(model)

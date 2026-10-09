@@ -1,5 +1,5 @@
 """Frequency-dependent connected networks with explicit RF coherence groups."""
-from . import PortCoherentComponent
+from . import PortCoherentComponent, SourceCoherence
 from .coherence_file import _decode_component, _encode_reduction
 from .model_file import _object, _number, _matrix, analyze
 
@@ -14,7 +14,7 @@ def _endpoint(value):
 
 def analyze_coherent_network(library, document, *, base_directory=None):
     _object(document, ("format", "version", "spacing_hz", "network", "inputs", "output_port"),
-            ("reference_ohms",))
+            ("reference_ohms", "sources"))
     if (document["format"] != "rfmodel.coherent-network" or
             type(document["version"]) is not int or document["version"] != 1):
         raise ValueError("Unsupported coherent network format/version")
@@ -42,13 +42,37 @@ def analyze_coherent_network(library, document, *, base_directory=None):
     values = document["inputs"]
     if not isinstance(values, list) or len(values) > 4096:
         raise ValueError("Expected at most 4096 port components")
+    source_groups = None
+    definitions = document.get("sources")
+    resolved_sources = []
+    if "sources" in document:
+        if not isinstance(definitions, list) or len(definitions) > 4096:
+            raise ValueError("Expected at most 4096 source definitions")
+        sources = []
+        for definition in definitions:
+            _object(definition, ("id",), ("reference_clock",))
+            sources.append(SourceCoherence(definition["id"], definition.get("reference_clock", "")))
+        assigned = library.assign_source_coherence(sources)
+        source_groups = {source.source_id: group for source, group in zip(sources, assigned)}
+        resolved_sources = [
+            {"id": source.source_id, "reference_clock": source.reference_clock, "coherence_group": group}
+            for source, group in zip(sources, assigned)]
     by_port = {}
     for value in values:
         _object(value, ("port", "component"))
         port = _endpoint(value["port"])
         if port not in positions:
             raise ValueError("Input must be a selected external port")
-        by_port.setdefault(port, []).append(_decode_component(value["component"]))
+        component = value["component"]
+        if source_groups is not None:
+            _object(component, ("source", "bin", "bandwidth_hz", "amplitude"))
+            source = component["source"]
+            if not isinstance(source, str) or source not in source_groups:
+                raise ValueError("Unknown source definition")
+            component = {"bin": component["bin"], "kind": "source",
+                         "bandwidth_hz": component["bandwidth_hz"],
+                         "amplitude": component["amplitude"], "coherence_group": source_groups[source]}
+        by_port.setdefault(port, []).append(_decode_component(component))
     by_bin = {}
     for port, components in by_port.items():
         # Validate and merge only within one incident port before any frequency is sampled.
@@ -71,7 +95,10 @@ def analyze_coherent_network(library, document, *, base_directory=None):
                 spacing, by_bin.get(index, []), range(len(endpoints)), positions[output])
             transmitted.extend(result.components)
     result = library.reduce_coherent_components(spacing, transmitted)
-    return dict(_encode_reduction(result, spacing),
+    encoded = dict(_encode_reduction(result, spacing),
                 format="rfmodel.coherent-network-result", version=1, spacing_hz=spacing,
                 reference_ohms=reference, external_ports=external,
                 output_port=list(output))
+    if source_groups is not None:
+        encoded["sources"] = resolved_sources
+    return encoded
