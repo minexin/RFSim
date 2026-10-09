@@ -478,6 +478,11 @@ class Library:
             "rfmodel_cubic_amplifier_transmit": (
                 ct.c_int, [ct.c_double, ct.POINTER(_SpectrumBin), size] + [ct.c_double] * 3 +
                 [ct.POINTER(_SpectrumBin), size, ct.POINTER(size)]),
+            "rfmodel_polynomial_coefficients_from_intermod_levels": (
+                ct.c_int,
+                [ct.c_double, ct.POINTER(ct.c_double), size, ct.POINTER(ct.c_int), size,
+                 ct.c_double, ct.POINTER(ct.c_double), size, ct.POINTER(size)],
+            ),
             "rfmodel_polynomial_coefficients_from_intercepts": (
                 ct.c_int,
                 [
@@ -1100,6 +1105,37 @@ class Library:
         terms = tuple(AmplifierMixingTerm(term.order, term.index, tuple(term.contributors[:term.order]),
                                          term.amplitude.value()) for term in output[:count.value])
         return TracedAmplifierResponse(terms, drive.total_input_power_w, drive.limited_input_power_w)
+
+    def polynomial_coefficients_from_intermod_levels(
+        self, power_gain_db, output_levels_dbm, coefficient_signs, *, reference_ohms=50.0
+    ):
+        """Convert output IM1..IM11 levels with explicit signs."""
+        levels, signs = list(output_levels_dbm), list(coefficient_signs)
+        if not 1 <= len(levels) <= 11 or len(signs) != len(levels) - 1:
+            raise ValueError("Expected IM1..IMn and exactly n-1 nonlinear coefficient signs")
+        if any(isinstance(sign, bool) for sign in signs):
+            raise TypeError("Coefficient signs must be integers, not bool")
+        signs = [operator.index(sign) for sign in signs]
+        if any(sign not in (-1, 1) for sign in signs):
+            raise ValueError("Coefficient signs must be +1 or -1")
+        native_levels = (ct.c_double * len(levels))(*levels)
+        native_signs = (ct.c_int * len(signs))(*signs)
+        output = (ct.c_double * 12)()
+        count = ct.c_size_t()
+        self._check(
+            self._dll.rfmodel_polynomial_coefficients_from_intermod_levels(
+                power_gain_db,
+                native_levels,
+                len(levels),
+                native_signs,
+                len(signs),
+                reference_ohms,
+                output,
+                len(output),
+                ct.byref(count),
+            )
+        )
+        return tuple(output[: count.value])
 
     def polynomial_coefficients_from_intercepts(
         self, power_gain_db, intercepts, *, reference_ohms=50.0

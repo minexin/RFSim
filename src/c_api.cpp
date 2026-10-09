@@ -1,3 +1,4 @@
+#include "rfmodel/intermod_levels.hpp"
 #include "rfmodel/coherent_highorder_amplifier.hpp"
 #include "rfmodel/polynomial_intercepts.hpp"
 #include "rfmodel/origin_expression.hpp"
@@ -85,6 +86,17 @@ void require(bool condition) {
     if (!condition) {
         throw std::invalid_argument("null pointer, invalid count or insufficient buffer");
     }
+}
+
+void disjoint(const void *a, size_t a_bytes, const void *b, size_t b_bytes) {
+    if (a_bytes == 0 || b_bytes == 0) {
+        return;
+    }
+    const auto first = reinterpret_cast<std::uintptr_t>(a);
+    const auto second = reinterpret_cast<std::uintptr_t>(b);
+    require(a_bytes <= std::numeric_limits<std::uintptr_t>::max() - first);
+    require(b_bytes <= std::numeric_limits<std::uintptr_t>::max() - second);
+    require(first + a_bytes <= second || second + b_bytes <= first);
 }
 
 rfmodel::PowerWaveSpectrum
@@ -1066,6 +1078,47 @@ int rfmodel_cubic_amplifier_transmit(double spacing_hz,
     });
 }
 
+int rfmodel_polynomial_coefficients_from_intermod_levels(double power_gain_db,
+                                                         const double *output_levels_dbm,
+                                                         size_t level_count,
+                                                         const int *coefficient_signs,
+                                                         size_t sign_count,
+                                                         double reference_ohms,
+                                                         double *coefficients,
+                                                         size_t capacity,
+                                                         size_t *coefficient_count) {
+    return guarded([&] {
+        require(output_levels_dbm && level_count >= 1 &&
+                level_count <= rfmodel::maximum_polynomial_order);
+        require(sign_count == level_count - 1 && (coefficient_signs || sign_count == 0));
+        require(coefficients && coefficient_count && capacity >= 2);
+        require(capacity <= std::numeric_limits<size_t>::max() / sizeof(double));
+        const std::array<const void *, 4> pointers{
+            output_levels_dbm, coefficient_signs, coefficients, coefficient_count};
+        const std::array<size_t, 4> sizes{level_count * sizeof(double),
+                                          sign_count * sizeof(int),
+                                          capacity * sizeof(double),
+                                          sizeof(size_t)};
+        for (size_t i = 0; i < pointers.size(); ++i) {
+            for (size_t j = i + 1; j < pointers.size(); ++j) {
+                disjoint(pointers[i], sizes[i], pointers[j], sizes[j]);
+            }
+        }
+        std::vector<int> signs;
+        if (sign_count) {
+            signs.assign(coefficient_signs, coefficient_signs + sign_count);
+        }
+        const auto result = rfmodel::polynomial_coefficients_from_intermod_levels(
+            power_gain_db,
+            std::vector<double>(output_levels_dbm, output_levels_dbm + level_count),
+            signs,
+            reference_ohms);
+        require(capacity >= result.size());
+        std::copy(result.begin(), result.end(), coefficients);
+        *coefficient_count = result.size();
+    });
+}
+
 int rfmodel_polynomial_coefficients_from_intercepts(double power_gain_db,
                                                     const rfmodel_two_tone_intercept *intercepts,
                                                     size_t intercept_count,
@@ -1078,16 +1131,6 @@ int rfmodel_polynomial_coefficients_from_intercepts(double power_gain_db,
                 (intercepts || intercept_count == 0));
         require(coefficients && coefficient_count && capacity >= 2);
         require(capacity <= std::numeric_limits<size_t>::max() / sizeof(double));
-        const auto disjoint = [](const void *a, size_t a_bytes, const void *b, size_t b_bytes) {
-            if (a_bytes == 0 || b_bytes == 0) {
-                return;
-            }
-            const auto first = reinterpret_cast<std::uintptr_t>(a);
-            const auto second = reinterpret_cast<std::uintptr_t>(b);
-            require(a_bytes <= std::numeric_limits<std::uintptr_t>::max() - first);
-            require(b_bytes <= std::numeric_limits<std::uintptr_t>::max() - second);
-            require(first + a_bytes <= second || second + b_bytes <= first);
-        };
         disjoint(intercepts,
                  intercept_count * sizeof(*intercepts),
                  coefficients,

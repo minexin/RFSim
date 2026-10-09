@@ -1,0 +1,62 @@
+{
+  "source": "Installed Keysight SystemVue 2023 official help",
+  "reference_version": "2023.0.0.11903",
+  "qch_path": "C:\\Program Files\\Keysight\\SystemVue2023\\Help\\systemvue.qch",
+  "qch_sha256": "eacdae962108181a917525b8e233d5b33d97f683674d1c79007c1c2b7a24bd83",
+  "page": "rfdesign/RFAMP_HO.html",
+  "uncompressed_html_sha256": "4448631e6c300b155606dd9caadf142d8389a8dc40fc48ba61210acc4b2b0b93",
+  "extraction": "Read-only SQLite and Qt zlib decoding; full vendor page is not distributed.",
+  "paraphrased_notes": [
+    "IM1 is equal-tone fundamental output power; IMn is the specified homogeneous intermod product output power in dBm.",
+    "Output intercept OIPn equals IM1 + (IM1 - IMn)/(n - 1).",
+    "The examples [-10,-80,-140] and [0,-60,-110] describe output IP2=60 and IP3=55 dBm.",
+    "The model requires every level through the desired order, and warns against using the total of overlapping orders as a homogeneous measurement.",
+    "The explanatory text discusses up to twenty orders, while the parameter enumeration and the RFModel implementation used here stop at eleven."
+  ],
+  "reference_products": {
+    "2": [
+      1,
+      -1
+    ],
+    "3": [
+      2,
+      -1
+    ],
+    "4": [
+      3,
+      -1
+    ],
+    "5": [
+      3,
+      -2
+    ],
+    "6": [
+      4,
+      -2
+    ],
+    "7": [
+      4,
+      -3
+    ],
+    "8": [
+      5,
+      -3
+    ],
+    "9": [
+      5,
+      -4
+    ],
+    "10": [
+      6,
+      -4
+    ],
+    "11": [
+      6,
+      -5
+    ]
+  },
+  "rfmodel_policy": [
+    "Explicit real coefficient signs are supplied by the caller; no SystemVue default phase rule is claimed.",
+    "This documents a parameter conversion, not new SystemVue RFAMP_HO simulation evidence."
+  ]
+}

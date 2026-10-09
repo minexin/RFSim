@@ -67,8 +67,9 @@ print(response.operating_point)
 ## 系统图
 
 新增 `highorder_amplifier` 阶段，需要 `id/type/input/output`、三个增益/压缩
-参数、`nonlinear_voltage_coefficients` 和 `max_source_order`；可选
-`propagate_distortion`，默认 false。完整示例见
+参数和 `max_source_order`。非线性参数可用 `nonlinear_voltage_coefficients`，
+或互斥的 `intermod_output_levels_dbm` 加 `coefficient_signs`，详见
+[IMN 参数](intermod-levels.md)。可选 `propagate_distortion`，默认 false。完整示例见
 [coherent-highorder-amplifier.json](../examples/coherent-highorder-amplifier.json)。
 
 ```powershell

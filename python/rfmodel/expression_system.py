@@ -249,9 +249,13 @@ class _ExpressionGraph:
         parameters = ("power_gain_db", "output_p1db_dbm", "output_saturation_dbm")
         _object(
             stage,
-            ("id", "type", "input", "output", "nonlinear_voltage_coefficients", "max_source_order")
-            + parameters,
-            ("propagate_distortion",),
+            ("id", "type", "input", "output", "max_source_order") + parameters,
+            (
+                "propagate_distortion",
+                "nonlinear_voltage_coefficients",
+                "intermod_output_levels_dbm",
+                "coefficient_signs",
+            ),
         )
         maximum = stage["max_source_order"]
         if type(maximum) is not int or not 1 <= maximum <= 256:
@@ -259,8 +263,25 @@ class _ExpressionGraph:
         propagate = stage.get("propagate_distortion", False)
         if type(propagate) is not bool:
             raise TypeError("propagate_distortion must be bool")
-        coefficients = [_number(v) for v in _array(stage["nonlinear_voltage_coefficients"], 10)]
         values = {key: _number(stage[key]) for key in parameters}
+        explicit = "nonlinear_voltage_coefficients" in stage
+        measured = "intermod_output_levels_dbm" in stage
+        if explicit == measured or ("coefficient_signs" in stage) != measured:
+            raise ValueError(
+                "Choose either nonlinear coefficients or IM levels with explicit signs"
+            )
+        if explicit:
+            coefficients = [_number(v) for v in _array(stage["nonlinear_voltage_coefficients"], 10)]
+        else:
+            levels = [
+                _number(v) for v in _array(stage["intermod_output_levels_dbm"], 11, nonempty=True)
+            ]
+            signs = _array(stage["coefficient_signs"], 10)
+            coefficients = list(
+                self.library.polynomial_coefficients_from_intermod_levels(
+                    values["power_gain_db"], levels, signs, reference_ohms=self.reference
+                )[2:]
+            )
         names = self.new_ids([stage["output"]])
         parents = self.read(stage["input"])
         if not propagate and any(r.component.kind != SpectrumKind.SOURCE for r in parents):

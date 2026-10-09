@@ -65,3 +65,5 @@ Windows 本机可运行 `scripts/build-msvc.ps1` 自动定位已有 VS 工具链
 [高阶输入端口参考诊断](docs/systemvue-highorder-input-reference.md)：从原采集归档九个源的实际输入电压，1413 个独立高阶评分项在原容差下通过；八/十阶名义残差由输入参考差异解释，完整网络输入求解和自动奇数阶系数仍未完成。
 
 [显式高阶放大器](docs/coherent-highorder-amplifier.md) 将二至十一阶系数、共同基波压缩与输入限幅接入 C++/C/Python/JSON，保留相消来源历史并支持已有失真传播。统一原生入口重放通过 1413 个独立来源项；自动 RFAMP 系数、完整总谱及次级失真再混频仍待完成。
+
+[IMN 输出互调功率参数](docs/intermod-levels.md) 接入 RFAMP_HO 文档规定的 IM1..IM11 功率到显式系数转换，贯通 C++/C/Python/JSON；系数符号由调用者明确给出，完整 RFAMP_HO 实测验收仍待完成。

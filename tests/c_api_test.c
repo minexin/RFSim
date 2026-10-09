@@ -14,6 +14,32 @@
 
 int main(int argc, char **argv) {
     {
+        double levels[3] = {0., -40., -60.};
+        int signs[2] = {1, -1};
+        double output[4] = {7., 8., 9., 10.}, saved[4];
+        size_t count = 88;
+        memcpy(saved, output, sizeof(output));
+        CHECK(rfmodel_polynomial_coefficients_from_intermod_levels(
+                  10., levels, 3, signs, 2, 50., output, 3, &count) != RFMODEL_OK);
+        CHECK(count == 88 && memcmp(output, saved, sizeof(output)) == 0);
+        CHECK(rfmodel_polynomial_coefficients_from_intermod_levels(
+                  10., levels, 3, signs, 1, 50., output, 4, &count) != RFMODEL_OK);
+        CHECK(count == 88 && memcmp(output, saved, sizeof(output)) == 0);
+        CHECK(rfmodel_polynomial_coefficients_from_intermod_levels(
+                  10., levels, 3, signs, 2, 50., levels, 3, &count) != RFMODEL_OK);
+        CHECK(levels[0] == 0. && levels[1] == -40. && levels[2] == -60. && count == 88);
+        CHECK(rfmodel_polynomial_coefficients_from_intermod_levels(
+                  10., levels, 3, signs, 2, 50., output, 4, (size_t *)output) != RFMODEL_OK);
+        CHECK(memcmp(output, saved, sizeof(output)) == 0);
+        CHECK(rfmodel_polynomial_coefficients_from_intermod_levels(
+                  10., levels, 3, signs, 2, 50., output, 4, &count) == RFMODEL_OK);
+        CHECK(count == 4 && output[0] == 0. && output[2] > 0. && output[3] < 0.);
+        CHECK(fabs(output[1] / sqrt(10.) - 1.) < 1e-14);
+        CHECK(rfmodel_polynomial_coefficients_from_intermod_levels(
+                  10., levels, 1, NULL, 0, 50., output, 4, &count) == RFMODEL_OK);
+        CHECK(count == 2);
+    }
+    {
         double coefficients[10] = {0.};
         rfmodel_coherent_component input = {10, RFMODEL_SPECTRUM_SOURCE, 1., 7, {.01, 0.}};
         rfmodel_coherent_component reduced = {0}, saved_reduced;

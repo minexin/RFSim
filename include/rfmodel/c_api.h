@@ -63,6 +63,22 @@ rfmodel_polynomial_coefficients_from_intercepts(double power_gain_db,
                                                 size_t capacity,
                                                 size_t *coefficient_count);
 
+/* Output powers IM1..IMn in dBm, n=1..11, using the RFAMP_HO reference
+ * products documented by SystemVue 2023. Exactly n-1 signs (+/-1) are
+ * required for a2..an; powers cannot determine signs. IM1 alone is linear.
+ * Returns a0..an, not a saturation fit. All input/output arrays and the
+ * output count must be disjoint; every output stays unchanged on failure. */
+RFMODEL_API int
+rfmodel_polynomial_coefficients_from_intermod_levels(double power_gain_db,
+                                                     const double *output_levels_dbm,
+                                                     size_t level_count,
+                                                     const int *coefficient_signs,
+                                                     size_t sign_count,
+                                                     double reference_ohms,
+                                                     double *coefficients,
+                                                     size_t capacity,
+                                                     size_t *coefficient_count);
+
 typedef struct rfmodel_source_coherence {
     const char *source_id;
     const char *reference_clock;

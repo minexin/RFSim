@@ -1,3 +1,4 @@
+#include <rfmodel/intermod_levels.hpp>
 #include <rfmodel/coherent_highorder_amplifier.hpp>
 #include <rfmodel/polynomial_intercepts.hpp>
 #include <rfmodel/origin_expression.hpp>
@@ -29,6 +30,11 @@
 #include <rfmodel/term_propagation.hpp>
 
 int main() {
+    const auto im_coefficients =
+        rfmodel::polynomial_coefficients_from_intermod_levels(10., {0., -40., -60.}, {1, -1});
+    if (im_coefficients.size() != 4 || im_coefficients[3] >= 0.) {
+        return 85;
+    }
     const auto high_order = rfmodel::CoherentHighOrderAmplifier(10., 20., 23., {0., 0., .01})
                                 .evaluate(1e8, {{10, rfmodel::SpectrumKind::source, 1., 7, .01}});
     if (high_order.terms.size() != 3 || high_order.terms.back().order != 4) {

@@ -78,6 +78,75 @@ class CoherentSystemFileTests(unittest.TestCase):
                         term["rf_order"], sum(roots[f["root_id"]]["role"] == "rf" for f in factors)
                     )
 
+    def test_intermod_level_stage_matches_explicit_coefficients(self):
+        for mixed in (False, True):
+            model = load(ROOT / "examples/coherent-intermod-levels.json")
+            if mixed:
+                chain = self.mixed_model()
+                model["stages"] = chain["stages"][:-1] + model["stages"]
+                model["sources"] = chain["sources"]
+                model["inputs"] = chain["inputs"]
+                model["stages"][-1]["input"] = "mixed"
+                model["stages"][-1]["max_source_order"] = 22
+                # Four nonzero mixed contributions through every order exceed
+                # the native 4096-term budget; this must remain an explicit error.
+                with self.assertRaisesRegex(RFModelError, "4096 RF terms"):
+                    self.evaluate(model)
+                # One RF tone still exercises both sidebands and all eleven orders.
+                model["inputs"][0]["components"] = model["inputs"][0]["components"][:1]
+            original = self.evaluate(model)
+            self.assert_history(original)
+            stage = model["stages"][-1]
+            coefficients = self.library.polynomial_coefficients_from_intermod_levels(
+                stage["power_gain_db"],
+                stage.pop("intermod_output_levels_dbm"),
+                stage.pop("coefficient_signs"),
+            )
+            stage["nonlinear_voltage_coefficients"] = list(coefficients[2:])
+            self.assertEqual(original, self.evaluate(model))
+
+    def test_intermod_stage_requires_one_complete_parameterization(self):
+        baseline = load(ROOT / "examples/coherent-intermod-levels.json")
+        for patch in (
+            {"nonlinear_voltage_coefficients": []},
+            {"coefficient_signs": []},
+            {"coefficient_signs": [True] * 10},
+            {"intermod_output_levels_dbm": []},
+            {"intermod_output_levels_dbm": [0] * 12},
+            {"intermod_output_levels_dbm": [math.nan] * 11},
+        ):
+            model = copy.deepcopy(baseline)
+            model["stages"][0].update(patch)
+            with (
+                self.subTest(patch=patch),
+                self.assertRaises((ValueError, TypeError, RFModelError)),
+            ):
+                self.evaluate(model)
+        for omitted in ("coefficient_signs", "intermod_output_levels_dbm"):
+            model = copy.deepcopy(baseline)
+            del model["stages"][0][omitted]
+            with self.assertRaises(ValueError):
+                self.evaluate(model)
+        model = copy.deepcopy(baseline)
+        stage = model["stages"][0]
+        del stage["coefficient_signs"]
+        del stage["intermod_output_levels_dbm"]
+        with self.assertRaises(ValueError):
+            self.evaluate(model)
+        stage["nonlinear_voltage_coefficients"] = []
+        stage["coefficient_signs"] = []
+        with self.assertRaises(ValueError):
+            self.evaluate(model)
+
+    def test_intermod_stage_linear_only_reference(self):
+        model = load(ROOT / "examples/coherent-intermod-levels.json")
+        model["stages"][0]["intermod_output_levels_dbm"] = [-10]
+        model["stages"][0]["coefficient_signs"] = []
+        result = self.evaluate(model)
+        self.assert_history(result)
+        self.assertEqual(result["stages"][0]["generated_term_count"], 0)
+        self.assertEqual({c["kind"] for c in stream(result)["components"]}, {"source"})
+
     def test_highorder_stage_matches_native_and_preserves_mixed_histories(self):
         for mixed in (False, True):
             with self.subTest(mixed=mixed):

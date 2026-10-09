@@ -1,0 +1,75 @@
+{
+  "format": "rfmodel.coherent-system",
+  "version": 1,
+  "spacing_hz": 100000000.0,
+  "sources": [
+    {
+      "id": "rf"
+    }
+  ],
+  "inputs": [
+    {
+      "id": "input",
+      "components": [
+        {
+          "source": "rf",
+          "bin": 10,
+          "bandwidth_hz": 1,
+          "amplitude": [
+            0.05,
+            0.01
+          ]
+        },
+        {
+          "source": "rf",
+          "bin": 11,
+          "bandwidth_hz": 1,
+          "amplitude": [
+            0.04,
+            -0.02
+          ]
+        }
+      ]
+    }
+  ],
+  "stages": [
+    {
+      "id": "amp",
+      "type": "highorder_amplifier",
+      "input": "input",
+      "output": "result",
+      "power_gain_db": 10,
+      "output_p1db_dbm": 20,
+      "output_saturation_dbm": 23,
+      "max_source_order": 11,
+      "intermod_output_levels_dbm": [
+        0,
+        -40,
+        -60,
+        -99,
+        -104,
+        -155,
+        -138,
+        -203,
+        -176,
+        -252,
+        -200
+      ],
+      "coefficient_signs": [
+        1,
+        -1,
+        1,
+        -1,
+        1,
+        -1,
+        1,
+        -1,
+        1,
+        -1
+      ]
+    }
+  ],
+  "outputs": [
+    "result"
+  ]
+}

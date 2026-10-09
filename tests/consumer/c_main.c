@@ -3,6 +3,17 @@
 
 int main(int argc, char **argv) {
     {
+        const double levels[] = {0., -40., -60.};
+        const int signs[] = {1, -1};
+        double coefficients[4];
+        size_t count = 0;
+        if (rfmodel_polynomial_coefficients_from_intermod_levels(
+                10., levels, 3, signs, 2, 50., coefficients, 4, &count) != RFMODEL_OK ||
+            count != 4 || coefficients[3] >= 0.) {
+            return 85;
+        }
+    }
+    {
         const double coefficients[] = {0., 0., .01};
         rfmodel_amplifier_operating_point point;
         if (rfmodel_get_highorder_amplifier_operating_point(

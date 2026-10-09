@@ -28,6 +28,60 @@ class PythonApiTests(unittest.TestCase):
     def setUpClass(cls):
         cls.library = Library(LIBRARY_PATH)
 
+    def test_intermod_levels_and_explicit_signs(self):
+        convert = self.library.polynomial_coefficients_from_intermod_levels
+        for reference in (50.0, 75.0):
+            first = convert(20, [-10, -80, -140], [1, -1], reference_ohms=reference)
+            equivalent = convert(20, [0, -60, -110], [1, -1], reference_ohms=reference)
+            self.assertEqual(first, equivalent)
+            expected = self.library.polynomial_coefficients_from_intercepts(
+                20,
+                [
+                    rfmodel.TwoToneIntercept(1, -1, 60, 1, rfmodel.InterceptReference.OUTPUT),
+                    rfmodel.TwoToneIntercept(2, -1, 55, -1, rfmodel.InterceptReference.OUTPUT),
+                ],
+                reference_ohms=reference,
+            )
+            self.assertEqual(first, expected)
+        coefficients = convert(10, [0] + [-25 * (n - 1) for n in range(2, 12)], [1] * 10)
+        self.assertEqual(len(coefficients), 12)
+        inputs = [
+            rfmodel.CoherentComponent(31, rfmodel.SpectrumKind.SOURCE, 1, 1, 0.01),
+            rfmodel.CoherentComponent(53, rfmodel.SpectrumKind.SOURCE, 1, 2, 0.01j),
+        ]
+        response = self.library.highorder_amplifier(
+            1e6,
+            inputs,
+            coefficients[2:],
+            power_gain_db=10,
+            output_p1db_dbm=20,
+            output_saturation_dbm=23,
+        )
+        self.assertEqual(max(t.order for t in response.terms), 11)
+        self.assertEqual(convert(0, [0], []), (0.0, 1.0))
+        self.assertGreater(convert(10, [0, -1000], [1])[2], 0)
+
+    def test_intermod_levels_reject_incomplete_and_invalid_definitions(self):
+        convert = self.library.polynomial_coefficients_from_intermod_levels
+        for levels, signs in (
+            ([], []),
+            ([0] * 12, [1] * 11),
+            ([0, -40], []),
+            ([0], [1]),
+            ([0, -40], [0]),
+            ([0, -40], [2**32 + 1]),
+        ):
+            with self.subTest(levels=levels, signs=signs), self.assertRaises(ValueError):
+                convert(10, levels, signs)
+        for sign in (True, 1.0, "1"):
+            with self.subTest(sign=sign), self.assertRaises(TypeError):
+                convert(10, [0, -40], [sign])
+        for levels in ([math.nan], [0, math.inf], [1e308, -1e308], [0, -1e308]):
+            with self.subTest(levels=levels), self.assertRaises(RFModelError):
+                convert(10, levels, [1] * (len(levels) - 1))
+        with self.assertRaises(RFModelError):
+            convert(10, [0], [], reference_ohms=0)
+
     def test_explicit_high_order_intercept_coefficients(self):
         Entry, Reference = rfmodel.TwoToneIntercept, rfmodel.InterceptReference
         self.assertEqual(self.library.polynomial_coefficients_from_intercepts(0, []), (0.0, 1.0))
