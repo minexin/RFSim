@@ -1,15 +1,15 @@
 param(
     [Parameter(Mandatory=$true)][string]$WorkspacePath,
-    [ValidateRange(-60,-10)][double]$SourcePowerDbm = -30,
+    [ValidateRange(-60,5)][double]$SourcePowerDbm = -30,
     [ValidateRange(-180,180)][double]$SourcePhaseDeg = 0,
-    [ValidateSet(2,3,5)][int]$MaximumOrder = 3,
+    [ValidateSet(2,3,5,7,9,11)][int]$MaximumOrder = 3,
     [ValidateRange(-10,20)][double]$SecondGainDb = 10,
     [ValidateSet(100,140)][int]$ReverseIsolationDb = 100,
     [ValidateSet(1,1000000)][double]$ChannelBandwidthHz = 1000000,
     [switch]$SecondarySpectrum,
     [switch]$TwoTone,
     [switch]$DisableSpectrumReduction,
-    [ValidateRange(-60,-10)][Nullable[double]]$SecondSourcePowerDbm = $null,
+    [ValidateRange(-60,5)][Nullable[double]]$SecondSourcePowerDbm = $null,
     [ValidateSet(-140,-50,50,140)][int]$SecondaryRangeDb = -50
 )
 $ErrorActionPreference = 'Stop'
@@ -113,7 +113,12 @@ public static class CascadeReference
                     {
                         node.dimensions[dimension] = array.GetLength(dimension);
                     }
-                    if (array.Length <= 4096)
+                    // High-order two-tone complex spectra exceed 4096 scalar entries.
+                    // Fail explicitly rather than silently dropping a required array.
+                    if (array.Length > 65536)
+                    {
+                        throw new InvalidOperationException("Reference array limit exceeded: " + path);
+                    }
                     {
                         var values = new List<object>();
                         foreach (object entry in array)

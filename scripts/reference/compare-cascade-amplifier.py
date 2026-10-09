@@ -130,18 +130,18 @@ def inspect(capture):
             raise ValueError("Expected explicit boolean metadata")
     power, phase = finite(capture["source_power_dbm"]), finite(capture["source_phase_deg"])
     second_power = finite(capture.get("second_source_power_dbm", power))
-    if not -60 <= second_power <= -10 or (not capture["two_tone"] and second_power != power):
+    if not -60 <= second_power <= 5 or (not capture["two_tone"] and second_power != power):
         raise ValueError("Uncontrolled second source power")
     gain, riso = finite(capture["second_gain_db"]), finite(capture["reverse_isolation_db"])
     bandwidth = finite(capture["channel_bandwidth_hz"])
     if (
-        not -60 <= power <= -10
+        not -60 <= power <= 5
         or not -180 <= phase <= 180
         or not -10 <= gain <= 20
         or riso not in (100, 140)
         or bandwidth not in (1, 1e6)
         or type(capture["maximum_order"]) is not int
-        or capture["maximum_order"] not in (3, 5)
+        or capture["maximum_order"] not in (3, 5, 7, 9, 11)
         or type(capture["secondary_range_db"]) is not int
         or capture["secondary_range_db"] not in (-140, -50, 50, 140)
     ):

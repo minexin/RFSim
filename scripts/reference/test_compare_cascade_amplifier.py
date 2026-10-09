@@ -167,6 +167,10 @@ class CascadeReferenceTests(unittest.TestCase):
             archive.extract(c, status, c["raw_capture_sha256"])["source_power_dbm"],
             c["source_power_dbm"],
         )
+        truncated = copy.deepcopy(c)
+        comparison.node(truncated, comparison.SPECTRUM + "V3")["data"] = None
+        with self.assertRaisesRegex(ValueError, "Malformed spectrum array"):
+            archive.extract(truncated, status, truncated["raw_capture_sha256"])
         for changed in (
             dict(status, state="failed"),
             dict(status, eligible_for_compatibility=False),

@@ -74,6 +74,8 @@ def extract(raw, status, digest):
     exact.update(comparison.ROOT + comparison.SPECTRUM + k for k in variables)
     capture["nodes"] = [n for n in raw["nodes"] if n["path"] in exact]
     comparison.inspect(capture)
+    for port in (2, 3):
+        comparison.spectrum(capture, port)
     return capture
 
 

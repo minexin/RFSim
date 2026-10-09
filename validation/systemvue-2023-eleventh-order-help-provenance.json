@@ -1,0 +1,25 @@
+{
+  "source": "Installed Keysight SystemVue 2023 official help",
+  "reference_version": "2023.0.0.11903",
+  "qch_path": "C:\\Program Files\\Keysight\\SystemVue2023\\Help\\systemvue.qch",
+  "qch_sha256": "eacdae962108181a917525b8e233d5b33d97f683674d1c79007c1c2b7a24bd83",
+  "extraction": "Read-only SQLite and Qt zlib decoding; full vendor pages are not distributed.",
+  "pages": [
+    {
+      "path": "rfdesign/RFAMP_HO.html",
+      "uncompressed_html_sha256": "4448631e6c300b155606dd9caadf142d8389a8dc40fc48ba61210acc4b2b0b93",
+      "paraphrased_notes": [
+        "IM6, IM8 and IM10 use the documented difference products 4f1-2f2, 5f1-3f2 and 6f1-4f2 respectively; the balanced odd products are 3f1-2f2 through 6f1-5f2 for orders 5 through 11.",
+        "Signed tone orders and their multiplicities must match the chosen intercept definition."
+      ]
+    },
+    {
+      "path": "sim/Gain_Compression_and_Intermod_Generation.html",
+      "uncompressed_html_sha256": "eb1fdef2c779272edbfa97dcdd6ad9acf6db44f59dd51d115cdf0a09b2e8107c",
+      "paraphrased_notes": [
+        "The even-order output intercept offsets used here are 13, 11, 9 and 8 dB above output P1dB for orders 4, 6, 8 and 10.",
+        "The exact automatic odd-order coefficient algorithm is proprietary and is not specified by this help page."
+      ]
+    }
+  ]
+}

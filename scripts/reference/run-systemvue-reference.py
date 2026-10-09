@@ -135,7 +135,7 @@ def main():
     parser.add_argument("--cascade-secondary-spectrum", action="store_true")
     parser.add_argument("--cascade-secondary-range-db", type=int, choices=(-140, -50, 50, 140))
     parser.add_argument("--cascade-riso-db", type=int, choices=(100, 140))
-    parser.add_argument("--cascade-max-order", type=int, choices=(2, 3, 5))
+    parser.add_argument("--cascade-max-order", type=int, choices=(2, 3, 5, 7, 9, 11))
     parser.add_argument("--cascade-phase-deg", type=float)
     parser.add_argument("--cascade-second-gain-db", type=float)
     parser.add_argument("--coherent-phase-deg", type=float)
@@ -188,16 +188,16 @@ def main():
     if args.cascade_second_power_dbm is not None and (
         not args.cascade_two_tone
         or not math.isfinite(args.cascade_second_power_dbm)
-        or not -60 <= args.cascade_second_power_dbm <= -10
+        or not -60 <= args.cascade_second_power_dbm <= 5
     ):
-        parser.error("Cascade second power requires two-tone mode and finite -60 to -10 dBm")
+        parser.error("Cascade second power requires two-tone mode and finite -60 to 5 dBm")
     if args.case == "cascade":
         if (
             args.source_power_dbm is None
             or not math.isfinite(args.source_power_dbm)
-            or not -60 <= args.source_power_dbm <= -10
+            or not -60 <= args.source_power_dbm <= 5
         ):
-            parser.error("Cascade requires source power from -60 to -10 dBm")
+            parser.error("Cascade requires source power from -60 to 5 dBm")
         if args.cascade_second_gain_db is not None and (
             not math.isfinite(args.cascade_second_gain_db)
             or not -10 <= args.cascade_second_gain_db <= 20

@@ -22,7 +22,7 @@ class RunnerTests(unittest.TestCase):
             ("compression", ["--cascade-disable-spectrum-reduction"]),
             ("coherent", ["--cascade-max-order", "3"]),
             ("cascade", []),
-            ("cascade", ["--source-power-dbm", "-9"]),
+            ("cascade", ["--source-power-dbm", "5.001"]),
             ("cascade", ["--source-power-dbm", "-30", "--cascade-phase-deg=nan"]),
             ("cascade", ["--source-power-dbm", "-30", "--open-copy"]),
         ]
@@ -44,7 +44,7 @@ class RunnerTests(unittest.TestCase):
                     "--cascade-second-power-dbm=" + value,
                 ],
             )
-            for value in ("nan", "inf", "-60.001", "-9.999")
+            for value in ("nan", "inf", "-60.001", "5.001")
         )
         for case, flags in cases:
             with patch.object(sys, "argv", ["runner", case, "unused", "unused", *flags]):
@@ -99,6 +99,17 @@ class RunnerTests(unittest.TestCase):
             self.assertIn("-TwoTone", command)
             self.assertEqual(float(command[command.index("-SecondSourcePowerDbm") + 1]), -30.0)
             self.assertIn("-SecondarySpectrum", command)
+            for order in (7, 9, 11):
+                high_order = args + ["--cascade-max-order", str(order)]
+                high_order[high_order.index("--source-power-dbm") + 1] = "5"
+                high_order[high_order.index("--cascade-second-power-dbm") + 1] = "5"
+                with patch.object(sys, "argv", high_order), patch.object(
+                    runner, "execute", return_value=0
+                ) as high_execute:
+                    self.assertEqual(runner.main(), 0)
+                submitted = high_execute.call_args.args[0]
+                self.assertEqual(submitted[submitted.index("-MaximumOrder") + 1], str(order))
+                self.assertEqual(float(submitted[submitted.index("-SourcePowerDbm") + 1]), 5)
             args[args.index("--cascade-second-gain-db") + 1] = "-0.001"
             with (
                 patch.object(sys, "argv", args),
