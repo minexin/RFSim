@@ -1,3 +1,4 @@
+#include "rfmodel/frequency_conversion.hpp"
 #include "rfmodel/chebyshev_filter.hpp"
 #include "rfmodel/butterworth_filter.hpp"
 #include "rfmodel/ideal_devices.hpp"
@@ -1564,6 +1565,128 @@ int rfmodel_linear_amplifier_s(double frequency_hz,
             rfmodel::LinearAmplifierModel("C API amplifier", parameters).s_parameters(frequency_hz);
         for (size_t i = 0; i < 4; ++i) {
             values[i] = {matrix.values[i].real(), matrix.values[i].imag()};
+        }
+    });
+}
+
+int rfmodel_conversion_analyze(const rfmodel_conversion_request *request,
+                               const rfmodel_conversion_output *output) {
+    return guarded([&] {
+        require(request && output);
+        const auto &r = *request;
+        const auto &o = *output;
+        require(r.count > 0 && r.count <= 512 && r.physical_ports && r.bins && r.direct &&
+                r.conjugate);
+        const auto n = r.count, square = n * n;
+        require(o.incident && o.outgoing && o.noise_covariance && o.noise_complementary &&
+                o.relative_residual);
+        require(o.wave_capacity >= n && o.matrix_capacity >= square &&
+                o.wave_capacity <= std::numeric_limits<size_t>::max() / sizeof(rfmodel_complex) &&
+                o.matrix_capacity <= std::numeric_limits<size_t>::max() / sizeof(rfmodel_complex));
+        const std::vector<std::pair<const void *, size_t>> inputs{
+            {request, sizeof(*request)},
+            {output, sizeof(*output)},
+            {r.physical_ports, n * sizeof(size_t)},
+            {r.bins, n * sizeof(int)},
+            {r.direct, square * sizeof(rfmodel_complex)},
+            {r.conjugate, square * sizeof(rfmodel_complex)},
+            {r.source, r.source ? n * sizeof(rfmodel_complex) : 0},
+            {r.reflection, r.reflection ? n * sizeof(rfmodel_complex) : 0},
+            {r.source_covariance, r.source_covariance ? square * sizeof(rfmodel_complex) : 0},
+            {r.source_complementary, r.source_complementary ? square * sizeof(rfmodel_complex) : 0},
+            {r.intrinsic_covariance, r.intrinsic_covariance ? square * sizeof(rfmodel_complex) : 0},
+            {r.intrinsic_complementary,
+             r.intrinsic_complementary ? square * sizeof(rfmodel_complex) : 0}};
+        const std::vector<std::pair<const void *, size_t>> outputs{
+            {o.incident, o.wave_capacity * sizeof(rfmodel_complex)},
+            {o.outgoing, o.wave_capacity * sizeof(rfmodel_complex)},
+            {o.noise_covariance, o.matrix_capacity * sizeof(rfmodel_complex)},
+            {o.noise_complementary, o.matrix_capacity * sizeof(rfmodel_complex)},
+            {o.relative_residual, sizeof(double)}};
+        for (size_t i = 0; i < outputs.size(); ++i) {
+            for (const auto &input : inputs) {
+                if (input.second) {
+                    disjoint(outputs[i].first, outputs[i].second, input.first, input.second);
+                }
+            }
+            for (size_t j = 0; j < i; ++j) {
+                disjoint(outputs[i].first, outputs[i].second, outputs[j].first, outputs[j].second);
+            }
+        }
+        auto matrix = [&](const rfmodel_complex *values) {
+            auto decoded = rfmodel::conversion_detail::zero(n);
+            if (values) {
+                for (size_t i = 0; i < square; ++i) {
+                    decoded.values[i] = {values[i].real, values[i].imag};
+                }
+            }
+            return decoded;
+        };
+        std::vector<rfmodel::ConversionChannel> channels;
+        std::vector<rfmodel::Complex> source(n), reflection(n);
+        for (size_t i = 0; i < n; ++i) {
+            channels.push_back({r.physical_ports[i], r.bins[i]});
+            if (r.source) {
+                source[i] = {r.source[i].real, r.source[i].imag};
+            }
+            if (r.reflection) {
+                reflection[i] = {r.reflection[i].real, r.reflection[i].imag};
+            }
+        }
+        const rfmodel::FrequencyConversionModel model(
+            r.spacing_hz, channels, matrix(r.direct), matrix(r.conjugate), r.reference_ohms);
+        const auto result =
+            model.analyze(source,
+                          reflection,
+                          {matrix(r.source_covariance), matrix(r.source_complementary)},
+                          {matrix(r.intrinsic_covariance), matrix(r.intrinsic_complementary)});
+        for (size_t i = 0; i < n; ++i) {
+            o.incident[i] = {result.incident[i].real(), result.incident[i].imag()};
+            o.outgoing[i] = {result.outgoing[i].real(), result.outgoing[i].imag()};
+        }
+        for (size_t i = 0; i < square; ++i) {
+            const auto c = result.outgoing_noise.covariance.values[i],
+                       p = result.outgoing_noise.complementary.values[i];
+            o.noise_covariance[i] = {c.real(), c.imag()};
+            o.noise_complementary[i] = {p.real(), p.imag()};
+        }
+        *o.relative_residual = result.relative_residual;
+    });
+}
+
+int rfmodel_ideal_mixer_conversion(double spacing_hz,
+                                   const size_t *physical_ports,
+                                   const int *bins,
+                                   size_t count,
+                                   int lo_bin,
+                                   double gain_db,
+                                   double phase_radians,
+                                   size_t rf_port,
+                                   size_t if_port,
+                                   double reference_ohms,
+                                   rfmodel_complex *direct,
+                                   rfmodel_complex *conjugate,
+                                   size_t matrix_capacity) {
+    return guarded([&] {
+        require(count > 0 && count <= 512 && physical_ports && bins && direct && conjugate &&
+                matrix_capacity >= count * count &&
+                matrix_capacity <= std::numeric_limits<size_t>::max() / sizeof(rfmodel_complex));
+        const auto bytes = matrix_capacity * sizeof(rfmodel_complex);
+        disjoint(direct, bytes, conjugate, bytes);
+        for (auto *output : {direct, conjugate}) {
+            disjoint(output, bytes, physical_ports, count * sizeof(size_t));
+            disjoint(output, bytes, bins, count * sizeof(int));
+        }
+        std::vector<rfmodel::ConversionChannel> channels;
+        for (size_t i = 0; i < count; ++i) {
+            channels.push_back({physical_ports[i], bins[i]});
+        }
+        const auto model = rfmodel::ideal_mixer_conversion(
+            spacing_hz, channels, lo_bin, gain_db, phase_radians, rf_port, if_port, reference_ohms);
+        for (size_t i = 0; i < count * count; ++i) {
+            const auto a = model.direct().values[i], b = model.conjugate().values[i];
+            direct[i] = {a.real(), a.imag()};
+            conjugate[i] = {b.real(), b.imag()};
         }
     });
 }

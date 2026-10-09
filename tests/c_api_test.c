@@ -14,6 +14,59 @@
 
 int main(int argc, char **argv) {
     {
+        const size_t ports[1] = {0};
+        const int bins[1] = {1};
+        const rfmodel_complex direct[1] = {{.2, 0.}}, conjugate[1] = {{.1, 0.}};
+        const rfmodel_complex source[1] = {{2., 3.}}, reflection[1] = {{.5, 0.}};
+        rfmodel_complex outputs[4] = {{7., 8.}, {9., 10.}, {11., 12.}, {13., 14.}}, saved[4];
+        double residual = 17.;
+        rfmodel_conversion_request request = {0};
+        rfmodel_conversion_output result = {
+            outputs, outputs + 1, outputs + 2, outputs + 3, 1, 1, &residual};
+        request.count = 1;
+        request.spacing_hz = 1.;
+        request.reference_ohms = 50.;
+        request.physical_ports = ports;
+        request.bins = bins;
+        request.direct = direct;
+        request.conjugate = conjugate;
+        request.source = source;
+        request.reflection = reflection;
+        memcpy(saved, outputs, sizeof(outputs));
+        result.wave_capacity = 0;
+        CHECK(rfmodel_conversion_analyze(&request, &result) != RFMODEL_OK);
+        CHECK(memcmp(saved, outputs, sizeof(outputs)) == 0 && residual == 17.);
+        result.wave_capacity = 1;
+        result.outgoing = outputs;
+        CHECK(rfmodel_conversion_analyze(&request, &result) != RFMODEL_OK);
+        CHECK(memcmp(saved, outputs, sizeof(outputs)) == 0 && residual == 17.);
+        result.outgoing = outputs + 1;
+        request.direct = outputs;
+        CHECK(rfmodel_conversion_analyze(&request, &result) != RFMODEL_OK);
+        CHECK(memcmp(saved, outputs, sizeof(outputs)) == 0 && residual == 17.);
+        request.direct = direct;
+        request.spacing_hz = -1.;
+        CHECK(rfmodel_conversion_analyze(&request, &result) != RFMODEL_OK);
+        CHECK(memcmp(saved, outputs, sizeof(outputs)) == 0 && residual == 17.);
+        request.spacing_hz = 1.;
+        CHECK(rfmodel_conversion_analyze(&request, &result) == RFMODEL_OK);
+        CHECK(fabs(outputs[1].real - .6 / .85) < 1e-12 && fabs(outputs[1].imag - .3 / .95) < 1e-12);
+        CHECK(outputs[2].real == 0. && residual < 1e-14);
+    }
+    {
+        const size_t ports[3] = {0, 1, 1};
+        const int bins[3] = {8, 2, 18};
+        rfmodel_complex a[9] = {{7., 8.}}, b[9] = {{9., 10.}}, saved[9];
+        memcpy(saved, a, sizeof(a));
+        CHECK(rfmodel_ideal_mixer_conversion(1., ports, bins, 3, 10, 0., 0., 0, 1, 50., a, a, 9) !=
+              RFMODEL_OK);
+        CHECK(memcmp(saved, a, sizeof(a)) == 0);
+        CHECK(rfmodel_ideal_mixer_conversion(1., ports, bins, 3, 10, 0., 0., 0, 1, 50., a, b, 9) ==
+              RFMODEL_OK);
+        CHECK(a[6].real == 1. && b[3].real == 1.);
+    }
+
+    {
         rfmodel_chebyshev_parameters p = {RFMODEL_CHEBYSHEV_LOWPASS, 3, 1e9, 0., 1., 1., 1, 50.};
         rfmodel_complex out[4] = {{7., 8.}, {9., 10.}, {11., 12.}, {13., 14.}}, saved[4];
         memcpy(saved, out, sizeof(out));

@@ -10,6 +10,7 @@ from .amplifier_file import analyze_amplifier
 from .coherence_file import analyze_coherence
 from .coherent_network_file import analyze_coherent_network
 from .coherent_system_file import analyze_coherent_system
+from .conversion_file import analyze_conversion
 
 
 def main():
@@ -26,7 +27,8 @@ def main():
             raise ValueError("Model must be an object")
         if args.output.resolve() in referenced_touchstone_paths(document, args.model.parent):
             raise ValueError("Output must not overwrite Touchstone input data")
-        operation = {"rfmodel.coherence": analyze_coherence,
+        operation = {"rfmodel.frequency-conversion": analyze_conversion,
+                     "rfmodel.coherence": analyze_coherence,
                      "rfmodel.coherent-network": analyze_coherent_network,
                      "rfmodel.coherent-system": analyze_coherent_system,
                      "rfmodel.spectrum-chain": analyze_spectrum,

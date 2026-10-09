@@ -3,6 +3,30 @@
 
 int main(int argc, char **argv) {
     {
+        const size_t ports[1] = {0};
+        const int bins[1] = {1};
+        const rfmodel_complex direct[1] = {{.5, 0.}}, conjugate[1] = {{0., 0.}},
+                              source[1] = {{2., 0.}};
+        rfmodel_complex output[4];
+        double residual;
+        rfmodel_conversion_request request = {0};
+        rfmodel_conversion_output result = {
+            output, output + 1, output + 2, output + 3, 1, 1, &residual};
+        request.count = 1;
+        request.spacing_hz = 1e9;
+        request.reference_ohms = 50.;
+        request.physical_ports = ports;
+        request.bins = bins;
+        request.direct = direct;
+        request.conjugate = conjugate;
+        request.source = source;
+        if (rfmodel_conversion_analyze(&request, &result) != RFMODEL_OK ||
+            fabs(output[1].real - 1.) > 1e-12) {
+            return 90;
+        }
+    }
+
+    {
         rfmodel_chebyshev_parameters parameters = {
             RFMODEL_CHEBYSHEV_LOWPASS, 3, 1e9, 0., 1., 1., 1, 50.};
         rfmodel_complex output[4];

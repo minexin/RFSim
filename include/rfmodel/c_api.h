@@ -79,6 +79,60 @@ rfmodel_polynomial_coefficients_from_intermod_levels(double power_gain_db,
                                                      size_t capacity,
                                                      size_t *coefficient_count);
 
+/* Fixed-pump finite-channel conversion b=A*a+B*conj(a)+c, a=Gamma*b+source.
+ * Channels are unique (physical_port, nonnegative bin), frequency=bin*spacing.
+ * N is 1..512. A/B and C/P arrays contain N*N row-major complex entries.
+ * C=E[z*z^H], P=E[z*z^T] in W/Hz. Source and intrinsic noise are independent.
+ * Null source/reflection/noise pointers mean zero; direct/conjugate are required.
+ * DC waves, reflection and noise must be real in the quadrature representation. */
+typedef struct rfmodel_conversion_request {
+    size_t count;
+    double spacing_hz;
+    double reference_ohms;
+    const size_t *physical_ports;
+    const int *bins;
+    const rfmodel_complex *direct;
+    const rfmodel_complex *conjugate;
+    const rfmodel_complex *source;
+    const rfmodel_complex *reflection;
+    const rfmodel_complex *source_covariance;
+    const rfmodel_complex *source_complementary;
+    const rfmodel_complex *intrinsic_covariance;
+    const rfmodel_complex *intrinsic_complementary;
+} rfmodel_conversion_request;
+
+typedef struct rfmodel_conversion_output {
+    rfmodel_complex *incident;
+    rfmodel_complex *outgoing;
+    rfmodel_complex *noise_covariance;
+    rfmodel_complex *noise_complementary;
+    size_t wave_capacity;
+    size_t matrix_capacity;
+    double *relative_residual;
+} rfmodel_conversion_output;
+
+/* All output buffers are required, mutually disjoint, and cannot overlap either
+ * descriptor or any input. Inputs may alias each other. No output changes on error. */
+RFMODEL_API int rfmodel_conversion_analyze(const rfmodel_conversion_request *request,
+                                           const rfmodel_conversion_output *output);
+
+/* Real mixer y=2*g*x*cos(LO*t+phase). Every generated IF bin must be present.
+ * A/B output capacities are N*N complex elements. Outputs must be disjoint from
+ * each other and channel arrays; unchanged on failure. DC uses RMS normalization. */
+RFMODEL_API int rfmodel_ideal_mixer_conversion(double spacing_hz,
+                                               const size_t *physical_ports,
+                                               const int *bins,
+                                               size_t count,
+                                               int lo_bin,
+                                               double gain_db,
+                                               double phase_radians,
+                                               size_t rf_port,
+                                               size_t if_port,
+                                               double reference_ohms,
+                                               rfmodel_complex *direct,
+                                               rfmodel_complex *conjugate,
+                                               size_t matrix_capacity);
+
 typedef enum rfmodel_butterworth_response {
     RFMODEL_BUTTERWORTH_LOWPASS = 0,
     RFMODEL_BUTTERWORTH_HIGHPASS = 1,

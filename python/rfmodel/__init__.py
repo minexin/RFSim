@@ -223,6 +223,54 @@ class CoherentPolynomialResponse(NamedTuple):
     terms: tuple
 
 
+class ConversionResult(NamedTuple):
+    incident: tuple
+    outgoing: tuple
+    noise_covariance: tuple
+    noise_complementary: tuple
+    relative_residual: float
+
+
+class _ConversionRequest(ct.Structure):
+    _fields_ = [
+        ("count", ct.c_size_t),
+        ("spacing_hz", ct.c_double),
+        ("reference_ohms", ct.c_double),
+        ("physical_ports", ct.POINTER(ct.c_size_t)),
+        ("bins", ct.POINTER(ct.c_int)),
+        ("direct", ct.POINTER(_Complex)),
+        ("conjugate", ct.POINTER(_Complex)),
+        ("source", ct.POINTER(_Complex)),
+        ("reflection", ct.POINTER(_Complex)),
+        ("source_covariance", ct.POINTER(_Complex)),
+        ("source_complementary", ct.POINTER(_Complex)),
+        ("intrinsic_covariance", ct.POINTER(_Complex)),
+        ("intrinsic_complementary", ct.POINTER(_Complex)),
+    ]
+
+
+class _ConversionOutput(ct.Structure):
+    _fields_ = [
+        ("incident", ct.POINTER(_Complex)),
+        ("outgoing", ct.POINTER(_Complex)),
+        ("noise_covariance", ct.POINTER(_Complex)),
+        ("noise_complementary", ct.POINTER(_Complex)),
+        ("wave_capacity", ct.c_size_t),
+        ("matrix_capacity", ct.c_size_t),
+        ("relative_residual", ct.POINTER(ct.c_double)),
+    ]
+
+
+def _conversion_channels(channels):
+    channels = tuple(channels)
+    if not 1 <= len(channels) <= 512:
+        raise ValueError("Conversion requires 1..512 channels")
+    pairs = [(_index(port), _bin(index)) for port, index in channels]
+    return (ct.c_size_t * len(pairs))(*(p for p, b in pairs)), (ct.c_int * len(pairs))(
+        *(b for p, b in pairs)
+    )
+
+
 class _ButterworthParameters(ct.Structure):
     _fields_ = [
         ("response", ct.c_int),
@@ -504,6 +552,12 @@ class Library:
                 ct.c_int, [handle, ct.POINTER(size), size, ct.c_double,
                            ct.POINTER(_SpectrumBin), size, ct.POINTER(_SpectrumBin),
                            size, ct.POINTER(size)]),
+            "rfmodel_conversion_analyze": (
+                ct.c_int, [ct.POINTER(_ConversionRequest), ct.POINTER(_ConversionOutput)]),
+            "rfmodel_ideal_mixer_conversion": (
+                ct.c_int, [ct.c_double, ct.POINTER(size), ct.POINTER(ct.c_int), size,
+                    ct.c_int, ct.c_double, ct.c_double, size, size, ct.c_double,
+                    complex_pointer, complex_pointer, size]),
             "rfmodel_butterworth_s": (
                 ct.c_int, [ct.c_double, ct.POINTER(_ButterworthParameters), complex_pointer, size],
             ),
@@ -1291,6 +1345,111 @@ class Library:
             float(spacing_hz), incident, len(incident), _bin(lo_bin), float(conversion_gain_db),
             float(lo_phase_radians), float(reference_ohms), output, len(output), ct.byref(count)))
         return {output[i].index: output[i].amplitude.value() for i in range(count.value)}
+
+    def ideal_mixer_conversion(
+        self,
+        spacing_hz,
+        channels,
+        *,
+        lo_bin,
+        gain_db=0.0,
+        phase_radians=0.0,
+        rf_port=0,
+        if_port=1,
+        reference_ohms=50.0,
+    ):
+        """Build A/B for y=2*g*x*cos(LO*t+phase); declare every generated IF bin."""
+        ports, bins = _conversion_channels(channels)
+        count = len(ports)
+        direct, conjugate = (_Complex * (count * count))(), (_Complex * (count * count))()
+        self._check(
+            self._dll.rfmodel_ideal_mixer_conversion(
+                float(spacing_hz),
+                ports,
+                bins,
+                count,
+                _bin(lo_bin),
+                float(gain_db),
+                float(phase_radians),
+                _index(rf_port),
+                _index(if_port),
+                float(reference_ohms),
+                direct,
+                conjugate,
+                count * count,
+            )
+        )
+        return _rows(direct, count), _rows(conjugate, count)
+
+    def frequency_conversion(
+        self,
+        spacing_hz,
+        channels,
+        direct,
+        conjugate=None,
+        *,
+        source=None,
+        reflection=None,
+        source_covariance=None,
+        source_complementary=None,
+        intrinsic_covariance=None,
+        intrinsic_complementary=None,
+        reference_ohms=50.0,
+    ):
+        """Solve b=A*a+B*conj(a)+c and a=Gamma*b+source, including C/P noise."""
+        if direct is None:
+            raise ValueError("Conversion direct matrix is required")
+        ports, bins = _conversion_channels(channels)
+        count = len(ports)
+
+        def matrix(values):
+            if values is None:
+                return (_Complex * (count * count))()
+            if len(values) != count:
+                raise ValueError("Conversion matrix dimensions differ from channels")
+            return _matrix(values)[1]
+
+        def vector(values):
+            if values is None:
+                return (_Complex * count)()
+            values = tuple(values)
+            if len(values) != count:
+                raise ValueError("Conversion boundary dimensions differ from channels")
+            return (_Complex * count)(*(_Complex.from_value(value) for value in values))
+
+        arrays = [
+            matrix(direct),
+            matrix(conjugate),
+            vector(source),
+            vector(reflection),
+            matrix(source_covariance),
+            matrix(source_complementary),
+            matrix(intrinsic_covariance),
+            matrix(intrinsic_complementary),
+        ]
+        request = _ConversionRequest(
+            count, float(spacing_hz), float(reference_ohms), ports, bins, *arrays
+        )
+        incident, outgoing = (_Complex * count)(), (_Complex * count)()
+        covariance, complementary = (_Complex * (count * count))(), (_Complex * (count * count))()
+        residual = ct.c_double()
+        output = _ConversionOutput(
+            incident,
+            outgoing,
+            covariance,
+            complementary,
+            count,
+            count * count,
+            ct.pointer(residual),
+        )
+        self._check(self._dll.rfmodel_conversion_analyze(ct.byref(request), ct.byref(output)))
+        return ConversionResult(
+            tuple(v.value() for v in incident),
+            tuple(v.value() for v in outgoing),
+            _rows(covariance, count),
+            _rows(complementary, count),
+            residual.value,
+        )
 
     def butterworth_filter(
         self,

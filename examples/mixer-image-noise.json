@@ -1,0 +1,80 @@
+{
+  "format": "rfmodel.frequency-conversion",
+  "version": 1,
+  "spacing_hz": 100000000.0,
+  "reference_ohms": 50,
+  "channels": [
+    {
+      "port": 0,
+      "bin": 8
+    },
+    {
+      "port": 0,
+      "bin": 12
+    },
+    {
+      "port": 1,
+      "bin": 2
+    },
+    {
+      "port": 1,
+      "bin": 18
+    },
+    {
+      "port": 1,
+      "bin": 22
+    }
+  ],
+  "model": {
+    "type": "ideal_real_mixer",
+    "lo_bin": 10,
+    "gain_db": 0,
+    "phase_radians": 0
+  },
+  "source": [
+    0,
+    1,
+    0,
+    0,
+    0
+  ],
+  "source_noise": {
+    "covariance": [
+      [
+        1e-20,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        1e-20,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    ]
+  }
+}

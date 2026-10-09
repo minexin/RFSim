@@ -1,3 +1,4 @@
+#include "rfmodel/frequency_conversion.hpp"
 #include "rfmodel/chebyshev_filter.hpp"
 #include "rfmodel/butterworth_filter.hpp"
 #include "rfmodel/power_wave_noise.hpp"
@@ -34,6 +35,14 @@
 #include <rfmodel/term_propagation.hpp>
 
 int main() {
+    {
+        rfmodel::FrequencyConversionModel converter(1e9, {{0, 1}}, {1, {.5}}, {1, {0.}});
+        const auto zero = converter.zero_noise();
+        if (std::abs(converter.analyze({2.}, {0.}, zero, zero).outgoing[0] - 1.) > 1e-12) {
+            return 90;
+        }
+    }
+
     {
         rfmodel::ChebyshevFilterModel filter("filter", {});
         if (std::abs(filter.s_parameters(0.)(1, 0) - 1.) > 1e-12) {
