@@ -16,6 +16,51 @@ spec.loader.exec_module(runner)
 
 
 class RunnerTests(unittest.TestCase):
+    def test_cascade_options_reject_invalid_scope_and_values(self):
+        cases=[("compression",["--cascade-two-tone"]),("coherent",["--cascade-max-order","3"]),
+               ("cascade",[]),("cascade",["--source-power-dbm","-9"]),
+               ("cascade",["--source-power-dbm","-30","--cascade-phase-deg=nan"]),
+               ("cascade",["--source-power-dbm","-30","--open-copy"])]
+        for case,flags in cases:
+            with patch.object(sys,"argv",["runner",case,"unused","unused",*flags]):
+                with patch.object(runner,"execute") as execute,contextlib.redirect_stderr(io.StringIO()):
+                    with self.assertRaises(SystemExit):
+                        runner.main()
+                    execute.assert_not_called()
+
+    @unittest.skipUnless(sys.platform=="win32","COM launch requires Windows")
+    def test_cascade_options_reach_dedicated_collector(self):
+        root=Path(__file__).resolve().parents[2]
+        (root/"build-reference").mkdir(exist_ok=True)
+        workspace=root/"build-reference/RFModel_CascadeIntermods.wsv"
+        created=not workspace.exists()
+        if created:
+            workspace.touch()
+        try:
+            args=["runner","cascade",str(workspace),"unused-output","--source-power-dbm","-20",
+                  "--cascade-second-gain-db","0","--cascade-riso-db","140","--cascade-two-tone",
+                  "--cascade-secondary-spectrum","--cascade-secondary-range-db","-140"]
+            with patch.object(sys,"argv",args),patch.object(runner,"execute",return_value=0) as execute:
+                self.assertEqual(runner.main(),0)
+            command=execute.call_args.args[0]
+            self.assertTrue(command[command.index("-File")+1].endswith("capture-cascade-reference.ps1"))
+            self.assertEqual(command[command.index("-SecondGainDb")+1],"0")
+            self.assertEqual(command[command.index("-ReverseIsolationDb")+1],"140")
+            self.assertIn("-TwoTone",command)
+            self.assertIn("-SecondarySpectrum",command)
+        finally:
+            if created:
+                workspace.unlink()
+
+    def test_cascade_real_dataset_and_warning_gate(self):
+        path=Path(__file__).resolve().parents[2]/"validation/systemvue-2023-cascade-captures.json"
+        capture=json.loads(path.read_text())[0]
+        runner.validate_capture(capture,"cascade")
+        capture["manager_errors"]="(WARNING) Maximum Order is 2 which has been increased to 3."
+        with self.assertRaises(ValueError):
+            runner.validate_capture(capture,"cascade")
+
+
     def test_coherent_options_reject_wrong_case_and_nonfinite_values(self):
         cases = [("compression", ["--coherent-locked"]),
                  ("attenuator", ["--coherent-show-totals"]),

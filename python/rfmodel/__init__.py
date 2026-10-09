@@ -268,6 +268,13 @@ class Library:
                            ct.POINTER(_CoherentComponent), size, ct.POINTER(size),
                            ct.POINTER(_CoherentAmplifierTerm), size, ct.POINTER(size),
                            ct.POINTER(_AmplifierDrive)]),
+            "rfmodel_coherent_amplifier_cascade": (
+                ct.c_int, [ct.c_double, ct.POINTER(_CoherentComponent), size,
+                           ct.c_double, ct.c_double, ct.c_double, ct.c_double,
+                           ct.c_double, ct.c_double, ct.c_uint64,
+                           ct.POINTER(_CoherentComponent), size, ct.POINTER(size),
+                           ct.POINTER(_CoherentAmplifierTerm), size, ct.POINTER(size),
+                           ct.POINTER(_AmplifierDrive)]),
             "rfmodel_compress_coherent_fundamentals": (
                 ct.c_int, [ct.c_double, ct.c_double, ct.c_double, ct.c_double,
                            ct.POINTER(_CoherentComponent), size,
@@ -549,8 +556,11 @@ class Library:
 
     def coherent_amplifier(self, spacing_hz, components, *, power_gain_db,
                            output_p1db_dbm, output_saturation_dbm, input_ip2_dbm,
-                           input_ip3_dbm, reference_ohms=50., reserved_group_max=0):
+                           input_ip3_dbm, reference_ohms=50., reserved_group_max=0,
+                           propagate_distortion=False):
         """Generate RF terms with signed one-based indices into reduced inputs."""
+        if type(propagate_distortion) is not bool:
+            raise TypeError("propagate_distortion must be bool")
         components = list(components)
         if len(components) > 4096:
             raise ValueError("Coherent amplifier accepts at most 4096 components")
@@ -564,7 +574,9 @@ class Library:
         reduced = (_CoherentComponent * len(components))()
         terms = (_CoherentAmplifierTerm * 4096)()
         reduced_count, term_count, drive = ct.c_size_t(), ct.c_size_t(), _AmplifierDrive()
-        self._check(self._dll.rfmodel_coherent_amplifier_evaluate(
+        evaluate = (self._dll.rfmodel_coherent_amplifier_cascade if propagate_distortion else
+                    self._dll.rfmodel_coherent_amplifier_evaluate)
+        self._check(evaluate(
             spacing_hz, incident, len(incident), power_gain_db, output_p1db_dbm,
             output_saturation_dbm, input_ip2_dbm, input_ip3_dbm, reference_ohms,
             reserved, reduced, len(reduced), ct.byref(reduced_count),

@@ -73,7 +73,7 @@ origins 内索引指向该阶段的 reduced_inputs，组号为图范围内的最
 python scripts/reference/compare-coherent-amplifier.py build-msvc/Release/rfmodel_c.dll validation/systemvue-2023-shared-compression-captures.json build-reference/coherent-amplifier-replay.json
 ```
 
-当前仅接受 source 类型输入。已经生成的谐波/互调再次进入非线性节点会报错，
+默认 evaluate / limited_amplifier 仅接受 source 类型输入。已经生成的谐波/互调再次进入该模式会报错，
 直到完整递归来源及高阶截断规则实现；不能把类型改回 source 规避这一限制。
 尚未完成噪声驱动压缩、AM/PM、跨级双向反馈、任意谱带积分、完整路径预算和
 全 RF Design 器件兼容。原有小信号 RFPwrIn 噪声差额与衰减器路径预算差异仍然开放。
@@ -84,3 +84,5 @@ python scripts/reference/compare-coherent-amplifier.py build-msvc/Release/rfmode
 反相/独立支路的解析期望及实际结果见
 [解析验证记录](../validation/coherent-amplifier-analytic.json)。
 远端三平台 CI 以本次提交的运行结果为准。
+
+新增显式 [失真传递级联模式](coherent-amplifier-cascade.md)，可将前级失真计入共同驱动并传播，与本级同源失真相干合并；次级失真再混频仍未实现。

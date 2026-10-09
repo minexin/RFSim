@@ -53,6 +53,38 @@ class CoherentSystemFileTests(unittest.TestCase):
     def evaluate(self, model, **kwargs):
         return analyze_coherent_system(self.library, model, **kwargs)
 
+    def test_cascade_combines_conducted_and_generated_origins(self):
+        model = load(ROOT / "examples/coherent-amplifier-cascade.json")
+        result = self.evaluate(model)
+        first, second = result["stages"]
+        self.assertEqual(len(first["origins"]), 16)
+        self.assertEqual(len(second["origins"]), 30)
+        self.assertEqual(len(stream(result, "second")["components"]), 16)
+        first_groups = {o["coherence_group"] for o in first["origins"]}
+        self.assertEqual({o["coherence_group"] for o in second["origins"]}, first_groups)
+        self.assertAlmostEqual(second["input_power_w"], stream(result, "first")["total_power_w"])
+        # Compare each merged product with its two independently calculated paths.
+        from rfmodel import CoherentComponent, SpectrumKind
+        inputs = [CoherentComponent(c["bin"], SpectrumKind[c["kind"].upper()],
+                                    c["bandwidth_hz"], c["coherence_group"], complex(*c["amplitude"]))
+                  for c in stream(result, "first")["components"]]
+        native = self.library.coherent_amplifier(
+            1e8, inputs, propagate_distortion=True, power_gain_db=10.,
+            output_p1db_dbm=20., output_saturation_dbm=23., input_ip2_dbm=30., input_ip3_dbm=20.)
+        by_group = {}
+        for t, origin in zip(native.terms, second["origins"]):
+            group = origin["coherence_group"]
+            by_group[group] = by_group.get(group, 0j) + t.component.amplitude
+        for c in stream(result, "second")["components"]:
+            self.assertAlmostEqual(complex(*c["amplitude"]), by_group[c["coherence_group"]])
+        # A third primary-generation stage must reuse the same root identities.
+        model["stages"].append(dict(model["stages"][1], id="third", input="second", output="third"))
+        model["outputs"] = ["third"]
+        third = self.evaluate(model)
+        self.assertEqual(len(stream(third, "third")["components"]), 16)
+        self.assertEqual({c["coherence_group"] for c in stream(third, "third")["components"]},
+                         first_groups)
+
     def test_parallel_amplifiers_share_origins_and_preserve_parity(self):
         model = load(ROOT / "examples/coherent-harmonic-combiner.json")
         original = copy.deepcopy(model)

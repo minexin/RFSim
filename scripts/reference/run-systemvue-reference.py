@@ -11,6 +11,7 @@ from datetime import datetime, timezone
 
 
 DATASETS = {
+    "cascade": ("RFModel_CascadeIntermods", "Designs", "System3_Design3_Data_Path1"),
     "coherent": ("RFModel_PhaseCombiner", "Phase Prj", "System1_Data"),
     "compression": ("RFModel_AmplifierCompression", "Designs", "System1_Data_Path1"),
     "attenuator": ("RFModel_AttenuatorNoise", "Designs", "System1_Sch1_Data_Path1"),
@@ -36,7 +37,7 @@ def validate_capture(capture, case, *, allow_compression_warning=False, allow_ca
         raise ValueError("Compression warning diagnosis requires compression case")
     name, folder, dataset = DATASETS[case]
     target = "/".join((name, folder, dataset) if case == "coherent" else
-                      (name, folder, "System1_Data_Folder", dataset))
+                      (name, folder, "System3_Data_Folder" if case == "cascade" else "System1_Data_Folder", dataset))
     messages = capture["manager_errors"]
     if messages:
         number = r"[+-]?\d+(?:\.\d+)?"
@@ -123,6 +124,14 @@ def main():
     parser.add_argument("workspace", type=Path)
     parser.add_argument("output_directory", type=Path)
     parser.add_argument("--timeout", type=float, default=120)
+    parser.add_argument("--cascade-channel-bandwidth-hz", type=float, choices=(1., 1e6))
+    parser.add_argument("--cascade-two-tone", action="store_true")
+    parser.add_argument("--cascade-secondary-spectrum", action="store_true")
+    parser.add_argument("--cascade-secondary-range-db", type=int, choices=(-50, -140))
+    parser.add_argument("--cascade-riso-db", type=int, choices=(100, 140))
+    parser.add_argument("--cascade-max-order", type=int, choices=(2, 3))
+    parser.add_argument("--cascade-phase-deg", type=float)
+    parser.add_argument("--cascade-second-gain-db", type=int, choices=(0, 10))
     parser.add_argument("--coherent-phase-deg", type=float)
     parser.add_argument("--coherent-length-rad", type=float)
     parser.add_argument("--coherent-locked", action="store_true")
@@ -151,6 +160,21 @@ def main():
     parser.add_argument("--open-copy", action="store_true",
                         help="Open via official script API only when no workspace is loaded")
     args = parser.parse_args()
+    if args.case != "cascade" and any(v is not None for v in (
+            args.cascade_max_order, args.cascade_phase_deg, args.cascade_second_gain_db,
+            args.cascade_channel_bandwidth_hz, args.cascade_secondary_range_db, args.cascade_riso_db)):
+        parser.error("Cascade settings require cascade case")
+    if (args.cascade_secondary_spectrum or args.cascade_two_tone) and args.case != "cascade":
+        parser.error("Secondary spectrum setting requires cascade case")
+    if args.case == "cascade":
+        if (args.source_power_dbm is None or not math.isfinite(args.source_power_dbm)
+                or not -60 <= args.source_power_dbm <= -10):
+            parser.error("Cascade requires source power from -60 to -10 dBm")
+        if args.cascade_phase_deg is not None and (
+                not math.isfinite(args.cascade_phase_deg) or not -180 <= args.cascade_phase_deg <= 180):
+            parser.error("Cascade phase must be finite and from -180 to 180 degrees")
+        if args.open_copy:
+            parser.error("Cascade collector attaches only; open the protected reference copy first")
     if args.coherent_phase_deg is not None and (
             args.case != "coherent" or not math.isfinite(args.coherent_phase_deg)
             or not -360 <= args.coherent_phase_deg <= 360):
@@ -205,6 +229,23 @@ def main():
     workspace = args.workspace.resolve(strict=True)
     if root / "build-reference" not in workspace.parents or workspace.stem != DATASETS[args.case][0]:
         parser.error("Expected named reference copy inside build-reference")
+    if args.case == "cascade":
+        if workspace.parent != root / "build-reference":
+            parser.error("Cascade copy must be directly inside build-reference")
+        command = ["powershell.exe", "-NoProfile", "-NonInteractive", "-ExecutionPolicy", "RemoteSigned",
+                   "-File", str(Path(__file__).with_name("capture-cascade-reference.ps1")),
+                   "-WorkspacePath", str(workspace), "-SourcePowerDbm", str(args.source_power_dbm),
+                   "-SourcePhaseDeg", str(args.cascade_phase_deg or 0.),
+                   "-MaximumOrder", str(args.cascade_max_order or 3),
+                   "-SecondGainDb", str(10 if args.cascade_second_gain_db is None else args.cascade_second_gain_db),
+                   "-ChannelBandwidthHz", str(args.cascade_channel_bandwidth_hz or 1e6),
+                   "-SecondaryRangeDb", str(args.cascade_secondary_range_db or -50),
+                   "-ReverseIsolationDb", str(args.cascade_riso_db or 100)]
+        if args.cascade_secondary_spectrum:
+            command.append("-SecondarySpectrum")
+        if args.cascade_two_tone:
+            command.append("-TwoTone")
+        return execute(command, args.output_directory.resolve(), args.case, args.timeout)
     command = ["powershell.exe", "-NoProfile", "-NonInteractive", "-ExecutionPolicy", "RemoteSigned",
                "-File", str(Path(__file__).with_name("inspect-reference-workspace.ps1")),
                "-WorkspacePath", str(workspace), "-CaptureRun",

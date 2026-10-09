@@ -97,13 +97,14 @@ def analyze_coherent_system(library, document, *, base_directory=None):
                                      incident, ports, base_directory, declared_inputs=declared_ports)
             for output_name, port in zip(names, ports):
                 store(output_name, results[port])
-        elif kind == "limited_amplifier":
+        elif kind in ("limited_amplifier", "cascaded_amplifier"):
             _object(stage, ("id", "type", "input", "output", "power_gain_db",
                             "output_p1db_dbm", "output_saturation_dbm",
                             "input_ip2_dbm", "input_ip3_dbm"))
             names = new_ids([stage["output"]])
             result = library.coherent_amplifier(
                 spacing, read_stream(stage["input"]), reference_ohms=reference,
+                propagate_distortion=kind == "cascaded_amplifier",
                 reserved_group_max=highest_group,
                 **{key: _number(stage[key]) for key in (
                     "power_gain_db", "output_p1db_dbm", "output_saturation_dbm",
@@ -187,7 +188,9 @@ def analyze_coherent_system(library, document, *, base_directory=None):
                 store(output_name, library.reduce_coherent_components(spacing, remapped[offset:stop]))
                 offset = stop
         else:
-            raise ValueError("Expected linear_network, ideal_mixer_bank, fundamental_compression or limited_amplifier stage")
+            raise ValueError(
+                "Expected linear_network, ideal_mixer_bank, fundamental_compression, "
+                "limited_amplifier or cascaded_amplifier stage")
         stage_results.append({"id": name, "type": kind, "outputs": names, **measurements})
 
     outputs = [_label(name) for name in _array(document["outputs"], 4096, nonempty=True)]

@@ -32,6 +32,13 @@ int main() {
         return 30;
     }
 
+    const auto propagated_products =
+        rfmodel::CoherentLimitedAmplifier(20., 20., 23., 20., 10.)
+            .evaluate_cascade(1e8, {{20, rfmodel::SpectrumKind::harmonic, 2., 7, .01}});
+    if (propagated_products.terms.size() != 1 ||
+        propagated_products.terms[0].component.kind != rfmodel::SpectrumKind::harmonic) {
+        return 31;
+    }
     const auto coherent_compressed = rfmodel::compress_coherent_fundamentals(
         1e8,
         {{10, rfmodel::SpectrumKind::source, 1., 7, .001},

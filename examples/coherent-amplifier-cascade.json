@@ -1,0 +1,62 @@
+{
+  "format": "rfmodel.coherent-system",
+  "version": 1,
+  "spacing_hz": 100000000.0,
+  "sources": [
+    {
+      "id": "tone1"
+    },
+    {
+      "id": "tone2"
+    }
+  ],
+  "inputs": [
+    {
+      "id": "rf",
+      "components": [
+        {
+          "source": "tone1",
+          "bin": 10,
+          "bandwidth_hz": 1.0,
+          "amplitude": 0.001
+        },
+        {
+          "source": "tone2",
+          "bin": 11,
+          "bandwidth_hz": 1.0,
+          "amplitude": [
+            0.0,
+            0.001
+          ]
+        }
+      ]
+    }
+  ],
+  "stages": [
+    {
+      "id": "first",
+      "type": "limited_amplifier",
+      "input": "rf",
+      "output": "first",
+      "power_gain_db": 10.0,
+      "output_p1db_dbm": 20.0,
+      "output_saturation_dbm": 23.0,
+      "input_ip2_dbm": 30.0,
+      "input_ip3_dbm": 20.0
+    },
+    {
+      "id": "second",
+      "type": "cascaded_amplifier",
+      "input": "first",
+      "output": "second",
+      "power_gain_db": 10.0,
+      "output_p1db_dbm": 20.0,
+      "output_saturation_dbm": 23.0,
+      "input_ip2_dbm": 30.0,
+      "input_ip3_dbm": 20.0
+    }
+  ],
+  "outputs": [
+    "second"
+  ]
+}

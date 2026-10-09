@@ -76,6 +76,45 @@ int main(int argc, char **argv) {
                                                   &term_count,
                                                   &drive) == RFMODEL_OK);
         CHECK(reduced_count == 2 && term_count == 15);
+        input[1].kind = RFMODEL_SPECTRUM_HARMONIC;
+        CHECK(rfmodel_coherent_amplifier_cascade(1e8,
+                                                 input,
+                                                 2,
+                                                 20.,
+                                                 20.,
+                                                 23.,
+                                                 20.,
+                                                 10.,
+                                                 50.,
+                                                 100,
+                                                 reduced,
+                                                 2,
+                                                 &reduced_count,
+                                                 terms,
+                                                 15,
+                                                 &term_count,
+                                                 &drive) == RFMODEL_OK);
+        CHECK(reduced_count == 2 && term_count == 5);
+        CHECK(terms[1].component.kind == RFMODEL_SPECTRUM_HARMONIC);
+        input[1].kind = RFMODEL_SPECTRUM_SOURCE;
+        CHECK(rfmodel_coherent_amplifier_evaluate(1e8,
+                                                  input,
+                                                  2,
+                                                  20.,
+                                                  20.,
+                                                  23.,
+                                                  20.,
+                                                  10.,
+                                                  50.,
+                                                  100,
+                                                  reduced,
+                                                  2,
+                                                  &reduced_count,
+                                                  terms,
+                                                  15,
+                                                  &term_count,
+                                                  &drive) == RFMODEL_OK);
+
         CHECK(fabs(drive.total_input_power_w - .0005) < 1e-15);
         CHECK(terms[0].input_indices[0] == 1 && terms[1].input_indices[0] == 2);
         CHECK(terms[2].component.coherence_group > 100);

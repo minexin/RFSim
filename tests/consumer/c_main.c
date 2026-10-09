@@ -31,6 +31,33 @@ int main(int argc, char **argv) {
     }
 
     {
+        rfmodel_coherent_component input = {20, RFMODEL_SPECTRUM_HARMONIC, 2., 7, {.01, 0.}};
+        rfmodel_coherent_component reduced;
+        rfmodel_coherent_amplifier_term term;
+        rfmodel_amplifier_drive drive;
+        size_t reduced_count, term_count;
+        if (rfmodel_coherent_amplifier_cascade(1e8,
+                                               &input,
+                                               1,
+                                               20.,
+                                               20.,
+                                               23.,
+                                               20.,
+                                               10.,
+                                               50.,
+                                               0,
+                                               &reduced,
+                                               1,
+                                               &reduced_count,
+                                               &term,
+                                               1,
+                                               &term_count,
+                                               &drive) != RFMODEL_OK ||
+            term_count != 1 || term.component.kind != RFMODEL_SPECTRUM_HARMONIC) {
+            return 31;
+        }
+    }
+    {
         const double anchor = pow(10., -2.9);
         rfmodel_coherent_component input[] = {{10, RFMODEL_SPECTRUM_SOURCE, 1., 7, {0., 0.}},
                                               {10, RFMODEL_SPECTRUM_SOURCE, 1., 8, {0., 0.}}};

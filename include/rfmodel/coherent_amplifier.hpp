@@ -22,8 +22,9 @@ struct CoherentAmplifierResponse {
 };
 
 // Matched forward RFAMP approximation: shared compression and limited quadratic/
-// cubic products. Source-kind inputs only; no recursive nonlinear lineage, noise,
-// DC, AM/PM or reverse feedback. Distinct origins remain distinct output groups.
+// cubic products. Only carriers generate new products. Cascade mode propagates
+// existing distortion; no secondary remixing, noise, DC, AM/PM or reverse feedback.
+// Distinct origins remain distinct output groups until resolved by the caller.
 class CoherentLimitedAmplifier {
     SaturatingFundamentalCompression fundamental_;
     MatchedPolynomialAmplifier polynomial_;
@@ -45,20 +46,22 @@ public:
           reference_(reference_ohms) {
     }
 
-    CoherentAmplifierResponse evaluate(double spacing_hz,
-                                       const std::vector<CoherentComponent> &input,
-                                       std::uint64_t reserved_group_max = 0) const {
+private:
+    CoherentAmplifierResponse evaluate_impl(double spacing_hz,
+                                            const std::vector<CoherentComponent> &input,
+                                            std::uint64_t reserved_group_max,
+                                            bool propagate_distortion) const {
         const auto reduced = reduce_coherent_components(spacing_hz, input);
         CoherentAmplifierResponse result{reduced.components, {}, reduced.total_power_w, 0.};
         std::uint64_t highest_group = reserved_group_max;
         std::vector<int> signed_inputs;
         for (std::size_t i = 0; i < result.inputs.size(); ++i) {
             const auto &c = result.inputs[i];
-            if (c.kind != SpectrumKind::source) {
+            if (c.kind != SpectrumKind::source && !propagate_distortion) {
                 throw std::invalid_argument("coherent amplifier requires source-kind inputs");
             }
             highest_group = std::max(highest_group, c.coherence_group);
-            if (c.amplitude != Complex{}) {
+            if (c.kind == SpectrumKind::source && c.amplitude != Complex{}) {
                 if (signed_inputs.size() >= 128) {
                     throw std::length_error("coherent amplifier accepts at most 64 active groups");
                 }
@@ -139,6 +142,23 @@ public:
         // Validate generated bands, powers and their sum before publishing anything.
         reduce_coherent_components(spacing_hz, output);
         return result;
+    }
+
+public:
+    CoherentAmplifierResponse evaluate(double spacing_hz,
+                                       const std::vector<CoherentComponent> &input,
+                                       std::uint64_t reserved_group_max = 0) const {
+        return evaluate_impl(spacing_hz, input, reserved_group_max, false);
+    }
+
+    // Existing distortion contributes to drive and receives the same compressed
+    // gain as carriers. Only source-kind inputs generate new quadratic/cubic terms.
+    // New and conducted terms are kept separate here; the caller resolves their
+    // common origins before coherent reduction. No distortion-on-distortion mixing.
+    CoherentAmplifierResponse evaluate_cascade(double spacing_hz,
+                                               const std::vector<CoherentComponent> &input,
+                                               std::uint64_t reserved_group_max = 0) const {
+        return evaluate_impl(spacing_hz, input, reserved_group_max, true);
     }
 };
 } // namespace rfmodel

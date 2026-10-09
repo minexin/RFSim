@@ -64,6 +64,23 @@ class PythonApiTests(unittest.TestCase):
             with self.assertRaises((ValueError, TypeError)):
                 self.library.coherent_amplifier(1e8, [c], reserved_group_max=reserved, **parameters)
 
+    def test_coherent_cascade_distortion_drive_and_kind(self):
+        parameters = dict(power_gain_db=20., output_p1db_dbm=20., output_saturation_dbm=23.,
+                          input_ip2_dbm=20., input_ip3_dbm=10.)
+        wave = math.sqrt(10**(-2.9) / 2)
+        carrier = rfmodel.CoherentComponent(10, rfmodel.SpectrumKind.SOURCE, 1., 7, wave)
+        harmonic = rfmodel.CoherentComponent(20, rfmodel.SpectrumKind.HARMONIC, 2., 8, 1j*wave)
+        result = self.library.coherent_amplifier(
+            1e8, [carrier, harmonic], propagate_distortion=True, **parameters)
+        self.assertEqual(len(result.terms), 5)
+        self.assertAlmostEqual(result.total_input_power_w, 10**(-2.9))
+        self.assertAlmostEqual(result.terms[1].component.amplitude, 1j*math.sqrt(.05))
+        self.assertEqual(result.terms[1].component.kind, rfmodel.SpectrumKind.HARMONIC)
+        with self.assertRaises(TypeError):
+            self.library.coherent_amplifier(1e8, [], propagate_distortion=1, **parameters)
+        with self.assertRaises(RFModelError):
+            self.library.coherent_amplifier(1e8, [carrier, harmonic], **parameters)
+
     def test_coherent_fundamental_compression_shared_drive(self):
         parameters = dict(power_gain_db=20., output_p1db_dbm=20., output_saturation_dbm=23.)
         anchor = 10**((20 - 20 + 1 - 30) / 10)

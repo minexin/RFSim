@@ -71,6 +71,34 @@ int main() {
     input[1].bandwidth_hz = 2.;
     require(model.evaluate(1e8, input).inputs.size() == 2, "bandwidth is part of identity");
     require(model.evaluate(1e8, {}).terms.empty(), "empty input");
+    // Conducted distortion contributes to drive but is not a fresh source.
+    const double anchor = std::pow(10., -2.9);
+    const double half_wave = std::sqrt(anchor / 2);
+    const auto cascade =
+        model.evaluate_cascade(1e8,
+                               {{10, SpectrumKind::source, 1., 7, half_wave},
+                                {20, SpectrumKind::harmonic, 2., 8, Complex{0., half_wave}}});
+    near(cascade.total_input_power_w, anchor);
+    require(cascade.terms.size() == 5, "two conducted terms and three carrier products");
+    near(cascade.terms[0].component.amplitude, std::sqrt(.05));
+    near(cascade.terms[1].component.amplitude, Complex{0., std::sqrt(.05)});
+    require(cascade.terms[1].component.kind == SpectrumKind::harmonic &&
+                cascade.terms[1].component.coherence_group == 8,
+            "conducted distortion retains kind and group");
+    for (const auto &term : cascade.terms) {
+        if (term.order > 1) {
+            for (int i = 0; i < term.order; ++i) {
+                require(std::abs(term.input_indices[i]) == 1,
+                        "secondary distortion does not generate new mixing products");
+            }
+        }
+    }
+    const auto distortion_only =
+        model.evaluate_cascade(1e8, {{20, SpectrumKind::harmonic, 2., 8, Complex{0., half_wave}}});
+    require(distortion_only.terms.size() == 1, "no carrier, no new products");
+    require(distortion_only.terms[0].component.kind == SpectrumKind::harmonic,
+            "do not relabel a harmonic as a carrier");
+
     rejects<std::overflow_error>([&] {
         model.evaluate(1e8, input, UINT64_MAX);
     });

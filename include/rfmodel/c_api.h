@@ -277,6 +277,29 @@ RFMODEL_API int rfmodel_coherent_amplifier_evaluate(double spacing_hz,
                                                     size_t *term_count,
                                                     rfmodel_amplifier_drive *drive);
 
+/* Cascade mode: harmonic/intermod inputs contribute to drive and propagate with
+ * shared compressed gain. Only source-kind inputs generate new distortion.
+ * Local order=1 denotes transmission, even for an inherited harmonic/intermod.
+ * Generated origins must be resolved with conducted origins before reduction.
+ * No secondary distortion mixing. Other contracts match evaluate above. */
+RFMODEL_API int rfmodel_coherent_amplifier_cascade(double spacing_hz,
+                                                   const rfmodel_coherent_component *input,
+                                                   size_t input_count,
+                                                   double power_gain_db,
+                                                   double output_p1db_dbm,
+                                                   double output_saturation_dbm,
+                                                   double input_ip2_dbm,
+                                                   double input_ip3_dbm,
+                                                   double reference_ohms,
+                                                   uint64_t reserved_group_max,
+                                                   rfmodel_coherent_component *reduced_inputs,
+                                                   size_t reduced_capacity,
+                                                   size_t *reduced_count,
+                                                   rfmodel_coherent_amplifier_term *terms,
+                                                   size_t term_capacity,
+                                                   size_t *term_count,
+                                                   rfmodel_amplifier_drive *drive);
+
 typedef struct rfmodel_amplifier_term {
     int order;
     int index;

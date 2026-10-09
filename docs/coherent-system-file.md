@@ -168,3 +168,5 @@ wheel API 61 项、系统图 13 项；新增链路的解析结果见
 图内并行放大器按完整输入来源式复用组号，支持生成项后级传播和相干合路。
 字段、输入限制、206 项单放大器 SystemVue 对照与解析合路示例见
 [同频多源放大器](coherent-amplifier.md)。递归多级非线性仍未完成。
+
+[失真来源级联](coherent-amplifier-cascade.md) 新增 cascaded_amplifier：传播前级谐波/互调，计入共同驱动，并与本级同源失真相干合并。八组 SystemVue 对照中六组通过，两组 0 dB 增益差异保留；次级失真再混频仍未完成。

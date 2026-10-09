@@ -1,0 +1,15 @@
+{
+  "classification": "diagnostic_only",
+  "eligible_for_compatibility": false,
+  "raw_capture_sha256": "41e2f2e26129f91e8015a0fe9e3cbae0d27651147dd4dcc53f59af0740bdfdaf",
+  "run_started_utc": "2026-10-09T05:36:35.5821049Z",
+  "run_returned_utc": "2026-10-09T05:36:35.9785076Z",
+  "manager_errors": " (WARNING) Maximum Order is 2 which has been increased to 3.\n",
+  "requested_maximum_order": 2,
+  "readback_maximum_order": 2,
+  "observed_third_harmonic_identities": [
+    "{4}[3x(Source.Source1)],RFAmp1,RFAmp2",
+    "{4}[3x(Source.Source1)],RFAmp2"
+  ],
+  "conclusion": "SystemVue warns that order 2 is raised to 3; readback alone does not establish executed order."
+}

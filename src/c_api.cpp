@@ -246,23 +246,24 @@ int rfmodel_reduce_coherent_components(double spacing_hz,
     });
 }
 
-int rfmodel_coherent_amplifier_evaluate(double spacing_hz,
-                                        const rfmodel_coherent_component *input,
-                                        size_t input_count,
-                                        double power_gain_db,
-                                        double output_p1db_dbm,
-                                        double output_saturation_dbm,
-                                        double input_ip2_dbm,
-                                        double input_ip3_dbm,
-                                        double reference_ohms,
-                                        uint64_t reserved_group_max,
-                                        rfmodel_coherent_component *reduced_inputs,
-                                        size_t reduced_capacity,
-                                        size_t *reduced_count,
-                                        rfmodel_coherent_amplifier_term *terms,
-                                        size_t term_capacity,
-                                        size_t *term_count,
-                                        rfmodel_amplifier_drive *drive) {
+static int coherent_amplifier_evaluate_impl(double spacing_hz,
+                                            const rfmodel_coherent_component *input,
+                                            size_t input_count,
+                                            double power_gain_db,
+                                            double output_p1db_dbm,
+                                            double output_saturation_dbm,
+                                            double input_ip2_dbm,
+                                            double input_ip3_dbm,
+                                            double reference_ohms,
+                                            uint64_t reserved_group_max,
+                                            rfmodel_coherent_component *reduced_inputs,
+                                            size_t reduced_capacity,
+                                            size_t *reduced_count,
+                                            rfmodel_coherent_amplifier_term *terms,
+                                            size_t term_capacity,
+                                            size_t *term_count,
+                                            rfmodel_amplifier_drive *drive,
+                                            bool propagate_distortion) {
     return guarded([&] {
         require(input_count <= 4096 && (input || input_count == 0));
         require(reduced_count && term_count && drive);
@@ -281,7 +282,9 @@ int rfmodel_coherent_amplifier_evaluate(double spacing_hz,
                                                       input_ip2_dbm,
                                                       input_ip3_dbm,
                                                       reference_ohms);
-        const auto result = model.evaluate(spacing_hz, components, reserved_group_max);
+        const auto result = propagate_distortion
+                                ? model.evaluate_cascade(spacing_hz, components, reserved_group_max)
+                                : model.evaluate(spacing_hz, components, reserved_group_max);
         require(reduced_capacity >= result.inputs.size() && term_capacity >= result.terms.size());
         require((reduced_inputs || result.inputs.empty()) && (terms || result.terms.empty()));
         auto encode = [](const rfmodel::CoherentComponent &c) {
@@ -304,6 +307,80 @@ int rfmodel_coherent_amplifier_evaluate(double spacing_hz,
         *term_count = result.terms.size();
         *drive = {result.total_input_power_w, result.limited_input_power_w};
     });
+}
+
+int rfmodel_coherent_amplifier_evaluate(double spacing_hz,
+                                        const rfmodel_coherent_component *input,
+                                        size_t input_count,
+                                        double power_gain_db,
+                                        double output_p1db_dbm,
+                                        double output_saturation_dbm,
+                                        double input_ip2_dbm,
+                                        double input_ip3_dbm,
+                                        double reference_ohms,
+                                        uint64_t reserved_group_max,
+                                        rfmodel_coherent_component *reduced_inputs,
+                                        size_t reduced_capacity,
+                                        size_t *reduced_count,
+                                        rfmodel_coherent_amplifier_term *terms,
+                                        size_t term_capacity,
+                                        size_t *term_count,
+                                        rfmodel_amplifier_drive *drive) {
+    return coherent_amplifier_evaluate_impl(spacing_hz,
+                                            input,
+                                            input_count,
+                                            power_gain_db,
+                                            output_p1db_dbm,
+                                            output_saturation_dbm,
+                                            input_ip2_dbm,
+                                            input_ip3_dbm,
+                                            reference_ohms,
+                                            reserved_group_max,
+                                            reduced_inputs,
+                                            reduced_capacity,
+                                            reduced_count,
+                                            terms,
+                                            term_capacity,
+                                            term_count,
+                                            drive,
+                                            false);
+}
+
+int rfmodel_coherent_amplifier_cascade(double spacing_hz,
+                                       const rfmodel_coherent_component *input,
+                                       size_t input_count,
+                                       double power_gain_db,
+                                       double output_p1db_dbm,
+                                       double output_saturation_dbm,
+                                       double input_ip2_dbm,
+                                       double input_ip3_dbm,
+                                       double reference_ohms,
+                                       uint64_t reserved_group_max,
+                                       rfmodel_coherent_component *reduced_inputs,
+                                       size_t reduced_capacity,
+                                       size_t *reduced_count,
+                                       rfmodel_coherent_amplifier_term *terms,
+                                       size_t term_capacity,
+                                       size_t *term_count,
+                                       rfmodel_amplifier_drive *drive) {
+    return coherent_amplifier_evaluate_impl(spacing_hz,
+                                            input,
+                                            input_count,
+                                            power_gain_db,
+                                            output_p1db_dbm,
+                                            output_saturation_dbm,
+                                            input_ip2_dbm,
+                                            input_ip3_dbm,
+                                            reference_ohms,
+                                            reserved_group_max,
+                                            reduced_inputs,
+                                            reduced_capacity,
+                                            reduced_count,
+                                            terms,
+                                            term_capacity,
+                                            term_count,
+                                            drive,
+                                            true);
 }
 
 int rfmodel_compress_coherent_fundamentals(double spacing_hz,
