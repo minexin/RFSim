@@ -80,11 +80,20 @@ def inspect(capture):
     identity = dict(zip(ids, names))
     frequencies, powers, indices = vector("F3"), vector("P3"), vector("ID3")
     voltages, impedances = vector("V3"), vector("Z3")
-    if len(frequencies) != len(powers) or len(indices) != len(powers) or len(indices) != 4:
+    if len(frequencies) != len(powers) or len(indices) != len(powers):
         raise ValueError("Inconsistent output measurement lengths")
     if len(voltages) != 2 * len(indices) or len(impedances) != 2 * len(indices):
         raise ValueError("Invalid complex output encoding")
-    waves, groups = {}, {}
+    show_totals = capture.get("show_totals", False)
+    if type(show_totals) is not bool:
+        raise ValueError("Expected boolean total-spectrum flag")
+    if "show_totals" in capture:
+        settings = capture.get("analysis_settings", {})
+        if type(settings.get("ShowTotals")) is not int or settings["ShowTotals"] != int(show_totals):
+            raise ValueError("Total-spectrum command disagrees with analysis readback")
+    if len(indices) != (6 if show_totals else 4):
+        raise ValueError("Unexpected source/total spectrum count")
+    waves, groups, used_rows = {}, {}, set()
     for source in (1, 2):
         suffix = "D[(MultiSource{0}.Source{0})],MultiSource{0},TL{0},Attn1".format(source)
         rows = []
@@ -101,6 +110,7 @@ def inspect(capture):
         groups[source] = rows[0][1]
         waves[source] = []
         for i, _ in rows:
+            used_rows.add(i)
             v = complex(number(voltages[2*i]), number(voltages[2*i+1]))
             z = complex(number(impedances[2*i]), number(impedances[2*i+1]))
             if abs(z.imag) > 1e-7 or not math.isclose(z.real, 50., rel_tol=1e-7):
@@ -109,6 +119,26 @@ def inspect(capture):
             if power <= 0 or not math.isclose(abs(v)**2 / (2*z.real), power, rel_tol=1e-10):
                 raise ValueError("Output voltage/power mismatch")
             waves[source].append(v / math.sqrt(2*z.real))
+    total_powers = None
+    if show_totals:
+        rows = [i for i, identifier in enumerate(indices)
+                if identity[identifier] == "Node Total from 'Attn1'"]
+        if len(rows) != 2 or sorted(number(frequencies[i]) for i in rows) != [1e9 - .5, 1e9 + .5]:
+            raise ValueError("Missing unique outgoing Attn1 total CW boundaries")
+        total_powers = []
+        for i in rows:
+            used_rows.add(i)
+            power = number(powers[i])
+            v = complex(number(voltages[2*i]), number(voltages[2*i+1]))
+            z = complex(number(impedances[2*i]), number(impedances[2*i+1]))
+            if abs(z.imag) > 1e-7 or not math.isclose(z.real, 50., rel_tol=1e-7):
+                raise ValueError("Total observation is not matched 50-ohm")
+            if power < 0 or not math.isclose(abs(v)**2 / (2*z.real), power,
+                                              rel_tol=1e-10, abs_tol=1e-30):
+                raise ValueError("Total voltage/power mismatch")
+            total_powers.append(power)
+    if used_rows != set(range(len(indices))):
+        raise ValueError("Unexpected output spectrum")
     if (groups[1] == groups[2]) != capture["locked"]:
         raise ValueError("Measured coherency IDs disagree with source clocks")
     elements, drive = vector("RFElemList"), vector("RFPwrIn")
@@ -117,7 +147,7 @@ def inspect(capture):
     measured_drive = number(drive[elements.index("Attn1")])
     if measured_drive < 0:
         raise ValueError("Negative RF input drive")
-    return phase, length, groups, waves, measured_drive
+    return phase, length, groups, waves, measured_drive, total_powers
 
 
 def predict(library, phase, length, groups, *, attenuator, selected_sources=(1, 2)):
@@ -148,7 +178,7 @@ def compare(library, captures):
         raise ValueError("Expected nonempty capture list")
     reports, seen = [], set()
     for capture in captures:
-        phase, length, groups, waves, measured_drive = inspect(capture)
+        phase, length, groups, waves, measured_drive, total_powers = inspect(capture)
         parameters = {node["path"]: node["data"] for node in capture["nodes"]}
         definitions = [
             SourceCoherence("MultiSource" + str(index) + ".Source" + str(index),
@@ -157,7 +187,7 @@ def compare(library, captures):
         assigned = library.assign_source_coherence(definitions)
         resolved = dict(zip((1, 2), assigned))
         same_relation = (resolved[1] == resolved[2]) == (groups[1] == groups[2])
-        key = capture["locked"], phase, length
+        key = capture["locked"], phase, length, capture.get("show_totals", False)
         if key in seen:
             raise ValueError("Duplicate reference configuration")
         seen.add(key)
@@ -181,10 +211,23 @@ def compare(library, captures):
         checks.append({"measurement": "source_clock_coherence_relation",
                        "systemvue_groups": [groups[1], groups[2]], "rfmodel_groups": list(assigned),
                        "passed": same_relation})
+        if total_powers is not None:
+            output = predict(library, phase, length, resolved, attenuator=True).total_power_w
+            errors = [abs(output - power) for power in total_powers]
+            tolerances = [max(1e-15, power * 1e-7) for power in total_powers]
+            checks.append({"measurement": "P3: Node Total from 'Attn1'",
+                           "rfmodel_w": output, "systemvue_boundary_powers_w": total_powers,
+                           "absolute_errors_w": errors, "tolerances_w": tolerances,
+                           "passed": all(error <= tolerance
+                                         for error, tolerance in zip(errors, tolerances))})
         reports.append({"locked": capture["locked"], "second_phase_deg": phase,
                         "line_length_rad": length, "raw_capture_sha256": capture["raw_capture_sha256"],
                         "checks": checks})
-    return {"scope": "Two-source TLE/tee/attenuator: path waves, clock relations and a separate RFPwrIn comparison",
+    total_checks = [r["checks"][4] for r in reports if len(r["checks"]) == 5]
+    return {"direction_total_power_cases": len(total_checks),
+            "direction_total_power_passed": (
+                all(c["passed"] for c in total_checks) if total_checks else None),
+            "scope": "Two-source TLE/tee/attenuator: path waves, clock relations, optional direction-total power and separate RFPwrIn",
             "relative_tolerance": 1e-7, "cancellation_absolute_tolerance_w": 1e-15,
             "coherency_assignment": "Native source/reference-clock resolver; compare relations, not numeric IDs",
             "path_wave_and_clock_relation_passed": all(

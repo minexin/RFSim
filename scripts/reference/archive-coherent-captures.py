@@ -19,7 +19,8 @@ def extract(raw, status, *, raw_sha256, workspace_sha256, systemvue_version):
     command = status["command"]
     if not isinstance(command, list) or any(not isinstance(v, str) for v in command):
         raise ValueError("Invalid recorded command")
-    if command.count("-RunCoherentAnalysis") != 1 or command.count("-CoherentLocked") > 1:
+    if (command.count("-RunCoherentAnalysis") != 1 or command.count("-CoherentLocked") > 1 or
+            command.count("-CoherentShowTotals") > 1):
         raise ValueError("Expected one coherent analysis command")
 
     def flag(name):
@@ -48,12 +49,20 @@ def extract(raw, status, *, raw_sha256, workspace_sha256, systemvue_version):
                   raw_capture_sha256=raw_sha256, source_workspace_sha256=workspace_sha256,
                   systemvue_version=systemvue_version,
                   workspace_hash_scope="on_disk_source_copy_at_archive_time")
-    # Check both intent (command) and independently read actual parameter values.
-    comparison.inspect(result)
     settings = [node.get("analysis_settings") for node in raw["nodes"]
                 if node["path"] == comparison.BASE + "System1"]
     if len(settings) == 1 and settings[0] is not None:
         result["analysis_settings"] = settings[0]
+        result["show_totals"] = "-CoherentShowTotals" in command
+    elif "-CoherentShowTotals" in command:
+        raise ValueError("Total spectra require independent analysis-setting readback")
+    if "submitted_script" in raw:
+        if raw.get("script_language") != "VBScript" or not isinstance(raw["submitted_script"], str):
+            raise ValueError("Invalid submitted script provenance")
+        result["script_language"] = raw["script_language"]
+        result["submitted_script"] = raw["submitted_script"]
+    # Check both intent (command) and independently read actual parameter values.
+    comparison.inspect(result)
     return result
 
 
@@ -83,7 +92,8 @@ def main():
         record = extract(json.loads(raw.decode("utf-8-sig")), status,
                          raw_sha256=hashlib.sha256(raw).hexdigest(),
                          workspace_sha256=workspace_hash, systemvue_version=args.systemvue_version)
-        key = record["locked"], record["second_phase_deg"], record["line_length_rad"]
+        key = (record["locked"], record["second_phase_deg"], record["line_length_rad"],
+               record.get("show_totals", False))
         if key in seen:
             raise ValueError("Duplicate reference configuration")
         seen.add(key)

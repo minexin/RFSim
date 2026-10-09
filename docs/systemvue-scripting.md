@@ -86,3 +86,15 @@ python scripts/reference/run-systemvue-reference.py antenna `
 Pwr 向量的第一个载波项，第二项保留 −50；衰减器案例仍使用标量参数。
 天线案例仍禁止使用衰减器专用的损耗/温度覆盖。改变功率后需要向 collect 提供
 同名选项用于实际回读校验。实验结束应显式恢复 −50 dBm 并验证基准。
+
+## 2026-10-09：消除脚本语言识别提示
+
+包含对象赋值和方法调用的旧脚本文本会触发“像 Python，但使用 VBScript 执行”
+的语言切换提示。采集器现在明确使用 Dim、Set、Call，继续通过官方旧 COM
+接口的 genLangVBScript 调用，不猜测 Python 枚举，也不修改全局语言设置。
+
+本机已实测 SetProperty 设置 ShowTotals 并回读 0 → 1；修正后的正式采集器
+完成六组方向总谱及一组关闭总谱的恢复采集，均产生新鲜数据、无 Manager 错误。
+CaptureRun 新增 script_language 与 submitted_script；相干案例新增
+--coherent-show-totals，省略时显式关闭，避免跨运行残留。
+本轮真实重跑覆盖相干案例，未重新运行其他参考工作区或 --open-copy 路径。

@@ -18,6 +18,7 @@ spec.loader.exec_module(runner)
 class RunnerTests(unittest.TestCase):
     def test_coherent_options_reject_wrong_case_and_nonfinite_values(self):
         cases = [("compression", ["--coherent-locked"]),
+                 ("attenuator", ["--coherent-show-totals"]),
                  ("coherent", ["--source-power-dbm", "0"])]
         for flag in ("--coherent-phase-deg", "--coherent-length-rad"):
             cases.extend([("coherent", [flag + "=" + value]) for value in ("nan", "inf", "361")])
@@ -39,12 +40,13 @@ class RunnerTests(unittest.TestCase):
             workspace = Path(directory) / "RFModel_PhaseCombiner.wsv"
             workspace.touch()
             args = ["runner", "coherent", str(workspace), str(Path(directory) / "output"),
-                    "--coherent-locked", "--coherent-phase-deg", "90", "--coherent-length-rad", "30"]
+                    "--coherent-locked", "--coherent-show-totals", "--coherent-phase-deg", "90", "--coherent-length-rad", "30"]
             with patch.object(sys, "argv", args), patch.object(runner, "execute", return_value=0) as execute:
                 self.assertEqual(runner.main(), 0)
             command = execute.call_args.args[0]
             self.assertIn("-RunCoherentAnalysis", command)
             self.assertIn("-CoherentLocked", command)
+            self.assertIn("-CoherentShowTotals", command)
             self.assertEqual(command[command.index("-CoherentPhaseDeg") + 1], "90.0")
             self.assertEqual(command[command.index("-CoherentLengthRad") + 1], "30.0")
 

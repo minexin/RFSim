@@ -8,6 +8,7 @@ param(
     [double]$CoherentPhaseDeg = 0,
     [double]$CoherentLengthRad = 0.5235987755982988,
     [switch]$CoherentLocked,
+    [switch]$CoherentShowTotals,
     [Nullable[double]]$LossDb,
     [Nullable[double]]$TemperatureK,
     [Nullable[double]]$SourcePowerDbm,
@@ -26,7 +27,9 @@ if ($RunCoherentAnalysis -and ($RunCompressionAnalysis -or $RunAntennaAnalysis -
     $null -ne $SourcePowerDbm -or $null -ne $LossDb -or $null -ne $TemperatureK)) {
     throw 'Coherent analysis cannot be combined with other case overrides.'
 }
-if (($PSBoundParameters.ContainsKey('CoherentPhaseDeg') -or $PSBoundParameters.ContainsKey('CoherentLengthRad') -or $CoherentLocked) -and -not $RunCoherentAnalysis) {
+if (($PSBoundParameters.ContainsKey('CoherentPhaseDeg') -or
+    $PSBoundParameters.ContainsKey('CoherentLengthRad') -or $CoherentLocked -or $CoherentShowTotals) -and
+    -not $RunCoherentAnalysis) {
     throw 'Coherent options require RunCoherentAnalysis.'
 }
 if ([double]::IsNaN($CoherentLengthRad) -or [double]::IsInfinity($CoherentLengthRad) -or
@@ -247,11 +250,14 @@ public static class ReferenceWorkspaceInspector
         }
     }
 
+    public static string SubmittedScript;
+
     public static Node[] Inspect(string path, bool open, bool run, bool antenna, double lossDb, double temperatureK,
         double sourcePowerDbm, bool compression, int compressionRisoDb, string compressionProfile,
         int compressionOpsatDbm, bool preserveManagerMessages, bool compressionTwoTone,
         double secondPowerDbm, double firstPhaseDeg, double secondPhaseDeg,
-        bool coherent, double coherentPhaseDeg, bool coherentLocked, double coherentLengthRad)
+        bool coherent, double coherentPhaseDeg, bool coherentLocked, double coherentLengthRad,
+        bool coherentShowTotals)
     {
         Console.Error.WriteLine("phase: attach-active-instance");
         object active = Marshal.GetActiveObject("Genesys.Application");
@@ -270,7 +276,7 @@ public static class ReferenceWorkspaceInspector
                             "FileOpen can replace the active workspace; launch a dedicated reference instance instead");
                     }
                     Console.Error.WriteLine("phase: open-copy-in-empty-instance");
-                    application.RunScript("OpenWorkspace(\"" + path.Replace("\"", "\"\"") + "\")",
+                    application.RunScript("Call OpenWorkspace(\"" + path.Replace("\"", "\"\"") + "\")",
                         GENESYS.ScriptLanguage.genLangVBScript);
                 }
                 Console.Error.WriteLine("phase: find-reference-workspace");
@@ -293,11 +299,12 @@ public static class ReferenceWorkspaceInspector
                             {
                                 throw new InvalidOperationException("Analysis requires the sole dedicated reference workspace");
                             }
-                            string setup = "wsdoc=Application.Manager.GetWorkspaceByIndex(0)\r\n";
+                            string setup = "";
                             if (coherent)
                             {
                                 string folder = "wsdoc.GetItemByName(\"Phase Prj\").";
                                 string parts = folder + "Example.PartList.";
+                                setup += folder + "System1.SetProperty(\"ShowTotals\", showTotals)\r\n";
                                 for (int sourceIndex = 1; sourceIndex <= 2; ++sourceIndex)
                                 {
                                     string source = parts + "MultiSource" + sourceIndex + ".ParamSet.";
@@ -401,9 +408,18 @@ public static class ReferenceWorkspaceInspector
                                 : antenna
                                 ? "wsdoc.GetItemByName(\"RF Design\").GetItemByName(\"System1\").RunAnalysis()\r\n"
                                 : "wsdoc.Designs.System1.RunAnalysis()\r\n";
-                            application.RunScript(
-                                setup + analysis,
-                                GENESYS.ScriptLanguage.genLangVBScript);
+                            // Explicit VBScript avoids SystemVue's Python auto-detection dialog.
+                            // setup/analysis contain only generated method calls, one per line.
+                            string script = "Dim wsdoc, showTotals\r\n" +
+                                "Set wsdoc = Application.Manager.GetWorkspaceByIndex(0)\r\n" +
+                                "showTotals = CByte(" + (coherentShowTotals ? "1" : "0") + ")\r\n";
+                            foreach (string statement in (setup + analysis).Split(
+                                new[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries))
+                            {
+                                script += "Call " + statement + "\r\n";
+                            }
+                            SubmittedScript = script;
+                            application.RunScript(script, GENESYS.ScriptLanguage.genLangVBScript);
                             RunReturnedUtc = DateTime.UtcNow.ToString("o");
                             ManagerErrors = manager.GetErrors();
                             Console.Error.WriteLine("phase: analysis-returned " + RunReturnedUtc);
@@ -469,11 +485,14 @@ $nodes = [ReferenceWorkspaceInspector]::Inspect($resolvedPath, $OpenCopy.IsPrese
     $RunAntennaAnalysis.IsPresent, $loss, $temperature, $power, $RunCompressionAnalysis.IsPresent,
     $CompressionRisoDb, $CompressionProfile, $CompressionOpsatDbm, $PreserveManagerMessages.IsPresent,
     $CompressionTwoTone.IsPresent, $secondPower, $firstPhase, $secondPhase,
-    $RunCoherentAnalysis.IsPresent, $CoherentPhaseDeg, $CoherentLocked.IsPresent, $CoherentLengthRad)
+    $RunCoherentAnalysis.IsPresent, $CoherentPhaseDeg, $CoherentLocked.IsPresent, $CoherentLengthRad,
+    $CoherentShowTotals.IsPresent)
 if ($CaptureRun) {
     [ordered]@{
         run_started_utc = [ReferenceWorkspaceInspector]::RunStartedUtc
         run_returned_utc = [ReferenceWorkspaceInspector]::RunReturnedUtc
+        script_language = "VBScript"
+        submitted_script = [ReferenceWorkspaceInspector]::SubmittedScript
         manager_errors = [ReferenceWorkspaceInspector]::ManagerErrors
         nodes = $nodes
     } | ConvertTo-Json -Depth 10

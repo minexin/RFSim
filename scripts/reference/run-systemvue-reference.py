@@ -105,6 +105,8 @@ def main():
     parser.add_argument("--coherent-phase-deg", type=float)
     parser.add_argument("--coherent-length-rad", type=float)
     parser.add_argument("--coherent-locked", action="store_true")
+    parser.add_argument("--coherent-show-totals", action="store_true",
+                        help="Enable direction-total spectra; omitted means explicitly disabled")
     parser.add_argument("--source-power-dbm", type=float)
     parser.add_argument("--compression-riso-db", type=int, choices=(50, 100))
     parser.add_argument("--compression-profile", choices=("sample", "antenna", "limiter"))
@@ -128,6 +130,8 @@ def main():
             args.case != "coherent" or not math.isfinite(args.coherent_length_rad)
             or not 0 <= args.coherent_length_rad <= 100):
         parser.error("Coherent length requires coherent case and finite radians from 0 to 100")
+    if args.coherent_show_totals and args.case != "coherent":
+        parser.error("Direction-total spectra require coherent case")
     if args.coherent_locked and args.case != "coherent":
         parser.error("Coherent clock requires coherent case")
     if args.case == "coherent" and args.source_power_dbm is not None:
@@ -175,6 +179,8 @@ def main():
         command.extend(["-CoherentLengthRad", str(args.coherent_length_rad)])
     if args.coherent_locked:
         command.append("-CoherentLocked")
+    if args.coherent_show_totals:
+        command.append("-CoherentShowTotals")
     if args.open_copy:
         command.append("-OpenCopy")
     if args.source_power_dbm is not None:

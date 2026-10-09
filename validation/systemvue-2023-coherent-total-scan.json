@@ -1,0 +1,574 @@
+{
+  "direction_total_power_cases": 6,
+  "direction_total_power_passed": true,
+  "scope": "Two-source TLE/tee/attenuator: path waves, clock relations, optional direction-total power and separate RFPwrIn",
+  "relative_tolerance": 1e-07,
+  "cancellation_absolute_tolerance_w": 1e-15,
+  "coherency_assignment": "Native source/reference-clock resolver; compare relations, not numeric IDs",
+  "path_wave_and_clock_relation_passed": true,
+  "rfpwrin_agreement_passed": false,
+  "limitation": "This reference does not validate nonlinear/LO propagation or a split-source fixture; RFPwrIn is a separately compared measurement, not assumed equivalent to coherent drive",
+  "reports": [
+    {
+      "locked": true,
+      "second_phase_deg": 0.0,
+      "line_length_rad": 0.5235987755982988,
+      "raw_capture_sha256": "73bb1184f41640a6535f28ecd8cd0bb21066a532d972350f1be2d1eb35249997",
+      "checks": [
+        {
+          "source": 1,
+          "coherency_number": 1,
+          "rfmodel_coherence_group": 1,
+          "rfmodel_wave": [
+            0.010266900960803408,
+            -0.005927598033463074
+          ],
+          "systemvue_boundary_waves": [
+            [
+              0.010266900819608583,
+              -0.0059275978989600684
+            ],
+            [
+              0.01026690081650489,
+              -0.005927597904335818
+            ]
+          ],
+          "relative_complex_errors": [
+            1.644892463445677e-08,
+            1.6333648991477307e-08
+          ],
+          "passed": true
+        },
+        {
+          "source": 2,
+          "coherency_number": 1,
+          "rfmodel_coherence_group": 1,
+          "rfmodel_wave": [
+            0.010266900960803408,
+            -0.005927598033463074
+          ],
+          "systemvue_boundary_waves": [
+            [
+              0.01026690081960859,
+              -0.0059275978989600684
+            ],
+            [
+              0.010266900816504889,
+              -0.005927597904335822
+            ]
+          ],
+          "relative_complex_errors": [
+            1.6448924210663506e-08,
+            1.6333648856576196e-08
+          ],
+          "passed": true
+        },
+        {
+          "measurement": "RFPwrIn(Attn1)",
+          "rfmodel_w": 0.0017777777777777774,
+          "systemvue_w": 0.0017777777261943077,
+          "absolute_error_w": 5.1583469700550166e-11,
+          "tolerance_w": 1.7777777261943078e-10,
+          "passed": true
+        },
+        {
+          "measurement": "source_clock_coherence_relation",
+          "systemvue_groups": [
+            1,
+            1
+          ],
+          "rfmodel_groups": [
+            1,
+            1
+          ],
+          "passed": true
+        },
+        {
+          "measurement": "P3: Node Total from 'Attn1'",
+          "rfmodel_w": 0.000562182695141045,
+          "systemvue_boundary_powers_w": [
+            0.0005621826771657413,
+            0.0005621826771657406
+          ],
+          "absolute_errors_w": [
+            1.797530375415024e-11,
+            1.7975304404671544e-11
+          ],
+          "tolerances_w": [
+            5.6218267716574127e-11,
+            5.621826771657406e-11
+          ],
+          "passed": true
+        }
+      ]
+    },
+    {
+      "locked": true,
+      "second_phase_deg": 90.0,
+      "line_length_rad": 0.5235987755982988,
+      "raw_capture_sha256": "74c503af751e34545db3b361da13d43578963925f8038629ce615b1775aa7307",
+      "checks": [
+        {
+          "source": 1,
+          "coherency_number": 1,
+          "rfmodel_coherence_group": 1,
+          "rfmodel_wave": [
+            0.010266900960803408,
+            -0.005927598033463074
+          ],
+          "systemvue_boundary_waves": [
+            [
+              0.010266900819608583,
+              -0.0059275978989600684
+            ],
+            [
+              0.01026690081650489,
+              -0.005927597904335818
+            ]
+          ],
+          "relative_complex_errors": [
+            1.644892463445677e-08,
+            1.6333648991477307e-08
+          ],
+          "passed": true
+        },
+        {
+          "source": 2,
+          "coherency_number": 1,
+          "rfmodel_coherence_group": 1,
+          "rfmodel_wave": [
+            0.005927598033463075,
+            0.010266900960803408
+          ],
+          "systemvue_boundary_waves": [
+            [
+              0.0059275978989600745,
+              0.01026690081960859
+            ],
+            [
+              0.005927597904335822,
+              0.010266900816504889
+            ]
+          ],
+          "relative_complex_errors": [
+            1.6448923907882566e-08,
+            1.6333648905364698e-08
+          ],
+          "passed": true
+        },
+        {
+          "measurement": "RFPwrIn(Attn1)",
+          "rfmodel_w": 0.0008888888888888889,
+          "systemvue_w": 0.0017777777261943077,
+          "absolute_error_w": 0.0008888888373054188,
+          "tolerance_w": 1.7777777261943078e-10,
+          "passed": false
+        },
+        {
+          "measurement": "source_clock_coherence_relation",
+          "systemvue_groups": [
+            1,
+            1
+          ],
+          "rfmodel_groups": [
+            1,
+            1
+          ],
+          "passed": true
+        },
+        {
+          "measurement": "P3: Node Total from 'Attn1'",
+          "rfmodel_w": 0.0002810913475705225,
+          "systemvue_boundary_powers_w": [
+            0.00028109133858287064,
+            0.0002810913385828704
+          ],
+          "absolute_errors_w": [
+            8.98765187707512e-12,
+            8.987652093915555e-12
+          ],
+          "tolerances_w": [
+            2.8109133858287063e-11,
+            2.810913385828704e-11
+          ],
+          "passed": true
+        }
+      ]
+    },
+    {
+      "locked": true,
+      "second_phase_deg": 180.0,
+      "line_length_rad": 0.523598775598299,
+      "raw_capture_sha256": "b69f9fbb747d178b4a23a89c446a8c0a670c8cb36ec47debe376def45510a2b3",
+      "checks": [
+        {
+          "source": 1,
+          "coherency_number": 1,
+          "rfmodel_coherence_group": 1,
+          "rfmodel_wave": [
+            0.010266900960803408,
+            -0.005927598033463076
+          ],
+          "systemvue_boundary_waves": [
+            [
+              0.010266900819608574,
+              -0.005927597898960083
+            ],
+            [
+              0.010266900816504896,
+              -0.005927597904335827
+            ]
+          ],
+          "relative_complex_errors": [
+            1.644892440724607e-08,
+            1.6333648225256543e-08
+          ],
+          "passed": true
+        },
+        {
+          "source": 2,
+          "coherency_number": 1,
+          "rfmodel_coherence_group": 1,
+          "rfmodel_wave": [
+            -0.010266900960803408,
+            0.005927598033463077
+          ],
+          "systemvue_boundary_waves": [
+            [
+              -0.010266900819608581,
+              0.005927597898960072
+            ],
+            [
+              -0.010266900816504889,
+              0.005927597904335827
+            ]
+          ],
+          "relative_complex_errors": [
+            1.64489246899416e-08,
+            1.6333648710210686e-08
+          ],
+          "passed": true
+        },
+        {
+          "measurement": "RFPwrIn(Attn1)",
+          "rfmodel_w": 3.009265538105056e-36,
+          "systemvue_w": 0.001777777726194308,
+          "absolute_error_w": 0.001777777726194308,
+          "tolerance_w": 1.7777777261943078e-10,
+          "passed": false
+        },
+        {
+          "measurement": "source_clock_coherence_relation",
+          "systemvue_groups": [
+            1,
+            1
+          ],
+          "rfmodel_groups": [
+            1,
+            1
+          ],
+          "passed": true
+        },
+        {
+          "measurement": "P3: Node Total from 'Attn1'",
+          "rfmodel_w": 7.52316384526264e-37,
+          "systemvue_boundary_powers_w": [
+            1.714077659075029e-34,
+            4.814824885042215e-35
+          ],
+          "absolute_errors_w": [
+            1.7065544952297663e-34,
+            4.7395932465895885e-35
+          ],
+          "tolerances_w": [
+            1e-15,
+            1e-15
+          ],
+          "passed": true
+        }
+      ]
+    },
+    {
+      "locked": false,
+      "second_phase_deg": 0.0,
+      "line_length_rad": 0.5235987755982988,
+      "raw_capture_sha256": "c44b52dec4d807ec9eb192719bffe424ecaa1f548fe6e41f9f168967f4c7fc53",
+      "checks": [
+        {
+          "source": 1,
+          "coherency_number": 1,
+          "rfmodel_coherence_group": 1,
+          "rfmodel_wave": [
+            0.010266900960803408,
+            -0.005927598033463074
+          ],
+          "systemvue_boundary_waves": [
+            [
+              0.010266900819608583,
+              -0.0059275978989600684
+            ],
+            [
+              0.01026690081650489,
+              -0.005927597904335818
+            ]
+          ],
+          "relative_complex_errors": [
+            1.644892463445677e-08,
+            1.6333648991477307e-08
+          ],
+          "passed": true
+        },
+        {
+          "source": 2,
+          "coherency_number": 2,
+          "rfmodel_coherence_group": 2,
+          "rfmodel_wave": [
+            0.010266900960803408,
+            -0.005927598033463074
+          ],
+          "systemvue_boundary_waves": [
+            [
+              0.01026690081960859,
+              -0.0059275978989600684
+            ],
+            [
+              0.010266900816504889,
+              -0.005927597904335822
+            ]
+          ],
+          "relative_complex_errors": [
+            1.6448924210663506e-08,
+            1.6333648856576196e-08
+          ],
+          "passed": true
+        },
+        {
+          "measurement": "RFPwrIn(Attn1)",
+          "rfmodel_w": 0.0008888888888888887,
+          "systemvue_w": 0.0017777777261943077,
+          "absolute_error_w": 0.000888888837305419,
+          "tolerance_w": 1.7777777261943078e-10,
+          "passed": false
+        },
+        {
+          "measurement": "source_clock_coherence_relation",
+          "systemvue_groups": [
+            1,
+            2
+          ],
+          "rfmodel_groups": [
+            1,
+            2
+          ],
+          "passed": true
+        },
+        {
+          "measurement": "P3: Node Total from 'Attn1'",
+          "rfmodel_w": 0.0002810913475705225,
+          "systemvue_boundary_powers_w": [
+            0.00028109133858287064,
+            0.00028109133858287026
+          ],
+          "absolute_errors_w": [
+            8.98765187707512e-12,
+            8.98765225654588e-12
+          ],
+          "tolerances_w": [
+            2.8109133858287063e-11,
+            2.8109133858287025e-11
+          ],
+          "passed": true
+        }
+      ]
+    },
+    {
+      "locked": false,
+      "second_phase_deg": 90.0,
+      "line_length_rad": 0.5235987755982988,
+      "raw_capture_sha256": "80ac31a251c30c10fe83e57e77ab22bfc244be0e45f1be304912c86790e9dfcb",
+      "checks": [
+        {
+          "source": 1,
+          "coherency_number": 1,
+          "rfmodel_coherence_group": 1,
+          "rfmodel_wave": [
+            0.010266900960803408,
+            -0.005927598033463074
+          ],
+          "systemvue_boundary_waves": [
+            [
+              0.010266900819608583,
+              -0.0059275978989600684
+            ],
+            [
+              0.01026690081650489,
+              -0.005927597904335818
+            ]
+          ],
+          "relative_complex_errors": [
+            1.644892463445677e-08,
+            1.6333648991477307e-08
+          ],
+          "passed": true
+        },
+        {
+          "source": 2,
+          "coherency_number": 2,
+          "rfmodel_coherence_group": 2,
+          "rfmodel_wave": [
+            0.005927598033463075,
+            0.010266900960803408
+          ],
+          "systemvue_boundary_waves": [
+            [
+              0.0059275978989600745,
+              0.01026690081960859
+            ],
+            [
+              0.005927597904335822,
+              0.010266900816504889
+            ]
+          ],
+          "relative_complex_errors": [
+            1.6448923907882566e-08,
+            1.6333648905364698e-08
+          ],
+          "passed": true
+        },
+        {
+          "measurement": "RFPwrIn(Attn1)",
+          "rfmodel_w": 0.0008888888888888887,
+          "systemvue_w": 0.0017777777261943077,
+          "absolute_error_w": 0.000888888837305419,
+          "tolerance_w": 1.7777777261943078e-10,
+          "passed": false
+        },
+        {
+          "measurement": "source_clock_coherence_relation",
+          "systemvue_groups": [
+            1,
+            2
+          ],
+          "rfmodel_groups": [
+            1,
+            2
+          ],
+          "passed": true
+        },
+        {
+          "measurement": "P3: Node Total from 'Attn1'",
+          "rfmodel_w": 0.0002810913475705225,
+          "systemvue_boundary_powers_w": [
+            0.00028109133858287064,
+            0.0002810913385828703
+          ],
+          "absolute_errors_w": [
+            8.98765187707512e-12,
+            8.987652202335772e-12
+          ],
+          "tolerances_w": [
+            2.8109133858287063e-11,
+            2.810913385828703e-11
+          ],
+          "passed": true
+        }
+      ]
+    },
+    {
+      "locked": false,
+      "second_phase_deg": 180.0,
+      "line_length_rad": 0.5235987755982988,
+      "raw_capture_sha256": "1b736173c91c0a36931051ec37229cabe1b1e326b0fd2d0c68a27c05240967ce",
+      "checks": [
+        {
+          "source": 1,
+          "coherency_number": 1,
+          "rfmodel_coherence_group": 1,
+          "rfmodel_wave": [
+            0.010266900960803408,
+            -0.005927598033463074
+          ],
+          "systemvue_boundary_waves": [
+            [
+              0.010266900819608583,
+              -0.0059275978989600684
+            ],
+            [
+              0.01026690081650489,
+              -0.005927597904335818
+            ]
+          ],
+          "relative_complex_errors": [
+            1.644892463445677e-08,
+            1.6333648991477307e-08
+          ],
+          "passed": true
+        },
+        {
+          "source": 2,
+          "coherency_number": 2,
+          "rfmodel_coherence_group": 2,
+          "rfmodel_wave": [
+            -0.010266900960803408,
+            0.005927598033463075
+          ],
+          "systemvue_boundary_waves": [
+            [
+              -0.010266900819608592,
+              0.0059275978989600745
+            ],
+            [
+              -0.010266900816504889,
+              0.005927597904335822
+            ]
+          ],
+          "relative_complex_errors": [
+            1.644892380193425e-08,
+            1.6333648905364698e-08
+          ],
+          "passed": true
+        },
+        {
+          "measurement": "RFPwrIn(Attn1)",
+          "rfmodel_w": 0.0008888888888888887,
+          "systemvue_w": 0.0017777777261943082,
+          "absolute_error_w": 0.0008888888373054194,
+          "tolerance_w": 1.777777726194308e-10,
+          "passed": false
+        },
+        {
+          "measurement": "source_clock_coherence_relation",
+          "systemvue_groups": [
+            1,
+            2
+          ],
+          "rfmodel_groups": [
+            1,
+            2
+          ],
+          "passed": true
+        },
+        {
+          "measurement": "P3: Node Total from 'Attn1'",
+          "rfmodel_w": 0.0002810913475705225,
+          "systemvue_boundary_powers_w": [
+            0.0002810913385828707,
+            0.0002810913385828702
+          ],
+          "absolute_errors_w": [
+            8.987651822865012e-12,
+            8.987652310755989e-12
+          ],
+          "tolerances_w": [
+            2.8109133858287067e-11,
+            2.8109133858287018e-11
+          ],
+          "passed": true
+        }
+      ]
+    }
+  ],
+  "passed": false,
+  "captures_sha256": "26ecc35d9798597eb7db420b6273d7239c56c480d62b630c70975266790a8de8",
+  "library_sha256": "bab8dec3b7eed55c3f84566004bcde41a569bfa23ae60c359c7e2f0e5f6cfdd2"
+}

@@ -54,6 +54,57 @@ class CoherentNetworkTests(unittest.TestCase):
         self.assertEqual(captures[0]["analysis_settings"]["ShowTotals"], 0)
         self.assertEqual(captures[0]["analysis_settings"]["CalcNoise"], 0)
 
+    def load_totals(self):
+        path = comparison.ROOT / "validation/systemvue-2023-coherent-total-scan-captures.json"
+        self.captures = json.loads(path.read_text(encoding="utf-8"))
+
+    def test_total_scan_validates_cancellation_without_hiding_drive_gap(self):
+        self.load_totals()
+        report = comparison.compare(self.library, self.captures)
+        self.assertEqual(report["direction_total_power_cases"], 6)
+        self.assertTrue(report["direction_total_power_passed"])
+        self.assertTrue(report["path_wave_and_clock_relation_passed"])
+        self.assertFalse(report["rfpwrin_agreement_passed"])
+        self.assertFalse(report["passed"])
+        cases = {(r["locked"], r["second_phase_deg"]): r["checks"][4] for r in report["reports"]}
+        self.assertEqual(set(cases), {(locked, phase) for locked in (False, True) for phase in (0, 90, 180)})
+        self.assertLess(max(cases[True, 180]["systemvue_boundary_powers_w"]), 1e-28)
+        for phase in (0, 90, 180):
+            self.assertAlmostEqual(cases[False, phase]["systemvue_boundary_powers_w"][0],
+                                   .0002810913385828706, places=16)
+
+    def test_self_consistent_total_power_change_fails_comparison(self):
+        self.load_totals()
+        ids = dict(zip(self.node("/IDNo")["data"], self.node("/IDName")["data"]))
+        for index, identifier in enumerate(self.node("/ID3")["data"]):
+            if ids[identifier] == "Node Total from 'Attn1'":
+                self.node("/P3")["data"][index] *= 4
+                for offset in (0, 1):
+                    self.node("/V3")["data"][2*index + offset] *= 2
+        report = comparison.compare(self.library, self.captures[:1])
+        self.assertFalse(report["direction_total_power_passed"])
+        self.assertTrue(report["path_wave_and_clock_relation_passed"])
+
+    def test_totals_require_correct_direction_and_settings(self):
+        for change in ("direction", "settings", "bool-setting", "missing-flag", "frequency", "extra-row"):
+            self.load_totals()
+            if change == "direction":
+                names = self.node("/IDName")["data"]
+                names[:] = [name.replace("Node Total from 'Attn1'", "Node Total from 'Port_3'")
+                            for name in names]
+            elif change in ("settings", "bool-setting"):
+                self.captures[0]["analysis_settings"]["ShowTotals"] = 0 if change == "settings" else True
+            elif change == "missing-flag":
+                del self.captures[0]["show_totals"]
+            elif change == "frequency":
+                self.node("/F3")["data"][0] += 1
+            else:
+                node = self.node("/ID3")
+                node["data"].append(node["data"][0])
+                node["dimensions"][0] += 1
+            with self.subTest(change=change), self.assertRaises(ValueError):
+                comparison.compare(self.library, self.captures[:1])
+
     def test_incorrect_native_source_partition_fails_reference(self):
         with patch.object(self.library, "assign_source_coherence", return_value=(1, 2)):
             report = comparison.compare(self.library, self.captures)
@@ -130,6 +181,25 @@ class CoherentCaptureArchiveTests(unittest.TestCase):
         record = self.extract()
         self.assertEqual(comparison.inspect(record), comparison.inspect(self.raw))
         self.assertEqual(record["workspace_hash_scope"], "on_disk_source_copy_at_archive_time")
+
+    def test_total_archive_requires_command_and_setting_agreement(self):
+        path = comparison.ROOT / "validation/systemvue-2023-coherent-total-scan-captures.json"
+        record = json.loads(path.read_text(encoding="utf-8"))[0]
+        self.raw = copy.deepcopy(record)
+        command = self.status["command"]
+        command[command.index("-CoherentLengthRad") + 1] = str(record["line_length_rad"])
+        self.raw["nodes"].append({"path": comparison.BASE + "System1",
+                                  "analysis_settings": record["analysis_settings"]})
+        self.status["command"].append("-CoherentShowTotals")
+        self.assertEqual(comparison.inspect(self.extract()), comparison.inspect(record))
+        self.assertEqual(self.extract()["submitted_script"], record["submitted_script"])
+        self.status["command"].remove("-CoherentShowTotals")
+        with self.assertRaises(ValueError):
+            self.extract()
+        self.status["command"].append("-CoherentShowTotals")
+        self.raw["nodes"].pop()
+        with self.assertRaises(ValueError):
+            self.extract()
 
     def test_unfinished_or_failed_run_is_rejected(self):
         for change in ({"state": "timeout_unresolved"}, {"collector_exit_code": 1},
