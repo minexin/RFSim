@@ -27,3 +27,5 @@
 - [多端口线性网络中的相干传播](coherent-network.md)
 
 - [SystemVue 双源相干合路参考](systemvue-coherent-network.md)
+
+- [相干网络 JSON 与命令行工作流](coherent-network-file.md)

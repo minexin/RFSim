@@ -85,6 +85,9 @@ if(RFMODEL_BUILD_C_API)
         add_test(NAME amplifier_term_reference COMMAND ${Python3_EXECUTABLE}
             ${CMAKE_CURRENT_SOURCE_DIR}/scripts/reference/test_compare_amplifier_terms.py
             $<TARGET_FILE:rfmodel_c>)
+        add_test(NAME coherent_network_file_test COMMAND ${Python3_EXECUTABLE}
+            ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_coherent_network_file.py
+            $<TARGET_FILE:rfmodel_c>)
         add_test(NAME coherent_network_reference COMMAND ${Python3_EXECUTABLE}
             ${CMAKE_CURRENT_SOURCE_DIR}/scripts/reference/test_compare_coherent_network.py
             $<TARGET_FILE:rfmodel_c>)

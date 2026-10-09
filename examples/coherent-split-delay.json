@@ -1,0 +1,138 @@
+{
+  "format": "rfmodel.coherent-network",
+  "version": 1,
+  "spacing_hz": 100000000.0,
+  "reference_ohms": 50,
+  "network": {
+    "devices": [
+      {
+        "id": "split",
+        "s": [
+          [
+            0,
+            0.7071067811865475,
+            0.7071067811865475
+          ],
+          [
+            0.7071067811865475,
+            0,
+            0
+          ],
+          [
+            0.7071067811865475,
+            0,
+            0
+          ]
+        ]
+      },
+      {
+        "id": "delay",
+        "model": {
+          "type": "transmission_line",
+          "characteristic_ohms": 50,
+          "delay_s": 5e-10
+        }
+      },
+      {
+        "id": "combine",
+        "s": [
+          [
+            0,
+            0.7071067811865475,
+            0.7071067811865475
+          ],
+          [
+            0.7071067811865475,
+            0,
+            0
+          ],
+          [
+            0.7071067811865475,
+            0,
+            0
+          ]
+        ]
+      }
+    ],
+    "connections": [
+      [
+        [
+          "split",
+          1
+        ],
+        [
+          "combine",
+          1
+        ]
+      ],
+      [
+        [
+          "split",
+          2
+        ],
+        [
+          "delay",
+          0
+        ]
+      ],
+      [
+        [
+          "delay",
+          1
+        ],
+        [
+          "combine",
+          2
+        ]
+      ]
+    ],
+    "external_ports": [
+      [
+        "combine",
+        0
+      ],
+      [
+        "split",
+        0
+      ]
+    ]
+  },
+  "inputs": [
+    {
+      "port": [
+        "split",
+        0
+      ],
+      "component": {
+        "bin": 10,
+        "kind": "source",
+        "bandwidth_hz": 1,
+        "coherence_group": 7,
+        "amplitude": [
+          1,
+          0
+        ]
+      }
+    },
+    {
+      "port": [
+        "split",
+        0
+      ],
+      "component": {
+        "bin": 20,
+        "kind": "source",
+        "bandwidth_hz": 1,
+        "coherence_group": 7,
+        "amplitude": [
+          1,
+          0
+        ]
+      }
+    }
+  ],
+  "output_port": [
+    "combine",
+    0
+  ]
+}

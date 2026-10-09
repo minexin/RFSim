@@ -86,9 +86,9 @@ C 回归检查不足的两类输出容量和非法输入均不修改输出；Pyt
 
 当前证据是解析计算和原生 API 回归。此前 8 个 SystemVue 载频节点功率点验证的
 是显式相干合并，不能替代本多端口传播接口的实测验收。
-后续应采集 SystemVue 分支/再合路及相位扫描，然后补充频变网络的 JSON/CLI
-工作流。本次不扩展 rfmodel.coherence 文件格式，也不宣称完整 RF System Analysis
-或多级非线性闭环兼容。
+后续应采集 SystemVue 分支/再合路及相位扫描。频变网络 JSON/CLI 现已通过独立的
+rfmodel.coherent-network 格式提供，见 [文件接口](coherent-network-file.md)；原
+rfmodel.coherence 格式保持不变。当前不宣称完整 RF System Analysis 或多级非线性闭环兼容。
 
 ## 2026-10-09 本地验收
 
