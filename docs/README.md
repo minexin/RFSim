@@ -23,3 +23,5 @@
 - [SystemVue 复幅度与相干语义验证](systemvue-amplifier-phase.md)
 
 - [显式相干分组与离散功率合并](coherence.md)
+
+- [多端口线性网络中的相干传播](coherent-network.md)

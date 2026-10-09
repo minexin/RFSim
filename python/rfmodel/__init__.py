@@ -94,6 +94,11 @@ class CoherentComponent(NamedTuple):
     amplitude: complex
 
 
+class PortCoherentComponent(NamedTuple):
+    input_port: int
+    component: CoherentComponent
+
+
 class CoherentReduction(NamedTuple):
     components: tuple
     power_by_bin_w: dict
@@ -103,6 +108,29 @@ class CoherentReduction(NamedTuple):
 class _CoherentComponent(ct.Structure):
     _fields_ = [("index", ct.c_int), ("kind", ct.c_int), ("bandwidth_hz", ct.c_double),
                 ("coherence_group", ct.c_uint64), ("amplitude", _Complex)]
+
+
+class _PortCoherentComponent(ct.Structure):
+    _fields_ = [("input_port", ct.c_size_t), ("component", _CoherentComponent)]
+
+
+def _coherent_component(value):
+    if isinstance(value.kind, bool) or isinstance(value.coherence_group, bool):
+        raise TypeError("Kind and coherence group must be integers, not bool")
+    kind = SpectrumKind(operator.index(value.kind))
+    group = operator.index(value.coherence_group)
+    if not 1 <= group <= 18446744073709551615:
+        raise ValueError("Coherence group must be a positive uint64")
+    return _CoherentComponent(_bin(value.bin), kind, value.bandwidth_hz,
+                              group, _Complex.from_value(value.amplitude))
+
+
+def _coherent_result(groups, group_count, powers, power_count, total):
+    return CoherentReduction(
+        tuple(CoherentComponent(g.index, SpectrumKind(g.kind), g.bandwidth_hz,
+                                g.coherence_group, g.amplitude.value())
+              for g in groups[:group_count.value]),
+        {p.index: p.power_w for p in powers[:power_count.value]}, total.value)
 
 
 class _BinPower(ct.Structure):
@@ -184,6 +212,11 @@ class Library:
         signatures = {
             "rfmodel_reduce_coherent_components": (
                 ct.c_int, [ct.c_double, ct.POINTER(_CoherentComponent), size,
+                           ct.POINTER(_CoherentComponent), size, ct.POINTER(size),
+                           ct.POINTER(_BinPower), size, ct.POINTER(size), ct.POINTER(ct.c_double)]),
+            "rfmodel_network_transmit_coherent": (
+                ct.c_int, [handle, ct.POINTER(size), size, size, ct.c_double,
+                           ct.POINTER(_PortCoherentComponent), size,
                            ct.POINTER(_CoherentComponent), size, ct.POINTER(size),
                            ct.POINTER(_BinPower), size, ct.POINTER(size), ct.POINTER(ct.c_double)]),
             "rfmodel_last_error": (ct.c_char_p, []),
@@ -405,27 +438,15 @@ class Library:
         components = list(components)
         if len(components) > 4096:
             raise ValueError("Coherent reduction accepts at most 4096 components")
-        incident = (_CoherentComponent * len(components))()
-        for index, value in enumerate(components):
-            if isinstance(value.kind, bool) or isinstance(value.coherence_group, bool):
-                raise TypeError("Kind and coherence group must be integers, not bool")
-            kind = SpectrumKind(operator.index(value.kind))
-            group = operator.index(value.coherence_group)
-            if not 1 <= group <= 18446744073709551615:
-                raise ValueError("Coherence group must be a positive uint64")
-            incident[index] = _CoherentComponent(_bin(value.bin), kind, value.bandwidth_hz,
-                                                  group, _Complex.from_value(value.amplitude))
+        incident = (_CoherentComponent * len(components))(
+            *[_coherent_component(value) for value in components])
         groups = (_CoherentComponent * len(components))()
         powers = (_BinPower * len(components))()
         group_count, power_count, total = ct.c_size_t(), ct.c_size_t(), ct.c_double()
         self._check(self._dll.rfmodel_reduce_coherent_components(
             spacing_hz, incident, len(incident), groups, len(groups), ct.byref(group_count),
             powers, len(powers), ct.byref(power_count), ct.byref(total)))
-        return CoherentReduction(
-            tuple(CoherentComponent(g.index, SpectrumKind(g.kind), g.bandwidth_hz,
-                                    g.coherence_group, g.amplitude.value())
-                  for g in groups[:group_count.value]),
-            {p.index: p.power_w for p in powers[:power_count.value]}, total.value)
+        return _coherent_result(groups, group_count, powers, power_count, total)
 
     def multitone_amplifier_terms(self, spacing_hz, amplitudes, *, power_gain_db, output_p1db_dbm,
                                   output_saturation_dbm, input_ip2_dbm, input_ip3_dbm, reference_ohms=50.):
@@ -672,6 +693,29 @@ class Network:
                 self._handle, selection, 2, float(spacing_hz), incident, len(incident),
                 output, len(output), ct.byref(count)))
             return {output[i].index: output[i].amplitude.value() for i in range(count.value)}
+
+    def transmit_coherent(self, spacing_hz, components, external_ports, output_port):
+        """Propagate explicit groups through fixed S; ports are global network indices."""
+        values = list(components)
+        if len(values) > 4096:
+            raise ValueError("At most 4096 coherent components")
+        incident = (_PortCoherentComponent * len(values))(
+            *[_PortCoherentComponent(_index(value.input_port), _coherent_component(value.component))
+              for value in values])
+        with self._lock:
+            self._open()
+            indices = [_index(port) for port in external_ports]
+            if not 1 <= len(indices) <= 1024:
+                raise ValueError("Select 1..1024 external ports")
+            selection = (ct.c_size_t * len(indices))(*indices)
+            groups = (_CoherentComponent * len(values))()
+            powers = (_BinPower * len(values))()
+            group_count, power_count, total = ct.c_size_t(), ct.c_size_t(), ct.c_double()
+            self._library._check(self._library._dll.rfmodel_network_transmit_coherent(
+                self._handle, selection, len(indices), _index(output_port), float(spacing_hz),
+                incident, len(incident), groups, len(groups), ct.byref(group_count),
+                powers, len(powers), ct.byref(power_count), ct.byref(total)))
+            return _coherent_result(groups, group_count, powers, power_count, total)
 
     def transmit_terms(self, spacing_hz, terms, external_ports):
         """Preserve local mixing identities through this fixed-S network."""

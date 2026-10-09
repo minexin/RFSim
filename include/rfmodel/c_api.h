@@ -70,6 +70,30 @@ RFMODEL_API int rfmodel_reduce_coherent_components(double spacing_hz,
                                                    size_t *power_count,
                                                    double *total_power_w);
 
+typedef struct rfmodel_port_coherent_component {
+    size_t input_port;
+    rfmodel_coherent_component component;
+} rfmodel_port_coherent_component;
+
+/* Propagate matched incident components through a fixed-S connected network.
+ * Ports are GLOBAL indices included in external_ports; output is an outgoing wave.
+ * Internal feedback is solved; no implicit noise or external source reflection.
+ * Buffer, empty-input and atomic-failure rules match reduce_coherent_components. */
+RFMODEL_API int rfmodel_network_transmit_coherent(const rfmodel_network *network,
+                                                  const size_t *external_ports,
+                                                  size_t port_count,
+                                                  size_t output_port,
+                                                  double spacing_hz,
+                                                  const rfmodel_port_coherent_component *input,
+                                                  size_t input_count,
+                                                  rfmodel_coherent_component *groups,
+                                                  size_t group_capacity,
+                                                  size_t *group_count,
+                                                  rfmodel_bin_power *powers,
+                                                  size_t power_capacity,
+                                                  size_t *power_count,
+                                                  double *total_power_w);
+
 /* Single-tone fundamental wave in sqrt(W), matched ports, no AM/PM.
  * Rejects power above the P1dB domain; does not predict harmonics or saturation.
  * output must be non-NULL and remains unchanged on failure. */

@@ -1,3 +1,4 @@
+#include "rfmodel/coherent_network.hpp"
 #include "rfmodel/coherence.hpp"
 #include "rfmodel/c_api.h"
 #include "rfmodel/fundamental_compression.hpp"
@@ -102,6 +103,36 @@ void write_spectrum(const rfmodel::PowerWaveSpectrum &spectrum,
     }
     *count = index;
 }
+
+void write_coherence(const rfmodel::CoherentReduction &result,
+                     rfmodel_coherent_component *groups,
+                     size_t group_capacity,
+                     size_t *group_count,
+                     rfmodel_bin_power *powers,
+                     size_t power_capacity,
+                     size_t *power_count,
+                     double *total_power_w) {
+    require(group_count && power_count && total_power_w);
+    require(group_capacity >= result.components.size() &&
+            power_capacity >= result.power_by_bin_w.size());
+    require((groups || result.components.empty()) && (powers || result.power_by_bin_w.empty()));
+    for (size_t i = 0; i < result.components.size(); ++i) {
+        const auto &value = result.components[i];
+        groups[i] = {value.bin,
+                     static_cast<int>(value.kind),
+                     value.bandwidth_hz,
+                     value.coherence_group,
+                     {value.amplitude.real(), value.amplitude.imag()}};
+    }
+    size_t index = 0;
+    for (const auto &entry : result.power_by_bin_w) {
+        powers[index++] = {entry.first, entry.second};
+    }
+    *group_count = result.components.size();
+    *power_count = result.power_by_bin_w.size();
+    *total_power_w = result.total_power_w;
+}
+
 } // namespace
 
 extern "C" {
@@ -129,24 +160,63 @@ int rfmodel_reduce_coherent_components(double spacing_hz,
                                   {value.amplitude.real, value.amplitude.imag}});
         }
         const auto result = rfmodel::reduce_coherent_components(spacing_hz, components);
-        require(group_capacity >= result.components.size() &&
-                power_capacity >= result.power_by_bin_w.size());
-        require((groups || result.components.empty()) && (powers || result.power_by_bin_w.empty()));
-        for (size_t i = 0; i < result.components.size(); ++i) {
-            const auto &value = result.components[i];
-            groups[i] = {value.bin,
-                         static_cast<int>(value.kind),
-                         value.bandwidth_hz,
-                         value.coherence_group,
-                         {value.amplitude.real(), value.amplitude.imag()}};
+        write_coherence(result,
+                        groups,
+                        group_capacity,
+                        group_count,
+                        powers,
+                        power_capacity,
+                        power_count,
+                        total_power_w);
+    });
+}
+
+int rfmodel_network_transmit_coherent(const rfmodel_network *network,
+                                      const size_t *external_ports,
+                                      size_t port_count,
+                                      size_t output_port,
+                                      double spacing_hz,
+                                      const rfmodel_port_coherent_component *input,
+                                      size_t input_count,
+                                      rfmodel_coherent_component *groups,
+                                      size_t group_capacity,
+                                      size_t *group_count,
+                                      rfmodel_bin_power *powers,
+                                      size_t power_capacity,
+                                      size_t *power_count,
+                                      double *total_power_w) {
+    return guarded([&] {
+        require(network && external_ports && port_count > 0 && port_count <= 1024);
+        require(input_count <= 4096 && (input || input_count == 0));
+        require(group_count && power_count && total_power_w);
+        std::vector<rfmodel::PortCoherentComponent> incident;
+        incident.reserve(input_count);
+        for (size_t i = 0; i < input_count; ++i) {
+            const auto &value = input[i].component;
+            incident.push_back({input[i].input_port,
+                                {value.index,
+                                 static_cast<rfmodel::SpectrumKind>(value.kind),
+                                 value.bandwidth_hz,
+                                 value.coherence_group,
+                                 {value.amplitude.real, value.amplitude.imag}}});
         }
-        size_t index = 0;
-        for (const auto &entry : result.power_by_bin_w) {
-            powers[index++] = {entry.first, entry.second};
-        }
-        *group_count = result.components.size();
-        *power_count = result.power_by_bin_w.size();
-        *total_power_w = result.total_power_w;
+        const auto result = rfmodel::transmit_coherent_network(
+            spacing_hz,
+            incident,
+            std::vector<size_t>(external_ports, external_ports + port_count),
+            output_port,
+            network->core.reference_impedance_ohms(),
+            [&](double) {
+                return network->core;
+            });
+        write_coherence(result,
+                        groups,
+                        group_capacity,
+                        group_count,
+                        powers,
+                        power_capacity,
+                        power_count,
+                        total_power_w);
     });
 }
 

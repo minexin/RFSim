@@ -24,6 +24,39 @@ int main(int argc, char **argv) {
     size_t offset;
     int status;
     {
+        rfmodel_network *coherent_network = NULL;
+        const rfmodel_port_coherent_component input = {
+            0, {10, RFMODEL_SPECTRUM_SOURCE, 1., 7, {1., 0.}}};
+        rfmodel_coherent_component group;
+        rfmodel_bin_power power;
+        size_t group_count, power_count, first;
+        double total;
+        if (rfmodel_network_create(50., &coherent_network) != RFMODEL_OK ||
+            rfmodel_network_add(coherent_network, 2, s, 4, 50., &first) != RFMODEL_OK ||
+            rfmodel_network_transmit_coherent(coherent_network,
+                                              ports,
+                                              2,
+                                              1,
+                                              1e8,
+                                              &input,
+                                              1,
+                                              &group,
+                                              1,
+                                              &group_count,
+                                              &power,
+                                              1,
+                                              &power_count,
+                                              &total) != RFMODEL_OK) {
+            rfmodel_network_destroy(coherent_network);
+            return 26;
+        }
+        rfmodel_network_destroy(coherent_network);
+        if (group_count != 1 || power_count != 1 || total != .25 || group.coherence_group != 7 ||
+            group.amplitude.imag != -.5) {
+            return 26;
+        }
+    }
+    {
         rfmodel_network *term_network = NULL;
         const rfmodel_amplifier_term input = {1, 10, {10, 0, 0}, {1., 0.}};
         rfmodel_amplifier_term output;

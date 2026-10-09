@@ -106,3 +106,5 @@ output_impedance_ohms=50, reference_ohms=50)` 返回 2×2 复数 S 矩阵。
 Library.loaded_noise 与 Library.thermal_boundary_noise 现支持已提取 N 端口网络的
 外部失配及边界发射噪声，返回入射、出射和净功率结果，见 [失配噪声接口](loaded-noise.md)。
 不会自动改变 JSON signal_boundaries 的噪声含义。
+
+显式相干分量的多输入网络传播见 [多端口相干接口](coherent-network.md)，使用 Network.transmit_coherent 并保留调用者提供的分组。

@@ -28,6 +28,46 @@ class PythonApiTests(unittest.TestCase):
     def setUpClass(cls):
         cls.library = Library(LIBRARY_PATH)
 
+    def test_multiport_coherent_interference_and_closed_handle(self):
+        source = rfmodel.CoherentComponent(10, rfmodel.SpectrumKind.SOURCE, 1., 7, 1.)
+        port = rfmodel.PortCoherentComponent
+        inputs = [port(0, source), port(1, source._replace(amplitude=-1.))]
+        with self.library.network() as network:
+            k = 1 / math.sqrt(2)
+            network.add([[0, 0, k], [0, 0, k], [k, k, 0]])
+            result = network.transmit_coherent(1e8, inputs, [2, 1, 0], 2)
+            self.assertEqual(result.total_power_w, 0)
+            self.assertEqual(len(result.components), 1)
+            inputs[1] = port(1, source._replace(amplitude=-1., coherence_group=8))
+            result = network.transmit_coherent(1e8, inputs, [2, 1, 0], 2)
+            self.assertAlmostEqual(result.total_power_w, 1)
+            self.assertEqual(len(result.components), 2)
+            self.assertEqual(network.transmit_coherent(1e8, [], [0, 1, 2], 2).components, ())
+            for ports, output in (([0, 0, 2], 2), ([0, 1], 2), ([0, 1, 2], 99)):
+                with self.subTest(ports=ports, output=output), self.assertRaises(RFModelError):
+                    network.transmit_coherent(1e8, inputs, ports, output)
+            for bad in (port(True, source), port(0, source._replace(coherence_group=True))):
+                with self.assertRaises(TypeError):
+                    network.transmit_coherent(1e8, [bad], [0, 1, 2], 2)
+            with self.assertRaises(RFModelError):
+                network.transmit_coherent(1e8, [], [0, 1, 99], 0)
+        with self.assertRaises(RuntimeError):
+            network.transmit_coherent(1e8, inputs, [0, 1, 2], 2)
+
+    def test_coherent_network_internal_feedback_and_source_rejection(self):
+        source = rfmodel.CoherentComponent(10, rfmodel.SpectrumKind.SOURCE, 1., 1, 1j)
+        with self.library.network() as network:
+            network.add([[0, .5], [.5, .2]])
+            network.add([[.3, .4], [.4, 0]])
+            network.connect(1, 2)
+            result = network.transmit_coherent(
+                1e8, [rfmodel.PortCoherentComponent(0, source)], [3, 0], 3)
+            self.assertAlmostEqual(result.components[0].amplitude, .2j / .94)
+            self.assertAlmostEqual(result.total_power_w, (.2 / .94)**2)
+            network.terminate(0, source=1.)
+            with self.assertRaises(RFModelError):
+                network.transmit_coherent(1e8, [], [3], 3)
+
     def test_coherent_reduction_and_explicit_group_validation(self):
         component = rfmodel.CoherentComponent(10, rfmodel.SpectrumKind.SOURCE, 1., 1, 1.)
         result = self.library.reduce_coherent_components(1e8, [component, component])

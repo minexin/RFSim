@@ -1,3 +1,4 @@
+#include <rfmodel/coherent_network.hpp>
 #include <rfmodel/coherence.hpp>
 #include <rfmodel/linear_analysis.hpp>
 #include <rfmodel/interpolation.hpp>
@@ -19,6 +20,21 @@
 #include <rfmodel/term_propagation.hpp>
 
 int main() {
+    const auto combined = rfmodel::transmit_coherent_network(
+        1e8,
+        {{0, {10, rfmodel::SpectrumKind::source, 1., 7, 1.}},
+         {1, {10, rfmodel::SpectrumKind::source, 1., 7, -1.}}},
+        {2, 1, 0},
+        2,
+        50.,
+        [](double) {
+            rfmodel::LinearNetwork network;
+            network.add({3, {0., 0., .5, 0., 0., .5, .5, .5, 0.}});
+            return network;
+        });
+    if (combined.components.size() != 1 || combined.total_power_w != 0.) {
+        return 26;
+    }
     const auto coherence =
         rfmodel::reduce_coherent_components(1e8,
                                             {{10, rfmodel::SpectrumKind::source, 1., 1, 1.},

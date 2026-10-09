@@ -84,3 +84,5 @@ compare-coherent-carriers.py 复用四组已验收的复幅度采集，先逐项
 载频参考比较器 4 项回归通过；8 个实测节点功率点最大相对差异
 2.28578e-8，小于原 1e-7 阈值。Release 报告保留精简采集和 DLL SHA256。
 跨平台结果以本阶段提交的六项 CI 作业为准。
+
+多端口传播扩展见 [coherent-network.md](coherent-network.md)：显式输入组已可进入完整线性网络，分支/再合路的 SystemVue 实测验收仍待完成。

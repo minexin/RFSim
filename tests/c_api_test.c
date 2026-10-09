@@ -22,6 +22,118 @@ int main(int argc, char **argv) {
     double residual = -1;
     CHECK(rfmodel_abi_version() == 1);
     {
+        rfmodel_network *combiner = NULL;
+        const rfmodel_complex matrix[] = {
+            {0, 0}, {0, 0}, {.5, 0}, {0, 0}, {0, 0}, {.5, 0}, {.5, 0}, {.5, 0}, {0, 0}};
+        const size_t ports[] = {2, 1, 0};
+        rfmodel_port_coherent_component input[] = {
+            {0, {10, RFMODEL_SPECTRUM_SOURCE, 1., 7, {1., 0.}}},
+            {1, {10, RFMODEL_SPECTRUM_SOURCE, 1., 7, {-1., 0.}}}};
+        rfmodel_coherent_component groups[2] = {{99, 0, 9., 9, {9., 0.}}};
+        rfmodel_bin_power powers[2] = {{99, 9.}};
+        size_t group_count = 777, power_count = 888, first;
+        double total = 999.;
+        CHECK(rfmodel_network_create(50., &combiner) == RFMODEL_OK);
+        CHECK(rfmodel_network_add(combiner, 3, matrix, 9, 50., &first) == RFMODEL_OK);
+        CHECK(rfmodel_network_transmit_coherent(combiner,
+                                                ports,
+                                                3,
+                                                2,
+                                                1e8,
+                                                input,
+                                                2,
+                                                groups,
+                                                2,
+                                                &group_count,
+                                                powers,
+                                                0,
+                                                &power_count,
+                                                &total) == RFMODEL_INVALID_ARGUMENT);
+        CHECK(group_count == 777 && power_count == 888 && total == 999.);
+        CHECK(groups[0].index == 99 && powers[0].index == 99);
+        CHECK(rfmodel_network_transmit_coherent(combiner,
+                                                ports,
+                                                3,
+                                                2,
+                                                1e8,
+                                                input,
+                                                2,
+                                                groups,
+                                                0,
+                                                &group_count,
+                                                powers,
+                                                2,
+                                                &power_count,
+                                                &total) == RFMODEL_INVALID_ARGUMENT);
+        CHECK(group_count == 777 && power_count == 888 && total == 999.);
+        CHECK(groups[0].index == 99 && powers[0].index == 99);
+        input[0].input_port = 99;
+        CHECK(rfmodel_network_transmit_coherent(combiner,
+                                                ports,
+                                                3,
+                                                2,
+                                                1e8,
+                                                input,
+                                                2,
+                                                groups,
+                                                2,
+                                                &group_count,
+                                                powers,
+                                                2,
+                                                &power_count,
+                                                &total) == RFMODEL_INVALID_ARGUMENT);
+        CHECK(group_count == 777 && powers[0].index == 99 && total == 999.);
+        input[0].input_port = 0;
+        CHECK(rfmodel_network_transmit_coherent(combiner,
+                                                ports,
+                                                3,
+                                                2,
+                                                1e8,
+                                                input,
+                                                2,
+                                                groups,
+                                                2,
+                                                &group_count,
+                                                powers,
+                                                2,
+                                                &power_count,
+                                                &total) == RFMODEL_OK);
+        CHECK(group_count == 1 && power_count == 1 && total == 0.);
+        CHECK(groups[0].coherence_group == 7 && groups[0].amplitude.real == 0.);
+        input[1].component.coherence_group = 8;
+        CHECK(rfmodel_network_transmit_coherent(combiner,
+                                                ports,
+                                                3,
+                                                2,
+                                                1e8,
+                                                input,
+                                                2,
+                                                groups,
+                                                2,
+                                                &group_count,
+                                                powers,
+                                                2,
+                                                &power_count,
+                                                &total) == RFMODEL_OK);
+        CHECK(group_count == 2 && power_count == 1 && total == .5);
+        CHECK(rfmodel_network_transmit_coherent(combiner,
+                                                ports,
+                                                3,
+                                                2,
+                                                1e8,
+                                                NULL,
+                                                0,
+                                                NULL,
+                                                0,
+                                                &group_count,
+                                                NULL,
+                                                0,
+                                                &power_count,
+                                                &total) == RFMODEL_OK);
+        CHECK(group_count == 0 && power_count == 0 && total == 0.);
+        rfmodel_network_destroy(combiner);
+    }
+    {
         const rfmodel_coherent_component input[] = {
             {10, RFMODEL_SPECTRUM_SOURCE, 1., 1, {1., 0.}},
             {10, RFMODEL_SPECTRUM_SOURCE, 1., 1, {-1., 0.}},
