@@ -1,6 +1,7 @@
 #include "rfmodel/conversion_network.hpp"
 #include "rfmodel/ideal_devices.hpp"
 #include "rfmodel/network.hpp"
+#include "rfmodel/noise_figure.hpp"
 #include "test_support.hpp"
 #include <iostream>
 
@@ -30,6 +31,19 @@ int run() {
     near(result.incident[1], result.outgoing[4]);
     constexpr double thermal = 1.380649e-23 * 290.;
     near(result.outgoing_noise.covariance(6, 6) / 1e-20, 2. * (.25 + .75 * thermal / 1e-20));
+    const auto ssb = network.reference_noise_analysis({2}, {0, 2}, 6);
+    const auto dsb = network.reference_noise_analysis({0, 2}, {0, 2}, 6);
+    near(ssb.reference_gain, .25);
+    near(ssb.noise_factor, 8.);
+    near(dsb.noise_factor, 4.);
+    near(network.reference_noise_analysis({2}, {2}, 6).noise_factor, 7.);
+    near(network.analyze().outgoing_noise.covariance(6, 6), result.outgoing_noise.covariance(6, 6));
+    rejects<std::invalid_argument>([&] {
+        network.reference_noise_analysis({1}, {1}, 6);
+    });
+    rejects<std::invalid_argument>([&] {
+        network.reference_noise_analysis({2}, {0}, 6);
+    });
     // Ordinary same-frequency reciprocal networks retain exact feedback behavior.
     FrequencyConversionNetwork conversion(1e9);
     SMatrix first{2, {.1, .7, .7, -.2}}, second{2, {.3, .6, .6, -.1}};
@@ -72,6 +86,16 @@ int run() {
     rejects<std::invalid_argument>([&] {
         driven.analyze();
     });
+    // Same-frequency noisy network agrees with the established two-port NF,
+    // including source reflection, correlated intrinsic noise and output mismatch.
+    FrequencyConversionNetwork noisy_linear(1e9);
+    const auto covariance = passive_thermal_noise(first, 290.);
+    auto noisy_device = lift_linear_conversion(1e9, {1}, {first}, {covariance});
+    const Complex gamma{.2, .3};
+    noisy_device.reflection = {gamma, Complex{-.1, .25}};
+    noisy_linear.add(noisy_device);
+    near(noisy_linear.reference_noise_analysis({0}, {0}, 1).noise_figure_db,
+         two_port_noise_figure_db(first, covariance, gamma));
     return 0;
 }
 

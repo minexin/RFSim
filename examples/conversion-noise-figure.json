@@ -1,0 +1,210 @@
+{
+  "format": "rfmodel.conversion-network",
+  "version": 1,
+  "spacing_hz": 100000000.0,
+  "devices": [
+    {
+      "id": "rf_pad",
+      "bins": [
+        8,
+        12
+      ],
+      "model": {
+        "type": "linear",
+        "s": [
+          [
+            0,
+            0.5
+          ],
+          [
+            0.5,
+            0
+          ]
+        ]
+      },
+      "noise": {
+        "temperature_k": 290
+      }
+    },
+    {
+      "id": "mixer",
+      "channels": [
+        {
+          "port": 0,
+          "bin": 8
+        },
+        {
+          "port": 0,
+          "bin": 12
+        },
+        {
+          "port": 1,
+          "bin": 2
+        },
+        {
+          "port": 1,
+          "bin": 18
+        },
+        {
+          "port": 1,
+          "bin": 22
+        }
+      ],
+      "model": {
+        "type": "ideal_real_mixer",
+        "lo_bin": 10
+      },
+      "noise": {
+        "noiseless": true
+      }
+    },
+    {
+      "id": "if_pad",
+      "bins": [
+        2,
+        18,
+        22
+      ],
+      "model": {
+        "type": "linear",
+        "s": [
+          [
+            0,
+            0.25
+          ],
+          [
+            0.25,
+            0
+          ]
+        ]
+      },
+      "noise": {
+        "temperature_k": 290
+      }
+    }
+  ],
+  "connections": [
+    [
+      [
+        "rf_pad",
+        1
+      ],
+      [
+        "mixer",
+        0
+      ]
+    ],
+    [
+      [
+        "mixer",
+        1
+      ],
+      [
+        "if_pad",
+        0
+      ]
+    ]
+  ],
+  "boundaries": [
+    {
+      "channel": [
+        "rf_pad",
+        0,
+        8
+      ],
+      "source": 0,
+      "noise_w_per_hz": 1e-20
+    },
+    {
+      "channel": [
+        "rf_pad",
+        0,
+        12
+      ],
+      "source": 1,
+      "noise_w_per_hz": 1e-20
+    },
+    {
+      "channel": [
+        "if_pad",
+        1,
+        2
+      ]
+    },
+    {
+      "channel": [
+        "if_pad",
+        1,
+        18
+      ]
+    },
+    {
+      "channel": [
+        "if_pad",
+        1,
+        22
+      ]
+    }
+  ],
+  "noise_analyses": [
+    {
+      "name": "ssb",
+      "reference_channels": [
+        [
+          "rf_pad",
+          0,
+          12
+        ]
+      ],
+      "thermal_channels": [
+        [
+          "rf_pad",
+          0,
+          8
+        ],
+        [
+          "rf_pad",
+          0,
+          12
+        ]
+      ],
+      "output_channel": [
+        "if_pad",
+        1,
+        2
+      ]
+    },
+    {
+      "name": "two_independent_bands",
+      "reference_channels": [
+        [
+          "rf_pad",
+          0,
+          8
+        ],
+        [
+          "rf_pad",
+          0,
+          12
+        ]
+      ],
+      "thermal_channels": [
+        [
+          "rf_pad",
+          0,
+          8
+        ],
+        [
+          "rf_pad",
+          0,
+          12
+        ]
+      ],
+      "output_channel": [
+        "if_pad",
+        1,
+        2
+      ]
+    }
+  ]
+}

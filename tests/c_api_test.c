@@ -39,6 +39,44 @@ int main(int argc, char **argv) {
         CHECK(rfmodel_conversion_network_analyze(devices, 2, wires, 1, &output) == RFMODEL_OK);
         CHECK(fabs(values[7].real - .25) < 1e-12);
         CHECK(fabs(values[2].real - .5) < 1e-12);
+        {
+            size_t reference = 0, thermal = 0;
+            rfmodel_conversion_noise_request request = {&reference, 1, &thermal, 1, 3, 290.};
+            rfmodel_conversion_noise_result metric, original;
+            const double kt = 1.380649e-23 * 290.;
+            const rfmodel_complex intrinsic[4] = {
+                {.75 * kt, 0.}, {0., 0.}, {0., 0.}, {.75 * kt, 0.}};
+            devices[0].intrinsic_covariance = devices[1].intrinsic_covariance = intrinsic;
+            CHECK(rfmodel_conversion_network_noise_analysis(
+                      devices, 2, wires, 1, &request, &metric) == RFMODEL_OK);
+            CHECK(fabs(metric.reference_gain - .0625) < 1e-12 &&
+                  fabs(metric.noise_factor - 16.) < 1e-10);
+            original = metric;
+            reference = 1;
+            CHECK(rfmodel_conversion_network_noise_analysis(
+                      devices, 2, wires, 1, &request, &metric) != RFMODEL_OK);
+            CHECK(memcmp(&metric, &original, sizeof(metric)) == 0);
+            reference = 0;
+            request.reference_temperature_k = 0.;
+            CHECK(rfmodel_conversion_network_noise_analysis(
+                      devices, 2, wires, 1, &request, &metric) != RFMODEL_OK);
+            CHECK(memcmp(&metric, &original, sizeof(metric)) == 0);
+            request.reference_temperature_k = 290.;
+            CHECK(rfmodel_conversion_network_noise_analysis(
+                      devices,
+                      2,
+                      wires,
+                      1,
+                      &request,
+                      (rfmodel_conversion_noise_result *)&devices[1]) != RFMODEL_OK);
+            CHECK(devices[1].count == 2 && devices[1].spacing_hz == 1e9);
+            CHECK(
+                rfmodel_conversion_network_noise_analysis(
+                    devices, 2, wires, 1, &request, (rfmodel_conversion_noise_result *)&request) !=
+                RFMODEL_OK);
+            CHECK(request.reference_count == 1 && request.reference_temperature_k == 290.);
+            devices[0].intrinsic_covariance = devices[1].intrinsic_covariance = NULL;
+        }
         for (i = 0; i < 40; ++i) {
             values[i].real = 101. + (double)i;
             values[i].imag = -17.;

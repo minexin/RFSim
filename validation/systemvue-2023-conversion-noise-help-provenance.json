@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "reference": "SystemVue 2023 installed help",
+  "source_qch": "C:/Program Files/Keysight/SystemVue2023/Help/systemvue.qch",
+  "read_date": "2026-10-09",
+  "sources": [
+    {
+      "path": "rfdesign/MIXER_BASIC.html",
+      "sha256_decompressed_html": "ef83c27884c73721e7a846a54102d94c76e7833eaba45c172dca0a217ed124b2"
+    },
+    {
+      "path": "sim/Cascade_Noise.html",
+      "sha256_decompressed_html": "cb2c04be6b78106fa718a37e685fafa9cd1168914386ef4e5be2fe3fad3c2ac0"
+    },
+    {
+      "path": "sim/Spectrasys_Cascaded_Noise_Figure.html",
+      "sha256_decompressed_html": "f57329f608cccd0d204bc19e27e6f444bfc6ba527151fa3b2c8a5b73a71e41ba"
+    },
+    {
+      "path": "sim/Spectrasys_Stage_Noise_Figure.html",
+      "sha256_decompressed_html": "7d2472a555aa714548336576e4aa2a3b0cdfac3c0138e71215266a0f56792784"
+    },
+    {
+      "path": "sim/Spectrasys_Image_Noise_Rejection_Ratio.html",
+      "sha256_decompressed_html": "9eeda6dd0dd25987d8187f86efeda8c0311e6c7eb42f14d5989edcf379811a5c"
+    },
+    {
+      "path": "sim/Spectrasys_Image_Channel_Noise_Power.html",
+      "sha256_decompressed_html": "fe8686522543e32b34fc6b46b81ff95824408f49f907676c44c6d23cf853c9f6"
+    }
+  ],
+  "findings": {
+    "stage_nf_is_not_cascaded_nf": true,
+    "image_input_and_image_self_noise_are_distinct": true,
+    "image_rejection_does_not_scale_image_self_noise": true,
+    "cnf_includes_channel_gain_noise_and_temperature_convention": true,
+    "imgnr_is_a_path_channel_measurement_not_automatic_output_image_decomposition": true
+  },
+  "implemented_experiment": {
+    "reference_bands": "explicit independent positive-frequency channels",
+    "thermal_bands": "explicit positive-frequency channels at reference temperature",
+    "noise_density": "classical kT times (1-abs(Gamma)^2)",
+    "normalization": "sum of available-power phase-averaged transducer gains",
+    "output_load_noise": "excluded",
+    "device_intrinsic_noise": "retained including full C/P",
+    "source_wave_and_noise": "replaced for reference experiment only"
+  },
+  "not_yet_validated": [
+    "SystemVue CNF numeric equivalence",
+    "wideband channel integration",
+    "generator temperature correction outside the reference experiment",
+    "phase noise",
+    "heated output termination remixing",
+    "MIXER_BASIC NF and ImageSelfNoise parameter calibration"
+  ]
+}

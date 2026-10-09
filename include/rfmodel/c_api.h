@@ -131,6 +131,38 @@ RFMODEL_API int rfmodel_conversion_network_analyze(const rfmodel_conversion_requ
                                                    size_t connection_count,
                                                    const rfmodel_conversion_output *output);
 
+/* Reference-temperature noise experiment on a conversion network. Channel indices
+ * follow device/local order. Reference channels are a nonempty unique subset of
+ * thermal channels. These and the output must be external and positive-frequency.
+ * All terminations are passive; output load is noiseless. Original sources and
+ * source C/P are replaced. Device intrinsic noise and reflections are retained. */
+typedef struct rfmodel_conversion_noise_request {
+    const size_t *reference_channels;
+    size_t reference_count;
+    const size_t *thermal_channels;
+    size_t thermal_count;
+    size_t output_channel;
+    double reference_temperature_k;
+} rfmodel_conversion_noise_request;
+
+typedef struct rfmodel_conversion_noise_result {
+    double reference_gain;
+    double reference_output_noise_w_per_hz;
+    double output_noise_w_per_hz;
+    double noise_factor;
+    double noise_figure_db;
+    double equivalent_input_temperature_k;
+} rfmodel_conversion_noise_result;
+
+/* Output is unchanged on failure and must not overlap any descriptor or input. */
+RFMODEL_API int
+rfmodel_conversion_network_noise_analysis(const rfmodel_conversion_request *devices,
+                                          size_t device_count,
+                                          const rfmodel_conversion_connection *connections,
+                                          size_t connection_count,
+                                          const rfmodel_conversion_noise_request *request,
+                                          rfmodel_conversion_noise_result *output);
+
 /* Real mixer y=2*g*x*cos(LO*t+phase). Every generated IF bin must be present.
  * A/B output capacities are N*N complex elements. Outputs must be disjoint from
  * each other and channel arrays; unchanged on failure. DC uses RMS normalization. */

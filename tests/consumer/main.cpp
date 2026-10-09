@@ -46,6 +46,10 @@ int main() {
         network.add(rfmodel::lift_linear_conversion(1e9, {1}, {pad}, {noise}));
         network.connect(0, 1, 1, 0);
         const auto result = network.analyze();
+        const auto metric = network.reference_noise_analysis({0}, {0}, 3);
+        if (std::abs(metric.noise_factor - 16.) > 1e-10) {
+            return 92;
+        }
         if (std::abs(result.outgoing[3] - .25) > 1e-12 ||
             std::abs(result.outgoing_noise.covariance(3, 3).real() / (1.380649e-23 * 290.) -
                      .9375) > 1e-12) {

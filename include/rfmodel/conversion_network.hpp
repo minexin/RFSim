@@ -3,6 +3,15 @@
 #include <map>
 
 namespace rfmodel {
+struct ConversionNoiseAnalysis {
+    double reference_gain{};
+    double reference_output_noise_w_per_hz{};
+    double output_noise_w_per_hz{};
+    double noise_factor{};
+    double noise_figure_db{};
+    double equivalent_input_temperature_k{};
+};
+
 struct ConversionDevice {
     FrequencyConversionModel model;
     std::vector<Complex> source, reflection;
@@ -147,6 +156,110 @@ public:
         }
         const FrequencyConversionModel combined(spacing_, channels, a, b, reference_);
         return combined.analyze(source, reflection, source_noise, intrinsic_noise, connections_);
+    }
+
+    // A separate reference-temperature experiment. Original deterministic sources
+    // and source noise are replaced; intrinsic device noise and all reflections remain.
+    // Reference bands are independent, phase-averaged available-power inputs.
+    ConversionNoiseAnalysis
+    reference_noise_analysis(const std::vector<std::size_t> &reference_channels,
+                             const std::vector<std::size_t> &thermal_channels,
+                             std::size_t output_channel,
+                             double temperature_k = 290.) const {
+        if (!std::isfinite(temperature_k) || temperature_k <= 0. || reference_channels.empty() ||
+            thermal_channels.empty() || reference_channels.size() > total_ ||
+            thermal_channels.size() > total_) {
+            throw std::invalid_argument("invalid conversion noise reference");
+        }
+        const double kt = 1.380649e-23 * temperature_k;
+        if (!std::isfinite(kt) || kt == 0.) {
+            throw std::overflow_error("conversion noise reference range");
+        }
+        auto position = [&](std::size_t index) {
+            if (index >= total_ || connected_.count(index)) {
+                throw std::invalid_argument("noise reference must be an external channel");
+            }
+            std::size_t device = 0;
+            while (device + 1 < offsets_.size() && offsets_[device + 1] <= index) {
+                ++device;
+            }
+            const auto local = index - offsets_[device];
+            if (devices_[device].model.channels()[local].bin == 0) {
+                throw std::invalid_argument("noise figure requires positive-frequency channels");
+            }
+            return std::make_pair(device, local);
+        };
+        const auto output = position(output_channel);
+        std::set<std::size_t> thermal_set, reference_set;
+        for (auto index : thermal_channels) {
+            position(index);
+            if (index == output_channel || !thermal_set.insert(index).second) {
+                throw std::invalid_argument("repeated thermal channel or heated output load");
+            }
+        }
+        for (auto index : reference_channels) {
+            if (!thermal_set.count(index) || !reference_set.insert(index).second) {
+                throw std::invalid_argument("reference channels must be a unique thermal subset");
+            }
+        }
+        auto measured = *this;
+        for (std::size_t d = 0; d < devices_.size(); ++d) {
+            auto &device = measured.devices_[d];
+            const auto n = device.model.channels().size();
+            device.source.assign(n, Complex{});
+            device.source_noise = device.model.zero_noise();
+            for (std::size_t i = 0; i < n; ++i) {
+                const auto gamma = device.reflection[i];
+                if (!conversion_detail::finite(gamma) || std::norm(gamma) > 1.) {
+                    throw std::invalid_argument("noise analysis requires passive terminations");
+                }
+            }
+        }
+        auto reference = measured;
+        for (auto &device : reference.devices_) {
+            device.intrinsic_noise = device.model.zero_noise();
+        }
+        for (auto index : thermal_channels) {
+            const auto location = position(index);
+            auto &device = measured.devices_[location.first];
+            const double accepted = 1. - std::norm(device.reflection[location.second]);
+            const double variance = kt * accepted;
+            if (variance == 0.) {
+                throw std::overflow_error("conversion thermal noise underflow");
+            }
+            device.source_noise.covariance(location.second, location.second) = variance;
+            if (reference_set.count(index)) {
+                reference.devices_[location.first].source_noise.covariance(
+                    location.second, location.second) = accepted;
+            }
+        }
+        const auto full = measured.analyze();
+        const auto probe = reference.analyze();
+        const double load = 1. - std::norm(devices_[output.first].reflection[output.second]);
+        ConversionNoiseAnalysis result;
+        result.reference_gain =
+            load * probe.outgoing_noise.covariance(output_channel, output_channel).real();
+        result.output_noise_w_per_hz =
+            load * full.outgoing_noise.covariance(output_channel, output_channel).real();
+        result.reference_output_noise_w_per_hz = kt * result.reference_gain;
+        if (!std::isfinite(result.reference_gain) || result.reference_gain <= 0. ||
+            !std::isfinite(result.output_noise_w_per_hz) ||
+            !std::isfinite(result.reference_output_noise_w_per_hz) ||
+            result.reference_output_noise_w_per_hz <= 0.) {
+            throw std::domain_error("zero or unrepresentable conversion reference gain/noise");
+        }
+        result.noise_factor = result.output_noise_w_per_hz / result.reference_output_noise_w_per_hz;
+        if (!std::isfinite(result.noise_factor) ||
+            result.noise_factor < 1. - 1024. * total_ * std::numeric_limits<double>::epsilon()) {
+            throw std::domain_error("invalid conversion noise factor");
+        }
+        result.noise_factor = std::max(1., result.noise_factor);
+        result.noise_figure_db = 10. * std::log10(result.noise_factor);
+        result.equivalent_input_temperature_k = temperature_k * (result.noise_factor - 1.);
+        if (!std::isfinite(result.equivalent_input_temperature_k)) {
+            throw std::overflow_error("conversion equivalent noise temperature overflow");
+        }
+        return result;
     }
 };
 

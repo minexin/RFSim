@@ -231,6 +231,30 @@ class ConversionResult(NamedTuple):
     relative_residual: float
 
 
+class ConversionNoiseAnalysis(NamedTuple):
+    reference_gain: float
+    reference_output_noise_w_per_hz: float
+    output_noise_w_per_hz: float
+    noise_factor: float
+    noise_figure_db: float
+    equivalent_input_temperature_k: float
+
+
+class _ConversionNoiseRequest(ct.Structure):
+    _fields_ = [
+        ("reference_channels", ct.POINTER(ct.c_size_t)),
+        ("reference_count", ct.c_size_t),
+        ("thermal_channels", ct.POINTER(ct.c_size_t)),
+        ("thermal_count", ct.c_size_t),
+        ("output_channel", ct.c_size_t),
+        ("reference_temperature_k", ct.c_double),
+    ]
+
+
+class _ConversionNoiseResult(ct.Structure):
+    _fields_ = [(name, ct.c_double) for name in ConversionNoiseAnalysis._fields]
+
+
 class _ConversionRequest(ct.Structure):
     _fields_ = [
         ("count", ct.c_size_t),
@@ -561,6 +585,10 @@ class Library:
                 ct.c_int, [handle, ct.POINTER(size), size, ct.c_double,
                            ct.POINTER(_SpectrumBin), size, ct.POINTER(_SpectrumBin),
                            size, ct.POINTER(size)]),
+            "rfmodel_conversion_network_noise_analysis": (
+                ct.c_int, [ct.POINTER(_ConversionRequest), size,
+                           ct.POINTER(_ConversionConnection), size,
+                           ct.POINTER(_ConversionNoiseRequest), ct.POINTER(_ConversionNoiseResult)]),
             "rfmodel_conversion_network_analyze": (
                 ct.c_int, [ct.POINTER(_ConversionRequest), size,
                     ct.POINTER(_ConversionConnection), size, ct.POINTER(_ConversionOutput)]),
@@ -1393,8 +1421,8 @@ class Library:
         )
         return _rows(direct, count), _rows(conjugate, count)
 
-    def conversion_network(self, spacing_hz, devices, connections=(), *, reference_ohms=50.0):
-        """Connect physical ports of conversion devices; output order is device/channel order."""
+    @staticmethod
+    def _conversion_network_inputs(spacing_hz, devices, connections, reference_ohms):
         devices = tuple(devices)
         if not 1 <= len(devices) <= 512:
             raise ValueError("Expected 1..512 conversion devices")
@@ -1472,6 +1500,57 @@ class Library:
             raise ValueError("Too many conversion connections")
         native_requests = (_ConversionRequest * len(requests))(*requests)
         native_connections = (_ConversionConnection * len(pairs))(*pairs)
+        return native_requests, native_connections, total, keepers
+
+    def conversion_noise_analysis(
+        self,
+        spacing_hz,
+        devices,
+        connections=(),
+        *,
+        reference_channels,
+        thermal_channels,
+        output_channel,
+        reference_temperature_k=290.0,
+        reference_ohms=50.0,
+    ):
+        """Run a reference-temperature experiment using independent, phase-averaged bands.
+
+        Replaces sources and source noise; retains intrinsic noise and reflections.
+        Channel indices follow device/channel order. Output load is noiseless.
+        """
+        requests, wires, total, keepers = self._conversion_network_inputs(
+            spacing_hz, devices, connections, reference_ohms
+        )
+        reference_channels = tuple(_index(i) for i in reference_channels)
+        thermal_channels = tuple(_index(i) for i in thermal_channels)
+        if not 1 <= len(reference_channels) <= total or not 1 <= len(thermal_channels) <= total:
+            raise ValueError("Expected nonempty reference/thermal channel sets")
+        reference = (ct.c_size_t * len(reference_channels))(*reference_channels)
+        thermal = (ct.c_size_t * len(thermal_channels))(*thermal_channels)
+        request = _ConversionNoiseRequest(
+            reference,
+            len(reference),
+            thermal,
+            len(thermal),
+            _index(output_channel),
+            float(reference_temperature_k),
+        )
+        output = _ConversionNoiseResult()
+        self._check(
+            self._dll.rfmodel_conversion_network_noise_analysis(
+                requests, len(requests), wires, len(wires), ct.byref(request), ct.byref(output)
+            )
+        )
+        return ConversionNoiseAnalysis(
+            *(getattr(output, name) for name in ConversionNoiseAnalysis._fields)
+        )
+
+    def conversion_network(self, spacing_hz, devices, connections=(), *, reference_ohms=50.0):
+        """Connect physical ports of conversion devices; output order is device/channel order."""
+        native_requests, native_connections, total, keepers = self._conversion_network_inputs(
+            spacing_hz, devices, connections, reference_ohms
+        )
         incident, outgoing = (_Complex * total)(), (_Complex * total)()
         covariance, complementary = (_Complex * (total * total))(), (_Complex * (total * total))()
         residual = ct.c_double()
@@ -1486,7 +1565,11 @@ class Library:
         )
         self._check(
             self._dll.rfmodel_conversion_network_analyze(
-                native_requests, len(requests), native_connections, len(pairs), ct.byref(output)
+                native_requests,
+                len(native_requests),
+                native_connections,
+                len(native_connections),
+                ct.byref(output),
             )
         )
         return ConversionResult(

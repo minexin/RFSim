@@ -25,6 +25,17 @@ int main(int argc, char **argv) {
             devices[i].conjugate = zero;
         }
         devices[0].source = source;
+        {
+            const size_t channel = 0;
+            const rfmodel_conversion_noise_request request = {&channel, 1, &channel, 1, 3, 290.};
+            rfmodel_conversion_noise_result metric;
+            if (rfmodel_conversion_network_noise_analysis(
+                    devices, 2, wires, 1, &request, &metric) != RFMODEL_OK ||
+                fabs(metric.reference_gain - .0625) > 1e-12 ||
+                fabs(metric.noise_factor - 1.) > 1e-12) {
+                return 92;
+            }
+        }
         if (rfmodel_conversion_network_analyze(devices, 2, wires, 1, &output) != RFMODEL_OK ||
             fabs(values[7].real - .25) > 1e-12 || fabs(values[2].real - .5) > 1e-12) {
             return 91;

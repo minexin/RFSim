@@ -90,7 +90,7 @@ def analyze_conversion_network(library, document, base_directory=None):
     _object(
         document,
         ("format", "version", "spacing_hz", "devices", "boundaries"),
-        ("reference_ohms", "connections"),
+        ("reference_ohms", "connections", "noise_analyses"),
     )
     if (
         document["format"] != "rfmodel.conversion-network"
@@ -228,7 +228,7 @@ def analyze_conversion_network(library, document, base_directory=None):
                 "outgoing_power_w": abs(b) ** 2,
             }
         )
-    return {
+    output = {
         "format": "rfmodel.conversion-network-result",
         "version": 1,
         "spacing_hz": spacing,
@@ -239,3 +239,58 @@ def analyze_conversion_network(library, document, base_directory=None):
         "noise_complementary_w_per_hz": _encode(result.noise_complementary),
         "relative_residual": result.relative_residual,
     }
+    if "noise_analyses" in document:
+        analyses = document["noise_analyses"]
+        if not isinstance(analyses, list) or not 1 <= len(analyses) <= 512:
+            raise ValueError("Expected 1..512 noise analyses")
+        results, used_names = [], set()
+        indices = {key: i for i, key in enumerate(labels)}
+
+        def channel_index(channel):
+            if (
+                not isinstance(channel, list)
+                or len(channel) != 3
+                or not isinstance(channel[0], str)
+                or type(channel[1]) is not int
+                or type(channel[2]) is not int
+                or tuple(channel) not in indices
+            ):
+                raise ValueError("Unknown noise analysis channel")
+            return indices[tuple(channel)]
+
+        for analysis in analyses:
+            _object(
+                analysis,
+                ("name", "reference_channels", "thermal_channels", "output_channel"),
+                ("reference_temperature_k",),
+            )
+            name = analysis["name"]
+            if not isinstance(name, str) or not name or name in used_names:
+                raise ValueError("Noise analysis names must be unique nonempty strings")
+            used_names.add(name)
+            if not isinstance(analysis["reference_channels"], list) or not isinstance(
+                analysis["thermal_channels"], list
+            ):
+                raise ValueError("Noise reference channels must be lists")
+            temperature = _number(analysis.get("reference_temperature_k", 290.0))
+            metric = library.conversion_noise_analysis(
+                spacing,
+                devices,
+                connections,
+                reference_ohms=reference,
+                reference_channels=[channel_index(c) for c in analysis["reference_channels"]],
+                thermal_channels=[channel_index(c) for c in analysis["thermal_channels"]],
+                output_channel=channel_index(analysis["output_channel"]),
+                reference_temperature_k=temperature,
+            )
+            results.append(
+                dict(
+                    analysis,
+                    reference_temperature_k=temperature,
+                    normalization="independent_phase_averaged_available_power",
+                    output_load_noise="excluded",
+                    **metric._asdict(),
+                )
+            )
+        output["noise_analyses"] = results
+    return output

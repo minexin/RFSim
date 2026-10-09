@@ -322,6 +322,90 @@ void write_passive_s(const rfmodel::SMatrix &matrix, rfmodel_complex *output, si
 }
 } // namespace
 
+namespace {
+std::vector<std::pair<const void *, size_t>>
+conversion_input_ranges(const rfmodel_conversion_request *devices,
+                        size_t device_count,
+                        const rfmodel_conversion_connection *connections,
+                        size_t connection_count,
+                        size_t &total) {
+    require(devices && device_count > 0 && device_count <= 512 && connection_count <= 512 &&
+            (!connection_count || connections));
+    total = 0;
+    std::vector<std::pair<const void *, size_t>> inputs{
+        {devices, device_count * sizeof(*devices)},
+        {connections, connection_count * sizeof(*connections)}};
+    for (size_t device = 0; device < device_count; ++device) {
+        const auto &r = devices[device];
+        const auto n = r.count;
+        require(n > 0 && n <= 512 - total && r.physical_ports && r.bins && r.direct && r.conjugate);
+        total += n;
+        inputs.push_back({r.physical_ports, n * sizeof(size_t)});
+        inputs.push_back({r.bins, n * sizeof(int)});
+        for (const auto *matrix : {r.direct,
+                                   r.conjugate,
+                                   r.source_covariance,
+                                   r.source_complementary,
+                                   r.intrinsic_covariance,
+                                   r.intrinsic_complementary}) {
+            if (matrix) {
+                inputs.push_back({matrix, n * n * sizeof(rfmodel_complex)});
+            }
+        }
+        for (const auto *vector : {r.source, r.reflection}) {
+            if (vector) {
+                inputs.push_back({vector, n * sizeof(rfmodel_complex)});
+            }
+        }
+    }
+    return inputs;
+}
+
+rfmodel::FrequencyConversionNetwork
+decode_conversion_network(const rfmodel_conversion_request *devices,
+                          size_t device_count,
+                          const rfmodel_conversion_connection *connections,
+                          size_t connection_count) {
+    rfmodel::FrequencyConversionNetwork network(devices[0].spacing_hz, devices[0].reference_ohms);
+    for (size_t device = 0; device < device_count; ++device) {
+        const auto &r = devices[device];
+        const auto n = r.count;
+        auto matrix = [&](const rfmodel_complex *values) {
+            auto decoded = rfmodel::conversion_detail::zero(n);
+            if (values) {
+                for (size_t i = 0; i < n * n; ++i) {
+                    decoded.values[i] = {values[i].real, values[i].imag};
+                }
+            }
+            return decoded;
+        };
+        std::vector<rfmodel::ConversionChannel> channels;
+        std::vector<rfmodel::Complex> source(n), reflection(n);
+        for (size_t i = 0; i < n; ++i) {
+            channels.push_back({r.physical_ports[i], r.bins[i]});
+            if (r.source) {
+                source[i] = {r.source[i].real, r.source[i].imag};
+            }
+            if (r.reflection) {
+                reflection[i] = {r.reflection[i].real, r.reflection[i].imag};
+            }
+        }
+        rfmodel::FrequencyConversionModel model(
+            r.spacing_hz, channels, matrix(r.direct), matrix(r.conjugate), r.reference_ohms);
+        network.add({std::move(model),
+                     source,
+                     reflection,
+                     {matrix(r.source_covariance), matrix(r.source_complementary)},
+                     {matrix(r.intrinsic_covariance), matrix(r.intrinsic_complementary)}});
+    }
+    for (size_t i = 0; i < connection_count; ++i) {
+        const auto &c = connections[i];
+        network.connect(c.first_device, c.first_port, c.second_device, c.second_port);
+    }
+    return network;
+}
+} // namespace
+
 extern "C" {
 int rfmodel_mix_coherent_components(double spacing_hz,
                                     const rfmodel_coherent_mixer_input *input,
@@ -1581,38 +1665,12 @@ int rfmodel_conversion_network_analyze(const rfmodel_conversion_request *devices
                                        size_t connection_count,
                                        const rfmodel_conversion_output *output) {
     return guarded([&] {
-        require(devices && output && device_count > 0 && device_count <= 512 &&
-                connection_count <= 512 && (!connection_count || connections));
+        require(output);
         const auto &o = *output;
-        size_t total = 0;
-        std::vector<std::pair<const void *, size_t>> inputs{
-            {devices, device_count * sizeof(*devices)},
-            {output, sizeof(*output)},
-            {connections, connection_count * sizeof(*connections)}};
-        for (size_t device = 0; device < device_count; ++device) {
-            const auto &r = devices[device];
-            const auto n = r.count;
-            require(n > 0 && n <= 512 - total && r.physical_ports && r.bins && r.direct &&
-                    r.conjugate);
-            total += n;
-            inputs.push_back({r.physical_ports, n * sizeof(size_t)});
-            inputs.push_back({r.bins, n * sizeof(int)});
-            for (const auto *matrix : {r.direct,
-                                       r.conjugate,
-                                       r.source_covariance,
-                                       r.source_complementary,
-                                       r.intrinsic_covariance,
-                                       r.intrinsic_complementary}) {
-                if (matrix) {
-                    inputs.push_back({matrix, n * n * sizeof(rfmodel_complex)});
-                }
-            }
-            for (const auto *vector : {r.source, r.reflection}) {
-                if (vector) {
-                    inputs.push_back({vector, n * sizeof(rfmodel_complex)});
-                }
-            }
-        }
+        size_t total;
+        auto inputs =
+            conversion_input_ranges(devices, device_count, connections, connection_count, total);
+        inputs.push_back({output, sizeof(*output)});
         require(o.incident && o.outgoing && o.noise_covariance && o.noise_complementary &&
                 o.relative_residual);
         require(o.wave_capacity >= total && o.matrix_capacity >= total * total &&
@@ -1634,43 +1692,8 @@ int rfmodel_conversion_network_analyze(const rfmodel_conversion_request *devices
                 disjoint(outputs[i].first, outputs[i].second, outputs[j].first, outputs[j].second);
             }
         }
-        rfmodel::FrequencyConversionNetwork network(devices[0].spacing_hz,
-                                                    devices[0].reference_ohms);
-        for (size_t device = 0; device < device_count; ++device) {
-            const auto &r = devices[device];
-            const auto n = r.count;
-            auto matrix = [&](const rfmodel_complex *values) {
-                auto decoded = rfmodel::conversion_detail::zero(n);
-                if (values) {
-                    for (size_t i = 0; i < n * n; ++i) {
-                        decoded.values[i] = {values[i].real, values[i].imag};
-                    }
-                }
-                return decoded;
-            };
-            std::vector<rfmodel::ConversionChannel> channels;
-            std::vector<rfmodel::Complex> source(n), reflection(n);
-            for (size_t i = 0; i < n; ++i) {
-                channels.push_back({r.physical_ports[i], r.bins[i]});
-                if (r.source) {
-                    source[i] = {r.source[i].real, r.source[i].imag};
-                }
-                if (r.reflection) {
-                    reflection[i] = {r.reflection[i].real, r.reflection[i].imag};
-                }
-            }
-            rfmodel::FrequencyConversionModel model(
-                r.spacing_hz, channels, matrix(r.direct), matrix(r.conjugate), r.reference_ohms);
-            network.add({std::move(model),
-                         source,
-                         reflection,
-                         {matrix(r.source_covariance), matrix(r.source_complementary)},
-                         {matrix(r.intrinsic_covariance), matrix(r.intrinsic_complementary)}});
-        }
-        for (size_t i = 0; i < connection_count; ++i) {
-            const auto &c = connections[i];
-            network.connect(c.first_device, c.first_port, c.second_device, c.second_port);
-        }
+        const auto network =
+            decode_conversion_network(devices, device_count, connections, connection_count);
         const auto result = network.analyze();
         for (size_t i = 0; i < total; ++i) {
             o.incident[i] = {result.incident[i].real(), result.incident[i].imag()};
@@ -1683,6 +1706,43 @@ int rfmodel_conversion_network_analyze(const rfmodel_conversion_request *devices
             o.noise_complementary[i] = {p.real(), p.imag()};
         }
         *o.relative_residual = result.relative_residual;
+    });
+}
+
+int rfmodel_conversion_network_noise_analysis(const rfmodel_conversion_request *devices,
+                                              size_t device_count,
+                                              const rfmodel_conversion_connection *connections,
+                                              size_t connection_count,
+                                              const rfmodel_conversion_noise_request *request,
+                                              rfmodel_conversion_noise_result *output) {
+    return guarded([&] {
+        require(request && output && request->reference_channels && request->thermal_channels &&
+                request->reference_count > 0 && request->reference_count <= 512 &&
+                request->thermal_count > 0 && request->thermal_count <= 512);
+        size_t total;
+        auto inputs =
+            conversion_input_ranges(devices, device_count, connections, connection_count, total);
+        inputs.push_back({request, sizeof(*request)});
+        inputs.push_back({request->reference_channels, request->reference_count * sizeof(size_t)});
+        inputs.push_back({request->thermal_channels, request->thermal_count * sizeof(size_t)});
+        for (const auto &input : inputs) {
+            if (input.second) {
+                disjoint(output, sizeof(*output), input.first, input.second);
+            }
+        }
+        const auto network =
+            decode_conversion_network(devices, device_count, connections, connection_count);
+        const auto result = network.reference_noise_analysis(
+            {request->reference_channels, request->reference_channels + request->reference_count},
+            {request->thermal_channels, request->thermal_channels + request->thermal_count},
+            request->output_channel,
+            request->reference_temperature_k);
+        *output = {result.reference_gain,
+                   result.reference_output_noise_w_per_hz,
+                   result.output_noise_w_per_hz,
+                   result.noise_factor,
+                   result.noise_figure_db,
+                   result.equivalent_input_temperature_k};
     });
 }
 

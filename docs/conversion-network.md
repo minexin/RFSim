@@ -65,7 +65,7 @@ python -m rfmodel examples/filtered-conversion-network.json --library build-msvc
 
 解析回归覆盖：独立 Butterworth/Chebyshev 极点公式得到的复幅相；两个温热衰减器夹混频器的信号、热噪声、镜像折叠与跨频率 C/P；不同通道排列的物理连接；DC 实噪声；普通线性网络退化对照；反射往返的波和完整噪声闭式解；严格边界、非法接线及 C 输出原子性。安装消费者实际调用新 C/C++ 网络入口。
 
-仍待实现：自动频率闭包/截谱策略、稀疏大规模求解、跨设备相关输入噪声接口、泵驱动与压缩工作点联立、LO 相噪、转换矩阵标定、SSB/DSB 噪声系数后处理及 SystemVue 厂商参数/数值验证。现有相干非线性前馈图未自动迁移到本求解器。此阶段不宣称 RF Design 完整兼容。
+仍待实现：自动频率闭包/截谱策略、稀疏大规模求解、跨设备相关输入噪声接口、泵驱动与压缩工作点联立、LO 相噪、转换矩阵标定、宽带噪声后处理及 SystemVue 厂商参数/数值验证。现有相干非线性前馈图未自动迁移到本求解器。此阶段不宣称 RF Design 完整兼容。
 
 ## 工程验证记录（2026-10-09）
 
@@ -74,3 +74,5 @@ python -m rfmodel examples/filtered-conversion-network.json --library build-msvc
 - 独立 Python 3.12 从离线 wheel 导入：网络专项 13/13、单块转换 11/11、公共 API 85/85、系统图 51/51、线性噪声 9/9 通过。
 - 129 个 C/C++ 文件格式检查及 git diff --check 通过。
 - 跨平台结果以本阶段提交的 GitHub Actions 为准；SystemVue 混频网络实测仍待采集和验收。
+
+[参考温度噪声分析](conversion-noise-analysis.md) 已支持显式信号/热源频带与 SSB/多频带归一化；输出热负载和宽带路径约定仍待补齐。
