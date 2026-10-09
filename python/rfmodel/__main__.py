@@ -9,6 +9,7 @@ from .spectrum_file import analyze_spectrum
 from .amplifier_file import analyze_amplifier
 from .coherence_file import analyze_coherence
 from .coherent_network_file import analyze_coherent_network
+from .coherent_system_file import analyze_coherent_system
 
 
 def main():
@@ -27,6 +28,7 @@ def main():
             raise ValueError("Output must not overwrite Touchstone input data")
         operation = {"rfmodel.coherence": analyze_coherence,
                      "rfmodel.coherent-network": analyze_coherent_network,
+                     "rfmodel.coherent-system": analyze_coherent_system,
                      "rfmodel.spectrum-chain": analyze_spectrum,
                      "rfmodel.amplifier-components": analyze_amplifier}.get(document.get("format"), analyze)
         result = operation(Library(args.library), document, base_directory=args.model.parent)

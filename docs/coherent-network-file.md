@@ -93,3 +93,5 @@ tests/test_coherent_network_file.py 的八项测试检查：
 执行八项文件接口回归，全部通过；没有以源码导入冒充分发包验证。
 SystemVue 自带 Python 的 setuptools 缺少 _distutils_hack，故本地 wheel 使用独立
 构建环境；未修补厂商目录。本轮未修改 C++/C ABI，不涉及重新编译原生接口。
+
+多输出线性阶段可与混频器组成 [相干 RF 前馈图](coherent-system-file.md)，共享逐频网络提取并记录中间流。

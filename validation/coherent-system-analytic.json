@@ -1,0 +1,70 @@
+{
+  "format": "rfmodel.analytic-validation",
+  "version": 1,
+  "generated_utc": "2026-10-09T03:56:52.334491+00:00",
+  "basis": "Analytic feed-forward graph; not a SystemVue measurement",
+  "model": "examples/coherent-image-rejection.json",
+  "model_sha256": "e4f88a395049f1a995ac2d38918c7afbb5d21dd862190f5b029ac0bfbfa6e6c3",
+  "native_library_sha256": "bab8dec3b7eed55c3f84566004bcde41a569bfa23ae60c359c7e2f0e5f6cfdd2",
+  "cases": [
+    {
+      "lo_clock_relation": "locked",
+      "checks": [
+        {
+          "bin": 2,
+          "observed_w": 0.9999999999999996,
+          "expected_w": 1.0,
+          "absolute_tolerance_w": 1e-12,
+          "passed": true
+        },
+        {
+          "bin": 18,
+          "observed_w": 9.373498641636607e-34,
+          "expected_w": 0.0,
+          "absolute_tolerance_w": 1e-28,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "lo_clock_relation": "independent",
+      "checks": [
+        {
+          "bin": 2,
+          "observed_w": 0.4999999999999998,
+          "expected_w": 0.5,
+          "absolute_tolerance_w": 1e-12,
+          "passed": true
+        },
+        {
+          "bin": 18,
+          "observed_w": 0.4999999999999998,
+          "expected_w": 0.5,
+          "absolute_tolerance_w": 1e-12,
+          "passed": true
+        }
+      ]
+    }
+  ],
+  "local_msvc": {
+    "Debug": {
+      "ctest_total": 66,
+      "failures": 0
+    },
+    "Release": {
+      "ctest_total": 66,
+      "failures": 0
+    }
+  },
+  "wheel_tests": {
+    "python_api": 60,
+    "coherent_network_file": 9,
+    "coherent_system_file": 10
+  },
+  "rerun": "python tests/test_coherent_system_file.py <native-library>",
+  "limitations": [
+    "Matched boundaries between stages; no interstage reverse loading",
+    "No nonlinear or noise graph nodes",
+    "No new SystemVue mixer measurements"
+  ]
+}
