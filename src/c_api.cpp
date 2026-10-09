@@ -1,4 +1,5 @@
 #include "rfmodel/power_wave_reference.hpp"
+#include "rfmodel/power_wave_noise.hpp"
 #include "rfmodel/intermod_levels.hpp"
 #include "rfmodel/coherent_highorder_amplifier.hpp"
 #include "rfmodel/polynomial_intercepts.hpp"
@@ -274,6 +275,35 @@ int coherent_polynomial_evaluate_impl(double spacing_hz,
     });
 }
 
+} // namespace
+
+namespace {
+rfmodel::SMatrix decode_noise_two_port(const rfmodel_complex *values, size_t count) {
+    require(values && count == 4);
+    rfmodel::SMatrix matrix{2, std::vector<rfmodel::Complex>(4)};
+    for (size_t i = 0; i < 4; ++i) {
+        matrix.values[i] = {values[i].real, values[i].imag};
+    }
+    return matrix;
+}
+
+std::vector<rfmodel::Complex> decode_noise_references(const rfmodel_complex *references) {
+    require(references);
+    return {{references[0].real, references[0].imag}, {references[1].real, references[1].imag}};
+}
+
+void noise_output_disjoint(const rfmodel_complex *scattering,
+                           const rfmodel_complex *noise,
+                           const rfmodel_complex *references,
+                           const void *output,
+                           size_t bytes) {
+    require(output);
+    disjoint(scattering, 4 * sizeof(*scattering), output, bytes);
+    disjoint(references, 2 * sizeof(*references), output, bytes);
+    if (noise) {
+        disjoint(noise, 4 * sizeof(*noise), output, bytes);
+    }
+}
 } // namespace
 
 extern "C" {
@@ -1520,6 +1550,76 @@ int rfmodel_linear_amplifier_s(double frequency_hz,
             rfmodel::LinearAmplifierModel("C API amplifier", parameters).s_parameters(frequency_hz);
         for (size_t i = 0; i < 4; ++i) {
             values[i] = {matrix.values[i].real(), matrix.values[i].imag()};
+        }
+    });
+}
+
+int rfmodel_power_wave_noise_figure(const rfmodel_complex *scattering,
+                                    size_t value_count,
+                                    const rfmodel_complex *intrinsic_noise,
+                                    const rfmodel_complex *references,
+                                    rfmodel_complex source_impedance_ohms,
+                                    double temperature_k,
+                                    double *output_db) {
+    return guarded([&] {
+        const auto matrix = decode_noise_two_port(scattering, value_count);
+        const rfmodel::NoiseCorrelation noise{decode_noise_two_port(intrinsic_noise, value_count)};
+        const auto refs = decode_noise_references(references);
+        noise_output_disjoint(
+            scattering, intrinsic_noise, references, output_db, sizeof(*output_db));
+        const double result = rfmodel::power_wave_noise_figure_db(
+            matrix,
+            noise,
+            refs,
+            {source_impedance_ohms.real, source_impedance_ohms.imag},
+            temperature_k);
+        *output_db = result;
+    });
+}
+
+int rfmodel_power_wave_extract_noise_parameters(const rfmodel_complex *scattering,
+                                                size_t value_count,
+                                                const rfmodel_complex *intrinsic_noise,
+                                                const rfmodel_complex *references,
+                                                double temperature_k,
+                                                rfmodel_noise_parameters *output) {
+    return guarded([&] {
+        const auto matrix = decode_noise_two_port(scattering, value_count);
+        const rfmodel::NoiseCorrelation noise{decode_noise_two_port(intrinsic_noise, value_count)};
+        const auto refs = decode_noise_references(references);
+        noise_output_disjoint(scattering, intrinsic_noise, references, output, sizeof(*output));
+        const auto result =
+            rfmodel::extract_power_wave_noise_parameters(matrix, noise, refs, temperature_k);
+        *output = {
+            result.minimum_noise_figure_db,
+            {result.optimum_source_reflection.real(), result.optimum_source_reflection.imag()},
+            result.noise_resistance_ohms};
+    });
+}
+
+int rfmodel_power_wave_noise_from_parameters(const rfmodel_complex *scattering,
+                                             size_t value_count,
+                                             const rfmodel_noise_parameters *parameters,
+                                             const rfmodel_complex *references,
+                                             double temperature_k,
+                                             rfmodel_complex *output,
+                                             size_t capacity) {
+    return guarded([&] {
+        require(parameters && capacity >= 4 &&
+                capacity <= std::numeric_limits<size_t>::max() / sizeof(*output));
+        const auto matrix = decode_noise_two_port(scattering, value_count);
+        const auto refs = decode_noise_references(references);
+        noise_output_disjoint(scattering, nullptr, references, output, capacity * sizeof(*output));
+        disjoint(parameters, sizeof(*parameters), output, capacity * sizeof(*output));
+        const rfmodel::TwoPortNoiseParameters decoded{parameters->minimum_noise_figure_db,
+                                                      {parameters->optimum_source_reflection.real,
+                                                       parameters->optimum_source_reflection.imag},
+                                                      parameters->noise_resistance_ohms};
+        const auto result =
+            rfmodel::noise_from_power_wave_parameters(matrix, decoded, refs, temperature_k);
+        for (size_t i = 0; i < 4; ++i) {
+            output[i] = {result.watts_per_hz.values[i].real(),
+                         result.watts_per_hz.values[i].imag()};
         }
     });
 }

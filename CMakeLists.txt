@@ -319,3 +319,7 @@ target_link_libraries(reference_antenna PRIVATE rfmodel)
 add_test(NAME reference_antenna_analytic COMMAND reference_antenna)
 add_test(NAME reference_antenna_source_density COMMAND reference_antenna 6.903251499999993e-22)
 endif()
+
+add_executable(power_wave_noise_test tests/power_wave_noise_test.cpp)
+target_link_libraries(power_wave_noise_test PRIVATE rfmodel)
+add_test(NAME power_wave_noise_test COMMAND power_wave_noise_test)

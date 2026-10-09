@@ -1,3 +1,4 @@
+#include "rfmodel/power_wave_noise.hpp"
 #include <rfmodel/power_wave_reference.hpp>
 #include <rfmodel/intermod_levels.hpp>
 #include <rfmodel/coherent_highorder_amplifier.hpp>
@@ -31,6 +32,16 @@
 #include <rfmodel/term_propagation.hpp>
 
 int main() {
+    {
+        const rfmodel::SMatrix pad{2, {0., .5, .5, 0.}};
+        const auto noise = rfmodel::passive_thermal_noise(pad, 290.);
+        const auto parameters =
+            rfmodel::extract_power_wave_noise_parameters(pad, noise, {50., 50.});
+        if (std::abs(parameters.noise_resistance_ohms - 46.875) > 1e-10) {
+            return 87;
+        }
+    }
+
     const auto references = rfmodel::renormalize_power_waves(
         rfmodel::SMatrix{1, {0.}}, {50.}, {rfmodel::Complex{75., 20.}});
     const auto impedance =

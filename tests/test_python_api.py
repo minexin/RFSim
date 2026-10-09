@@ -28,6 +28,100 @@ class PythonApiTests(unittest.TestCase):
     def setUpClass(cls):
         cls.library = Library(LIBRARY_PATH)
 
+    def test_power_wave_noise_physical_invariance(self):
+        scattering = [[0.2 - 0.1j, 0.03], [2 + 1j, -0.15]]
+        original = rfmodel.NoiseParameters(10 * math.log10(2), 0.2 + 0.3j, 57.375)
+        noise = self.library.noise_from_power_wave_parameters(scattering, original, [50, 50])
+        optimum_z = (
+            50 * (1 + original.optimum_source_reflection) / (1 - original.optimum_source_reflection)
+        )
+        for references in ([50, 50], [25 + 10j, 100 - 15j], [75 - 40j, 30 + 12j]):
+            changed = self.library.renormalize_power_waves(
+                scattering, [50, 50], references, noise=noise
+            )
+            parameters = self.library.power_wave_noise_parameters(
+                changed.scattering, changed.noise_correlation, references
+            )
+            self.assertAlmostEqual(
+                parameters.minimum_noise_figure_db, original.minimum_noise_figure_db
+            )
+            self.assertAlmostEqual(parameters.noise_resistance_ohms, original.noise_resistance_ohms)
+            expected_gamma = (optimum_z - references[0]) / (
+                optimum_z + complex(references[0]).conjugate()
+            )
+            self.assertAlmostEqual(parameters.optimum_source_reflection, expected_gamma)
+            recovered = self.library.noise_from_power_wave_parameters(
+                changed.scattering, parameters, references
+            )
+            for row in range(2):
+                for column in range(2):
+                    self.assertLess(
+                        abs(recovered[row][column] - changed.noise_correlation[row][column]), 1e-32
+                    )
+            for source in (50, 25 + 30j, 100 - 40j, optimum_z):
+                actual = self.library.power_wave_noise_figure(
+                    changed.scattering, changed.noise_correlation, references, source
+                )
+                admittance = 1 / source
+                factor = 2 + 57.375 / admittance.real * abs(admittance - 1 / optimum_z) ** 2
+                self.assertAlmostEqual(actual, 10 * math.log10(factor))
+
+    def test_power_wave_noise_passive_and_temperature(self):
+        scattering = [[0, 0.5], [0.5, 0]]
+        noise = self.library.passive_noise(scattering, 290)
+        self.assertAlmostEqual(
+            self.library.power_wave_noise_figure(scattering, noise, [50, 50], 50),
+            10 * math.log10(4),
+        )
+        parameters = self.library.power_wave_noise_parameters(scattering, noise, [50, 50])
+        self.assertAlmostEqual(parameters.noise_resistance_ohms, 46.875)
+        self.assertAlmostEqual(parameters.optimum_source_reflection, 0)
+        doubled = self.library.noise_from_power_wave_parameters(
+            scattering, parameters, [50, 50], temperature_k=580
+        )
+        for row in range(2):
+            self.assertAlmostEqual(doubled[row][row] / noise[row][row], 2)
+        zero = [[0, 0], [0, 0]]
+        noiseless = self.library.power_wave_noise_parameters(scattering, zero, [25 + 10j, 75 - 8j])
+        self.assertEqual(noiseless, rfmodel.NoiseParameters(0, 0j, 0))
+
+    def test_power_wave_noise_invalid_inputs(self):
+        scattering = [[0, 0.5], [0.5, 0]]
+        noise = self.library.passive_noise(scattering)
+        params = rfmodel.NoiseParameters(3, 0.1j, 50)
+        for references in ([50], [50, 0], [50, complex(50, math.inf)]):
+            for call in (
+                lambda: self.library.power_wave_noise_figure(scattering, noise, references, 50),
+                lambda: self.library.power_wave_noise_parameters(scattering, noise, references),
+                lambda: self.library.noise_from_power_wave_parameters(
+                    scattering, params, references
+                ),
+            ):
+                with (
+                    self.subTest(references=references),
+                    self.assertRaises((ValueError, RFModelError)),
+                ):
+                    call()
+        for source in (0, -1, 1j, math.inf):
+            with self.assertRaises((ValueError, RFModelError)):
+                self.library.power_wave_noise_figure(scattering, noise, [50, 50], source)
+        for invalid in (
+            params._replace(minimum_noise_figure_db=-1),
+            params._replace(optimum_source_reflection=1),
+            params._replace(noise_resistance_ohms=-1),
+            rfmodel.NoiseParameters(3, 0, 0),
+        ):
+            with self.assertRaises(RFModelError):
+                self.library.noise_from_power_wave_parameters(scattering, invalid, [50, 50])
+        with self.assertRaises(ValueError):
+            self.library.power_wave_noise_parameters([[0]], [[0]], [50])
+        with self.assertRaises(ValueError):
+            self.library.power_wave_noise_figure(scattering, [[0]], [50, 50], 50)
+        with self.assertRaises(RFModelError):
+            self.library.power_wave_noise_parameters(scattering, [[-1, 0], [0, 1]], [50, 50])
+        with self.assertRaises(RFModelError):
+            self.library.power_wave_noise_parameters(scattering, noise, [50, 50], temperature_k=0)
+
     def test_power_wave_load_and_physical_parameters(self):
         load_impedance = 37 - 12j
         for old in (50, 75 + 20j):

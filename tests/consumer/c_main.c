@@ -3,6 +3,19 @@
 
 int main(int argc, char **argv) {
     {
+        const double kt = 1.380649e-23 * 290.;
+        rfmodel_complex pad[4] = {{0., 0.}, {.5, 0.}, {.5, 0.}, {0., 0.}};
+        rfmodel_complex refs[2] = {{50., 0.}, {50., 0.}};
+        rfmodel_complex noise[4] = {{.75 * kt, 0.}, {0., 0.}, {0., 0.}, {.75 * kt, 0.}};
+        rfmodel_noise_parameters parameters;
+        if (rfmodel_power_wave_extract_noise_parameters(pad, 4, noise, refs, 290., &parameters) !=
+                RFMODEL_OK ||
+            fabs(parameters.noise_resistance_ohms - 46.875) > 1e-10) {
+            return 87;
+        }
+    }
+
+    {
         const rfmodel_complex scattering = {0., 0.}, original = {50., 0.}, reference = {75., 20.};
         rfmodel_complex output, impedance;
         if (rfmodel_power_wave_renormalize(

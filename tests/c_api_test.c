@@ -14,6 +14,49 @@
 
 int main(int argc, char **argv) {
     {
+        const double kt = 1.380649e-23 * 290.;
+        rfmodel_complex scattering[4] = {{0., 0.}, {.5, 0.}, {.5, 0.}, {0., 0.}};
+        rfmodel_complex refs[2] = {{50., 0.}, {50., 0.}};
+        rfmodel_complex noise[4] = {{.75 * kt, 0.}, {0., 0.}, {0., 0.}, {.75 * kt, 0.}};
+        rfmodel_complex output[4] = {{7., 8.}, {9., 10.}, {11., 12.}, {13., 14.}}, saved[4];
+        rfmodel_complex source = {50., 0.};
+        rfmodel_noise_parameters params = {99., {98., 97.}, 96.}, saved_params;
+        double nf = 88.;
+        memcpy(saved, output, sizeof(output));
+        memcpy(&saved_params, &params, sizeof(params));
+        CHECK(rfmodel_power_wave_extract_noise_parameters(
+                  scattering, 3, noise, refs, 290., &params) != RFMODEL_OK);
+        CHECK(memcmp(&params, &saved_params, sizeof(params)) == 0);
+        CHECK(rfmodel_power_wave_noise_figure(scattering, 4, noise, refs, source, 0., &nf) !=
+              RFMODEL_OK);
+        CHECK(nf == 88.);
+        CHECK(rfmodel_power_wave_noise_figure(
+                  scattering, 4, noise, refs, source, 290., &noise[0].real) != RFMODEL_OK);
+        CHECK(noise[0].real == .75 * kt);
+        CHECK(rfmodel_power_wave_extract_noise_parameters(
+                  scattering, 4, noise, refs, 290., &params) == RFMODEL_OK);
+        CHECK(fabs(params.noise_resistance_ohms - 46.875) < 1e-10);
+        CHECK(rfmodel_power_wave_noise_figure(scattering, 4, noise, refs, source, 290., &nf) ==
+              RFMODEL_OK);
+        CHECK(fabs(nf - 10. * log10(4.)) < 1e-12);
+        CHECK(rfmodel_power_wave_noise_from_parameters(
+                  scattering, 4, &params, refs, 290., output, 3) != RFMODEL_OK);
+        CHECK(memcmp(output, saved, sizeof(output)) == 0);
+        CHECK(rfmodel_power_wave_noise_from_parameters(
+                  scattering, 4, &params, refs, 290., scattering, 4) != RFMODEL_OK);
+        CHECK(scattering[1].real == .5);
+        CHECK(rfmodel_power_wave_noise_from_parameters(
+                  scattering, 4, &params, refs, 290., output, 4) == RFMODEL_OK);
+        CHECK(fabs(output[0].real - noise[0].real) < 1e-34);
+        CHECK(fabs(output[3].real - noise[3].real) < 1e-34);
+        memcpy(saved, output, sizeof(output));
+        params.noise_resistance_ohms = -1.;
+        CHECK(rfmodel_power_wave_noise_from_parameters(
+                  scattering, 4, &params, refs, 290., output, 4) != RFMODEL_OK);
+        CHECK(memcmp(output, saved, sizeof(output)) == 0);
+    }
+
+    {
         rfmodel_complex s = {0., 0.}, old_reference = {50., 0.}, new_reference = {75., 20.};
         rfmodel_complex covariance = {1., 0.}, output = {17., 18.}, noise = {19., 20.};
         rfmodel_complex saved_output = output, saved_noise = noise, impedance;

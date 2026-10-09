@@ -79,6 +79,41 @@ rfmodel_polynomial_coefficients_from_intermod_levels(double power_gain_db,
                                                      size_t capacity,
                                                      size_t *coefficient_count);
 
+/* Two-port noise: NFmin in dB, physical Rn in ohms; GammaOpt is the
+ * source boundary a=GammaOpt*b in the specified power-wave references. */
+typedef struct rfmodel_noise_parameters {
+    double minimum_noise_figure_db;
+    rfmodel_complex optimum_source_reflection;
+    double noise_resistance_ohms;
+} rfmodel_noise_parameters;
+
+/* All matrices contain four row-major entries (value_count must be 4).
+ * references contains two finite impedances with positive real parts.
+ * Intrinsic noise excludes source/load emission; temperature_k must be >0.
+ * Outputs must not overlap inputs and remain unchanged on failure. */
+RFMODEL_API int rfmodel_power_wave_noise_figure(const rfmodel_complex *scattering,
+                                                size_t value_count,
+                                                const rfmodel_complex *intrinsic_noise,
+                                                const rfmodel_complex *references,
+                                                rfmodel_complex source_impedance_ohms,
+                                                double temperature_k,
+                                                double *output_db);
+
+RFMODEL_API int rfmodel_power_wave_extract_noise_parameters(const rfmodel_complex *scattering,
+                                                            size_t value_count,
+                                                            const rfmodel_complex *intrinsic_noise,
+                                                            const rfmodel_complex *references,
+                                                            double temperature_k,
+                                                            rfmodel_noise_parameters *output);
+
+RFMODEL_API int rfmodel_power_wave_noise_from_parameters(const rfmodel_complex *scattering,
+                                                         size_t value_count,
+                                                         const rfmodel_noise_parameters *parameters,
+                                                         const rfmodel_complex *references,
+                                                         double temperature_k,
+                                                         rfmodel_complex *output,
+                                                         size_t capacity);
+
 /* Per-port complex Kurokawa power-wave references, Re(Z)>0.
  * Row-major ports^2 scattering/noise matrices; each reference array has ports
  * entries. Noise input and output must be both NULL or both non-NULL.

@@ -67,3 +67,5 @@ Windows 本机可运行 `scripts/build-msvc.ps1` 自动定位已有 VS 工具链
 [显式高阶放大器](docs/coherent-highorder-amplifier.md) 将二至十一阶系数、共同基波压缩与输入限幅接入 C++/C/Python/JSON，保留相消来源历史并支持已有失真传播。统一原生入口重放通过 1413 个独立来源项；自动 RFAMP 系数、完整总谱及次级失真再混频仍待完成。
 
 [IMN 输出互调功率参数](docs/intermod-levels.md) 接入 RFAMP_HO 文档规定的 IM1..IM11 功率到显式系数转换，贯通 C++/C/Python/JSON；系数符号由调用者明确给出，完整 RFAMP_HO 实测验收仍待完成。
+
+新增[复参考二端口噪声后处理](docs/power-wave-noise.md)：C++/C/Python 支持 NF、NFmin、源端 GammaOpt、物理 Rn 及相关矩阵重建，SystemVue 对照仍待完成。

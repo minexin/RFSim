@@ -4,7 +4,7 @@ from enum import IntEnum
 import operator
 from pathlib import Path
 from threading import RLock
-from typing import NamedTuple
+from typing import NamedTuple, Optional
 import weakref
 
 
@@ -223,9 +223,23 @@ class CoherentPolynomialResponse(NamedTuple):
     terms: tuple
 
 
+class NoiseParameters(NamedTuple):
+    minimum_noise_figure_db: float
+    optimum_source_reflection: complex
+    noise_resistance_ohms: float
+
+
+class _NoiseParameters(ct.Structure):
+    _fields_ = [
+        ("minimum_noise_figure_db", ct.c_double),
+        ("optimum_source_reflection", _Complex),
+        ("noise_resistance_ohms", ct.c_double),
+    ]
+
+
 class PowerWaveReferenceResult(NamedTuple):
     scattering: tuple
-    noise_correlation: tuple | None
+    noise_correlation: Optional[tuple]
 
 
 class CoherentHighOrderAmplifierResponse(NamedTuple):
@@ -465,6 +479,18 @@ class Library:
                 ct.c_int, [handle, ct.POINTER(size), size, ct.c_double,
                            ct.POINTER(_SpectrumBin), size, ct.POINTER(_SpectrumBin),
                            size, ct.POINTER(size)]),
+            "rfmodel_power_wave_noise_figure": (
+                ct.c_int, [complex_pointer, size, complex_pointer, complex_pointer,
+                           _Complex, ct.c_double, ct.POINTER(ct.c_double)],
+            ),
+            "rfmodel_power_wave_extract_noise_parameters": (
+                ct.c_int, [complex_pointer, size, complex_pointer, complex_pointer,
+                           ct.c_double, ct.POINTER(_NoiseParameters)],
+            ),
+            "rfmodel_power_wave_noise_from_parameters": (
+                ct.c_int, [complex_pointer, size, ct.POINTER(_NoiseParameters), complex_pointer,
+                           ct.c_double, complex_pointer, size],
+            ),
             "rfmodel_power_wave_renormalize": (
                 ct.c_int,
                 [size, complex_pointer, size, complex_pointer, complex_pointer,
@@ -1218,6 +1244,72 @@ class Library:
             float(spacing_hz), incident, len(incident), _bin(lo_bin), float(conversion_gain_db),
             float(lo_phase_radians), float(reference_ohms), output, len(output), ct.byref(count)))
         return {output[i].index: output[i].amplitude.value() for i in range(count.value)}
+
+    @staticmethod
+    def _noise_two_port(scattering, references):
+        ports, native = _matrix(scattering)
+        refs = list(references)
+        if ports != 2 or len(refs) != 2:
+            raise ValueError("Noise analysis requires two ports and two references")
+        return native, (_Complex * 2)(*[_Complex.from_value(z) for z in refs])
+
+    def power_wave_noise_figure(
+        self, scattering, noise, references, source_impedance_ohms, *, temperature_k=290.0
+    ):
+        """Return NF in dB for a physical passive source impedance and noiseless load."""
+        native, refs = self._noise_two_port(scattering, references)
+        ports, covariance = _matrix(noise)
+        if ports != 2:
+            raise ValueError("Noise covariance must be two-port")
+        result = ct.c_double()
+        self._check(
+            self._dll.rfmodel_power_wave_noise_figure(
+                native,
+                4,
+                covariance,
+                refs,
+                _Complex.from_value(source_impedance_ohms),
+                float(temperature_k),
+                ct.byref(result),
+            )
+        )
+        return result.value
+
+    def power_wave_noise_parameters(self, scattering, noise, references, *, temperature_k=290.0):
+        """Return NFmin, source-boundary GammaOpt and physical Rn (ohms)."""
+        native, refs = self._noise_two_port(scattering, references)
+        ports, covariance = _matrix(noise)
+        if ports != 2:
+            raise ValueError("Noise covariance must be two-port")
+        result = _NoiseParameters()
+        self._check(
+            self._dll.rfmodel_power_wave_extract_noise_parameters(
+                native, 4, covariance, refs, float(temperature_k), ct.byref(result)
+            )
+        )
+        return NoiseParameters(
+            result.minimum_noise_figure_db,
+            result.optimum_source_reflection.value(),
+            result.noise_resistance_ohms,
+        )
+
+    def noise_from_power_wave_parameters(
+        self, scattering, parameters, references, *, temperature_k=290.0
+    ):
+        """Convert physical two-port noise parameters to intrinsic W/Hz covariance."""
+        native, refs = self._noise_two_port(scattering, references)
+        encoded = _NoiseParameters(
+            float(parameters.minimum_noise_figure_db),
+            _Complex.from_value(parameters.optimum_source_reflection),
+            float(parameters.noise_resistance_ohms),
+        )
+        result = (_Complex * 4)()
+        self._check(
+            self._dll.rfmodel_power_wave_noise_from_parameters(
+                native, 4, ct.byref(encoded), refs, float(temperature_k), result, 4
+            )
+        )
+        return _rows(result, 2)
 
     def renormalize_power_waves(self, scattering, old_references, new_references, *, noise=None):
         """Change per-port complex power-wave references, optionally with W/Hz covariance."""
