@@ -1,3 +1,4 @@
+#include "rfmodel/polynomial_intercepts.hpp"
 #include "rfmodel/origin_expression.hpp"
 #include "rfmodel/mixing_origin.hpp"
 #include "rfmodel/coherent_polynomial.hpp"
@@ -896,6 +897,56 @@ int rfmodel_cubic_amplifier_transmit(double spacing_hz,
         const auto model = rfmodel::MatchedPolynomialAmplifier::from_iip3(
             "C API cubic amplifier", power_gain_db, input_ip3_dbm, reference_ohms);
         write_spectrum(model.transmit(incident), output, capacity, output_count);
+    });
+}
+
+int rfmodel_polynomial_coefficients_from_intercepts(double power_gain_db,
+                                                    const rfmodel_two_tone_intercept *intercepts,
+                                                    size_t intercept_count,
+                                                    double reference_ohms,
+                                                    double *coefficients,
+                                                    size_t capacity,
+                                                    size_t *coefficient_count) {
+    return guarded([&] {
+        require(intercept_count <= 8 && (intercepts || intercept_count == 0));
+        require(coefficients && coefficient_count && capacity >= 2);
+        require(capacity <= std::numeric_limits<size_t>::max() / sizeof(double));
+        const auto disjoint = [](const void *a, size_t a_bytes, const void *b, size_t b_bytes) {
+            if (a_bytes == 0 || b_bytes == 0) {
+                return;
+            }
+            const auto first = reinterpret_cast<std::uintptr_t>(a);
+            const auto second = reinterpret_cast<std::uintptr_t>(b);
+            require(a_bytes <= std::numeric_limits<std::uintptr_t>::max() - first);
+            require(b_bytes <= std::numeric_limits<std::uintptr_t>::max() - second);
+            require(first + a_bytes <= second || second + b_bytes <= first);
+        };
+        disjoint(intercepts,
+                 intercept_count * sizeof(*intercepts),
+                 coefficients,
+                 capacity * sizeof(double));
+        disjoint(intercepts,
+                 intercept_count * sizeof(*intercepts),
+                 coefficient_count,
+                 sizeof(*coefficient_count));
+        disjoint(
+            coefficients, capacity * sizeof(double), coefficient_count, sizeof(*coefficient_count));
+        std::vector<rfmodel::TwoToneIntercept> decoded;
+        for (size_t i = 0; i < intercept_count; ++i) {
+            const auto &value = intercepts[i];
+            require(value.reference == RFMODEL_INTERCEPT_INPUT ||
+                    value.reference == RFMODEL_INTERCEPT_OUTPUT);
+            decoded.push_back({value.first_tone_order,
+                               value.second_tone_order,
+                               value.intercept_dbm,
+                               value.coefficient_sign,
+                               static_cast<rfmodel::InterceptReference>(value.reference)});
+        }
+        const auto result = rfmodel::polynomial_coefficients_from_intercepts(
+            power_gain_db, decoded, reference_ohms);
+        require(capacity >= result.size());
+        std::copy(result.begin(), result.end(), coefficients);
+        *coefficient_count = result.size();
     });
 }
 

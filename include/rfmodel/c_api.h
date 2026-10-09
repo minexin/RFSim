@@ -33,6 +33,36 @@ typedef struct rfmodel_complex {
     double imag;
 } rfmodel_complex;
 
+enum rfmodel_intercept_reference {
+    RFMODEL_INTERCEPT_INPUT = 0,
+    RFMODEL_INTERCEPT_OUTPUT = 1
+};
+
+typedef struct rfmodel_two_tone_intercept {
+    int first_tone_order;
+    int second_tone_order;
+    double intercept_dbm;
+    int coefficient_sign;
+    int reference;
+} rfmodel_two_tone_intercept;
+
+/* Extrapolated equal per-tone intercepts for k1*f1+k2*f2. Both k values
+ * are nonzero; abs(k1)+abs(k2) is 2..9 and unique per entry. Sign is +/-1.
+ * Input/output reference affects IP units, not the required positive real R.
+ * At most eight entries; omitted nonlinear orders are zero. Empty entries
+ * produce [0, amplitude_gain]. Returns coefficients a[0]..a[maximum_order].
+ * This is not a P1dB fit or an automatic RFAMP higher-order coefficient rule.
+ * Output and count are required, capacity must suffice (up to 10). All
+ * buffers/scalars must be non-overlapping; all outputs are unchanged on failure. */
+RFMODEL_API int
+rfmodel_polynomial_coefficients_from_intercepts(double power_gain_db,
+                                                const rfmodel_two_tone_intercept *intercepts,
+                                                size_t intercept_count,
+                                                double reference_ohms,
+                                                double *coefficients,
+                                                size_t capacity,
+                                                size_t *coefficient_count);
+
 typedef struct rfmodel_source_coherence {
     const char *source_id;
     const char *reference_clock;

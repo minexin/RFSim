@@ -1,3 +1,4 @@
+#include <rfmodel/polynomial_intercepts.hpp>
 #include <rfmodel/origin_expression.hpp>
 #include <rfmodel/mixing_origin.hpp>
 #include <rfmodel/coherent_polynomial.hpp>
@@ -27,6 +28,13 @@
 #include <rfmodel/term_propagation.hpp>
 
 int main() {
+    const auto intercept_coefficients = rfmodel::polynomial_coefficients_from_intercepts(
+        10., {{3, -1, 33., 1, rfmodel::InterceptReference::output}});
+    if (intercept_coefficients.size() != 5 ||
+        std::abs(intercept_coefficients[4] - .07096267784671509) > 1e-14) {
+        return 82;
+    }
+
     const auto point =
         rfmodel::CoherentLimitedAmplifier(20., 20., 23., 20., 10.).operating_point(0.);
     if (point.fundamental_amplitude_gain != 10. || point.nonlinear_input_scale != 1.) {

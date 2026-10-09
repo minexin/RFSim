@@ -14,7 +14,7 @@ spec = importlib.util.spec_from_file_location(
 )
 comparison = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(comparison)
-from rfmodel import CoherentComponent, SpectrumKind
+from rfmodel import CoherentComponent, SpectrumKind, TwoToneIntercept, InterceptReference
 
 CONFIGURATIONS = {
     (-30.0, 0.0, False),
@@ -114,8 +114,11 @@ def diagnose(library, captures):
     # Official Gain Compression and Intermod Generation: OIP4 = OP1dB + 13 dB.
     # Here fixed OP1dB=20 dBm and G=10 dB, verified by comparison.inspect.
     # The two-tone 3*f1-f2 term has four permutations.
-    input_ip4_w = 10.0 ** ((20.0 + 13.0 - 10.0 - 30.0) / 10.0)
-    coefficient4 = math.sqrt(10.0) / (4.0 * input_ip4_w**1.5 * 5.0**3)
+    coefficient4 = library.polynomial_coefficients_from_intercepts(
+        10.0,
+        [TwoToneIntercept(3, -1, 33.0, 1, InterceptReference.OUTPUT)],
+        reference_ohms=50.0,
+    )[4]
     cases, all_fourth, fifth_holdouts = [], [], []
     for key in sorted(indexed):
         capture = indexed[key]

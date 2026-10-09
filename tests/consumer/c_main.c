@@ -3,6 +3,17 @@
 
 int main(int argc, char **argv) {
     {
+        const rfmodel_two_tone_intercept entry = {3, -1, 33., 1, RFMODEL_INTERCEPT_OUTPUT};
+        double coefficients[10];
+        size_t count = 0;
+        if (rfmodel_polynomial_coefficients_from_intercepts(
+                10., &entry, 1, 50., coefficients, 10, &count) != RFMODEL_OK ||
+            count != 5 || fabs(coefficients[4] - .07096267784671509) > 1e-14) {
+            return 82;
+        }
+    }
+
+    {
         double gain = 99.;
         rfmodel_amplifier_operating_point point = {11., 22., 33., 44., 55.};
         if (rfmodel_saturating_amplitude_gain(-1., 20., 20., 23., &gain) == RFMODEL_OK ||

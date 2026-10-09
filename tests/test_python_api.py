@@ -28,6 +28,82 @@ class PythonApiTests(unittest.TestCase):
     def setUpClass(cls):
         cls.library = Library(LIBRARY_PATH)
 
+    def test_explicit_high_order_intercept_coefficients(self):
+        Entry, Reference = rfmodel.TwoToneIntercept, rfmodel.InterceptReference
+        self.assertEqual(self.library.polynomial_coefficients_from_intercepts(0, []), (0.0, 1.0))
+        for reference in (50.0, 75.0):
+            inputs = [
+                Entry(1, 1, 30.0, 1),
+                Entry(2, -1, 20.0, -1),
+                Entry(3, -1, 23.0, 1),
+                Entry(5, -4, 10.0, -1),
+            ]
+            outputs = [
+                entry._replace(intercept_dbm=entry.intercept_dbm + 10, reference=Reference.OUTPUT)
+                for entry in inputs
+            ]
+            first = self.library.polynomial_coefficients_from_intercepts(
+                10, inputs, reference_ohms=reference
+            )
+            second = self.library.polynomial_coefficients_from_intercepts(
+                10, reversed(outputs), reference_ohms=reference
+            )
+            self.assertEqual(len(first), 10)
+            for a, b in zip(first, second):
+                self.assertAlmostEqual(a, b)
+            self.assertEqual(first[0], 0.0)
+            self.assertEqual(first[5:9], (0.0, 0.0, 0.0, 0.0))
+            legacy = self.library.intercept_amplifier(
+                1e8,
+                {10: 0.001, 11: 0.002j},
+                power_gain_db=10,
+                input_ip2_dbm=30,
+                input_ip3_dbm=20,
+                reference_ohms=reference,
+            )
+            result = self.library.polynomial_amplifier(
+                1e8,
+                {10: 0.001, 11: 0.002j},
+                voltage_coefficients=first[:4],
+                reference_ohms=reference,
+            )
+            self.assertEqual(set(result), set(legacy))
+            for key in result:
+                self.assertAlmostEqual(result[key], legacy[key], places=14)
+        fourth = self.library.polynomial_coefficients_from_intercepts(
+            10, [Entry(3, -1, 33, 1, Reference.OUTPUT)]
+        )
+        self.assertAlmostEqual(fourth[4], 0.07096267784671509, places=14)
+        self.assertGreater(fourth[1], 0.0)
+
+    def test_intercept_definitions_reject_ambiguous_or_wrapped_values(self):
+        Entry = rfmodel.TwoToneIntercept
+        for entry in [
+            Entry(0, 1, 20, 1),
+            Entry(5, 5, 20, 1),
+            Entry(1, 1, math.nan, 1),
+            Entry(1, 1, 1e308, 1),
+            Entry(1, 1, -1e308, 1),
+        ]:
+            with self.subTest(entry=entry), self.assertRaises(RFModelError):
+                self.library.polynomial_coefficients_from_intercepts(10, [entry])
+        for entry in [
+            Entry(True, 1, 20, 1),
+            Entry(1.1, 1, 20, 1),
+            Entry(2**40, 1, 20, 1),
+            Entry(1, 1, 20, 0),
+            Entry(1, 1, 20, 1, 2**32),
+            Entry(1, 1, 20, True),
+        ]:
+            with self.subTest(entry=entry), self.assertRaises((TypeError, ValueError)):
+                self.library.polynomial_coefficients_from_intercepts(10, [entry])
+        with self.assertRaises(RFModelError):
+            self.library.polynomial_coefficients_from_intercepts(10, [Entry(1, 1, 20, 1)] * 2)
+        with self.assertRaises(ValueError):
+            self.library.polynomial_coefficients_from_intercepts(10, [Entry(1, 1, 20, 1)] * 9)
+        with self.assertRaises(RFModelError):
+            self.library.polynomial_coefficients_from_intercepts(10, [], reference_ohms=0)
+
     def test_common_amplifier_operating_point(self):
         parameters = dict(power_gain_db=20, output_p1db_dbm=20, output_saturation_dbm=23)
         self.assertEqual(self.library.saturating_amplitude_gain(0, **parameters), 10)

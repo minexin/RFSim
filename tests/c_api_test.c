@@ -14,6 +14,45 @@
 
 int main(int argc, char **argv) {
     {
+        rfmodel_two_tone_intercept intercept = {3, -1, 33., 1, RFMODEL_INTERCEPT_OUTPUT};
+        double coefficients[10];
+        double original[10];
+        size_t count = 99;
+        size_t i;
+        for (i = 0; i < 10; ++i) {
+            coefficients[i] = 123. + (double)i;
+        }
+        memcpy(original, coefficients, sizeof(original));
+        CHECK(rfmodel_polynomial_coefficients_from_intercepts(
+                  10., &intercept, 1, 50., coefficients, 4, &count) != RFMODEL_OK);
+        CHECK(count == 99 && memcmp(original, coefficients, sizeof(original)) == 0);
+        intercept.coefficient_sign = 0;
+        CHECK(rfmodel_polynomial_coefficients_from_intercepts(
+                  10., &intercept, 1, 50., coefficients, 10, &count) != RFMODEL_OK);
+        CHECK(count == 99 && memcmp(original, coefficients, sizeof(original)) == 0);
+        intercept.coefficient_sign = 1;
+        CHECK(rfmodel_polynomial_coefficients_from_intercepts(
+                  10., &intercept, 1, 50., coefficients, 10, NULL) != RFMODEL_OK);
+        CHECK(rfmodel_polynomial_coefficients_from_intercepts(
+                  10., NULL, 1, 50., coefficients, 10, &count) != RFMODEL_OK);
+        CHECK(rfmodel_polynomial_coefficients_from_intercepts(
+                  10., &intercept, 1, 50., coefficients, 10, (size_t *)coefficients) != RFMODEL_OK);
+        CHECK(memcmp(original, coefficients, sizeof(original)) == 0);
+        CHECK(rfmodel_polynomial_coefficients_from_intercepts(
+                  10., &intercept, 1, 50., (double *)&intercept, 3, &count) != RFMODEL_OK);
+        CHECK(intercept.intercept_dbm == 33. && count == 99);
+        CHECK(rfmodel_polynomial_coefficients_from_intercepts(
+                  10., &intercept, 1, 50., coefficients, 10, &count) == RFMODEL_OK);
+        CHECK(count == 5 && coefficients[0] == 0. && coefficients[2] == 0. &&
+              coefficients[3] == 0.);
+        CHECK(fabs(coefficients[4] - .07096267784671509) < 1e-14);
+        CHECK(coefficients[5] == original[5]);
+        CHECK(rfmodel_polynomial_coefficients_from_intercepts(
+                  0., NULL, 0, 50., coefficients, 2, &count) == RFMODEL_OK);
+        CHECK(count == 2 && coefficients[0] == 0. && coefficients[1] == 1.);
+    }
+
+    {
         double gain = 99.;
         rfmodel_amplifier_operating_point point = {11., 22., 33., 44., 55.};
         if (rfmodel_saturating_amplitude_gain(-1., 20., 20., 23., &gain) == RFMODEL_OK ||

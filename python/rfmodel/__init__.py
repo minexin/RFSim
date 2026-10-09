@@ -67,6 +67,29 @@ class _SpectrumBin(ct.Structure):
     _fields_ = [("index", ct.c_int), ("amplitude", _Complex)]
 
 
+class InterceptReference(IntEnum):
+    INPUT = 0
+    OUTPUT = 1
+
+
+class TwoToneIntercept(NamedTuple):
+    first_tone_order: int
+    second_tone_order: int
+    intercept_dbm: float
+    coefficient_sign: int
+    reference: InterceptReference = InterceptReference.INPUT
+
+
+class _TwoToneIntercept(ct.Structure):
+    _fields_ = [
+        ("first_tone_order", ct.c_int),
+        ("second_tone_order", ct.c_int),
+        ("intercept_dbm", ct.c_double),
+        ("coefficient_sign", ct.c_int),
+        ("reference", ct.c_int),
+    ]
+
+
 class _AmplifierComponent(ct.Structure):
     _fields_ = [("order", ct.c_int), ("index", ct.c_int), ("amplitude", _Complex)]
 
@@ -434,6 +457,18 @@ class Library:
             "rfmodel_cubic_amplifier_transmit": (
                 ct.c_int, [ct.c_double, ct.POINTER(_SpectrumBin), size] + [ct.c_double] * 3 +
                 [ct.POINTER(_SpectrumBin), size, ct.POINTER(size)]),
+            "rfmodel_polynomial_coefficients_from_intercepts": (
+                ct.c_int,
+                [
+                    ct.c_double,
+                    ct.POINTER(_TwoToneIntercept),
+                    size,
+                    ct.c_double,
+                    ct.POINTER(ct.c_double),
+                    size,
+                    ct.POINTER(size),
+                ],
+            ),
             "rfmodel_polynomial_amplifier_transmit": (
                 ct.c_int, [ct.c_double, ct.POINTER(_SpectrumBin), size, ct.POINTER(ct.c_double),
                            size, ct.c_double, ct.POINTER(_SpectrumBin), size, ct.POINTER(size)]),
@@ -933,6 +968,48 @@ class Library:
         terms = tuple(AmplifierMixingTerm(term.order, term.index, tuple(term.contributors[:term.order]),
                                          term.amplitude.value()) for term in output[:count.value])
         return TracedAmplifierResponse(terms, drive.total_input_power_w, drive.limited_input_power_w)
+
+    def polynomial_coefficients_from_intercepts(
+        self, power_gain_db, intercepts, *, reference_ohms=50.0
+    ):
+        """Convert explicit equal-tone IP2..IP9 definitions into real voltage coefficients."""
+        entries = list(intercepts)
+        if len(entries) > 8:
+            raise ValueError("At most eight nonlinear intercept orders are allowed")
+        encoded = []
+        for entry in entries:
+            entry = TwoToneIntercept(*entry)
+            integers = (
+                entry.first_tone_order,
+                entry.second_tone_order,
+                entry.coefficient_sign,
+                entry.reference,
+            )
+            if any(isinstance(value, bool) for value in integers):
+                raise TypeError("Intercept orders, sign and reference must be integers, not bool")
+            first, second, sign, reference = map(operator.index, integers)
+            if not -8 <= first <= 8 or not -8 <= second <= 8:
+                raise ValueError("Two-tone orders must be in [-8, 8]")
+            if sign not in (-1, 1) or reference not in (0, 1):
+                raise ValueError("Invalid coefficient sign or intercept reference")
+            encoded.append(
+                _TwoToneIntercept(first, second, float(entry.intercept_dbm), sign, reference)
+            )
+        native = (_TwoToneIntercept * len(encoded))(*encoded)
+        output = (ct.c_double * 10)()
+        count = ct.c_size_t()
+        self._check(
+            self._dll.rfmodel_polynomial_coefficients_from_intercepts(
+                float(power_gain_db),
+                native,
+                len(native),
+                float(reference_ohms),
+                output,
+                len(output),
+                ct.byref(count),
+            )
+        )
+        return tuple(output[: count.value])
 
     def polynomial_amplifier(self, spacing_hz, amplitudes, *, voltage_coefficients,
                              reference_ohms=50.):
