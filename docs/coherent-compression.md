@@ -85,10 +85,13 @@ python -m rfmodel examples/coherent-compressed-receiver.json --library build-msv
 原子失败；独立 C/C++ 安装消费者及 Python wheel 测试覆盖新接口。
 系统图回归覆盖压缩后分路/混频/合路、独立 LO、阻塞载波和非法空流参数。
 
-这些是解析、接口和组合行为的验证。本次没有新增 SystemVue 压缩实测。
+接口初次交付完成了解析、接口和组合行为验证；后续已新增
+[SystemVue 多源共同压缩实测](systemvue-shared-compression.md)：21 组无警告案例的
+64 个直接基波复幅度检查通过，含四组关闭热噪声的对照。
 现有单音曲线参考仍保留；方向总谱的线性相干实测不能证明非线性共同驱动兼容。
 RFPwrIn 五项差异仍未解释；该接口不把 RFPwrIn 当作驱动的等价定义。
-后续仍需真实多源驱动放大器对照，以及谐波、互调来源跨级传播。
+本次实测仍不覆盖饱和共同驱动、多端口反向驱动或完整失真频谱；
+后续仍需补齐这些范围及谐波、互调来源跨级传播。
 
 本阶段本地 MSVC Debug/Release 各 67/67，安装后 C/C++ 消费者各 2/2；
 独立 wheel 的 Python API 61 项和系统图 13 项通过，CLI 示例已执行。

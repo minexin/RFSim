@@ -37,3 +37,5 @@
 - [相干 RF 系统前馈图与命令行](coherent-system-file.md)
 
 - [相干载波共同基波压缩及系统图节点](coherent-compression.md)
+
+- [SystemVue 多源共同压缩与噪声控制实测](systemvue-shared-compression.md)

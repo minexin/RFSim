@@ -18,8 +18,21 @@ DATASETS = {
 }
 
 
-def validate_capture(capture, case, *, allow_compression_warning=False):
-    if allow_compression_warning and case != "compression":
+CANCELLATION_WARNING = (
+    "(WARNING) The Desired Channel Power (DCP) has fallen below the 'Ignore Spectrum Below Threshold' "
+    "of -200.0 dBm at the output of stage 'Source' for path 'Path1'. The signal may have been converted "
+    "to an undesired signal by traveling through a leakage path. Check part for correct operation. "
+    "(WARNING) No desired signal was found along path 'Path1 - Source,Out'. All measurements that depend "
+    "on DCP such as GAIN and CGAIN will be zero. Generally, this occurs when channel only contains noise, "
+    "undesired signals, or the path begins on a node containing no source. Enable the 'Allow Path to Begin "
+    "on Internal Node' option when the path doesn't begin at a source."
+)
+
+
+def validate_capture(capture, case, *, allow_compression_warning=False, allow_cancellation_warning=False):
+    if allow_compression_warning and allow_cancellation_warning:
+        raise ValueError("Diagnostic warning modes are mutually exclusive")
+    if (allow_compression_warning or allow_cancellation_warning) and case != "compression":
         raise ValueError("Compression warning diagnosis requires compression case")
     name, folder, dataset = DATASETS[case]
     target = "/".join((name, folder, dataset) if case == "coherent" else
@@ -32,8 +45,11 @@ def validate_capture(capture, case, *, allow_compression_warning=False):
                    + number + r" dBm\. The total input power is " + number
                    + r" dBm\. Current element gain compression is " + number
                    + r" dB\. Spectrum and measurements have less accuracy\.\s*")
-        if not (allow_compression_warning and case == "compression"
-                and isinstance(messages, str) and re.fullmatch(warning, messages)):
+        compression_match = (allow_compression_warning and isinstance(messages, str)
+                             and re.fullmatch(warning, messages))
+        cancellation_match = (allow_cancellation_warning and isinstance(messages, str)
+                              and " ".join(messages.split()) == CANCELLATION_WARNING)
+        if not (compression_match or cancellation_match):
             raise ValueError("SystemVue reported analysis errors or unaccepted warnings")
     times = []
     for key in ("run_started_utc", "run_returned_utc"):
@@ -50,8 +66,12 @@ def validate_capture(capture, case, *, allow_compression_warning=False):
         raise ValueError("Stale reference dataset")
 
 
-def execute(command, output_directory, case, timeout_seconds, *, compression_diagnostic=False):
-    if compression_diagnostic and case != "compression":
+def execute(command, output_directory, case, timeout_seconds, *, compression_diagnostic=False,
+            cancellation_diagnostic=False):
+    if compression_diagnostic and cancellation_diagnostic:
+        raise ValueError("Diagnostic modes are mutually exclusive")
+    diagnostic = compression_diagnostic or cancellation_diagnostic
+    if diagnostic and case != "compression":
         raise ValueError("Compression diagnostic requires compression case")
     # Exclusive directory creation prevents replacing previous evidence.
     output_directory.mkdir(parents=True, exist_ok=False)
@@ -82,11 +102,12 @@ def execute(command, output_directory, case, timeout_seconds, *, compression_dia
             save()
             return 1
         capture = json.loads((output_directory / "capture.json").read_text(encoding="utf-8-sig"))
-        validate_capture(capture, case, allow_compression_warning=compression_diagnostic)
-        status["state"] = "captured_diagnostic" if compression_diagnostic else "captured"
-        status["eligible_for_compatibility"] = not compression_diagnostic
+        validate_capture(capture, case, allow_compression_warning=compression_diagnostic,
+                         allow_cancellation_warning=cancellation_diagnostic)
+        status["state"] = "captured_diagnostic" if diagnostic else "captured"
+        status["eligible_for_compatibility"] = not diagnostic
         status["detail"] = ("Diagnostic capture only; preserve warning and exclude from compatibility acceptance."
-                            if compression_diagnostic else
+                            if diagnostic else
                             "Fresh dataset captured; numeric compatibility is not yet evaluated.")
         save()
         return 0
@@ -113,6 +134,14 @@ def main():
     parser.add_argument("--compression-opsat-dbm", type=int, choices=(22, 23, 26))
     parser.add_argument("--compression-two-tone", action="store_true",
                         help="Sample/limiter profile with 1.0/1.1 GHz CW tones; defaults to equal powers")
+    parser.add_argument("--compression-same-frequency", action="store_true",
+                        help="Two CW sources at 1 GHz instead of the 1.0/1.1 GHz pair")
+    parser.add_argument("--compression-locked", action="store_true",
+                        help="Assign the same reference clock to both CW sources")
+    parser.add_argument("--compression-show-totals", action="store_true")
+    parser.add_argument("--compression-disable-noise", action="store_true")
+    parser.add_argument("--compression-cancellation-diagnostic", action="store_true",
+                        help="Preserve the known cancelled-path warnings; exclude from acceptance")
     parser.add_argument("--compression-second-power-dbm", type=float,
                         help="Second CW tone power; requires --compression-two-tone")
     parser.add_argument("--compression-first-phase-deg", type=float)
@@ -136,6 +165,14 @@ def main():
         parser.error("Coherent clock requires coherent case")
     if args.case == "coherent" and args.source_power_dbm is not None:
         parser.error("Coherent case uses two fixed 0 dBm sources")
+    if args.compression_cancellation_diagnostic and (
+            not args.compression_same_frequency or not args.compression_locked or
+            args.compression_diagnostic):
+        parser.error("Cancellation diagnosis requires same-frequency locked two-tone input")
+    if (args.compression_same_frequency or args.compression_locked) and not args.compression_two_tone:
+        parser.error("Same-frequency and clock options require two-tone compression")
+    if (args.compression_show_totals or args.compression_disable_noise) and args.case != "compression":
+        parser.error("Compression spectrum settings require compression case")
     for phase in (args.compression_first_phase_deg, args.compression_second_phase_deg):
         if phase is not None and (not args.compression_two_tone or not math.isfinite(phase)
                                   or not -360 <= phase <= 360):
@@ -195,6 +232,16 @@ def main():
         command.append("-PreserveManagerMessages")
     if args.compression_two_tone:
         command.append("-CompressionTwoTone")
+    if args.compression_same_frequency:
+        command.append("-CompressionSameFrequency")
+    if args.compression_locked:
+        command.append("-CompressionLocked")
+    if args.compression_show_totals:
+        command.append("-CompressionShowTotals")
+    if args.compression_disable_noise:
+        command.append("-CompressionDisableNoise")
+    if args.compression_cancellation_diagnostic:
+        command.append("-PreserveCancellationMessages")
     if args.compression_second_power_dbm is not None:
         command.extend(["-CompressionSecondPowerDbm", str(args.compression_second_power_dbm)])
     for flag, phase in (("-CompressionFirstPhaseDeg", args.compression_first_phase_deg),
@@ -202,7 +249,8 @@ def main():
         if phase is not None:
             command.extend([flag, str(phase)])
     return execute(command, args.output_directory.resolve(), args.case, args.timeout,
-                   compression_diagnostic=args.compression_diagnostic)
+                   compression_diagnostic=args.compression_diagnostic,
+                   cancellation_diagnostic=args.compression_cancellation_diagnostic)
 
 
 if __name__ == "__main__":

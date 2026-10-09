@@ -44,7 +44,12 @@ def vector(capture, name):
     return data
 
 
-def inspect(capture, power_dbm, *, second_power_dbm=None, profile="sample", phases_deg=(0, 0)):
+def inspect(capture, power_dbm, *, second_power_dbm=None, profile="sample", phases_deg=(0, 0),
+            same_frequency=False, cancellation_diagnostic=False):
+    if type(same_frequency) is not bool or type(cancellation_diagnostic) is not bool:
+        raise ValueError("Expected boolean controlled frequency/diagnostic flags")
+    if cancellation_diagnostic and not same_frequency:
+        raise ValueError("Cancellation diagnosis requires same-frequency input")
     if profile not in ("sample", "limiter"):
         raise ValueError("Two-tone requires a controlled sample or limiter profile")
     if (not isinstance(phases_deg, (list, tuple)) or len(phases_deg) != 2
@@ -62,7 +67,8 @@ def inspect(capture, power_dbm, *, second_power_dbm=None, profile="sample", phas
     second_power = 10 ** ((second - 30) / 10)
     if power + second_power > 10 ** ((maximum_input_dbm - 30) / 10):
         raise ValueError("Total two-tone input must not exceed profile input P1dB")
-    single.runner.validate_capture(capture, "compression")
+    single.runner.validate_capture(capture, "compression",
+                                   allow_cancellation_warning=cancellation_diagnostic)
     times = [datetime.fromisoformat(re.sub(r"(\.\d{6})\d+Z$", r"\1Z", capture[key])[:-1]
                                    + "+00:00").timestamp()
              for key in ("run_started_utc", "run_returned_utc")]
@@ -75,7 +81,7 @@ def inspect(capture, power_dbm, *, second_power_dbm=None, profile="sample", phas
     if sorted(parts) != ["Out", "RFAmp", "Source"]:
         raise ValueError("Expected isolated RFAMP topology")
     expected = {**single.PARAMETERS, "Source/Pwr": [power, second_power],
-                "Source/Freq": [1e9, 1.1e9], "Source/Enable": [1, 1],
+                "Source/Freq": [1e9, 1e9 if same_frequency else 1.1e9], "Source/Enable": [1, 1],
                 "Source/SrcType": [0, 0], "Source/EnablePN": [0, 0],
                 "Source/MultiCarrier": [0, 0], "Source/Phase": [math.radians(p) for p in phases_deg],
                 "Source/BW": [1e6, 1e6], "Source/Name": ["Source1", "Source2"]}

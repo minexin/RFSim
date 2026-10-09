@@ -1,0 +1,1315 @@
+{
+  "scope": "Isolated RFAMP direct-carrier shared compression, input at/below P1dB",
+  "relative_tolerance": 1e-07,
+  "cancellation_absolute_tolerance_w": 1e-15,
+  "warning_free_case_count": 21,
+  "diagnostic_case_count": 2,
+  "direct_carrier_passed": true,
+  "drive_power_passed": false,
+  "reports": [
+    {
+      "source_powers_dbm": [
+        -6.0,
+        -6.0
+      ],
+      "source_phases_deg": [
+        0.0,
+        90.0
+      ],
+      "same_frequency": false,
+      "locked": false,
+      "noise_enabled": true,
+      "raw_capture_sha256": "1fc46cbb2696b726b5a840e11ccbadafaf6add8edc824e9a279b8597ccf1095a",
+      "checks": [
+        {
+          "measurement": "RFPwrIn(RFAmp)",
+          "rfmodel_w": 0.000502377286301916,
+          "systemvue_w": 0.0005023772938714693,
+          "tolerance_w": 5.0237729387146925e-11,
+          "passed": true
+        },
+        {
+          "measurement": "direct_carrier",
+          "source_label": 1,
+          "bin": 10,
+          "rfmodel_wave": [
+            0.15161142466803285,
+            0.0
+          ],
+          "systemvue_boundary_waves": [
+            [
+              0.15161142294484248,
+              0.0
+            ],
+            [
+              0.15161142294484248,
+              0.0
+            ]
+          ],
+          "relative_complex_errors": [
+            1.1365834675937378e-08,
+            1.1365834675937378e-08
+          ],
+          "passed": true
+        },
+        {
+          "measurement": "direct_carrier",
+          "source_label": 2,
+          "bin": 11,
+          "rfmodel_wave": [
+            9.283522296693824e-18,
+            0.15161142466803285
+          ],
+          "systemvue_boundary_waves": [
+            [
+              9.283522191178843e-18,
+              0.15161142294484248
+            ],
+            [
+              9.283522191178843e-18,
+              0.15161142294484248
+            ]
+          ],
+          "relative_complex_errors": [
+            1.1365834675937378e-08,
+            1.1365834675937378e-08
+          ],
+          "passed": true
+        }
+      ]
+    },
+    {
+      "source_powers_dbm": [
+        -6.0,
+        -6.0
+      ],
+      "source_phases_deg": [
+        0.0,
+        0.0
+      ],
+      "same_frequency": true,
+      "locked": false,
+      "noise_enabled": true,
+      "raw_capture_sha256": "71100aa52452dc937daa13f905e8dcbd79130fa0a6b37bf1ad20b9392eca3d05",
+      "checks": [
+        {
+          "measurement": "RFPwrIn(RFAmp)",
+          "rfmodel_w": 0.000502377286301916,
+          "systemvue_w": 0.0005023772922699149,
+          "tolerance_w": 5.0237729226991485e-11,
+          "passed": true
+        },
+        {
+          "measurement": "direct_carrier",
+          "source_label": 1,
+          "bin": 10,
+          "rfmodel_wave": [
+            0.15161142466803285,
+            0.0
+          ],
+          "systemvue_boundary_waves": [
+            [
+              0.15161142294484248,
+              0.0
+            ],
+            [
+              0.15161142294484248,
+              0.0
+            ]
+          ],
+          "relative_complex_errors": [
+            1.1365834675937378e-08,
+            1.1365834675937378e-08
+          ],
+          "passed": true
+        },
+        {
+          "measurement": "direct_carrier",
+          "source_label": 2,
+          "bin": 10,
+          "rfmodel_wave": [
+            0.15161142466803285,
+            0.0
+          ],
+          "systemvue_boundary_waves": [
+            [
+              0.15161142294484248,
+              0.0
+            ],
+            [
+              0.15161142294484248,
+              0.0
+            ]
+          ],
+          "relative_complex_errors": [
+            1.1365834675937378e-08,
+            1.1365834675937378e-08
+          ],
+          "passed": true
+        }
+      ]
+    },
+    {
+      "source_powers_dbm": [
+        -6.0,
+        -6.0
+      ],
+      "source_phases_deg": [
+        0.0,
+        180.0
+      ],
+      "same_frequency": true,
+      "locked": false,
+      "noise_enabled": true,
+      "raw_capture_sha256": "566e9c66c85e8b09f37807ca5a012880e254684ef2e3d08e04d0927601841671",
+      "checks": [
+        {
+          "measurement": "RFPwrIn(RFAmp)",
+          "rfmodel_w": 0.000502377286301916,
+          "systemvue_w": 0.0005023772922699149,
+          "tolerance_w": 5.0237729226991485e-11,
+          "passed": true
+        },
+        {
+          "measurement": "direct_carrier",
+          "source_label": 1,
+          "bin": 10,
+          "rfmodel_wave": [
+            0.15161142466803285,
+            0.0
+          ],
+          "systemvue_boundary_waves": [
+            [
+              0.15161142294484248,
+              0.0
+            ],
+            [
+              0.15161142294484248,
+              0.0
+            ]
+          ],
+          "relative_complex_errors": [
+            1.1365834675937378e-08,
+            1.1365834675937378e-08
+          ],
+          "passed": true
+        },
+        {
+          "measurement": "direct_carrier",
+          "source_label": 2,
+          "bin": 10,
+          "rfmodel_wave": [
+            -0.15161142466803285,
+            1.8567044593387647e-17
+          ],
+          "systemvue_boundary_waves": [
+            [
+              -0.15161142294484248,
+              1.8567044382357685e-17
+            ],
+            [
+              -0.15161142294484248,
+              1.8567044382357685e-17
+            ]
+          ],
+          "relative_complex_errors": [
+            1.1365834675937378e-08,
+            1.1365834675937378e-08
+          ],
+          "passed": true
+        }
+      ]
+    },
+    {
+      "source_powers_dbm": [
+        -6.0,
+        -6.0
+      ],
+      "source_phases_deg": [
+        0.0,
+        90.0
+      ],
+      "same_frequency": true,
+      "locked": false,
+      "noise_enabled": true,
+      "raw_capture_sha256": "a76eee2ebd2dcdaa3b57a7f78e369144f3b55b09e6d82ab66239bd2af0907bf3",
+      "checks": [
+        {
+          "measurement": "RFPwrIn(RFAmp)",
+          "rfmodel_w": 0.000502377286301916,
+          "systemvue_w": 0.0005023772922699149,
+          "tolerance_w": 5.0237729226991485e-11,
+          "passed": true
+        },
+        {
+          "measurement": "direct_carrier",
+          "source_label": 1,
+          "bin": 10,
+          "rfmodel_wave": [
+            0.15161142466803285,
+            0.0
+          ],
+          "systemvue_boundary_waves": [
+            [
+              0.15161142294484248,
+              0.0
+            ],
+            [
+              0.15161142294484248,
+              0.0
+            ]
+          ],
+          "relative_complex_errors": [
+            1.1365834675937378e-08,
+            1.1365834675937378e-08
+          ],
+          "passed": true
+        },
+        {
+          "measurement": "direct_carrier",
+          "source_label": 2,
+          "bin": 10,
+          "rfmodel_wave": [
+            9.283522296693824e-18,
+            0.15161142466803285
+          ],
+          "systemvue_boundary_waves": [
+            [
+              9.283522191178843e-18,
+              0.15161142294484248
+            ],
+            [
+              9.283522191178843e-18,
+              0.15161142294484248
+            ]
+          ],
+          "relative_complex_errors": [
+            1.1365834675937378e-08,
+            1.1365834675937378e-08
+          ],
+          "passed": true
+        }
+      ]
+    },
+    {
+      "source_powers_dbm": [
+        -6.0,
+        -6.0
+      ],
+      "source_phases_deg": [
+        0.0,
+        0.0
+      ],
+      "same_frequency": true,
+      "locked": true,
+      "noise_enabled": true,
+      "raw_capture_sha256": "5fea6efa166ef3a8e364e83aae1166aa7398110e2a895252b7972b9a95200ada",
+      "checks": [
+        {
+          "measurement": "RFPwrIn(RFAmp)",
+          "rfmodel_w": 0.001004754572603832,
+          "systemvue_w": 0.00100475456350001,
+          "tolerance_w": 1.0047545635000099e-10,
+          "passed": true
+        },
+        {
+          "measurement": "direct_carrier",
+          "source_label": 1,
+          "bin": 10,
+          "rfmodel_wave": [
+            0.28946706017990864,
+            0.0
+          ],
+          "systemvue_boundary_waves": [
+            [
+              0.2894670572493798,
+              0.0
+            ],
+            [
+              0.2894670572493798,
+              0.0
+            ]
+          ],
+          "relative_complex_errors": [
+            1.0123876780516066e-08,
+            1.0123876780516066e-08
+          ],
+          "passed": true
+        }
+      ]
+    },
+    {
+      "source_powers_dbm": [
+        -6.0,
+        -6.0
+      ],
+      "source_phases_deg": [
+        0.0,
+        90.0
+      ],
+      "same_frequency": true,
+      "locked": true,
+      "noise_enabled": true,
+      "raw_capture_sha256": "41ad6b083edb1e4ce954ca0cacf79b82181774f915a1d8f7e9fcb02ee4be2601",
+      "checks": [
+        {
+          "measurement": "RFPwrIn(RFAmp)",
+          "rfmodel_w": 0.000502377286301916,
+          "systemvue_w": 0.0005023772897577772,
+          "tolerance_w": 5.0237728975777715e-11,
+          "passed": true
+        },
+        {
+          "measurement": "direct_carrier",
+          "source_label": 1,
+          "bin": 10,
+          "rfmodel_wave": [
+            0.15161142466803285,
+            0.15161142466803285
+          ],
+          "systemvue_boundary_waves": [
+            [
+              0.15161142294484248,
+              0.15161142294484248
+            ],
+            [
+              0.15161142294484248,
+              0.15161142294484248
+            ]
+          ],
+          "relative_complex_errors": [
+            1.136583467593738e-08,
+            1.136583467593738e-08
+          ],
+          "passed": true
+        }
+      ]
+    },
+    {
+      "source_powers_dbm": [
+        -30.0,
+        -30.0
+      ],
+      "source_phases_deg": [
+        0.0,
+        0.0
+      ],
+      "same_frequency": true,
+      "locked": false,
+      "noise_enabled": true,
+      "raw_capture_sha256": "11f6c077f73df41da3d72fb942fa749b0c16380d1bc8e06cb1229e3f81bc84e6",
+      "checks": [
+        {
+          "measurement": "RFPwrIn(RFAmp)",
+          "rfmodel_w": 2e-06,
+          "systemvue_w": 2.0000159755443203e-06,
+          "tolerance_w": 2.00001597554432e-13,
+          "passed": false
+        },
+        {
+          "measurement": "direct_carrier",
+          "source_label": 1,
+          "bin": 10,
+          "rfmodel_wave": [
+            0.009998272350993199,
+            0.0
+          ],
+          "systemvue_boundary_waves": [
+            [
+              0.009998272226057987,
+              0.0
+            ],
+            [
+              0.009998272226057987,
+              0.0
+            ]
+          ],
+          "relative_complex_errors": [
+            1.2495680119232247e-08,
+            1.2495680119232247e-08
+          ],
+          "passed": true
+        },
+        {
+          "measurement": "direct_carrier",
+          "source_label": 2,
+          "bin": 10,
+          "rfmodel_wave": [
+            0.009998272350993199,
+            0.0
+          ],
+          "systemvue_boundary_waves": [
+            [
+              0.009998272226057987,
+              0.0
+            ],
+            [
+              0.009998272226057987,
+              0.0
+            ]
+          ],
+          "relative_complex_errors": [
+            1.2495680119232247e-08,
+            1.2495680119232247e-08
+          ],
+          "passed": true
+        }
+      ]
+    },
+    {
+      "source_powers_dbm": [
+        -6.0,
+        -26.0
+      ],
+      "source_phases_deg": [
+        0.0,
+        0.0
+      ],
+      "same_frequency": true,
+      "locked": false,
+      "noise_enabled": true,
+      "raw_capture_sha256": "7e43e6cc69eb6b37dd90506c38cc3edbd645f330a077bcdce1ba216c8fe0da80",
+      "checks": [
+        {
+          "measurement": "RFPwrIn(RFAmp)",
+          "rfmodel_w": 0.0002537005295824676,
+          "systemvue_w": 0.0002537005405240014,
+          "tolerance_w": 2.537005405240014e-11,
+          "passed": true
+        },
+        {
+          "measurement": "direct_carrier",
+          "source_label": 1,
+          "bin": 10,
+          "rfmodel_wave": [
+            0.1550159824841817,
+            0.0
+          ],
+          "systemvue_boundary_waves": [
+            [
+              0.15501598063331795,
+              0.0
+            ],
+            [
+              0.15501598063331795,
+              0.0
+            ]
+          ],
+          "relative_complex_errors": [
+            1.1939825381148998e-08,
+            1.1939825381148998e-08
+          ],
+          "passed": true
+        },
+        {
+          "measurement": "direct_carrier",
+          "source_label": 2,
+          "bin": 10,
+          "rfmodel_wave": [
+            0.015501598248418177,
+            0.0
+          ],
+          "systemvue_boundary_waves": [
+            [
+              0.015501598063331791,
+              0.0
+            ],
+            [
+              0.015501598063331791,
+              0.0
+            ]
+          ],
+          "relative_complex_errors": [
+            1.1939826119729299e-08,
+            1.1939826119729299e-08
+          ],
+          "passed": true
+        }
+      ]
+    },
+    {
+      "source_powers_dbm": [
+        -30.0,
+        -30.0
+      ],
+      "source_phases_deg": [
+        0.0,
+        180.0
+      ],
+      "same_frequency": true,
+      "locked": false,
+      "noise_enabled": true,
+      "raw_capture_sha256": "953de83291902c47e4577a363d85f0d90b922e7b80fe5dc329f48e9d971f5757",
+      "checks": [
+        {
+          "measurement": "RFPwrIn(RFAmp)",
+          "rfmodel_w": 2e-06,
+          "systemvue_w": 2.0000159755443203e-06,
+          "tolerance_w": 2.00001597554432e-13,
+          "passed": false
+        },
+        {
+          "measurement": "direct_carrier",
+          "source_label": 1,
+          "bin": 10,
+          "rfmodel_wave": [
+            0.009998272350993199,
+            0.0
+          ],
+          "systemvue_boundary_waves": [
+            [
+              0.009998272226057987,
+              0.0
+            ],
+            [
+              0.009998272226057987,
+              0.0
+            ]
+          ],
+          "relative_complex_errors": [
+            1.2495680119232247e-08,
+            1.2495680119232247e-08
+          ],
+          "passed": true
+        },
+        {
+          "measurement": "direct_carrier",
+          "source_label": 2,
+          "bin": 10,
+          "rfmodel_wave": [
+            -0.009998272350993199,
+            1.2244352231647302e-18
+          ],
+          "systemvue_boundary_waves": [
+            [
+              -0.009998272226057987,
+              1.2244352078645797e-18
+            ],
+            [
+              -0.009998272226057987,
+              1.2244352078645797e-18
+            ]
+          ],
+          "relative_complex_errors": [
+            1.2495680119232247e-08,
+            1.2495680119232247e-08
+          ],
+          "passed": true
+        }
+      ]
+    },
+    {
+      "source_powers_dbm": [
+        -6.0,
+        -26.0
+      ],
+      "source_phases_deg": [
+        0.0,
+        180.0
+      ],
+      "same_frequency": true,
+      "locked": false,
+      "noise_enabled": true,
+      "raw_capture_sha256": "9245b8e626bd8638897479878556b447edea65e3ac8caa25c404ff03957335fa",
+      "checks": [
+        {
+          "measurement": "RFPwrIn(RFAmp)",
+          "rfmodel_w": 0.0002537005295824676,
+          "systemvue_w": 0.0002537005405240014,
+          "tolerance_w": 2.537005405240014e-11,
+          "passed": true
+        },
+        {
+          "measurement": "direct_carrier",
+          "source_label": 1,
+          "bin": 10,
+          "rfmodel_wave": [
+            0.1550159824841817,
+            0.0
+          ],
+          "systemvue_boundary_waves": [
+            [
+              0.15501598063331795,
+              0.0
+            ],
+            [
+              0.15501598063331795,
+              0.0
+            ]
+          ],
+          "relative_complex_errors": [
+            1.1939825381148998e-08,
+            1.1939825381148998e-08
+          ],
+          "passed": true
+        },
+        {
+          "measurement": "direct_carrier",
+          "source_label": 2,
+          "bin": 10,
+          "rfmodel_wave": [
+            -0.015501598248418177,
+            1.8983982676593535e-18
+          ],
+          "systemvue_boundary_waves": [
+            [
+              -0.015501598063331791,
+              1.898398244992809e-18
+            ],
+            [
+              -0.015501598063331791,
+              1.898398244992809e-18
+            ]
+          ],
+          "relative_complex_errors": [
+            1.1939826119729299e-08,
+            1.1939826119729299e-08
+          ],
+          "passed": true
+        }
+      ]
+    },
+    {
+      "source_powers_dbm": [
+        -6.0,
+        -26.0
+      ],
+      "source_phases_deg": [
+        0.0,
+        90.0
+      ],
+      "same_frequency": true,
+      "locked": false,
+      "noise_enabled": true,
+      "raw_capture_sha256": "3f107787486571130939ead3e5f7fef4b2f2fce4e848b42de8f5450a87be46ff",
+      "checks": [
+        {
+          "measurement": "RFPwrIn(RFAmp)",
+          "rfmodel_w": 0.0002537005295824676,
+          "systemvue_w": 0.0002537005405240014,
+          "tolerance_w": 2.537005405240014e-11,
+          "passed": true
+        },
+        {
+          "measurement": "direct_carrier",
+          "source_label": 1,
+          "bin": 10,
+          "rfmodel_wave": [
+            0.1550159824841817,
+            0.0
+          ],
+          "systemvue_boundary_waves": [
+            [
+              0.15501598063331795,
+              0.0
+            ],
+            [
+              0.15501598063331795,
+              0.0
+            ]
+          ],
+          "relative_complex_errors": [
+            1.1939825381148998e-08,
+            1.1939825381148998e-08
+          ],
+          "passed": true
+        },
+        {
+          "measurement": "direct_carrier",
+          "source_label": 2,
+          "bin": 10,
+          "rfmodel_wave": [
+            9.491991338296767e-19,
+            0.015501598248418177
+          ],
+          "systemvue_boundary_waves": [
+            [
+              9.491991224964045e-19,
+              0.015501598063331791
+            ],
+            [
+              9.491991224964045e-19,
+              0.015501598063331791
+            ]
+          ],
+          "relative_complex_errors": [
+            1.1939826119729299e-08,
+            1.1939826119729299e-08
+          ],
+          "passed": true
+        }
+      ]
+    },
+    {
+      "source_powers_dbm": [
+        -30.0,
+        -30.0
+      ],
+      "source_phases_deg": [
+        0.0,
+        0.0
+      ],
+      "same_frequency": true,
+      "locked": true,
+      "noise_enabled": true,
+      "raw_capture_sha256": "c760bdc4b456edfbb6e44b6abc2a4be2d2c9e2ead0d9a1998571e6ab1e611125",
+      "checks": [
+        {
+          "measurement": "RFPwrIn(RFAmp)",
+          "rfmodel_w": 4e-06,
+          "systemvue_w": 4.00001591554232e-06,
+          "tolerance_w": 4.0000159155423197e-13,
+          "passed": false
+        },
+        {
+          "measurement": "direct_carrier",
+          "source_label": 1,
+          "bin": 10,
+          "rfmodel_wave": [
+            0.019993089403972788,
+            0.0
+          ],
+          "systemvue_boundary_waves": [
+            [
+              0.01999308915423194,
+              0.0
+            ],
+            [
+              0.01999308915423194,
+              0.0
+            ]
+          ],
+          "relative_complex_errors": [
+            1.2491358769111085e-08,
+            1.2491358769111085e-08
+          ],
+          "passed": true
+        }
+      ]
+    },
+    {
+      "source_powers_dbm": [
+        -6.0,
+        -26.0
+      ],
+      "source_phases_deg": [
+        0.0,
+        0.0
+      ],
+      "same_frequency": true,
+      "locked": true,
+      "noise_enabled": true,
+      "raw_capture_sha256": "924c63b30061939c2d0ac7e55c3adbb48307538ef3f2e2481d924c0f2f4e5063",
+      "checks": [
+        {
+          "measurement": "RFPwrIn(RFAmp)",
+          "rfmodel_w": 0.00030393825821265917,
+          "systemvue_w": 0.0003039382666295951,
+          "tolerance_w": 3.039382666295951e-11,
+          "passed": true
+        },
+        {
+          "measurement": "direct_carrier",
+          "source_label": 1,
+          "bin": 10,
+          "rfmodel_wave": [
+            0.16976101232901122,
+            0.0
+          ],
+          "systemvue_boundary_waves": [
+            [
+              0.16976101032143293,
+              0.0
+            ],
+            [
+              0.16976101032143293,
+              0.0
+            ]
+          ],
+          "relative_complex_errors": [
+            1.1825909225242098e-08,
+            1.1825909225242098e-08
+          ],
+          "passed": true
+        }
+      ]
+    },
+    {
+      "source_powers_dbm": [
+        -6.0,
+        -26.0
+      ],
+      "source_phases_deg": [
+        0.0,
+        180.0
+      ],
+      "same_frequency": true,
+      "locked": true,
+      "noise_enabled": true,
+      "raw_capture_sha256": "3fe6ac2eae8da8bc8d9181e135ad7144209ed3d91b016e090082b32bc34df7d7",
+      "checks": [
+        {
+          "measurement": "RFPwrIn(RFAmp)",
+          "rfmodel_w": 0.00020346280095227598,
+          "systemvue_w": 0.00020346281188114864,
+          "tolerance_w": 2.0346281188114864e-11,
+          "passed": true
+        },
+        {
+          "measurement": "direct_carrier",
+          "source_label": 1,
+          "bin": 10,
+          "rfmodel_wave": [
+            0.1401333947477906,
+            1.9068212592392704e-18
+          ],
+          "systemvue_boundary_waves": [
+            [
+              0.1401333930587999,
+              1.9068212362568576e-18
+            ],
+            [
+              0.1401333930587999,
+              1.9068212362568576e-18
+            ]
+          ],
+          "relative_complex_errors": [
+            1.2052735329065804e-08,
+            1.2052735329065804e-08
+          ],
+          "passed": true
+        }
+      ]
+    },
+    {
+      "source_powers_dbm": [
+        -26.0,
+        -6.0
+      ],
+      "source_phases_deg": [
+        0.0,
+        90.0
+      ],
+      "same_frequency": true,
+      "locked": true,
+      "noise_enabled": true,
+      "raw_capture_sha256": "c04c25b005f730e325cc9a091d4805629607619f756e67c91aecdf0b5cec0bd3",
+      "checks": [
+        {
+          "measurement": "RFPwrIn(RFAmp)",
+          "rfmodel_w": 0.0002537005295824676,
+          "systemvue_w": 0.0002537005392553719,
+          "tolerance_w": 2.537005392553719e-11,
+          "passed": true
+        },
+        {
+          "measurement": "direct_carrier",
+          "source_label": 2,
+          "bin": 10,
+          "rfmodel_wave": [
+            0.015501598248418185,
+            0.1550159824841817
+          ],
+          "systemvue_boundary_waves": [
+            [
+              0.015501598063331802,
+              0.15501598063331795
+            ],
+            [
+              0.015501598063331802,
+              0.15501598063331795
+            ]
+          ],
+          "relative_complex_errors": [
+            1.1939825387353693e-08,
+            1.1939825387353693e-08
+          ],
+          "passed": true
+        }
+      ]
+    },
+    {
+      "source_powers_dbm": [
+        -30.0,
+        -30.0
+      ],
+      "source_phases_deg": [
+        0.0,
+        90.0
+      ],
+      "same_frequency": true,
+      "locked": true,
+      "noise_enabled": true,
+      "raw_capture_sha256": "ae3c2274f969b0379885805acdb8881df5e6edf120b4ef5d979596f0dcc21c86",
+      "checks": [
+        {
+          "measurement": "RFPwrIn(RFAmp)",
+          "rfmodel_w": 2e-06,
+          "systemvue_w": 2.0000159655433197e-06,
+          "tolerance_w": 2.0000159655433195e-13,
+          "passed": false
+        },
+        {
+          "measurement": "direct_carrier",
+          "source_label": 1,
+          "bin": 10,
+          "rfmodel_wave": [
+            0.009998272350993199,
+            0.009998272350993199
+          ],
+          "systemvue_boundary_waves": [
+            [
+              0.009998272226057987,
+              0.009998272226057987
+            ],
+            [
+              0.009998272226057987,
+              0.009998272226057987
+            ]
+          ],
+          "relative_complex_errors": [
+            1.2495680119232247e-08,
+            1.2495680119232247e-08
+          ],
+          "passed": true
+        }
+      ]
+    },
+    {
+      "source_powers_dbm": [
+        -6.0,
+        -26.0
+      ],
+      "source_phases_deg": [
+        0.0,
+        90.0
+      ],
+      "same_frequency": true,
+      "locked": true,
+      "noise_enabled": true,
+      "raw_capture_sha256": "076cbae447586f8dd42394abc811fe37ee10d94f70770b0cd40c230812809be7",
+      "checks": [
+        {
+          "measurement": "RFPwrIn(RFAmp)",
+          "rfmodel_w": 0.0002537005295824676,
+          "systemvue_w": 0.00025370053925537184,
+          "tolerance_w": 2.5370053925537183e-11,
+          "passed": true
+        },
+        {
+          "measurement": "direct_carrier",
+          "source_label": 1,
+          "bin": 10,
+          "rfmodel_wave": [
+            0.1550159824841817,
+            0.015501598248418177
+          ],
+          "systemvue_boundary_waves": [
+            [
+              0.15501598063331795,
+              0.015501598063331791
+            ],
+            [
+              0.15501598063331795,
+              0.015501598063331791
+            ]
+          ],
+          "relative_complex_errors": [
+            1.1939825388461673e-08,
+            1.1939825388461673e-08
+          ],
+          "passed": true
+        }
+      ]
+    },
+    {
+      "source_powers_dbm": [
+        -30.0,
+        -30.0
+      ],
+      "source_phases_deg": [
+        0.0,
+        0.0
+      ],
+      "same_frequency": true,
+      "locked": false,
+      "noise_enabled": false,
+      "raw_capture_sha256": "0ec423b31726fb7ec0186b556a8c81bca9086118a04f43bde53dfa722949b2e5",
+      "checks": [
+        {
+          "measurement": "RFPwrIn(RFAmp)",
+          "rfmodel_w": 2e-06,
+          "systemvue_w": 1.9999999600000006e-06,
+          "tolerance_w": 1.9999999600000006e-13,
+          "passed": true
+        },
+        {
+          "measurement": "direct_carrier",
+          "source_label": 1,
+          "bin": 10,
+          "rfmodel_wave": [
+            0.009998272350993199,
+            0.0
+          ],
+          "systemvue_boundary_waves": [
+            [
+              0.009998272226057987,
+              0.0
+            ],
+            [
+              0.009998272226057987,
+              0.0
+            ]
+          ],
+          "relative_complex_errors": [
+            1.2495680119232247e-08,
+            1.2495680119232247e-08
+          ],
+          "passed": true
+        },
+        {
+          "measurement": "direct_carrier",
+          "source_label": 2,
+          "bin": 10,
+          "rfmodel_wave": [
+            0.009998272350993199,
+            0.0
+          ],
+          "systemvue_boundary_waves": [
+            [
+              0.009998272226057987,
+              0.0
+            ],
+            [
+              0.009998272226057987,
+              0.0
+            ]
+          ],
+          "relative_complex_errors": [
+            1.2495680119232247e-08,
+            1.2495680119232247e-08
+          ],
+          "passed": true
+        }
+      ]
+    },
+    {
+      "source_powers_dbm": [
+        -30.0,
+        -30.0
+      ],
+      "source_phases_deg": [
+        0.0,
+        180.0
+      ],
+      "same_frequency": true,
+      "locked": false,
+      "noise_enabled": false,
+      "raw_capture_sha256": "7884c47be489908d8b7ce6bdf71bf8de0f21beb8dc5bda6975df3f1793911aa1",
+      "checks": [
+        {
+          "measurement": "RFPwrIn(RFAmp)",
+          "rfmodel_w": 2e-06,
+          "systemvue_w": 1.9999999600000006e-06,
+          "tolerance_w": 1.9999999600000006e-13,
+          "passed": true
+        },
+        {
+          "measurement": "direct_carrier",
+          "source_label": 1,
+          "bin": 10,
+          "rfmodel_wave": [
+            0.009998272350993199,
+            0.0
+          ],
+          "systemvue_boundary_waves": [
+            [
+              0.009998272226057987,
+              0.0
+            ],
+            [
+              0.009998272226057987,
+              0.0
+            ]
+          ],
+          "relative_complex_errors": [
+            1.2495680119232247e-08,
+            1.2495680119232247e-08
+          ],
+          "passed": true
+        },
+        {
+          "measurement": "direct_carrier",
+          "source_label": 2,
+          "bin": 10,
+          "rfmodel_wave": [
+            -0.009998272350993199,
+            1.2244352231647302e-18
+          ],
+          "systemvue_boundary_waves": [
+            [
+              -0.009998272226057987,
+              1.2244352078645797e-18
+            ],
+            [
+              -0.009998272226057987,
+              1.2244352078645797e-18
+            ]
+          ],
+          "relative_complex_errors": [
+            1.2495680119232247e-08,
+            1.2495680119232247e-08
+          ],
+          "passed": true
+        }
+      ]
+    },
+    {
+      "source_powers_dbm": [
+        -30.0,
+        -30.0
+      ],
+      "source_phases_deg": [
+        0.0,
+        0.0
+      ],
+      "same_frequency": true,
+      "locked": true,
+      "noise_enabled": false,
+      "raw_capture_sha256": "8d65c66265d15743a4ae597dfaf0d44992e66d096eca6887e31accd51dbe7fb6",
+      "checks": [
+        {
+          "measurement": "RFPwrIn(RFAmp)",
+          "rfmodel_w": 4e-06,
+          "systemvue_w": 3.999999899998e-06,
+          "tolerance_w": 3.999999899998e-13,
+          "passed": true
+        },
+        {
+          "measurement": "direct_carrier",
+          "source_label": 1,
+          "bin": 10,
+          "rfmodel_wave": [
+            0.019993089403972788,
+            0.0
+          ],
+          "systemvue_boundary_waves": [
+            [
+              0.01999308915423194,
+              0.0
+            ],
+            [
+              0.01999308915423194,
+              0.0
+            ]
+          ],
+          "relative_complex_errors": [
+            1.2491358769111085e-08,
+            1.2491358769111085e-08
+          ],
+          "passed": true
+        }
+      ]
+    },
+    {
+      "source_powers_dbm": [
+        -30.0,
+        -30.0
+      ],
+      "source_phases_deg": [
+        0.0,
+        90.0
+      ],
+      "same_frequency": true,
+      "locked": true,
+      "noise_enabled": false,
+      "raw_capture_sha256": "a60e6d22538467a4327b58e803b0d2be71453d8c1774ab7d4ddb53638dad330e",
+      "checks": [
+        {
+          "measurement": "RFPwrIn(RFAmp)",
+          "rfmodel_w": 2e-06,
+          "systemvue_w": 1.999999949999e-06,
+          "tolerance_w": 1.999999949999e-13,
+          "passed": true
+        },
+        {
+          "measurement": "direct_carrier",
+          "source_label": 1,
+          "bin": 10,
+          "rfmodel_wave": [
+            0.009998272350993199,
+            0.009998272350993199
+          ],
+          "systemvue_boundary_waves": [
+            [
+              0.009998272226057987,
+              0.009998272226057987
+            ],
+            [
+              0.009998272226057987,
+              0.009998272226057987
+            ]
+          ],
+          "relative_complex_errors": [
+            1.2495680119232247e-08,
+            1.2495680119232247e-08
+          ],
+          "passed": true
+        }
+      ]
+    }
+  ],
+  "diagnostics": [
+    {
+      "source_powers_dbm": [
+        -6.0,
+        -6.0
+      ],
+      "source_phases_deg": [
+        0.0,
+        180.0
+      ],
+      "same_frequency": true,
+      "locked": true,
+      "noise_enabled": false,
+      "raw_capture_sha256": "1fc878f41abb769d09ab8542cc01b36bba3e4a608ff8315c9c8d2e2d0e2be42c",
+      "classification": "diagnostic_only",
+      "manager_errors": " (WARNING) The Desired Channel Power (DCP) has fallen below the 'Ignore Spectrum Below Threshold' of -200.0 dBm at the output of stage 'Source' for path 'Path1'. The signal may have been converted to an undesired signal by traveling through a leakage path. Check part for correct operation.\n (WARNING) No desired signal was found along path 'Path1 - Source,Out'. All measurements that depend on DCP such as GAIN and CGAIN will be zero. Generally, this occurs when channel only contains noise, undesired signals, or the path begins on a node containing no source. Enable the 'Allow Path to Begin on Internal Node' option when the path doesn't begin at a source.\n",
+      "rfmodel_input_w": 3.767226248592077e-36,
+      "systemvue_rfpwrin_w": 3.767226154409537e-36,
+      "direct_carriers": 0,
+      "output_spectrum_present": false,
+      "affects_compatibility_verdict": false
+    },
+    {
+      "source_powers_dbm": [
+        -6.0,
+        -6.0
+      ],
+      "source_phases_deg": [
+        0.0,
+        180.0
+      ],
+      "same_frequency": true,
+      "locked": true,
+      "noise_enabled": true,
+      "raw_capture_sha256": "78a38f49bc5673da611845c4521008d4442fd96a278d1bfc38dc835be4fdb1a9",
+      "classification": "diagnostic_only",
+      "manager_errors": " (WARNING) The Desired Channel Power (DCP) has fallen below the 'Ignore Spectrum Below Threshold' of -200.0 dBm at the output of stage 'Source' for path 'Path1'. The signal may have been converted to an undesired signal by traveling through a leakage path. Check part for correct operation.\n (WARNING) No desired signal was found along path 'Path1 - Source,Out'. All measurements that depend on DCP such as GAIN and CGAIN will be zero. Generally, this occurs when channel only contains noise, undesired signals, or the path begins on a node containing no source. Enable the 'Allow Path to Begin on Internal Node' option when the path doesn't begin at a source.\n",
+      "rfmodel_input_w": 3.767226248592077e-36,
+      "systemvue_rfpwrin_w": 1.6015544319669095e-11,
+      "direct_carriers": 0,
+      "output_spectrum_present": true,
+      "affects_compatibility_verdict": false
+    }
+  ],
+  "passed": false,
+  "limitations": [
+    "Only direct carrier spectra are compared, not the full output total",
+    "Cancellation below the -200 dBm threshold remains diagnostic",
+    "No saturation, reverse-drive or multiport nonlinear fixture acceptance",
+    "PhaseCombiner Attn1 RFPwrIn discrepancy remains unresolved"
+  ],
+  "captures_sha256": "394b79ea44512b22b17585d7041474453bf80a3d50bff83afe1f8f6b6a6a6b6f",
+  "library_sha256": "efb94920dfa4cd67b0b7da196073d9b9300dabf9969a11f21f583e8c065e765f"
+}

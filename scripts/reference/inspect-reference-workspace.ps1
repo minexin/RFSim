@@ -16,7 +16,12 @@ param(
     [ValidateSet('sample', 'antenna', 'limiter')][string]$CompressionProfile = 'sample',
     [ValidateSet(22, 23, 26)][int]$CompressionOpsatDbm = 23,
     [switch]$PreserveManagerMessages,
+    [switch]$PreserveCancellationMessages,
     [switch]$CompressionTwoTone,
+    [switch]$CompressionSameFrequency,
+    [switch]$CompressionLocked,
+    [switch]$CompressionShowTotals,
+    [switch]$CompressionDisableNoise,
     [Nullable[double]]$CompressionSecondPowerDbm,
     [Nullable[double]]$CompressionFirstPhaseDeg,
     [Nullable[double]]$CompressionSecondPhaseDeg,
@@ -39,6 +44,16 @@ if ([double]::IsNaN($CoherentLengthRad) -or [double]::IsInfinity($CoherentLength
 if ([double]::IsNaN($CoherentPhaseDeg) -or [double]::IsInfinity($CoherentPhaseDeg) -or
     $CoherentPhaseDeg -lt -360 -or $CoherentPhaseDeg -gt 360) {
     throw 'Coherent phase must be finite and from -360 to 360 degrees.'
+}
+if (($CompressionSameFrequency -or $CompressionLocked) -and -not $CompressionTwoTone) {
+    throw 'Same-frequency and clock options require CompressionTwoTone.'
+}
+if ($PreserveCancellationMessages -and (-not $CompressionSameFrequency -or -not $CompressionLocked -or
+    -not $CompressionTwoTone -or $PreserveManagerMessages)) {
+    throw 'Cancellation diagnosis requires same-frequency locked two-tone compression.'
+}
+if (($CompressionShowTotals -or $CompressionDisableNoise) -and -not $RunCompressionAnalysis) {
+    throw 'Compression spectrum settings require RunCompressionAnalysis.'
 }
 foreach ($phase in @($CompressionFirstPhaseDeg, $CompressionSecondPhaseDeg)) {
     if ($null -ne $phase -and (-not $CompressionTwoTone -or [double]::IsNaN($phase) -or
@@ -257,7 +272,8 @@ public static class ReferenceWorkspaceInspector
         int compressionOpsatDbm, bool preserveManagerMessages, bool compressionTwoTone,
         double secondPowerDbm, double firstPhaseDeg, double secondPhaseDeg,
         bool coherent, double coherentPhaseDeg, bool coherentLocked, double coherentLengthRad,
-        bool coherentShowTotals)
+        bool coherentShowTotals, bool compressionSameFrequency,
+        bool compressionLocked, bool compressionShowTotals, bool compressionDisableNoise)
     {
         Console.Error.WriteLine("phase: attach-active-instance");
         object active = Marshal.GetActiveObject("Genesys.Application");
@@ -336,6 +352,8 @@ public static class ReferenceWorkspaceInspector
                             }
                             if (compression)
                             {
+                                setup += "wsdoc.Designs.System1.SetProperty(\"ShowTotals\", showTotals)\r\n" +
+                                    "wsdoc.Designs.System1.SetProperty(\"CalcNoise\", calcNoise)\r\n";
                                 // Make previously implicit defaults explicit for the controlled experiment.
                                 string amp = "wsdoc.Designs.Sch1.PartList.RFAmp.ParamSet.";
                                 bool antennaProfile = compressionProfile == "antenna";
@@ -369,9 +387,13 @@ public static class ReferenceWorkspaceInspector
                                     source + "MultiCarrier.Set(\"" + (compressionTwoTone ? "[0;0]" : "[0]") + "\")\r\n" +
                                     source + "Phase.Set(\"" + (compressionTwoTone ? phases : "[0]") + "\")\r\n" +
                                     source + "BW.Set(\"" + (compressionTwoTone ? "[1;1]" : "1") + "\")\r\n";
-                                if (compressionTwoTone) {
-                                    setup += source + "Freq.Set(\"[1000;1100]\")\r\n";
-                                }
+                                string frequencies = antennaProfile ? "5000" : compressionTwoTone
+                                    ? (compressionSameFrequency ? "[1000;1000]" : "[1000;1100]") : "1000";
+                                string clockExpression = compressionTwoTone
+                                    ? (compressionLocked ? "=[\"RFModelClock\",\"RFModelClock\"]" : "=[\"\",\"\"]")
+                                    : "";
+                                setup += source + "Freq.Set(\"" + frequencies + "\")\r\n" +
+                                    source + "RefClk.Set(\"" + clockExpression.Replace("\"", "\"\"") + "\")\r\n";
                                 setup += "wsdoc.Designs.System1.Path0.PathFreq.Set(\"" +
                                     (compressionTwoTone ? "1000" : "") + "\")\r\n";
                             }
@@ -407,12 +429,14 @@ public static class ReferenceWorkspaceInspector
                                   "wsdoc.GetItemByName(\"Phase Prj\").System1.RunAnalysis()\r\n"
                                 : antenna
                                 ? "wsdoc.GetItemByName(\"RF Design\").GetItemByName(\"System1\").RunAnalysis()\r\n"
-                                : "wsdoc.Designs.System1.RunAnalysis()\r\n";
+                                : (compression ? "wsdoc.Designs.System1.ClearModelCache()\r\n" : "") +
+                                  "wsdoc.Designs.System1.RunAnalysis()\r\n";
                             // Explicit VBScript avoids SystemVue's Python auto-detection dialog.
                             // setup/analysis contain only generated method calls, one per line.
-                            string script = "Dim wsdoc, showTotals\r\n" +
+                            string script = "Dim wsdoc, showTotals, calcNoise\r\n" +
                                 "Set wsdoc = Application.Manager.GetWorkspaceByIndex(0)\r\n" +
-                                "showTotals = CByte(" + (coherentShowTotals ? "1" : "0") + ")\r\n";
+                                "showTotals = CByte(" + ((coherentShowTotals || compressionShowTotals) ? "1" : "0") + ")\r\n" +
+                                "calcNoise = CByte(" + (compressionDisableNoise ? "0" : "1") + ")\r\n";
                             foreach (string statement in (setup + analysis).Split(
                                 new[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries))
                             {
@@ -483,10 +507,11 @@ $secondPhase = if ($null -eq $CompressionSecondPhaseDeg) { 0.0 } else { [double]
 $nodes = [ReferenceWorkspaceInspector]::Inspect($resolvedPath, $OpenCopy.IsPresent,
     ($RunAttenuatorAnalysis.IsPresent -or $RunAntennaAnalysis.IsPresent -or $RunCompressionAnalysis.IsPresent -or $RunCoherentAnalysis.IsPresent),
     $RunAntennaAnalysis.IsPresent, $loss, $temperature, $power, $RunCompressionAnalysis.IsPresent,
-    $CompressionRisoDb, $CompressionProfile, $CompressionOpsatDbm, $PreserveManagerMessages.IsPresent,
+    $CompressionRisoDb, $CompressionProfile, $CompressionOpsatDbm, ($PreserveManagerMessages.IsPresent -or $PreserveCancellationMessages.IsPresent),
     $CompressionTwoTone.IsPresent, $secondPower, $firstPhase, $secondPhase,
     $RunCoherentAnalysis.IsPresent, $CoherentPhaseDeg, $CoherentLocked.IsPresent, $CoherentLengthRad,
-    $CoherentShowTotals.IsPresent)
+    $CoherentShowTotals.IsPresent, $CompressionSameFrequency.IsPresent,
+    $CompressionLocked.IsPresent, $CompressionShowTotals.IsPresent, $CompressionDisableNoise.IsPresent)
 if ($CaptureRun) {
     [ordered]@{
         run_started_utc = [ReferenceWorkspaceInspector]::RunStartedUtc

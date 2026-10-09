@@ -98,3 +98,13 @@ Pwr 向量的第一个载波项，第二项保留 −50；衰减器案例仍使�
 CaptureRun 新增 script_language 与 submitted_script；相干案例新增
 --coherent-show-totals，省略时显式关闭，避免跨运行残留。
 本轮真实重跑覆盖相干案例，未重新运行其他参考工作区或 --open-copy 路径。
+
+## 多源压缩与相消诊断
+
+compression-two-tone 新增 same-frequency、locked、show-totals、disable-noise 控制，
+完整拼写、范围和实测见 [共同压缩参考](systemvue-shared-compression.md)。
+每次显式恢复频率、参考时钟和分析噪声/总谱设置，避免前次运行残留。
+
+compression-cancellation-diagnostic 只允许同频共时钟双源模式，
+保留已确认的两条相消路径警告并标记不可用于验收；与原过压缩诊断互斥。
+新比较器同时验证路径/主频谱时间戳、参数、时钟、分析设置和诊断分类。

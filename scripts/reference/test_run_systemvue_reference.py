@@ -115,6 +115,43 @@ class RunnerTests(unittest.TestCase):
                 self.assertEqual(failure.exception.code, 2)
                 execute.assert_not_called()
 
+    def test_cancellation_warnings_are_strictly_diagnostic(self):
+        root = Path(__file__).resolve().parents[2]
+        fixture = root / "validation/systemvue-2023-shared-compression-captures.json"
+        capture = next(c for c in json.loads(fixture.read_text()) if c["diagnostic"])
+        with self.assertRaises(ValueError):
+            runner.validate_capture(capture, "compression")
+        runner.validate_capture(capture, "compression", allow_cancellation_warning=True)
+        for suffix in (" extra failure", " (WARNING) Unknown warning"):
+            changed = dict(capture, manager_errors=capture["manager_errors"] + suffix)
+            with self.assertRaises(ValueError):
+                runner.validate_capture(changed, "compression", allow_cancellation_warning=True)
+        with tempfile.TemporaryDirectory() as directory:
+            command = [sys.executable, "-c", "print(" + repr(json.dumps(capture)) + ")"]
+            output = Path(directory) / "diagnostic"
+            self.assertEqual(runner.execute(command, output, "compression", 10,
+                                            cancellation_diagnostic=True), 0)
+            status = json.loads((output / "status.json").read_text())
+            self.assertEqual(status["state"], "captured_diagnostic")
+            self.assertFalse(status["eligible_for_compatibility"])
+            with self.assertRaises(ValueError):
+                runner.execute([], Path(directory) / "bad", "compression", 10,
+                               cancellation_diagnostic=True, compression_diagnostic=True)
+
+    def test_shared_compression_flags_reject_wrong_modes(self):
+        cases = [("compression", ["--compression-same-frequency"]),
+                 ("compression", ["--compression-locked"]),
+                 ("antenna", ["--compression-show-totals"]),
+                 ("coherent", ["--compression-disable-noise"]),
+                 ("compression", ["--compression-cancellation-diagnostic"])]
+        for case, flags in cases:
+            with self.subTest(case=case, flags=flags), patch.object(
+                    sys, "argv", ["runner", case, "unused", "unused-output", *flags]):
+                with contextlib.redirect_stderr(io.StringIO()), patch.object(runner, "execute") as execute:
+                    with self.assertRaises(SystemExit):
+                        runner.main()
+                    execute.assert_not_called()
+
     def test_diagnostic_capture_preserves_warning_and_excludes_acceptance(self):
         root = Path(__file__).resolve().parents[2]
         fixture = root / "validation/systemvue-2023-single-saturation-diagnostic-captures.json"
