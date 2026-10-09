@@ -14,6 +14,111 @@
 
 int main(int argc, char **argv) {
     {
+        const size_t port = 0;
+        const int bin = 1;
+        const rfmodel_complex direct = {.5, 0.}, zero = {0., 0.};
+        rfmodel_conversion_request devices[2] = {{0}};
+        rfmodel_complex covariance[4] = {{1., 0.}, {.5, .2}, {.5, -.2}, {2., 0.}};
+        rfmodel_conversion_source_noise extra = {2, covariance, NULL};
+        rfmodel_complex values[12], loaded_values[16];
+        double net[2], residual;
+        rfmodel_conversion_output output = {
+            values, values + 2, values + 4, values + 8, 2, 4, &residual};
+        rfmodel_conversion_loaded_output loaded = {
+            loaded_values, loaded_values + 4, loaded_values + 8, loaded_values + 12, net, 4, 2};
+        size_t i;
+        for (i = 0; i < 2; ++i) {
+            devices[i].count = 1;
+            devices[i].spacing_hz = 1.;
+            devices[i].reference_ohms = 50.;
+            devices[i].physical_ports = &port;
+            devices[i].bins = &bin;
+            devices[i].direct = &direct;
+            devices[i].conjugate = &zero;
+        }
+        if (rfmodel_conversion_network_analyze_correlated(
+                devices, 2, NULL, 0, &extra, &output, &loaded) != RFMODEL_OK ||
+            fabs(values[5].real - .125) > 1e-12 || fabs(loaded_values[9].imag - .1) > 1e-12 ||
+            fabs(net[0] - .75) > 1e-12) {
+            return 96;
+        }
+        {
+            rfmodel_complex saved[12], saved_loaded[16];
+            double saved_net[2], saved_residual = residual;
+            const rfmodel_complex invalid_local = {-1., 0.};
+            memcpy(saved, values, sizeof(values));
+            memcpy(saved_loaded, loaded_values, sizeof(loaded_values));
+            memcpy(saved_net, net, sizeof(net));
+            covariance[0].real = -.1;
+            CHECK(rfmodel_conversion_network_analyze_correlated(
+                      devices, 2, NULL, 0, &extra, &output, &loaded) != RFMODEL_OK);
+            covariance[0].real = 1.;
+            devices[0].source_covariance = &invalid_local;
+            CHECK(rfmodel_conversion_network_analyze_correlated(
+                      devices, 2, NULL, 0, &extra, &output, &loaded) != RFMODEL_OK);
+            devices[0].source_covariance = NULL;
+            output.noise_covariance = covariance;
+            CHECK(rfmodel_conversion_network_analyze_correlated(
+                      devices, 2, NULL, 0, &extra, &output, &loaded) != RFMODEL_OK);
+            output.noise_covariance = values + 4;
+            loaded.incident_covariance = (rfmodel_complex *)&extra;
+            CHECK(rfmodel_conversion_network_analyze_correlated(
+                      devices, 2, NULL, 0, &extra, &output, &loaded) != RFMODEL_OK);
+            loaded.incident_covariance = loaded_values;
+            extra.count = 1;
+            CHECK(rfmodel_conversion_network_analyze_correlated(
+                      devices, 2, NULL, 0, &extra, &output, &loaded) != RFMODEL_OK);
+            extra.count = 2;
+            CHECK(rfmodel_conversion_network_analyze_correlated(
+                      devices, 2, NULL, 0, NULL, &output, &loaded) != RFMODEL_OK);
+            CHECK(memcmp(saved, values, sizeof(values)) == 0 &&
+                  memcmp(saved_loaded, loaded_values, sizeof(loaded_values)) == 0);
+            CHECK(memcmp(saved_net, net, sizeof(net)) == 0 && residual == saved_residual);
+            CHECK(covariance[0].real == 1. && extra.count == 2);
+            CHECK(rfmodel_conversion_network_analyze_correlated(
+                      devices, 2, NULL, 0, &extra, &output, NULL) == RFMODEL_OK);
+        }
+    }
+    {
+        const size_t ports[6] = {0, 0, 0, 1, 1, 1};
+        const int bins[6] = {9, 10, 11, 9, 10, 11}, offset = 1;
+        const double level = -100.;
+        rfmodel_phase_noise_carrier members[2] = {{1, {1., 0.}, 1.}, {4, {1., 0.}, 2.}};
+        rfmodel_complex c[36], p[36];
+        if (rfmodel_phase_noise_group(ports, bins, 6, members, 2, &offset, &level, 1, c, p, 36) !=
+                RFMODEL_OK ||
+            fabs(c[17].real / 2e-10 - 1.) > 1e-12 || fabs(p[15].real / -2e-10 - 1.) > 1e-12) {
+            return 97;
+        }
+        {
+            rfmodel_complex saved_c[36], saved_p[36];
+            memcpy(saved_c, c, sizeof(c));
+            memcpy(saved_p, p, sizeof(p));
+            members[1].phase_gain = HUGE_VAL;
+            CHECK(rfmodel_phase_noise_group(
+                      ports, bins, 6, members, 2, &offset, &level, 1, c, p, 36) != RFMODEL_OK);
+            members[1].phase_gain = 2.;
+            CHECK(rfmodel_phase_noise_group(
+                      ports, bins, 6, members, 2, &offset, &level, 1, c, p, 35) != RFMODEL_OK);
+            CHECK(rfmodel_phase_noise_group(
+                      ports, bins, 6, members, 2, &offset, &level, 1, c, c, 36) != RFMODEL_OK);
+            CHECK(rfmodel_phase_noise_group(ports,
+                                            bins,
+                                            6,
+                                            members,
+                                            2,
+                                            &offset,
+                                            &level,
+                                            1,
+                                            (rfmodel_complex *)members,
+                                            p,
+                                            36) != RFMODEL_OK);
+            CHECK(memcmp(saved_c, c, sizeof(c)) == 0 && memcmp(saved_p, p, sizeof(p)) == 0);
+            CHECK(members[1].phase_gain == 2.);
+        }
+    }
+
+    {
         const size_t ports[3] = {0, 0, 0};
         const int bins[3] = {9, 10, 11}, offsets[1] = {1};
         double levels[1] = {-100.};

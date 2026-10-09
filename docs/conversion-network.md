@@ -82,3 +82,5 @@ python -m rfmodel examples/filtered-conversion-network.json --library build-msvc
 [channel_measurements](channel-noise-measurements.md) 已提供端口入射/出射方向的带宽噪声积分和显式所需谱线载噪比；频率采样覆盖不足会报错。
 
 可用 [phase_noise_sources](phase-noise.md) 从外部载波边界生成一阶相位相关边带，与现有源噪声独立相加。
+
+[全局相关源与共享参考相噪](shared-phase-noise.md)可通过 additional_source_noise 或 phase_noise_groups 接入，并保留跨器件统计量。

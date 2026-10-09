@@ -77,7 +77,7 @@ SystemVue 2023 本机 Behavioral Phase Noise 帮助确认偏移/dBc/Hz 列表、
 
 相关边带物理依据可参见 [Correlation between upper and lower sidebands（IEEE，2000）](https://pubmed.ncbi.nlm.nih.gov/18238557/)。本文 C/P 表达式与检波关系是根据上述明确的一阶模型推导的实现契约，并非从厂商数值拟合得到。
 
-后续仍需：连续频偏曲线/插值规则、近载波行为、自适应采样、跨源参考时钟相关性、LO 相噪线性化与互易混频、相噪来源分解和 PNCP/完整路径映射、非线性相噪转换及 SystemVue 实测。固定泵 LO 仍然理想无噪声。
+后续仍需：连续频偏曲线/插值规则、近载波行为、自适应采样、PLL 频率相关传递函数、LO 相噪线性化与互易混频、相噪来源分解和 PNCP/完整路径映射、非线性相噪转换及 SystemVue 实测。固定泵 LO 仍然理想无噪声。
 
 ## 工程验证记录
 
@@ -86,3 +86,5 @@ SystemVue 2023 本机 Behavioral Phase Noise 帮助确认偏移/dBc/Hz 列表、
 独立 Python 3.12 直接从本阶段 wheel 加载并连接安装后的 Release DLL：相噪 13、通道测量 11、加载噪声 9、变频 NF 12、转换网络 13、单器件变频 11、Python API 85、相干系统 51、线性噪声 9 项测试全部通过。相噪回归包括独立四相位集合重建 C/P、载波相位旋转、通道重排、复反射闭式解、同相 PM 相消与正交检测、独立源重叠、动态范围、输入拒绝、CLI 失败保护；C 测试覆盖输出原子性、容量及缓冲区别名。
 
 以上属于解析和工程回归，SystemVue 相噪实测与完整兼容性验收尚未完成。
+
+[共享参考相噪](shared-phase-noise.md)已增加显式多载波相位增益和跨器件相关统计；本文 phase_noise_sources 独立列表的含义不变。

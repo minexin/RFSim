@@ -287,6 +287,18 @@ class ConversionNoiseAnalysis(NamedTuple):
     equivalent_input_temperature_k: float
 
 
+class _ConversionSourceNoise(ct.Structure):
+    _fields_ = [
+        ("count", ct.c_size_t),
+        ("covariance", ct.POINTER(_Complex)),
+        ("complementary", ct.POINTER(_Complex)),
+    ]
+
+
+class _PhaseNoiseCarrier(ct.Structure):
+    _fields_ = [("channel", ct.c_size_t), ("wave", _Complex), ("phase_gain", ct.c_double)]
+
+
 class _ConversionLoadedOutput(ct.Structure):
     _fields_ = [
         ("incident_covariance", ct.POINTER(_Complex)),
@@ -652,6 +664,15 @@ class Library:
                 ct.c_int, [ct.POINTER(_ConversionRequest), size,
                            ct.POINTER(_ConversionConnection), size, ct.POINTER(_ConversionOutput),
                            ct.POINTER(_ConversionLoadedOutput)]),
+            "rfmodel_conversion_network_analyze_correlated": (
+                ct.c_int, [ct.POINTER(_ConversionRequest), size,
+                           ct.POINTER(_ConversionConnection), size,
+                           ct.POINTER(_ConversionSourceNoise), ct.POINTER(_ConversionOutput),
+                           ct.POINTER(_ConversionLoadedOutput)]),
+            "rfmodel_phase_noise_group": (
+                ct.c_int, [ct.POINTER(ct.c_size_t), ct.POINTER(ct.c_int), size,
+                           ct.POINTER(_PhaseNoiseCarrier), size, ct.POINTER(ct.c_int),
+                           ct.POINTER(ct.c_double), size, ct.POINTER(_Complex), ct.POINTER(_Complex), size]),
             "rfmodel_phase_noise_sidebands": (
                 ct.c_int,
                 [ct.POINTER(ct.c_size_t), ct.POINTER(ct.c_int), ct.c_size_t,
@@ -1616,6 +1637,39 @@ class Library:
             *(getattr(output, name) for name in ConversionNoiseAnalysis._fields)
         )
 
+    def phase_noise_group(self, channels, carriers, *, offsets):
+        """Shared real reference phase; carriers are (channel index, wave, signed phase gain)."""
+        ports, bins = _conversion_channels(channels)
+        count = len(ports)
+        carriers, offsets = tuple(carriers), tuple(offsets)
+        if not 1 <= len(carriers) <= count or not 1 <= len(offsets) <= 255:
+            raise ValueError("Invalid phase noise carrier/offset count")
+        members = (_PhaseNoiseCarrier * len(carriers))(
+            *(
+                _PhaseNoiseCarrier(_index(index), _Complex.from_value(wave), float(gain))
+                for index, wave, gain in carriers
+            )
+        )
+        offset_bins = (ct.c_int * len(offsets))(*(_bin(point[0]) for point in offsets))
+        levels = (ct.c_double * len(offsets))(*(float(point[1]) for point in offsets))
+        c, p = (_Complex * (count * count))(), (_Complex * (count * count))()
+        self._check(
+            self._dll.rfmodel_phase_noise_group(
+                ports,
+                bins,
+                count,
+                members,
+                len(members),
+                offset_bins,
+                levels,
+                len(offsets),
+                c,
+                p,
+                count * count,
+            )
+        )
+        return _rows(c, count), _rows(p, count)
+
     def phase_noise_sidebands(self, channels, *, carrier_channel, carrier_wave, offsets):
         """Return C/P in W/Hz for paired small-angle PM offsets (bin, SSB dBc/Hz)."""
         ports, bins = _conversion_channels(channels)
@@ -1671,7 +1725,15 @@ class Library:
         )
 
     def conversion_network(
-        self, spacing_hz, devices, connections=(), *, reference_ohms=50.0, loaded_noise=False
+        self,
+        spacing_hz,
+        devices,
+        connections=(),
+        *,
+        reference_ohms=50.0,
+        loaded_noise=False,
+        additional_source_covariance=None,
+        additional_source_complementary=None,
     ):
         """Connect physical ports of conversion devices; output order is device/channel order."""
         if type(loaded_noise) is not bool:
@@ -1691,10 +1753,37 @@ class Library:
             total * total,
             ct.pointer(residual),
         )
+        extra = None
+        if additional_source_covariance is not None:
+            if len(additional_source_covariance) != total:
+                raise ValueError("Additional source C dimensions differ")
+            extra_c = _matrix(additional_source_covariance)[1]
+            extra_p = None
+            if additional_source_complementary is not None:
+                if len(additional_source_complementary) != total:
+                    raise ValueError("Additional source P dimensions differ")
+                extra_p = _matrix(additional_source_complementary)[1]
+            extra = _ConversionSourceNoise(total, extra_c, extra_p)
+        elif additional_source_complementary is not None:
+            raise ValueError("Additional source P requires C")
+        loaded = None
         if loaded_noise:
             matrices = [(_Complex * (total * total))() for _ in range(4)]
             net = (ct.c_double * total)()
             loaded = _ConversionLoadedOutput(*matrices, net, total * total, total)
+        if extra is not None:
+            self._check(
+                self._dll.rfmodel_conversion_network_analyze_correlated(
+                    native_requests,
+                    len(native_requests),
+                    native_connections,
+                    len(native_connections),
+                    ct.byref(extra),
+                    ct.byref(output),
+                    ct.byref(loaded) if loaded_noise else None,
+                )
+            )
+        elif loaded_noise:
             self._check(
                 self._dll.rfmodel_conversion_network_analyze_loaded(
                     native_requests,

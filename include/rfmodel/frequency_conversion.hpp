@@ -196,6 +196,11 @@ public:
                 conversion_detail::zero(channels_.size())};
     }
 
+    // Validate a standalone C/P source before it is combined with independent noise.
+    void validate_noise(const ConversionNoise &noise) const {
+        quadrature_noise(noise);
+    }
+
     // a=Gamma*b+source. Source and intrinsic noises are independent; correlations
     // within either set, including across frequencies, are retained in C and P.
     ConversionResult

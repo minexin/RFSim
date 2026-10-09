@@ -1,0 +1,212 @@
+{
+  "format": "rfmodel.conversion-network",
+  "version": 1,
+  "spacing_hz": 1000000.0,
+  "devices": [
+    {
+      "id": "left",
+      "bins": [
+        9,
+        10,
+        11
+      ],
+      "model": {
+        "type": "linear",
+        "s": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            0
+          ]
+        ]
+      },
+      "noise": {
+        "noiseless": true
+      }
+    },
+    {
+      "id": "right",
+      "bins": [
+        9,
+        10,
+        11
+      ],
+      "model": {
+        "type": "linear",
+        "s": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            0
+          ]
+        ]
+      },
+      "noise": {
+        "noiseless": true
+      }
+    },
+    {
+      "id": "difference",
+      "bins": [
+        9,
+        10,
+        11
+      ],
+      "model": {
+        "type": "linear",
+        "s": [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0.7071067811865475,
+            -0.7071067811865475,
+            0
+          ]
+        ]
+      },
+      "noise": {
+        "noiseless": true
+      }
+    }
+  ],
+  "connections": [
+    [
+      [
+        "left",
+        1
+      ],
+      [
+        "difference",
+        0
+      ]
+    ],
+    [
+      [
+        "right",
+        1
+      ],
+      [
+        "difference",
+        1
+      ]
+    ]
+  ],
+  "boundaries": [
+    {
+      "channel": [
+        "left",
+        0,
+        9
+      ],
+      "source": 0
+    },
+    {
+      "channel": [
+        "left",
+        0,
+        10
+      ],
+      "source": 1
+    },
+    {
+      "channel": [
+        "left",
+        0,
+        11
+      ],
+      "source": 0
+    },
+    {
+      "channel": [
+        "right",
+        0,
+        9
+      ],
+      "source": 0
+    },
+    {
+      "channel": [
+        "right",
+        0,
+        10
+      ],
+      "source": 1
+    },
+    {
+      "channel": [
+        "right",
+        0,
+        11
+      ],
+      "source": 0
+    },
+    {
+      "channel": [
+        "difference",
+        2,
+        9
+      ],
+      "source": 0
+    },
+    {
+      "channel": [
+        "difference",
+        2,
+        10
+      ],
+      "source": 0
+    },
+    {
+      "channel": [
+        "difference",
+        2,
+        11
+      ],
+      "source": 0
+    }
+  ],
+  "loaded_noise": true,
+  "phase_noise_groups": [
+    {
+      "name": "reference_clock",
+      "carriers": [
+        {
+          "carrier_channel": [
+            "left",
+            0,
+            10
+          ],
+          "phase_gain": 1
+        },
+        {
+          "carrier_channel": [
+            "right",
+            0,
+            10
+          ],
+          "phase_gain": 1
+        }
+      ],
+      "offsets": [
+        {
+          "offset_bin": 1,
+          "ssb_dbc_per_hz": -100
+        }
+      ]
+    }
+  ]
+}

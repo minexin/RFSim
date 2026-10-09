@@ -409,17 +409,27 @@ decode_conversion_network(const rfmodel_conversion_request *devices,
 } // namespace
 
 namespace {
-void analyze_conversion_network_outputs(const rfmodel_conversion_request *devices,
-                                        size_t device_count,
-                                        const rfmodel_conversion_connection *connections,
-                                        size_t connection_count,
-                                        const rfmodel_conversion_output *output,
-                                        const rfmodel_conversion_loaded_output *loaded) {
+void analyze_conversion_network_outputs(
+    const rfmodel_conversion_request *devices,
+    size_t device_count,
+    const rfmodel_conversion_connection *connections,
+    size_t connection_count,
+    const rfmodel_conversion_output *output,
+    const rfmodel_conversion_loaded_output *loaded,
+    const rfmodel_conversion_source_noise *additional = nullptr) {
     require(output);
     const auto &o = *output;
     size_t total;
     auto inputs =
         conversion_input_ranges(devices, device_count, connections, connection_count, total);
+    if (additional) {
+        require(additional->count == total && additional->covariance);
+        inputs.push_back({additional, sizeof(*additional)});
+        inputs.push_back({additional->covariance, total * total * sizeof(rfmodel_complex)});
+        if (additional->complementary) {
+            inputs.push_back({additional->complementary, total * total * sizeof(rfmodel_complex)});
+        }
+    }
     inputs.push_back({output, sizeof(*output)});
     require(o.incident && o.outgoing && o.noise_covariance && o.noise_complementary &&
             o.relative_residual);
@@ -462,7 +472,19 @@ void analyze_conversion_network_outputs(const rfmodel_conversion_request *device
     }
     const auto network =
         decode_conversion_network(devices, device_count, connections, connection_count);
-    const auto result = network.analyze(loaded != nullptr);
+    rfmodel::ConversionNoise extra;
+    if (additional) {
+        extra = {rfmodel::conversion_detail::zero(total), rfmodel::conversion_detail::zero(total)};
+        for (size_t i = 0; i < total * total; ++i) {
+            extra.covariance.values[i] = {additional->covariance[i].real,
+                                          additional->covariance[i].imag};
+            if (additional->complementary) {
+                extra.complementary.values[i] = {additional->complementary[i].real,
+                                                 additional->complementary[i].imag};
+            }
+        }
+    }
+    const auto result = network.analyze(loaded != nullptr, additional ? &extra : nullptr);
     for (size_t i = 0; i < total; ++i) {
         o.incident[i] = {result.incident[i].real(), result.incident[i].imag()};
         o.outgoing[i] = {result.outgoing[i].real(), result.outgoing[i].imag()};
@@ -1742,6 +1764,54 @@ int rfmodel_linear_amplifier_s(double frequency_hz,
     });
 }
 
+int rfmodel_phase_noise_group(const size_t *physical_ports,
+                              const int *bins,
+                              size_t count,
+                              const rfmodel_phase_noise_carrier *carriers,
+                              size_t carrier_count,
+                              const int *offset_bins,
+                              const double *ssb_dbc_per_hz,
+                              size_t offset_count,
+                              rfmodel_complex *covariance,
+                              rfmodel_complex *complementary,
+                              size_t matrix_capacity) {
+    return guarded([&] {
+        require(count && count <= 512 && carrier_count && carrier_count <= count && carriers &&
+                offset_count && offset_count <= 255 && physical_ports && bins && offset_bins &&
+                ssb_dbc_per_hz && covariance && complementary && matrix_capacity >= count * count);
+        const auto bytes = count * count * sizeof(rfmodel_complex);
+        disjoint(covariance, bytes, complementary, bytes);
+        for (auto *output : {covariance, complementary}) {
+            disjoint(output, bytes, physical_ports, count * sizeof(size_t));
+            disjoint(output, bytes, bins, count * sizeof(int));
+            disjoint(output, bytes, carriers, carrier_count * sizeof(*carriers));
+            disjoint(output, bytes, offset_bins, offset_count * sizeof(int));
+            disjoint(output, bytes, ssb_dbc_per_hz, offset_count * sizeof(double));
+        }
+        std::vector<rfmodel::ConversionChannel> channels;
+        std::vector<rfmodel::PhaseNoiseOffset> offsets;
+        std::vector<rfmodel::PhaseNoiseCarrier> members;
+        for (size_t i = 0; i < count; ++i) {
+            channels.push_back({physical_ports[i], bins[i]});
+        }
+        for (size_t i = 0; i < offset_count; ++i) {
+            offsets.push_back({offset_bins[i], ssb_dbc_per_hz[i]});
+        }
+        for (size_t i = 0; i < carrier_count; ++i) {
+            members.push_back({carriers[i].channel,
+                               {carriers[i].wave.real, carriers[i].wave.imag},
+                               carriers[i].phase_gain});
+        }
+        const auto result = rfmodel::phase_noise_group(channels, members, offsets);
+        for (size_t i = 0; i < count * count; ++i) {
+            covariance[i] = {result.covariance.values[i].real(),
+                             result.covariance.values[i].imag()};
+            complementary[i] = {result.complementary.values[i].real(),
+                                result.complementary.values[i].imag()};
+        }
+    });
+}
+
 int rfmodel_phase_noise_sidebands(const size_t *physical_ports,
                                   const int *bins,
                                   size_t count,
@@ -1753,35 +1823,18 @@ int rfmodel_phase_noise_sidebands(const size_t *physical_ports,
                                   rfmodel_complex *covariance,
                                   rfmodel_complex *complementary,
                                   size_t matrix_capacity) {
-    return guarded([&] {
-        require(count && count <= 512 && offset_count && offset_count <= 255 && physical_ports &&
-                bins && offset_bins && ssb_dbc_per_hz && covariance && complementary &&
-                matrix_capacity >= count * count);
-        const auto bytes = count * count * sizeof(rfmodel_complex);
-        disjoint(covariance, bytes, complementary, bytes);
-        for (auto *output : {covariance, complementary}) {
-            disjoint(output, bytes, physical_ports, count * sizeof(size_t));
-            disjoint(output, bytes, bins, count * sizeof(int));
-            disjoint(output, bytes, offset_bins, offset_count * sizeof(int));
-            disjoint(output, bytes, ssb_dbc_per_hz, offset_count * sizeof(double));
-        }
-        std::vector<rfmodel::ConversionChannel> channels;
-        std::vector<rfmodel::PhaseNoiseOffset> offsets;
-        for (size_t i = 0; i < count; ++i) {
-            channels.push_back({physical_ports[i], bins[i]});
-        }
-        for (size_t i = 0; i < offset_count; ++i) {
-            offsets.push_back({offset_bins[i], ssb_dbc_per_hz[i]});
-        }
-        const auto result = rfmodel::phase_noise_sidebands(
-            channels, carrier_channel, {carrier_wave.real, carrier_wave.imag}, offsets);
-        for (size_t i = 0; i < count * count; ++i) {
-            covariance[i] = {result.covariance.values[i].real(),
-                             result.covariance.values[i].imag()};
-            complementary[i] = {result.complementary.values[i].real(),
-                                result.complementary.values[i].imag()};
-        }
-    });
+    const rfmodel_phase_noise_carrier carrier{carrier_channel, carrier_wave, 1.};
+    return rfmodel_phase_noise_group(physical_ports,
+                                     bins,
+                                     count,
+                                     &carrier,
+                                     1,
+                                     offset_bins,
+                                     ssb_dbc_per_hz,
+                                     offset_count,
+                                     covariance,
+                                     complementary,
+                                     matrix_capacity);
 }
 
 int rfmodel_measure_channel_noise(const rfmodel_channel_noise_request *request,
@@ -1837,6 +1890,26 @@ int rfmodel_conversion_network_analyze(const rfmodel_conversion_request *devices
     return guarded([&] {
         analyze_conversion_network_outputs(
             devices, device_count, connections, connection_count, output, nullptr);
+    });
+}
+
+int rfmodel_conversion_network_analyze_correlated(
+    const rfmodel_conversion_request *devices,
+    size_t device_count,
+    const rfmodel_conversion_connection *connections,
+    size_t connection_count,
+    const rfmodel_conversion_source_noise *additional_source_noise,
+    const rfmodel_conversion_output *output,
+    const rfmodel_conversion_loaded_output *loaded) {
+    return guarded([&] {
+        require(additional_source_noise);
+        analyze_conversion_network_outputs(devices,
+                                           device_count,
+                                           connections,
+                                           connection_count,
+                                           output,
+                                           loaded,
+                                           additional_source_noise);
     });
 }
 

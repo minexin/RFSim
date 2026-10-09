@@ -89,3 +89,5 @@ Windows 本机可运行 `scripts/build-msvc.ps1` 自动定位已有 VS 工具链
 [通道噪声与载噪比](docs/channel-noise-measurements.md) 支持指定带宽的 PSD 积分、DC 截边、所需谱线选择，以及转换网络的入射/出射通道测量；相噪与完整路径映射仍待完成。
 
 已提供[小角度相噪源](docs/phase-noise.md)，可将相关上下边带接入固定泵转换网络；完整 LO/参考时钟相噪与厂商验收仍待完成。
+
+[共享参考相噪与跨器件相关噪声](docs/shared-phase-noise.md)支持多载波相位增益和相关统计在转换网络中的传播。

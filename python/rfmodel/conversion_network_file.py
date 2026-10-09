@@ -11,7 +11,7 @@ from .model_file import (
     _touchstone_samples,
 )
 from .conversion_file import conversion_matrices
-from .phase_noise import apply_phase_noise_sources
+from .phase_noise import apply_phase_noise_sources, build_phase_noise_groups
 from .channel_measurements import parse_channel_measurements, measure_conversion_channels
 
 
@@ -99,6 +99,8 @@ def analyze_conversion_network(library, document, base_directory=None):
             "loaded_noise",
             "channel_measurements",
             "phase_noise_sources",
+            "phase_noise_groups",
+            "additional_source_noise",
         ),
     )
     if (
@@ -245,6 +247,16 @@ def analyze_conversion_network(library, document, base_directory=None):
         if "phase_noise_sources" in document
         else []
     )
+    extra_c = extra_p = None
+    phase_noise_groups = []
+    if "phase_noise_groups" in document:
+        if "additional_source_noise" in document:
+            raise ValueError("Choose phase_noise_groups or explicit additional_source_noise")
+        phase_noise_groups, extra_c, extra_p = build_phase_noise_groups(
+            library, document["phase_noise_groups"], devices, labels, lookup, connected_ports
+        )
+    elif "additional_source_noise" in document:
+        extra_c, extra_p = noise_pair(document["additional_source_noise"], len(labels))
     channel_requests = (
         parse_channel_measurements(document["channel_measurements"], labels)
         if "channel_measurements" in document
@@ -254,7 +266,13 @@ def analyze_conversion_network(library, document, base_directory=None):
         request["wave"] == "incident" for request in channel_requests
     )
     result = library.conversion_network(
-        spacing, devices, connections, reference_ohms=reference, loaded_noise=need_incident
+        spacing,
+        devices,
+        connections,
+        reference_ohms=reference,
+        loaded_noise=need_incident,
+        additional_source_covariance=extra_c,
+        additional_source_complementary=extra_p,
     )
     channels = []
     for i, (name, port, index) in enumerate(labels):
@@ -282,6 +300,8 @@ def analyze_conversion_network(library, document, base_directory=None):
         "noise_complementary_w_per_hz": _encode(result.noise_complementary),
         "relative_residual": result.relative_residual,
     }
+    if phase_noise_groups:
+        output["phase_noise_groups"] = phase_noise_groups
     if phase_noise_sources:
         output["phase_noise_sources"] = phase_noise_sources
     if loaded_noise:

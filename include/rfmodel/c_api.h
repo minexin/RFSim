@@ -181,6 +181,27 @@ rfmodel_conversion_network_analyze_loaded(const rfmodel_conversion_request *devi
                                           const rfmodel_conversion_output *output,
                                           const rfmodel_conversion_loaded_output *loaded);
 
+/* Independent additional source process, including cross-device correlations.
+ * Uses the complete device/local output order. C is required; null P means zero.
+ * Both this process and device noise must be valid separately. */
+typedef struct rfmodel_conversion_source_noise {
+    size_t count;
+    const rfmodel_complex *covariance;
+    const rfmodel_complex *complementary;
+} rfmodel_conversion_source_noise;
+
+/* Loaded statistics are optional. All requested outputs are atomic and disjoint
+ * from each other and every input/descriptor, including the additional noise.
+ * Noise on connected channels is forbidden. No existing ABI is changed. */
+RFMODEL_API int rfmodel_conversion_network_analyze_correlated(
+    const rfmodel_conversion_request *devices,
+    size_t device_count,
+    const rfmodel_conversion_connection *connections,
+    size_t connection_count,
+    const rfmodel_conversion_source_noise *additional_source_noise,
+    const rfmodel_conversion_output *output,
+    const rfmodel_conversion_loaded_output *loaded);
+
 /* Reference-temperature noise experiment on a conversion network. Channel indices
  * follow device/local order. Reference channels are a nonempty unique subset of
  * thermal channels. These and the output must be external and positive-frequency.
@@ -229,6 +250,28 @@ RFMODEL_API int rfmodel_ideal_mixer_conversion(double spacing_hz,
                                                rfmodel_complex *direct,
                                                rfmodel_complex *conjugate,
                                                size_t matrix_capacity);
+
+typedef struct rfmodel_phase_noise_carrier {
+    size_t channel;
+    rfmodel_complex wave;
+    double phase_gain;
+} rfmodel_phase_noise_carrier;
+
+/* One real reference phase process drives every member, phi_member = gain*phi_ref.
+ * Offsets specify the reference SSB density. Gains may be signed or zero.
+ * Cross-carrier C/P and coincident sideband amplitudes are retained.
+ * Output atomicity/non-overlap rules include the carrier array. */
+RFMODEL_API int rfmodel_phase_noise_group(const size_t *physical_ports,
+                                          const int *bins,
+                                          size_t count,
+                                          const rfmodel_phase_noise_carrier *carriers,
+                                          size_t carrier_count,
+                                          const int *offset_bins,
+                                          const double *ssb_dbc_per_hz,
+                                          size_t offset_count,
+                                          rfmodel_complex *covariance,
+                                          rfmodel_complex *complementary,
+                                          size_t matrix_capacity);
 
 /* Small-angle phase noise on a positive-frequency carrier. Offsets strictly
  * increase, with both same-port sidebands declared and strictly above DC.

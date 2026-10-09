@@ -39,6 +39,19 @@
 
 int main() {
     {
+        rfmodel::FrequencyConversionNetwork network(1.);
+        network.add(rfmodel::FrequencyConversionModel(1., {{0, 1}}, {1, {.5}}, {1, {0.}}));
+        const rfmodel::ConversionNoise extra{{1, {1.}}, {1, {0.}}};
+        const auto result = network.analyze(true, &extra);
+        const auto group =
+            rfmodel::phase_noise_group({{0, 9}, {0, 10}, {0, 11}}, {{1, 1., 2.}}, {{1, -100.}});
+        if (std::abs(result.outgoing_noise.covariance(0, 0).real() - .25) > 1e-12 ||
+            std::abs(group.covariance(0, 0).real() / 4e-10 - 1.) > 1e-12) {
+            return 96;
+        }
+    }
+
+    {
         const auto noise =
             rfmodel::phase_noise_sidebands({{0, 9}, {0, 10}, {0, 11}}, 1, 1., {{1, -100.}});
         if (std::abs(noise.complementary(0, 2).real() / 1e-10 + 1.) > 1e-12) {

@@ -119,7 +119,10 @@ public:
         }
     }
 
-    ConversionResult analyze(bool loaded_noise = false) const {
+    // Additional source noise may correlate external channels across devices. It is
+    // independent of the per-device source blocks and is validated before addition.
+    ConversionResult analyze(bool loaded_noise = false,
+                             const ConversionNoise *additional_source_noise = nullptr) const {
         if (devices_.empty()) {
             throw std::invalid_argument("empty conversion network");
         }
@@ -155,6 +158,30 @@ public:
             }
         }
         const FrequencyConversionModel combined(spacing_, channels, a, b, reference_);
+        if (additional_source_noise) {
+            combined.validate_noise(source_noise);
+            combined.validate_noise(*additional_source_noise);
+            for (auto i : connected_) {
+                for (std::size_t j = 0; j < total_; ++j) {
+                    for (const ConversionNoise *noise :
+                         {static_cast<const ConversionNoise *>(&source_noise),
+                          additional_source_noise}) {
+                        if (noise->covariance(i, j) != Complex{} ||
+                            noise->covariance(j, i) != Complex{} ||
+                            noise->complementary(i, j) != Complex{} ||
+                            noise->complementary(j, i) != Complex{}) {
+                            throw std::invalid_argument(
+                                "connected channel cannot have boundary noise");
+                        }
+                    }
+                }
+            }
+            for (std::size_t i = 0; i < total_ * total_; ++i) {
+                source_noise.covariance.values[i] += additional_source_noise->covariance.values[i];
+                source_noise.complementary.values[i] +=
+                    additional_source_noise->complementary.values[i];
+            }
+        }
         return combined.analyze(
             source, reflection, source_noise, intrinsic_noise, connections_, loaded_noise);
     }
