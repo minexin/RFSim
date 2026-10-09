@@ -1,3 +1,4 @@
+#include "rfmodel/polynomial_linearization.hpp"
 #include "rfmodel/amplifier_linearization.hpp"
 #include "rfmodel/conversion_operating_point.hpp"
 #include "rfmodel/mixer_linearization.hpp"
@@ -41,6 +42,19 @@
 #include <rfmodel/term_propagation.hpp>
 
 int main() {
+    {
+        const rfmodel::MemorylessPolynomial polynomial({0., 0., 1.});
+        const auto bins = rfmodel::polynomial_output_bins({1}, polynomial);
+        const auto point = rfmodel::linearize_polynomial_amplifier(
+            1., {{0, 1}, {1, 0}, {1, 2}}, {.1, 0., 0.}, polynomial);
+        if (bins != std::vector<int>({0, 2}) ||
+            std::abs(point.outgoing[1] - std::sqrt(50.) * .01) > 1e-12 ||
+            std::abs(point.jacobian.direct()(2, 0) - 1.) > 1e-12 ||
+            polynomial.derivative().coefficient(1) != 2.) {
+            return 105;
+        }
+    }
+
     {
         const rfmodel::SaturatingFundamentalCompression model(20., 20., 23.);
         const auto point =

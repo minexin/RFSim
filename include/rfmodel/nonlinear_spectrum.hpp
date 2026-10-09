@@ -1,6 +1,7 @@
 #pragma once
 #include "polynomial_limits.hpp"
 #include "device_model.hpp"
+#include <algorithm>
 #include <cmath>
 #include <limits>
 #include <map>
@@ -38,6 +39,18 @@ public:
             throw std::invalid_argument("polynomial coefficient order exceeds eleven");
         }
         return order < coefficients_.size() ? coefficients_[order] : 0.;
+    }
+
+    // Exact voltage derivative; coefficients retain their physical units.
+    MemorylessPolynomial derivative() const {
+        std::vector<double> result(std::max<std::size_t>(1, coefficients_.size() - 1), 0.);
+        for (std::size_t order = 1; order < coefficients_.size(); ++order) {
+            result[order - 1] = static_cast<double>(order) * coefficients_[order];
+            if (!std::isfinite(result[order - 1])) {
+                throw std::overflow_error("polynomial derivative coefficient overflow");
+            }
+        }
+        return MemorylessPolynomial(std::move(result));
     }
 
     MemorylessPolynomial homogeneous_component(std::size_t order) const {

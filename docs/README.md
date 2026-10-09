@@ -95,3 +95,5 @@
 [自动非线性工作点](conversion-operating-point.md)：C++ 通用核心及双线性混频/公共基波压缩的 C/Python/JSON 接口、真实残差与收敛噪声。
 
 [公共基波压缩导数](amplifier-linearization.md)：放大器 C++/C/Python/JSON 工作点接口、跨频点 A/B、混合器件与反馈噪声验证。
+
+[高阶多项式工作点导数](polynomial-linearization.md)提供零至十一阶 C++ 适配、完整输出频点推导、DC/谐波/互调的 A/B 导数与反馈噪声验证；专用跨语言入口仍待接入。

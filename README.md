@@ -99,3 +99,5 @@ Windows 本机可运行 `scripts/build-msvc.ps1` 自动定位已有 VS 工具链
 [自动非线性工作点](docs/conversion-operating-point.md)支持固定器件方程、阻尼 Newton、物理反馈和收敛噪声；双线性混频器和公共基波压缩放大器已接入 C/Python/JSON，提供混合器件与反馈网络示例。
 
 [压缩放大器工作点接口](docs/amplifier-linearization.md)提供 C++/C/Python/JSON 接口，保留公共总驱动的跨频点导数，支持混合器件、非线性反馈及收敛噪声求解。
+
+[高阶多项式工作点导数](docs/polynomial-linearization.md)提供零至十一阶 C++ 适配、完整输出频点推导、DC/谐波/互调的 A/B 导数与反馈噪声验证；专用跨语言入口仍待接入。

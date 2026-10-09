@@ -120,3 +120,5 @@ python -m rfmodel examples/nonlinear-mixer-feedback.json --library build-msvc/Re
 新增验证包括独立傅里叶卷积/复导数、实际 LO 幅度变化、多解初值、反射 IF 自动求解、收敛点 NF、共享相噪、线性退化的加载/额外噪声、C 描述符与输出别名拒绝、错误时输出不变，以及 CLI 不收敛保护已有文件。SystemVue 实测尚未恢复。
 
 压缩放大器已有[公共基波 C++/C/Python/JSON 接口](amplifier-linearization.md)。C 使用带 kind 的 rfmodel_conversion_network_solve_nonlinear；Python 在求解器中传 amplifiers，可与 mixers 同时使用；JSON 声明 saturating_amplifier。高阶生成项和自定义回调的跨语言入口仍待接入。
+
+[高阶多项式 C++ 适配](polynomial-linearization.md)已将既有电压多项式的完整 DC/谐波/互调和解析导数接入通用回调。模型要求显式完整频点集合；专用 C/Python/JSON 类型、高阶厂商压缩规则及网络级频率扩展仍待完成。

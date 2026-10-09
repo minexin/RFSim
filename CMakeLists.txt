@@ -401,3 +401,7 @@ add_test(NAME conversion_operating_point_test COMMAND conversion_operating_point
 add_executable(amplifier_linearization_test tests/amplifier_linearization_test.cpp)
 target_link_libraries(amplifier_linearization_test PRIVATE rfmodel)
 add_test(NAME amplifier_linearization_test COMMAND amplifier_linearization_test)
+
+add_executable(polynomial_linearization_test tests/polynomial_linearization_test.cpp)
+target_link_libraries(polynomial_linearization_test PRIVATE rfmodel)
+add_test(NAME polynomial_linearization_test COMMAND polynomial_linearization_test)
