@@ -1,0 +1,32 @@
+{
+  "source": "Installed Keysight SystemVue 2023 official help",
+  "reference_version": "2023.0.0.11903",
+  "qch_path": "C:\\Program Files\\Keysight\\SystemVue2023\\Help\\systemvue.qch",
+  "qch_sha256": "eacdae962108181a917525b8e233d5b33d97f683674d1c79007c1c2b7a24bd83",
+  "pages": [
+    {
+      "path": "sim/Output_Tab.html",
+      "uncompressed_html_sha256": "919132ec24029f6494254e24b3d7560212726044524de347714ba2b2e54b19a2",
+      "paraphrased_notes": [
+        "Redundant-spectrum elimination candidates must have the same frequency and bandwidth.",
+        "During Simulation and Propagation controls elimination during intermod input selection, path-spectrum processing and directional total-spectrum processing.",
+        "The separate output-only X dB below peak option reduces graph data and does not affect path measurements."
+      ]
+    },
+    {
+      "path": "sim/Increasing_Simulation_Speed.html",
+      "uncompressed_html_sha256": "65a2be272a7b0c94c86cb7f74fe7ece019ea4b6a51bee66fc874da321d14c5a3",
+      "paraphrased_notes": [
+        "Redundant spectrum reduction can skip spectra that do not affect levels of interest; absolute power and frequency limits are separate controls."
+      ]
+    },
+    {
+      "path": "sim/Intermod_Sub-Spectrum.html",
+      "uncompressed_html_sha256": "a43b5e5f6ddfe5de08c499a02a3dec38b4dbb1f803b9f935086af9298cd2a9d1",
+      "paraphrased_notes": [
+        "The documentation describes dominant sub-spectrum graph labels and an amplitude containing summed sub-spectra. That statement alone does not establish the semantics of each raw F/P/ID/V/Z record."
+      ]
+    }
+  ],
+  "interpretation": "The mapping of UseSpecReduction to missing raw high-order origin records is supported by paired captures, not inferred solely from help text. Full vendor pages are not distributed."
+}

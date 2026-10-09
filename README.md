@@ -52,4 +52,6 @@ Windows 本机可运行 `scripts/build-msvc.ps1` 自动定位已有 VS 工具链
 
 [多来源公共压缩响应](docs/common-amplifier-response.md) 新增 C++/C/Python 工作点接口，按真实相干总功率共同压缩并保留各来源贡献，支持零驱动相消及既有失真级联。
 
-[RFAMP 四阶与五阶诊断](docs/systemvue-highorder-diagnostic.md)：六组实测中，公开四阶规则的 23 个已记录来源项吻合，单点识别的五阶系数通过另外 27 项检查；双音缺少 12 个预测标签，仍按诊断记录，完整高阶兼容未验收。
+[RFAMP 四阶与五阶诊断](docs/systemvue-highorder-diagnostic.md)：六组实测中，公开四阶规则的 23 个已记录来源项吻合，单点识别的五阶系数通过另外 27 项检查；双音 12 个标签缺项已由后续频谱削减开关对照定位，完整高阶兼容仍未验收。
+
+[频谱削减配对诊断](docs/systemvue-spectrum-reduction.md)：三组双音功率配置关闭 UseSpecReduction 后均恢复完整的 44 个四、五阶来源项；开启时较弱重叠项缺失，共有的 92 项复波不变。五阶系数仍属固定参数识别，总谱与完整削减算法尚未验收。

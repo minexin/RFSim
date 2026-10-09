@@ -129,6 +129,9 @@ def inspect(capture):
         if type(capture[key]) is not bool:
             raise ValueError("Expected explicit boolean metadata")
     power, phase = finite(capture["source_power_dbm"]), finite(capture["source_phase_deg"])
+    second_power = finite(capture.get("second_source_power_dbm", power))
+    if not -60 <= second_power <= -10 or (not capture["two_tone"] and second_power != power):
+        raise ValueError("Uncontrolled second source power")
     gain, riso = finite(capture["second_gain_db"]), finite(capture["reverse_isolation_db"])
     bandwidth = finite(capture["channel_bandwidth_hz"])
     if (
@@ -155,6 +158,16 @@ def inspect(capture):
         "System3/DesignName": "Design3",
         "Design3/PartList/Port_2/ParamSet/ZO": 50.0,
     }
+    if "spectrum_reduction" in capture:
+        if type(capture["spectrum_reduction"]) is not bool:
+            raise ValueError("Expected explicit spectrum reduction boolean")
+        expected.update(
+            {
+                "System3/UseSpecReduction": int(capture["spectrum_reduction"]),
+                "System3/ElimSpec": 0,
+                "System3/IgnorePwrLvl": 1e-23,
+            }
+        )
     for name, (model, netlist) in TOPOLOGY.items():
         n = node(capture, "Design3/PartList/" + name)
         if n["model"] != model or n["netlist"] != netlist:
@@ -188,7 +201,7 @@ def inspect(capture):
         "EnablePN": [0] * tones,
         "Freq": [1e9, 1.1e9][:tones],
         "BW": 1.0,
-        "Pwr": [10 ** ((power - 30) / 10)] * tones,
+        "Pwr": [10 ** ((p - 30) / 10) for p in (power, second_power)[:tones]],
         "Phase": [0.0, math.radians(phase)] if tones == 2 else [math.radians(phase)],
         "RefClk": [""] * tones,
         "R": 50.0,
@@ -269,6 +282,13 @@ def compare(library, captures):
         tones, parameters = inspect(capture)
         if capture["maximum_order"] != 3:
             raise ValueError("Cubic comparison requires maximum_order=3")
+        if (
+            capture.get("second_source_power_dbm", capture["source_power_dbm"])
+            != capture["source_power_dbm"]
+        ):
+            raise ValueError("Cubic cascade comparison requires equal source powers")
+        if capture.get("spectrum_reduction", True) is not True:
+            raise ValueError("Cubic cascade comparison requires spectrum reduction enabled")
         configuration = tuple(capture[k] for k in META)
         if configuration in seen:
             raise ValueError("Duplicate configuration")

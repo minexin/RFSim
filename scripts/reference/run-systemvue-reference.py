@@ -126,6 +126,12 @@ def main():
     parser.add_argument("--timeout", type=float, default=120)
     parser.add_argument("--cascade-channel-bandwidth-hz", type=float, choices=(1., 1e6))
     parser.add_argument("--cascade-two-tone", action="store_true")
+    parser.add_argument("--cascade-disable-spectrum-reduction", action="store_true")
+    parser.add_argument(
+        "--cascade-second-power-dbm",
+        type=float,
+        help="Second CW tone power; requires cascade two-tone mode",
+    )
     parser.add_argument("--cascade-secondary-spectrum", action="store_true")
     parser.add_argument("--cascade-secondary-range-db", type=int, choices=(-140, -50, 50, 140))
     parser.add_argument("--cascade-riso-db", type=int, choices=(100, 140))
@@ -160,19 +166,42 @@ def main():
     parser.add_argument("--open-copy", action="store_true",
                         help="Open via official script API only when no workspace is loaded")
     args = parser.parse_args()
-    if args.case != "cascade" and any(v is not None for v in (
-            args.cascade_max_order, args.cascade_phase_deg, args.cascade_second_gain_db,
-            args.cascade_channel_bandwidth_hz, args.cascade_secondary_range_db, args.cascade_riso_db)):
+    if args.case != "cascade" and any(
+        v is not None
+        for v in (
+            args.cascade_max_order,
+            args.cascade_phase_deg,
+            args.cascade_second_gain_db,
+            args.cascade_channel_bandwidth_hz,
+            args.cascade_secondary_range_db,
+            args.cascade_riso_db,
+            args.cascade_second_power_dbm,
+        )
+    ):
         parser.error("Cascade settings require cascade case")
-    if (args.cascade_secondary_spectrum or args.cascade_two_tone) and args.case != "cascade":
+    if (
+        args.cascade_secondary_spectrum
+        or args.cascade_two_tone
+        or args.cascade_disable_spectrum_reduction
+    ) and args.case != "cascade":
         parser.error("Secondary spectrum setting requires cascade case")
+    if args.cascade_second_power_dbm is not None and (
+        not args.cascade_two_tone
+        or not math.isfinite(args.cascade_second_power_dbm)
+        or not -60 <= args.cascade_second_power_dbm <= -10
+    ):
+        parser.error("Cascade second power requires two-tone mode and finite -60 to -10 dBm")
     if args.case == "cascade":
-        if (args.source_power_dbm is None or not math.isfinite(args.source_power_dbm)
-                or not -60 <= args.source_power_dbm <= -10):
+        if (
+            args.source_power_dbm is None
+            or not math.isfinite(args.source_power_dbm)
+            or not -60 <= args.source_power_dbm <= -10
+        ):
             parser.error("Cascade requires source power from -60 to -10 dBm")
         if args.cascade_second_gain_db is not None and (
-                not math.isfinite(args.cascade_second_gain_db)
-                or not -10 <= args.cascade_second_gain_db <= 20):
+            not math.isfinite(args.cascade_second_gain_db)
+            or not -10 <= args.cascade_second_gain_db <= 20
+        ):
             parser.error("Cascade second gain must be finite and from -10 to 20 dB")
         if args.cascade_phase_deg is not None and (
                 not math.isfinite(args.cascade_phase_deg) or not -180 <= args.cascade_phase_deg <= 180):
@@ -247,14 +276,31 @@ def main():
                    "-ReverseIsolationDb", str(args.cascade_riso_db or 100)]
         if args.cascade_secondary_spectrum:
             command.append("-SecondarySpectrum")
+        if args.cascade_disable_spectrum_reduction:
+            command.append("-DisableSpectrumReduction")
         if args.cascade_two_tone:
             command.append("-TwoTone")
+        if args.cascade_second_power_dbm is not None:
+            command.extend(["-SecondSourcePowerDbm", str(args.cascade_second_power_dbm)])
         return execute(command, args.output_directory.resolve(), args.case, args.timeout)
-    command = ["powershell.exe", "-NoProfile", "-NonInteractive", "-ExecutionPolicy", "RemoteSigned",
-               "-File", str(Path(__file__).with_name("inspect-reference-workspace.ps1")),
-               "-WorkspacePath", str(workspace), "-CaptureRun",
-               {"antenna": "-RunAntennaAnalysis", "attenuator": "-RunAttenuatorAnalysis",
-                "compression": "-RunCompressionAnalysis", "coherent": "-RunCoherentAnalysis"}[args.case]]
+    command = [
+        "powershell.exe",
+        "-NoProfile",
+        "-NonInteractive",
+        "-ExecutionPolicy",
+        "RemoteSigned",
+        "-File",
+        str(Path(__file__).with_name("inspect-reference-workspace.ps1")),
+        "-WorkspacePath",
+        str(workspace),
+        "-CaptureRun",
+        {
+            "antenna": "-RunAntennaAnalysis",
+            "attenuator": "-RunAttenuatorAnalysis",
+            "compression": "-RunCompressionAnalysis",
+            "coherent": "-RunCoherentAnalysis",
+        }[args.case],
+    ]
     if args.coherent_phase_deg is not None:
         command.extend(["-CoherentPhaseDeg", str(args.coherent_phase_deg)])
     if args.coherent_length_rad is not None:

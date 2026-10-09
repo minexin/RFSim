@@ -8,9 +8,19 @@ param(
     [ValidateSet(1,1000000)][double]$ChannelBandwidthHz = 1000000,
     [switch]$SecondarySpectrum,
     [switch]$TwoTone,
+    [switch]$DisableSpectrumReduction,
+    [ValidateRange(-60,-10)][Nullable[double]]$SecondSourcePowerDbm = $null,
     [ValidateSet(-140,-50,50,140)][int]$SecondaryRangeDb = -50
 )
 $ErrorActionPreference = 'Stop'
+if ($null -ne $SecondSourcePowerDbm -and (-not $TwoTone.IsPresent -or
+    [double]::IsNaN($SecondSourcePowerDbm) -or [double]::IsInfinity($SecondSourcePowerDbm))) {
+    throw 'Second source power requires two-tone mode and a finite value.'
+}
+$effectiveSecondPowerDbm = $SourcePowerDbm
+if ($null -ne $SecondSourcePowerDbm) {
+    $effectiveSecondPowerDbm = [double]$SecondSourcePowerDbm
+}
 $root = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../build-reference'))
 $resolved = (Resolve-Path -LiteralPath $WorkspacePath).Path
 if ([IO.Path]::GetDirectoryName($resolved) -ne $root -or
@@ -176,7 +186,8 @@ public static class CascadeReference
 
     public static Node[] Run(double power, double phase, int order, double secondGain,
                              double channelBandwidth, bool secondary, int secondaryRange,
-                             bool twoTone, int reverseIsolation)
+                             bool twoTone, int reverseIsolation, double secondPower,
+                             bool spectrumReduction)
     {
         object active = Marshal.GetActiveObject("Genesys.Application");
         try
@@ -211,6 +222,10 @@ public static class CascadeReference
                     {
                         calls.Add(analysis + ".SetProperty(\"" + name + "\", disabled)");
                     }
+                    calls.Add(analysis + ".UseSpecReduction.Set(\"" +
+                              (spectrumReduction ? "1" : "0") + "\")");
+                    calls.Add(analysis + ".ElimSpec.Set(\"0\")");
+                    calls.Add(analysis + ".IgnorePwrLvl.Set(\"-200\")");
                     calls.Add(analysis + ".MaxOrder.Set(\"" + order + "\")");
                     calls.Add(analysis + ".Path0.PathFreq.Set(\"1000\")");
                     calls.Add(analysis + ".ChanBW.Set(\"" +
@@ -278,7 +293,7 @@ public static class CascadeReference
                         calls.Add(source + "Freq.Set(\"[1000;1100]\")");
                         calls.Add(source + "Pwr.Set(\"[" +
                                   power.ToString("R", CultureInfo.InvariantCulture) + ";" +
-                                  power.ToString("R", CultureInfo.InvariantCulture) + "]\")");
+                                  secondPower.ToString("R", CultureInfo.InvariantCulture) + "]\")");
                         calls.Add(source + "Phase.Set(\"[0;" +
                                   phase.ToString("R", CultureInfo.InvariantCulture) + "]\")");
                         calls.Add(source + "RefClk.Set(\"=[\"\"\"\",\"\"\"\"]\")");
@@ -337,7 +352,9 @@ $nodes = [CascadeReference]::Run(
     $SecondarySpectrum.IsPresent,
     $SecondaryRangeDb,
     $TwoTone.IsPresent,
-    $ReverseIsolationDb
+    $ReverseIsolationDb,
+    $effectiveSecondPowerDbm,
+    (-not $DisableSpectrumReduction.IsPresent)
 )
 [ordered]@{
     run_started_utc = [CascadeReference]::Started
@@ -347,12 +364,14 @@ $nodes = [CascadeReference]::Run(
     script_language = 'VBScript'
     submitted_script = [CascadeReference]::Script
     source_power_dbm = $SourcePowerDbm
+    second_source_power_dbm = $effectiveSecondPowerDbm
     source_phase_deg = $SourcePhaseDeg
     maximum_order = $MaximumOrder
     second_gain_db = $SecondGainDb
     reverse_isolation_db = $ReverseIsolationDb
     channel_bandwidth_hz = $ChannelBandwidthHz
     two_tone = $TwoTone.IsPresent
+    spectrum_reduction = -not $DisableSpectrumReduction.IsPresent
     secondary_spectrum = $SecondarySpectrum.IsPresent
     secondary_range_db = $SecondaryRangeDb
     workspace_sha256 = $workspaceHash

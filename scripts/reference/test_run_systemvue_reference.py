@@ -19,6 +19,7 @@ class RunnerTests(unittest.TestCase):
     def test_cascade_options_reject_invalid_scope_and_values(self):
         cases = [
             ("compression", ["--cascade-two-tone"]),
+            ("compression", ["--cascade-disable-spectrum-reduction"]),
             ("coherent", ["--cascade-max-order", "3"]),
             ("cascade", []),
             ("cascade", ["--source-power-dbm", "-9"]),
@@ -28,6 +29,22 @@ class RunnerTests(unittest.TestCase):
         cases.extend(
             ("cascade", ["--source-power-dbm", "-30", "--cascade-second-gain-db=" + value])
             for value in ("nan", "inf", "-10.001", "20.001")
+        )
+        cases.append(("compression", ["--cascade-second-power-dbm", "-20"]))
+        cases.append(
+            ("cascade", ["--source-power-dbm", "-20", "--cascade-second-power-dbm", "-30"])
+        )
+        cases.extend(
+            (
+                "cascade",
+                [
+                    "--source-power-dbm",
+                    "-20",
+                    "--cascade-two-tone",
+                    "--cascade-second-power-dbm=" + value,
+                ],
+            )
+            for value in ("nan", "inf", "-60.001", "-9.999")
         )
         for case, flags in cases:
             with patch.object(sys, "argv", ["runner", case, "unused", "unused", *flags]):
@@ -59,7 +76,10 @@ class RunnerTests(unittest.TestCase):
                 "0",
                 "--cascade-riso-db",
                 "140",
+                "--cascade-disable-spectrum-reduction",
                 "--cascade-two-tone",
+                "--cascade-second-power-dbm",
+                "-30",
                 "--cascade-secondary-spectrum",
                 "--cascade-secondary-range-db",
                 "-140",
@@ -75,7 +95,9 @@ class RunnerTests(unittest.TestCase):
             )
             self.assertEqual(float(command[command.index("-SecondGainDb") + 1]), 0.0)
             self.assertEqual(command[command.index("-ReverseIsolationDb") + 1], "140")
+            self.assertIn("-DisableSpectrumReduction", command)
             self.assertIn("-TwoTone", command)
+            self.assertEqual(float(command[command.index("-SecondSourcePowerDbm") + 1]), -30.0)
             self.assertIn("-SecondarySpectrum", command)
             args[args.index("--cascade-second-gain-db") + 1] = "-0.001"
             with (

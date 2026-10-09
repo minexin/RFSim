@@ -1,0 +1,5040 @@
+{
+  "classification": "diagnostic_only",
+  "eligible_for_compatibility": false,
+  "scope": "First-stage fourth/fifth-order RF origins in six controlled two-tone captures",
+  "control_hypothesis_consistent": true,
+  "relative_wave_tolerance": 1e-07,
+  "dominance_tie_tolerance": 1e-12,
+  "voltage_coefficients": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.07096267784671509,
+    -0.07786106164494842
+  ],
+  "calibration_note": "a4 follows the documented intercept guideline; a5 is fitted using a separate prior single-tone capture. No reduction experiment is used for fitting.",
+  "cases": [
+    {
+      "configuration": {
+        "source_power_dbm": -20,
+        "second_source_power_dbm": -10,
+        "spectrum_reduction": false
+      },
+      "raw_capture_sha256": "1bc8e1d877a44671c1147f123ca6039b34061aaf09e17f2542bd198848fb91ed",
+      "predicted_count": 44,
+      "observed_count": 44,
+      "labels_match_control_hypothesis": true,
+      "not_recorded": [],
+      "fourth_order": {
+        "observed_count": 16,
+        "consistent": true,
+        "max_relative_wave_error": 5.000000165053458e-08
+      },
+      "fifth_order": {
+        "observed_count": 28,
+        "consistent": true,
+        "max_relative_wave_error": 8.499042731526326e-16
+      },
+      "checks": [
+        {
+          "label": "[-(Source.Source2)-(Source.Source1)+2x(Source.Source2)],RFAmp1",
+          "order": 4,
+          "bin": 1,
+          "expected_wave": [
+            2.0611144629677414e-23,
+            3.3660553629058905e-07
+          ],
+          "observed_waves": [
+            [
+              2.0611143599120147e-23,
+              3.366055194603117e-07
+            ],
+            [
+              2.0611143599120147e-23,
+              3.366055194603117e-07
+            ]
+          ],
+          "relative_wave_error": 5.000000165053458e-08,
+          "passed": true
+        },
+        {
+          "label": "[-2x(Source.Source1)+(Source.Source1)+(Source.Source2)],RFAmp1",
+          "order": 4,
+          "bin": 1,
+          "expected_wave": [
+            2.0611144629677406e-24,
+            3.3660553629058904e-08
+          ],
+          "observed_waves": [
+            [
+              2.0611143599120153e-24,
+              3.3660551946031186e-08
+            ],
+            [
+              2.0611143599120153e-24,
+              3.3660551946031186e-08
+            ]
+          ],
+          "relative_wave_error": 5.0000001100072874e-08,
+          "passed": true
+        },
+        {
+          "label": "[-2x(Source.Source1)+2x(Source.Source2)],RFAmp1",
+          "order": 4,
+          "bin": 2,
+          "expected_wave": [
+            -5.3222008385036324e-08,
+            6.517816221292833e-24
+          ],
+          "observed_waves": [
+            [
+              -5.322200572393584e-08,
+              6.5178158954020134e-24
+            ],
+            [
+              -5.322200572393584e-08,
+              6.5178158954020134e-24
+            ]
+          ],
+          "relative_wave_error": 5.0000001159115207e-08,
+          "passed": true
+        },
+        {
+          "label": "[-2x(Source.Source2)+3x(Source.Source1)],RFAmp1",
+          "order": 5,
+          "bin": 8,
+          "expected_wave": [
+            1.5388643489800842e-09,
+            1.8845652993004357e-25
+          ],
+          "observed_waves": [
+            [
+              1.5388643489800842e-09,
+              1.8845652993004361e-25
+            ],
+            [
+              1.5388643489800842e-09,
+              1.8845652993004361e-25
+            ]
+          ],
+          "relative_wave_error": 2.983872367270617e-32,
+          "passed": true
+        },
+        {
+          "label": "[-2x(Source.Source2)+2x(Source.Source1)+(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 9,
+          "expected_wave": [
+            -8.939278117659455e-25,
+            1.4598949058427829e-08
+          ],
+          "observed_waves": [
+            [
+              -8.939278117659456e-25,
+              1.4598949058427824e-08
+            ],
+            [
+              -8.939278117659456e-25,
+              1.4598949058427824e-08
+            ]
+          ],
+          "relative_wave_error": 3.399617092610531e-16,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source2)-(Source.Source1)+3x(Source.Source1)],RFAmp1",
+          "order": 5,
+          "bin": 9,
+          "expected_wave": [
+            -5.959518745106302e-26,
+            9.732632705618553e-10
+          ],
+          "observed_waves": [
+            [
+              -5.959518745106306e-26,
+              9.732632705618553e-10
+            ],
+            [
+              -5.959518745106306e-26,
+              9.732632705618553e-10
+            ]
+          ],
+          "relative_wave_error": 3.538437347930104e-32,
+          "passed": true
+        },
+        {
+          "label": "[-2x(Source.Source2)+(Source.Source1)+2x(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 10,
+          "expected_wave": [
+            -4.616593046940253e-08,
+            0.0
+          ],
+          "observed_waves": [
+            [
+              -4.6165930469402514e-08,
+              0.0
+            ],
+            [
+              -4.6165930469402514e-08,
+              0.0
+            ]
+          ],
+          "relative_wave_error": 2.866808849357028e-16,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source2)-(Source.Source1)+2x(Source.Source1)+(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 10,
+          "expected_wave": [
+            -9.233186093880505e-09,
+            -8.609577764811676e-41
+          ],
+          "observed_waves": [
+            [
+              -9.233186093880505e-09,
+              -1.2134647605761232e-40
+            ],
+            [
+              -9.233186093880505e-09,
+              -1.2134647605761232e-40
+            ]
+          ],
+          "relative_wave_error": 3.817826051709141e-33,
+          "passed": true
+        },
+        {
+          "label": "[-2x(Source.Source1)+3x(Source.Source1)],RFAmp1",
+          "order": 5,
+          "bin": 10,
+          "expected_wave": [
+            -1.538864348980084e-10,
+            0.0
+          ],
+          "observed_waves": [
+            [
+              -1.5388643489800846e-10,
+              0.0
+            ],
+            [
+              -1.5388643489800846e-10,
+              0.0
+            ]
+          ],
+          "relative_wave_error": 3.3595416203402677e-16,
+          "passed": true
+        },
+        {
+          "label": "[-2x(Source.Source2)+3x(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 11,
+          "expected_wave": [
+            -2.979759372553151e-24,
+            -4.866316352809277e-08
+          ],
+          "observed_waves": [
+            [
+              -2.9797593725531497e-24,
+              -4.866316352809275e-08
+            ],
+            [
+              -2.9797593725531497e-24,
+              -4.866316352809275e-08
+            ]
+          ],
+          "relative_wave_error": 4.0795405111326365e-16,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source2)-(Source.Source1)+(Source.Source1)+2x(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 11,
+          "expected_wave": [
+            -1.787855623531891e-24,
+            -2.9197898116855658e-08
+          ],
+          "observed_waves": [
+            [
+              -1.7878556235318905e-24,
+              -2.9197898116855648e-08
+            ],
+            [
+              -1.7878556235318905e-24,
+              -2.9197898116855648e-08
+            ]
+          ],
+          "relative_wave_error": 3.399617092610531e-16,
+          "passed": true
+        },
+        {
+          "label": "[-2x(Source.Source1)+2x(Source.Source1)+(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 11,
+          "expected_wave": [
+            -8.939278117659454e-26,
+            -1.4598949058427831e-09
+          ],
+          "observed_waves": [
+            [
+              -8.939278117659455e-26,
+              -1.4598949058427834e-09
+            ],
+            [
+              -8.939278117659455e-26,
+              -1.4598949058427834e-09
+            ]
+          ],
+          "relative_wave_error": 1.4165071219210543e-16,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source2)-(Source.Source1)+3x(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 12,
+          "expected_wave": [
+            3.077728697960168e-08,
+            -3.769130598600871e-24
+          ],
+          "observed_waves": [
+            [
+              3.0777286979601674e-08,
+              -3.769130598600871e-24
+            ],
+            [
+              3.0777286979601674e-08,
+              -3.769130598600871e-24
+            ]
+          ],
+          "relative_wave_error": 2.1501066370177715e-16,
+          "passed": true
+        },
+        {
+          "label": "[-2x(Source.Source1)+(Source.Source1)+2x(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 12,
+          "expected_wave": [
+            4.6165930469402525e-09,
+            -5.653695897901306e-25
+          ],
+          "observed_waves": [
+            [
+              4.6165930469402525e-09,
+              -5.653695897901307e-25
+            ],
+            [
+              4.6165930469402525e-09,
+              -5.653695897901307e-25
+            ]
+          ],
+          "relative_wave_error": 1.989248244847078e-32,
+          "passed": true
+        },
+        {
+          "label": "[-2x(Source.Source1)+3x(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 13,
+          "expected_wave": [
+            8.939278117659456e-25,
+            4.866316352809277e-09
+          ],
+          "observed_waves": [
+            [
+              8.939278117659455e-25,
+              4.866316352809276e-09
+            ],
+            [
+              8.939278117659455e-25,
+              4.866316352809276e-09
+            ]
+          ],
+          "relative_wave_error": 1.6998085463052651e-16,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source2)+3x(Source.Source1)],RFAmp1",
+          "order": 4,
+          "bin": 19,
+          "expected_wave": [
+            6.8703815432258015e-25,
+            -1.1220184543019635e-08
+          ],
+          "observed_waves": [
+            [
+              6.870381199706721e-25,
+              -1.1220183982010396e-08
+            ],
+            [
+              6.870381199706721e-25,
+              -1.1220183982010396e-08
+            ]
+          ],
+          "relative_wave_error": 5.000000105092451e-08,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source2)+2x(Source.Source1)+(Source.Source2)],RFAmp1",
+          "order": 4,
+          "bin": 20,
+          "expected_wave": [
+            1.0644401677007263e-07,
+            0.0
+          ],
+          "observed_waves": [
+            [
+              1.0644401144787169e-07,
+              0.0
+            ],
+            [
+              1.0644401144787169e-07,
+              0.0
+            ]
+          ],
+          "relative_wave_error": 5.0000001034778585e-08,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source1)+3x(Source.Source1)],RFAmp1",
+          "order": 4,
+          "bin": 20,
+          "expected_wave": [
+            3.548133892335755e-09,
+            0.0
+          ],
+          "observed_waves": [
+            [
+              3.5481337149290568e-09,
+              0.0
+            ],
+            [
+              3.5481337149290568e-09,
+              0.0
+            ]
+          ],
+          "relative_wave_error": 5.000000100369442e-08,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source2)+(Source.Source1)+2x(Source.Source2)],RFAmp1",
+          "order": 4,
+          "bin": 21,
+          "expected_wave": [
+            2.0611144629677414e-23,
+            3.3660553629058905e-07
+          ],
+          "observed_waves": [
+            [
+              2.0611143599120147e-23,
+              3.366055194603117e-07
+            ],
+            [
+              2.0611143599120147e-23,
+              3.366055194603117e-07
+            ]
+          ],
+          "relative_wave_error": 5.000000165053458e-08,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source1)+2x(Source.Source1)+(Source.Source2)],RFAmp1",
+          "order": 4,
+          "bin": 21,
+          "expected_wave": [
+            2.0611144629677406e-24,
+            3.3660553629058904e-08
+          ],
+          "observed_waves": [
+            [
+              2.0611143599120153e-24,
+              3.3660551946031186e-08
+            ],
+            [
+              2.0611143599120153e-24,
+              3.3660551946031186e-08
+            ]
+          ],
+          "relative_wave_error": 5.0000001100072874e-08,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source2)+3x(Source.Source2)],RFAmp1",
+          "order": 4,
+          "bin": 22,
+          "expected_wave": [
+            -3.5481338923357547e-07,
+            4.345210814195222e-23
+          ],
+          "observed_waves": [
+            [
+              -3.5481337149290545e-07,
+              4.3452105969346735e-23
+            ],
+            [
+              -3.5481337149290545e-07,
+              4.3452105969346735e-23
+            ]
+          ],
+          "relative_wave_error": 5.0000001581859736e-08,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source1)+(Source.Source1)+2x(Source.Source2)],RFAmp1",
+          "order": 4,
+          "bin": 22,
+          "expected_wave": [
+            -1.0644401677007265e-07,
+            1.3035632442585666e-23
+          ],
+          "observed_waves": [
+            [
+              -1.0644401144787169e-07,
+              1.3035631790804027e-23
+            ],
+            [
+              -1.0644401144787169e-07,
+              1.3035631790804027e-23
+            ]
+          ],
+          "relative_wave_error": 5.0000001159115207e-08,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source1)+3x(Source.Source2)],RFAmp1",
+          "order": 4,
+          "bin": 23,
+          "expected_wave": [
+            -2.0611144629677408e-23,
+            -1.1220184543019636e-07
+          ],
+          "observed_waves": [
+            [
+              -2.0611143599120147e-23,
+              -1.122018398201039e-07
+            ],
+            [
+              -2.0611143599120147e-23,
+              -1.122018398201039e-07
+            ]
+          ],
+          "relative_wave_error": 5.0000001611215886e-08,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source2)+4x(Source.Source1)],RFAmp1",
+          "order": 5,
+          "bin": 29,
+          "expected_wave": [
+            -1.4898796862765755e-26,
+            2.433158176404638e-10
+          ],
+          "observed_waves": [
+            [
+              -1.4898796862765764e-26,
+              2.433158176404638e-10
+            ],
+            [
+              -1.4898796862765764e-26,
+              2.433158176404638e-10
+            ]
+          ],
+          "relative_wave_error": 3.538437347930104e-32,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source2)+3x(Source.Source1)+(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 30,
+          "expected_wave": [
+            -3.0777286979601683e-09,
+            -2.8698592549372254e-41
+          ],
+          "observed_waves": [
+            [
+              -3.0777286979601683e-09,
+              -4.0448825352537435e-41
+            ],
+            [
+              -3.0777286979601683e-09,
+              -4.0448825352537435e-41
+            ]
+          ],
+          "relative_wave_error": 3.8178260517091396e-33,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source1)+4x(Source.Source1)],RFAmp1",
+          "order": 5,
+          "bin": 30,
+          "expected_wave": [
+            -7.69432174490042e-11,
+            0.0
+          ],
+          "observed_waves": [
+            [
+              -7.694321744900423e-11,
+              0.0
+            ],
+            [
+              -7.694321744900423e-11,
+              0.0
+            ]
+          ],
+          "relative_wave_error": 3.3595416203402677e-16,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source2)+2x(Source.Source1)+2x(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 31,
+          "expected_wave": [
+            -8.939278117659455e-25,
+            -1.4598949058427829e-08
+          ],
+          "observed_waves": [
+            [
+              -8.939278117659453e-25,
+              -1.4598949058427824e-08
+            ],
+            [
+              -8.939278117659453e-25,
+              -1.4598949058427824e-08
+            ]
+          ],
+          "relative_wave_error": 3.399617092610531e-16,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source1)+3x(Source.Source1)+(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 31,
+          "expected_wave": [
+            -5.959518745106302e-26,
+            -9.732632705618553e-10
+          ],
+          "observed_waves": [
+            [
+              -5.959518745106306e-26,
+              -9.732632705618553e-10
+            ],
+            [
+              -5.959518745106306e-26,
+              -9.732632705618553e-10
+            ]
+          ],
+          "relative_wave_error": 3.538437347930104e-32,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source2)+(Source.Source1)+3x(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 32,
+          "expected_wave": [
+            3.077728697960168e-08,
+            -3.769130598600871e-24
+          ],
+          "observed_waves": [
+            [
+              3.0777286979601674e-08,
+              -3.769130598600871e-24
+            ],
+            [
+              3.0777286979601674e-08,
+              -3.769130598600871e-24
+            ]
+          ],
+          "relative_wave_error": 2.1501066370177715e-16,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source1)+2x(Source.Source1)+2x(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 32,
+          "expected_wave": [
+            4.6165930469402525e-09,
+            -5.653695897901306e-25
+          ],
+          "observed_waves": [
+            [
+              4.6165930469402525e-09,
+              -5.653695897901307e-25
+            ],
+            [
+              4.6165930469402525e-09,
+              -5.653695897901307e-25
+            ]
+          ],
+          "relative_wave_error": 1.989248244847078e-32,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source2)+4x(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 33,
+          "expected_wave": [
+            4.469639058829727e-24,
+            2.4331581764046384e-08
+          ],
+          "observed_waves": [
+            [
+              4.469639058829725e-24,
+              2.4331581764046374e-08
+            ],
+            [
+              4.469639058829725e-24,
+              2.4331581764046374e-08
+            ]
+          ],
+          "relative_wave_error": 4.0795405111326365e-16,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source1)+(Source.Source1)+3x(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 33,
+          "expected_wave": [
+            1.7878556235318913e-24,
+            9.732632705618554e-09
+          ],
+          "observed_waves": [
+            [
+              1.787855623531891e-24,
+              9.732632705618552e-09
+            ],
+            [
+              1.787855623531891e-24,
+              9.732632705618552e-09
+            ]
+          ],
+          "relative_wave_error": 1.6998085463052651e-16,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source1)+4x(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 34,
+          "expected_wave": [
+            -7.69432174490042e-09,
+            1.8845652993004355e-24
+          ],
+          "observed_waves": [
+            [
+              -7.694321744900418e-09,
+              1.8845652993004355e-24
+            ],
+            [
+              -7.694321744900418e-09,
+              1.8845652993004355e-24
+            ]
+          ],
+          "relative_wave_error": 2.1501066370177715e-16,
+          "passed": true
+        },
+        {
+          "label": "[4x(Source.Source1)],RFAmp1",
+          "order": 4,
+          "bin": 40,
+          "expected_wave": [
+            8.870334730839387e-10,
+            0.0
+          ],
+          "observed_waves": [
+            [
+              8.870334287322642e-10,
+              0.0
+            ],
+            [
+              8.870334287322642e-10,
+              0.0
+            ]
+          ],
+          "relative_wave_error": 5.000000100369442e-08,
+          "passed": true
+        },
+        {
+          "label": "[3x(Source.Source1)+(Source.Source2)],RFAmp1",
+          "order": 4,
+          "bin": 41,
+          "expected_wave": [
+            6.8703815432258015e-25,
+            1.1220184543019635e-08
+          ],
+          "observed_waves": [
+            [
+              6.870381199706719e-25,
+              1.1220183982010396e-08
+            ],
+            [
+              6.870381199706719e-25,
+              1.1220183982010396e-08
+            ]
+          ],
+          "relative_wave_error": 5.000000105092451e-08,
+          "passed": true
+        },
+        {
+          "label": "[2x(Source.Source1)+2x(Source.Source2)],RFAmp1",
+          "order": 4,
+          "bin": 42,
+          "expected_wave": [
+            -5.3222008385036324e-08,
+            6.517816221292833e-24
+          ],
+          "observed_waves": [
+            [
+              -5.322200572393584e-08,
+              6.5178158954020134e-24
+            ],
+            [
+              -5.322200572393584e-08,
+              6.5178158954020134e-24
+            ]
+          ],
+          "relative_wave_error": 5.0000001159115207e-08,
+          "passed": true
+        },
+        {
+          "label": "[(Source.Source1)+3x(Source.Source2)],RFAmp1",
+          "order": 4,
+          "bin": 43,
+          "expected_wave": [
+            -2.0611144629677408e-23,
+            -1.1220184543019636e-07
+          ],
+          "observed_waves": [
+            [
+              -2.0611143599120147e-23,
+              -1.122018398201039e-07
+            ],
+            [
+              -2.0611143599120147e-23,
+              -1.122018398201039e-07
+            ]
+          ],
+          "relative_wave_error": 5.0000001611215886e-08,
+          "passed": true
+        },
+        {
+          "label": "[4x(Source.Source2)],RFAmp1",
+          "order": 4,
+          "bin": 44,
+          "expected_wave": [
+            8.870334730839387e-08,
+            -2.172605407097611e-23
+          ],
+          "observed_waves": [
+            [
+              8.870334287322636e-08,
+              -2.1726052984673367e-23
+            ],
+            [
+              8.870334287322636e-08,
+              -2.1726052984673367e-23
+            ]
+          ],
+          "relative_wave_error": 5.0000001581859736e-08,
+          "passed": true
+        },
+        {
+          "label": "[5x(Source.Source1)],RFAmp1",
+          "order": 5,
+          "bin": 50,
+          "expected_wave": [
+            -1.538864348980084e-11,
+            0.0
+          ],
+          "observed_waves": [
+            [
+              -1.5388643489800847e-11,
+              0.0
+            ],
+            [
+              -1.5388643489800847e-11,
+              0.0
+            ]
+          ],
+          "relative_wave_error": 4.199427025425335e-16,
+          "passed": true
+        },
+        {
+          "label": "[4x(Source.Source1)+(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 51,
+          "expected_wave": [
+            -1.4898796862765755e-26,
+            -2.433158176404638e-10
+          ],
+          "observed_waves": [
+            [
+              -1.4898796862765764e-26,
+              -2.433158176404638e-10
+            ],
+            [
+              -1.4898796862765764e-26,
+              -2.433158176404638e-10
+            ]
+          ],
+          "relative_wave_error": 3.538437347930104e-32,
+          "passed": true
+        },
+        {
+          "label": "[3x(Source.Source1)+2x(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 52,
+          "expected_wave": [
+            1.5388643489800842e-09,
+            -1.8845652993004352e-25
+          ],
+          "observed_waves": [
+            [
+              1.5388643489800842e-09,
+              -1.8845652993004361e-25
+            ],
+            [
+              1.5388643489800842e-09,
+              -1.8845652993004361e-25
+            ]
+          ],
+          "relative_wave_error": 5.967744734541234e-32,
+          "passed": true
+        },
+        {
+          "label": "[2x(Source.Source1)+3x(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 53,
+          "expected_wave": [
+            8.939278117659456e-25,
+            4.866316352809277e-09
+          ],
+          "observed_waves": [
+            [
+              8.939278117659455e-25,
+              4.866316352809276e-09
+            ],
+            [
+              8.939278117659455e-25,
+              4.866316352809276e-09
+            ]
+          ],
+          "relative_wave_error": 1.6998085463052651e-16,
+          "passed": true
+        },
+        {
+          "label": "[(Source.Source1)+4x(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 54,
+          "expected_wave": [
+            -7.69432174490042e-09,
+            1.8845652993004355e-24
+          ],
+          "observed_waves": [
+            [
+              -7.694321744900418e-09,
+              1.8845652993004355e-24
+            ],
+            [
+              -7.694321744900418e-09,
+              1.8845652993004355e-24
+            ]
+          ],
+          "relative_wave_error": 2.1501066370177715e-16,
+          "passed": true
+        },
+        {
+          "label": "[5x(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 55,
+          "expected_wave": [
+            -1.4898796862765758e-24,
+            -4.866316352809277e-09
+          ],
+          "observed_waves": [
+            [
+              -1.4898796862765752e-24,
+              -4.866316352809273e-09
+            ],
+            [
+              -1.4898796862765752e-24,
+              -4.866316352809273e-09
+            ]
+          ],
+          "relative_wave_error": 8.499042731526326e-16,
+          "passed": true
+        }
+      ],
+      "full_group_sum_hypothesis": {
+        "observed_count": 0,
+        "consistent": null,
+        "max_relative_wave_error": null,
+        "matching_count": 0
+      }
+    },
+    {
+      "configuration": {
+        "source_power_dbm": -20,
+        "second_source_power_dbm": -10,
+        "spectrum_reduction": true
+      },
+      "raw_capture_sha256": "aeb11623b1148e55714f4adff9787999460044e0bbc4e70b20ce77b2dd1138c3",
+      "predicted_count": 44,
+      "observed_count": 30,
+      "labels_match_control_hypothesis": true,
+      "not_recorded": [
+        "[-(Source.Source1)+(Source.Source1)+2x(Source.Source2)],RFAmp1",
+        "[-(Source.Source1)+(Source.Source1)+3x(Source.Source2)],RFAmp1",
+        "[-(Source.Source1)+2x(Source.Source1)+(Source.Source2)],RFAmp1",
+        "[-(Source.Source1)+2x(Source.Source1)+2x(Source.Source2)],RFAmp1",
+        "[-(Source.Source1)+3x(Source.Source1)+(Source.Source2)],RFAmp1",
+        "[-(Source.Source1)+3x(Source.Source1)],RFAmp1",
+        "[-(Source.Source1)+4x(Source.Source1)],RFAmp1",
+        "[-(Source.Source2)-(Source.Source1)+(Source.Source1)+2x(Source.Source2)],RFAmp1",
+        "[-(Source.Source2)-(Source.Source1)+2x(Source.Source1)+(Source.Source2)],RFAmp1",
+        "[-(Source.Source2)-(Source.Source1)+3x(Source.Source1)],RFAmp1",
+        "[-2x(Source.Source1)+(Source.Source1)+(Source.Source2)],RFAmp1",
+        "[-2x(Source.Source1)+(Source.Source1)+2x(Source.Source2)],RFAmp1",
+        "[-2x(Source.Source1)+2x(Source.Source1)+(Source.Source2)],RFAmp1",
+        "[-2x(Source.Source1)+3x(Source.Source1)],RFAmp1"
+      ],
+      "fourth_order": {
+        "observed_count": 12,
+        "consistent": true,
+        "max_relative_wave_error": 5.000000165053458e-08
+      },
+      "fifth_order": {
+        "observed_count": 18,
+        "consistent": true,
+        "max_relative_wave_error": 8.499042731526326e-16
+      },
+      "checks": [
+        {
+          "label": "[-(Source.Source2)-(Source.Source1)+2x(Source.Source2)],RFAmp1",
+          "order": 4,
+          "bin": 1,
+          "expected_wave": [
+            2.0611144629677414e-23,
+            3.3660553629058905e-07
+          ],
+          "observed_waves": [
+            [
+              2.0611143599120147e-23,
+              3.366055194603117e-07
+            ],
+            [
+              2.0611143599120147e-23,
+              3.366055194603117e-07
+            ]
+          ],
+          "relative_wave_error": 5.000000165053458e-08,
+          "passed": true
+        },
+        {
+          "label": "[-2x(Source.Source1)+2x(Source.Source2)],RFAmp1",
+          "order": 4,
+          "bin": 2,
+          "expected_wave": [
+            -5.3222008385036324e-08,
+            6.517816221292833e-24
+          ],
+          "observed_waves": [
+            [
+              -5.322200572393584e-08,
+              6.5178158954020134e-24
+            ],
+            [
+              -5.322200572393584e-08,
+              6.5178158954020134e-24
+            ]
+          ],
+          "relative_wave_error": 5.0000001159115207e-08,
+          "passed": true
+        },
+        {
+          "label": "[-2x(Source.Source2)+3x(Source.Source1)],RFAmp1",
+          "order": 5,
+          "bin": 8,
+          "expected_wave": [
+            1.5388643489800842e-09,
+            1.8845652993004357e-25
+          ],
+          "observed_waves": [
+            [
+              1.5388643489800842e-09,
+              1.8845652993004361e-25
+            ],
+            [
+              1.5388643489800842e-09,
+              1.8845652993004361e-25
+            ]
+          ],
+          "relative_wave_error": 2.983872367270617e-32,
+          "passed": true
+        },
+        {
+          "label": "[-2x(Source.Source2)+2x(Source.Source1)+(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 9,
+          "expected_wave": [
+            -8.939278117659455e-25,
+            1.4598949058427829e-08
+          ],
+          "observed_waves": [
+            [
+              -8.939278117659456e-25,
+              1.4598949058427824e-08
+            ],
+            [
+              -8.939278117659456e-25,
+              1.4598949058427824e-08
+            ]
+          ],
+          "relative_wave_error": 3.399617092610531e-16,
+          "passed": true
+        },
+        {
+          "label": "[-2x(Source.Source2)+(Source.Source1)+2x(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 10,
+          "expected_wave": [
+            -4.616593046940253e-08,
+            0.0
+          ],
+          "observed_waves": [
+            [
+              -4.6165930469402514e-08,
+              0.0
+            ],
+            [
+              -4.6165930469402514e-08,
+              0.0
+            ]
+          ],
+          "relative_wave_error": 2.866808849357028e-16,
+          "passed": true
+        },
+        {
+          "label": "[-2x(Source.Source2)+3x(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 11,
+          "expected_wave": [
+            -2.979759372553151e-24,
+            -4.866316352809277e-08
+          ],
+          "observed_waves": [
+            [
+              -2.9797593725531497e-24,
+              -4.866316352809275e-08
+            ],
+            [
+              -2.9797593725531497e-24,
+              -4.866316352809275e-08
+            ]
+          ],
+          "relative_wave_error": 4.0795405111326365e-16,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source2)-(Source.Source1)+3x(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 12,
+          "expected_wave": [
+            3.077728697960168e-08,
+            -3.769130598600871e-24
+          ],
+          "observed_waves": [
+            [
+              3.0777286979601674e-08,
+              -3.769130598600871e-24
+            ],
+            [
+              3.0777286979601674e-08,
+              -3.769130598600871e-24
+            ]
+          ],
+          "relative_wave_error": 2.1501066370177715e-16,
+          "passed": true
+        },
+        {
+          "label": "[-2x(Source.Source1)+3x(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 13,
+          "expected_wave": [
+            8.939278117659456e-25,
+            4.866316352809277e-09
+          ],
+          "observed_waves": [
+            [
+              8.939278117659455e-25,
+              4.866316352809276e-09
+            ],
+            [
+              8.939278117659455e-25,
+              4.866316352809276e-09
+            ]
+          ],
+          "relative_wave_error": 1.6998085463052651e-16,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source2)+3x(Source.Source1)],RFAmp1",
+          "order": 4,
+          "bin": 19,
+          "expected_wave": [
+            6.8703815432258015e-25,
+            -1.1220184543019635e-08
+          ],
+          "observed_waves": [
+            [
+              6.870381199706721e-25,
+              -1.1220183982010396e-08
+            ],
+            [
+              6.870381199706721e-25,
+              -1.1220183982010396e-08
+            ]
+          ],
+          "relative_wave_error": 5.000000105092451e-08,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source2)+2x(Source.Source1)+(Source.Source2)],RFAmp1",
+          "order": 4,
+          "bin": 20,
+          "expected_wave": [
+            1.0644401677007263e-07,
+            0.0
+          ],
+          "observed_waves": [
+            [
+              1.0644401144787169e-07,
+              0.0
+            ],
+            [
+              1.0644401144787169e-07,
+              0.0
+            ]
+          ],
+          "relative_wave_error": 5.0000001034778585e-08,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source2)+(Source.Source1)+2x(Source.Source2)],RFAmp1",
+          "order": 4,
+          "bin": 21,
+          "expected_wave": [
+            2.0611144629677414e-23,
+            3.3660553629058905e-07
+          ],
+          "observed_waves": [
+            [
+              2.0611143599120147e-23,
+              3.366055194603117e-07
+            ],
+            [
+              2.0611143599120147e-23,
+              3.366055194603117e-07
+            ]
+          ],
+          "relative_wave_error": 5.000000165053458e-08,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source2)+3x(Source.Source2)],RFAmp1",
+          "order": 4,
+          "bin": 22,
+          "expected_wave": [
+            -3.5481338923357547e-07,
+            4.345210814195222e-23
+          ],
+          "observed_waves": [
+            [
+              -3.5481337149290545e-07,
+              4.3452105969346735e-23
+            ],
+            [
+              -3.5481337149290545e-07,
+              4.3452105969346735e-23
+            ]
+          ],
+          "relative_wave_error": 5.0000001581859736e-08,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source1)+3x(Source.Source2)],RFAmp1",
+          "order": 4,
+          "bin": 23,
+          "expected_wave": [
+            -2.0611144629677408e-23,
+            -1.1220184543019636e-07
+          ],
+          "observed_waves": [
+            [
+              -2.0611143599120147e-23,
+              -1.122018398201039e-07
+            ],
+            [
+              -2.0611143599120147e-23,
+              -1.122018398201039e-07
+            ]
+          ],
+          "relative_wave_error": 5.0000001611215886e-08,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source2)+4x(Source.Source1)],RFAmp1",
+          "order": 5,
+          "bin": 29,
+          "expected_wave": [
+            -1.4898796862765755e-26,
+            2.433158176404638e-10
+          ],
+          "observed_waves": [
+            [
+              -1.4898796862765764e-26,
+              2.433158176404638e-10
+            ],
+            [
+              -1.4898796862765764e-26,
+              2.433158176404638e-10
+            ]
+          ],
+          "relative_wave_error": 3.538437347930104e-32,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source2)+3x(Source.Source1)+(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 30,
+          "expected_wave": [
+            -3.0777286979601683e-09,
+            -2.8698592549372254e-41
+          ],
+          "observed_waves": [
+            [
+              -3.0777286979601683e-09,
+              -4.0448825352537435e-41
+            ],
+            [
+              -3.0777286979601683e-09,
+              -4.0448825352537435e-41
+            ]
+          ],
+          "relative_wave_error": 3.8178260517091396e-33,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source2)+2x(Source.Source1)+2x(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 31,
+          "expected_wave": [
+            -8.939278117659455e-25,
+            -1.4598949058427829e-08
+          ],
+          "observed_waves": [
+            [
+              -8.939278117659453e-25,
+              -1.4598949058427824e-08
+            ],
+            [
+              -8.939278117659453e-25,
+              -1.4598949058427824e-08
+            ]
+          ],
+          "relative_wave_error": 3.399617092610531e-16,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source2)+(Source.Source1)+3x(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 32,
+          "expected_wave": [
+            3.077728697960168e-08,
+            -3.769130598600871e-24
+          ],
+          "observed_waves": [
+            [
+              3.0777286979601674e-08,
+              -3.769130598600871e-24
+            ],
+            [
+              3.0777286979601674e-08,
+              -3.769130598600871e-24
+            ]
+          ],
+          "relative_wave_error": 2.1501066370177715e-16,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source2)+4x(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 33,
+          "expected_wave": [
+            4.469639058829727e-24,
+            2.4331581764046384e-08
+          ],
+          "observed_waves": [
+            [
+              4.469639058829725e-24,
+              2.4331581764046374e-08
+            ],
+            [
+              4.469639058829725e-24,
+              2.4331581764046374e-08
+            ]
+          ],
+          "relative_wave_error": 4.0795405111326365e-16,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source1)+4x(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 34,
+          "expected_wave": [
+            -7.69432174490042e-09,
+            1.8845652993004355e-24
+          ],
+          "observed_waves": [
+            [
+              -7.694321744900418e-09,
+              1.8845652993004355e-24
+            ],
+            [
+              -7.694321744900418e-09,
+              1.8845652993004355e-24
+            ]
+          ],
+          "relative_wave_error": 2.1501066370177715e-16,
+          "passed": true
+        },
+        {
+          "label": "[4x(Source.Source1)],RFAmp1",
+          "order": 4,
+          "bin": 40,
+          "expected_wave": [
+            8.870334730839387e-10,
+            0.0
+          ],
+          "observed_waves": [
+            [
+              8.870334287322642e-10,
+              0.0
+            ],
+            [
+              8.870334287322642e-10,
+              0.0
+            ]
+          ],
+          "relative_wave_error": 5.000000100369442e-08,
+          "passed": true
+        },
+        {
+          "label": "[3x(Source.Source1)+(Source.Source2)],RFAmp1",
+          "order": 4,
+          "bin": 41,
+          "expected_wave": [
+            6.8703815432258015e-25,
+            1.1220184543019635e-08
+          ],
+          "observed_waves": [
+            [
+              6.870381199706719e-25,
+              1.1220183982010396e-08
+            ],
+            [
+              6.870381199706719e-25,
+              1.1220183982010396e-08
+            ]
+          ],
+          "relative_wave_error": 5.000000105092451e-08,
+          "passed": true
+        },
+        {
+          "label": "[2x(Source.Source1)+2x(Source.Source2)],RFAmp1",
+          "order": 4,
+          "bin": 42,
+          "expected_wave": [
+            -5.3222008385036324e-08,
+            6.517816221292833e-24
+          ],
+          "observed_waves": [
+            [
+              -5.322200572393584e-08,
+              6.5178158954020134e-24
+            ],
+            [
+              -5.322200572393584e-08,
+              6.5178158954020134e-24
+            ]
+          ],
+          "relative_wave_error": 5.0000001159115207e-08,
+          "passed": true
+        },
+        {
+          "label": "[(Source.Source1)+3x(Source.Source2)],RFAmp1",
+          "order": 4,
+          "bin": 43,
+          "expected_wave": [
+            -2.0611144629677408e-23,
+            -1.1220184543019636e-07
+          ],
+          "observed_waves": [
+            [
+              -2.0611143599120147e-23,
+              -1.122018398201039e-07
+            ],
+            [
+              -2.0611143599120147e-23,
+              -1.122018398201039e-07
+            ]
+          ],
+          "relative_wave_error": 5.0000001611215886e-08,
+          "passed": true
+        },
+        {
+          "label": "[4x(Source.Source2)],RFAmp1",
+          "order": 4,
+          "bin": 44,
+          "expected_wave": [
+            8.870334730839387e-08,
+            -2.172605407097611e-23
+          ],
+          "observed_waves": [
+            [
+              8.870334287322636e-08,
+              -2.1726052984673367e-23
+            ],
+            [
+              8.870334287322636e-08,
+              -2.1726052984673367e-23
+            ]
+          ],
+          "relative_wave_error": 5.0000001581859736e-08,
+          "passed": true
+        },
+        {
+          "label": "[5x(Source.Source1)],RFAmp1",
+          "order": 5,
+          "bin": 50,
+          "expected_wave": [
+            -1.538864348980084e-11,
+            0.0
+          ],
+          "observed_waves": [
+            [
+              -1.5388643489800847e-11,
+              0.0
+            ],
+            [
+              -1.5388643489800847e-11,
+              0.0
+            ]
+          ],
+          "relative_wave_error": 4.199427025425335e-16,
+          "passed": true
+        },
+        {
+          "label": "[4x(Source.Source1)+(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 51,
+          "expected_wave": [
+            -1.4898796862765755e-26,
+            -2.433158176404638e-10
+          ],
+          "observed_waves": [
+            [
+              -1.4898796862765764e-26,
+              -2.433158176404638e-10
+            ],
+            [
+              -1.4898796862765764e-26,
+              -2.433158176404638e-10
+            ]
+          ],
+          "relative_wave_error": 3.538437347930104e-32,
+          "passed": true
+        },
+        {
+          "label": "[3x(Source.Source1)+2x(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 52,
+          "expected_wave": [
+            1.5388643489800842e-09,
+            -1.8845652993004352e-25
+          ],
+          "observed_waves": [
+            [
+              1.5388643489800842e-09,
+              -1.8845652993004361e-25
+            ],
+            [
+              1.5388643489800842e-09,
+              -1.8845652993004361e-25
+            ]
+          ],
+          "relative_wave_error": 5.967744734541234e-32,
+          "passed": true
+        },
+        {
+          "label": "[2x(Source.Source1)+3x(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 53,
+          "expected_wave": [
+            8.939278117659456e-25,
+            4.866316352809277e-09
+          ],
+          "observed_waves": [
+            [
+              8.939278117659455e-25,
+              4.866316352809276e-09
+            ],
+            [
+              8.939278117659455e-25,
+              4.866316352809276e-09
+            ]
+          ],
+          "relative_wave_error": 1.6998085463052651e-16,
+          "passed": true
+        },
+        {
+          "label": "[(Source.Source1)+4x(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 54,
+          "expected_wave": [
+            -7.69432174490042e-09,
+            1.8845652993004355e-24
+          ],
+          "observed_waves": [
+            [
+              -7.694321744900418e-09,
+              1.8845652993004355e-24
+            ],
+            [
+              -7.694321744900418e-09,
+              1.8845652993004355e-24
+            ]
+          ],
+          "relative_wave_error": 2.1501066370177715e-16,
+          "passed": true
+        },
+        {
+          "label": "[5x(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 55,
+          "expected_wave": [
+            -1.4898796862765758e-24,
+            -4.866316352809277e-09
+          ],
+          "observed_waves": [
+            [
+              -1.4898796862765752e-24,
+              -4.866316352809273e-09
+            ],
+            [
+              -1.4898796862765752e-24,
+              -4.866316352809273e-09
+            ]
+          ],
+          "relative_wave_error": 8.499042731526326e-16,
+          "passed": true
+        }
+      ],
+      "full_group_sum_hypothesis": {
+        "observed_count": 12,
+        "consistent": false,
+        "max_relative_wave_error": 0.3865030674846629,
+        "matching_count": 0
+      }
+    },
+    {
+      "configuration": {
+        "source_power_dbm": -10,
+        "second_source_power_dbm": -20,
+        "spectrum_reduction": false
+      },
+      "raw_capture_sha256": "81e75a24f87eaa1909cd2ddd07cba62f8ec773c9767d4e373f753da9e514cfdc",
+      "predicted_count": 44,
+      "observed_count": 44,
+      "labels_match_control_hypothesis": true,
+      "not_recorded": [],
+      "fourth_order": {
+        "observed_count": 16,
+        "consistent": true,
+        "max_relative_wave_error": 5.000000165053458e-08
+      },
+      "fifth_order": {
+        "observed_count": 28,
+        "consistent": true,
+        "max_relative_wave_error": 8.499042731526326e-16
+      },
+      "checks": [
+        {
+          "label": "[-2x(Source.Source1)+(Source.Source1)+(Source.Source2)],RFAmp1",
+          "order": 4,
+          "bin": 1,
+          "expected_wave": [
+            2.0611144629677402e-23,
+            3.3660553629058905e-07
+          ],
+          "observed_waves": [
+            [
+              2.0611143599120132e-23,
+              3.366055194603117e-07
+            ],
+            [
+              2.0611143599120132e-23,
+              3.366055194603117e-07
+            ]
+          ],
+          "relative_wave_error": 5.000000165053458e-08,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source2)-(Source.Source1)+2x(Source.Source2)],RFAmp1",
+          "order": 4,
+          "bin": 1,
+          "expected_wave": [
+            2.06111446296774e-24,
+            3.3660553629058904e-08
+          ],
+          "observed_waves": [
+            [
+              2.061114359912015e-24,
+              3.3660551946031186e-08
+            ],
+            [
+              2.061114359912015e-24,
+              3.3660551946031186e-08
+            ]
+          ],
+          "relative_wave_error": 5.0000001100072874e-08,
+          "passed": true
+        },
+        {
+          "label": "[-2x(Source.Source1)+2x(Source.Source2)],RFAmp1",
+          "order": 4,
+          "bin": 2,
+          "expected_wave": [
+            -5.3222008385036324e-08,
+            6.517816221292833e-24
+          ],
+          "observed_waves": [
+            [
+              -5.322200572393584e-08,
+              6.51781589540201e-24
+            ],
+            [
+              -5.322200572393584e-08,
+              6.51781589540201e-24
+            ]
+          ],
+          "relative_wave_error": 5.0000001159115207e-08,
+          "passed": true
+        },
+        {
+          "label": "[-2x(Source.Source2)+3x(Source.Source1)],RFAmp1",
+          "order": 5,
+          "bin": 8,
+          "expected_wave": [
+            4.866316352809277e-09,
+            5.959518745106305e-25
+          ],
+          "observed_waves": [
+            [
+              4.866316352809276e-09,
+              5.959518745106299e-25
+            ],
+            [
+              4.866316352809276e-09,
+              5.959518745106299e-25
+            ]
+          ],
+          "relative_wave_error": 1.6998085463052651e-16,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source2)-(Source.Source1)+3x(Source.Source1)],RFAmp1",
+          "order": 5,
+          "bin": 9,
+          "expected_wave": [
+            -1.8845652993004355e-24,
+            3.077728697960168e-08
+          ],
+          "observed_waves": [
+            [
+              -1.8845652993004344e-24,
+              3.0777286979601674e-08
+            ],
+            [
+              -1.8845652993004344e-24,
+              3.0777286979601674e-08
+            ]
+          ],
+          "relative_wave_error": 2.1501066370177715e-16,
+          "passed": true
+        },
+        {
+          "label": "[-2x(Source.Source2)+2x(Source.Source1)+(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 9,
+          "expected_wave": [
+            -2.8268479489506544e-25,
+            4.6165930469402525e-09
+          ],
+          "observed_waves": [
+            [
+              -2.826847948950653e-25,
+              4.6165930469402525e-09
+            ],
+            [
+              -2.826847948950653e-25,
+              4.6165930469402525e-09
+            ]
+          ],
+          "relative_wave_error": 2.983872367270617e-32,
+          "passed": true
+        },
+        {
+          "label": "[-2x(Source.Source1)+3x(Source.Source1)],RFAmp1",
+          "order": 5,
+          "bin": 10,
+          "expected_wave": [
+            -4.866316352809277e-08,
+            0.0
+          ],
+          "observed_waves": [
+            [
+              -4.866316352809275e-08,
+              0.0
+            ],
+            [
+              -4.866316352809275e-08,
+              0.0
+            ]
+          ],
+          "relative_wave_error": 4.0795405111326365e-16,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source2)-(Source.Source1)+2x(Source.Source1)+(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 10,
+          "expected_wave": [
+            -2.9197898116855658e-08,
+            -3.4438311059246704e-40
+          ],
+          "observed_waves": [
+            [
+              -2.9197898116855648e-08,
+              -2.4269295211522463e-40
+            ],
+            [
+              -2.9197898116855648e-08,
+              -2.4269295211522463e-40
+            ]
+          ],
+          "relative_wave_error": 3.399617092610531e-16,
+          "passed": true
+        },
+        {
+          "label": "[-2x(Source.Source2)+(Source.Source1)+2x(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 10,
+          "expected_wave": [
+            -1.459894905842783e-09,
+            -4.304788882405838e-41
+          ],
+          "observed_waves": [
+            [
+              -1.4598949058427834e-09,
+              3.033661901440308e-41
+            ],
+            [
+              -1.4598949058427834e-09,
+              3.033661901440308e-41
+            ]
+          ],
+          "relative_wave_error": 2.8330142438421087e-16,
+          "passed": true
+        },
+        {
+          "label": "[-2x(Source.Source1)+2x(Source.Source1)+(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 11,
+          "expected_wave": [
+            -2.8268479489506536e-24,
+            -4.616593046940253e-08
+          ],
+          "observed_waves": [
+            [
+              -2.8268479489506517e-24,
+              -4.6165930469402514e-08
+            ],
+            [
+              -2.8268479489506517e-24,
+              -4.6165930469402514e-08
+            ]
+          ],
+          "relative_wave_error": 2.866808849357028e-16,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source2)-(Source.Source1)+(Source.Source1)+2x(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 11,
+          "expected_wave": [
+            -5.653695897901307e-25,
+            -9.233186093880505e-09
+          ],
+          "observed_waves": [
+            [
+              -5.653695897901303e-25,
+              -9.233186093880505e-09
+            ],
+            [
+              -5.653695897901303e-25,
+              -9.233186093880505e-09
+            ]
+          ],
+          "relative_wave_error": 3.978496489694156e-32,
+          "passed": true
+        },
+        {
+          "label": "[-2x(Source.Source2)+3x(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 11,
+          "expected_wave": [
+            -9.422826496502174e-27,
+            -1.538864348980084e-10
+          ],
+          "observed_waves": [
+            [
+              -9.422826496502181e-27,
+              -1.5388643489800846e-10
+            ],
+            [
+              -9.422826496502181e-27,
+              -1.5388643489800846e-10
+            ]
+          ],
+          "relative_wave_error": 3.3595416203402677e-16,
+          "passed": true
+        },
+        {
+          "label": "[-2x(Source.Source1)+(Source.Source1)+2x(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 12,
+          "expected_wave": [
+            1.4598949058427829e-08,
+            -1.7878556235318905e-24
+          ],
+          "observed_waves": [
+            [
+              1.4598949058427824e-08,
+              -1.7878556235318898e-24
+            ],
+            [
+              1.4598949058427824e-08,
+              -1.7878556235318898e-24
+            ]
+          ],
+          "relative_wave_error": 3.399617092610531e-16,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source2)-(Source.Source1)+3x(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 12,
+          "expected_wave": [
+            9.732632705618553e-10,
+            -1.1919037490212604e-25
+          ],
+          "observed_waves": [
+            [
+              9.732632705618553e-10,
+              -1.1919037490212607e-25
+            ],
+            [
+              9.732632705618553e-10,
+              -1.1919037490212607e-25
+            ]
+          ],
+          "relative_wave_error": 2.3589582319534028e-32,
+          "passed": true
+        },
+        {
+          "label": "[-2x(Source.Source1)+3x(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 13,
+          "expected_wave": [
+            2.826847948950653e-25,
+            1.5388643489800842e-09
+          ],
+          "observed_waves": [
+            [
+              2.826847948950653e-25,
+              1.5388643489800842e-09
+            ],
+            [
+              2.826847948950653e-25,
+              1.5388643489800842e-09
+            ]
+          ],
+          "relative_wave_error": 0.0,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source2)+3x(Source.Source1)],RFAmp1",
+          "order": 4,
+          "bin": 19,
+          "expected_wave": [
+            6.870381543225803e-24,
+            -1.1220184543019636e-07
+          ],
+          "observed_waves": [
+            [
+              6.870381199706713e-24,
+              -1.122018398201039e-07
+            ],
+            [
+              6.870381199706713e-24,
+              -1.122018398201039e-07
+            ]
+          ],
+          "relative_wave_error": 5.0000001611215886e-08,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source1)+3x(Source.Source1)],RFAmp1",
+          "order": 4,
+          "bin": 20,
+          "expected_wave": [
+            3.5481338923357547e-07,
+            0.0
+          ],
+          "observed_waves": [
+            [
+              3.5481337149290545e-07,
+              0.0
+            ],
+            [
+              3.5481337149290545e-07,
+              0.0
+            ]
+          ],
+          "relative_wave_error": 5.0000001581859736e-08,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source2)+2x(Source.Source1)+(Source.Source2)],RFAmp1",
+          "order": 4,
+          "bin": 20,
+          "expected_wave": [
+            1.0644401677007265e-07,
+            0.0
+          ],
+          "observed_waves": [
+            [
+              1.0644401144787169e-07,
+              1.000994723136426e-39
+            ],
+            [
+              1.0644401144787169e-07,
+              1.000994723136426e-39
+            ]
+          ],
+          "relative_wave_error": 5.0000001159115207e-08,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source1)+2x(Source.Source1)+(Source.Source2)],RFAmp1",
+          "order": 4,
+          "bin": 21,
+          "expected_wave": [
+            2.0611144629677402e-23,
+            3.3660553629058905e-07
+          ],
+          "observed_waves": [
+            [
+              2.0611143599120132e-23,
+              3.366055194603117e-07
+            ],
+            [
+              2.0611143599120132e-23,
+              3.366055194603117e-07
+            ]
+          ],
+          "relative_wave_error": 5.000000165053458e-08,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source2)+(Source.Source1)+2x(Source.Source2)],RFAmp1",
+          "order": 4,
+          "bin": 21,
+          "expected_wave": [
+            2.06111446296774e-24,
+            3.3660553629058904e-08
+          ],
+          "observed_waves": [
+            [
+              2.061114359912015e-24,
+              3.3660551946031186e-08
+            ],
+            [
+              2.061114359912015e-24,
+              3.3660551946031186e-08
+            ]
+          ],
+          "relative_wave_error": 5.0000001100072874e-08,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source1)+(Source.Source1)+2x(Source.Source2)],RFAmp1",
+          "order": 4,
+          "bin": 22,
+          "expected_wave": [
+            -1.0644401677007265e-07,
+            1.3035632442585666e-23
+          ],
+          "observed_waves": [
+            [
+              -1.0644401144787169e-07,
+              1.303563179080402e-23
+            ],
+            [
+              -1.0644401144787169e-07,
+              1.303563179080402e-23
+            ]
+          ],
+          "relative_wave_error": 5.0000001159115207e-08,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source2)+3x(Source.Source2)],RFAmp1",
+          "order": 4,
+          "bin": 22,
+          "expected_wave": [
+            -3.548133892335755e-09,
+            4.3452108141952215e-25
+          ],
+          "observed_waves": [
+            [
+              -3.5481337149290568e-09,
+              4.3452105969346765e-25
+            ],
+            [
+              -3.5481337149290568e-09,
+              4.3452105969346765e-25
+            ]
+          ],
+          "relative_wave_error": 5.000000100369442e-08,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source1)+3x(Source.Source2)],RFAmp1",
+          "order": 4,
+          "bin": 23,
+          "expected_wave": [
+            -2.0611144629677406e-24,
+            -1.1220184543019635e-08
+          ],
+          "observed_waves": [
+            [
+              -2.061114359912015e-24,
+              -1.1220183982010396e-08
+            ],
+            [
+              -2.061114359912015e-24,
+              -1.1220183982010396e-08
+            ]
+          ],
+          "relative_wave_error": 5.000000105092451e-08,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source2)+4x(Source.Source1)],RFAmp1",
+          "order": 5,
+          "bin": 29,
+          "expected_wave": [
+            -4.711413248251089e-25,
+            7.69432174490042e-09
+          ],
+          "observed_waves": [
+            [
+              -4.711413248251086e-25,
+              7.694321744900418e-09
+            ],
+            [
+              -4.711413248251086e-25,
+              7.694321744900418e-09
+            ]
+          ],
+          "relative_wave_error": 2.1501066370177715e-16,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source1)+4x(Source.Source1)],RFAmp1",
+          "order": 5,
+          "bin": 30,
+          "expected_wave": [
+            -2.4331581764046384e-08,
+            0.0
+          ],
+          "observed_waves": [
+            [
+              -2.4331581764046374e-08,
+              0.0
+            ],
+            [
+              -2.4331581764046374e-08,
+              0.0
+            ]
+          ],
+          "relative_wave_error": 4.0795405111326365e-16,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source2)+3x(Source.Source1)+(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 30,
+          "expected_wave": [
+            -9.732632705618554e-09,
+            -1.1479437019748901e-40
+          ],
+          "observed_waves": [
+            [
+              -9.732632705618552e-09,
+              -8.089765070507487e-41
+            ],
+            [
+              -9.732632705618552e-09,
+              -8.089765070507487e-41
+            ]
+          ],
+          "relative_wave_error": 1.6998085463052651e-16,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source1)+3x(Source.Source1)+(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 31,
+          "expected_wave": [
+            -1.8845652993004355e-24,
+            -3.077728697960168e-08
+          ],
+          "observed_waves": [
+            [
+              -1.8845652993004344e-24,
+              -3.0777286979601674e-08
+            ],
+            [
+              -1.8845652993004344e-24,
+              -3.0777286979601674e-08
+            ]
+          ],
+          "relative_wave_error": 2.1501066370177715e-16,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source2)+2x(Source.Source1)+2x(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 31,
+          "expected_wave": [
+            -2.8268479489506535e-25,
+            -4.6165930469402525e-09
+          ],
+          "observed_waves": [
+            [
+              -2.8268479489506517e-25,
+              -4.6165930469402525e-09
+            ],
+            [
+              -2.8268479489506517e-25,
+              -4.6165930469402525e-09
+            ]
+          ],
+          "relative_wave_error": 3.978496489694156e-32,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source1)+2x(Source.Source1)+2x(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 32,
+          "expected_wave": [
+            1.4598949058427829e-08,
+            -1.7878556235318905e-24
+          ],
+          "observed_waves": [
+            [
+              1.4598949058427824e-08,
+              -1.7878556235318898e-24
+            ],
+            [
+              1.4598949058427824e-08,
+              -1.7878556235318898e-24
+            ]
+          ],
+          "relative_wave_error": 3.399617092610531e-16,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source2)+(Source.Source1)+3x(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 32,
+          "expected_wave": [
+            9.732632705618553e-10,
+            -1.1919037490212604e-25
+          ],
+          "observed_waves": [
+            [
+              9.732632705618553e-10,
+              -1.1919037490212607e-25
+            ],
+            [
+              9.732632705618553e-10,
+              -1.1919037490212607e-25
+            ]
+          ],
+          "relative_wave_error": 2.3589582319534028e-32,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source1)+(Source.Source1)+3x(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 33,
+          "expected_wave": [
+            5.653695897901306e-25,
+            3.0777286979601683e-09
+          ],
+          "observed_waves": [
+            [
+              5.653695897901306e-25,
+              3.0777286979601683e-09
+            ],
+            [
+              5.653695897901306e-25,
+              3.0777286979601683e-09
+            ]
+          ],
+          "relative_wave_error": 0.0,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source2)+4x(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 33,
+          "expected_wave": [
+            1.4134239744753266e-26,
+            7.69432174490042e-11
+          ],
+          "observed_waves": [
+            [
+              1.4134239744753266e-26,
+              7.694321744900423e-11
+            ],
+            [
+              1.4134239744753266e-26,
+              7.694321744900423e-11
+            ]
+          ],
+          "relative_wave_error": 3.3595416203402677e-16,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source1)+4x(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 34,
+          "expected_wave": [
+            -2.433158176404638e-10,
+            5.959518745106302e-26
+          ],
+          "observed_waves": [
+            [
+              -2.433158176404638e-10,
+              5.959518745106303e-26
+            ],
+            [
+              -2.433158176404638e-10,
+              5.959518745106303e-26
+            ]
+          ],
+          "relative_wave_error": 4.7179164639068055e-32,
+          "passed": true
+        },
+        {
+          "label": "[4x(Source.Source1)],RFAmp1",
+          "order": 4,
+          "bin": 40,
+          "expected_wave": [
+            8.870334730839387e-08,
+            0.0
+          ],
+          "observed_waves": [
+            [
+              8.870334287322636e-08,
+              0.0
+            ],
+            [
+              8.870334287322636e-08,
+              0.0
+            ]
+          ],
+          "relative_wave_error": 5.0000001581859736e-08,
+          "passed": true
+        },
+        {
+          "label": "[3x(Source.Source1)+(Source.Source2)],RFAmp1",
+          "order": 4,
+          "bin": 41,
+          "expected_wave": [
+            6.870381543225801e-24,
+            1.1220184543019636e-07
+          ],
+          "observed_waves": [
+            [
+              6.870381199706713e-24,
+              1.122018398201039e-07
+            ],
+            [
+              6.870381199706713e-24,
+              1.122018398201039e-07
+            ]
+          ],
+          "relative_wave_error": 5.0000001611215886e-08,
+          "passed": true
+        },
+        {
+          "label": "[2x(Source.Source1)+2x(Source.Source2)],RFAmp1",
+          "order": 4,
+          "bin": 42,
+          "expected_wave": [
+            -5.3222008385036324e-08,
+            6.517816221292833e-24
+          ],
+          "observed_waves": [
+            [
+              -5.322200572393584e-08,
+              6.51781589540201e-24
+            ],
+            [
+              -5.322200572393584e-08,
+              6.51781589540201e-24
+            ]
+          ],
+          "relative_wave_error": 5.0000001159115207e-08,
+          "passed": true
+        },
+        {
+          "label": "[(Source.Source1)+3x(Source.Source2)],RFAmp1",
+          "order": 4,
+          "bin": 43,
+          "expected_wave": [
+            -2.0611144629677406e-24,
+            -1.1220184543019635e-08
+          ],
+          "observed_waves": [
+            [
+              -2.061114359912015e-24,
+              -1.1220183982010396e-08
+            ],
+            [
+              -2.061114359912015e-24,
+              -1.1220183982010396e-08
+            ]
+          ],
+          "relative_wave_error": 5.000000105092451e-08,
+          "passed": true
+        },
+        {
+          "label": "[4x(Source.Source2)],RFAmp1",
+          "order": 4,
+          "bin": 44,
+          "expected_wave": [
+            8.870334730839387e-10,
+            -2.1726054070976107e-25
+          ],
+          "observed_waves": [
+            [
+              8.870334287322642e-10,
+              -2.1726052984673382e-25
+            ],
+            [
+              8.870334287322642e-10,
+              -2.1726052984673382e-25
+            ]
+          ],
+          "relative_wave_error": 5.000000100369442e-08,
+          "passed": true
+        },
+        {
+          "label": "[5x(Source.Source1)],RFAmp1",
+          "order": 5,
+          "bin": 50,
+          "expected_wave": [
+            -4.866316352809277e-09,
+            0.0
+          ],
+          "observed_waves": [
+            [
+              -4.866316352809273e-09,
+              0.0
+            ],
+            [
+              -4.866316352809273e-09,
+              0.0
+            ]
+          ],
+          "relative_wave_error": 8.499042731526326e-16,
+          "passed": true
+        },
+        {
+          "label": "[4x(Source.Source1)+(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 51,
+          "expected_wave": [
+            -4.711413248251089e-25,
+            -7.69432174490042e-09
+          ],
+          "observed_waves": [
+            [
+              -4.711413248251086e-25,
+              -7.694321744900418e-09
+            ],
+            [
+              -4.711413248251086e-25,
+              -7.694321744900418e-09
+            ]
+          ],
+          "relative_wave_error": 2.1501066370177715e-16,
+          "passed": true
+        },
+        {
+          "label": "[3x(Source.Source1)+2x(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 52,
+          "expected_wave": [
+            4.866316352809277e-09,
+            -5.959518745106302e-25
+          ],
+          "observed_waves": [
+            [
+              4.866316352809276e-09,
+              -5.959518745106299e-25
+            ],
+            [
+              4.866316352809276e-09,
+              -5.959518745106299e-25
+            ]
+          ],
+          "relative_wave_error": 1.6998085463052651e-16,
+          "passed": true
+        },
+        {
+          "label": "[2x(Source.Source1)+3x(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 53,
+          "expected_wave": [
+            2.826847948950653e-25,
+            1.5388643489800842e-09
+          ],
+          "observed_waves": [
+            [
+              2.826847948950653e-25,
+              1.5388643489800842e-09
+            ],
+            [
+              2.826847948950653e-25,
+              1.5388643489800842e-09
+            ]
+          ],
+          "relative_wave_error": 0.0,
+          "passed": true
+        },
+        {
+          "label": "[(Source.Source1)+4x(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 54,
+          "expected_wave": [
+            -2.433158176404638e-10,
+            5.959518745106302e-26
+          ],
+          "observed_waves": [
+            [
+              -2.433158176404638e-10,
+              5.959518745106303e-26
+            ],
+            [
+              -2.433158176404638e-10,
+              5.959518745106303e-26
+            ]
+          ],
+          "relative_wave_error": 4.7179164639068055e-32,
+          "passed": true
+        },
+        {
+          "label": "[5x(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 55,
+          "expected_wave": [
+            -4.711413248251089e-27,
+            -1.538864348980084e-11
+          ],
+          "observed_waves": [
+            [
+              -4.7114132482510904e-27,
+              -1.5388643489800847e-11
+            ],
+            [
+              -4.7114132482510904e-27,
+              -1.5388643489800847e-11
+            ]
+          ],
+          "relative_wave_error": 4.199427025425335e-16,
+          "passed": true
+        }
+      ],
+      "full_group_sum_hypothesis": {
+        "observed_count": 0,
+        "consistent": null,
+        "max_relative_wave_error": null,
+        "matching_count": 0
+      }
+    },
+    {
+      "configuration": {
+        "source_power_dbm": -10,
+        "second_source_power_dbm": -20,
+        "spectrum_reduction": true
+      },
+      "raw_capture_sha256": "8d9a8b82f094d24d9ed437aa87c4afb5166002b59f4fd48fcb21ffd793c77f9f",
+      "predicted_count": 44,
+      "observed_count": 30,
+      "labels_match_control_hypothesis": true,
+      "not_recorded": [
+        "[-(Source.Source2)+(Source.Source1)+2x(Source.Source2)],RFAmp1",
+        "[-(Source.Source2)+(Source.Source1)+3x(Source.Source2)],RFAmp1",
+        "[-(Source.Source2)+2x(Source.Source1)+(Source.Source2)],RFAmp1",
+        "[-(Source.Source2)+2x(Source.Source1)+2x(Source.Source2)],RFAmp1",
+        "[-(Source.Source2)+3x(Source.Source1)+(Source.Source2)],RFAmp1",
+        "[-(Source.Source2)+3x(Source.Source2)],RFAmp1",
+        "[-(Source.Source2)+4x(Source.Source2)],RFAmp1",
+        "[-(Source.Source2)-(Source.Source1)+(Source.Source1)+2x(Source.Source2)],RFAmp1",
+        "[-(Source.Source2)-(Source.Source1)+2x(Source.Source1)+(Source.Source2)],RFAmp1",
+        "[-(Source.Source2)-(Source.Source1)+2x(Source.Source2)],RFAmp1",
+        "[-(Source.Source2)-(Source.Source1)+3x(Source.Source2)],RFAmp1",
+        "[-2x(Source.Source2)+(Source.Source1)+2x(Source.Source2)],RFAmp1",
+        "[-2x(Source.Source2)+2x(Source.Source1)+(Source.Source2)],RFAmp1",
+        "[-2x(Source.Source2)+3x(Source.Source2)],RFAmp1"
+      ],
+      "fourth_order": {
+        "observed_count": 12,
+        "consistent": true,
+        "max_relative_wave_error": 5.000000165053458e-08
+      },
+      "fifth_order": {
+        "observed_count": 18,
+        "consistent": true,
+        "max_relative_wave_error": 8.499042731526326e-16
+      },
+      "checks": [
+        {
+          "label": "[-2x(Source.Source1)+(Source.Source1)+(Source.Source2)],RFAmp1",
+          "order": 4,
+          "bin": 1,
+          "expected_wave": [
+            2.0611144629677402e-23,
+            3.3660553629058905e-07
+          ],
+          "observed_waves": [
+            [
+              2.0611143599120132e-23,
+              3.366055194603117e-07
+            ],
+            [
+              2.0611143599120132e-23,
+              3.366055194603117e-07
+            ]
+          ],
+          "relative_wave_error": 5.000000165053458e-08,
+          "passed": true
+        },
+        {
+          "label": "[-2x(Source.Source1)+2x(Source.Source2)],RFAmp1",
+          "order": 4,
+          "bin": 2,
+          "expected_wave": [
+            -5.3222008385036324e-08,
+            6.517816221292833e-24
+          ],
+          "observed_waves": [
+            [
+              -5.322200572393584e-08,
+              6.51781589540201e-24
+            ],
+            [
+              -5.322200572393584e-08,
+              6.51781589540201e-24
+            ]
+          ],
+          "relative_wave_error": 5.0000001159115207e-08,
+          "passed": true
+        },
+        {
+          "label": "[-2x(Source.Source2)+3x(Source.Source1)],RFAmp1",
+          "order": 5,
+          "bin": 8,
+          "expected_wave": [
+            4.866316352809277e-09,
+            5.959518745106305e-25
+          ],
+          "observed_waves": [
+            [
+              4.866316352809276e-09,
+              5.959518745106299e-25
+            ],
+            [
+              4.866316352809276e-09,
+              5.959518745106299e-25
+            ]
+          ],
+          "relative_wave_error": 1.6998085463052651e-16,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source2)-(Source.Source1)+3x(Source.Source1)],RFAmp1",
+          "order": 5,
+          "bin": 9,
+          "expected_wave": [
+            -1.8845652993004355e-24,
+            3.077728697960168e-08
+          ],
+          "observed_waves": [
+            [
+              -1.8845652993004344e-24,
+              3.0777286979601674e-08
+            ],
+            [
+              -1.8845652993004344e-24,
+              3.0777286979601674e-08
+            ]
+          ],
+          "relative_wave_error": 2.1501066370177715e-16,
+          "passed": true
+        },
+        {
+          "label": "[-2x(Source.Source1)+3x(Source.Source1)],RFAmp1",
+          "order": 5,
+          "bin": 10,
+          "expected_wave": [
+            -4.866316352809277e-08,
+            0.0
+          ],
+          "observed_waves": [
+            [
+              -4.866316352809275e-08,
+              0.0
+            ],
+            [
+              -4.866316352809275e-08,
+              0.0
+            ]
+          ],
+          "relative_wave_error": 4.0795405111326365e-16,
+          "passed": true
+        },
+        {
+          "label": "[-2x(Source.Source1)+2x(Source.Source1)+(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 11,
+          "expected_wave": [
+            -2.8268479489506536e-24,
+            -4.616593046940253e-08
+          ],
+          "observed_waves": [
+            [
+              -2.8268479489506517e-24,
+              -4.6165930469402514e-08
+            ],
+            [
+              -2.8268479489506517e-24,
+              -4.6165930469402514e-08
+            ]
+          ],
+          "relative_wave_error": 2.866808849357028e-16,
+          "passed": true
+        },
+        {
+          "label": "[-2x(Source.Source1)+(Source.Source1)+2x(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 12,
+          "expected_wave": [
+            1.4598949058427829e-08,
+            -1.7878556235318905e-24
+          ],
+          "observed_waves": [
+            [
+              1.4598949058427824e-08,
+              -1.7878556235318898e-24
+            ],
+            [
+              1.4598949058427824e-08,
+              -1.7878556235318898e-24
+            ]
+          ],
+          "relative_wave_error": 3.399617092610531e-16,
+          "passed": true
+        },
+        {
+          "label": "[-2x(Source.Source1)+3x(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 13,
+          "expected_wave": [
+            2.826847948950653e-25,
+            1.5388643489800842e-09
+          ],
+          "observed_waves": [
+            [
+              2.826847948950653e-25,
+              1.5388643489800842e-09
+            ],
+            [
+              2.826847948950653e-25,
+              1.5388643489800842e-09
+            ]
+          ],
+          "relative_wave_error": 0.0,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source2)+3x(Source.Source1)],RFAmp1",
+          "order": 4,
+          "bin": 19,
+          "expected_wave": [
+            6.870381543225803e-24,
+            -1.1220184543019636e-07
+          ],
+          "observed_waves": [
+            [
+              6.870381199706713e-24,
+              -1.122018398201039e-07
+            ],
+            [
+              6.870381199706713e-24,
+              -1.122018398201039e-07
+            ]
+          ],
+          "relative_wave_error": 5.0000001611215886e-08,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source1)+3x(Source.Source1)],RFAmp1",
+          "order": 4,
+          "bin": 20,
+          "expected_wave": [
+            3.5481338923357547e-07,
+            0.0
+          ],
+          "observed_waves": [
+            [
+              3.5481337149290545e-07,
+              0.0
+            ],
+            [
+              3.5481337149290545e-07,
+              0.0
+            ]
+          ],
+          "relative_wave_error": 5.0000001581859736e-08,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source1)+2x(Source.Source1)+(Source.Source2)],RFAmp1",
+          "order": 4,
+          "bin": 21,
+          "expected_wave": [
+            2.0611144629677402e-23,
+            3.3660553629058905e-07
+          ],
+          "observed_waves": [
+            [
+              2.0611143599120132e-23,
+              3.366055194603117e-07
+            ],
+            [
+              2.0611143599120132e-23,
+              3.366055194603117e-07
+            ]
+          ],
+          "relative_wave_error": 5.000000165053458e-08,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source1)+(Source.Source1)+2x(Source.Source2)],RFAmp1",
+          "order": 4,
+          "bin": 22,
+          "expected_wave": [
+            -1.0644401677007265e-07,
+            1.3035632442585666e-23
+          ],
+          "observed_waves": [
+            [
+              -1.0644401144787169e-07,
+              1.303563179080402e-23
+            ],
+            [
+              -1.0644401144787169e-07,
+              1.303563179080402e-23
+            ]
+          ],
+          "relative_wave_error": 5.0000001159115207e-08,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source1)+3x(Source.Source2)],RFAmp1",
+          "order": 4,
+          "bin": 23,
+          "expected_wave": [
+            -2.0611144629677406e-24,
+            -1.1220184543019635e-08
+          ],
+          "observed_waves": [
+            [
+              -2.061114359912015e-24,
+              -1.1220183982010396e-08
+            ],
+            [
+              -2.061114359912015e-24,
+              -1.1220183982010396e-08
+            ]
+          ],
+          "relative_wave_error": 5.000000105092451e-08,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source2)+4x(Source.Source1)],RFAmp1",
+          "order": 5,
+          "bin": 29,
+          "expected_wave": [
+            -4.711413248251089e-25,
+            7.69432174490042e-09
+          ],
+          "observed_waves": [
+            [
+              -4.711413248251086e-25,
+              7.694321744900418e-09
+            ],
+            [
+              -4.711413248251086e-25,
+              7.694321744900418e-09
+            ]
+          ],
+          "relative_wave_error": 2.1501066370177715e-16,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source1)+4x(Source.Source1)],RFAmp1",
+          "order": 5,
+          "bin": 30,
+          "expected_wave": [
+            -2.4331581764046384e-08,
+            0.0
+          ],
+          "observed_waves": [
+            [
+              -2.4331581764046374e-08,
+              0.0
+            ],
+            [
+              -2.4331581764046374e-08,
+              0.0
+            ]
+          ],
+          "relative_wave_error": 4.0795405111326365e-16,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source1)+3x(Source.Source1)+(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 31,
+          "expected_wave": [
+            -1.8845652993004355e-24,
+            -3.077728697960168e-08
+          ],
+          "observed_waves": [
+            [
+              -1.8845652993004344e-24,
+              -3.0777286979601674e-08
+            ],
+            [
+              -1.8845652993004344e-24,
+              -3.0777286979601674e-08
+            ]
+          ],
+          "relative_wave_error": 2.1501066370177715e-16,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source1)+2x(Source.Source1)+2x(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 32,
+          "expected_wave": [
+            1.4598949058427829e-08,
+            -1.7878556235318905e-24
+          ],
+          "observed_waves": [
+            [
+              1.4598949058427824e-08,
+              -1.7878556235318898e-24
+            ],
+            [
+              1.4598949058427824e-08,
+              -1.7878556235318898e-24
+            ]
+          ],
+          "relative_wave_error": 3.399617092610531e-16,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source1)+(Source.Source1)+3x(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 33,
+          "expected_wave": [
+            5.653695897901306e-25,
+            3.0777286979601683e-09
+          ],
+          "observed_waves": [
+            [
+              5.653695897901306e-25,
+              3.0777286979601683e-09
+            ],
+            [
+              5.653695897901306e-25,
+              3.0777286979601683e-09
+            ]
+          ],
+          "relative_wave_error": 0.0,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source1)+4x(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 34,
+          "expected_wave": [
+            -2.433158176404638e-10,
+            5.959518745106302e-26
+          ],
+          "observed_waves": [
+            [
+              -2.433158176404638e-10,
+              5.959518745106303e-26
+            ],
+            [
+              -2.433158176404638e-10,
+              5.959518745106303e-26
+            ]
+          ],
+          "relative_wave_error": 4.7179164639068055e-32,
+          "passed": true
+        },
+        {
+          "label": "[4x(Source.Source1)],RFAmp1",
+          "order": 4,
+          "bin": 40,
+          "expected_wave": [
+            8.870334730839387e-08,
+            0.0
+          ],
+          "observed_waves": [
+            [
+              8.870334287322636e-08,
+              0.0
+            ],
+            [
+              8.870334287322636e-08,
+              0.0
+            ]
+          ],
+          "relative_wave_error": 5.0000001581859736e-08,
+          "passed": true
+        },
+        {
+          "label": "[3x(Source.Source1)+(Source.Source2)],RFAmp1",
+          "order": 4,
+          "bin": 41,
+          "expected_wave": [
+            6.870381543225801e-24,
+            1.1220184543019636e-07
+          ],
+          "observed_waves": [
+            [
+              6.870381199706713e-24,
+              1.122018398201039e-07
+            ],
+            [
+              6.870381199706713e-24,
+              1.122018398201039e-07
+            ]
+          ],
+          "relative_wave_error": 5.0000001611215886e-08,
+          "passed": true
+        },
+        {
+          "label": "[2x(Source.Source1)+2x(Source.Source2)],RFAmp1",
+          "order": 4,
+          "bin": 42,
+          "expected_wave": [
+            -5.3222008385036324e-08,
+            6.517816221292833e-24
+          ],
+          "observed_waves": [
+            [
+              -5.322200572393584e-08,
+              6.51781589540201e-24
+            ],
+            [
+              -5.322200572393584e-08,
+              6.51781589540201e-24
+            ]
+          ],
+          "relative_wave_error": 5.0000001159115207e-08,
+          "passed": true
+        },
+        {
+          "label": "[(Source.Source1)+3x(Source.Source2)],RFAmp1",
+          "order": 4,
+          "bin": 43,
+          "expected_wave": [
+            -2.0611144629677406e-24,
+            -1.1220184543019635e-08
+          ],
+          "observed_waves": [
+            [
+              -2.061114359912015e-24,
+              -1.1220183982010396e-08
+            ],
+            [
+              -2.061114359912015e-24,
+              -1.1220183982010396e-08
+            ]
+          ],
+          "relative_wave_error": 5.000000105092451e-08,
+          "passed": true
+        },
+        {
+          "label": "[4x(Source.Source2)],RFAmp1",
+          "order": 4,
+          "bin": 44,
+          "expected_wave": [
+            8.870334730839387e-10,
+            -2.1726054070976107e-25
+          ],
+          "observed_waves": [
+            [
+              8.870334287322642e-10,
+              -2.1726052984673382e-25
+            ],
+            [
+              8.870334287322642e-10,
+              -2.1726052984673382e-25
+            ]
+          ],
+          "relative_wave_error": 5.000000100369442e-08,
+          "passed": true
+        },
+        {
+          "label": "[5x(Source.Source1)],RFAmp1",
+          "order": 5,
+          "bin": 50,
+          "expected_wave": [
+            -4.866316352809277e-09,
+            0.0
+          ],
+          "observed_waves": [
+            [
+              -4.866316352809273e-09,
+              0.0
+            ],
+            [
+              -4.866316352809273e-09,
+              0.0
+            ]
+          ],
+          "relative_wave_error": 8.499042731526326e-16,
+          "passed": true
+        },
+        {
+          "label": "[4x(Source.Source1)+(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 51,
+          "expected_wave": [
+            -4.711413248251089e-25,
+            -7.69432174490042e-09
+          ],
+          "observed_waves": [
+            [
+              -4.711413248251086e-25,
+              -7.694321744900418e-09
+            ],
+            [
+              -4.711413248251086e-25,
+              -7.694321744900418e-09
+            ]
+          ],
+          "relative_wave_error": 2.1501066370177715e-16,
+          "passed": true
+        },
+        {
+          "label": "[3x(Source.Source1)+2x(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 52,
+          "expected_wave": [
+            4.866316352809277e-09,
+            -5.959518745106302e-25
+          ],
+          "observed_waves": [
+            [
+              4.866316352809276e-09,
+              -5.959518745106299e-25
+            ],
+            [
+              4.866316352809276e-09,
+              -5.959518745106299e-25
+            ]
+          ],
+          "relative_wave_error": 1.6998085463052651e-16,
+          "passed": true
+        },
+        {
+          "label": "[2x(Source.Source1)+3x(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 53,
+          "expected_wave": [
+            2.826847948950653e-25,
+            1.5388643489800842e-09
+          ],
+          "observed_waves": [
+            [
+              2.826847948950653e-25,
+              1.5388643489800842e-09
+            ],
+            [
+              2.826847948950653e-25,
+              1.5388643489800842e-09
+            ]
+          ],
+          "relative_wave_error": 0.0,
+          "passed": true
+        },
+        {
+          "label": "[(Source.Source1)+4x(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 54,
+          "expected_wave": [
+            -2.433158176404638e-10,
+            5.959518745106302e-26
+          ],
+          "observed_waves": [
+            [
+              -2.433158176404638e-10,
+              5.959518745106303e-26
+            ],
+            [
+              -2.433158176404638e-10,
+              5.959518745106303e-26
+            ]
+          ],
+          "relative_wave_error": 4.7179164639068055e-32,
+          "passed": true
+        },
+        {
+          "label": "[5x(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 55,
+          "expected_wave": [
+            -4.711413248251089e-27,
+            -1.538864348980084e-11
+          ],
+          "observed_waves": [
+            [
+              -4.7114132482510904e-27,
+              -1.5388643489800847e-11
+            ],
+            [
+              -4.7114132482510904e-27,
+              -1.5388643489800847e-11
+            ]
+          ],
+          "relative_wave_error": 4.199427025425335e-16,
+          "passed": true
+        }
+      ],
+      "full_group_sum_hypothesis": {
+        "observed_count": 12,
+        "consistent": false,
+        "max_relative_wave_error": 0.3865030674846629,
+        "matching_count": 0
+      }
+    },
+    {
+      "configuration": {
+        "source_power_dbm": -10,
+        "second_source_power_dbm": -10,
+        "spectrum_reduction": false
+      },
+      "raw_capture_sha256": "01ff9dde51a83ab7ea86ec8a698f1e01eb5a552402fa03f6c223131c18124c83",
+      "predicted_count": 44,
+      "observed_count": 44,
+      "labels_match_control_hypothesis": true,
+      "not_recorded": [],
+      "fourth_order": {
+        "observed_count": 16,
+        "consistent": true,
+        "max_relative_wave_error": 5.000000188026763e-08
+      },
+      "fifth_order": {
+        "observed_count": 28,
+        "consistent": true,
+        "max_relative_wave_error": 2.719693674088424e-16
+      },
+      "checks": [
+        {
+          "label": "[-2x(Source.Source1)+(Source.Source1)+(Source.Source2)],RFAmp1",
+          "order": 4,
+          "bin": 1,
+          "expected_wave": [
+            6.517816221292833e-23,
+            1.0644401677007265e-06
+          ],
+          "observed_waves": [
+            [
+              6.51781589540201e-23,
+              1.064440114478716e-06
+            ],
+            [
+              6.51781589540201e-23,
+              1.064440114478716e-06
+            ]
+          ],
+          "relative_wave_error": 5.000000188026763e-08,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source2)-(Source.Source1)+2x(Source.Source2)],RFAmp1",
+          "order": 4,
+          "bin": 1,
+          "expected_wave": [
+            6.517816221292833e-23,
+            1.0644401677007265e-06
+          ],
+          "observed_waves": [
+            [
+              6.51781589540201e-23,
+              1.064440114478716e-06
+            ],
+            [
+              6.51781589540201e-23,
+              1.064440114478716e-06
+            ]
+          ],
+          "relative_wave_error": 5.000000188026763e-08,
+          "passed": true
+        },
+        {
+          "label": "[-2x(Source.Source1)+2x(Source.Source2)],RFAmp1",
+          "order": 4,
+          "bin": 2,
+          "expected_wave": [
+            -5.322200838503632e-07,
+            6.517816221292833e-23
+          ],
+          "observed_waves": [
+            [
+              -5.32220057239358e-07,
+              6.51781589540201e-23
+            ],
+            [
+              -5.32220057239358e-07,
+              6.51781589540201e-23
+            ]
+          ],
+          "relative_wave_error": 5.000000188026763e-08,
+          "passed": true
+        },
+        {
+          "label": "[-2x(Source.Source2)+3x(Source.Source1)],RFAmp1",
+          "order": 5,
+          "bin": 8,
+          "expected_wave": [
+            4.866316352809277e-08,
+            5.959518745106303e-24
+          ],
+          "observed_waves": [
+            [
+              4.8663163528092756e-08,
+              5.9595187451063016e-24
+            ],
+            [
+              4.8663163528092756e-08,
+              5.9595187451063016e-24
+            ]
+          ],
+          "relative_wave_error": 2.719693674088424e-16,
+          "passed": true
+        },
+        {
+          "label": "[-2x(Source.Source2)+2x(Source.Source1)+(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 9,
+          "expected_wave": [
+            -8.939278117659454e-24,
+            1.459894905842783e-07
+          ],
+          "observed_waves": [
+            [
+              -8.939278117659453e-24,
+              1.4598949058427827e-07
+            ],
+            [
+              -8.939278117659453e-24,
+              1.4598949058427827e-07
+            ]
+          ],
+          "relative_wave_error": 1.8131291160589497e-16,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source2)-(Source.Source1)+3x(Source.Source1)],RFAmp1",
+          "order": 5,
+          "bin": 9,
+          "expected_wave": [
+            -5.959518745106303e-24,
+            9.732632705618554e-08
+          ],
+          "observed_waves": [
+            [
+              -5.9595187451063016e-24,
+              9.732632705618551e-08
+            ],
+            [
+              -5.9595187451063016e-24,
+              9.732632705618551e-08
+            ]
+          ],
+          "relative_wave_error": 2.719693674088424e-16,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source2)-(Source.Source1)+2x(Source.Source1)+(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 10,
+          "expected_wave": [
+            -2.919789811685566e-07,
+            0.0
+          ],
+          "observed_waves": [
+            [
+              -2.9197898116855655e-07,
+              0.0
+            ],
+            [
+              -2.9197898116855655e-07,
+              0.0
+            ]
+          ],
+          "relative_wave_error": 1.8131291160589497e-16,
+          "passed": true
+        },
+        {
+          "label": "[-2x(Source.Source2)+(Source.Source1)+2x(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 10,
+          "expected_wave": [
+            -1.459894905842783e-07,
+            0.0
+          ],
+          "observed_waves": [
+            [
+              -1.4598949058427827e-07,
+              0.0
+            ],
+            [
+              -1.4598949058427827e-07,
+              0.0
+            ]
+          ],
+          "relative_wave_error": 1.8131291160589497e-16,
+          "passed": true
+        },
+        {
+          "label": "[-2x(Source.Source1)+3x(Source.Source1)],RFAmp1",
+          "order": 5,
+          "bin": 10,
+          "expected_wave": [
+            -4.866316352809277e-08,
+            0.0
+          ],
+          "observed_waves": [
+            [
+              -4.8663163528092756e-08,
+              0.0
+            ],
+            [
+              -4.8663163528092756e-08,
+              0.0
+            ]
+          ],
+          "relative_wave_error": 2.719693674088424e-16,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source2)-(Source.Source1)+(Source.Source1)+2x(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 11,
+          "expected_wave": [
+            -1.7878556235318908e-23,
+            -2.919789811685566e-07
+          ],
+          "observed_waves": [
+            [
+              -1.7878556235318905e-23,
+              -2.9197898116855655e-07
+            ],
+            [
+              -1.7878556235318905e-23,
+              -2.9197898116855655e-07
+            ]
+          ],
+          "relative_wave_error": 1.8131291160589497e-16,
+          "passed": true
+        },
+        {
+          "label": "[-2x(Source.Source1)+2x(Source.Source1)+(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 11,
+          "expected_wave": [
+            -8.939278117659454e-24,
+            -1.459894905842783e-07
+          ],
+          "observed_waves": [
+            [
+              -8.939278117659453e-24,
+              -1.4598949058427827e-07
+            ],
+            [
+              -8.939278117659453e-24,
+              -1.4598949058427827e-07
+            ]
+          ],
+          "relative_wave_error": 1.8131291160589497e-16,
+          "passed": true
+        },
+        {
+          "label": "[-2x(Source.Source2)+3x(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 11,
+          "expected_wave": [
+            -2.979759372553151e-24,
+            -4.866316352809277e-08
+          ],
+          "observed_waves": [
+            [
+              -2.9797593725531504e-24,
+              -4.8663163528092756e-08
+            ],
+            [
+              -2.9797593725531504e-24,
+              -4.8663163528092756e-08
+            ]
+          ],
+          "relative_wave_error": 2.719693674088424e-16,
+          "passed": true
+        },
+        {
+          "label": "[-2x(Source.Source1)+(Source.Source1)+2x(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 12,
+          "expected_wave": [
+            1.459894905842783e-07,
+            -1.7878556235318908e-23
+          ],
+          "observed_waves": [
+            [
+              1.4598949058427827e-07,
+              -1.7878556235318905e-23
+            ],
+            [
+              1.4598949058427827e-07,
+              -1.7878556235318905e-23
+            ]
+          ],
+          "relative_wave_error": 1.8131291160589497e-16,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source2)-(Source.Source1)+3x(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 12,
+          "expected_wave": [
+            9.732632705618554e-08,
+            -1.1919037490212605e-23
+          ],
+          "observed_waves": [
+            [
+              9.732632705618551e-08,
+              -1.1919037490212603e-23
+            ],
+            [
+              9.732632705618551e-08,
+              -1.1919037490212603e-23
+            ]
+          ],
+          "relative_wave_error": 2.719693674088424e-16,
+          "passed": true
+        },
+        {
+          "label": "[-2x(Source.Source1)+3x(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 13,
+          "expected_wave": [
+            8.939278117659454e-24,
+            4.866316352809277e-08
+          ],
+          "observed_waves": [
+            [
+              8.939278117659454e-24,
+              4.8663163528092756e-08
+            ],
+            [
+              8.939278117659454e-24,
+              4.8663163528092756e-08
+            ]
+          ],
+          "relative_wave_error": 2.719693674088424e-16,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source2)+3x(Source.Source1)],RFAmp1",
+          "order": 4,
+          "bin": 19,
+          "expected_wave": [
+            2.172605407097611e-23,
+            -3.5481338923357547e-07
+          ],
+          "observed_waves": [
+            [
+              2.1726052984673367e-23,
+              -3.548133714929054e-07
+            ],
+            [
+              2.1726052984673367e-23,
+              -3.548133714929054e-07
+            ]
+          ],
+          "relative_wave_error": 5.000000173106368e-08,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source2)+2x(Source.Source1)+(Source.Source2)],RFAmp1",
+          "order": 4,
+          "bin": 20,
+          "expected_wave": [
+            1.0644401677007265e-06,
+            0.0
+          ],
+          "observed_waves": [
+            [
+              1.064440114478716e-06,
+              0.0
+            ],
+            [
+              1.064440114478716e-06,
+              0.0
+            ]
+          ],
+          "relative_wave_error": 5.000000188026763e-08,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source1)+3x(Source.Source1)],RFAmp1",
+          "order": 4,
+          "bin": 20,
+          "expected_wave": [
+            3.5481338923357547e-07,
+            0.0
+          ],
+          "observed_waves": [
+            [
+              3.548133714929054e-07,
+              0.0
+            ],
+            [
+              3.548133714929054e-07,
+              0.0
+            ]
+          ],
+          "relative_wave_error": 5.000000173106368e-08,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source1)+2x(Source.Source1)+(Source.Source2)],RFAmp1",
+          "order": 4,
+          "bin": 21,
+          "expected_wave": [
+            6.517816221292833e-23,
+            1.0644401677007265e-06
+          ],
+          "observed_waves": [
+            [
+              6.51781589540201e-23,
+              1.064440114478716e-06
+            ],
+            [
+              6.51781589540201e-23,
+              1.064440114478716e-06
+            ]
+          ],
+          "relative_wave_error": 5.000000188026763e-08,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source2)+(Source.Source1)+2x(Source.Source2)],RFAmp1",
+          "order": 4,
+          "bin": 21,
+          "expected_wave": [
+            6.517816221292833e-23,
+            1.0644401677007265e-06
+          ],
+          "observed_waves": [
+            [
+              6.51781589540201e-23,
+              1.064440114478716e-06
+            ],
+            [
+              6.51781589540201e-23,
+              1.064440114478716e-06
+            ]
+          ],
+          "relative_wave_error": 5.000000188026763e-08,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source1)+(Source.Source1)+2x(Source.Source2)],RFAmp1",
+          "order": 4,
+          "bin": 22,
+          "expected_wave": [
+            -1.0644401677007265e-06,
+            1.3035632442585666e-22
+          ],
+          "observed_waves": [
+            [
+              -1.064440114478716e-06,
+              1.303563179080402e-22
+            ],
+            [
+              -1.064440114478716e-06,
+              1.303563179080402e-22
+            ]
+          ],
+          "relative_wave_error": 5.000000188026763e-08,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source2)+3x(Source.Source2)],RFAmp1",
+          "order": 4,
+          "bin": 22,
+          "expected_wave": [
+            -3.5481338923357547e-07,
+            4.345210814195222e-23
+          ],
+          "observed_waves": [
+            [
+              -3.548133714929054e-07,
+              4.345210596934673e-23
+            ],
+            [
+              -3.548133714929054e-07,
+              4.345210596934673e-23
+            ]
+          ],
+          "relative_wave_error": 5.000000173106368e-08,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source1)+3x(Source.Source2)],RFAmp1",
+          "order": 4,
+          "bin": 23,
+          "expected_wave": [
+            -6.517816221292833e-23,
+            -3.5481338923357547e-07
+          ],
+          "observed_waves": [
+            [
+              -6.51781589540201e-23,
+              -3.548133714929054e-07
+            ],
+            [
+              -6.51781589540201e-23,
+              -3.548133714929054e-07
+            ]
+          ],
+          "relative_wave_error": 5.000000173106368e-08,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source2)+4x(Source.Source1)],RFAmp1",
+          "order": 5,
+          "bin": 29,
+          "expected_wave": [
+            -1.4898796862765758e-24,
+            2.4331581764046384e-08
+          ],
+          "observed_waves": [
+            [
+              -1.4898796862765754e-24,
+              2.4331581764046378e-08
+            ],
+            [
+              -1.4898796862765754e-24,
+              2.4331581764046378e-08
+            ]
+          ],
+          "relative_wave_error": 2.719693674088424e-16,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source2)+3x(Source.Source1)+(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 30,
+          "expected_wave": [
+            -9.732632705618554e-08,
+            0.0
+          ],
+          "observed_waves": [
+            [
+              -9.732632705618551e-08,
+              0.0
+            ],
+            [
+              -9.732632705618551e-08,
+              0.0
+            ]
+          ],
+          "relative_wave_error": 2.719693674088424e-16,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source1)+4x(Source.Source1)],RFAmp1",
+          "order": 5,
+          "bin": 30,
+          "expected_wave": [
+            -2.4331581764046384e-08,
+            0.0
+          ],
+          "observed_waves": [
+            [
+              -2.4331581764046378e-08,
+              0.0
+            ],
+            [
+              -2.4331581764046378e-08,
+              0.0
+            ]
+          ],
+          "relative_wave_error": 2.719693674088424e-16,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source2)+2x(Source.Source1)+2x(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 31,
+          "expected_wave": [
+            -8.939278117659454e-24,
+            -1.459894905842783e-07
+          ],
+          "observed_waves": [
+            [
+              -8.939278117659453e-24,
+              -1.4598949058427827e-07
+            ],
+            [
+              -8.939278117659453e-24,
+              -1.4598949058427827e-07
+            ]
+          ],
+          "relative_wave_error": 1.8131291160589497e-16,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source1)+3x(Source.Source1)+(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 31,
+          "expected_wave": [
+            -5.959518745106303e-24,
+            -9.732632705618554e-08
+          ],
+          "observed_waves": [
+            [
+              -5.9595187451063016e-24,
+              -9.732632705618551e-08
+            ],
+            [
+              -5.9595187451063016e-24,
+              -9.732632705618551e-08
+            ]
+          ],
+          "relative_wave_error": 2.719693674088424e-16,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source1)+2x(Source.Source1)+2x(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 32,
+          "expected_wave": [
+            1.459894905842783e-07,
+            -1.7878556235318908e-23
+          ],
+          "observed_waves": [
+            [
+              1.4598949058427827e-07,
+              -1.7878556235318905e-23
+            ],
+            [
+              1.4598949058427827e-07,
+              -1.7878556235318905e-23
+            ]
+          ],
+          "relative_wave_error": 1.8131291160589497e-16,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source2)+(Source.Source1)+3x(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 32,
+          "expected_wave": [
+            9.732632705618554e-08,
+            -1.1919037490212605e-23
+          ],
+          "observed_waves": [
+            [
+              9.732632705618551e-08,
+              -1.1919037490212603e-23
+            ],
+            [
+              9.732632705618551e-08,
+              -1.1919037490212603e-23
+            ]
+          ],
+          "relative_wave_error": 2.719693674088424e-16,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source1)+(Source.Source1)+3x(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 33,
+          "expected_wave": [
+            1.7878556235318908e-23,
+            9.732632705618554e-08
+          ],
+          "observed_waves": [
+            [
+              1.7878556235318908e-23,
+              9.732632705618551e-08
+            ],
+            [
+              1.7878556235318908e-23,
+              9.732632705618551e-08
+            ]
+          ],
+          "relative_wave_error": 2.719693674088424e-16,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source2)+4x(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 33,
+          "expected_wave": [
+            4.469639058829727e-24,
+            2.4331581764046384e-08
+          ],
+          "observed_waves": [
+            [
+              4.469639058829727e-24,
+              2.4331581764046378e-08
+            ],
+            [
+              4.469639058829727e-24,
+              2.4331581764046378e-08
+            ]
+          ],
+          "relative_wave_error": 2.719693674088424e-16,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source1)+4x(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 34,
+          "expected_wave": [
+            -2.4331581764046384e-08,
+            5.959518745106303e-24
+          ],
+          "observed_waves": [
+            [
+              -2.4331581764046378e-08,
+              5.9595187451063016e-24
+            ],
+            [
+              -2.4331581764046378e-08,
+              5.9595187451063016e-24
+            ]
+          ],
+          "relative_wave_error": 2.719693674088424e-16,
+          "passed": true
+        },
+        {
+          "label": "[4x(Source.Source1)],RFAmp1",
+          "order": 4,
+          "bin": 40,
+          "expected_wave": [
+            8.870334730839387e-08,
+            0.0
+          ],
+          "observed_waves": [
+            [
+              8.870334287322635e-08,
+              0.0
+            ],
+            [
+              8.870334287322635e-08,
+              0.0
+            ]
+          ],
+          "relative_wave_error": 5.000000173106368e-08,
+          "passed": true
+        },
+        {
+          "label": "[3x(Source.Source1)+(Source.Source2)],RFAmp1",
+          "order": 4,
+          "bin": 41,
+          "expected_wave": [
+            2.172605407097611e-23,
+            3.5481338923357547e-07
+          ],
+          "observed_waves": [
+            [
+              2.1726052984673367e-23,
+              3.548133714929054e-07
+            ],
+            [
+              2.1726052984673367e-23,
+              3.548133714929054e-07
+            ]
+          ],
+          "relative_wave_error": 5.000000173106368e-08,
+          "passed": true
+        },
+        {
+          "label": "[2x(Source.Source1)+2x(Source.Source2)],RFAmp1",
+          "order": 4,
+          "bin": 42,
+          "expected_wave": [
+            -5.322200838503632e-07,
+            6.517816221292833e-23
+          ],
+          "observed_waves": [
+            [
+              -5.32220057239358e-07,
+              6.51781589540201e-23
+            ],
+            [
+              -5.32220057239358e-07,
+              6.51781589540201e-23
+            ]
+          ],
+          "relative_wave_error": 5.000000188026763e-08,
+          "passed": true
+        },
+        {
+          "label": "[(Source.Source1)+3x(Source.Source2)],RFAmp1",
+          "order": 4,
+          "bin": 43,
+          "expected_wave": [
+            -6.517816221292833e-23,
+            -3.5481338923357547e-07
+          ],
+          "observed_waves": [
+            [
+              -6.51781589540201e-23,
+              -3.548133714929054e-07
+            ],
+            [
+              -6.51781589540201e-23,
+              -3.548133714929054e-07
+            ]
+          ],
+          "relative_wave_error": 5.000000173106368e-08,
+          "passed": true
+        },
+        {
+          "label": "[4x(Source.Source2)],RFAmp1",
+          "order": 4,
+          "bin": 44,
+          "expected_wave": [
+            8.870334730839387e-08,
+            -2.172605407097611e-23
+          ],
+          "observed_waves": [
+            [
+              8.870334287322635e-08,
+              -2.1726052984673364e-23
+            ],
+            [
+              8.870334287322635e-08,
+              -2.1726052984673364e-23
+            ]
+          ],
+          "relative_wave_error": 5.000000173106368e-08,
+          "passed": true
+        },
+        {
+          "label": "[5x(Source.Source1)],RFAmp1",
+          "order": 5,
+          "bin": 50,
+          "expected_wave": [
+            -4.866316352809277e-09,
+            0.0
+          ],
+          "observed_waves": [
+            [
+              -4.866316352809276e-09,
+              0.0
+            ],
+            [
+              -4.866316352809276e-09,
+              0.0
+            ]
+          ],
+          "relative_wave_error": 1.6998085463052651e-16,
+          "passed": true
+        },
+        {
+          "label": "[4x(Source.Source1)+(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 51,
+          "expected_wave": [
+            -1.4898796862765758e-24,
+            -2.4331581764046384e-08
+          ],
+          "observed_waves": [
+            [
+              -1.4898796862765754e-24,
+              -2.4331581764046378e-08
+            ],
+            [
+              -1.4898796862765754e-24,
+              -2.4331581764046378e-08
+            ]
+          ],
+          "relative_wave_error": 2.719693674088424e-16,
+          "passed": true
+        },
+        {
+          "label": "[3x(Source.Source1)+2x(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 52,
+          "expected_wave": [
+            4.866316352809277e-08,
+            -5.959518745106303e-24
+          ],
+          "observed_waves": [
+            [
+              4.8663163528092756e-08,
+              -5.9595187451063016e-24
+            ],
+            [
+              4.8663163528092756e-08,
+              -5.9595187451063016e-24
+            ]
+          ],
+          "relative_wave_error": 2.719693674088424e-16,
+          "passed": true
+        },
+        {
+          "label": "[2x(Source.Source1)+3x(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 53,
+          "expected_wave": [
+            8.939278117659454e-24,
+            4.866316352809277e-08
+          ],
+          "observed_waves": [
+            [
+              8.939278117659454e-24,
+              4.8663163528092756e-08
+            ],
+            [
+              8.939278117659454e-24,
+              4.8663163528092756e-08
+            ]
+          ],
+          "relative_wave_error": 2.719693674088424e-16,
+          "passed": true
+        },
+        {
+          "label": "[(Source.Source1)+4x(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 54,
+          "expected_wave": [
+            -2.4331581764046384e-08,
+            5.959518745106303e-24
+          ],
+          "observed_waves": [
+            [
+              -2.4331581764046378e-08,
+              5.9595187451063016e-24
+            ],
+            [
+              -2.4331581764046378e-08,
+              5.9595187451063016e-24
+            ]
+          ],
+          "relative_wave_error": 2.719693674088424e-16,
+          "passed": true
+        },
+        {
+          "label": "[5x(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 55,
+          "expected_wave": [
+            -1.4898796862765758e-24,
+            -4.866316352809277e-09
+          ],
+          "observed_waves": [
+            [
+              -1.4898796862765752e-24,
+              -4.866316352809276e-09
+            ],
+            [
+              -1.4898796862765752e-24,
+              -4.866316352809276e-09
+            ]
+          ],
+          "relative_wave_error": 1.6998085463052651e-16,
+          "passed": true
+        }
+      ],
+      "full_group_sum_hypothesis": {
+        "observed_count": 0,
+        "consistent": null,
+        "max_relative_wave_error": null,
+        "matching_count": 0
+      }
+    },
+    {
+      "configuration": {
+        "source_power_dbm": -10,
+        "second_source_power_dbm": -10,
+        "spectrum_reduction": true
+      },
+      "raw_capture_sha256": "95e24c1a9fbcfd3aa556d9d046fa2be209f053c1daf1622449efa82ace8d2635",
+      "predicted_count": 44,
+      "observed_count": 32,
+      "labels_match_control_hypothesis": true,
+      "not_recorded": [
+        "[-(Source.Source1)+3x(Source.Source1)+(Source.Source2)],RFAmp1",
+        "[-(Source.Source1)+3x(Source.Source1)],RFAmp1",
+        "[-(Source.Source1)+4x(Source.Source1)],RFAmp1",
+        "[-(Source.Source2)+(Source.Source1)+3x(Source.Source2)],RFAmp1",
+        "[-(Source.Source2)+3x(Source.Source2)],RFAmp1",
+        "[-(Source.Source2)+4x(Source.Source2)],RFAmp1",
+        "[-(Source.Source2)-(Source.Source1)+3x(Source.Source1)],RFAmp1",
+        "[-(Source.Source2)-(Source.Source1)+3x(Source.Source2)],RFAmp1",
+        "[-2x(Source.Source1)+2x(Source.Source1)+(Source.Source2)],RFAmp1",
+        "[-2x(Source.Source1)+3x(Source.Source1)],RFAmp1",
+        "[-2x(Source.Source2)+(Source.Source1)+2x(Source.Source2)],RFAmp1",
+        "[-2x(Source.Source2)+3x(Source.Source2)],RFAmp1"
+      ],
+      "fourth_order": {
+        "observed_count": 14,
+        "consistent": true,
+        "max_relative_wave_error": 5.000000188026763e-08
+      },
+      "fifth_order": {
+        "observed_count": 18,
+        "consistent": true,
+        "max_relative_wave_error": 2.719693674088424e-16
+      },
+      "checks": [
+        {
+          "label": "[-2x(Source.Source1)+(Source.Source1)+(Source.Source2)],RFAmp1",
+          "order": 4,
+          "bin": 1,
+          "expected_wave": [
+            6.517816221292833e-23,
+            1.0644401677007265e-06
+          ],
+          "observed_waves": [
+            [
+              6.51781589540201e-23,
+              1.064440114478716e-06
+            ],
+            [
+              6.51781589540201e-23,
+              1.064440114478716e-06
+            ]
+          ],
+          "relative_wave_error": 5.000000188026763e-08,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source2)-(Source.Source1)+2x(Source.Source2)],RFAmp1",
+          "order": 4,
+          "bin": 1,
+          "expected_wave": [
+            6.517816221292833e-23,
+            1.0644401677007265e-06
+          ],
+          "observed_waves": [
+            [
+              6.51781589540201e-23,
+              1.064440114478716e-06
+            ],
+            [
+              6.51781589540201e-23,
+              1.064440114478716e-06
+            ]
+          ],
+          "relative_wave_error": 5.000000188026763e-08,
+          "passed": true
+        },
+        {
+          "label": "[-2x(Source.Source1)+2x(Source.Source2)],RFAmp1",
+          "order": 4,
+          "bin": 2,
+          "expected_wave": [
+            -5.322200838503632e-07,
+            6.517816221292833e-23
+          ],
+          "observed_waves": [
+            [
+              -5.32220057239358e-07,
+              6.51781589540201e-23
+            ],
+            [
+              -5.32220057239358e-07,
+              6.51781589540201e-23
+            ]
+          ],
+          "relative_wave_error": 5.000000188026763e-08,
+          "passed": true
+        },
+        {
+          "label": "[-2x(Source.Source2)+3x(Source.Source1)],RFAmp1",
+          "order": 5,
+          "bin": 8,
+          "expected_wave": [
+            4.866316352809277e-08,
+            5.959518745106303e-24
+          ],
+          "observed_waves": [
+            [
+              4.8663163528092756e-08,
+              5.9595187451063016e-24
+            ],
+            [
+              4.8663163528092756e-08,
+              5.9595187451063016e-24
+            ]
+          ],
+          "relative_wave_error": 2.719693674088424e-16,
+          "passed": true
+        },
+        {
+          "label": "[-2x(Source.Source2)+2x(Source.Source1)+(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 9,
+          "expected_wave": [
+            -8.939278117659454e-24,
+            1.459894905842783e-07
+          ],
+          "observed_waves": [
+            [
+              -8.939278117659453e-24,
+              1.4598949058427827e-07
+            ],
+            [
+              -8.939278117659453e-24,
+              1.4598949058427827e-07
+            ]
+          ],
+          "relative_wave_error": 1.8131291160589497e-16,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source2)-(Source.Source1)+2x(Source.Source1)+(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 10,
+          "expected_wave": [
+            -2.919789811685566e-07,
+            0.0
+          ],
+          "observed_waves": [
+            [
+              -2.9197898116855655e-07,
+              0.0
+            ],
+            [
+              -2.9197898116855655e-07,
+              0.0
+            ]
+          ],
+          "relative_wave_error": 1.8131291160589497e-16,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source2)-(Source.Source1)+(Source.Source1)+2x(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 11,
+          "expected_wave": [
+            -1.7878556235318908e-23,
+            -2.919789811685566e-07
+          ],
+          "observed_waves": [
+            [
+              -1.7878556235318905e-23,
+              -2.9197898116855655e-07
+            ],
+            [
+              -1.7878556235318905e-23,
+              -2.9197898116855655e-07
+            ]
+          ],
+          "relative_wave_error": 1.8131291160589497e-16,
+          "passed": true
+        },
+        {
+          "label": "[-2x(Source.Source1)+(Source.Source1)+2x(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 12,
+          "expected_wave": [
+            1.459894905842783e-07,
+            -1.7878556235318908e-23
+          ],
+          "observed_waves": [
+            [
+              1.4598949058427827e-07,
+              -1.7878556235318905e-23
+            ],
+            [
+              1.4598949058427827e-07,
+              -1.7878556235318905e-23
+            ]
+          ],
+          "relative_wave_error": 1.8131291160589497e-16,
+          "passed": true
+        },
+        {
+          "label": "[-2x(Source.Source1)+3x(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 13,
+          "expected_wave": [
+            8.939278117659454e-24,
+            4.866316352809277e-08
+          ],
+          "observed_waves": [
+            [
+              8.939278117659454e-24,
+              4.8663163528092756e-08
+            ],
+            [
+              8.939278117659454e-24,
+              4.8663163528092756e-08
+            ]
+          ],
+          "relative_wave_error": 2.719693674088424e-16,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source2)+3x(Source.Source1)],RFAmp1",
+          "order": 4,
+          "bin": 19,
+          "expected_wave": [
+            2.172605407097611e-23,
+            -3.5481338923357547e-07
+          ],
+          "observed_waves": [
+            [
+              2.1726052984673367e-23,
+              -3.548133714929054e-07
+            ],
+            [
+              2.1726052984673367e-23,
+              -3.548133714929054e-07
+            ]
+          ],
+          "relative_wave_error": 5.000000173106368e-08,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source2)+2x(Source.Source1)+(Source.Source2)],RFAmp1",
+          "order": 4,
+          "bin": 20,
+          "expected_wave": [
+            1.0644401677007265e-06,
+            0.0
+          ],
+          "observed_waves": [
+            [
+              1.064440114478716e-06,
+              0.0
+            ],
+            [
+              1.064440114478716e-06,
+              0.0
+            ]
+          ],
+          "relative_wave_error": 5.000000188026763e-08,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source2)+(Source.Source1)+2x(Source.Source2)],RFAmp1",
+          "order": 4,
+          "bin": 21,
+          "expected_wave": [
+            6.517816221292833e-23,
+            1.0644401677007265e-06
+          ],
+          "observed_waves": [
+            [
+              6.51781589540201e-23,
+              1.064440114478716e-06
+            ],
+            [
+              6.51781589540201e-23,
+              1.064440114478716e-06
+            ]
+          ],
+          "relative_wave_error": 5.000000188026763e-08,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source1)+2x(Source.Source1)+(Source.Source2)],RFAmp1",
+          "order": 4,
+          "bin": 21,
+          "expected_wave": [
+            6.517816221292833e-23,
+            1.0644401677007265e-06
+          ],
+          "observed_waves": [
+            [
+              6.51781589540201e-23,
+              1.064440114478716e-06
+            ],
+            [
+              6.51781589540201e-23,
+              1.064440114478716e-06
+            ]
+          ],
+          "relative_wave_error": 5.000000188026763e-08,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source1)+(Source.Source1)+2x(Source.Source2)],RFAmp1",
+          "order": 4,
+          "bin": 22,
+          "expected_wave": [
+            -1.0644401677007265e-06,
+            1.3035632442585666e-22
+          ],
+          "observed_waves": [
+            [
+              -1.064440114478716e-06,
+              1.303563179080402e-22
+            ],
+            [
+              -1.064440114478716e-06,
+              1.303563179080402e-22
+            ]
+          ],
+          "relative_wave_error": 5.000000188026763e-08,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source1)+3x(Source.Source2)],RFAmp1",
+          "order": 4,
+          "bin": 23,
+          "expected_wave": [
+            -6.517816221292833e-23,
+            -3.5481338923357547e-07
+          ],
+          "observed_waves": [
+            [
+              -6.51781589540201e-23,
+              -3.548133714929054e-07
+            ],
+            [
+              -6.51781589540201e-23,
+              -3.548133714929054e-07
+            ]
+          ],
+          "relative_wave_error": 5.000000173106368e-08,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source2)+4x(Source.Source1)],RFAmp1",
+          "order": 5,
+          "bin": 29,
+          "expected_wave": [
+            -1.4898796862765758e-24,
+            2.4331581764046384e-08
+          ],
+          "observed_waves": [
+            [
+              -1.4898796862765754e-24,
+              2.4331581764046378e-08
+            ],
+            [
+              -1.4898796862765754e-24,
+              2.4331581764046378e-08
+            ]
+          ],
+          "relative_wave_error": 2.719693674088424e-16,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source2)+3x(Source.Source1)+(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 30,
+          "expected_wave": [
+            -9.732632705618554e-08,
+            0.0
+          ],
+          "observed_waves": [
+            [
+              -9.732632705618551e-08,
+              0.0
+            ],
+            [
+              -9.732632705618551e-08,
+              0.0
+            ]
+          ],
+          "relative_wave_error": 2.719693674088424e-16,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source2)+2x(Source.Source1)+2x(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 31,
+          "expected_wave": [
+            -8.939278117659454e-24,
+            -1.459894905842783e-07
+          ],
+          "observed_waves": [
+            [
+              -8.939278117659453e-24,
+              -1.4598949058427827e-07
+            ],
+            [
+              -8.939278117659453e-24,
+              -1.4598949058427827e-07
+            ]
+          ],
+          "relative_wave_error": 1.8131291160589497e-16,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source1)+2x(Source.Source1)+2x(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 32,
+          "expected_wave": [
+            1.459894905842783e-07,
+            -1.7878556235318908e-23
+          ],
+          "observed_waves": [
+            [
+              1.4598949058427827e-07,
+              -1.7878556235318905e-23
+            ],
+            [
+              1.4598949058427827e-07,
+              -1.7878556235318905e-23
+            ]
+          ],
+          "relative_wave_error": 1.8131291160589497e-16,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source1)+(Source.Source1)+3x(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 33,
+          "expected_wave": [
+            1.7878556235318908e-23,
+            9.732632705618554e-08
+          ],
+          "observed_waves": [
+            [
+              1.7878556235318908e-23,
+              9.732632705618551e-08
+            ],
+            [
+              1.7878556235318908e-23,
+              9.732632705618551e-08
+            ]
+          ],
+          "relative_wave_error": 2.719693674088424e-16,
+          "passed": true
+        },
+        {
+          "label": "[-(Source.Source1)+4x(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 34,
+          "expected_wave": [
+            -2.4331581764046384e-08,
+            5.959518745106303e-24
+          ],
+          "observed_waves": [
+            [
+              -2.4331581764046378e-08,
+              5.9595187451063016e-24
+            ],
+            [
+              -2.4331581764046378e-08,
+              5.9595187451063016e-24
+            ]
+          ],
+          "relative_wave_error": 2.719693674088424e-16,
+          "passed": true
+        },
+        {
+          "label": "[4x(Source.Source1)],RFAmp1",
+          "order": 4,
+          "bin": 40,
+          "expected_wave": [
+            8.870334730839387e-08,
+            0.0
+          ],
+          "observed_waves": [
+            [
+              8.870334287322635e-08,
+              0.0
+            ],
+            [
+              8.870334287322635e-08,
+              0.0
+            ]
+          ],
+          "relative_wave_error": 5.000000173106368e-08,
+          "passed": true
+        },
+        {
+          "label": "[3x(Source.Source1)+(Source.Source2)],RFAmp1",
+          "order": 4,
+          "bin": 41,
+          "expected_wave": [
+            2.172605407097611e-23,
+            3.5481338923357547e-07
+          ],
+          "observed_waves": [
+            [
+              2.1726052984673367e-23,
+              3.548133714929054e-07
+            ],
+            [
+              2.1726052984673367e-23,
+              3.548133714929054e-07
+            ]
+          ],
+          "relative_wave_error": 5.000000173106368e-08,
+          "passed": true
+        },
+        {
+          "label": "[2x(Source.Source1)+2x(Source.Source2)],RFAmp1",
+          "order": 4,
+          "bin": 42,
+          "expected_wave": [
+            -5.322200838503632e-07,
+            6.517816221292833e-23
+          ],
+          "observed_waves": [
+            [
+              -5.32220057239358e-07,
+              6.51781589540201e-23
+            ],
+            [
+              -5.32220057239358e-07,
+              6.51781589540201e-23
+            ]
+          ],
+          "relative_wave_error": 5.000000188026763e-08,
+          "passed": true
+        },
+        {
+          "label": "[(Source.Source1)+3x(Source.Source2)],RFAmp1",
+          "order": 4,
+          "bin": 43,
+          "expected_wave": [
+            -6.517816221292833e-23,
+            -3.5481338923357547e-07
+          ],
+          "observed_waves": [
+            [
+              -6.51781589540201e-23,
+              -3.548133714929054e-07
+            ],
+            [
+              -6.51781589540201e-23,
+              -3.548133714929054e-07
+            ]
+          ],
+          "relative_wave_error": 5.000000173106368e-08,
+          "passed": true
+        },
+        {
+          "label": "[4x(Source.Source2)],RFAmp1",
+          "order": 4,
+          "bin": 44,
+          "expected_wave": [
+            8.870334730839387e-08,
+            -2.172605407097611e-23
+          ],
+          "observed_waves": [
+            [
+              8.870334287322635e-08,
+              -2.1726052984673364e-23
+            ],
+            [
+              8.870334287322635e-08,
+              -2.1726052984673364e-23
+            ]
+          ],
+          "relative_wave_error": 5.000000173106368e-08,
+          "passed": true
+        },
+        {
+          "label": "[5x(Source.Source1)],RFAmp1",
+          "order": 5,
+          "bin": 50,
+          "expected_wave": [
+            -4.866316352809277e-09,
+            0.0
+          ],
+          "observed_waves": [
+            [
+              -4.866316352809276e-09,
+              0.0
+            ],
+            [
+              -4.866316352809276e-09,
+              0.0
+            ]
+          ],
+          "relative_wave_error": 1.6998085463052651e-16,
+          "passed": true
+        },
+        {
+          "label": "[4x(Source.Source1)+(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 51,
+          "expected_wave": [
+            -1.4898796862765758e-24,
+            -2.4331581764046384e-08
+          ],
+          "observed_waves": [
+            [
+              -1.4898796862765754e-24,
+              -2.4331581764046378e-08
+            ],
+            [
+              -1.4898796862765754e-24,
+              -2.4331581764046378e-08
+            ]
+          ],
+          "relative_wave_error": 2.719693674088424e-16,
+          "passed": true
+        },
+        {
+          "label": "[3x(Source.Source1)+2x(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 52,
+          "expected_wave": [
+            4.866316352809277e-08,
+            -5.959518745106303e-24
+          ],
+          "observed_waves": [
+            [
+              4.8663163528092756e-08,
+              -5.9595187451063016e-24
+            ],
+            [
+              4.8663163528092756e-08,
+              -5.9595187451063016e-24
+            ]
+          ],
+          "relative_wave_error": 2.719693674088424e-16,
+          "passed": true
+        },
+        {
+          "label": "[2x(Source.Source1)+3x(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 53,
+          "expected_wave": [
+            8.939278117659454e-24,
+            4.866316352809277e-08
+          ],
+          "observed_waves": [
+            [
+              8.939278117659454e-24,
+              4.8663163528092756e-08
+            ],
+            [
+              8.939278117659454e-24,
+              4.8663163528092756e-08
+            ]
+          ],
+          "relative_wave_error": 2.719693674088424e-16,
+          "passed": true
+        },
+        {
+          "label": "[(Source.Source1)+4x(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 54,
+          "expected_wave": [
+            -2.4331581764046384e-08,
+            5.959518745106303e-24
+          ],
+          "observed_waves": [
+            [
+              -2.4331581764046378e-08,
+              5.9595187451063016e-24
+            ],
+            [
+              -2.4331581764046378e-08,
+              5.9595187451063016e-24
+            ]
+          ],
+          "relative_wave_error": 2.719693674088424e-16,
+          "passed": true
+        },
+        {
+          "label": "[5x(Source.Source2)],RFAmp1",
+          "order": 5,
+          "bin": 55,
+          "expected_wave": [
+            -1.4898796862765758e-24,
+            -4.866316352809277e-09
+          ],
+          "observed_waves": [
+            [
+              -1.4898796862765752e-24,
+              -4.866316352809276e-09
+            ],
+            [
+              -1.4898796862765752e-24,
+              -4.866316352809276e-09
+            ]
+          ],
+          "relative_wave_error": 1.6998085463052651e-16,
+          "passed": true
+        }
+      ],
+      "full_group_sum_hypothesis": {
+        "observed_count": 14,
+        "consistent": false,
+        "max_relative_wave_error": 0.500000025000001,
+        "matching_count": 0
+      }
+    }
+  ],
+  "pairs": [
+    {
+      "source_powers_dbm": [
+        -20.0,
+        -10.0
+      ],
+      "restored_count": 14,
+      "restored_labels": [
+        "[-(Source.Source1)+(Source.Source1)+2x(Source.Source2)],RFAmp1",
+        "[-(Source.Source1)+(Source.Source1)+3x(Source.Source2)],RFAmp1",
+        "[-(Source.Source1)+2x(Source.Source1)+(Source.Source2)],RFAmp1",
+        "[-(Source.Source1)+2x(Source.Source1)+2x(Source.Source2)],RFAmp1",
+        "[-(Source.Source1)+3x(Source.Source1)+(Source.Source2)],RFAmp1",
+        "[-(Source.Source1)+3x(Source.Source1)],RFAmp1",
+        "[-(Source.Source1)+4x(Source.Source1)],RFAmp1",
+        "[-(Source.Source2)-(Source.Source1)+(Source.Source1)+2x(Source.Source2)],RFAmp1",
+        "[-(Source.Source2)-(Source.Source1)+2x(Source.Source1)+(Source.Source2)],RFAmp1",
+        "[-(Source.Source2)-(Source.Source1)+3x(Source.Source1)],RFAmp1",
+        "[-2x(Source.Source1)+(Source.Source1)+(Source.Source2)],RFAmp1",
+        "[-2x(Source.Source1)+(Source.Source1)+2x(Source.Source2)],RFAmp1",
+        "[-2x(Source.Source1)+2x(Source.Source1)+(Source.Source2)],RFAmp1",
+        "[-2x(Source.Source1)+3x(Source.Source1)],RFAmp1"
+      ],
+      "enabled_labels_missing_when_disabled": [],
+      "common_count": 30,
+      "max_relative_wave_change": 0.0,
+      "retained_waves_unchanged": true,
+      "full_expansion_recorded_when_disabled": true
+    },
+    {
+      "source_powers_dbm": [
+        -10.0,
+        -20.0
+      ],
+      "restored_count": 14,
+      "restored_labels": [
+        "[-(Source.Source2)+(Source.Source1)+2x(Source.Source2)],RFAmp1",
+        "[-(Source.Source2)+(Source.Source1)+3x(Source.Source2)],RFAmp1",
+        "[-(Source.Source2)+2x(Source.Source1)+(Source.Source2)],RFAmp1",
+        "[-(Source.Source2)+2x(Source.Source1)+2x(Source.Source2)],RFAmp1",
+        "[-(Source.Source2)+3x(Source.Source1)+(Source.Source2)],RFAmp1",
+        "[-(Source.Source2)+3x(Source.Source2)],RFAmp1",
+        "[-(Source.Source2)+4x(Source.Source2)],RFAmp1",
+        "[-(Source.Source2)-(Source.Source1)+(Source.Source1)+2x(Source.Source2)],RFAmp1",
+        "[-(Source.Source2)-(Source.Source1)+2x(Source.Source1)+(Source.Source2)],RFAmp1",
+        "[-(Source.Source2)-(Source.Source1)+2x(Source.Source2)],RFAmp1",
+        "[-(Source.Source2)-(Source.Source1)+3x(Source.Source2)],RFAmp1",
+        "[-2x(Source.Source2)+(Source.Source1)+2x(Source.Source2)],RFAmp1",
+        "[-2x(Source.Source2)+2x(Source.Source1)+(Source.Source2)],RFAmp1",
+        "[-2x(Source.Source2)+3x(Source.Source2)],RFAmp1"
+      ],
+      "enabled_labels_missing_when_disabled": [],
+      "common_count": 30,
+      "max_relative_wave_change": 0.0,
+      "retained_waves_unchanged": true,
+      "full_expansion_recorded_when_disabled": true
+    },
+    {
+      "source_powers_dbm": [
+        -10.0,
+        -10.0
+      ],
+      "restored_count": 12,
+      "restored_labels": [
+        "[-(Source.Source1)+3x(Source.Source1)+(Source.Source2)],RFAmp1",
+        "[-(Source.Source1)+3x(Source.Source1)],RFAmp1",
+        "[-(Source.Source1)+4x(Source.Source1)],RFAmp1",
+        "[-(Source.Source2)+(Source.Source1)+3x(Source.Source2)],RFAmp1",
+        "[-(Source.Source2)+3x(Source.Source2)],RFAmp1",
+        "[-(Source.Source2)+4x(Source.Source2)],RFAmp1",
+        "[-(Source.Source2)-(Source.Source1)+3x(Source.Source1)],RFAmp1",
+        "[-(Source.Source2)-(Source.Source1)+3x(Source.Source2)],RFAmp1",
+        "[-2x(Source.Source1)+2x(Source.Source1)+(Source.Source2)],RFAmp1",
+        "[-2x(Source.Source1)+3x(Source.Source1)],RFAmp1",
+        "[-2x(Source.Source2)+(Source.Source1)+2x(Source.Source2)],RFAmp1",
+        "[-2x(Source.Source2)+3x(Source.Source2)],RFAmp1"
+      ],
+      "enabled_labels_missing_when_disabled": [],
+      "common_count": 32,
+      "max_relative_wave_change": 0.0,
+      "retained_waves_unchanged": true,
+      "full_expansion_recorded_when_disabled": true
+    }
+  ],
+  "limitations": [
+    "Observed largest-amplitude label retention is a bounded diagnostic hypothesis, not a general reduction algorithm.",
+    "The same-frequency/same-bandwidth group sum does not describe retained individual waves in these captures.",
+    "No NodeTotal, path budget, noise, secondary mixing or second-stage acceptance is implied.",
+    "No production polynomial terms are dropped or implicitly merged.",
+    "Fifth-order coefficients remain parameter-specific and experimentally identified."
+  ],
+  "references_sha256": "8c5b65be757fa59caf2dc4d20f715b011ceea998ec8b8bdc2b7b233705e856ac",
+  "captures_sha256": "71b2d702c9f1b02a29c3907ac3f3b2ed35b1fd1a942a33d9f6dc4d3a0c668cf3",
+  "library_sha256": "3ebae29bd3c58831aa10f07e77956101ce28d6d992ad66807aa92a3cf52f291a"
+}

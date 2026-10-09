@@ -42,6 +42,16 @@ def extract(raw, status, digest):
     for flag, key in (("-SecondarySpectrum", "secondary_spectrum"), ("-TwoTone", "two_tone")):
         if command.count(flag) != int(raw[key]):
             raise ValueError("Command switch disagrees with capture")
+    if command.count("-DisableSpectrumReduction") != int(not raw.get("spectrum_reduction", True)):
+        raise ValueError("Command disagrees with spectrum reduction")
+    second_power = raw.get("second_source_power_dbm", raw["source_power_dbm"])
+    submitted_second_power = (
+        float(argument("-SecondSourcePowerDbm"))
+        if "-SecondSourcePowerDbm" in command
+        else raw["source_power_dbm"]
+    )
+    if submitted_second_power != second_power:
+        raise ValueError("Command disagrees with second source power")
     # Collector commands always contain Windows paths, including during offline replay.
     protected = PureWindowsPath(argument("-WorkspacePath"))
     if (
@@ -83,7 +93,10 @@ def main():
             json.loads((directory / "status.json").read_text()),
             hashlib.sha256(raw).hexdigest(),
         )
-        key = tuple(capture[k] for k in comparison.META)
+        key = tuple(capture[k] for k in comparison.META) + (
+            capture.get("second_source_power_dbm", capture["source_power_dbm"]),
+            capture.get("spectrum_reduction", True),
+        )
         if key in seen:
             raise ValueError("Duplicate configuration")
         seen.add(key)

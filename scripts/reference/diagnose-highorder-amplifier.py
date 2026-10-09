@@ -33,7 +33,10 @@ def signature(capture):
 
 
 def source_components(capture):
-    power = 10.0 ** ((capture["source_power_dbm"] - 30.0) / 10.0)
+    powers = [
+        capture["source_power_dbm"],
+        capture.get("second_source_power_dbm", capture["source_power_dbm"]),
+    ]
     phases = (
         [0.0, capture["source_phase_deg"]] if capture["two_tone"] else [capture["source_phase_deg"]]
     )
@@ -43,7 +46,7 @@ def source_components(capture):
             SpectrumKind.SOURCE,
             1.0,
             i + 1,
-            cmath.rect(math.sqrt(power), math.radians(phase)),
+            cmath.rect(math.sqrt(10.0 ** ((powers[i] - 30.0) / 10.0)), math.radians(phase)),
         )
         for i, phase in enumerate(phases)
     ]
@@ -82,6 +85,9 @@ def diagnose(library, captures):
             or capture["channel_bandwidth_hz"] != 1e6
             or capture["secondary_spectrum"]
             or capture["secondary_range_db"] != -50
+            or capture.get("spectrum_reduction", True) is not True
+            or capture.get("second_source_power_dbm", capture["source_power_dbm"])
+            != capture["source_power_dbm"]
         ):
             raise ValueError("Uncontrolled high-order diagnostic configuration")
         key = signature(capture)
