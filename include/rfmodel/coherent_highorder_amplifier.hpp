@@ -17,6 +17,7 @@ class CoherentHighOrderAmplifier {
     SoftInputLimiter limiter_;
     std::vector<double> coefficients_;
     CoherentPolynomial polynomial_;
+    double reference_;
 
     static std::vector<double> polynomial_coefficients(const std::vector<double> &nonlinear) {
         if (nonlinear.size() > maximum_polynomial_order - 1) {
@@ -37,7 +38,24 @@ public:
           limiter_(std::pow(10., (output_p1db_dbm - power_gain_db - 34.) / 10.),
                    std::pow(10., (output_saturation_dbm - power_gain_db - 31.) / 10.)),
           coefficients_(polynomial_coefficients(nonlinear_voltage_coefficients)),
-          polynomial_(coefficients_, reference_ohms) {
+          polynomial_(coefficients_, reference_ohms), reference_(reference_ohms) {
+    }
+
+    FundamentalGainResponse fundamental_response(double power_w) const {
+        return fundamental_.gain_response(power_w);
+    }
+
+    FundamentalGainResponse limiter_response(double power_w) const {
+        return limiter_.gain_response(power_w);
+    }
+
+    // Full c0..cn vector; c0/c1 are zero because the direct gain is separate.
+    const std::vector<double> &voltage_coefficients() const noexcept {
+        return coefficients_;
+    }
+
+    double reference_ohms() const noexcept {
+        return reference_;
     }
 
     AmplifierOperatingPoint operating_point(double total_input_power_w) const {

@@ -99,3 +99,5 @@ passed=false，完整相干合并功率不能列为已验收。
 [绝对波仿射网络](affine-conversion.md)补齐给定混频工作点的名义波装配与网络一致性检查；自动工作点已提供[通用 C++ 核心](conversion-operating-point.md)，固定双线性及公共基波压缩模型已接入 C/Python/JSON，其他器件适配与厂商实测仍待完成。
 
 [高阶电压多项式工作点](polynomial-linearization.md)提供 C++/C/Python/JSON 完整频点推导、DC/谐波/互调 Jacobian 和混合网络反馈噪声，证据为数学模型回归；RFAMP_HO 的厂商系数与限幅语义仍不由这些测试证明。
+
+[共同限幅高阶 C++ 适配](highorder-linearization.md)已连接既有压缩/限幅/显式高阶公式与通用工作点求解器，包含传播失真对公共驱动的导数。该接口采用每频点已合成复波，尚未接入同频来源分解或厂商反馈验收。

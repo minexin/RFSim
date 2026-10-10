@@ -101,3 +101,5 @@ Windows 本机可运行 `scripts/build-msvc.ps1` 自动定位已有 VS 工具链
 [压缩放大器工作点接口](docs/amplifier-linearization.md)提供 C++/C/Python/JSON 接口，保留公共总驱动的跨频点导数，支持混合器件、非线性反馈及收敛噪声求解。
 
 [高阶多项式工作点导数](docs/polynomial-linearization.md)提供零至十一阶 C++/C/Python/JSON 接口、完整频点规划、DC/谐波/互调 A/B 与混合网络反馈噪声。
+
+[共同限幅高阶工作点](docs/highorder-linearization.md)新增既有高阶放大器的 C++ 链式导数、生成频点选择、传播失真与反馈噪声验证；专用跨语言网络入口仍待接入。

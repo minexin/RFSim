@@ -105,3 +105,5 @@ python -m rfmodel examples/coherent-highorder-amplifier.json --library build-msv
 各 2/2。独立 Python 3.12 从新 wheel 导入，75 项 API、48 项系统图和归档重放
 测试通过。wheel 命令行示例生成 670 个非线性项，输入功率 0.0046 W，
 公共幅度增益 3.036621625415409。跨平台 CI 结果需绑定对应提交另行核验。
+
+[共同限幅高阶 C++ 适配](highorder-linearization.md)已连接既有压缩/限幅/显式高阶公式与通用工作点求解器，包含传播失真对公共驱动的导数。该接口采用每频点已合成复波，尚未接入同频来源分解或厂商反馈验收。

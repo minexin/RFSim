@@ -97,3 +97,5 @@
 [公共基波压缩导数](amplifier-linearization.md)：放大器 C++/C/Python/JSON 工作点接口、跨频点 A/B、混合器件与反馈噪声验证。
 
 [高阶多项式工作点导数](polynomial-linearization.md)提供零至十一阶 C++/C/Python/JSON 接口、完整频点规划、DC/谐波/互调 A/B 与混合网络反馈噪声。
+
+[共同限幅高阶工作点](highorder-linearization.md)新增既有高阶放大器的 C++ 链式导数、生成频点选择、传播失真与反馈噪声验证；专用跨语言网络入口仍待接入。

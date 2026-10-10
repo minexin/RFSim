@@ -122,3 +122,5 @@ python -m rfmodel examples/nonlinear-mixer-feedback.json --library build-msvc/Re
 压缩放大器已有[公共基波 C++/C/Python/JSON 接口](amplifier-linearization.md)。C 使用带 kind 的 rfmodel_conversion_network_solve_nonlinear；Python 在求解器中传 amplifiers，可与 mixers 同时使用；JSON 声明 saturating_amplifier。厂商高阶压缩规则和自定义回调的跨语言入口仍待接入；通用电压多项式已提供独立模型类型。
 
 [高阶多项式接口](polynomial-linearization.md)已将完整 DC/谐波/互调及解析导数接入 C++/C/Python/JSON。模型要求显式完整频点集合；高阶厂商压缩规则及网络级频率扩展仍待完成。
+
+[共同限幅高阶 C++ 适配](highorder-linearization.md)已连接既有压缩/限幅/显式高阶公式与通用工作点求解器，包含传播失真对公共驱动的导数。该接口采用每频点已合成复波，尚未接入同频来源分解或厂商反馈验收。

@@ -411,3 +411,7 @@ add_test(NAME polynomial_linearization_test COMMAND polynomial_linearization_tes
 add_executable(parameter_solver_residual_test tests/parameter_solver_residual_test.cpp)
 target_link_libraries(parameter_solver_residual_test PRIVATE rfmodel)
 add_test(NAME parameter_solver_residual_test COMMAND parameter_solver_residual_test)
+
+add_executable(highorder_linearization_test tests/highorder_linearization_test.cpp)
+target_link_libraries(highorder_linearization_test PRIVATE rfmodel)
+add_test(NAME highorder_linearization_test COMMAND highorder_linearization_test)

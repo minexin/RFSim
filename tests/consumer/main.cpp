@@ -1,3 +1,4 @@
+#include "rfmodel/highorder_linearization.hpp"
 #include "rfmodel/polynomial_linearization.hpp"
 #include "rfmodel/amplifier_linearization.hpp"
 #include "rfmodel/conversion_operating_point.hpp"
@@ -42,6 +43,17 @@
 #include <rfmodel/term_propagation.hpp>
 
 int main() {
+    {
+        const rfmodel::CoherentHighOrderAmplifier amplifier(20., 20., 23., {0., .1});
+        const auto local = rfmodel::linearize_highorder_amplifier(
+            1., {{0, 1}, {1, 1}, {1, 3}}, {.01, 0., 0.}, amplifier, {1});
+        if (std::abs(local.outgoing[2] - 2.5e-6) > 1e-12 ||
+            std::abs(local.jacobian.direct()(2, 0) - .00075) > 1e-12 ||
+            amplifier.reference_ohms() != 50.) {
+            return 108;
+        }
+    }
+
     {
         const rfmodel::MemorylessPolynomial polynomial({0., 0., 1.});
         const auto bins = rfmodel::polynomial_output_bins({1}, polynomial);

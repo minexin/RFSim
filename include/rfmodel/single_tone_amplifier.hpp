@@ -21,6 +21,23 @@ public:
         }
     }
 
+    // Common radial scale and exact slope for the same phase-preserving law.
+    FundamentalGainResponse gain_response(double power_w) const {
+        if (!std::isfinite(power_w) || power_w < 0.) {
+            throw std::invalid_argument("invalid limiter drive power");
+        }
+        const double radius = std::sqrt(power_w);
+        if (radius <= knee_) {
+            return {1., 1., 0.};
+        }
+        const double argument = (radius - knee_) / headroom_;
+        const double gain = (knee_ + headroom_ * std::tanh(argument)) / radius;
+        const double exponential = std::exp(-2. * argument);
+        const double denominator = 1. + exponential;
+        const double radial = 4. * exponential / (denominator * denominator);
+        return {gain, radial, radial - gain};
+    }
+
     Complex limit(Complex incident) const {
         const double power = std::norm(incident);
         if (!std::isfinite(incident.real()) || !std::isfinite(incident.imag()) ||
