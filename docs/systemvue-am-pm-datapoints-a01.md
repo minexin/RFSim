@@ -67,3 +67,5 @@ python scripts/reference/archive-am-pm-datapoints.py . validation/am-pm-datapoin
 输出路径必须不存在，工具不覆盖证据。21 项测试覆盖数学区分、异常保留、实测横轴、非法表、空/部分观测、时间新鲜度、关键节点唯一性、单位和频率、原始电压/功率一致性、恢复采集的完成证据与输出不覆写；已接入 CTest。当前验证范围是这些离线工具，不冒用历史全量 CTest 或 CI 结果作为本阶段证据。
 
 最终验证：Python 3.12 单独运行 21/21；CTest 使用 SystemVue 附带 Python 3.10，Debug/Release 均为新增测试 1/1（内部21项）。首次 Python 3.10 检查发现 Windows 七位小数 UTC 解析问题，已修复并保留失败日志；只在秒级新鲜度核验时截到微秒，原始时间文字不改。完整原始捕获重放与已提交归一化证据逐字段一致。
+
+后续补充：[既有捕获的真实 C API 与 Quick Sweep 离线诊断](systemvue-am-pm-existing-reference.md)。原始基线复现与 RFModel 匹配是不同检查；补充诊断发现 Point Derivative 原生对比30/37点不匹配，并保留快速扫描的四个零dBm反例，没有新增分析调用。

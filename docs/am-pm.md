@@ -16,7 +16,7 @@ d(phi_deg)/d(Pout_dBm) = k*u²*(3-2*u),    0 <= u < 1.5
                        = 0,              u >= 1.5
 ```
 
-高功率延伸在 Pout=2.25*Pref 开始，相位和一阶导数连续；曲线在此不是二阶光滑。k 可为正、负或零，零表示恒等映射。官方 -5 degrees/dB、10 dBm 例子的渐近值约 -48.85°，本公式为 -48.8581292149°。这里只匹配文档所述数值，尚无新的 SystemVue 仿真对照。
+高功率延伸在 Pout=2.25*Pref 开始，相位和一阶导数连续；曲线在此不是二阶光滑。k 可为正、负或零，零表示恒等映射。官方 -5 degrees/dB、10 dBm 例子的渐近值约 -48.85°，本公式为 -48.8581292149°。该公式由文档约束推导。2026-10-12 的 A01 既有捕获已与真实 C API 对比：37点中30点超出1e-5°容差，最大差约0.006163°；详见[实测差异记录](systemvue-am-pm-existing-reference.md)，尚未达到厂商兼容。
 
 ## C++ API 与导数
 
@@ -53,7 +53,7 @@ ConversionNonlinearDevice device{0, [=](const std::vector<Complex>& a) {
 
 `am_pm_test` 独立积分 dB 域导数并核对闭式曲线，覆盖正负/零峰值、零功率、低/高驱动、峰值锚点与恒相位边界。高阶双音响应组合用独立积分后的真实响应做实/虚中心差分，检查 A/B 及通道选择。反馈案例在非零 AM-PM 斜率区，以独立复数不动点迭代检查根，再用实 2×2 闭环矩阵检验 C/P 及非零幅相相关。安装 C++ consumer 直接包含新增头文件。
 
-当前不是完整 AM-PM 兼容验收。厂商实测、旧式 DataPoints 模式、Compression Curve 的 AM-AM/AM-PM 表格输入、多音/来源选择、频变/记忆效应与自动高阶标定仍待实现或核验。SystemVue 会话问题见 [恢复记录](systemvue-session-recovery.md)。
+当前不是完整 AM-PM 兼容验收。Point Derivative 已有单组厂商实测且对比失败；旧式 DataPoints 已取得有界辨识数据，但零dBm反例尚未解释。Compression Curve 的 AM-AM/AM-PM 表格输入、多音/来源选择、频变/记忆效应与自动高阶标定仍待实现或核验。SystemVue 会话问题见 [恢复记录](systemvue-session-recovery.md)。
 
 ## 本地工程验证（2026-10-12）
 

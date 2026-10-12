@@ -1,0 +1,131 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-12",
+  "classification": "existing_capture_offline_diagnostic",
+  "source_commit": "d1852e541e7c6bc7b765ecbb3c741f25fc31cbf1",
+  "new_systemvue_analysis_calls": 0,
+  "kernel_modified": false,
+  "pushed": false,
+  "evidence_path": "validation/am-pm-existing-reference-evidence-20261012.json",
+  "evidence_sha256": "7b1f1aca30b7098aea309e0e64916be8c2da7beac9b345a579d8bdfc7a5309a6",
+  "comparisons": [
+    {
+      "configuration": "Debug",
+      "result_path": "validation/am-pm-existing-reference-comparison-Debug-20261012.json",
+      "sha256": "427aa3a7f0dcbf49bb8b0a0d154d9df50d71ad4e3fca0ce7dd9bef276c468c3c",
+      "native_vendor_comparison_passed": false,
+      "native_matching_points": 7,
+      "native_total_points": 37,
+      "native_max_error_deg": 0.00616264490543017,
+      "raw_sources_verified": true,
+      "comparison_exit_code": 1,
+      "quick_sweep_matching_points": 144,
+      "quick_sweep_total_points": 148,
+      "native_library_sha256": "b7ac845aca86bcb5583abce31eb18b1b810f9c5efceef648516a324f80391180"
+    },
+    {
+      "configuration": "Release",
+      "result_path": "validation/am-pm-existing-reference-comparison-Release-20261012.json",
+      "sha256": "b9bfcda722cd6fdb4d53b8e47f60bfd5556f58719014b989acd42c0911b2f97b",
+      "native_vendor_comparison_passed": false,
+      "native_matching_points": 7,
+      "native_total_points": 37,
+      "native_max_error_deg": 0.00616264490543017,
+      "raw_sources_verified": true,
+      "comparison_exit_code": 1,
+      "quick_sweep_matching_points": 144,
+      "quick_sweep_total_points": 148,
+      "native_library_sha256": "6e1d7af3588b1f029d796e404ae5d44d687aeecfe1eda1609416b7d9e0d92013"
+    }
+  ],
+  "logs": [
+    {
+      "path": "build-reference/am-pm-existing-build-Debug.log",
+      "sha256": "88003c0c84ef265d34d39a9522731c662723b59a4d5156b0dab1d68735583785",
+      "exit_code": 0
+    },
+    {
+      "path": "build-reference/am-pm-existing-ctest-Debug.log",
+      "sha256": "06ba81e633adeff3fd001ccd56a96b5b06d261a65f3d2949023bf4f7889c6218",
+      "exit_code": 0
+    },
+    {
+      "path": "build-reference/am-pm-existing-final-ctest-Debug.log",
+      "sha256": "7e2bb916eb8c68ef8bb26821b5d5331a24f2391419d81c77b93a8777ee1174ca",
+      "exit_code": 0
+    },
+    {
+      "path": "build-reference/am-pm-existing-build-Release.log",
+      "sha256": "3a1cd80a69c6739fe8893332751e064529136bd363be2a3e27ae13516f28df24",
+      "exit_code": 0
+    },
+    {
+      "path": "build-reference/am-pm-existing-ctest-Release.log",
+      "sha256": "5d7881d85da9e55dbfda64d20c6a41939d065b7c0587c2161be121e4c54479ba",
+      "exit_code": 0
+    },
+    {
+      "path": "build-reference/am-pm-existing-final-ctest-Release.log",
+      "sha256": "729e1563a9263e21d3798d595979701d1090c03f55095a2ef3266f498bb1eca9",
+      "exit_code": 0
+    }
+  ],
+  "related_ctest_count_per_configuration": 6,
+  "final_changed_test_recheck_count_per_configuration": 1,
+  "new_unittest_count": 5,
+  "prior_uncommitted_files": [
+    {
+      "path": "scripts/reference/archive-cascade-reference.py",
+      "sha256": "a482db6bd6ae64c050d74e6df321749ec84a7098fb7aa49733079183149806dc",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/reference/capture-cascade-reference.ps1",
+      "sha256": "fb42165db2ad10c6213a415c2080e1eeb6e5ec0bcd1dc119bb1d1707c5283f3e",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/reference/compare-cascade-amplifier.py",
+      "sha256": "af1260adb093946954d0fb7e4bb2059669706a291418aac19ba193fed7554d9d",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/reference/run-systemvue-reference.py",
+      "sha256": "5df486d061ce09c28b396bf62e7fcba473dc6e9086d52861fdc7be6c85864f4e",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/reference/test_compare_cascade_amplifier.py",
+      "sha256": "190ea23b0ce0733846db8052ead9bb4d5ba41ff30e007c1f06e1a1753bc3fcf1",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/reference/test_run_systemvue_reference.py",
+      "sha256": "7eeeb2f890e59b986fec7eb9af58313f129b73ffccfd924f2f273ff52c396eb5",
+      "unchanged": true
+    },
+    {
+      "path": "measurements_test.obj",
+      "sha256": "4935bda18e7d8471560016c7303f3b7136842ab2ec429975440c7d617de3d97f",
+      "unchanged": true
+    },
+    {
+      "path": "verify-measurements.cmd",
+      "sha256": "c629d73c222dad5768c3c33c88a66eea99daf012dc79885f6cd7a7f0cebf7f7f",
+      "unchanged": true
+    }
+  ],
+  "eligible_for_full_model_compatibility": false,
+  "limitations": [
+    "Only related regression executed, not full CTest or clean-first build",
+    "No new installation, cross-platform execution or remote CI evidence",
+    "Normalized snapshots committed; full captures and help remain local",
+    "Retrospective two-point cubic fit is not independent validation",
+    "Quick-sweep diagnostics use path DCP/DCPH; no raw voltage at each sweep step",
+    "No new SystemVue runs; original A01 cap remains 24"
+  ],
+  "preliminary_failures": [
+    "One strict float-equality assertion for source phase failed; changed to 1e-12 tolerance without changing vendor tolerance",
+    "Initial cmake/ctest commands were not on PATH and did not execute; verified cached absolute tool paths used subsequently"
+  ]
+}
