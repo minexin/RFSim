@@ -87,6 +87,8 @@ if(RFMODEL_BUILD_C_API)
             ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_python_api.py $<TARGET_FILE:rfmodel_c>)
         add_test(NAME optimization_task_file_test COMMAND ${Python3_EXECUTABLE}
             ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_optimization_file.py $<TARGET_FILE:rfmodel_c>)
+        add_test(NAME monte_carlo_task_file_test COMMAND ${Python3_EXECUTABLE}
+            ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_monte_carlo_file.py $<TARGET_FILE:rfmodel_c>)
         add_test(NAME monte_carlo_python_test COMMAND ${Python3_EXECUTABLE}
             ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_monte_carlo.py $<TARGET_FILE:rfmodel_c>)
         add_test(NAME optimization_python_test COMMAND ${Python3_EXECUTABLE}

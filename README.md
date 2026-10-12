@@ -110,4 +110,6 @@ Windows 本机可运行 `scripts/build-msvc.ps1` 自动定位已有 VS 工具链
 
 [安装 wheel 与 SDK 验证](docs/installed-python-validation.md)提供隔离导入、原生库来源和完整绑定套件检查，已接入三平台六配置 CI；本地 Windows/Linux 与远程执行的证据分别记录，不能以工作流配置替代 macOS 或远程验收。
 
-新增[原生有界参数优化](docs/optimization.md)：确定性坐标搜索支持连续、对数尺度及整数参数，保留停止原因和评估轨迹，并以 LC 匹配电路核对解析最优值。C ABI/Python 同步目标函数、独立结果快照和安装回归已接入；JSON 任务已支持现有九类分析的参数绑定和组合目标，提供 LC 匹配与镜像抑制示例；新增[原生 Monte Carlo 容差分析](docs/monte-carlo.md)：六种独立分布、固定种子重放、失败计数与稳定统计，并以电阻容差网络核对闭式参考；Monte Carlo 已接入 C/Python 同步回调与独立快照；声明式任务、相关输入及厂商对照仍待完成。
+新增[原生有界参数优化](docs/optimization.md)：确定性坐标搜索支持连续、对数尺度及整数参数，保留停止原因和评估轨迹，并以 LC 匹配电路核对解析最优值。C ABI/Python 同步目标函数、独立结果快照和安装回归已接入；JSON 任务已支持现有九类分析的参数绑定和组合目标，提供 LC 匹配与镜像抑制示例。
+
+新增[Monte Carlo 容差分析](docs/monte-carlo.md)：六种独立分布、固定种子重放、失败计数与稳定统计，并以电阻容差网络核对闭式参考；已接入 C/Python 同步回调与独立快照，以及 JSON/CLI 的系统参数绑定、多指标和联合通过判定；任意相关随机输入及厂商对照仍待完成。

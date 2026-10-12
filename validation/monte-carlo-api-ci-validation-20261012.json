@@ -1,0 +1,213 @@
+{
+  "commit": "54d5dc08d6e73796e6b10502fba45345a8376399",
+  "run_id": 38245063814,
+  "run_url": "https://github.com/minexin/RFSim/actions/runs/38245063814",
+  "status": "completed",
+  "conclusion": "success",
+  "configurations": [
+    {
+      "os": "windows-latest",
+      "configuration": "Debug",
+      "ctest": 141,
+      "consumers": 2,
+      "wheel": 427,
+      "suites": 27,
+      "monte_carlo_python_tests": 17,
+      "monte_carlo_example": {
+        "samples": 4096,
+        "passed_samples": 2060,
+        "passed_fraction": 0.5029296875,
+        "mean_gain": 0.250199625523448,
+        "max_independent_trace_error": 2.7755575615628914e-16
+      },
+      "wheel_report": {
+        "path": "build-reference/monte-carlo-api-ci-evidence/verification-windows-latest-Debug/installed-python-verification/installed-python-validation.json",
+        "sha256": "d3c7abc297551e1c2518b2a182d5e866eeb813b2ee4b55e36428d9afbe98fe81"
+      },
+      "logs": [
+        {
+          "path": "build-reference/monte-carlo-api-ci-evidence/verification-windows-latest-Debug/build/Testing/Temporary/LastTest.log",
+          "sha256": "6dbaa6c604508dd4cce4e2062abcd320f909aa37f6a8bc05a910bad9857efe31",
+          "passed": 141,
+          "total": 141
+        },
+        {
+          "path": "build-reference/monte-carlo-api-ci-evidence/verification-windows-latest-Debug/consumer-build/Testing/Temporary/LastTest.log",
+          "sha256": "6d4638137d00fd68a7dce21b13fbb9219d46f5e40fe690d3e0bdf98b6e4cfbdc",
+          "passed": 2,
+          "total": 2
+        }
+      ]
+    },
+    {
+      "os": "windows-latest",
+      "configuration": "Release",
+      "ctest": 141,
+      "consumers": 2,
+      "wheel": 427,
+      "suites": 27,
+      "monte_carlo_python_tests": 17,
+      "monte_carlo_example": {
+        "samples": 4096,
+        "passed_samples": 2060,
+        "passed_fraction": 0.5029296875,
+        "mean_gain": 0.250199625523448,
+        "max_independent_trace_error": 2.7755575615628914e-16
+      },
+      "wheel_report": {
+        "path": "build-reference/monte-carlo-api-ci-evidence/verification-windows-latest-Release/installed-python-verification/installed-python-validation.json",
+        "sha256": "e2c17de1b99c72f106965e656f470f4b3cb89b1ac669195caea45c2542acca2e"
+      },
+      "logs": [
+        {
+          "path": "build-reference/monte-carlo-api-ci-evidence/verification-windows-latest-Release/build/Testing/Temporary/LastTest.log",
+          "sha256": "c0424f8da6125c1282e08be52c9638693d33bf4c0d318bfdf2808be35e11b2b1",
+          "passed": 141,
+          "total": 141
+        },
+        {
+          "path": "build-reference/monte-carlo-api-ci-evidence/verification-windows-latest-Release/consumer-build/Testing/Temporary/LastTest.log",
+          "sha256": "f67b5995233ca7a2cd619c551c4a02672494763374ad5d0e9186ededdfc33ef7",
+          "passed": 2,
+          "total": 2
+        }
+      ]
+    },
+    {
+      "os": "ubuntu-latest",
+      "configuration": "Debug",
+      "ctest": 141,
+      "consumers": 2,
+      "wheel": 427,
+      "suites": 27,
+      "monte_carlo_python_tests": 17,
+      "monte_carlo_example": {
+        "samples": 4096,
+        "passed_samples": 2060,
+        "passed_fraction": 0.5029296875,
+        "mean_gain": 0.250199625523448,
+        "max_independent_trace_error": 2.7755575615628914e-16
+      },
+      "wheel_report": {
+        "path": "build-reference/monte-carlo-api-ci-evidence/verification-ubuntu-latest-Debug/installed-python-verification/installed-python-validation.json",
+        "sha256": "6acc0a38353c27ad1c74438da29d70bc23e22be06c4b14b9ae9dd7372fa0f590"
+      },
+      "logs": [
+        {
+          "path": "build-reference/monte-carlo-api-ci-evidence/verification-ubuntu-latest-Debug/build/Testing/Temporary/LastTest.log",
+          "sha256": "c915f2fe37eafd632a923ec513b00cfba63a6325c992af26c3d8322459bb077a",
+          "passed": 141,
+          "total": 141
+        },
+        {
+          "path": "build-reference/monte-carlo-api-ci-evidence/verification-ubuntu-latest-Debug/consumer-build/Testing/Temporary/LastTest.log",
+          "sha256": "eb763fbb3b8e862972837f5794d021ce41858feecc201f858b77ed0a06cd40b3",
+          "passed": 2,
+          "total": 2
+        }
+      ]
+    },
+    {
+      "os": "ubuntu-latest",
+      "configuration": "Release",
+      "ctest": 141,
+      "consumers": 2,
+      "wheel": 427,
+      "suites": 27,
+      "monte_carlo_python_tests": 17,
+      "monte_carlo_example": {
+        "samples": 4096,
+        "passed_samples": 2060,
+        "passed_fraction": 0.5029296875,
+        "mean_gain": 0.250199625523448,
+        "max_independent_trace_error": 2.7755575615628914e-16
+      },
+      "wheel_report": {
+        "path": "build-reference/monte-carlo-api-ci-evidence/verification-ubuntu-latest-Release/installed-python-verification/installed-python-validation.json",
+        "sha256": "39bc8e84dabc5aa21657c90465de9d1dc97ef788aa4897e36dde0b844659844b"
+      },
+      "logs": [
+        {
+          "path": "build-reference/monte-carlo-api-ci-evidence/verification-ubuntu-latest-Release/build/Testing/Temporary/LastTest.log",
+          "sha256": "0f38a60f7c0d546cf553b3d9ae1d5f2b841372a2910453709c0bafdeac04571c",
+          "passed": 141,
+          "total": 141
+        },
+        {
+          "path": "build-reference/monte-carlo-api-ci-evidence/verification-ubuntu-latest-Release/consumer-build/Testing/Temporary/LastTest.log",
+          "sha256": "12c70658e6d802d655555f980175dbe16d3a1c5d54a8081e32505caf3a711944",
+          "passed": 2,
+          "total": 2
+        }
+      ]
+    },
+    {
+      "os": "macos-latest",
+      "configuration": "Debug",
+      "ctest": 141,
+      "consumers": 2,
+      "wheel": 427,
+      "suites": 27,
+      "monte_carlo_python_tests": 17,
+      "monte_carlo_example": {
+        "samples": 4096,
+        "passed_samples": 2060,
+        "passed_fraction": 0.5029296875,
+        "mean_gain": 0.250199625523448,
+        "max_independent_trace_error": 3.885780586188048e-16
+      },
+      "wheel_report": {
+        "path": "build-reference/monte-carlo-api-ci-evidence/verification-macos-latest-Debug/installed-python-verification/installed-python-validation.json",
+        "sha256": "685c0ea5ab70a27cfd2349f0dc20e8bdc16ea909f445dc8da660aecde72f2850"
+      },
+      "logs": [
+        {
+          "path": "build-reference/monte-carlo-api-ci-evidence/verification-macos-latest-Debug/build/Testing/Temporary/LastTest.log",
+          "sha256": "3123e866ccb9e2f23a1b14544a082241b0cd9296f8dc99512040a67e73af328d",
+          "passed": 141,
+          "total": 141
+        },
+        {
+          "path": "build-reference/monte-carlo-api-ci-evidence/verification-macos-latest-Debug/consumer-build/Testing/Temporary/LastTest.log",
+          "sha256": "573d39f91838182b6bbb97eb70513773a1139100d179ccf6e110b19faed4a200",
+          "passed": 2,
+          "total": 2
+        }
+      ]
+    },
+    {
+      "os": "macos-latest",
+      "configuration": "Release",
+      "ctest": 141,
+      "consumers": 2,
+      "wheel": 427,
+      "suites": 27,
+      "monte_carlo_python_tests": 17,
+      "monte_carlo_example": {
+        "samples": 4096,
+        "passed_samples": 2060,
+        "passed_fraction": 0.5029296875,
+        "mean_gain": 0.250199625523448,
+        "max_independent_trace_error": 3.885780586188048e-16
+      },
+      "wheel_report": {
+        "path": "build-reference/monte-carlo-api-ci-evidence/verification-macos-latest-Release/installed-python-verification/installed-python-validation.json",
+        "sha256": "e0b36fe344fef0f5e7eb2dfae313d4526d9fbe9a16f32dceb2ba5252f5c17994"
+      },
+      "logs": [
+        {
+          "path": "build-reference/monte-carlo-api-ci-evidence/verification-macos-latest-Release/build/Testing/Temporary/LastTest.log",
+          "sha256": "d49685fa6de71b8b0cc12755ea54b766ef42a6476f6933c6bdb3a0f445cbe8f8",
+          "passed": 141,
+          "total": 141
+        },
+        {
+          "path": "build-reference/monte-carlo-api-ci-evidence/verification-macos-latest-Release/consumer-build/Testing/Temporary/LastTest.log",
+          "sha256": "cab4ab01ad8aef95c65e63ce0ba52e4d37dd2595fe49543129eab141ddeea984",
+          "passed": 2,
+          "total": 2
+        }
+      ]
+    }
+  ]
+}

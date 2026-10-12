@@ -1,6 +1,6 @@
 # 有界参数优化：C++、C ABI 与 Python 契约
 
-A09 的第一项原生实现提供 `include/rfmodel/optimization.hpp` 中的 `minimize_bounded(parameters, objective, options, cancelled)`。目标是最小化调用者给定的一个有限实标量；可用它调用 RFModel 网络、噪声或器件原语并组合设计误差。现已提供 C ABI 和 Python 同步回调入口；现已增加参数绑定和通用 JSON 优化任务；另已提供[原生 Monte Carlo](monte-carlo.md)，已接入 C/Python，声明式任务接入与 SystemVue 对照尚未完成。
+A09 的第一项原生实现提供 `include/rfmodel/optimization.hpp` 中的 `minimize_bounded(parameters, objective, options, cancelled)`。目标是最小化调用者给定的一个有限实标量；可用它调用 RFModel 网络、噪声或器件原语并组合设计误差。现已提供 C ABI 和 Python 同步回调入口；现已增加参数绑定和通用 JSON 优化任务；另已提供[原生 Monte Carlo](monte-carlo.md)，已接入 C/Python 和声明式任务，SystemVue 对照尚未完成。
 
 ## 参数及约束
 

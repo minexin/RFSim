@@ -1,4 +1,4 @@
-"""python -m rfmodel: execute RF analyses and declarative bounded optimization tasks."""
+"""python -m rfmodel: execute RF analyses and declarative optimization/Monte Carlo tasks."""
 
 import argparse
 import json
@@ -8,6 +8,7 @@ from . import Library
 from .model_file import load, referenced_touchstone_paths
 from .analysis_file import analyze_document
 from .optimization_file import analyze_optimization
+from .monte_carlo_file import analyze_monte_carlo
 
 
 def _same_file(first, second):
@@ -30,8 +31,8 @@ def main():
         if any(_same_file(args.output, source)
                for source in referenced_touchstone_paths(document, args.model.parent)):
             raise ValueError("Output must not overwrite Touchstone input data")
-        operation = (analyze_optimization if document.get('format') == 'rfmodel.optimization'
-                     else analyze_document)
+        operation = {'rfmodel.optimization': analyze_optimization,
+                     'rfmodel.monte-carlo': analyze_monte_carlo}.get(document.get('format'), analyze_document)
         result = operation(Library(args.library), document, base_directory=args.model.parent)
         text = json.dumps(result, indent=2, allow_nan=False) + "\n"
         args.output.write_text(text, encoding="utf-8")

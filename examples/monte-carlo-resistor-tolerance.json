@@ -1,0 +1,135 @@
+{
+  "format": "rfmodel.monte-carlo",
+  "version": 1,
+  "analysis": {
+    "format": "rfmodel.linear-network",
+    "version": 1,
+    "frequencies_hz": [
+      1000000000.0
+    ],
+    "devices": [
+      {
+        "id": "R1",
+        "model": {
+          "type": "resistor",
+          "connection": "series",
+          "resistance_ohms": 50
+        }
+      },
+      {
+        "id": "R2",
+        "model": {
+          "type": "resistor",
+          "connection": "series",
+          "resistance_ohms": 50
+        }
+      }
+    ],
+    "connections": [
+      [
+        [
+          "R1",
+          1
+        ],
+        [
+          "R2",
+          0
+        ]
+      ]
+    ],
+    "external_ports": [
+      [
+        "R1",
+        0
+      ],
+      [
+        "R2",
+        1
+      ]
+    ]
+  },
+  "parameters": [
+    {
+      "id": "R1",
+      "distribution": {
+        "kind": "uniform",
+        "lower": 45,
+        "upper": 55
+      },
+      "unit": "ohm",
+      "bindings": [
+        {
+          "path": [
+            "devices",
+            {
+              "id": "R1"
+            },
+            "model",
+            "resistance_ohms"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "R2",
+      "distribution": {
+        "kind": "fixed",
+        "value": 50
+      },
+      "unit": "ohm",
+      "bindings": [
+        {
+          "path": [
+            "devices",
+            {
+              "id": "R2"
+            },
+            "model",
+            "resistance_ohms"
+          ]
+        }
+      ]
+    }
+  ],
+  "metrics": [
+    {
+      "id": "transmitted_power_fraction",
+      "path": [
+        "samples",
+        0,
+        "s",
+        1,
+        0
+      ],
+      "component": "power",
+      "limits": {
+        "lower": 0.25
+      }
+    },
+    {
+      "id": "reflected_power_fraction",
+      "path": [
+        "samples",
+        0,
+        "s",
+        0,
+        0
+      ],
+      "component": "power",
+      "limits": {
+        "upper": 0.25
+      }
+    }
+  ],
+  "options": {
+    "samples": 4096,
+    "seed": 20261012,
+    "invalid_sample": "stop",
+    "record_history": true,
+    "quantile_levels": [
+      0.05,
+      0.5,
+      0.95
+    ]
+  }
+}

@@ -102,7 +102,7 @@ print(result.statistics[0].mean, result.passed_fraction)
 
 [Python 电阻容差示例](../examples/monte_carlo_resistor.py)重建与 C++ 示例相同的两电阻网络，通过 C ABI 逐样本求解，再核对解析电路和统计值。运行方式为 `python examples/monte_carlo_resistor.py path/to/native/library`；加 `--installed` 时使用已安装包，配合隔离安装环境验证。此示例不构成通用 Monte Carlo 任务格式。
 
-本次 wheel 需要包含上述新导出符号的配套原生库；仅替换 Python 包不能使旧 SDK 获得新能力。Monte Carlo 的声明式任务与参数绑定、相关输入/协方差及厂商对照仍待完成，A09 整项继续保持开放。
+本次 wheel 需要包含上述新导出符号的配套原生库；仅替换 Python 包不能使旧 SDK 获得新能力。C/Python 阶段后的声明式任务与参数绑定见下文；相关随机输入/协方差及厂商对照仍待完成，A09 整项继续保持开放。
 
 
 ## C/Python 阶段验证
@@ -112,3 +112,54 @@ print(result.statistics[0].mean, result.passed_fraction)
 [安装后 Python 完整轨迹](../validation/monte-carlo-python-resistor-example-20261012.json)保存 4096 个样本及全部输入选项。每个配置均与本配置的 C++ 示例逐点比较参数和指标，并独立计算电路与统计参考。原生随机流/统计实现的源码指纹保持不变，前一阶段远程验证见 [8fc3710 的 CI 记录](../validation/monte-carlo-native-ci-validation-20261012.json)。
 
 四个本地配置实际结果为：各 141/141 核心测试、2/2 安装消费端、427/427 安装 wheel 回归。完整 C++/Python 参数轨迹相同，最大指标差 5.56e-17，独立电路误差不超过 2.78e-16。Linux 首次 wheel 安装因系统 Python 缺少 pip 停止，随后使用工作区既有环境和独立安装目录完成全部验证；报告保留首次失败和成功重跑的证据。
+
+## 声明式 Monte Carlo 任务与 CLI
+
+`rfmodel.monte-carlo` version 1 把参数抽样、绑定、分析、测量和合格判定连成一个可保存任务。Python 入口为 `rfmodel.monte_carlo_file.analyze_monte_carlo(library, document, base_directory=..., cancelled=...)`；CLI 自动按 format 分派：
+
+```text
+python -m rfmodel examples/monte-carlo-resistor-tolerance.json --library path/to/native/library --output result.json
+```
+
+必需字段是 format、version、analysis、parameters、metrics，可选 options。analysis 使用现有九类格式之一：linear-network、mixer-linearization、conversion-network、frequency-conversion、coherence、coherent-network、coherent-system、spectrum-chain、amplifier-components，完整前缀均为 `rfmodel.`。不支持在任务中嵌套优化或 Monte Carlo 任务。直接 Python 调用也要求任务可序列化为有限数值的 JSON；样本失败的结果因此能保留完整原输入并严格序列化。
+
+参数为 1..64 项，每项含唯一 id、distribution、bindings，可选说明性 unit。distribution 按下表填写具名字段，不接收其他字段；这些字段转换为原生分布参数，不在 Python 重做随机生成。
+
+| kind | 必需数值字段 | 含义 |
+|---|---|---|
+| fixed | value | 固定实值 |
+| uniform | lower、upper | 实数均匀上下界 |
+| log_uniform | lower、upper | 正实数均匀对数上下界 |
+| discrete_uniform | lower、upper | 两端包含的精确整数上下界 |
+| normal | mean、standard_deviation | 正态均值及标准差 |
+| log_normal | log_mean、log_standard_deviation | 自然对数坐标的均值及标准差 |
+
+分布合法性与可表示性沿用原生契约。bindings 每项含 path，可选 scale=1、offset=0，把抽样值 x 映射为 `scale*x+offset`；每个参数可绑定最多 256 处，总数不超过 4096。多个目标绑定同一参数时复用同一个样本，不分别抽样，可表达器件参数间的共同偏差或反向偏差；潜在抽样变量本身仍为独立分布，尚未支持任意相关矩阵或协方差输出。
+
+path 沿用优化任务的键、非负数组索引及单字段唯一选择器，例如 `["devices",{"id":"R1"},"model","resistance_ohms"]`。路径在模板中解析为固定位置，只能修改已有数值叶节点，不能增加字段、绑定字符串或改变 format version。同一目标的不同路径表示也判为重叠并拒绝。
+
+scale 必须非零且有限，offset 必须有限。Fixed、Uniform、LogUniform、DiscreteUniform 的支撑端点在运行前检查映射可表示性；Normal/LogNormal 没有有限支撑区间，逐样本检查映射，不能以裁剪或重抽样隐藏无效尾部。数值映射有效不代表电路模型一定有效，例如负电阻仍由模型验证报告为失败样本。
+
+DiscreteUniform 在 scale/offset 都是整数时采用精确整数映射并写入 Python int，系数和结果限制在 ±(2^53-1)。需要固定整数频点或计数时，使用上下界相同的 DiscreteUniform；Fixed 和连续分布仍写实数值，不自动取整以通过整数模型字段验证。非整数的仿射系数按实数映射处理。
+
+metrics 为 1..64 项，每项含唯一 id 和结果 path，可选 component、unit、limits。结果路径每次在实际分析输出中解析，选择器必须唯一。component 默认 value，要求有限实数；还支持 real、imag、magnitude、power、magnitude_db、phase_radians。复数功率为模平方，magnitude_db 为 `20*log10(abs(z))`，零幅度不制造有限 dB 地板。unit 只记录单位，不隐式做单位换算。
+
+limits 含有限 lower 和/或 upper；显式空 limits 无效。未写 limits 的指标不限制通过与否。所有指标的界共同成立才合格，包含边界；所有指标均无 limits 时关闭判定。上下界顺序、失败计数及两个通过比例的定义均由原生 Monte Carlo 执行。
+
+options 可写 samples、seed、invalid_sample、record_history、quantile_levels，沿用原生默认值。quantile_levels 必须为 JSON 数组。seed 为 0..2^64-1 的整数，读取 JSON 的客户端须保留其精度。任务不另设目标函数权重或罚函数：各指标独立统计，limits 用于联合通过判定。
+
+结果格式为 `rfmodel.monte-carlo-results` version 1，包含算法标识、parameter_order、参数与绑定、metric_order、指标与判据、补齐默认值的 options、原始 input_analysis、Touchstone 依赖指纹，以及原生 result 的统计、计数、失败诊断和可选完整历史。统计和每条 values 按 metric_order 对齐；抽样参数按 parameter_order 对齐。历史参数是绑定前的潜在变量，实际模型值由记录的仿射映射重建。
+
+新增 analysis_evaluations 表示实际进入所选分析入口的调用数；原生 evaluations 包括进入回调后发生的绑定失败，因此可能更大。采样失败不进入回调；映射失败不进入分析；分析或指标提取失败不计为有效样本。导出不额外调用分析，不保存每个样本的完整模型/分析副本；关闭历史不会改变随机流、预算或统计。取消、Stop/Reject 和不可用值 None 沿用 C/Python 契约。
+
+Touchstone 文件在运行前后核对 SHA-256，变化则拒绝整份任务结果；这不是运行期间字节冻结，不能检测被修改后又还原的中间状态。相对数据路径按输入文件目录解释，单独提取 input_analysis 重跑时应使用同一基准目录。CLI 保护任务文件、原生库和 Touchstone 文件，也检测硬链接别名；schema、依赖变化或序列化错误发生时不写结果文件。正常生成一个带 sampling_failure/evaluation_failure/cancelled 的结果仍返回 CLI 状态 0；调用者必须检查 stop 和计数，不能仅以退出码认定全部样本有效。
+
+### 两个可重放 RF 任务
+
+[电阻容差任务](../examples/monte-carlo-resistor-tolerance.json)复现前述 4096 样本的两电阻网络，逐样本与闭式传输/反射公式核对，合格条件对应 R1≤50 欧姆。
+
+[镜像抑制相位容差任务](../examples/monte-carlo-image-phase-tolerance.json)使用现有相干系统模型，令相位误差 δ~Uniform(-0.2,0.2) rad，并绑定 LO 相位为 π/2+δ，抽样 1024 次。独立参考为镜像功率 `(1-cos(δ))/2` W 和目标边带功率 `(1+cos(δ))/2` W。要求镜像≤0.005 W 且目标≥0.995 W，精确总体通过概率为 `acos(0.99)/0.2`。镜像总体均值为 `(1-sin(b)/b)/2`、方差为 `(1+sin(2b)/(2b))/8-(sin(b)/b)^2/4`，其中 b=0.2。统计一致性在观察结果前固定为六倍总体标准误，同时逐样本检查电路公式并重算样本统计。
+
+测试覆盖全部九类分析的固定任务、六种分布的原生随机流、多处共享绑定、整数频点、全部复数投影、失败和取消、无额外分析、输入冻结以及 CLI/Touchstone 保护。共享路径/测量工具已抽取给优化与 Monte Carlo 共用，原有优化任务回归仍须通过。任意相关随机输入/协方差、自动置信区间和 SystemVue 容差/优化算法对照仍未完成，A09 保持开放。
+
+[本阶段机读验证](../validation/monte-carlo-task-validation-20261012.json)记录各平台的构建、完整 CTest、安装消费端、隔离 wheel、原生文件未变指纹和独立数值核对。[电阻任务完整结果](../validation/monte-carlo-task-resistor-tolerance-example-20261012.json)与[相位任务完整结果](../validation/monte-carlo-task-image-phase-tolerance-example-20261012.json)保存输入、种子、绑定、判据、统计和全部样本。报告中的发布状态是生成时快照，远程 CI 随随后提交推送核对。
