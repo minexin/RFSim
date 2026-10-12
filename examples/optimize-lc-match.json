@@ -1,0 +1,116 @@
+{
+  "format": "rfmodel.optimization",
+  "version": 1,
+  "analysis": {
+    "format": "rfmodel.linear-network",
+    "version": 1,
+    "frequencies_hz": [
+      1000000000.0
+    ],
+    "devices": [
+      {
+        "id": "C",
+        "model": {
+          "type": "capacitor",
+          "connection": "shunt",
+          "capacitance_f": 1e-11
+        }
+      },
+      {
+        "id": "L",
+        "model": {
+          "type": "inductor",
+          "connection": "series",
+          "inductance_h": 2e-09
+        }
+      }
+    ],
+    "connections": [
+      [
+        [
+          "C",
+          1
+        ],
+        [
+          "L",
+          0
+        ]
+      ]
+    ],
+    "terminations": [
+      {
+        "port": [
+          "L",
+          1
+        ],
+        "reflection": -0.3333333333333333
+      }
+    ],
+    "external_ports": [
+      [
+        "C",
+        0
+      ]
+    ]
+  },
+  "parameters": [
+    {
+      "id": "L",
+      "lower": 1e-10,
+      "upper": 3e-08,
+      "initial": 2e-09,
+      "kind": "log",
+      "unit": "H",
+      "bindings": [
+        {
+          "path": [
+            "devices",
+            {
+              "id": "L"
+            },
+            "model",
+            "inductance_h"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "C",
+      "lower": 1e-13,
+      "upper": 1e-10,
+      "initial": 1e-11,
+      "kind": "log",
+      "unit": "F",
+      "bindings": [
+        {
+          "path": [
+            "devices",
+            {
+              "id": "C"
+            },
+            "model",
+            "capacitance_f"
+          ]
+        }
+      ]
+    }
+  ],
+  "objectives": [
+    {
+      "id": "reflection",
+      "path": [
+        "samples",
+        0,
+        "s",
+        0,
+        0
+      ],
+      "component": "power",
+      "goal": "minimize"
+    }
+  ],
+  "options": {
+    "minimum_step": 1e-09,
+    "target": 1e-14
+  }
+}

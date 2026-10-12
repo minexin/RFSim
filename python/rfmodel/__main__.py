@@ -1,19 +1,18 @@
-"""python -m rfmodel: execute RF network, spectrum, or explicit coherence models."""
+"""python -m rfmodel: execute RF analyses and declarative bounded optimization tasks."""
 
 import argparse
 import json
 from pathlib import Path
 import sys
 from . import Library
-from .model_file import analyze, load, referenced_touchstone_paths
-from .spectrum_file import analyze_spectrum
-from .amplifier_file import analyze_amplifier
-from .coherence_file import analyze_coherence
-from .coherent_network_file import analyze_coherent_network
-from .coherent_system_file import analyze_coherent_system
-from .mixer_linearization_file import analyze_mixer_linearization
-from .conversion_file import analyze_conversion
-from .conversion_network_file import analyze_conversion_network
+from .model_file import load, referenced_touchstone_paths
+from .analysis_file import analyze_document
+from .optimization_file import analyze_optimization
+
+
+def _same_file(first, second):
+    return (first.resolve() == second.resolve() or
+            (first.exists() and second.exists() and first.samefile(second)))
 
 
 def main():
@@ -23,23 +22,16 @@ def main():
     parser.add_argument("--output", required=True, type=Path)
     args = parser.parse_args()
     try:
-        if args.output.resolve() in (args.model.resolve(), args.library.resolve()):
+        if any(_same_file(args.output, source) for source in (args.model, args.library)):
             raise ValueError("Output must not overwrite the model or native library")
         document = load(args.model)
         if not isinstance(document, dict):
             raise ValueError("Model must be an object")
-        if args.output.resolve() in referenced_touchstone_paths(document, args.model.parent):
+        if any(_same_file(args.output, source)
+               for source in referenced_touchstone_paths(document, args.model.parent)):
             raise ValueError("Output must not overwrite Touchstone input data")
-        operation = {
-            "rfmodel.mixer-linearization": analyze_mixer_linearization,
-            "rfmodel.conversion-network": analyze_conversion_network,
-            "rfmodel.frequency-conversion": analyze_conversion,
-            "rfmodel.coherence": analyze_coherence,
-            "rfmodel.coherent-network": analyze_coherent_network,
-            "rfmodel.coherent-system": analyze_coherent_system,
-            "rfmodel.spectrum-chain": analyze_spectrum,
-            "rfmodel.amplifier-components": analyze_amplifier,
-        }.get(document.get("format"), analyze)
+        operation = (analyze_optimization if document.get('format') == 'rfmodel.optimization'
+                     else analyze_document)
         result = operation(Library(args.library), document, base_directory=args.model.parent)
         text = json.dumps(result, indent=2, allow_nan=False) + "\n"
         args.output.write_text(text, encoding="utf-8")

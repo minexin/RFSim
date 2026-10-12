@@ -1,6 +1,6 @@
 # 有界参数优化：C++、C ABI 与 Python 契约
 
-A09 的第一项原生实现提供 `include/rfmodel/optimization.hpp` 中的 `minimize_bounded(parameters, objective, options, cancelled)`。目标是最小化调用者给定的一个有限实标量；可用它调用 RFModel 网络、噪声或器件原语并组合设计误差。现已提供 C ABI 和 Python 同步回调入口；通用 JSON 任务输入、Monte Carlo 与 SystemVue 优化器对照尚未完成。
+A09 的第一项原生实现提供 `include/rfmodel/optimization.hpp` 中的 `minimize_bounded(parameters, objective, options, cancelled)`。目标是最小化调用者给定的一个有限实标量；可用它调用 RFModel 网络、噪声或器件原语并组合设计误差。现已提供 C ABI 和 Python 同步回调入口；现已增加参数绑定和通用 JSON 优化任务；Monte Carlo 与 SystemVue 优化器对照尚未完成。
 
 ## 参数及约束
 
@@ -83,7 +83,7 @@ cmake --build build --config Release --target rfmodel_match_design
 
 测试另覆盖连续/对数/整数/固定参数混合的已知最优点、边界最优、非光滑目标、完整轮询选择、逐点评估重放、关闭历史后相同搜索、预算截断、异常/非有限值、显式拒绝策略、取消、数值分辨率以及无效参数不调用目标函数。
 
-A09 仍需通用任务格式、系统级参数绑定、Monte Carlo 分布/种子及统计参考，以及厂商优化与统计行为对照；本阶段不关闭整项验收。
+A09 仍需 Monte Carlo 分布/种子及统计参考，以及厂商优化与统计行为对照；已增加的声明式任务和系统参数绑定见下文，整项验收仍开放。
 
 ## 原生 C++ 阶段工程验证（2026-10-12）
 
@@ -122,7 +122,7 @@ assert result.parameters == (.25,)
 
 OptimizationResult 和 OptimizationEvaluation 是 NamedTuple，参数和历史都是拥有独立数据的 tuple。返回前已释放 C 句柄。没有有限结果或某次评估无效时，相应 value 为 None，便于 JSON 编码；停止原因、轨迹状态和失败文本仍单独保留。普通目标函数 Exception 记录为失败评估；MemoryError、KeyboardInterrupt、SystemExit，以及取消回调异常，在返回 Python 后重新抛出，确保先释放任何结果句柄。错误文本按完整 UTF-8 字符截断至 512 字节。
 
-`examples/optimize_lc_match.py <native-library>` 使用相同的 LC 匹配参数，每个候选通过 Python 调用 C ABI 网络求解，再对全部轨迹进行独立阻抗公式验证，输出设计输入及完整 JSON 轨迹。使用已安装 wheel 或显式 PYTHONPATH=python 运行。此例是固定设计程序，尚不提供通用 JSON 优化任务输入。
+`examples/optimize_lc_match.py <native-library>` 使用相同的 LC 匹配参数，每个候选通过 Python 调用 C ABI 网络求解，再对全部轨迹进行独立阻抗公式验证，输出设计输入及完整 JSON 轨迹。使用已安装 wheel 或显式 PYTHONPATH=python 运行。此例是固定设计程序；声明式 JSON 优化任务见下文。
 
 本次新增六个 C 导出符号，旧 ABI 版本和结构布局保持不变。新 wheel 需要包含这些符号的配套原生库；仅替换 Python 包而保留早期原生 DLL 不受支持。
 
@@ -134,3 +134,54 @@ OptimizationResult 和 OptimizationEvaluation 是 NamedTuple，参数和历史�
 四组已安装 Python 包均运行 LC 示例并核验重复轨迹逐字节一致。[完整 Python 示例归档](../validation/optimization-python-lc-match-example-20261012.json)包含全部选项和 174 次评估。L≈3.978873680 nH、C≈3.183098337 pF，|S11|²≈6.9625e-15；每个候选的网络求解与独立阻抗公式核对，最大目标值绝对差小于 2.5e-15，参数相对解析值误差小于 1e-6。
 
 原有八份未提交文件保持原哈希，全量回归仍包含既有参考脚本草稿，未声称纯净检出验证。未新增 SystemVue 分析、推送、macOS 或远程 CI 验证；不据本阶段关闭 A09 整项。
+
+
+## JSON 优化任务与系统参数绑定
+
+`rfmodel.optimization` version=1 包装一份既有分析文档。`analysis` 可使用线性网络、频率转换、转换网络、混频线性化、谱链、放大器分量、相干归约、相干网络或相干系统九种分析格式。其拓扑、器件和结果仍遵循原格式；任务不接受嵌套优化任务或执行代码的表达式。
+
+必需字段是 format、version、analysis、parameters、objectives，可选 options。parameters 为 1..64 项，含唯一 id、lower、upper、initial、bindings，可选 kind（real/log/integer，默认 real）和说明性 unit。参数与原生优化器边界、尺度和整数契约一致。每项参数可绑定 1..256 个目标，总计最多 4096 个。bindings 的每项含 path，可选 scale=1、offset=0；写入数值为 `scale*parameter+offset`。scale 必须非零，整个端点范围必须有限。Integer 参数且 scale/offset 均为整数时，用精确整数运算写入 Python int；系数及结果须在 ±(2^53-1) 内。
+
+path 是 1..64 段的数组：字符串查对象键，非负整数查数组索引，单字段对象按值唯一选择数组中的对象。例如 `['devices', {'id':'L'}, 'model', 'inductance_h']` 对应名为 L 的器件。选择器接受字符串或有限数值，数值 1 与 1.0 相等，布尔值不属于数值。绑定路径在模板中必须指向已经存在的有限数值叶子；不新增字段，不绑定 version，不接受两项绑定指向同一叶子（即使路径写法不同）。绑定在请求开始时解析为固定索引，所以可以一项参数驱动多个元件，也可以优化离散阶数或频率编号；具体候选仍须通过对应分析格式的校验。
+
+每次评估先复制 analysis，再应用全部绑定。原始输入保持不变。目标路径每次在结果中重新解析，可用 `['streams', {'id':'result'}, 'power_by_bin', {'bin':18}, 'power_w']` 按输出流和频率编号选择测量。选择器零匹配或多匹配均失败，不静默选择第一项。结果数组会随参数改变时，宜使用稳定选择器；位置索引始终表示当次结果中的该位置。
+
+objectives 为 1..256 项，每项含唯一 id、path、goal，可选 component、weight=1、scale=1 及 goal 所需的 target。weight 与 scale 须有限且严格为正。component 默认 value，要求有限实标量；real、imag、magnitude、power、magnitude_db、phase_radians 接受实数或原格式的 `[real,imag]`。power 为复数模平方，magnitude_db 为 20log10|z|，phase_radians 为 atan2(imag,real)。零幅度的 dB 测量失败，没有隐式噪声底截断。
+
+令 m 为测量值、t 为目标、s 为 scale、w 为 weight，各项目标贡献为：
+
+| goal | 贡献 |
+|---|---|
+| minimize | w·m/s |
+| maximize | −w·m/s |
+| target | w·((m−t)/s)² |
+| at_most | w·(max(m−t,0)/s)² |
+| at_least | w·(min(m−t,0)/s)² |
+
+只有后三种 goal 要求 target，前两种不接受 target。总目标使用准确浮点求和；非有限测量、贡献或总值被记录为失败评估。上下限是带权惩罚项，不是另一个硬约束求解器；混合目标和单位权衡由使用者显式给定。目标标量是越小越好，不能把负值直接解释为误差。
+
+options 支持 Python 原生封装的八个纯数据选项：max_evaluations、max_iterations、initial_step、minimum_step、contraction、target、invalid_evaluation、record_history；未写字段取公开默认值。Python 函数 `analyze_optimization(library, document, base_directory=..., cancelled=...)` 另支持取消回调，JSON 中不保存可执行回调。原生预算统计每次分析尝试，包括失败；保存或导出结果不额外运行分析。
+
+结果格式为 `rfmodel.optimization-results` version=1，包含归一化参数、绑定、目标和选项、parameter_order、input_analysis、外部依赖路径/哈希、原生 result，以及 best_model、best_analysis、best_objectives。只缓存严格改善时的完整分析快照，原生历史仍记录全部参数、标量值、状态和错误；关闭历史不改变搜索或最佳快照。没有有限点时三个 best 字段均为 null。可使用原任务目录作为 base_directory 再次运行 best_model；相对输入路径仍以该目录为准，任务本身不会做这次额外求值。
+
+Touchstone 相对路径以任务文件所在目录解析；Python API 用 base_directory 指定。输入文件须在整个运行期间保持不变，任务比较开始与结束的 SHA-256 指纹，不一致则拒绝返回结果；这不是对中间时刻文件内容的原子快照。CLI 同时保护任务文件、原生库与内嵌 Touchstone 路径，包括已有硬链接别名，防止输出覆盖输入。CLI 返回 0 表示成功写出完整报告，预算/目标函数失败等停止状态仍保留在 result.stop 中；不代表设计达标。请求格式或文件故障返回非零并保留原有输出。
+
+两个完整输入可直接运行：
+
+```sh
+python -m rfmodel examples/optimize-lc-match.json --library <native-library> --output lc-result.json
+python -m rfmodel examples/optimize-image-rejection.json --library <native-library> --output image-result.json
+```
+
+LC 任务与前述两元件解析解一致。镜像抑制任务在共享 LO 时钟、正交 RF 分支及合路网络中优化一个 LO 相位，同时最小化上边带镜像功率并要求下边带功率至少 0.99 W。输入为 1 W，独立解析关系为 `P_image=(1−sin φ)/2`、`P_desired=(1+sin φ)/2`；最优相位 π/2。回归逐点比较组合目标，不用搜索输出倒推参考公式。
+
+此任务层通过 Python/CLI 编排已有 C++ 数值原语；JSON 解析不进入 C++ API，也未增加原生 ABI。任意表达式、拓扑增删、随机分布/Monte Carlo 及厂商优化算法等价性仍不属于当前已验收范围。
+
+
+## JSON 任务阶段工程验证（2026-10-12）
+
+[任务层机读验收](../validation/optimization-task-validation-20261012.json)记录 Windows/Linux Debug/Release 四组完整 CTest 各 137/137，安装消费者各 2/2，新 wheel 各 26 套件、410 项，零跳过。12 项新任务测试覆盖上述契约及九类分析入口。Windows 构建全部目标，原生源码未改；Linux 使用新的原生文件系统构建目录。
+
+四组安装包均通过 CLI 执行并重放两个完整任务，同配置输出逐字节一致。[LC 完整结果](../validation/optimization-task-lc-match-example-20261012.json)保存 174 次评估，达到 |S11|²≈6.9625e-15；[镜像抑制完整结果](../validation/optimization-task-image-rejection-example-20261012.json)保存 66 次评估，φ≈1.570796466 rad，镜像功率≈4.8404e-15 W，目标边带功率≈1 W。每一评估点都对照独立电路公式；两类任务的最大目标值绝对差均小于 1e-12。
+
+此前跨语言阶段提交 `0dc3bc4` 已按恢复的阶段推送授权发布到 GitHub，并通过 Windows/Ubuntu/macOS Debug/Release 六组干净检出 CI：各 136/136 核心测试、2/2 安装消费者和 398/398 wheel 回归。[CI 机读记录](../validation/optimization-api-ci-validation-20261012.json)精确对应该提交，不能替代随后新增 JSON 任务的远程验证；任务层报告生成时尚待提交推送。历史报告的未推送标记保持其记录时刻的含义。

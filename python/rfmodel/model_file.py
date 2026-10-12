@@ -60,6 +60,10 @@ def referenced_touchstone_paths(document, base_directory=None):
     """Collect data inputs for CLI overwrite protection, without opening files."""
     if not isinstance(document, dict):
         return set()
+    if document.get("format") == "rfmodel.optimization":
+        document = document.get("analysis", {})
+        if not isinstance(document, dict):
+            return set()
     networks = [document]
     if document.get("format") == "rfmodel.coherent-network":
         networks = [document.get("network", {})]

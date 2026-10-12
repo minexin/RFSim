@@ -1,0 +1,873 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-12",
+  "stage": "Published optimization C ABI and Python stage: six-configuration GitHub Actions acceptance",
+  "commit": "0dc3bc4e4e6cc9ec3d3cd76b2906bd1d776a0340",
+  "run_id": 38237563616,
+  "run_url": "https://github.com/minexin/RFSim/actions/runs/38237563616",
+  "status": "completed",
+  "conclusion": "success",
+  "created_at": "2026-10-12T10:38:11Z",
+  "updated_at": "2026-10-12T10:42:07Z",
+  "run_metadata": {
+    "path": "build-reference/optimization-api-ci-run.json",
+    "sha256": "61b29acaefbe5d0b19bde8a7bb663507f362324dd1cb415be817833918714355"
+  },
+  "configurations": [
+    {
+      "os": "windows-latest",
+      "configuration": "Debug",
+      "job_url": "https://github.com/minexin/RFSim/actions/runs/38237563616/job/114771895774",
+      "job_id": 114771895774,
+      "started_at": "2026-10-12T10:38:13Z",
+      "completed_at": "2026-10-12T10:41:03Z",
+      "steps": [
+        {
+          "name": "Set up job",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/setup-python@v7",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test installed Python verification tools",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test reference inventory tools",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test reference result validation",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test background reference runner",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test antenna reference validation",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test antenna power sweep validation",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test antenna nonlinear parameter audit",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test compression diagnostic",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test saturation warning diagnostic",
+          "conclusion": "success"
+        },
+        {
+          "name": "Configure",
+          "conclusion": "success"
+        },
+        {
+          "name": "Build",
+          "conclusion": "success"
+        },
+        {
+          "name": "Build Python distribution",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test core and CLI",
+          "conclusion": "success"
+        },
+        {
+          "name": "Install package",
+          "conclusion": "success"
+        },
+        {
+          "name": "Configure independent consumer",
+          "conclusion": "success"
+        },
+        {
+          "name": "Build independent consumer",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test installed package",
+          "conclusion": "success"
+        },
+        {
+          "name": "Verify installed wheel against installed native package",
+          "conclusion": "success"
+        },
+        {
+          "name": "Preserve verification evidence",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/setup-python@v7",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "conclusion": "success"
+        }
+      ],
+      "ctest": {
+        "passed": 136,
+        "total": 136,
+        "log": {
+          "path": "build-reference/optimization-api-ci-evidence/verification-windows-latest-Debug/build/Testing/Temporary/LastTest.log",
+          "sha256": "48f58854afd1dc31bfc3702d2d980339ac8f1dd805b3416a7bd39168297304c6"
+        }
+      },
+      "installed_consumers": {
+        "passed": 2,
+        "total": 2,
+        "log": {
+          "path": "build-reference/optimization-api-ci-evidence/verification-windows-latest-Debug/consumer-build/Testing/Temporary/LastTest.log",
+          "sha256": "68f1401453380acafabe09b97317d9b1a498b124375371d4ec71beaf5e672fb5"
+        }
+      },
+      "wheel_tests": 398,
+      "wheel_suites": 25,
+      "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+      "wheel_report": {
+        "path": "build-reference/optimization-api-ci-evidence/verification-windows-latest-Debug/installed-python-verification/installed-python-validation.json",
+        "sha256": "9da757ce7cb7cdebd48228abfb7be8a73edcda0da295b663e3e214eed5099ca3"
+      },
+      "wheel": {
+        "path": "D:\\a\\RFSim\\RFSim\\python-dist\\rfmodel-0.1.0-py3-none-any.whl",
+        "sha256": "e32a9ef8949b1901b8b09251f83f55c2e12b9ff6bfb7172821b4e9d2cab2f70c"
+      },
+      "native_library": {
+        "path": "D:\\a\\RFSim\\RFSim\\install\\bin\\rfmodel_cd.dll",
+        "sha256": "8c5b0c84f136aa50f1b4503017d4a0d8da94b745377d2fba16cda92d8446a426"
+      }
+    },
+    {
+      "os": "windows-latest",
+      "configuration": "Release",
+      "job_url": "https://github.com/minexin/RFSim/actions/runs/38237563616/job/114771895461",
+      "job_id": 114771895461,
+      "started_at": "2026-10-12T10:38:13Z",
+      "completed_at": "2026-10-12T10:42:06Z",
+      "steps": [
+        {
+          "name": "Set up job",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/setup-python@v7",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test installed Python verification tools",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test reference inventory tools",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test reference result validation",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test background reference runner",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test antenna reference validation",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test antenna power sweep validation",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test antenna nonlinear parameter audit",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test compression diagnostic",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test saturation warning diagnostic",
+          "conclusion": "success"
+        },
+        {
+          "name": "Configure",
+          "conclusion": "success"
+        },
+        {
+          "name": "Build",
+          "conclusion": "success"
+        },
+        {
+          "name": "Build Python distribution",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test core and CLI",
+          "conclusion": "success"
+        },
+        {
+          "name": "Install package",
+          "conclusion": "success"
+        },
+        {
+          "name": "Configure independent consumer",
+          "conclusion": "success"
+        },
+        {
+          "name": "Build independent consumer",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test installed package",
+          "conclusion": "success"
+        },
+        {
+          "name": "Verify installed wheel against installed native package",
+          "conclusion": "success"
+        },
+        {
+          "name": "Preserve verification evidence",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/setup-python@v7",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "conclusion": "success"
+        }
+      ],
+      "ctest": {
+        "passed": 136,
+        "total": 136,
+        "log": {
+          "path": "build-reference/optimization-api-ci-evidence/verification-windows-latest-Release/build/Testing/Temporary/LastTest.log",
+          "sha256": "b9796444f08304bee7aefb90208ada5b87f2287231bf407d4b516e85f8b81911"
+        }
+      },
+      "installed_consumers": {
+        "passed": 2,
+        "total": 2,
+        "log": {
+          "path": "build-reference/optimization-api-ci-evidence/verification-windows-latest-Release/consumer-build/Testing/Temporary/LastTest.log",
+          "sha256": "8ca96027666cabdd25f4cc53020e60bb043cceeae4c5f802685fd73477e09b42"
+        }
+      },
+      "wheel_tests": 398,
+      "wheel_suites": 25,
+      "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+      "wheel_report": {
+        "path": "build-reference/optimization-api-ci-evidence/verification-windows-latest-Release/installed-python-verification/installed-python-validation.json",
+        "sha256": "943003d69032eeeb7548f22b101fe18a82396230c0f06fd5700f22d845b1d882"
+      },
+      "wheel": {
+        "path": "D:\\a\\RFSim\\RFSim\\python-dist\\rfmodel-0.1.0-py3-none-any.whl",
+        "sha256": "bf2db7eec992f0838db1da29c3e8907db3752fadd6865eb285b54ccaccbc7242"
+      },
+      "native_library": {
+        "path": "D:\\a\\RFSim\\RFSim\\install\\bin\\rfmodel_c.dll",
+        "sha256": "a4cb1498e4a2ca9870716bd3a45bceb38a8f85f6015d167b3b002e5c7f9b8db6"
+      }
+    },
+    {
+      "os": "ubuntu-latest",
+      "configuration": "Debug",
+      "job_url": "https://github.com/minexin/RFSim/actions/runs/38237563616/job/114771895759",
+      "job_id": 114771895759,
+      "started_at": "2026-10-12T10:38:13Z",
+      "completed_at": "2026-10-12T10:40:15Z",
+      "steps": [
+        {
+          "name": "Set up job",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/setup-python@v7",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test installed Python verification tools",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test reference inventory tools",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test reference result validation",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test background reference runner",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test antenna reference validation",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test antenna power sweep validation",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test antenna nonlinear parameter audit",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test compression diagnostic",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test saturation warning diagnostic",
+          "conclusion": "success"
+        },
+        {
+          "name": "Configure",
+          "conclusion": "success"
+        },
+        {
+          "name": "Build",
+          "conclusion": "success"
+        },
+        {
+          "name": "Build Python distribution",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test core and CLI",
+          "conclusion": "success"
+        },
+        {
+          "name": "Install package",
+          "conclusion": "success"
+        },
+        {
+          "name": "Configure independent consumer",
+          "conclusion": "success"
+        },
+        {
+          "name": "Build independent consumer",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test installed package",
+          "conclusion": "success"
+        },
+        {
+          "name": "Verify installed wheel against installed native package",
+          "conclusion": "success"
+        },
+        {
+          "name": "Preserve verification evidence",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/setup-python@v7",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "conclusion": "success"
+        }
+      ],
+      "ctest": {
+        "passed": 136,
+        "total": 136,
+        "log": {
+          "path": "build-reference/optimization-api-ci-evidence/verification-ubuntu-latest-Debug/build/Testing/Temporary/LastTest.log",
+          "sha256": "b4c5f23fbf768b3aa3feccb37059fc24a958f0894c61f5bc222def711dca9baa"
+        }
+      },
+      "installed_consumers": {
+        "passed": 2,
+        "total": 2,
+        "log": {
+          "path": "build-reference/optimization-api-ci-evidence/verification-ubuntu-latest-Debug/consumer-build/Testing/Temporary/LastTest.log",
+          "sha256": "7d1cb5555d3cdeaccf64ea46163079a483d7f5a6b91d50953d35c12e1eebbc6c"
+        }
+      },
+      "wheel_tests": 398,
+      "wheel_suites": 25,
+      "python": "3.12.15 (main, Oct  1 2026, 02:35:59) [GCC 13.3.0]",
+      "wheel_report": {
+        "path": "build-reference/optimization-api-ci-evidence/verification-ubuntu-latest-Debug/installed-python-verification/installed-python-validation.json",
+        "sha256": "88d423901caf06c9fffdc65a9459b9c6ab8e2b0d6c8b9dd6cecdee0ff69ef48b"
+      },
+      "wheel": {
+        "path": "/home/runner/work/RFSim/RFSim/python-dist/rfmodel-0.1.0-py3-none-any.whl",
+        "sha256": "d1b1084ab951785df91d2682079e7acf58c6be091eccfd95f7138984238e6f80"
+      },
+      "native_library": {
+        "path": "/home/runner/work/RFSim/RFSim/install/lib/librfmodel_cd.so",
+        "sha256": "f0a8b720d006a8f33235ce5d428d9c18017f839e78cf06cd180584d8bfb0a4da"
+      }
+    },
+    {
+      "os": "ubuntu-latest",
+      "configuration": "Release",
+      "job_url": "https://github.com/minexin/RFSim/actions/runs/38237563616/job/114771895859",
+      "job_id": 114771895859,
+      "started_at": "2026-10-12T10:38:13Z",
+      "completed_at": "2026-10-12T10:39:48Z",
+      "steps": [
+        {
+          "name": "Set up job",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/setup-python@v7",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test installed Python verification tools",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test reference inventory tools",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test reference result validation",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test background reference runner",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test antenna reference validation",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test antenna power sweep validation",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test antenna nonlinear parameter audit",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test compression diagnostic",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test saturation warning diagnostic",
+          "conclusion": "success"
+        },
+        {
+          "name": "Configure",
+          "conclusion": "success"
+        },
+        {
+          "name": "Build",
+          "conclusion": "success"
+        },
+        {
+          "name": "Build Python distribution",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test core and CLI",
+          "conclusion": "success"
+        },
+        {
+          "name": "Install package",
+          "conclusion": "success"
+        },
+        {
+          "name": "Configure independent consumer",
+          "conclusion": "success"
+        },
+        {
+          "name": "Build independent consumer",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test installed package",
+          "conclusion": "success"
+        },
+        {
+          "name": "Verify installed wheel against installed native package",
+          "conclusion": "success"
+        },
+        {
+          "name": "Preserve verification evidence",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/setup-python@v7",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "conclusion": "success"
+        }
+      ],
+      "ctest": {
+        "passed": 136,
+        "total": 136,
+        "log": {
+          "path": "build-reference/optimization-api-ci-evidence/verification-ubuntu-latest-Release/build/Testing/Temporary/LastTest.log",
+          "sha256": "e10ab4445cf11a6f2de34d4ea458ef922ba40158d53fb397cbcad928bf253bc4"
+        }
+      },
+      "installed_consumers": {
+        "passed": 2,
+        "total": 2,
+        "log": {
+          "path": "build-reference/optimization-api-ci-evidence/verification-ubuntu-latest-Release/consumer-build/Testing/Temporary/LastTest.log",
+          "sha256": "6f48c265d3549153d4a048eea9a2d2aa34a9d05e5d683ff770c58e6df1949d67"
+        }
+      },
+      "wheel_tests": 398,
+      "wheel_suites": 25,
+      "python": "3.12.15 (main, Oct  1 2026, 02:35:59) [GCC 13.3.0]",
+      "wheel_report": {
+        "path": "build-reference/optimization-api-ci-evidence/verification-ubuntu-latest-Release/installed-python-verification/installed-python-validation.json",
+        "sha256": "fa047daa6421bdd5f702ed33691d1bc06c00c92e34399e79c608de5f31fb3ff7"
+      },
+      "wheel": {
+        "path": "/home/runner/work/RFSim/RFSim/python-dist/rfmodel-0.1.0-py3-none-any.whl",
+        "sha256": "e43e1c1dfe1d69817c512b250d489e6ae4c547969a028cba201d2a248d52a694"
+      },
+      "native_library": {
+        "path": "/home/runner/work/RFSim/RFSim/install/lib/librfmodel_c.so",
+        "sha256": "21cc12aed17f2617c9c1d8357c3fd64b7bc761469535b908968afae9064ddb4c"
+      }
+    },
+    {
+      "os": "macos-latest",
+      "configuration": "Debug",
+      "job_url": "https://github.com/minexin/RFSim/actions/runs/38237563616/job/114771895648",
+      "job_id": 114771895648,
+      "started_at": "2026-10-12T10:38:18Z",
+      "completed_at": "2026-10-12T10:40:59Z",
+      "steps": [
+        {
+          "name": "Set up job",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/setup-python@v7",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test installed Python verification tools",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test reference inventory tools",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test reference result validation",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test background reference runner",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test antenna reference validation",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test antenna power sweep validation",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test antenna nonlinear parameter audit",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test compression diagnostic",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test saturation warning diagnostic",
+          "conclusion": "success"
+        },
+        {
+          "name": "Configure",
+          "conclusion": "success"
+        },
+        {
+          "name": "Build",
+          "conclusion": "success"
+        },
+        {
+          "name": "Build Python distribution",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test core and CLI",
+          "conclusion": "success"
+        },
+        {
+          "name": "Install package",
+          "conclusion": "success"
+        },
+        {
+          "name": "Configure independent consumer",
+          "conclusion": "success"
+        },
+        {
+          "name": "Build independent consumer",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test installed package",
+          "conclusion": "success"
+        },
+        {
+          "name": "Verify installed wheel against installed native package",
+          "conclusion": "success"
+        },
+        {
+          "name": "Preserve verification evidence",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/setup-python@v7",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "conclusion": "success"
+        }
+      ],
+      "ctest": {
+        "passed": 136,
+        "total": 136,
+        "log": {
+          "path": "build-reference/optimization-api-ci-evidence/verification-macos-latest-Debug/build/Testing/Temporary/LastTest.log",
+          "sha256": "7ed50af3380fcb5550db08244888a1eabce98f6e615eecefa98ce388cb9b349c"
+        }
+      },
+      "installed_consumers": {
+        "passed": 2,
+        "total": 2,
+        "log": {
+          "path": "build-reference/optimization-api-ci-evidence/verification-macos-latest-Debug/consumer-build/Testing/Temporary/LastTest.log",
+          "sha256": "bf4e5dd969430944212aaba0ffbaf4675aaab7de25f5e0cade4250d0d6705727"
+        }
+      },
+      "wheel_tests": 398,
+      "wheel_suites": 25,
+      "python": "3.12.10 (v3.12.10:0cc81280367, Apr  8 2025, 08:46:59) [Clang 13.0.0 (clang-1300.0.29.30)]",
+      "wheel_report": {
+        "path": "build-reference/optimization-api-ci-evidence/verification-macos-latest-Debug/installed-python-verification/installed-python-validation.json",
+        "sha256": "4383a0b8a53e137b578a14427c316dded8656d553e157ef72ce7b78ba44e2ea0"
+      },
+      "wheel": {
+        "path": "/Users/runner/work/RFSim/RFSim/python-dist/rfmodel-0.1.0-py3-none-any.whl",
+        "sha256": "67f86abaab8ddc347d88e4d785af04aa53a32284d8b4013ec4fe31f5233a11b4"
+      },
+      "native_library": {
+        "path": "/Users/runner/work/RFSim/RFSim/install/lib/librfmodel_cd.dylib",
+        "sha256": "46474ef6a8d04a59bfb3de5eb54f449d1f10ce516b4cfb88a010bf7e3e7d9527"
+      }
+    },
+    {
+      "os": "macos-latest",
+      "configuration": "Release",
+      "job_url": "https://github.com/minexin/RFSim/actions/runs/38237563616/job/114771895620",
+      "job_id": 114771895620,
+      "started_at": "2026-10-12T10:38:19Z",
+      "completed_at": "2026-10-12T10:40:47Z",
+      "steps": [
+        {
+          "name": "Set up job",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/setup-python@v7",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test installed Python verification tools",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test reference inventory tools",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test reference result validation",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test background reference runner",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test antenna reference validation",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test antenna power sweep validation",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test antenna nonlinear parameter audit",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test compression diagnostic",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test saturation warning diagnostic",
+          "conclusion": "success"
+        },
+        {
+          "name": "Configure",
+          "conclusion": "success"
+        },
+        {
+          "name": "Build",
+          "conclusion": "success"
+        },
+        {
+          "name": "Build Python distribution",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test core and CLI",
+          "conclusion": "success"
+        },
+        {
+          "name": "Install package",
+          "conclusion": "success"
+        },
+        {
+          "name": "Configure independent consumer",
+          "conclusion": "success"
+        },
+        {
+          "name": "Build independent consumer",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test installed package",
+          "conclusion": "success"
+        },
+        {
+          "name": "Verify installed wheel against installed native package",
+          "conclusion": "success"
+        },
+        {
+          "name": "Preserve verification evidence",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/setup-python@v7",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "conclusion": "success"
+        }
+      ],
+      "ctest": {
+        "passed": 136,
+        "total": 136,
+        "log": {
+          "path": "build-reference/optimization-api-ci-evidence/verification-macos-latest-Release/build/Testing/Temporary/LastTest.log",
+          "sha256": "32bef91701300942d21475ecee936e7fc316e838d69c48ad4bdf8ec9b2c76e79"
+        }
+      },
+      "installed_consumers": {
+        "passed": 2,
+        "total": 2,
+        "log": {
+          "path": "build-reference/optimization-api-ci-evidence/verification-macos-latest-Release/consumer-build/Testing/Temporary/LastTest.log",
+          "sha256": "a0c70bdab183d39a77c620fb5d53b678b055aa3dea910f948f23fe01e7a8599e"
+        }
+      },
+      "wheel_tests": 398,
+      "wheel_suites": 25,
+      "python": "3.12.10 (v3.12.10:0cc81280367, Apr  8 2025, 08:46:59) [Clang 13.0.0 (clang-1300.0.29.30)]",
+      "wheel_report": {
+        "path": "build-reference/optimization-api-ci-evidence/verification-macos-latest-Release/installed-python-verification/installed-python-validation.json",
+        "sha256": "438767678ee0cc44a2db6436ce301f414b2eb74270e537598e494b8ab08f99fe"
+      },
+      "wheel": {
+        "path": "/Users/runner/work/RFSim/RFSim/python-dist/rfmodel-0.1.0-py3-none-any.whl",
+        "sha256": "295432377c9165d35b562b9f8658ec09ab2cdce76cf389315fd39ec598959a2f"
+      },
+      "native_library": {
+        "path": "/Users/runner/work/RFSim/RFSim/install/lib/librfmodel_c.dylib",
+        "sha256": "3e4ee05d0ece5dbbce154663a1dc5db6365b4c4f260c4d6d5fe6abc31832f134"
+      }
+    }
+  ],
+  "clean_checkout": true,
+  "pushed": true,
+  "new_systemvue_analysis_calls": 0,
+  "limitations": [
+    "Evidence applies to exact commit 0dc3bc4, before declarative optimization task support",
+    "CI engineering acceptance does not establish vendor model compatibility or a released binary distribution",
+    "Earlier local reports retain their original not-pushed and no-remote-CI statuses at their recording time",
+    "Raw downloaded evidence is retained under build-reference and in GitHub Actions artifacts with their normal retention policy"
+  ]
+}

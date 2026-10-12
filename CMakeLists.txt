@@ -79,6 +79,8 @@ if(RFMODEL_BUILD_C_API)
     if(Python3_Interpreter_FOUND)
         add_test(NAME python_api_test COMMAND ${Python3_EXECUTABLE}
             ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_python_api.py $<TARGET_FILE:rfmodel_c>)
+        add_test(NAME optimization_task_file_test COMMAND ${Python3_EXECUTABLE}
+            ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_optimization_file.py $<TARGET_FILE:rfmodel_c>)
         add_test(NAME optimization_python_test COMMAND ${Python3_EXECUTABLE}
             ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_optimization.py $<TARGET_FILE:rfmodel_c>)
         add_test(NAME mixed_reference_file_test COMMAND ${Python3_EXECUTABLE}

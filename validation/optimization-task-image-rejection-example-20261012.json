@@ -1,0 +1,1337 @@
+{
+  "format": "rfmodel.optimization-results",
+  "version": 1,
+  "algorithm": "bounded_coordinate_poll",
+  "parameter_order": [
+    "quadrature_phase"
+  ],
+  "parameters": [
+    {
+      "id": "quadrature_phase",
+      "lower": -3.141592653589793,
+      "upper": 3.141592653589793,
+      "initial": 0.2,
+      "kind": "real",
+      "bindings": [
+        {
+          "path": [
+            "stages",
+            {
+              "id": "conversion"
+            },
+            "branches",
+            {
+              "id": "mixed-q"
+            },
+            "lo_phase_radians"
+          ],
+          "scale": 1.0,
+          "offset": 0.0
+        }
+      ],
+      "unit": "rad"
+    }
+  ],
+  "objectives": [
+    {
+      "id": "image_power",
+      "path": [
+        "streams",
+        {
+          "id": "result"
+        },
+        "power_by_bin",
+        {
+          "bin": 18
+        },
+        "power_w"
+      ],
+      "component": "value",
+      "goal": "minimize",
+      "weight": 1.0,
+      "scale": 1.0
+    },
+    {
+      "id": "desired_power",
+      "path": [
+        "streams",
+        {
+          "id": "result"
+        },
+        "power_by_bin",
+        {
+          "bin": 2
+        },
+        "power_w"
+      ],
+      "component": "value",
+      "goal": "at_least",
+      "weight": 1.0,
+      "scale": 1.0,
+      "target": 0.99
+    }
+  ],
+  "options": {
+    "max_evaluations": 10000,
+    "max_iterations": 2000,
+    "initial_step": 0.25,
+    "minimum_step": 1e-09,
+    "contraction": 0.5,
+    "target": 1e-14,
+    "invalid_evaluation": "stop",
+    "record_history": true
+  },
+  "input_analysis": {
+    "format": "rfmodel.coherent-system",
+    "version": 1,
+    "spacing_hz": 100000000.0,
+    "sources": [
+      {
+        "id": "rf"
+      },
+      {
+        "id": "lo-a",
+        "reference_clock": "lo-reference"
+      },
+      {
+        "id": "lo-b",
+        "reference_clock": "lo-reference"
+      }
+    ],
+    "inputs": [
+      {
+        "id": "incident",
+        "components": [
+          {
+            "source": "rf",
+            "bin": 10,
+            "bandwidth_hz": 1.0,
+            "amplitude": 1.0
+          }
+        ]
+      }
+    ],
+    "stages": [
+      {
+        "id": "quadrature-split",
+        "type": "linear_network",
+        "network": {
+          "devices": [
+            {
+              "id": "s",
+              "s": [
+                [
+                  0,
+                  0.7071067811865475,
+                  [
+                    0,
+                    0.7071067811865475
+                  ]
+                ],
+                [
+                  0.7071067811865475,
+                  0,
+                  0
+                ],
+                [
+                  [
+                    0,
+                    0.7071067811865475
+                  ],
+                  0,
+                  0
+                ]
+              ]
+            }
+          ],
+          "external_ports": [
+            [
+              "s",
+              0
+            ],
+            [
+              "s",
+              1
+            ],
+            [
+              "s",
+              2
+            ]
+          ]
+        },
+        "inputs": [
+          {
+            "stream": "incident",
+            "port": [
+              "s",
+              0
+            ]
+          }
+        ],
+        "outputs": [
+          {
+            "id": "rf-i",
+            "port": [
+              "s",
+              1
+            ]
+          },
+          {
+            "id": "rf-q",
+            "port": [
+              "s",
+              2
+            ]
+          }
+        ]
+      },
+      {
+        "id": "conversion",
+        "type": "ideal_mixer_bank",
+        "branches": [
+          {
+            "id": "mixed-i",
+            "input": "rf-i",
+            "lo_source": "lo-a",
+            "lo_bin": 8,
+            "conversion_gain_db": 0
+          },
+          {
+            "id": "mixed-q",
+            "input": "rf-q",
+            "lo_source": "lo-b",
+            "lo_bin": 8,
+            "conversion_gain_db": 0,
+            "lo_phase_radians": 0.2
+          }
+        ]
+      },
+      {
+        "id": "combine",
+        "type": "linear_network",
+        "network": {
+          "devices": [
+            {
+              "id": "c",
+              "s": [
+                [
+                  0,
+                  0,
+                  0.7071067811865475
+                ],
+                [
+                  0,
+                  0,
+                  0.7071067811865475
+                ],
+                [
+                  0.7071067811865475,
+                  0.7071067811865475,
+                  0
+                ]
+              ]
+            }
+          ],
+          "external_ports": [
+            [
+              "c",
+              2
+            ],
+            [
+              "c",
+              1
+            ],
+            [
+              "c",
+              0
+            ]
+          ]
+        },
+        "inputs": [
+          {
+            "stream": "mixed-i",
+            "port": [
+              "c",
+              0
+            ]
+          },
+          {
+            "stream": "mixed-q",
+            "port": [
+              "c",
+              1
+            ]
+          }
+        ],
+        "outputs": [
+          {
+            "id": "result",
+            "port": [
+              "c",
+              2
+            ]
+          }
+        ]
+      }
+    ],
+    "outputs": [
+      "result"
+    ]
+  },
+  "dependencies": [],
+  "result": {
+    "parameters": [
+      1.5707964659407683
+    ],
+    "value": 4.8403933994818256e-15,
+    "has_finite_point": true,
+    "stop": "target_reached",
+    "evaluations": 66,
+    "rejected_evaluations": 0,
+    "iterations": 33,
+    "final_step": 5.960464477539063e-08,
+    "last_failed_parameters": [],
+    "last_error": "",
+    "history": [
+      {
+        "parameters": [
+          0.2
+        ],
+        "value": 0.5532847382625288,
+        "iteration": 0,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          1.7707963267948967
+        ],
+        "value": 0.009966711079379192,
+        "iteration": 1,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          -1.3707963267948966
+        ],
+        "value": 1.9504985363131895,
+        "iteration": 1,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.141592653589793
+        ],
+        "value": 0.7400999999999999,
+        "iteration": 2,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          0.20000000000000018
+        ],
+        "value": 0.5532847382625288,
+        "iteration": 2,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          2.556194490192345
+        ],
+        "value": 0.2694167279464332,
+        "iteration": 3,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          0.9853981633974485
+        ],
+        "value": 0.08862006010601295,
+        "iteration": 3,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          2.1634954084936204
+        ],
+        "value": 0.09094938507456601,
+        "iteration": 4,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          1.3780972450961722
+        ],
+        "value": 0.009254543409883824,
+        "iteration": 4,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          1.7707963267948967
+        ],
+        "value": 0.009966711079379192,
+        "iteration": 5,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          0.9853981633974485
+        ],
+        "value": 0.08862006010601295,
+        "iteration": 5,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          1.5744467859455344
+        ],
+        "value": 3.3314593030719204e-06,
+        "iteration": 6,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          1.1817477042468107
+        ],
+        "value": 0.03811366185787759,
+        "iteration": 6,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          1.7707963267948967
+        ],
+        "value": 0.009966711079379192,
+        "iteration": 7,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          1.3780972450961722
+        ],
+        "value": 0.009254543409883824,
+        "iteration": 7,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          1.6726215563702151
+        ],
+        "value": 0.0025898554673945582,
+        "iteration": 8,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          1.4762720155208537
+        ],
+        "value": 0.002232048695240414,
+        "iteration": 8,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          1.6235341711578748
+        ],
+        "value": 0.0006951589152928509,
+        "iteration": 9,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          1.525359400733194
+        ],
+        "value": 0.0005160397723636287,
+        "iteration": 9,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          1.5989904785517046
+        ],
+        "value": 0.00019871438445746652,
+        "iteration": 10,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          1.5499030933393643
+        ],
+        "value": 0.00010912783119794215,
+        "iteration": 10,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          1.58671863224862
+        ],
+        "value": 6.337861374559607e-05,
+        "iteration": 11,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          1.5621749396424498
+        ],
+        "value": 1.8581964010490934e-05,
+        "iteration": 11,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          1.5805827090970768
+        ],
+        "value": 2.3943128547531097e-05,
+        "iteration": 12,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          1.5683108627939921
+        ],
+        "value": 1.5443820299087741e-06,
+        "iteration": 12,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          1.5744467859455344
+        ],
+        "value": 3.3314593030719204e-06,
+        "iteration": 13,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          1.5621749396424498
+        ],
+        "value": 1.8581964010490934e-05,
+        "iteration": 13,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          1.5713788243697628
+        ],
+        "value": 8.482585378278148e-08,
+        "iteration": 14,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          1.5652429012182205
+        ],
+        "value": 7.710114093552144e-06,
+        "iteration": 14,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          1.5744467859455336
+        ],
+        "value": 3.331459303070299e-06,
+        "iteration": 15,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          1.5683108627939912
+        ],
+        "value": 1.5443820299098778e-06,
+        "iteration": 15,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          1.5729128051576478
+        ],
+        "value": 1.1198697469620965e-06,
+        "iteration": 16,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          1.569844843581877
+        ],
+        "value": 2.2633005908941657e-07,
+        "iteration": 16,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          1.5721458147637053
+        ],
+        "value": 4.5527937539672196e-07,
+        "iteration": 17,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          1.5706118339758195
+        ],
+        "value": 8.50940004861963e-09,
+        "iteration": 17,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          1.5713788243697628
+        ],
+        "value": 8.482585378278148e-08,
+        "iteration": 18,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          1.569844843581877
+        ],
+        "value": 2.2633005908941657e-07,
+        "iteration": 18,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          1.5709953291727912
+        ],
+        "value": 9.9004865692478e-09,
+        "iteration": 19,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          1.5702283387788487
+        ],
+        "value": 8.065259442522983e-08,
+        "iteration": 19,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          1.5708035815743058
+        ],
+        "value": 1.315795606881602e-11,
+        "iteration": 20,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          1.570420086377334
+        ],
+        "value": 3.5389212534439e-08,
+        "iteration": 20,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          1.5709953291727912
+        ],
+        "value": 9.9004865692478e-09,
+        "iteration": 21,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          1.5706118339758195
+        ],
+        "value": 8.50940004861963e-09,
+        "iteration": 21,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          1.5708994553735485
+        ],
+        "value": 2.6588759313312034e-09,
+        "iteration": 22,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          1.5707077077750622
+        ],
+        "value": 1.963332667818864e-09,
+        "iteration": 22,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          1.5708515184739271
+        ],
+        "value": 7.615303583581996e-10,
+        "iteration": 23,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          1.5707556446746844
+        ],
+        "value": 4.1375872618277246e-10,
+        "iteration": 23,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          1.5708275500241164
+        ],
+        "value": 2.437225107086912e-10,
+        "iteration": 24,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          1.570779613124495
+        ],
+        "value": 6.983669457103013e-11,
+        "iteration": 24,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          1.5708155657992107
+        ],
+        "value": 9.253482174613149e-11,
+        "iteration": 25,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          1.5707915973494
+        ],
+        "value": 5.591913676379529e-12,
+        "iteration": 25,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          1.5708035815743058
+        ],
+        "value": 1.315795606881602e-11,
+        "iteration": 26,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          1.570779613124495
+        ],
+        "value": 6.983669457103013e-11,
+        "iteration": 26,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          1.5707975894618524
+        ],
+        "value": 3.9858196032991754e-13,
+        "iteration": 27,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          1.5707856052369475
+        ],
+        "value": 2.873795121355662e-11,
+        "iteration": 27,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          1.5708035815743058
+        ],
+        "value": 1.315795606881602e-11,
+        "iteration": 28,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          1.5707915973494
+        ],
+        "value": 5.591913676379529e-12,
+        "iteration": 28,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          1.5708005855180787
+        ],
+        "value": 4.534180785311368e-12,
+        "iteration": 29,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          1.5707945934056262
+        ],
+        "value": 7.511595906870264e-13,
+        "iteration": 29,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          1.5707990874899656
+        ],
+        "value": 1.9053593159046983e-12,
+        "iteration": 30,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          1.5707960914337393
+        ],
+        "value": 1.384871859040574e-14,
+        "iteration": 30,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          1.5707975894618524
+        ],
+        "value": 3.9858196032991754e-13,
+        "iteration": 31,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          1.5707945934056262
+        ],
+        "value": 7.511595906870264e-13,
+        "iteration": 31,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          1.5707968404477963
+        ],
+        "value": 6.595982534469385e-14,
+        "iteration": 32,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          1.5707953424196832
+        ],
+        "value": 2.4224864019066876e-13,
+        "iteration": 32,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          1.5707964659407683
+        ],
+        "value": 4.8403933994818256e-15,
+        "iteration": 33,
+        "status": "finite",
+        "error": ""
+      }
+    ]
+  },
+  "best_model": {
+    "format": "rfmodel.coherent-system",
+    "version": 1,
+    "spacing_hz": 100000000.0,
+    "sources": [
+      {
+        "id": "rf"
+      },
+      {
+        "id": "lo-a",
+        "reference_clock": "lo-reference"
+      },
+      {
+        "id": "lo-b",
+        "reference_clock": "lo-reference"
+      }
+    ],
+    "inputs": [
+      {
+        "id": "incident",
+        "components": [
+          {
+            "source": "rf",
+            "bin": 10,
+            "bandwidth_hz": 1.0,
+            "amplitude": 1.0
+          }
+        ]
+      }
+    ],
+    "stages": [
+      {
+        "id": "quadrature-split",
+        "type": "linear_network",
+        "network": {
+          "devices": [
+            {
+              "id": "s",
+              "s": [
+                [
+                  0,
+                  0.7071067811865475,
+                  [
+                    0,
+                    0.7071067811865475
+                  ]
+                ],
+                [
+                  0.7071067811865475,
+                  0,
+                  0
+                ],
+                [
+                  [
+                    0,
+                    0.7071067811865475
+                  ],
+                  0,
+                  0
+                ]
+              ]
+            }
+          ],
+          "external_ports": [
+            [
+              "s",
+              0
+            ],
+            [
+              "s",
+              1
+            ],
+            [
+              "s",
+              2
+            ]
+          ]
+        },
+        "inputs": [
+          {
+            "stream": "incident",
+            "port": [
+              "s",
+              0
+            ]
+          }
+        ],
+        "outputs": [
+          {
+            "id": "rf-i",
+            "port": [
+              "s",
+              1
+            ]
+          },
+          {
+            "id": "rf-q",
+            "port": [
+              "s",
+              2
+            ]
+          }
+        ]
+      },
+      {
+        "id": "conversion",
+        "type": "ideal_mixer_bank",
+        "branches": [
+          {
+            "id": "mixed-i",
+            "input": "rf-i",
+            "lo_source": "lo-a",
+            "lo_bin": 8,
+            "conversion_gain_db": 0
+          },
+          {
+            "id": "mixed-q",
+            "input": "rf-q",
+            "lo_source": "lo-b",
+            "lo_bin": 8,
+            "conversion_gain_db": 0,
+            "lo_phase_radians": 1.5707964659407683
+          }
+        ]
+      },
+      {
+        "id": "combine",
+        "type": "linear_network",
+        "network": {
+          "devices": [
+            {
+              "id": "c",
+              "s": [
+                [
+                  0,
+                  0,
+                  0.7071067811865475
+                ],
+                [
+                  0,
+                  0,
+                  0.7071067811865475
+                ],
+                [
+                  0.7071067811865475,
+                  0.7071067811865475,
+                  0
+                ]
+              ]
+            }
+          ],
+          "external_ports": [
+            [
+              "c",
+              2
+            ],
+            [
+              "c",
+              1
+            ],
+            [
+              "c",
+              0
+            ]
+          ]
+        },
+        "inputs": [
+          {
+            "stream": "mixed-i",
+            "port": [
+              "c",
+              0
+            ]
+          },
+          {
+            "stream": "mixed-q",
+            "port": [
+              "c",
+              1
+            ]
+          }
+        ],
+        "outputs": [
+          {
+            "id": "result",
+            "port": [
+              "c",
+              2
+            ]
+          }
+        ]
+      }
+    ],
+    "outputs": [
+      "result"
+    ]
+  },
+  "best_analysis": {
+    "format": "rfmodel.coherent-system-result",
+    "version": 1,
+    "spacing_hz": 100000000.0,
+    "reference_ohms": 50.0,
+    "sources": [
+      {
+        "id": "rf",
+        "reference_clock": "",
+        "coherence_group": 1
+      },
+      {
+        "id": "lo-a",
+        "reference_clock": "lo-reference",
+        "coherence_group": 2
+      },
+      {
+        "id": "lo-b",
+        "reference_clock": "lo-reference",
+        "coherence_group": 2
+      }
+    ],
+    "stages": [
+      {
+        "id": "quadrature-split",
+        "type": "linear_network",
+        "outputs": [
+          "rf-i",
+          "rf-q"
+        ]
+      },
+      {
+        "id": "conversion",
+        "type": "ideal_mixer_bank",
+        "outputs": [
+          "mixed-i",
+          "mixed-q"
+        ]
+      },
+      {
+        "id": "combine",
+        "type": "linear_network",
+        "outputs": [
+          "result"
+        ]
+      }
+    ],
+    "outputs": [
+      "result"
+    ],
+    "streams": [
+      {
+        "id": "incident",
+        "components": [
+          {
+            "bin": 10,
+            "kind": "source",
+            "bandwidth_hz": 1.0,
+            "coherence_group": 1,
+            "amplitude": [
+              1.0,
+              0.0
+            ]
+          }
+        ],
+        "power_by_bin": [
+          {
+            "bin": 10,
+            "frequency_hz": 1000000000.0,
+            "power_w": 1.0
+          }
+        ],
+        "total_power_w": 1.0
+      },
+      {
+        "id": "rf-i",
+        "components": [
+          {
+            "bin": 10,
+            "kind": "source",
+            "bandwidth_hz": 1.0,
+            "coherence_group": 1,
+            "amplitude": [
+              0.7071067811865475,
+              0.0
+            ]
+          }
+        ],
+        "power_by_bin": [
+          {
+            "bin": 10,
+            "frequency_hz": 1000000000.0,
+            "power_w": 0.4999999999999999
+          }
+        ],
+        "total_power_w": 0.4999999999999999
+      },
+      {
+        "id": "rf-q",
+        "components": [
+          {
+            "bin": 10,
+            "kind": "source",
+            "bandwidth_hz": 1.0,
+            "coherence_group": 1,
+            "amplitude": [
+              0.0,
+              0.7071067811865475
+            ]
+          }
+        ],
+        "power_by_bin": [
+          {
+            "bin": 10,
+            "frequency_hz": 1000000000.0,
+            "power_w": 0.4999999999999999
+          }
+        ],
+        "total_power_w": 0.4999999999999999
+      },
+      {
+        "id": "mixed-i",
+        "components": [
+          {
+            "bin": 2,
+            "kind": "source",
+            "bandwidth_hz": 1.0,
+            "coherence_group": 3,
+            "amplitude": [
+              0.7071067811865475,
+              0.0
+            ]
+          },
+          {
+            "bin": 18,
+            "kind": "source",
+            "bandwidth_hz": 1.0,
+            "coherence_group": 3,
+            "amplitude": [
+              0.7071067811865475,
+              0.0
+            ]
+          }
+        ],
+        "power_by_bin": [
+          {
+            "bin": 2,
+            "frequency_hz": 200000000.0,
+            "power_w": 0.4999999999999999
+          },
+          {
+            "bin": 18,
+            "frequency_hz": 1800000000.0,
+            "power_w": 0.4999999999999999
+          }
+        ],
+        "total_power_w": 0.9999999999999998
+      },
+      {
+        "id": "mixed-q",
+        "components": [
+          {
+            "bin": 2,
+            "kind": "source",
+            "bandwidth_hz": 1.0,
+            "coherence_group": 3,
+            "amplitude": [
+              0.7071067811865407,
+              -9.83909894195785e-08
+            ]
+          },
+          {
+            "bin": 18,
+            "kind": "source",
+            "bandwidth_hz": 1.0,
+            "coherence_group": 3,
+            "amplitude": [
+              -0.7071067811865407,
+              -9.83909894195785e-08
+            ]
+          }
+        ],
+        "power_by_bin": [
+          {
+            "bin": 2,
+            "frequency_hz": 200000000.0,
+            "power_w": 0.5
+          },
+          {
+            "bin": 18,
+            "frequency_hz": 1800000000.0,
+            "power_w": 0.5
+          }
+        ],
+        "total_power_w": 1.0
+      },
+      {
+        "id": "result",
+        "components": [
+          {
+            "bin": 2,
+            "kind": "source",
+            "bandwidth_hz": 1.0,
+            "coherence_group": 3,
+            "amplitude": [
+              0.999999999999995,
+              -6.95729358262378e-08
+            ]
+          },
+          {
+            "bin": 18,
+            "kind": "source",
+            "bandwidth_hz": 1.0,
+            "coherence_group": 3,
+            "amplitude": [
+              4.773959005888173e-15,
+              -6.95729358262378e-08
+            ]
+          }
+        ],
+        "power_by_bin": [
+          {
+            "bin": 2,
+            "frequency_hz": 200000000.0,
+            "power_w": 0.9999999999999949
+          },
+          {
+            "bin": 18,
+            "frequency_hz": 1800000000.0,
+            "power_w": 4.8403933994818256e-15
+          }
+        ],
+        "total_power_w": 0.9999999999999998
+      }
+    ]
+  },
+  "best_objectives": [
+    {
+      "id": "image_power",
+      "measured": 4.8403933994818256e-15,
+      "contribution": 4.8403933994818256e-15
+    },
+    {
+      "id": "desired_power",
+      "measured": 0.9999999999999949,
+      "contribution": 0.0
+    }
+  ]
+}

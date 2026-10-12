@@ -91,3 +91,17 @@ P1 中工程回归可持续本地推进；需要厂商数据的项目待会话�
 
 
 [跨语言优化机读验收](../validation/optimization-api-validation-20261012.json)：Windows/Linux 两配置各 136/136 全量 CTest、2/2 安装消费者、398/398 安装 wheel 回归；[完整 Python LC 轨迹](../validation/optimization-python-lc-match-example-20261012.json)归档全部输入、选项和评估历史。四组示例的目标值均用独立电路公式逐点核验，且同配置重复输出逐字节相同。无新增厂商兼容通过项。
+
+
+## A09 后续推进：声明式任务与系统参数绑定
+
+新增 `rfmodel.optimization` version=1，复用现有九类分析的数值叶子绑定，支持连续/对数/整数变量、仿射多点绑定、稳定数组选择器，以及显式最小化/最大化/目标值/上下限组合。所有搜索仍调用原生优化器，保存最佳模型、完整分析和目标贡献快照，导出不增加预算外分析。
+
+LC 匹配与共享 LO 相干镜像抑制任务分别用独立阻抗和三角函数公式逐点评分。回归覆盖全部九类分析入口、整数多点绑定、目标公式、失败与取消、预算计数、输入不变、Touchstone 指纹变化及 CLI 硬链接输入保护。Monte Carlo 与厂商优化行为对照仍未完成；A09 整项保持开放。
+
+
+本阶段 [任务层验收](../validation/optimization-task-validation-20261012.json)：本地 Windows/Linux 两配置各 137/137 CTest、2/2 安装消费者及 410/410 wheel 回归；两类任务逐点评分与同配置重放通过。未新增 SystemVue 分析。
+
+## A10 后续证据：首次恢复推送后的六配置 CI
+
+用户已恢复阶段推送授权，13 个既有本地提交已推送至 `0dc3bc4`。[该提交的远程验收](../validation/optimization-api-ci-validation-20261012.json)核验 GitHub Actions 六组 Windows/Ubuntu/macOS Debug/Release 的成功状态及下载产物：每组 136/136 CTest、2/2 安装消费者、398/398 wheel 测试，零跳过。它补齐该提交的干净检出和 macOS 执行证据；之后的新提交须各自验收。正式版本发布与完整厂商能力验收仍不能据此宣布完成。

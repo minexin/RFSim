@@ -1,0 +1,568 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-12",
+  "stage": "A09 declarative optimization tasks and system parameter binding",
+  "base_commit": "0dc3bc4e4e6cc9ec3d3cd76b2906bd1d776a0340",
+  "implementation": [
+    "Versioned optimization task and result formats, CLI dispatch and Python API",
+    "Existing nine analysis formats reused without a second numerical implementation",
+    "Real/log/integer parameters, affine multi-leaf bindings and unique result selectors",
+    "Weighted minimize/maximize/target/upper/lower goals and explicit complex measurements",
+    "Native evaluation budget includes failures; best model and analysis snapshots never rerun",
+    "Touchstone before/after hashes and output protection including hard-link aliases"
+  ],
+  "independent_checks": [
+    "LC optimum and every evaluation checked against independent impedance equation",
+    "Image rejection phase optimum and every evaluation checked against independent sine response",
+    "All nine existing analysis formats exercised as one-evaluation tasks",
+    "Exact integer multiple bindings, all objective formulas and complex projections",
+    "Template immutability, canonical overlapping path rejection, finite mapping range and unique selectors",
+    "No hidden extra analyses on export, history-disabled budget snapshot and cancellation",
+    "Invalid-candidate stop/reject policies, missing result paths and undefined zero-amplitude dB",
+    "CLI input/hard-link protection, failure preserves output and changed dependency rejects result"
+  ],
+  "configurations": [
+    {
+      "platform": "Windows",
+      "configuration": "Debug",
+      "build": "all targets incremental; native sources unchanged",
+      "ctest": {
+        "passed": 137,
+        "total": 137,
+        "seconds": 103.86,
+        "log": {
+          "path": "build-reference/optimization-task-ctest-Debug.log",
+          "sha256": "b1c9559dbd8685efe9b0746f210710021f3c2edb26b845f56ae1c233f7a3b736"
+        }
+      },
+      "installed_consumers": {
+        "passed": 2,
+        "total": 2,
+        "seconds": 0.22,
+        "log": {
+          "path": "build-reference/optimization-task-consumer-ctest-Debug.log",
+          "sha256": "e71b539b6d1381b26b0e84565dce3288b752186587f2ecb4be2cc2b649e2ca81"
+        }
+      },
+      "wheel_tests": 410,
+      "wheel_suites": 26,
+      "wheel_report": {
+        "path": "build-reference/optimization-task-wheel-Debug/installed-python-validation.json",
+        "sha256": "93213b8c60e16c62155d132a9e637b3470124ba39c3b90145bcbb82c1189bbb9"
+      },
+      "wheel": {
+        "path": "D:\\project\\RFModel\\build-reference\\optimization-task-wheel\\rfmodel-0.1.0-py3-none-any.whl",
+        "sha256": "2bec634acd88b1dc995ad7c043eb9f362f38e09dbf7b820f6c6bc76711baf060"
+      },
+      "native_library": {
+        "path": "D:\\project\\RFModel\\build-reference\\optimization-task-install-Debug\\bin\\rfmodel_cd.dll",
+        "sha256": "d1cb618c3d69028be41bd671b735b2d75217cb712b6e5d60ffc9908f986a22f5"
+      },
+      "examples": [
+        {
+          "design": "lc-match",
+          "parameters": [
+            3.978873679589438e-09,
+            3.183098336973333e-12
+          ],
+          "objective": 6.962501992571259e-15,
+          "evaluations": 174,
+          "iterations": 44,
+          "solution_errors": [
+            2.5708797313228615e-08,
+            1.6489106891004468e-07
+          ],
+          "max_independent_trace_error": 2.4424906541753444e-15,
+          "report": {
+            "path": "build-reference/optimization-task-example-Windows-Debug-lc-match.json",
+            "sha256": "ef0eb0b6fec87ed3da747685b2e1ca5cbe238ae7951f60dea84b303d17685a22"
+          },
+          "replay": {
+            "path": "build-reference/optimization-task-replay-Windows-Debug-lc-match.json",
+            "sha256": "ef0eb0b6fec87ed3da747685b2e1ca5cbe238ae7951f60dea84b303d17685a22"
+          },
+          "replay_identical": true
+        },
+        {
+          "design": "image-rejection",
+          "parameters": [
+            1.5707964659407683
+          ],
+          "objective": 4.8403933994818256e-15,
+          "evaluations": 66,
+          "iterations": 33,
+          "solution_errors": [
+            1.391458717137084e-07
+          ],
+          "max_independent_trace_error": 4.440892098500626e-16,
+          "report": {
+            "path": "build-reference/optimization-task-example-Windows-Debug-image-rejection.json",
+            "sha256": "b86323c763664901ff155396103fb34274145cbc2427d7d5724853d0b7743edc"
+          },
+          "replay": {
+            "path": "build-reference/optimization-task-replay-Windows-Debug-image-rejection.json",
+            "sha256": "b86323c763664901ff155396103fb34274145cbc2427d7d5724853d0b7743edc"
+          },
+          "replay_identical": true
+        }
+      ],
+      "logs": [
+        {
+          "path": "build-reference/optimization-task-build-Debug.log",
+          "sha256": "6a35b6b471529e01992a30b8f86b9210c0d2497f5e3e2c39730ff8c3f17d2f85"
+        },
+        {
+          "path": "build-reference/optimization-task-install-Debug.log",
+          "sha256": "4dcd7a8baf625ba89c8e3ec92e8491e6e328c5a7f0f7d528c2bea70ee29ee895"
+        },
+        {
+          "path": "build-reference/optimization-task-consumer-configure-Debug.log",
+          "sha256": "a06f67d7d68694154929ae5a8a6fb1abc5f7f0af5c7eb51d5ef96a632eaf23d1"
+        },
+        {
+          "path": "build-reference/optimization-task-consumer-build-Debug.log",
+          "sha256": "559d58cfe6c8ae7c83a2eb1b02c48f3532df84fcf1de72fdb5678580c7e94fab"
+        }
+      ]
+    },
+    {
+      "platform": "Windows",
+      "configuration": "Release",
+      "build": "all targets incremental; native sources unchanged",
+      "ctest": {
+        "passed": 137,
+        "total": 137,
+        "seconds": 75.5,
+        "log": {
+          "path": "build-reference/optimization-task-ctest-Release.log",
+          "sha256": "428bb989610755d0399a81935d49a649b4a4993eca71d77e690fddb440be359c"
+        }
+      },
+      "installed_consumers": {
+        "passed": 2,
+        "total": 2,
+        "seconds": 0.18,
+        "log": {
+          "path": "build-reference/optimization-task-consumer-ctest-Release.log",
+          "sha256": "b85ebdc83caa771b13d9e307034e67a31c4a2a9d8c5c4de7a244c6cd5aec4913"
+        }
+      },
+      "wheel_tests": 410,
+      "wheel_suites": 26,
+      "wheel_report": {
+        "path": "build-reference/optimization-task-wheel-Release/installed-python-validation.json",
+        "sha256": "7055dfe80711bf24791e8e78520e21f5bab59176fe28f18fc9ed9b7adfddd891"
+      },
+      "wheel": {
+        "path": "D:\\project\\RFModel\\build-reference\\optimization-task-wheel\\rfmodel-0.1.0-py3-none-any.whl",
+        "sha256": "2bec634acd88b1dc995ad7c043eb9f362f38e09dbf7b820f6c6bc76711baf060"
+      },
+      "native_library": {
+        "path": "D:\\project\\RFModel\\build-reference\\optimization-task-install-Release\\bin\\rfmodel_c.dll",
+        "sha256": "3f9f868f5309e6b185eb9a460130d71b9213610fcdcc32508419e7f01ad9964e"
+      },
+      "examples": [
+        {
+          "design": "lc-match",
+          "parameters": [
+            3.978873679589438e-09,
+            3.183098336973333e-12
+          ],
+          "objective": 6.962501992571259e-15,
+          "evaluations": 174,
+          "iterations": 44,
+          "solution_errors": [
+            2.5708797313228615e-08,
+            1.6489106891004468e-07
+          ],
+          "max_independent_trace_error": 2.4424906541753444e-15,
+          "report": {
+            "path": "build-reference/optimization-task-example-Windows-Release-lc-match.json",
+            "sha256": "ef0eb0b6fec87ed3da747685b2e1ca5cbe238ae7951f60dea84b303d17685a22"
+          },
+          "replay": {
+            "path": "build-reference/optimization-task-replay-Windows-Release-lc-match.json",
+            "sha256": "ef0eb0b6fec87ed3da747685b2e1ca5cbe238ae7951f60dea84b303d17685a22"
+          },
+          "replay_identical": true
+        },
+        {
+          "design": "image-rejection",
+          "parameters": [
+            1.5707964659407683
+          ],
+          "objective": 4.8403933994818256e-15,
+          "evaluations": 66,
+          "iterations": 33,
+          "solution_errors": [
+            1.391458717137084e-07
+          ],
+          "max_independent_trace_error": 4.440892098500626e-16,
+          "report": {
+            "path": "build-reference/optimization-task-example-Windows-Release-image-rejection.json",
+            "sha256": "b86323c763664901ff155396103fb34274145cbc2427d7d5724853d0b7743edc"
+          },
+          "replay": {
+            "path": "build-reference/optimization-task-replay-Windows-Release-image-rejection.json",
+            "sha256": "b86323c763664901ff155396103fb34274145cbc2427d7d5724853d0b7743edc"
+          },
+          "replay_identical": true
+        }
+      ],
+      "logs": [
+        {
+          "path": "build-reference/optimization-task-build-Release.log",
+          "sha256": "21d5fdad3c76f3b52b19e7f0a199d544bee370949be173c972a65a8f68ae2cae"
+        },
+        {
+          "path": "build-reference/optimization-task-install-Release.log",
+          "sha256": "2b299cc11aa17315949ad296f0e97119e9b146a08c7680fa1d46016b7e9c3033"
+        },
+        {
+          "path": "build-reference/optimization-task-consumer-configure-Release.log",
+          "sha256": "9c497ac0753cc024d7da2cb3f802abc84f54b09a85d1fe01e5acfb380e496652"
+        },
+        {
+          "path": "build-reference/optimization-task-consumer-build-Release.log",
+          "sha256": "5af666a4c924dd73a86792aa7f7b572adabbb54962d3e5db39d48ef63a3a3981"
+        }
+      ]
+    },
+    {
+      "platform": "Linux",
+      "configuration": "Debug",
+      "build": "fresh native-directory all-target build",
+      "ctest": {
+        "passed": 137,
+        "total": 137,
+        "seconds": 66.59,
+        "log": {
+          "path": "build-reference/optimization-task-linux-ctest-Debug.log",
+          "sha256": "b375bafcaf1912acc2eccd3b49bfbee9f8480a4bf2ed602454f491074ba13264"
+        }
+      },
+      "installed_consumers": {
+        "passed": 2,
+        "total": 2,
+        "seconds": 0.05,
+        "log": {
+          "path": "build-reference/optimization-task-linux-consumer-ctest-Debug.log",
+          "sha256": "7be22708e4a4cfbb84eec8d57b83f0f8664652683ee4611b4d7781cd037ad950"
+        }
+      },
+      "wheel_tests": 410,
+      "wheel_suites": 26,
+      "wheel_report": {
+        "path": "build-reference/optimization-task-linux-wheel-Debug/installed-python-validation.json",
+        "sha256": "773408c59b7082ac3c34b021b5e2662132e0b58f48735a14bb7913ced99ac2af"
+      },
+      "wheel": {
+        "path": "/mnt/d/project/RFModel/build-reference/optimization-task-wheel/rfmodel-0.1.0-py3-none-any.whl",
+        "sha256": "2bec634acd88b1dc995ad7c043eb9f362f38e09dbf7b820f6c6bc76711baf060"
+      },
+      "native_library": {
+        "path": "/mnt/d/project/RFModel/build-reference/optimization-task-linux-install-Debug/lib/librfmodel_cd.so",
+        "sha256": "a05709b5dd11290e9a3f56e27f454608bb4828abdf6d54ab9c1c543774ce9ab8"
+      },
+      "examples": [
+        {
+          "design": "lc-match",
+          "parameters": [
+            3.978873679589438e-09,
+            3.183098336973333e-12
+          ],
+          "objective": 6.962501992571261e-15,
+          "evaluations": 174,
+          "iterations": 44,
+          "solution_errors": [
+            2.5708797313228615e-08,
+            1.6489106891004468e-07
+          ],
+          "max_independent_trace_error": 2.4424906541753444e-15,
+          "report": {
+            "path": "build-reference/optimization-task-example-Linux-Debug-lc-match.json",
+            "sha256": "17c5f3c26f0d2c20ac04d61b29410a92523ea941e17f41b8f18e8a802ca62836"
+          },
+          "replay": {
+            "path": "build-reference/optimization-task-replay-Linux-Debug-lc-match.json",
+            "sha256": "17c5f3c26f0d2c20ac04d61b29410a92523ea941e17f41b8f18e8a802ca62836"
+          },
+          "replay_identical": true
+        },
+        {
+          "design": "image-rejection",
+          "parameters": [
+            1.5707964659407683
+          ],
+          "objective": 4.8403933994818256e-15,
+          "evaluations": 66,
+          "iterations": 33,
+          "solution_errors": [
+            1.391458717137084e-07
+          ],
+          "max_independent_trace_error": 4.440892098500626e-16,
+          "report": {
+            "path": "build-reference/optimization-task-example-Linux-Debug-image-rejection.json",
+            "sha256": "0c3d646158852164a2287a840055e0b003e3505a5bb1cf5956b4c4a96df67c95"
+          },
+          "replay": {
+            "path": "build-reference/optimization-task-replay-Linux-Debug-image-rejection.json",
+            "sha256": "0c3d646158852164a2287a840055e0b003e3505a5bb1cf5956b4c4a96df67c95"
+          },
+          "replay_identical": true
+        }
+      ],
+      "logs": [
+        {
+          "path": "build-reference/optimization-task-linux-build-Debug.log",
+          "sha256": "cc05465a36e6301d09b0922e11f94ed13bbb7f3987a9895c00a7fdaeff5e0109"
+        },
+        {
+          "path": "build-reference/optimization-task-linux-install-Debug.log",
+          "sha256": "0e31a6cd216fccd8af1482b28ae02830caae92959012251d50f49e0041d74117"
+        },
+        {
+          "path": "build-reference/optimization-task-linux-consumer-configure-Debug.log",
+          "sha256": "fb51bac9ea4ebadfa09e2962087e33217f031eda9f361033952a733ed73f0fed"
+        },
+        {
+          "path": "build-reference/optimization-task-linux-consumer-build-Debug.log",
+          "sha256": "753cc2365a9aa59499bedec5a3eb62bd5f8cfd15ea7bded6753dbadf0c9f85e7"
+        }
+      ]
+    },
+    {
+      "platform": "Linux",
+      "configuration": "Release",
+      "build": "fresh native-directory all-target build",
+      "ctest": {
+        "passed": 137,
+        "total": 137,
+        "seconds": 30.12,
+        "log": {
+          "path": "build-reference/optimization-task-linux-ctest-Release.log",
+          "sha256": "45f177232090dc2902fca86ff34cd93b9a0fc2b1bc52919fa4d14d65c2afccc5"
+        }
+      },
+      "installed_consumers": {
+        "passed": 2,
+        "total": 2,
+        "seconds": 0.02,
+        "log": {
+          "path": "build-reference/optimization-task-linux-consumer-ctest-Release.log",
+          "sha256": "7b0d16058b11de53c875ff40e5c953c04b60fc729bb63e8ee5dc9a4162f92104"
+        }
+      },
+      "wheel_tests": 410,
+      "wheel_suites": 26,
+      "wheel_report": {
+        "path": "build-reference/optimization-task-linux-wheel-Release/installed-python-validation.json",
+        "sha256": "5aa7103cc1f8691a6d33ac7c7a41a8ae5f88c13807f1e00e10c5a11c6b2c196e"
+      },
+      "wheel": {
+        "path": "/mnt/d/project/RFModel/build-reference/optimization-task-wheel/rfmodel-0.1.0-py3-none-any.whl",
+        "sha256": "2bec634acd88b1dc995ad7c043eb9f362f38e09dbf7b820f6c6bc76711baf060"
+      },
+      "native_library": {
+        "path": "/mnt/d/project/RFModel/build-reference/optimization-task-linux-install-Release/lib/librfmodel_c.so",
+        "sha256": "21cc12aed17f2617c9c1d8357c3fd64b7bc761469535b908968afae9064ddb4c"
+      },
+      "examples": [
+        {
+          "design": "lc-match",
+          "parameters": [
+            3.978873679589438e-09,
+            3.183098336973333e-12
+          ],
+          "objective": 6.962501992571261e-15,
+          "evaluations": 174,
+          "iterations": 44,
+          "solution_errors": [
+            2.5708797313228615e-08,
+            1.6489106891004468e-07
+          ],
+          "max_independent_trace_error": 2.4424906541753444e-15,
+          "report": {
+            "path": "build-reference/optimization-task-example-Linux-Release-lc-match.json",
+            "sha256": "17c5f3c26f0d2c20ac04d61b29410a92523ea941e17f41b8f18e8a802ca62836"
+          },
+          "replay": {
+            "path": "build-reference/optimization-task-replay-Linux-Release-lc-match.json",
+            "sha256": "17c5f3c26f0d2c20ac04d61b29410a92523ea941e17f41b8f18e8a802ca62836"
+          },
+          "replay_identical": true
+        },
+        {
+          "design": "image-rejection",
+          "parameters": [
+            1.5707964659407683
+          ],
+          "objective": 4.8403933994818256e-15,
+          "evaluations": 66,
+          "iterations": 33,
+          "solution_errors": [
+            1.391458717137084e-07
+          ],
+          "max_independent_trace_error": 4.440892098500626e-16,
+          "report": {
+            "path": "build-reference/optimization-task-example-Linux-Release-image-rejection.json",
+            "sha256": "0c3d646158852164a2287a840055e0b003e3505a5bb1cf5956b4c4a96df67c95"
+          },
+          "replay": {
+            "path": "build-reference/optimization-task-replay-Linux-Release-image-rejection.json",
+            "sha256": "0c3d646158852164a2287a840055e0b003e3505a5bb1cf5956b4c4a96df67c95"
+          },
+          "replay_identical": true
+        }
+      ],
+      "logs": [
+        {
+          "path": "build-reference/optimization-task-linux-build-Release.log",
+          "sha256": "41aeec817d2d57ab07549e75ba7b24933b692dfd6642661991c3d2c725ec7c56"
+        },
+        {
+          "path": "build-reference/optimization-task-linux-install-Release.log",
+          "sha256": "1b921f140951765ae2d3ac4ec54cd0744358d55342d2b1f86271e5ef73b34843"
+        },
+        {
+          "path": "build-reference/optimization-task-linux-consumer-configure-Release.log",
+          "sha256": "37d14bfd3b8028465639696ebddb4565a66289035df9266d39c68d4b0e994f4e"
+        },
+        {
+          "path": "build-reference/optimization-task-linux-consumer-build-Release.log",
+          "sha256": "753cc2365a9aa59499bedec5a3eb62bd5f8cfd15ea7bded6753dbadf0c9f85e7"
+        }
+      ]
+    }
+  ],
+  "committed_example_traces": [
+    {
+      "path": "validation/optimization-task-lc-match-example-20261012.json",
+      "sha256": "ef0eb0b6fec87ed3da747685b2e1ca5cbe238ae7951f60dea84b303d17685a22"
+    },
+    {
+      "path": "validation/optimization-task-image-rejection-example-20261012.json",
+      "sha256": "b86323c763664901ff155396103fb34274145cbc2427d7d5724853d0b7743edc"
+    }
+  ],
+  "native_sources_unchanged": [
+    {
+      "path": "include/rfmodel/optimization.hpp",
+      "sha256": "6334100b5bb716c35aae5fe354ad0afbeb21865ea7321194d6dbd524d6b6d3b6"
+    },
+    {
+      "path": "include/rfmodel/c_api.h",
+      "sha256": "a9e8f6c0bf5496491a74b6b94a865f6cf397085607406b4eba3237c103b9eba8"
+    },
+    {
+      "path": "src/c_api.cpp",
+      "sha256": "790746f7cd8a795fa18422c3543b502c9ef9f6c2d809c9a5ddf6ce6ed8bf823c"
+    }
+  ],
+  "source_files": [
+    {
+      "path": "python/rfmodel/analysis_file.py",
+      "sha256": "7a1a7b54fa6f420240d9856d0c170035ff7f8fc482af603f366395e4b877b397"
+    },
+    {
+      "path": "python/rfmodel/optimization_file.py",
+      "sha256": "8a8bdb8f14479a4991e80e15aab5224cbdfaaee59f9c47aafe1a2d216bb1c688"
+    },
+    {
+      "path": "python/rfmodel/model_file.py",
+      "sha256": "5e74110bc6710d9e2841e2654e2f03018350304c4dd2ddc7e312b4ce9cd0585f"
+    },
+    {
+      "path": "python/rfmodel/__main__.py",
+      "sha256": "a16070cb54adbdb5f6276cc9c8a69a84feeebbf429cb69acb37626a12290092e"
+    },
+    {
+      "path": "tests/test_optimization_file.py",
+      "sha256": "2aeacbc95bf7e728ca6dd31f6e1723b02175aa923e765b4f5d74eb36f4f2e77c"
+    },
+    {
+      "path": "CMakeLists.txt",
+      "sha256": "4c5a94f46d4dcbe660933f4d3a194582e6bb325c4f486c81e73c533d1dd8c42b"
+    },
+    {
+      "path": "examples/optimize-lc-match.json",
+      "sha256": "619bb3c0a8eb65729c3f172288c563d6d73583ef85c21c885c7f9f66cf18bdb3"
+    },
+    {
+      "path": "examples/optimize-image-rejection.json",
+      "sha256": "46ef875dccf7213cdee67e66d78fc8627bf84812aa46b2d71b88841d8387784e"
+    }
+  ],
+  "wheel_build": {
+    "path": "build-reference/optimization-task-wheel-build.log",
+    "sha256": "3b55cfacfd98177c9dbb4a4812db38866323eea664244ba3cc9c6467249dd083"
+  },
+  "linux_wheel_install": {
+    "path": "build-reference/optimization-task-linux-wheel-install.log",
+    "sha256": "951bc36e85523a13d1e991844066abbd38237d2b0c2cee91f8cbcb5ab828d775"
+  },
+  "prior_uncommitted_files": [
+    {
+      "path": "scripts/reference/archive-cascade-reference.py",
+      "sha256": "a482db6bd6ae64c050d74e6df321749ec84a7098fb7aa49733079183149806dc",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/reference/capture-cascade-reference.ps1",
+      "sha256": "fb42165db2ad10c6213a415c2080e1eeb6e5ec0bcd1dc119bb1d1707c5283f3e",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/reference/compare-cascade-amplifier.py",
+      "sha256": "af1260adb093946954d0fb7e4bb2059669706a291418aac19ba193fed7554d9d",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/reference/run-systemvue-reference.py",
+      "sha256": "5df486d061ce09c28b396bf62e7fcba473dc6e9086d52861fdc7be6c85864f4e",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/reference/test_compare_cascade_amplifier.py",
+      "sha256": "190ea23b0ce0733846db8052ead9bb4d5ba41ff30e007c1f06e1a1753bc3fcf1",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/reference/test_run_systemvue_reference.py",
+      "sha256": "7eeeb2f890e59b986fec7eb9af58313f129b73ffccfd924f2f273ff52c396eb5",
+      "unchanged": true
+    },
+    {
+      "path": "measurements_test.obj",
+      "sha256": "4935bda18e7d8471560016c7303f3b7136842ab2ec429975440c7d617de3d97f",
+      "unchanged": true
+    },
+    {
+      "path": "verify-measurements.cmd",
+      "sha256": "c629d73c222dad5768c3c33c88a66eea99daf012dc79885f6cd7a7f0cebf7f7f",
+      "unchanged": true
+    }
+  ],
+  "new_systemvue_analysis_calls": 0,
+  "full_A09_closed": false,
+  "publication_at_validation": {
+    "current_stage_committed": false,
+    "current_stage_pushed": false,
+    "previous_stage_pushed_commit": "0dc3bc4e4e6cc9ec3d3cd76b2906bd1d776a0340",
+    "previous_stage_ci": {
+      "path": "validation/optimization-api-ci-validation-20261012.json",
+      "sha256": "1a64089111a450bacefd75d0d4418329fbe3fb5f509bfc9cfcabb57b1ac50677"
+    },
+    "current_stage_remote_ci": "pending commit and push"
+  },
+  "limitations": [
+    "Monte Carlo distributions/seeds/statistics and vendor optimization equivalence remain open",
+    "Task parsing/orchestration is Python/CLI; native C++ optimization and numerical kernels unchanged",
+    "Bindings modify existing numeric leaves, not arbitrary topology or executable expressions",
+    "Upper/lower objectives are penalties, not hard nonlinear constraints or global optimum guarantees",
+    "Touchstone hashes compare beginning and end and do not freeze intermediate file bytes",
+    "Relative paths in extracted best_model require the original task base directory",
+    "Same-environment deterministic replay; no cross-platform byte identity guarantee",
+    "Current-stage local tests include preserved drafts; current-stage remote clean checkout verification follows push"
+  ]
+}

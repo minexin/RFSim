@@ -1,0 +1,1974 @@
+{
+  "format": "rfmodel.optimization-results",
+  "version": 1,
+  "algorithm": "bounded_coordinate_poll",
+  "parameter_order": [
+    "L",
+    "C"
+  ],
+  "parameters": [
+    {
+      "id": "L",
+      "lower": 1e-10,
+      "upper": 3e-08,
+      "initial": 2e-09,
+      "kind": "log",
+      "bindings": [
+        {
+          "path": [
+            "devices",
+            {
+              "id": "L"
+            },
+            "model",
+            "inductance_h"
+          ],
+          "scale": 1.0,
+          "offset": 0.0
+        }
+      ],
+      "unit": "H"
+    },
+    {
+      "id": "C",
+      "lower": 1e-13,
+      "upper": 1e-10,
+      "initial": 1e-11,
+      "kind": "log",
+      "bindings": [
+        {
+          "path": [
+            "devices",
+            {
+              "id": "C"
+            },
+            "model",
+            "capacitance_f"
+          ],
+          "scale": 1.0,
+          "offset": 0.0
+        }
+      ],
+      "unit": "F"
+    }
+  ],
+  "objectives": [
+    {
+      "id": "reflection",
+      "path": [
+        "samples",
+        0,
+        "s",
+        0,
+        0
+      ],
+      "component": "power",
+      "goal": "minimize",
+      "weight": 1.0,
+      "scale": 1.0
+    }
+  ],
+  "options": {
+    "max_evaluations": 10000,
+    "max_iterations": 2000,
+    "initial_step": 0.25,
+    "minimum_step": 1e-09,
+    "contraction": 0.5,
+    "target": 1e-14,
+    "invalid_evaluation": "stop",
+    "record_history": true
+  },
+  "input_analysis": {
+    "format": "rfmodel.linear-network",
+    "version": 1,
+    "frequencies_hz": [
+      1000000000.0
+    ],
+    "devices": [
+      {
+        "id": "C",
+        "model": {
+          "type": "capacitor",
+          "connection": "shunt",
+          "capacitance_f": 1e-11
+        }
+      },
+      {
+        "id": "L",
+        "model": {
+          "type": "inductor",
+          "connection": "series",
+          "inductance_h": 2e-09
+        }
+      }
+    ],
+    "connections": [
+      [
+        [
+          "C",
+          1
+        ],
+        [
+          "L",
+          0
+        ]
+      ]
+    ],
+    "terminations": [
+      {
+        "port": [
+          "L",
+          1
+        ],
+        "reflection": -0.3333333333333333
+      }
+    ],
+    "external_ports": [
+      [
+        "C",
+        0
+      ]
+    ]
+  },
+  "dependencies": [],
+  "result": {
+    "parameters": [
+      3.978873679589438e-09,
+      3.183098336973333e-12
+    ],
+    "value": 6.962501992571259e-15,
+    "has_finite_point": true,
+    "stop": "target_reached",
+    "evaluations": 174,
+    "rejected_evaluations": 0,
+    "iterations": 44,
+    "final_step": 2.384185791015625e-07,
+    "last_failed_parameters": [],
+    "last_error": "",
+    "history": [
+      {
+        "parameters": [
+          2e-09,
+          1e-11
+        ],
+        "value": 0.4771034102570244,
+        "iteration": 0,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          8.323582900575612e-09,
+          1e-11
+        ],
+        "value": 0.8007440443351586,
+        "iteration": 1,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          4.805622828269512e-10,
+          1e-11
+        ],
+        "value": 0.5431290991618215,
+        "iteration": 1,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          2e-09,
+          5.623413251903482e-11
+        ],
+        "value": 0.978063756898279,
+        "iteration": 1,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          2e-09,
+          1.7782794100389202e-12
+        ],
+        "value": 0.061073033701640946,
+        "iteration": 1,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          8.323582900575612e-09,
+          1.7782794100389202e-12
+        ],
+        "value": 0.229243237899207,
+        "iteration": 2,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          4.805622828269512e-10,
+          1.7782794100389202e-12
+        ],
+        "value": 0.11712902452366623,
+        "iteration": 2,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          2e-09,
+          9.999999999999985e-12
+        ],
+        "value": 0.4771034102570244,
+        "iteration": 2,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          2e-09,
+          3.162277660168375e-13
+        ],
+        "value": 0.11751193441700936,
+        "iteration": 2,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          4.0800938471009786e-09,
+          1.7782794100389202e-12
+        ],
+        "value": 0.0476548770129428,
+        "iteration": 3,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          9.803696066555195e-10,
+          1.7782794100389202e-12
+        ],
+        "value": 0.09514113018417207,
+        "iteration": 3,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          2e-09,
+          4.216965034285816e-12
+        ],
+        "value": 0.08961927619212075,
+        "iteration": 3,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          2e-09,
+          7.498942093324548e-13
+        ],
+        "value": 0.09589313422313225,
+        "iteration": 3,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          8.323582900575642e-09,
+          1.7782794100389202e-12
+        ],
+        "value": 0.22924323789920897,
+        "iteration": 4,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          1.999999999999998e-09,
+          1.7782794100389202e-12
+        ],
+        "value": 0.061073033701640946,
+        "iteration": 4,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          4.0800938471009786e-09,
+          4.216965034285816e-12
+        ],
+        "value": 0.026543568575013023,
+        "iteration": 4,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          4.0800938471009786e-09,
+          7.498942093324548e-13
+        ],
+        "value": 0.13034686430668313,
+        "iteration": 4,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          8.323582900575642e-09,
+          4.216965034285816e-12
+        ],
+        "value": 0.31777807989465123,
+        "iteration": 5,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          1.999999999999998e-09,
+          4.216965034285816e-12
+        ],
+        "value": 0.08961927619212075,
+        "iteration": 5,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          4.0800938471009786e-09,
+          9.999999999999985e-12
+        ],
+        "value": 0.5405790547766698,
+        "iteration": 5,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          4.0800938471009786e-09,
+          1.7782794100389202e-12
+        ],
+        "value": 0.0476548770129428,
+        "iteration": 5,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          5.8276066595536e-09,
+          4.216965034285816e-12
+        ],
+        "value": 0.10150843623533551,
+        "iteration": 6,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          2.8566042242848374e-09,
+          4.216965034285816e-12
+        ],
+        "value": 0.04428109931191021,
+        "iteration": 6,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          4.0800938471009786e-09,
+          6.493816315762115e-12
+        ],
+        "value": 0.2173716949863781,
+        "iteration": 6,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          4.0800938471009786e-09,
+          2.7384196342643523e-12
+        ],
+        "value": 0.005117592358876495,
+        "iteration": 6,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          5.8276066595536e-09,
+          2.7384196342643523e-12
+        ],
+        "value": 0.05132766796822783,
+        "iteration": 7,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          2.8566042242848374e-09,
+          2.7384196342643523e-12
+        ],
+        "value": 0.02038336036121923,
+        "iteration": 7,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          4.0800938471009786e-09,
+          4.216965034285816e-12
+        ],
+        "value": 0.026543568575013023,
+        "iteration": 7,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          4.0800938471009786e-09,
+          1.7782794100389202e-12
+        ],
+        "value": 0.0476548770129428,
+        "iteration": 7,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          4.876185196951549e-09,
+          2.7384196342643523e-12
+        ],
+        "value": 0.01675631518194304,
+        "iteration": 8,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.4139732452242783e-09,
+          2.7384196342643523e-12
+        ],
+        "value": 0.008497910297313536,
+        "iteration": 8,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          4.0800938471009786e-09,
+          3.3982083289425453e-12
+        ],
+        "value": 0.0013420531975252654,
+        "iteration": 8,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          4.0800938471009786e-09,
+          2.206734069084585e-12
+        ],
+        "value": 0.023665938559309502,
+        "iteration": 8,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          4.876185196951549e-09,
+          3.3982083289425453e-12
+        ],
+        "value": 0.014780439480372217,
+        "iteration": 9,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.4139732452242783e-09,
+          3.3982083289425453e-12
+        ],
+        "value": 0.006330562402344061,
+        "iteration": 9,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          4.0800938471009786e-09,
+          4.2169650342858014e-12
+        ],
+        "value": 0.026543568575012236,
+        "iteration": 9,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          4.0800938471009786e-09,
+          2.7384196342643523e-12
+        ],
+        "value": 0.005117592358876495,
+        "iteration": 9,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          4.460414018833553e-09,
+          3.3982083289425453e-12
+        ],
+        "value": 0.005170556395169919,
+        "iteration": 10,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.732201928085743e-09,
+          3.3982083289425453e-12
+        ],
+        "value": 0.002094523589706213,
+        "iteration": 10,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          4.0800938471009786e-09,
+          3.785515249258606e-12
+        ],
+        "value": 0.009290316520873433,
+        "iteration": 10,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          4.0800938471009786e-09,
+          3.0505278902670087e-12
+        ],
+        "value": 0.0005995125032095628,
+        "iteration": 10,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          4.460414018833553e-09,
+          3.0505278902670087e-12
+        ],
+        "value": 0.003982596712045889,
+        "iteration": 11,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.732201928085743e-09,
+          3.0505278902670087e-12
+        ],
+        "value": 0.0013266717869042824,
+        "iteration": 11,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          4.0800938471009786e-09,
+          3.398208328942533e-12
+        ],
+        "value": 0.001342053197525146,
+        "iteration": 11,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          4.0800938471009786e-09,
+          2.7384196342643426e-12
+        ],
+        "value": 0.005117592358876738,
+        "iteration": 11,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          4.266017791074685e-09,
+          3.0505278902670087e-12
+        ],
+        "value": 0.0017109386185321198,
+        "iteration": 12,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.9022729431603125e-09,
+          3.0505278902670087e-12
+        ],
+        "value": 0.0005139141530217482,
+        "iteration": 12,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          4.0800938471009786e-09,
+          3.2196784442513635e-12
+        ],
+        "value": 0.0001974774279413756,
+        "iteration": 12,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          4.0800938471009786e-09,
+          2.8902639100224326e-12
+        ],
+        "value": 0.0023119137014628393,
+        "iteration": 12,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          4.266017791074685e-09,
+          3.2196784442513635e-12
+        ],
+        "value": 0.0013506466230923876,
+        "iteration": 13,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.9022729431603125e-09,
+          3.2196784442513635e-12
+        ],
+        "value": 0.00012609320021517685,
+        "iteration": 13,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          4.0800938471009786e-09,
+          3.3982083289425453e-12
+        ],
+        "value": 0.0013420531975252654,
+        "iteration": 13,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          4.0800938471009786e-09,
+          3.0505278902670087e-12
+        ],
+        "value": 0.0005995125032095628,
+        "iteration": 13,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          4.0800938471009786e-09,
+          3.2196784442513635e-12
+        ],
+        "value": 0.0001974774279413756,
+        "iteration": 14,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.732201928085743e-09,
+          3.2196784442513635e-12
+        ],
+        "value": 0.001001924980459917,
+        "iteration": 14,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.9022729431603125e-09,
+          3.3982083289425453e-12
+        ],
+        "value": 0.001217385508301241,
+        "iteration": 14,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.9022729431603125e-09,
+          3.0505278902670087e-12
+        ],
+        "value": 0.0005139141530217482,
+        "iteration": 14,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.990192955872806e-09,
+          3.2196784442513635e-12
+        ],
+        "value": 3.515484700512961e-05,
+        "iteration": 15,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.816290162236068e-09,
+          3.2196784442513635e-12
+        ],
+        "value": 0.00045370390684517677,
+        "iteration": 15,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.9022729431603125e-09,
+          3.307739122991981e-12
+        ],
+        "value": 0.0004720706541200115,
+        "iteration": 15,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.9022729431603125e-09,
+          3.1339621714182e-12
+        ],
+        "value": 0.00014964301895028153,
+        "iteration": 15,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          4.0800938471009786e-09,
+          3.2196784442513635e-12
+        ],
+        "value": 0.0001974774279413756,
+        "iteration": 16,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.902272943160299e-09,
+          3.2196784442513635e-12
+        ],
+        "value": 0.00012609320021520848,
+        "iteration": 16,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.990192955872806e-09,
+          3.307739122991981e-12
+        ],
+        "value": 0.00038636081522820193,
+        "iteration": 16,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.990192955872806e-09,
+          3.1339621714182e-12
+        ],
+        "value": 6.17312824781194e-05,
+        "iteration": 16,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          4.034893025595884e-09,
+          3.2196784442513635e-12
+        ],
+        "value": 8.360218550809694e-05,
+        "iteration": 17,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.945988090414272e-09,
+          3.2196784442513635e-12
+        ],
+        "value": 5.001511402147817e-05,
+        "iteration": 17,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.990192955872806e-09,
+          3.263411765852448e-12
+        ],
+        "value": 0.00016165302689346992,
+        "iteration": 17,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.990192955872806e-09,
+          3.1765311974564918e-12
+        ],
+        "value": 3.0864634692827256e-06,
+        "iteration": 17,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          4.034893025595884e-09,
+          3.1765311974564918e-12
+        ],
+        "value": 5.053071166620771e-05,
+        "iteration": 18,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.945988090414272e-09,
+          3.1765311974564918e-12
+        ],
+        "value": 1.8097627060658745e-05,
+        "iteration": 18,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.990192955872806e-09,
+          3.2196784442513635e-12
+        ],
+        "value": 3.515484700512961e-05,
+        "iteration": 18,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.990192955872806e-09,
+          3.1339621714182e-12
+        ],
+        "value": 6.17312824781194e-05,
+        "iteration": 18,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          4.0124807449298684e-09,
+          3.1765311974564918e-12
+        ],
+        "value": 1.887159436854323e-05,
+        "iteration": 19,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.968028966921621e-09,
+          3.1765311974564918e-12
+        ],
+        "value": 2.914709717814765e-06,
+        "iteration": 19,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.990192955872806e-09,
+          3.1980320548647787e-12
+        ],
+        "value": 7.550743052366253e-06,
+        "iteration": 19,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.990192955872806e-09,
+          3.1551748935928102e-12
+        ],
+        "value": 2.1299440655642486e-05,
+        "iteration": 19,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.990192955872806e-09,
+          3.1765311974564918e-12
+        ],
+        "value": 3.0864634692827256e-06,
+        "iteration": 20,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.945988090414286e-09,
+          3.1765311974564918e-12
+        ],
+        "value": 1.8097627060645084e-05,
+        "iteration": 20,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.968028966921621e-09,
+          3.1980320548647787e-12
+        ],
+        "value": 7.353145713884332e-06,
+        "iteration": 20,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.968028966921621e-09,
+          3.1551748935928102e-12
+        ],
+        "value": 2.1027562659883932e-05,
+        "iteration": 20,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.979095529452636e-09,
+          3.1765311974564918e-12
+        ],
+        "value": 1.0651286635744868e-06,
+        "iteration": 21,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.956993182441886e-09,
+          3.1765311974564918e-12
+        ],
+        "value": 8.602928179178377e-06,
+        "iteration": 21,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.968028966921621e-09,
+          3.1872634959701496e-12
+        ],
+        "value": 2.286362997904317e-06,
+        "iteration": 21,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.968028966921621e-09,
+          3.165835037226202e-12
+        ],
+        "value": 9.180813515842456e-06,
+        "iteration": 21,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.99019295587282e-09,
+          3.1765311974564918e-12
+        ],
+        "value": 3.0864634692876604e-06,
+        "iteration": 22,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.968028966921621e-09,
+          3.1765311974564918e-12
+        ],
+        "value": 2.914709717814765e-06,
+        "iteration": 22,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.979095529452636e-09,
+          3.1872634959701496e-12
+        ],
+        "value": 4.2875305853662597e-07,
+        "iteration": 22,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.979095529452636e-09,
+          3.165835037226202e-12
+        ],
+        "value": 7.354963201242095e-06,
+        "iteration": 22,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.99019295587282e-09,
+          3.1872634959701496e-12
+        ],
+        "value": 2.455132331051115e-06,
+        "iteration": 23,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.968028966921621e-09,
+          3.1872634959701496e-12
+        ],
+        "value": 2.286362997904317e-06,
+        "iteration": 23,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.979095529452636e-09,
+          3.1980320548647787e-12
+        ],
+        "value": 5.503368950988744e-06,
+        "iteration": 23,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.979095529452636e-09,
+          3.1765311974564918e-12
+        ],
+        "value": 1.0651286635744868e-06,
+        "iteration": 23,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.984640379302364e-09,
+          3.1872634959701496e-12
+        ],
+        "value": 9.544150978677714e-07,
+        "iteration": 24,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.973558395571461e-09,
+          3.1872634959701496e-12
+        ],
+        "value": 8.740864418798541e-07,
+        "iteration": 24,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.979095529452636e-09,
+          3.192643235222645e-12
+        ],
+        "value": 2.2485811821962678e-06,
+        "iteration": 24,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.979095529452636e-09,
+          3.181892821806452e-12
+        ],
+        "value": 3.666878459565656e-08,
+        "iteration": 24,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.984640379302364e-09,
+          3.181892821806452e-12
+        ],
+        "value": 5.608997022797937e-07,
+        "iteration": 25,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.973558395571461e-09,
+          3.181892821806452e-12
+        ],
+        "value": 4.81796364261308e-07,
+        "iteration": 25,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.979095529452636e-09,
+          3.1872634959701496e-12
+        ],
+        "value": 4.2875305853662597e-07,
+        "iteration": 25,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.979095529452636e-09,
+          3.1765311974564918e-12
+        ],
+        "value": 1.0651286635744868e-06,
+        "iteration": 25,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.981866989209772e-09,
+          3.181892821806452e-12
+        ],
+        "value": 1.7736129841293798e-07,
+        "iteration": 26,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.976325998687405e-09,
+          3.181892821806452e-12
+        ],
+        "value": 1.3831577764535881e-07,
+        "iteration": 26,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.979095529452636e-09,
+          3.184577026707496e-12
+        ],
+        "value": 5.469329992491393e-08,
+        "iteration": 26,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.979095529452636e-09,
+          3.17921087935844e-12
+        ],
+        "value": 3.7378005434631084e-07,
+        "iteration": 26,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.9804810181232735e-09,
+          3.181892821806452e-12
+        ],
+        "value": 7.669096519589985e-08,
+        "iteration": 27,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.977710523029961e-09,
+          3.181892821806452e-12
+        ],
+        "value": 5.7231473370921935e-08,
+        "iteration": 27,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.979095529452636e-09,
+          3.1832346413310965e-12
+        ],
+        "value": 1.2328766830978148e-09,
+        "iteration": 27,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.979095529452636e-09,
+          3.18055156789504e-12
+        ],
+        "value": 1.6088862295625772e-07,
+        "iteration": 27,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.9804810181232735e-09,
+          3.1832346413310965e-12
+        ],
+        "value": 4.125959095051918e-08,
+        "iteration": 28,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.977710523029961e-09,
+          3.1832346413310965e-12
+        ],
+        "value": 2.1816576423889423e-08,
+        "iteration": 28,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.979095529452636e-09,
+          3.184577026707496e-12
+        ],
+        "value": 5.469329992491393e-08,
+        "iteration": 28,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.979095529452636e-09,
+          3.181892821806452e-12
+        ],
+        "value": 3.666878459565656e-08,
+        "iteration": 28,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.9797882134964594e-09,
+          3.1832346413310965e-12
+        ],
+        "value": 1.3665975883086437e-08,
+        "iteration": 29,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.978402965970803e-09,
+          3.1832346413310965e-12
+        ],
+        "value": 3.952380525915223e-09,
+        "iteration": 29,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.979095529452636e-09,
+          3.1839057632729154e-12
+        ],
+        "value": 1.6844019396096698e-08,
+        "iteration": 29,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.979095529452636e-09,
+          3.182563660852215e-12
+        ],
+        "value": 7.845815771363544e-09,
+        "iteration": 29,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.979441856402987e-09,
+          3.1832346413310965e-12
+        ],
+        "value": 5.554856394265828e-09,
+        "iteration": 30,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.978749232642783e-09,
+          3.1832346413310965e-12
+        ],
+        "value": 6.990477039480145e-10,
+        "iteration": 30,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.979095529452636e-09,
+          3.183570184617275e-12
+        ],
+        "value": 6.259559406052086e-09,
+        "iteration": 30,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.979095529452636e-09,
+          3.1828991334106525e-12
+        ],
+        "value": 1.7622143487451209e-09,
+        "iteration": 30,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.979095529452636e-09,
+          3.1832346413310965e-12
+        ],
+        "value": 1.2328766830978148e-09,
+        "iteration": 31,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.978402965970803e-09,
+          3.1832346413310965e-12
+        ],
+        "value": 3.952380525915223e-09,
+        "iteration": 31,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.978749232642783e-09,
+          3.183570184617275e-12
+        ],
+        "value": 5.725236700218205e-09,
+        "iteration": 31,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.978749232642783e-09,
+          3.1828991334106525e-12
+        ],
+        "value": 1.2283955553038325e-09,
+        "iteration": 31,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.978922377280311e-09,
+          3.1832346413310965e-12
+        ],
+        "value": 4.925051628938047e-10,
+        "iteration": 32,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.978576095539722e-09,
+          3.1832346413310965e-12
+        ],
+        "value": 1.852380693500074e-09,
+        "iteration": 32,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.978749232642783e-09,
+          3.183402408553236e-12
+        ],
+        "value": 2.5175903065768898e-09,
+        "iteration": 32,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.978749232642783e-09,
+          3.1830668829503906e-12
+        ],
+        "value": 2.693893093804997e-10,
+        "iteration": 32,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.978922377280311e-09,
+          3.1830668829503906e-12
+        ],
+        "value": 6.28389572426395e-11,
+        "iteration": 33,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.978576095539722e-09,
+          3.1830668829503906e-12
+        ],
+        "value": 1.4226802127585127e-09,
+        "iteration": 33,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.978749232642783e-09,
+          3.1832346413310965e-12
+        ],
+        "value": 6.990477039480145e-10,
+        "iteration": 33,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.978749232642783e-09,
+          3.1828991334106525e-12
+        ],
+        "value": 1.2283955553038325e-09,
+        "iteration": 33,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.979095529452636e-09,
+          3.1830668829503906e-12
+        ],
+        "value": 8.031527626124359e-10,
+        "iteration": 34,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.978749232642783e-09,
+          3.1830668829503906e-12
+        ],
+        "value": 2.693893093804997e-10,
+        "iteration": 34,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.978922377280311e-09,
+          3.1832346413310965e-12
+        ],
+        "value": 4.925051628938047e-10,
+        "iteration": 34,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.978922377280311e-09,
+          3.1828991334106525e-12
+        ],
+        "value": 1.0218978225164157e-09,
+        "iteration": 34,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.979008952424604e-09,
+          3.1830668829503906e-12
+        ],
+        "value": 3.1463011456506293e-10,
+        "iteration": 35,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.978835804019718e-09,
+          3.1830668829503906e-12
+        ],
+        "value": 4.776383918411083e-11,
+        "iteration": 35,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.978922377280311e-09,
+          3.1831507610355937e-12
+        ],
+        "value": 1.040677029931855e-10,
+        "iteration": 35,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.978922377280311e-09,
+          3.1829830070754295e-12
+        ],
+        "value": 3.6879147898251904e-10,
+        "iteration": 35,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.978922377280311e-09,
+          3.1830668829503906e-12
+        ],
+        "value": 6.28389572426395e-11,
+        "iteration": 36,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.978749232642783e-09,
+          3.1830668829503906e-12
+        ],
+        "value": 2.693893093804997e-10,
+        "iteration": 36,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.978835804019718e-09,
+          3.1831507610355937e-12
+        ],
+        "value": 8.899129066330148e-11,
+        "iteration": 36,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.978835804019718e-09,
+          3.1829830070754295e-12
+        ],
+        "value": 3.5371010122363793e-10,
+        "iteration": 36,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.978879090414555e-09,
+          3.1830668829503906e-12
+        ],
+        "value": 2.5712859002508157e-11,
+        "iteration": 37,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.978792518095796e-09,
+          3.1830668829503906e-12
+        ],
+        "value": 1.289899664192705e-10,
+        "iteration": 37,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.978835804019718e-09,
+          3.183108821716714e-12
+        ],
+        "value": 2.4979135379780826e-11,
+        "iteration": 37,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.978835804019718e-09,
+          3.183024944736628e-12
+        ],
+        "value": 1.5734197137512956e-10,
+        "iteration": 37,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.978879090414555e-09,
+          3.183108821716714e-12
+        ],
+        "value": 2.9276167807637866e-12,
+        "iteration": 38,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.978792518095796e-09,
+          3.183108821716714e-12
+        ],
+        "value": 1.0620658070021456e-10,
+        "iteration": 38,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.978835804019718e-09,
+          3.183150761035605e-12
+        ],
+        "value": 8.89912906923787e-11,
+        "iteration": 38,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.978835804019718e-09,
+          3.183066882950402e-12
+        ],
+        "value": 4.776383916620361e-11,
+        "iteration": 38,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.978922377280311e-09,
+          3.183108821716714e-12
+        ],
+        "value": 4.005395629066376e-11,
+        "iteration": 39,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.978835804019718e-09,
+          3.183108821716714e-12
+        ],
+        "value": 2.4979135379780826e-11,
+        "iteration": 39,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.978879090414555e-09,
+          3.183150761035605e-12
+        ],
+        "value": 6.694017794911981e-11,
+        "iteration": 39,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.978879090414555e-09,
+          3.183066882950402e-12
+        ],
+        "value": 2.5712858984662026e-11,
+        "iteration": 39,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.9789007337885605e-09,
+          3.183108821716714e-12
+        ],
+        "value": 1.4093433552824686e-11,
+        "iteration": 40,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.9788574471582645e-09,
+          3.183108821716714e-12
+        ],
+        "value": 6.556264533398494e-12,
+        "iteration": 40,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.978879090414555e-09,
+          3.1831297913070825e-12
+        ],
+        "value": 2.4083957507938174e-11,
+        "iteration": 40,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.978879090414555e-09,
+          3.1830878522644876e-12
+        ],
+        "value": 3.4707268897649885e-12,
+        "iteration": 40,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.978889912086848e-09,
+          3.183108821716714e-12
+        ],
+        "value": 6.661202017008562e-12,
+        "iteration": 41,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.978868268771693e-09,
+          3.183108821716714e-12
+        ],
+        "value": 2.8926476787975455e-12,
+        "iteration": 41,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.978879090414555e-09,
+          3.1831193064946303e-12
+        ],
+        "value": 1.0793328986983234e-11,
+        "iteration": 41,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.978879090414555e-09,
+          3.183098336973333e-12
+        ],
+        "value": 4.867672839427052e-13,
+        "iteration": 41,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.978889912086848e-09,
+          3.183098336973333e-12
+        ],
+        "value": 4.220333583857824e-12,
+        "iteration": 42,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.978868268771693e-09,
+          3.183098336973333e-12
+        ],
+        "value": 4.518049355583616e-13,
+        "iteration": 42,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.978879090414555e-09,
+          3.183108821716714e-12
+        ],
+        "value": 2.9276167807637866e-12,
+        "iteration": 42,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.978879090414555e-09,
+          3.1830878522644876e-12
+        ],
+        "value": 3.4707268897649885e-12,
+        "iteration": 42,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.978879090414555e-09,
+          3.183098336973333e-12
+        ],
+        "value": 4.867672839427052e-13,
+        "iteration": 43,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.9788574471582645e-09,
+          3.183098336973333e-12
+        ],
+        "value": 4.115416360781486e-12,
+        "iteration": 43,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.978868268771693e-09,
+          3.183108821716714e-12
+        ],
+        "value": 2.8926476787975455e-12,
+        "iteration": 43,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.978868268771693e-09,
+          3.1830878522644876e-12
+        ],
+        "value": 3.4357565405670725e-12,
+        "iteration": 43,
+        "status": "finite",
+        "error": ""
+      },
+      {
+        "parameters": [
+          3.978873679589438e-09,
+          3.183098336973333e-12
+        ],
+        "value": 6.962501992571259e-15,
+        "iteration": 44,
+        "status": "finite",
+        "error": ""
+      }
+    ]
+  },
+  "best_model": {
+    "format": "rfmodel.linear-network",
+    "version": 1,
+    "frequencies_hz": [
+      1000000000.0
+    ],
+    "devices": [
+      {
+        "id": "C",
+        "model": {
+          "type": "capacitor",
+          "connection": "shunt",
+          "capacitance_f": 3.183098336973333e-12
+        }
+      },
+      {
+        "id": "L",
+        "model": {
+          "type": "inductor",
+          "connection": "series",
+          "inductance_h": 3.978873679589438e-09
+        }
+      }
+    ],
+    "connections": [
+      [
+        [
+          "C",
+          1
+        ],
+        [
+          "L",
+          0
+        ]
+      ]
+    ],
+    "terminations": [
+      {
+        "port": [
+          "L",
+          1
+        ],
+        "reflection": -0.3333333333333333
+      }
+    ],
+    "external_ports": [
+      [
+        "C",
+        0
+      ]
+    ]
+  },
+  "best_analysis": {
+    "format": "rfmodel.linear-results",
+    "version": 1,
+    "reference_ohms": 50.0,
+    "external_ports": [
+      [
+        "C",
+        0
+      ]
+    ],
+    "samples": [
+      {
+        "frequency_hz": 1000000000.0,
+        "s": [
+          [
+            [
+              1.2854390885053135e-08,
+              8.24455373416022e-08
+            ]
+          ]
+        ]
+      }
+    ]
+  },
+  "best_objectives": [
+    {
+      "id": "reflection",
+      "measured": 6.962501992571259e-15,
+      "contribution": 6.962501992571259e-15
+    }
+  ]
+}
