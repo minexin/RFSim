@@ -1,0 +1,821 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-12",
+  "stage": "A05 C ABI Python and linear JSON internal mixed power-wave references",
+  "base_commit": "828fa197f71908bbc47d45f91449e06ac4c26821",
+  "implementation": [
+    "C ABI add_power_waves and get_references with transactional errors and capacity/alias checks",
+    "Python Network.add_power_waves and reference_impedances_ohms property",
+    "Linear JSON constant and sampled per-device reference impedances with strict validation",
+    "Parameter model S and embedded Touchstone noise jointly transformed from common reference to local coordinates",
+    "Explicit S and intrinsic covariance remain in declared local coordinates, including cross-device correlations",
+    "Signal, loaded noise and extracted S/covariance report actual local references; optional output changes preserve boundary coordinates"
+  ],
+  "independent_checks": [
+    "Two ideal S blocks at different real references give analytic 0.6/0.8 scattering and power conservation",
+    "Two physical resistors at frequency-dependent internal complex references match uniform-reference physical circuit and S21=0.5",
+    "Connection voltages equal, currents opposite, and net power is consistent with RMS V/I",
+    "Full cross-device complex rank-one covariance survives global coordinate transformation and internal wiring",
+    "Explicit local device covariance is not transformed twice",
+    "Touchstone embedded noise and noise figure are invariant under intermediate mixed references",
+    "Physical complex internal termination equivalent across local reference choices",
+    "C failed additions preserve state/output, invalid/aliased queries preserve outputs and unused capacity tail",
+    "Unsupported uniform-reference spectrum entry rejects mixed networks, CLI failed input preserves existing result"
+  ],
+  "configurations": [
+    {
+      "platform": "Windows",
+      "configuration": "Debug",
+      "build": "clean-first all targets",
+      "ctest": {
+        "passed": 132,
+        "total": 132,
+        "seconds": 100.62,
+        "log": {
+          "path": "build-reference/mixed-reference-api-ctest-Debug.log",
+          "sha256": "c78d16fdd2098bf8a53028f2046fcac73ee7bda8c3ef3b52680fd71f2ccb9114"
+        }
+      },
+      "installed_consumers": {
+        "passed": 2,
+        "total": 2,
+        "seconds": 0.17,
+        "log": {
+          "path": "build-reference/mixed-reference-api-consumer-ctest-Debug.log",
+          "sha256": "5a500fa754d933c11f9f4f63d0869b8d95fda02ab160cdd5243e8fb9b34ec94a"
+        }
+      },
+      "wheel_report": {
+        "path": "build-reference/mixed-reference-api-wheel-Debug/installed-python-validation.json",
+        "sha256": "a8098fdb23c6920a26f2fd6c833fd8069c8c5a162655d88417c67e814caab9ff"
+      },
+      "wheel_tests": 392,
+      "wheel_suites": 24,
+      "skipped_tests": 0,
+      "new_mixed_reference_tests": 13,
+      "guarded_cli_invocations": 66,
+      "python": "3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)]",
+      "native_library": {
+        "path": "D:\\project\\RFModel\\build-reference\\mixed-reference-api-install-Debug\\bin\\rfmodel_cd.dll",
+        "sha256": "991999f83dc0f2bcea28852969b09e1cf3a47b0017e7f23e5943f8a485c4347f"
+      },
+      "wheel": {
+        "path": "D:\\project\\RFModel\\build-reference\\mixed-reference-api-dist\\rfmodel-0.1.0-py3-none-any.whl",
+        "sha256": "90c0248b9e1ba7c2a7671e928d186f694b8e0ee3d59835caf60d4b0e55419dd7"
+      },
+      "logs": [
+        {
+          "path": "build-reference/mixed-reference-api-build-Debug.log",
+          "sha256": "f3b14f1905ad6f200cf830d85317e9c11924d22a2828a19cf139e7f5c814b154"
+        },
+        {
+          "path": "build-reference/mixed-reference-api-install-Debug.log",
+          "sha256": "70116b101f25fe3ca8c499a376f10bac201d226b84e2697c3297241e765c9598"
+        },
+        {
+          "path": "build-reference/mixed-reference-api-consumer-configure-Debug.log",
+          "sha256": "af23a1c78c36f37c15cd95179edc456162d21db89410adbee57c2b9977452a3a"
+        },
+        {
+          "path": "build-reference/mixed-reference-api-consumer-build-Debug.log",
+          "sha256": "a1a92d8bec2c13209c19ae9b0156514f85280121517308342f01ddcf03175901"
+        }
+      ]
+    },
+    {
+      "platform": "Windows",
+      "configuration": "Release",
+      "build": "clean-first all targets",
+      "ctest": {
+        "passed": 132,
+        "total": 132,
+        "seconds": 86.27,
+        "log": {
+          "path": "build-reference/mixed-reference-api-ctest-Release.log",
+          "sha256": "25b5cc16d979256ab3d6bb6320fe28d47ae2e7efb17ed224a7a1128bd606fc21"
+        }
+      },
+      "installed_consumers": {
+        "passed": 2,
+        "total": 2,
+        "seconds": 0.16,
+        "log": {
+          "path": "build-reference/mixed-reference-api-consumer-ctest-Release.log",
+          "sha256": "80e204b65b6cffb2582595836202dd9620cd2bf2edfa9bbf5266185a3e86145f"
+        }
+      },
+      "wheel_report": {
+        "path": "build-reference/mixed-reference-api-wheel-Release/installed-python-validation.json",
+        "sha256": "a7441ae9d415fd624bf238dbb6574f0e9c3a878c7dad3e60478fe2528fe53b32"
+      },
+      "wheel_tests": 392,
+      "wheel_suites": 24,
+      "skipped_tests": 0,
+      "new_mixed_reference_tests": 13,
+      "guarded_cli_invocations": 66,
+      "python": "3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)]",
+      "native_library": {
+        "path": "D:\\project\\RFModel\\build-reference\\mixed-reference-api-install-Release\\bin\\rfmodel_c.dll",
+        "sha256": "481c5e0ca411612f95c99dd37c98cb772a981dedfdd8f2044dffc233f22c97d7"
+      },
+      "wheel": {
+        "path": "D:\\project\\RFModel\\build-reference\\mixed-reference-api-dist\\rfmodel-0.1.0-py3-none-any.whl",
+        "sha256": "90c0248b9e1ba7c2a7671e928d186f694b8e0ee3d59835caf60d4b0e55419dd7"
+      },
+      "logs": [
+        {
+          "path": "build-reference/mixed-reference-api-build-Release.log",
+          "sha256": "9b3a963ab68a871914c448aaf6717d85f0a76c870a66059331a61cebd37dd064"
+        },
+        {
+          "path": "build-reference/mixed-reference-api-install-Release.log",
+          "sha256": "5e227189627f22989c42b410f2e1921d6578ad835db77c6c24f0f9c617d38a1a"
+        },
+        {
+          "path": "build-reference/mixed-reference-api-consumer-configure-Release.log",
+          "sha256": "8eb4b3a7a0b08edc037830870003419f90e13c6daaca605253b6053659249c0f"
+        },
+        {
+          "path": "build-reference/mixed-reference-api-consumer-build-Release.log",
+          "sha256": "a558dc08f5d237aa06c8f14fcae3d059119bdd3e0f52f2680c55feb5e5ad48e0"
+        }
+      ]
+    },
+    {
+      "platform": "Ubuntu WSL2",
+      "configuration": "Debug",
+      "build": "clean-first all targets",
+      "ctest": {
+        "passed": 132,
+        "total": 132,
+        "seconds": 56.41,
+        "log": {
+          "path": "build-reference/mixed-reference-api-linux-ctest-Debug.log",
+          "sha256": "92f3cc8eb417467cd220b782ed186b5d602e0d9b48d5a22eb591b66385b71c9d"
+        }
+      },
+      "installed_consumers": {
+        "passed": 2,
+        "total": 2,
+        "seconds": 0.07,
+        "log": {
+          "path": "build-reference/mixed-reference-api-linux-consumer-ctest-Debug.log",
+          "sha256": "bb535161b49d5d0ca33c72e643e22e096ae9e7a4ee51d3d4939f412ad98d0465"
+        }
+      },
+      "wheel_report": {
+        "path": "build-reference/mixed-reference-api-linux-wheel-Debug/installed-python-validation.json",
+        "sha256": "1c43cfb106b66965fbb31c8d249a3610ba3cc7990566c69f269d361d699598f5"
+      },
+      "wheel_tests": 392,
+      "wheel_suites": 24,
+      "skipped_tests": 0,
+      "new_mixed_reference_tests": 13,
+      "guarded_cli_invocations": 66,
+      "python": "3.12.3 (main, Nov  6 2024, 18:32:19) [GCC 13.2.0]",
+      "native_library": {
+        "path": "/mnt/d/project/RFModel/build-reference/mixed-reference-api-linux-install-Debug/lib/librfmodel_cd.so",
+        "sha256": "02f80e2e20de8dff216cb88ef9b1ff0c7e048a72d424f87934eb8fcfe927ea24"
+      },
+      "wheel": {
+        "path": "/mnt/d/project/RFModel/build-reference/mixed-reference-api-dist/rfmodel-0.1.0-py3-none-any.whl",
+        "sha256": "90c0248b9e1ba7c2a7671e928d186f694b8e0ee3d59835caf60d4b0e55419dd7"
+      },
+      "logs": [
+        {
+          "path": "build-reference/mixed-reference-api-linux-build-Debug.log",
+          "sha256": "82536c04fab72b6a847e7ffb6e256f7e5fb73efa02bab9fa80c95489890732d5"
+        },
+        {
+          "path": "build-reference/mixed-reference-api-linux-install-Debug.log",
+          "sha256": "c642e5b23203e0b8164ee4b9a2b3d92fef8d226ec1f35e7055f413e0e90244c5"
+        },
+        {
+          "path": "build-reference/mixed-reference-api-linux-consumer-configure-Debug.log",
+          "sha256": "499b8863724c2c26dfacd004c42daed3927353063b793321351dd9a25d92e249"
+        },
+        {
+          "path": "build-reference/mixed-reference-api-linux-consumer-build-Debug.log",
+          "sha256": "753cc2365a9aa59499bedec5a3eb62bd5f8cfd15ea7bded6753dbadf0c9f85e7"
+        },
+        {
+          "path": "build-reference/mixed-reference-api-linux-configure-Debug.log",
+          "sha256": "73f4188ba4a75febebf0f88be4edba8b9217f940faacc492077ea6cdba5b51e3"
+        }
+      ]
+    },
+    {
+      "platform": "Ubuntu WSL2",
+      "configuration": "Release",
+      "build": "clean-first all targets",
+      "ctest": {
+        "passed": 132,
+        "total": 132,
+        "seconds": 26.33,
+        "log": {
+          "path": "build-reference/mixed-reference-api-linux-ctest-Release.log",
+          "sha256": "09ad093247e3d2e03c2ec069fad1306a7dd7be5350c407b5ce74af1a0028056a"
+        }
+      },
+      "installed_consumers": {
+        "passed": 2,
+        "total": 2,
+        "seconds": 0.03,
+        "log": {
+          "path": "build-reference/mixed-reference-api-linux-consumer-ctest-Release.log",
+          "sha256": "c5a4110bc9f074f69aa58a6762ea90c67334f29c66749e71604f3eaf8a04a32c"
+        }
+      },
+      "wheel_report": {
+        "path": "build-reference/mixed-reference-api-linux-wheel-Release/installed-python-validation.json",
+        "sha256": "673123f64a91d24f23fa055a1f24de579eed3546a8f968fb871732e5b79d0bff"
+      },
+      "wheel_tests": 392,
+      "wheel_suites": 24,
+      "skipped_tests": 0,
+      "new_mixed_reference_tests": 13,
+      "guarded_cli_invocations": 66,
+      "python": "3.12.3 (main, Nov  6 2024, 18:32:19) [GCC 13.2.0]",
+      "native_library": {
+        "path": "/mnt/d/project/RFModel/build-reference/mixed-reference-api-linux-install-Release/lib/librfmodel_c.so",
+        "sha256": "4cfc03c35c16623e1302efb46a7b463772370a68b5e22e797f917bd5387a8f3f"
+      },
+      "wheel": {
+        "path": "/mnt/d/project/RFModel/build-reference/mixed-reference-api-dist/rfmodel-0.1.0-py3-none-any.whl",
+        "sha256": "90c0248b9e1ba7c2a7671e928d186f694b8e0ee3d59835caf60d4b0e55419dd7"
+      },
+      "logs": [
+        {
+          "path": "build-reference/mixed-reference-api-linux-build-Release.log",
+          "sha256": "1d254c9c6652297f205f18aa5b26db25b29adcb655c9f04ddec770086a3d44c1"
+        },
+        {
+          "path": "build-reference/mixed-reference-api-linux-install-Release.log",
+          "sha256": "8d0dc4be8f0fb6038588942cf2647d59cac0eaca3f0530f70be21a41cd0260ea"
+        },
+        {
+          "path": "build-reference/mixed-reference-api-linux-consumer-configure-Release.log",
+          "sha256": "96fce45cf62013838c98fe788437000b51dcf67975f9bbaf966127a80e69d789"
+        },
+        {
+          "path": "build-reference/mixed-reference-api-linux-consumer-build-Release.log",
+          "sha256": "753cc2365a9aa59499bedec5a3eb62bd5f8cfd15ea7bded6753dbadf0c9f85e7"
+        },
+        {
+          "path": "build-reference/mixed-reference-api-linux-configure-Release.log",
+          "sha256": "68858f0c90f90e8a43fcf21608835c72133c2f3125d570a8fb12273ebcab210f"
+        }
+      ]
+    }
+  ],
+  "example": {
+    "input": {
+      "path": "examples/mixed-reference-network.json",
+      "sha256": "d7e5183b65c2727849ab5cf8be0a8d8f524b8e6e66edf7a27fbc212454d45efb"
+    },
+    "result": {
+      "path": "build-reference/mixed-reference-api-example-result.json",
+      "sha256": "f7764c7b1092a7116638df5cac9c15358894248b288acfbe62aa545ec20f186f"
+    },
+    "runtime": "Windows installed Debug DLL and independently installed new wheel",
+    "checks": [
+      "Two frequencies",
+      "S21=0.5 within 1e-12",
+      "relative_residual<1e-12",
+      "internal voltage/current continuity within 1e-12"
+    ],
+    "samples": [
+      {
+        "frequency_hz": 1000000000.0,
+        "s": [
+          [
+            [
+              0.5,
+              -5.551115123125783e-17
+            ],
+            [
+              0.49999999999999983,
+              5.551115123125783e-17
+            ]
+          ],
+          [
+            [
+              0.5000000000000001,
+              6.938893903907228e-18
+            ],
+            [
+              0.49999999999999983,
+              -2.0816681711721685e-17
+            ]
+          ]
+        ],
+        "noise_w_per_hz": [
+          [
+            [
+              2.0019410500000007e-21,
+              0.0
+            ],
+            [
+              -2.0019410499999996e-21,
+              -5.877471754111439e-38
+            ]
+          ],
+          [
+            [
+              -2.0019410499999996e-21,
+              5.877471754111439e-38
+            ],
+            [
+              2.001941049999999e-21,
+              0.0
+            ]
+          ]
+        ],
+        "loaded_noise": {
+          "incident_w_per_hz": [
+            [
+              [
+                4.0038821e-21,
+                0.0
+              ],
+              [
+                4.311873030769232e-22,
+                -2.4639274461538466e-22
+              ]
+            ],
+            [
+              [
+                4.311873030769232e-22,
+                2.4639274461538466e-22
+              ],
+              [
+                2.9290999553846167e-21,
+                0.0
+              ]
+            ]
+          ],
+          "outgoing_w_per_hz": [
+            [
+              [
+                3.519592912307694e-21,
+                0.0
+              ],
+              [
+                -5.310188461538458e-23,
+                2.463927446153844e-22
+              ]
+            ],
+            [
+              [
+                -5.310188461538458e-23,
+                -2.463927446153844e-22
+              ],
+              [
+                4.381967518461537e-21,
+                0.0
+              ]
+            ]
+          ],
+          "net_into_device_w_per_hz": [
+            4.842891876923061e-22,
+            -1.4528675630769202e-21
+          ],
+          "wave_definition": "power",
+          "port_impedances_ohms": [
+            [
+              50.0,
+              0.0
+            ],
+            [
+              50.0,
+              0.0
+            ]
+          ]
+        },
+        "signal": {
+          "ports": [
+            {
+              "port": [
+                "a",
+                0
+              ],
+              "incident": [
+                0.3,
+                0.1
+              ],
+              "outgoing": [
+                0.19076923076923077,
+                0.06615384615384615
+              ],
+              "incident_power_w": 0.1,
+              "outgoing_power_w": 0.04076923076923077,
+              "net_into_device_w": 0.05923076923076923,
+              "reference_impedance_ohms": [
+                50.0,
+                0.0
+              ]
+            },
+            {
+              "port": [
+                "a",
+                1
+              ],
+              "incident": [
+                0.2793615713980084,
+                0.06266053937899252
+              ],
+              "outgoing": [
+                0.35659938903530813,
+                0.08659338428069105
+              ],
+              "incident_power_w": 0.08196923076923082,
+              "outgoing_power_w": 0.1346615384615385,
+              "net_into_device_w": -0.05269230769230768,
+              "reference_impedance_ohms": [
+                25.0,
+                20.0
+              ]
+            },
+            {
+              "port": [
+                "b",
+                0
+              ],
+              "incident": [
+                0.2338347732554591,
+                0.0689701075803494
+              ],
+              "outgoing": [
+                0.07935913798085945,
+                0.02110441777695233
+              ],
+              "incident_power_w": 0.05943557692307693,
+              "outgoing_power_w": 0.006743269230769229,
+              "net_into_device_w": 0.052692307692307705,
+              "reference_impedance_ohms": [
+                100.0,
+                -10.0
+              ]
+            },
+            {
+              "port": [
+                "b",
+                1
+              ],
+              "incident": [
+                0.08153846153846156,
+                0.03230769230769231
+              ],
+              "outgoing": [
+                0.1907692307692308,
+                0.06615384615384615
+              ],
+              "incident_power_w": 0.007692307692307696,
+              "outgoing_power_w": 0.04076923076923078,
+              "net_into_device_w": -0.03307692307692309,
+              "reference_impedance_ohms": [
+                50.0,
+                0.0
+              ]
+            }
+          ],
+          "relative_residual": 3.267199663957943e-17,
+          "wave_definition": "power"
+        },
+        "port_impedances_ohms": [
+          [
+            50.0,
+            0.0
+          ],
+          [
+            50.0,
+            0.0
+          ]
+        ],
+        "wave_definition": "power"
+      },
+      {
+        "frequency_hz": 2000000000.0,
+        "s": [
+          [
+            [
+              0.49999999999999994,
+              2.7755575615628914e-17
+            ],
+            [
+              0.5,
+              6.938893903907228e-18
+            ]
+          ],
+          [
+            [
+              0.5,
+              -3.469446951953614e-18
+            ],
+            [
+              0.49999999999999983,
+              -6.938893903907228e-18
+            ]
+          ]
+        ],
+        "noise_w_per_hz": [
+          [
+            [
+              2.0019410500000003e-21,
+              0.0
+            ],
+            [
+              -2.0019410499999992e-21,
+              1.6131221666163682e-38
+            ]
+          ],
+          [
+            [
+              -2.0019410499999992e-21,
+              -1.6131221666163682e-38
+            ],
+            [
+              2.0019410499999985e-21,
+              0.0
+            ]
+          ]
+        ],
+        "loaded_noise": {
+          "incident_w_per_hz": [
+            [
+              [
+                4.0038821e-21,
+                0.0
+              ],
+              [
+                4.311873030769231e-22,
+                -2.463927446153846e-22
+              ]
+            ],
+            [
+              [
+                4.311873030769231e-22,
+                2.463927446153846e-22
+              ],
+              [
+                2.9290999553846167e-21,
+                0.0
+              ]
+            ]
+          ],
+          "outgoing_w_per_hz": [
+            [
+              [
+                3.519592912307693e-21,
+                0.0
+              ],
+              [
+                -5.31018846153842e-23,
+                2.463927446153846e-22
+              ]
+            ],
+            [
+              [
+                -5.31018846153842e-23,
+                -2.463927446153846e-22
+              ],
+              [
+                4.381967518461536e-21,
+                0.0
+              ]
+            ]
+          ],
+          "net_into_device_w_per_hz": [
+            4.842891876923069e-22,
+            -1.4528675630769195e-21
+          ],
+          "wave_definition": "power",
+          "port_impedances_ohms": [
+            [
+              50.0,
+              0.0
+            ],
+            [
+              50.0,
+              0.0
+            ]
+          ]
+        },
+        "signal": {
+          "ports": [
+            {
+              "port": [
+                "a",
+                0
+              ],
+              "incident": [
+                0.3,
+                0.1
+              ],
+              "outgoing": [
+                0.19076923076923075,
+                0.06615384615384617
+              ],
+              "incident_power_w": 0.1,
+              "outgoing_power_w": 0.04076923076923077,
+              "net_into_device_w": 0.05923076923076923,
+              "reference_impedance_ohms": [
+                50.0,
+                0.0
+              ]
+            },
+            {
+              "port": [
+                "a",
+                1
+              ],
+              "incident": [
+                0.08548659883210735,
+                0.045122705084418846
+              ],
+              "outgoing": [
+                0.23203505397286284,
+                0.09053208555056841
+              ],
+              "incident_power_w": 0.009344017094017096,
+              "outgoing_power_w": 0.062036324786324815,
+              "net_into_device_w": -0.05269230769230772,
+              "reference_impedance_ohms": [
+                90.0,
+                -15.0
+              ]
+            },
+            {
+              "port": [
+                "b",
+                0
+              ],
+              "incident": [
+                0.2338347732554591,
+                0.06897010758034942
+              ],
+              "outgoing": [
+                0.07935913798085945,
+                0.02110441777695234
+              ],
+              "incident_power_w": 0.05943557692307693,
+              "outgoing_power_w": 0.006743269230769229,
+              "net_into_device_w": 0.052692307692307705,
+              "reference_impedance_ohms": [
+                100.0,
+                -10.0
+              ]
+            },
+            {
+              "port": [
+                "b",
+                1
+              ],
+              "incident": [
+                0.08153846153846156,
+                0.032307692307692315
+              ],
+              "outgoing": [
+                0.1907692307692308,
+                0.06615384615384617
+              ],
+              "incident_power_w": 0.007692307692307696,
+              "outgoing_power_w": 0.04076923076923078,
+              "net_into_device_w": -0.03307692307692309,
+              "reference_impedance_ohms": [
+                50.0,
+                0.0
+              ]
+            }
+          ],
+          "relative_residual": 1.0290976691871603e-17,
+          "wave_definition": "power"
+        },
+        "port_impedances_ohms": [
+          [
+            50.0,
+            0.0
+          ],
+          [
+            50.0,
+            0.0
+          ]
+        ],
+        "wave_definition": "power"
+      }
+    ]
+  },
+  "format": {
+    "files": 157,
+    "passed": true,
+    "log": {
+      "path": "build-reference/mixed-reference-api-format.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "wheel_build": {
+    "path": "build-reference/mixed-reference-api-wheel-build.log",
+    "sha256": "680b867b3d80682b047e6fe17f7aeebfb119be817f4646e432a09fc1be196bb4"
+  },
+  "linux_wheel_install": {
+    "path": "build-reference/mixed-reference-api-linux-wheel-install.log",
+    "sha256": "ff0cdef5b0818ae9fb82e25235d14883bdaaa475a398ba72c67635f1b2ccfe63"
+  },
+  "source_files": [
+    {
+      "path": "include/rfmodel/c_api.h",
+      "sha256": "6db0859c2b5c8abae601c1106e412f2124e2098ff4ca952471096ed5f23cfc0d"
+    },
+    {
+      "path": "src/c_api.cpp",
+      "sha256": "cb8ff1dba7e825c45515ddd7aa9715571906004324d97b6bed2c19dbd67be009"
+    },
+    {
+      "path": "include/rfmodel/network.hpp",
+      "sha256": "c408f46cc79477546412ff0b8f4f1d7a0fdca9ad0cc0a866000f2095f2756088"
+    },
+    {
+      "path": "python/rfmodel/__init__.py",
+      "sha256": "589d7405cb846ae043fec34d343685e173d8952d8b831313d4ad6f4f8a324025"
+    },
+    {
+      "path": "python/rfmodel/model_file.py",
+      "sha256": "dec7065858d95202348bb51e98694fdb42b82351b253f075e0f5439a8455d68d"
+    },
+    {
+      "path": "tests/c_api_mixed_reference_test.c",
+      "sha256": "02126a700c27fb8a4366d3ed988729e1d0c9febdabafc9fb77be0efeb1f287d4"
+    },
+    {
+      "path": "tests/test_mixed_reference.py",
+      "sha256": "26d630b729b03a63c8a01f3f476e7abc6c9b32678cb78a80432630b90c2dcae4"
+    },
+    {
+      "path": "tests/consumer/c_main.c",
+      "sha256": "7accb208872037b9e033fae2f2d05026cd643ee926982df51115f088e82ec844"
+    },
+    {
+      "path": "CMakeLists.txt",
+      "sha256": "f4c9b678d52c3b2fa299e0d57464b72718b31f17d5bc10d2846c9288e0dc97d1"
+    },
+    {
+      "path": "examples/mixed-reference-network.json",
+      "sha256": "d7e5183b65c2727849ab5cf8be0a8d8f524b8e6e66edf7a27fbc212454d45efb"
+    }
+  ],
+  "prior_uncommitted_files": [
+    {
+      "path": "scripts/reference/archive-cascade-reference.py",
+      "sha256": "a482db6bd6ae64c050d74e6df321749ec84a7098fb7aa49733079183149806dc",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/reference/capture-cascade-reference.ps1",
+      "sha256": "fb42165db2ad10c6213a415c2080e1eeb6e5ec0bcd1dc119bb1d1707c5283f3e",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/reference/compare-cascade-amplifier.py",
+      "sha256": "af1260adb093946954d0fb7e4bb2059669706a291418aac19ba193fed7554d9d",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/reference/run-systemvue-reference.py",
+      "sha256": "5df486d061ce09c28b396bf62e7fcba473dc6e9086d52861fdc7be6c85864f4e",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/reference/test_compare_cascade_amplifier.py",
+      "sha256": "190ea23b0ce0733846db8052ead9bb4d5ba41ff30e007c1f06e1a1753bc3fcf1",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/reference/test_run_systemvue_reference.py",
+      "sha256": "7eeeb2f890e59b986fec7eb9af58313f129b73ffccfd924f2f273ff52c396eb5",
+      "unchanged": true
+    },
+    {
+      "path": "measurements_test.obj",
+      "sha256": "4935bda18e7d8471560016c7303f3b7136842ab2ec429975440c7d617de3d97f",
+      "unchanged": true
+    },
+    {
+      "path": "verify-measurements.cmd",
+      "sha256": "c629d73c222dad5768c3c33c88a66eea99daf012dc79885f6cd7a7f0cebf7f7f",
+      "unchanged": true
+    }
+  ],
+  "new_systemvue_analysis_calls": 0,
+  "pushed": false,
+  "remote_ci_executed": false,
+  "macos_verified": false,
+  "full_A05_closed": false,
+  "limitations": [
+    "Internal mixed references are supported by linear networks; RF coherent/spectrum/conversion graph inputs retain their uniform-reference contracts",
+    "No vendor ZPORT/CS compatibility upgrade and no generic DC operating-point implementation",
+    "Local Linux is Ubuntu WSL2, not a remote GitHub runner; native /tmp build directories used",
+    "Same new universal wheel built on Windows is independently installed on Windows and Linux; no separate Linux wheel build",
+    "Full CTest includes six preserved reference-script drafts, not a clean checkout",
+    "C ABI version and public struct layouts remain unchanged, but the new wheel requires the newly exported functions"
+  ]
+}

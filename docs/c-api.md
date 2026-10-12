@@ -25,7 +25,7 @@ Debug 库名追加 `d`，允许 Debug/Release 安装到同一前缀且不互相�
 
 `rfmodel_complex` 是两个 double 字段 real/imag，不要求调用者使用 C99 complex 或
 `std::complex` 的内部布局。输入 S 参数是无量纲波比，波幅以 sqrt(W) 归一化。
-网络为单频点，各块参考阻抗必须一致，总端口上限沿用核心的 1024；扫频需逐频点构建网络。
+网络为单频点，总端口上限沿用核心的 1024；扫频需逐频点构建网络。旧 add 要求各块公共实参考一致；新增 add_power_waves 可指定每端口复功率波参考，get_references 返回实际坐标，详见[混合参考接线](power-wave-references.md)。
 
 ## 错误与所有权
 

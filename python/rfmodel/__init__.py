@@ -1268,6 +1268,11 @@ class Library:
                 ct.c_int,
                 [handle, size, complex_pointer, size, ct.c_double, ct.POINTER(size)],
             ),
+            "rfmodel_network_add_power_waves": (
+                ct.c_int,
+                [handle, size, complex_pointer, size, complex_pointer, size, ct.POINTER(size)],
+            ),
+            "rfmodel_network_get_references": (ct.c_int, [handle, complex_pointer, size]),
             "rfmodel_network_connect": (ct.c_int, [handle, size, size]),
             "rfmodel_network_terminate": (ct.c_int, [handle, size, _Complex, _Complex]),
             "rfmodel_network_port_count": (ct.c_int, [handle, ct.POINTER(size)]),
@@ -3734,6 +3739,30 @@ class Network:
             reference = self._reference if reference_ohms is None else float(reference_ohms)
             self._library._check(self._library._dll.rfmodel_network_add(
                 self._handle, count, values, len(values), reference, ct.byref(offset)))
+            return offset.value
+
+    @property
+    def reference_impedances_ohms(self):
+        """Actual global-port Kurokawa references, in block insertion order."""
+        with self._lock:
+            count = self.port_count
+            values = (_Complex * count)()
+            self._library._check(self._library._dll.rfmodel_network_get_references(
+                self._handle, values, count))
+            return tuple(value.value() for value in values)
+
+    def add_power_waves(self, scattering, reference_impedances_ohms):
+        """Copy S already expressed in the supplied per-port power-wave coordinates."""
+        with self._lock:
+            self._open()
+            count, values = _matrix(scattering)
+            references = list(reference_impedances_ohms)
+            if len(references) != count or any(isinstance(z, bool) for z in references):
+                raise ValueError("One complex reference impedance is required per port")
+            native = (_Complex * count)(*[_Complex.from_value(z) for z in references])
+            offset = ct.c_size_t()
+            self._library._check(self._library._dll.rfmodel_network_add_power_waves(
+                self._handle, count, values, len(values), native, count, ct.byref(offset)))
             return offset.value
 
     def connect(self, first, second):

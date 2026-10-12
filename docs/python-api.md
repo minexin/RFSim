@@ -115,3 +115,7 @@ Library.compress_coherent_fundamentals 提供多个相干组的共同基波压�
 共同限幅高阶放大器的局部导数及混合器件工作点接口见 [高阶工作点接口](highorder-linearization.md)，支持显式 a2..a11、生成频点选择、反馈与收敛噪声。
 
 旧式输出功率 AM-PM 已提供相位求值、局部 A/B 组合及工作点求解的 C/Python/JSON 接口，见 [AM-PM 接口](am-pm.md)。早期章节的接口缺项和测试数属于其标注日期，当前阶段证据见 [剩余验收审计](acceptance-audit-20261012.md)。
+
+## 内部混合参考网络
+
+`Network.add_power_waves(scattering, reference_impedances_ohms)` 添加已经按每端口局部复参考表示的 S 矩阵；`Network.reference_impedances_ohms` 查询全局端口顺序的实际参考。原生 C ABI 执行物理接线、求解和相关噪声传播，Python 不复制求解算法。旧 `add` 的公共实参考行为不变；新 wheel 须加载含新增符号的原生库。局部信号/噪声坐标、线性 JSON 及不支持的频谱入口见 [功率波参考说明](power-wave-references.md)。

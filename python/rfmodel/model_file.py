@@ -370,6 +370,29 @@ def _noise_analysis_result(library, scattering, intrinsic, references, source, t
     }
 
 
+def _device_references(device, ports, frequencies, default):
+    constant, sampled = "reference_impedances_ohms", "reference_samples_ohms"
+    if constant in device and sampled in device:
+        raise ValueError("Choose constant or sampled device references")
+    if constant in device:
+        samples = [device[constant]] * len(frequencies)
+    elif sampled in device:
+        samples = device[sampled]
+    else:
+        return [[complex(default)] * ports for _ in frequencies]
+    if not isinstance(samples, list) or len(samples) != len(frequencies):
+        raise ValueError("One device reference array is required per frequency")
+    decoded = []
+    for values in samples:
+        if not isinstance(values, list) or len(values) != ports:
+            raise ValueError("One device reference impedance is required per port")
+        references = [_complex(value) for value in values]
+        if any(value.real <= 0 for value in references):
+            raise ValueError("Device references require positive real parts")
+        decoded.append(references)
+    return decoded
+
+
 def analyze(library, document, *, base_directory=None):
     """Evaluate explicit frequency samples, returning JSON-compatible S/noise results."""
     _object(document, ("format", "version", "frequencies_hz", "devices", "external_ports"),
@@ -406,9 +429,13 @@ def analyze(library, document, *, base_directory=None):
     device_noise_mode = any(isinstance(device, dict) and "noise" in device for device in devices)
     if device_noise_mode and (temperature is not None or noise_samples is not None):
         raise ValueError("Device noise cannot be mixed with top-level noise modes")
+    independent_references = any(isinstance(device, dict) and (
+        "reference_impedances_ohms" in device or "reference_samples_ohms" in device
+    ) for device in devices)
     offsets, prepared, total_ports = {}, [], 0
     for device in devices:
-        _object(device, ("id",), ("s", "s_samples", "model", "noise"))
+        _object(device, ("id",), ("s", "s_samples", "model", "noise",
+                                  "reference_impedances_ohms", "reference_samples_ohms"))
         if device_noise_mode and "noise" not in device:
             raise ValueError("Every device must explicitly specify noise in device-noise mode")
         name = device["id"]
@@ -434,10 +461,28 @@ def analyze(library, document, *, base_directory=None):
         ports = len(matrices[0])
         if any(len(matrix) != ports for matrix in matrices) or total_ports + ports > 1024:
             raise ValueError("Port counts must be constant and total at most 1024")
+        references = _device_references(device, ports, frequencies, reference)
+        if "model" in device and (
+            "reference_impedances_ohms" in device or "reference_samples_ohms" in device
+        ):
+            # Parameter/Touchstone models are evaluated at the common real reference.
+            # Their embedded noise must undergo the same change of coordinates.
+            changed, changed_noise = [], []
+            for index, matrix in enumerate(matrices):
+                transformed = library.renormalize_power_waves(
+                    matrix, [reference] * ports, references[index],
+                    noise=device_noise[index] if embedded_noise else None,
+                )
+                changed.append(transformed.scattering)
+                if embedded_noise:
+                    changed_noise.append(transformed.noise_correlation)
+            matrices = changed
+            if embedded_noise:
+                device_noise = changed_noise
         offsets[name] = (total_ports, ports)
         if device_noise_mode and not embedded_noise:
             device_noise = _device_noise(library, device["noise"], matrices)
-        prepared.append((total_ports, matrices, device_noise))
+        prepared.append((total_ports, matrices, device_noise, references))
         total_ports += ports
 
     def endpoint(value):
@@ -548,9 +593,12 @@ def analyze(library, document, *, base_directory=None):
             covariance = None
             if temperature is not None or device_noise_mode:
                 covariance = [[0j] * total_ports for _ in range(total_ports)]
-            for offset, matrices, device_noise in prepared:
+            for offset, matrices, device_noise, device_references in prepared:
                 matrix = matrices[index]
-                network.add(matrix)
+                if independent_references:
+                    network.add_power_waves(matrix, device_references[index])
+                else:
+                    network.add(matrix)
                 if covariance is not None:
                     block = (device_noise[index] if device_noise_mode
                              else library.passive_noise(matrix, temperature))
@@ -561,6 +609,8 @@ def analyze(library, document, *, base_directory=None):
                 network.connect(first, second)
             for port, reflection in boundaries:
                 network.terminate(port, reflection=reflection)
+            local_references = network.reference_impedances_ohms
+            external_references = [local_references[port] for port in selected]
             scattering = network.external_s(selected)
             point = {"frequency_hz": frequency, "s": _encode(scattering)}
             if noise_samples is not None:
@@ -597,12 +647,24 @@ def analyze(library, document, *, base_directory=None):
                                            "net_into_device_w": incident_power-outgoing_power})
                 point["signal"] = {"ports": port_waves,
                                    "relative_residual": waves.relative_residual}
-            references = [reference] * len(selected)
+            references = external_references
+            if independent_references:
+                point["port_impedances_ohms"] = [[z.real, z.imag] for z in references]
+                point["wave_definition"] = "power"
+                if "signal" in point:
+                    point["signal"]["wave_definition"] = "power"
+                    for entry, z in zip(point["signal"]["ports"], local_references):
+                        entry["reference_impedance_ohms"] = [z.real, z.imag]
+                if "loaded_noise" in point:
+                    point["loaded_noise"]["wave_definition"] = "power"
+                    point["loaded_noise"]["port_impedances_ohms"] = [
+                        [z.real, z.imag] for z in external_references
+                    ]
             if output_references is not None:
                 references = output_references[index]
                 converted = library.renormalize_power_waves(
                     scattering,
-                    [reference] * len(selected),
+                    external_references,
                     references,
                     noise=intrinsic if covariance is not None else None,
                 )
@@ -614,7 +676,7 @@ def analyze(library, document, *, base_directory=None):
                     intrinsic = converted.noise_correlation
                     point["noise_w_per_hz"] = _encode(intrinsic)
                 for boundary_result in ("signal", "loaded_noise"):
-                    if boundary_result in point:
+                    if boundary_result in point and not independent_references:
                         point[boundary_result]["reference_ohms"] = reference
             if noise_analysis is not None:
                 reference_temperature, sources = noise_analysis

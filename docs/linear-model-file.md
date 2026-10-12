@@ -20,7 +20,7 @@ python -m rfmodel examples/linear-noise.json `
 |---|---|
 | format | 必须为 `rfmodel.linear-network` |
 | version | 整数 1，其他版本明确拒绝 |
-| reference_ohms | 内部网络共用的正实参考阻抗，默认 50 |
+| reference_ohms | 缺省正实参考阻抗及参数模型求值参考，默认 50；器件可覆盖局部功率波坐标 |
 | output_reference_impedances_ohms | 可选，长度 N 的各外端口输出复参考阻抗 |
 | output_reference_samples_ohms | 可选，M×N 的逐频率输出复参考阻抗；与上项互斥 |
 | frequencies_hz | 1–10000 个严格递增、非负、有限的频率，单位 Hz |
@@ -77,7 +77,7 @@ model.type 为 `transmission_line` 时，必填 characteristic_ohms、delay_s，
 propagation_loss_db（默认 0）。特性阻抗必须为正，延迟及单程传播损耗非负。
 model.type 为 `rlgc_line` 时，必填 length_m，可选 resistance_ohms_per_m、
 inductance_h_per_m、conductance_s_per_m、capacitance_f_per_m，默认均为 0；
-所有参数非负有限。两个模型均采用顶层 reference_ohms，不接受每器件独立参考阻抗。
+所有参数非负有限。两个模型先采用顶层 reference_ohms 求值；器件声明独立复参考时，再将结果转换到该局部功率波坐标。
 每个对象的未知字段或未知 type 都被拒绝，没有表达式执行或动态插件导入。
 
 `examples/rlgc-line.json` 给出 0.2 m、L=1 µH/m、C=100 pF/m 的无损线，在 50 Ω
@@ -94,7 +94,7 @@ Python 十三项测试在安装后的 Release 动态库上通过。包含两个�
 model.type 为 `linear_amplifier` 时，必填 gain_db，可选 gain_phase_degrees（默认 0）、
 reverse_isolation_db（默认 50）、reverse_phase_degrees（默认 0）、
 input_impedance_ohms 和 output_impedance_ohms（默认都为 50 Ω，可用实部/虚部数组）。
-参考阻抗来自顶层；即使顶层参考不是 50 Ω，两个端口阻抗的默认值仍为 50 Ω，
+模型求值参考阻抗来自顶层，输出可再转换为器件局部复参考；即使顶层参考不是 50 Ω，两个物理端口阻抗的默认值仍为 50 Ω，
 需要匹配到其他阻抗时须显式给出。gain_db 定义 |S21| 的幅度，不是任意失配条件下的传输功率增益。
 
 `examples/amplifier-chain.json` 将幅度 0.5 的匹配衰减器与 20 dB、90° 放大器连接，
@@ -219,8 +219,12 @@ noise_analysis 对象支持恒定或逐频点的物理源阻抗及参考温度�
 
 ## 理想无源参数化器件
 
-resistor、inductor、capacitor、matched_transmission、equal_power_divider、isolated_power_divider、quadrature_coupler 已接入 model。它们沿用网络公共参考与显式噪声配置，也可在相干 network 节点中使用。参数单位、端口次序、理想化边界及 RC 示例见[无源器件接口](passive-model-interfaces.md)。
+resistor、inductor、capacitor、matched_transmission、equal_power_divider、isolated_power_divider、quadrature_coupler 已接入 model。它们先按公共参考求值并使用显式噪声配置，线性 JSON 可再转换到器件局部复参考；公共实参考形式也可在相干 network 节点中使用。参数单位、端口次序、理想化边界及 RC 示例见[无源器件接口](passive-model-interfaces.md)。
 
 参数化模型现增加 type=butterworth_ladder，支持四类理想无损响应。阶数、带边与拓扑字段见 [Butterworth 接口](butterworth-filter.md)，示例为 examples/butterworth-bandpass.json。未实现的 IL/Amax 等字段会被拒绝。
 
 另可使用 type=chebyshev_lossless 指定四类 Chebyshev I 响应，支持 ripple_db 与 passband_attenuation_db；约束和奇偶阶语义见 [Chebyshev 接口](chebyshev-filter.md)。
+
+## 器件内部独立复参考阻抗
+
+线性 version=1 的每个器件可选 `reference_impedances_ohms`（N 项）或 `reference_samples_ohms`（M×N），两者互斥。显式 S/噪声使用声明的局部坐标；参数模型及 Touchstone 内嵌噪声先按顶层实参考求值，再一起重归一化。输出字段、边界和完整契约见 [混合参考接口](power-wave-references.md)，可重跑例子见 [mixed-reference-network.json](../examples/mixed-reference-network.json)。不提供新字段时保留已有结果格式。

@@ -3,6 +3,20 @@
 
 int main(int argc, char **argv) {
     {
+        rfmodel_network *network = NULL;
+        const rfmodel_complex s[1] = {{0., 0.}}, z[1] = {{25., 10.}};
+        rfmodel_complex actual[1];
+        size_t first = 999;
+        if (rfmodel_network_create(50., &network) != RFMODEL_OK ||
+            rfmodel_network_add_power_waves(network, 1, s, 1, z, 1, &first) != RFMODEL_OK ||
+            rfmodel_network_get_references(network, actual, 1) != RFMODEL_OK || first != 0 ||
+            actual[0].real != 25. || actual[0].imag != 10.) {
+            return 112;
+        }
+        rfmodel_network_destroy(network);
+    }
+
+    {
         const size_t ports[2] = {0, 1};
         const rfmodel_frequency_channel seeds[2] = {{0, 2}, {0, 7}};
         const rfmodel_frequency_device device = {ports, 2, seeds, 2, NULL, 0};

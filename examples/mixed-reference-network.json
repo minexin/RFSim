@@ -1,0 +1,119 @@
+{
+  "format": "rfmodel.linear-network",
+  "version": 1,
+  "frequencies_hz": [
+    1000000000.0,
+    2000000000.0
+  ],
+  "temperature_k": 290,
+  "devices": [
+    {
+      "id": "a",
+      "model": {
+        "type": "resistor",
+        "connection": "series",
+        "resistance_ohms": 25
+      },
+      "reference_samples_ohms": [
+        [
+          50,
+          [
+            25,
+            20
+          ]
+        ],
+        [
+          50,
+          [
+            90,
+            -15
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "b",
+      "model": {
+        "type": "resistor",
+        "connection": "series",
+        "resistance_ohms": 75
+      },
+      "reference_impedances_ohms": [
+        [
+          100,
+          -10
+        ],
+        50
+      ]
+    }
+  ],
+  "connections": [
+    [
+      [
+        "a",
+        1
+      ],
+      [
+        "b",
+        0
+      ]
+    ]
+  ],
+  "external_ports": [
+    [
+      "a",
+      0
+    ],
+    [
+      "b",
+      1
+    ]
+  ],
+  "signal_boundaries": [
+    {
+      "port": [
+        "a",
+        0
+      ],
+      "source": [
+        0.3,
+        0.1
+      ]
+    },
+    {
+      "port": [
+        "b",
+        1
+      ],
+      "source": [
+        0.05,
+        0
+      ],
+      "reflection": [
+        0.2,
+        0.1
+      ]
+    }
+  ],
+  "noise_boundaries": [
+    {
+      "port": [
+        "a",
+        0
+      ],
+      "reflection": 0,
+      "temperature_k": 290
+    },
+    {
+      "port": [
+        "b",
+        1
+      ],
+      "reflection": [
+        0.2,
+        0.1
+      ],
+      "temperature_k": 170
+    }
+  ]
+}

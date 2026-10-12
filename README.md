@@ -5,7 +5,7 @@
 ## 已有实现
 
 - Touchstone legacy S 数据、RI/MA/DB 转换、频率插值及表格器件接口。
-- 多端口连接、反射反馈、等效 S 提取和频率扫描；原生 C++ 支持器件间混合复参考阻抗物理接线，C/Python/JSON 网络仍使用公共实参考；支持[各端口独立复参考阻抗](docs/power-wave-references.md)下的 S、内生噪声输出和物理 Z/Y 转换。
+- 多端口连接、反射反馈、等效 S 提取和频率扫描；C++/C/Python 与线性 JSON 支持器件间混合复参考阻抗物理接线；支持[各端口独立复参考阻抗](docs/power-wave-references.md)下的 S、内生噪声输出和物理 Z/Y 转换。
 - 匹配衰减/延迟模型、功率与阻抗后处理、标量 Friis 级联噪声。
 - S 数据 CSV 命令行导出与可安装 CMake 包。
 

@@ -1447,6 +1447,23 @@ RFMODEL_API int rfmodel_network_add(rfmodel_network *network,
                                     size_t value_count,
                                     double reference_ohms,
                                     size_t *first_port);
+/* Add a block already expressed in per-port Kurokawa power-wave coordinates.
+   reference_count == ports; finite references with Re(Z)>0. S and references are
+   copied. first_port must not overlap inputs or the handle. On failure neither
+   the network nor first_port changes. Existing C ABI layouts are unchanged. */
+RFMODEL_API int rfmodel_network_add_power_waves(rfmodel_network *network,
+                                                size_t ports,
+                                                const rfmodel_complex *values,
+                                                size_t value_count,
+                                                const rfmodel_complex *references,
+                                                size_t reference_count,
+                                                size_t *first_port);
+/* All global-port references, in add order. Use port_count to size the buffer.
+   capacity is in complex elements; unused tail is untouched. No output on failure.
+   A null buffer is permitted only for an empty network with zero capacity. */
+RFMODEL_API int rfmodel_network_get_references(const rfmodel_network *network,
+                                               rfmodel_complex *references,
+                                               size_t capacity);
 RFMODEL_API int rfmodel_network_connect(rfmodel_network *network, size_t first, size_t second);
 RFMODEL_API int rfmodel_network_terminate(rfmodel_network *network,
                                           size_t port,

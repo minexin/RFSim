@@ -1985,6 +1985,51 @@ int rfmodel_network_add(rfmodel_network *network,
     });
 }
 
+int rfmodel_network_add_power_waves(rfmodel_network *network,
+                                    size_t ports,
+                                    const rfmodel_complex *values,
+                                    size_t value_count,
+                                    const rfmodel_complex *references,
+                                    size_t reference_count,
+                                    size_t *first_port) {
+    return guarded([&] {
+        require(network && values && references && first_port && ports > 0 && ports <= 1024);
+        require(value_count == ports * ports && reference_count == ports);
+        disjoint(first_port, sizeof(*first_port), values, value_count * sizeof(*values));
+        disjoint(
+            first_port, sizeof(*first_port), references, reference_count * sizeof(*references));
+        disjoint(first_port, sizeof(*first_port), network, sizeof(*network));
+        rfmodel::SMatrix matrix{ports, std::vector<rfmodel::Complex>(value_count)};
+        std::vector<rfmodel::Complex> refs(ports);
+        for (size_t i = 0; i < value_count; ++i) {
+            matrix.values[i] = {values[i].real, values[i].imag};
+        }
+        for (size_t i = 0; i < ports; ++i) {
+            refs[i] = {references[i].real, references[i].imag};
+        }
+        auto updated = network->core;
+        const auto offset = updated.add_power_waves(matrix, refs);
+        network->core = std::move(updated);
+        network->ports += ports;
+        *first_port = offset;
+    });
+}
+
+int rfmodel_network_get_references(const rfmodel_network *network,
+                                   rfmodel_complex *references,
+                                   size_t capacity) {
+    return guarded([&] {
+        require(network && capacity >= network->ports);
+        require(references || (capacity == 0 && network->ports == 0));
+        require(capacity <= std::numeric_limits<size_t>::max() / sizeof(*references));
+        disjoint(references, capacity * sizeof(*references), network, sizeof(*network));
+        for (size_t i = 0; i < network->ports; ++i) {
+            const auto z = network->core.port_reference_impedance_ohms(i);
+            references[i] = {z.real(), z.imag()};
+        }
+    });
+}
+
 int rfmodel_network_connect(rfmodel_network *network, size_t first, size_t second) {
     return guarded([&] {
         require(network != nullptr);
