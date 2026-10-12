@@ -1,3 +1,5 @@
+#include "rfmodel/optimization.hpp"
+#include <memory>
 #include "rfmodel/conversion_frequency_plan.hpp"
 #include "rfmodel/polynomial_linearization.hpp"
 #include "rfmodel/amplifier_linearization.hpp"
@@ -48,6 +50,10 @@
 #include "rfmodel/rlgc_transmission_line.hpp"
 #include <cstdio>
 #include <new>
+
+struct rfmodel_optimization_result {
+    rfmodel::OptimizationResult core;
+};
 
 struct rfmodel_network {
     rfmodel::LinearNetwork core;
@@ -864,7 +870,183 @@ void linearize_conversion_outputs(
 }
 } // namespace
 
+namespace {
+size_t optimization_buffer(const rfmodel_optimization_result *result,
+                           const void *pointer,
+                           size_t capacity,
+                           size_t required,
+                           size_t element_size) {
+    require(capacity >= required && capacity <= std::numeric_limits<size_t>::max() / element_size);
+    require(pointer || capacity == 0);
+    const auto bytes = capacity * element_size;
+    disjoint(pointer, bytes, result, sizeof(*result));
+    return bytes;
+}
+
+void optimization_text(const std::string &source, char *output) {
+    std::copy(source.begin(), source.end(), output);
+    output[source.size()] = '\0';
+}
+} // namespace
+
 extern "C" {
+int rfmodel_optimize_bounded(const rfmodel_optimization_parameter *parameters,
+                             size_t count,
+                             const rfmodel_optimization_options *options,
+                             rfmodel_optimization_objective objective,
+                             rfmodel_optimization_cancel cancelled,
+                             void *user_data,
+                             rfmodel_optimization_result **out) {
+    return guarded([&] {
+        require(parameters && count > 0 && count <= 64 && objective && out);
+        disjoint(out, sizeof(*out), parameters, count * sizeof(*parameters));
+        if (options) {
+            disjoint(out, sizeof(*out), options, sizeof(*options));
+        }
+        require(*out == nullptr);
+        std::vector<rfmodel::OptimizationParameter> native;
+        for (size_t i = 0; i < count; ++i) {
+            const auto &p = parameters[i];
+            native.push_back({p.lower,
+                              p.upper,
+                              p.initial,
+                              static_cast<rfmodel::OptimizationParameterKind>(p.kind)});
+        }
+        rfmodel::OptimizationOptions opt;
+        if (options) {
+            require((options->has_target == 0 || options->has_target == 1) &&
+                    (options->reject_invalid == 0 || options->reject_invalid == 1) &&
+                    (options->record_history == 0 || options->record_history == 1));
+            require(options->has_target || options->target == 0.);
+            opt.max_evaluations = options->max_evaluations;
+            opt.max_iterations = options->max_iterations;
+            opt.initial_step = options->initial_step;
+            opt.minimum_step = options->minimum_step;
+            opt.contraction = options->contraction;
+            if (options->has_target) {
+                opt.target = options->target;
+            }
+            opt.invalid_evaluation = options->reject_invalid
+                                         ? rfmodel::OptimizationFailurePolicy::Reject
+                                         : rfmodel::OptimizationFailurePolicy::Stop;
+            opt.record_history = options->record_history != 0;
+        }
+        auto owned = std::make_unique<rfmodel_optimization_result>();
+        owned->core = rfmodel::minimize_bounded(
+            native,
+            [&](const std::vector<double> &point) {
+                double value = std::numeric_limits<double>::quiet_NaN();
+                char error[513]{};
+                const int status =
+                    objective(point.data(), point.size(), user_data, &value, error, sizeof(error));
+                error[512] = '\0';
+                if (status != 0) {
+                    throw std::runtime_error(error[0] ? error : "objective callback failed");
+                }
+                return value;
+            },
+            opt,
+            [&] {
+                if (!cancelled) {
+                    return false;
+                }
+                const int status = cancelled(user_data);
+                if (status < 0) {
+                    throw std::runtime_error("optimization cancellation callback failed");
+                }
+                return status > 0;
+            });
+        // A nested API call inside a callback can replace thread-local error text.
+        last_error[0] = '\0';
+        *out = owned.release();
+    });
+}
+
+void rfmodel_optimization_destroy(rfmodel_optimization_result *result) {
+    delete result;
+}
+
+int rfmodel_optimization_get_summary(const rfmodel_optimization_result *result,
+                                     rfmodel_optimization_summary *summary) {
+    return guarded([&] {
+        require(result && summary);
+        disjoint(summary, sizeof(*summary), result, sizeof(*result));
+        const auto &r = result->core;
+        *summary = {r.parameters.size(),
+                    r.history.size(),
+                    r.evaluations,
+                    r.rejected_evaluations,
+                    r.iterations,
+                    r.last_failed_parameters.size(),
+                    r.last_error.size(),
+                    r.has_finite_point ? 1 : 0,
+                    static_cast<int>(r.stop),
+                    r.value,
+                    r.final_step};
+    });
+}
+
+int rfmodel_optimization_get_parameters(const rfmodel_optimization_result *result,
+                                        double *parameters,
+                                        size_t capacity) {
+    return guarded([&] {
+        require(result != nullptr);
+        optimization_buffer(
+            result, parameters, capacity, result->core.parameters.size(), sizeof(double));
+        std::copy(result->core.parameters.begin(), result->core.parameters.end(), parameters);
+    });
+}
+
+int rfmodel_optimization_get_last_failure(const rfmodel_optimization_result *result,
+                                          double *parameters,
+                                          size_t capacity,
+                                          char *error,
+                                          size_t error_capacity) {
+    return guarded([&] {
+        require(result != nullptr);
+        const auto &r = result->core;
+        const auto bytes = optimization_buffer(
+            result, parameters, capacity, r.last_failed_parameters.size(), sizeof(double));
+        const auto error_bytes =
+            optimization_buffer(result, error, error_capacity, r.last_error.size() + 1, 1);
+        disjoint(parameters, bytes, error, error_bytes);
+        if (!r.last_failed_parameters.empty()) {
+            std::copy(r.last_failed_parameters.begin(), r.last_failed_parameters.end(), parameters);
+        }
+        optimization_text(r.last_error, error);
+    });
+}
+
+int rfmodel_optimization_get_evaluation(const rfmodel_optimization_result *result,
+                                        size_t index,
+                                        rfmodel_optimization_evaluation *info,
+                                        double *parameters,
+                                        size_t capacity,
+                                        char *error,
+                                        size_t error_capacity) {
+    return guarded([&] {
+        require(result && info && index < result->core.history.size());
+        disjoint(info, sizeof(*info), result, sizeof(*result));
+        const auto &e = result->core.history[index];
+        const rfmodel_optimization_evaluation meta{
+            e.value, e.iteration, static_cast<int>(e.status), e.error.size()};
+        if (!parameters && capacity == 0 && !error && error_capacity == 0) {
+            *info = meta;
+            return;
+        }
+        const auto bytes =
+            optimization_buffer(result, parameters, capacity, e.parameters.size(), sizeof(double));
+        const auto error_bytes =
+            optimization_buffer(result, error, error_capacity, e.error.size() + 1, 1);
+        disjoint(info, sizeof(*info), parameters, bytes);
+        disjoint(info, sizeof(*info), error, error_bytes);
+        disjoint(parameters, bytes, error, error_bytes);
+        std::copy(e.parameters.begin(), e.parameters.end(), parameters);
+        optimization_text(e.error, error);
+        *info = meta;
+    });
+}
+
 int rfmodel_mix_coherent_components(double spacing_hz,
                                     const rfmodel_coherent_mixer_input *input,
                                     size_t input_count,

@@ -1,7 +1,36 @@
 #include <rfmodel/c_api.h>
 #include <math.h>
 
+static int optimization_objective(
+    const double *p, size_t count, void *context, double *value, char *error, size_t capacity) {
+    (void)count;
+    (void)context;
+    (void)error;
+    (void)capacity;
+    *value = p[0] * p[0];
+    return 0;
+}
+
 int main(int argc, char **argv) {
+    {
+        const rfmodel_optimization_parameter p = {2., 2., 2., RFMODEL_OPT_REAL};
+        rfmodel_optimization_result *result = NULL;
+        rfmodel_optimization_summary summary;
+        rfmodel_optimization_evaluation info;
+        double best = 0.;
+        char error[1];
+        if (rfmodel_optimize_bounded(&p, 1, NULL, optimization_objective, NULL, NULL, &result) ||
+            rfmodel_optimization_get_summary(result, &summary) ||
+            rfmodel_optimization_get_parameters(result, &best, 1) ||
+            rfmodel_optimization_get_last_failure(result, NULL, 0, error, 1) ||
+            rfmodel_optimization_get_evaluation(result, 0, &info, NULL, 0, NULL, 0) || best != 2. ||
+            summary.value != 4. || summary.stop != RFMODEL_OPT_ALL_FIXED || info.value != 4. ||
+            info.status != RFMODEL_OPT_FINITE) {
+            return 113;
+        }
+        rfmodel_optimization_destroy(result);
+    }
+
     {
         rfmodel_network *network = NULL;
         const rfmodel_complex s[1] = {{0., 0.}}, z[1] = {{25., 10.}};

@@ -81,3 +81,13 @@ P1 中工程回归可持续本地推进；需要厂商数据的项目待会话�
 新增原生连续/对数/整数参数的确定性坐标轮询，明确边界、目标、预算、取消、目标函数异常和轨迹重放。LC 匹配设计同时经过网络求解与独立物理阻抗公式核对。公开契约见 [原生优化说明](optimization.md)。这不证明全局最优或厂商算法等价；C/Python/任务格式、系统级参数绑定、Monte Carlo 和厂商对照仍需推进，A09 整项保持开放。
 
 本阶段 [优化器机读验收](../validation/optimization-native-validation-20261012.json)记录 Windows/Linux 两配置各 134/134 CTest、2/2 安装消费者，及四组 RF 目标函数逐点物理核对和确定性重放。[完整示例轨迹](../validation/optimization-lc-match-example-20261012.json)同时归档。
+
+
+## A09 后续推进：C ABI 与 Python 优化回调
+
+新增同步目标函数/取消回调入口和独立拥有数据的结果快照；Python 只调用原生优化器，处理失败文本及异常恢复，不另实现搜索循环。C 测试覆盖输入复制、回调重入、结果查询无重复求值，以及失败缓冲区不变。Python 用连续/对数/整数已知最优点和逐次调用 RF 网络的 LC 匹配问题验证；每个 RF 评估点另用阻抗公式核对。公开契约见 [优化接口说明](optimization.md)。
+
+通用优化任务输入、系统级参数绑定、Monte Carlo 分布/种子/统计回归及 SystemVue 优化行为对照仍未完成，A09 整项保持开放。当前 wheel 需要本阶段新增导出符号的配套原生库。
+
+
+[跨语言优化机读验收](../validation/optimization-api-validation-20261012.json)：Windows/Linux 两配置各 136/136 全量 CTest、2/2 安装消费者、398/398 安装 wheel 回归；[完整 Python LC 轨迹](../validation/optimization-python-lc-match-example-20261012.json)归档全部输入、选项和评估历史。四组示例的目标值均用独立电路公式逐点核验，且同配置重复输出逐字节相同。无新增厂商兼容通过项。

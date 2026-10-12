@@ -12,7 +12,7 @@
 | LNA/PA 小信号与噪声 | 静态 S 原语、标量噪声/Friis | 专用器件、噪声参数转换与官方数值对照 |
 | 非线性/PHD | 十一阶多项式、显式 IP/IMN 转换、P1dB/饱和与共同限幅、C++/C/Python/JSON 来源传播、公共基波压缩导数与反馈工作点 C++/C/Python/JSON 接口、完整电压多项式及共同限幅高阶放大器的 C++/C/Python/JSON 谐波/互调导数与混合器件求解 | 多端口限幅、重叠谱/来源语义、AM-PM、高阶标定、其他非线性网络适配、高阶厂商压缩规则的导数、PHD；饱和参考带警告，仅用于诊断 |
 | Mixer | 固定 LO 混频与相干组传播；直接/共轭矩阵、DC、多器件物理接线、线性器件接入、反射反馈、C/P 噪声、热负载功率流、显式频带参考 NF 及给定 RF/LO 工作点增量模型的 C++/C/Python/JSON | 厂商自动选频与频谱削减、宽带/热负载 NF 约定、厂商转换矩阵标定、LO 驱动、压缩、杂散/泄漏和变频噪声实测 |
-| 参数优化/Monte Carlo | 原生 C++ 有界坐标优化、评估轨迹及 LC 匹配解析回归 | 优化跨语言/系统任务接口、Monte Carlo、厂商对照 |
+| 参数优化/Monte Carlo | C++/C/Python 有界坐标优化、评估轨迹及 LC 匹配解析回归 | 优化系统任务接口、Monte Carlo、厂商对照 |
 | GUI | 后置 | 核心接口稳定后推进 |
 
 [线性分析输出细表](linear-analysis-compatibility.md) 保留官方本机帮助来源。历史六配置 CI 与当前本地 Windows/Linux 验收分别记录，详见 [构建记录](build-validation.md)；当前阶段 macOS 和远程运行尚未验证。已从本机 RF Design 索引建立 [243 项目录基线](rf-design-catalog.md)，逐项参数和行为验收仍待完成。

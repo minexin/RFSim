@@ -13,6 +13,12 @@ from .frequency_plan import (
 )
 
 
+from .optimization import (
+    OptimizationParameter, OptimizationResult, OptimizationEvaluation,
+    _signatures as _optimization_signatures, minimize_bounded as _minimize_bounded,
+)
+
+
 class RFModelError(RuntimeError):
     """A native RFModel error; status preserves the C ABI status code."""
 
@@ -1728,6 +1734,7 @@ class Library:
                 [handle, ct.POINTER(size), size, complex_pointer, size, complex_pointer, size],
             ),
         }
+        signatures.update(_optimization_signatures())
         for name, (result, arguments) in signatures.items():
             function = getattr(self._dll, name)
             function.restype = result
@@ -1739,6 +1746,10 @@ class Library:
         if status:
             message = self._dll.rfmodel_last_error().decode("utf-8", errors="replace")
             raise RFModelError(status, message)
+
+    def minimize_bounded(self, parameters, objective, **options):
+        """Minimize a Python objective using native bounded coordinate polling."""
+        return _minimize_bounded(self, parameters, objective, **options)
 
     def network(self, reference_ohms=50.):
         return Network(self, reference_ohms)

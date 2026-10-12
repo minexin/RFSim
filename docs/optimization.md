@@ -1,6 +1,6 @@
-# 有界参数优化：原生 C++ 契约
+# 有界参数优化：C++、C ABI 与 Python 契约
 
-A09 的第一项原生实现提供 `include/rfmodel/optimization.hpp` 中的 `minimize_bounded(parameters, objective, options, cancelled)`。目标是最小化调用者给定的一个有限实标量；可用它调用 RFModel 网络、噪声或器件原语并组合设计误差。本阶段尚无优化 C ABI、Python 绑定或通用 JSON 任务输入，Monte Carlo 与 SystemVue 优化器对照也未完成。
+A09 的第一项原生实现提供 `include/rfmodel/optimization.hpp` 中的 `minimize_bounded(parameters, objective, options, cancelled)`。目标是最小化调用者给定的一个有限实标量；可用它调用 RFModel 网络、噪声或器件原语并组合设计误差。现已提供 C ABI 和 Python 同步回调入口；通用 JSON 任务输入、Monte Carlo 与 SystemVue 优化器对照尚未完成。
 
 ## 参数及约束
 
@@ -83,9 +83,9 @@ cmake --build build --config Release --target rfmodel_match_design
 
 测试另覆盖连续/对数/整数/固定参数混合的已知最优点、边界最优、非光滑目标、完整轮询选择、逐点评估重放、关闭历史后相同搜索、预算截断、异常/非有限值、显式拒绝策略、取消、数值分辨率以及无效参数不调用目标函数。
 
-A09 仍需 C/Python/任务格式、系统级参数绑定、Monte Carlo 分布/种子及统计参考，以及厂商优化与统计行为对照；本阶段不关闭整项验收。
+A09 仍需通用任务格式、系统级参数绑定、Monte Carlo 分布/种子及统计参考，以及厂商优化与统计行为对照；本阶段不关闭整项验收。
 
-## 本阶段工程验证（2026-10-12）
+## 原生 C++ 阶段工程验证（2026-10-12）
 
 [机读验收记录](../validation/optimization-native-validation-20261012.json)包含四组日志和源码哈希；[完整 RF 示例轨迹](../validation/optimization-lc-match-example-20261012.json)随源码归档。Windows MSVC、Ubuntu WSL2 GCC 的 Debug/Release 均 clean-first 构建，全量 CTest 各 134/134，安装后的 C/C++ 消费者各 2/2。160 个 C/C++ 文件格式检查通过。
 
@@ -94,3 +94,43 @@ A09 仍需 C/Python/任务格式、系统级参数绑定、Monte Carlo 分布/�
 Linux 原生 /tmp 构建目录在完整测试和安装消费结束后的一次访问中已不存在。Release 示例因此在新原生临时目录单独重建，并在同一次进程中保存输出和重放；原全量测试日志保留，机读记录明确列出补采的配置、构建日志和可执行文件哈希。
 
 原有八份未提交文件的哈希保持不变，完整 CTest 包含参考脚本草稿，不能宣称纯净检出验证。C ABI/Python 源码未改，本阶段未重新构建或单独安装 wheel；已有绑定套件包含在全量 CTest 中。未新增 SystemVue 分析、推送、macOS 或远程 CI 验证。
+
+## C ABI 回调与结果所有权
+
+`rfmodel_optimize_bounded` 复制参数和选项后调用同一个原生优化器。参数 kind 使用 RFMODEL_OPT_REAL、RFMODEL_OPT_LOG_REAL、RFMODEL_OPT_INTEGER；options=NULL 使用原生默认值。显式 options 必须填写全部字段；has_target、reject_invalid、record_history 只接受 0/1，未启用 target 时对应数值须为零。
+
+objective 是同步 cdecl 回调，接收只在本次回调有效的只读物理参数、user_data、目标值输出和 513 字节错误缓冲区。返回零表示目标值已写入；NaN/Infinity 属于 NonFinite 评估。非零返回属于 Exception 评估，错误消息最多保留 512 字节，空消息使用默认诊断。回调不得把语言异常抛过 C 边界，可重入其他 RFModel 函数。取消回调返回零继续、正值取消、负值表示回调故障；故障是 API 错误而非优化器停止结果。
+
+out 指向的句柄必须初始为 NULL，回调不得修改它。RFMODEL_OK 表示 API 执行成功；ObjectiveFailure、预算耗尽、取消等仍返回有效结果，调用者须另外检查 summary.stop 和 has_finite_point。参数校验/分配/取消钩子故障返回 API 错误并保留 out 原值。结果由调用者通过 `rfmodel_optimization_destroy` 释放，destroy(NULL) 安全。
+
+结果是不可变快照。get_summary 提供参数数目、轨迹数目及错误字节数；get_parameters、get_last_failure、get_evaluation 复制结果，绝不重新调用目标函数。get_evaluation 可仅提供 info，其他输出全部 NULL/0 查询元数据；完整读取需要 parameter_count 个 double 和 error_bytes+1 个 char。get_last_failure 对无失败结果接受 NULL/0 参数缓冲区，但仍需一个字节写空消息。容量单位分别是元素数和字节数。输出缓冲区不得相互重叠或覆盖句柄；失败不修改输出，成功不修改容量中未使用的尾部。空历史不能查询 index=0。
+
+## Python 调用
+
+```python
+from rfmodel import Library, OptimizationParameter
+lib = Library('/path/to/rfmodel_c.dll')  # Linux: librfmodel_c.so
+result = lib.minimize_bounded(
+    [OptimizationParameter(0., 1., .5)],
+    lambda point: (point[0] - .25)**2,
+    target=0.)
+assert result.stop == 'target_reached'
+assert result.parameters == (.25,)
+```
+
+参数可用 OptimizationParameter 或只有 lower/upper/initial/可选 kind 的 dict；kind 为 real/log/integer。关键字选项与原生一致，invalid_evaluation 为 stop/reject，record_history 为 bool，cancelled 是可选返回 bool 的函数。目标函数接收 tuple，返回实数；布尔值和数字字符串不作为目标值接受。Python 仅封装一次原生搜索调用，没有另一套搜索循环。
+
+OptimizationResult 和 OptimizationEvaluation 是 NamedTuple，参数和历史都是拥有独立数据的 tuple。返回前已释放 C 句柄。没有有限结果或某次评估无效时，相应 value 为 None，便于 JSON 编码；停止原因、轨迹状态和失败文本仍单独保留。普通目标函数 Exception 记录为失败评估；MemoryError、KeyboardInterrupt、SystemExit，以及取消回调异常，在返回 Python 后重新抛出，确保先释放任何结果句柄。错误文本按完整 UTF-8 字符截断至 512 字节。
+
+`examples/optimize_lc_match.py <native-library>` 使用相同的 LC 匹配参数，每个候选通过 Python 调用 C ABI 网络求解，再对全部轨迹进行独立阻抗公式验证，输出设计输入及完整 JSON 轨迹。使用已安装 wheel 或显式 PYTHONPATH=python 运行。此例是固定设计程序，尚不提供通用 JSON 优化任务输入。
+
+本次新增六个 C 导出符号，旧 ABI 版本和结构布局保持不变。新 wheel 需要包含这些符号的配套原生库；仅替换 Python 包而保留早期原生 DLL 不受支持。
+
+
+## 跨语言阶段工程验证（2026-10-12）
+
+[跨语言机读验收记录](../validation/optimization-api-validation-20261012.json)记录 Windows MSVC 与 Ubuntu WSL2 GCC 的 Debug/Release 四组 clean-first 构建，全量 CTest 各 136/136，安装后 C/C++ 消费者各 2/2。新 wheel 在四组安装原生库上均通过 25 套件、398 项测试，零跳过；其中 6 项是新增优化器 Python 回归。161 个 C/C++ 文件格式检查通过。
+
+四组已安装 Python 包均运行 LC 示例并核验重复轨迹逐字节一致。[完整 Python 示例归档](../validation/optimization-python-lc-match-example-20261012.json)包含全部选项和 174 次评估。L≈3.978873680 nH、C≈3.183098337 pF，|S11|²≈6.9625e-15；每个候选的网络求解与独立阻抗公式核对，最大目标值绝对差小于 2.5e-15，参数相对解析值误差小于 1e-6。
+
+原有八份未提交文件保持原哈希，全量回归仍包含既有参考脚本草稿，未声称纯净检出验证。未新增 SystemVue 分析、推送、macOS 或远程 CI 验证；不据本阶段关闭 A09 整项。

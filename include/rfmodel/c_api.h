@@ -17,6 +17,108 @@
 extern "C" {
 #endif
 
+typedef struct rfmodel_optimization_result rfmodel_optimization_result;
+
+enum rfmodel_optimization_parameter_kind {
+    RFMODEL_OPT_REAL = 0,
+    RFMODEL_OPT_LOG_REAL = 1,
+    RFMODEL_OPT_INTEGER = 2
+};
+
+enum rfmodel_optimization_stop {
+    RFMODEL_OPT_TARGET_REACHED = 0,
+    RFMODEL_OPT_STEP_TOLERANCE = 1,
+    RFMODEL_OPT_ALL_FIXED = 2,
+    RFMODEL_OPT_EVALUATION_LIMIT = 3,
+    RFMODEL_OPT_ITERATION_LIMIT = 4,
+    RFMODEL_OPT_OBJECTIVE_FAILURE = 5,
+    RFMODEL_OPT_NO_FINITE_POINT = 6,
+    RFMODEL_OPT_NUMERICAL_RESOLUTION = 7,
+    RFMODEL_OPT_CANCELLED = 8
+};
+
+enum rfmodel_optimization_evaluation_status {
+    RFMODEL_OPT_FINITE = 0,
+    RFMODEL_OPT_NONFINITE = 1,
+    RFMODEL_OPT_EXCEPTION = 2
+};
+
+typedef struct rfmodel_optimization_parameter {
+    double lower, upper, initial;
+    int kind;
+} rfmodel_optimization_parameter;
+
+typedef struct rfmodel_optimization_options {
+    size_t max_evaluations, max_iterations;
+    double initial_step, minimum_step, contraction, target;
+    int has_target;     /* 0/1; target must be zero when has_target=0. */
+    int reject_invalid; /* 0 stops on invalid objective, 1 rejects and continues. */
+    int record_history; /* 0/1 */
+} rfmodel_optimization_options;
+
+typedef struct rfmodel_optimization_summary {
+    size_t parameter_count, history_count, evaluations, rejected_evaluations, iterations;
+    size_t last_failure_count, last_error_bytes; /* error length excluding NUL */
+    int has_finite_point, stop;
+    double value, final_step;
+} rfmodel_optimization_summary;
+
+typedef struct rfmodel_optimization_evaluation {
+    double value;
+    size_t iteration;
+    int status;
+    size_t error_bytes; /* excluding NUL */
+} rfmodel_optimization_evaluation;
+
+/* Synchronous cdecl callbacks on the calling thread. Parameters are read-only
+   and valid during the call. Objective: return 0 and write value, or nonzero
+   with an optional error message (capacity is 513 bytes including NUL).
+   Cancellation: 0=continue, positive=cancel, negative=callback failure.
+   Callbacks may call other RFModel functions, but must not throw across the ABI. */
+typedef int (*rfmodel_optimization_objective)(const double *parameters,
+                                              size_t count,
+                                              void *user_data,
+                                              double *value,
+                                              char *error,
+                                              size_t error_capacity);
+typedef int (*rfmodel_optimization_cancel)(void *user_data);
+/* out must point to NULL and remain unmodified by callbacks. Inputs are copied.
+   NULL options selects native defaults. NULL cancelled means no cancellation.
+   Successful API execution returns an immutable result even for optimization
+   failure/budget/cancellation stops. API failure leaves out unchanged.
+   Querying results never invokes callbacks again. No prior ABI layouts change. */
+RFMODEL_API int rfmodel_optimize_bounded(const rfmodel_optimization_parameter *parameters,
+                                         size_t count,
+                                         const rfmodel_optimization_options *options,
+                                         rfmodel_optimization_objective objective,
+                                         rfmodel_optimization_cancel cancelled,
+                                         void *user_data,
+                                         rfmodel_optimization_result **out);
+RFMODEL_API void rfmodel_optimization_destroy(rfmodel_optimization_result *result);
+RFMODEL_API int rfmodel_optimization_get_summary(const rfmodel_optimization_result *result,
+                                                 rfmodel_optimization_summary *summary);
+RFMODEL_API int rfmodel_optimization_get_parameters(const rfmodel_optimization_result *result,
+                                                    double *parameters,
+                                                    size_t capacity);
+/* Failure parameters have last_failure_count elements (zero if no failure).
+   error_capacity must hold last_error_bytes+1, even for an empty message. */
+RFMODEL_API int rfmodel_optimization_get_last_failure(const rfmodel_optimization_result *result,
+                                                      double *parameters,
+                                                      size_t capacity,
+                                                      char *error,
+                                                      size_t error_capacity);
+/* info is required. All other buffers NULL with zero capacity queries info only.
+   Otherwise parameters must hold parameter_count and error error_bytes+1.
+   All read APIs preserve outputs on errors and do not touch unused buffer tails;
+   output ranges must not overlap each other or the opaque result object. */
+RFMODEL_API int rfmodel_optimization_get_evaluation(const rfmodel_optimization_result *result,
+                                                    size_t index,
+                                                    rfmodel_optimization_evaluation *info,
+                                                    double *parameters,
+                                                    size_t capacity,
+                                                    char *error,
+                                                    size_t error_capacity);
+
 typedef struct rfmodel_network rfmodel_network;
 typedef struct rfmodel_touchstone rfmodel_touchstone;
 
