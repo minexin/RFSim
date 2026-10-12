@@ -477,3 +477,11 @@ add_test(NAME optimization_test COMMAND optimization_test)
 add_executable(rfmodel_match_design examples/optimize_lc_match.cpp)
 target_link_libraries(rfmodel_match_design PRIVATE rfmodel)
 add_test(NAME optimization_match_design COMMAND rfmodel_match_design)
+
+add_executable(monte_carlo_test tests/monte_carlo_test.cpp)
+target_link_libraries(monte_carlo_test PRIVATE rfmodel)
+add_test(NAME monte_carlo_test COMMAND monte_carlo_test)
+
+add_executable(rfmodel_tolerance_analysis examples/monte_carlo_resistor.cpp)
+target_link_libraries(rfmodel_tolerance_analysis PRIVATE rfmodel)
+add_test(NAME monte_carlo_resistor COMMAND rfmodel_tolerance_analysis)

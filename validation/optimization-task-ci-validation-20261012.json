@@ -1,0 +1,171 @@
+{
+  "commit": "b0a715826d331aedf465aa298ffb60d5d27d49b6",
+  "run_id": 38238637682,
+  "run_url": "https://github.com/minexin/RFSim/actions/runs/38238637682",
+  "status": "completed",
+  "conclusion": "success",
+  "configurations": [
+    {
+      "os": "windows-latest",
+      "configuration": "Debug",
+      "ctest": 137,
+      "consumers": 2,
+      "wheel": 410,
+      "suites": 26,
+      "task_tests": 12,
+      "wheel_report": {
+        "path": "build-reference/optimization-task-ci-evidence/verification-windows-latest-Debug/installed-python-verification/installed-python-validation.json",
+        "sha256": "fd85aef8621cd11bc76e241cfdb0bee79f07f5c6f7e99eb00e0d6a6a38ed1d22"
+      },
+      "logs": [
+        {
+          "path": "build-reference/optimization-task-ci-evidence/verification-windows-latest-Debug/build/Testing/Temporary/LastTest.log",
+          "sha256": "455aef4cb546852631551f457c8767d6fdd414aa24f2197884759e2a309c1cf4",
+          "passed": 137,
+          "total": 137
+        },
+        {
+          "path": "build-reference/optimization-task-ci-evidence/verification-windows-latest-Debug/consumer-build/Testing/Temporary/LastTest.log",
+          "sha256": "55dde2157f90d61926e5a2fc8d87a1d02c46efdf8647f7ba4cf5f2a44d8b919b",
+          "passed": 2,
+          "total": 2
+        }
+      ]
+    },
+    {
+      "os": "windows-latest",
+      "configuration": "Release",
+      "ctest": 137,
+      "consumers": 2,
+      "wheel": 410,
+      "suites": 26,
+      "task_tests": 12,
+      "wheel_report": {
+        "path": "build-reference/optimization-task-ci-evidence/verification-windows-latest-Release/installed-python-verification/installed-python-validation.json",
+        "sha256": "8002ae42e4c741de01957741e5ef828a4643c5bc7ede6443fbcc5b5ddd665c23"
+      },
+      "logs": [
+        {
+          "path": "build-reference/optimization-task-ci-evidence/verification-windows-latest-Release/build/Testing/Temporary/LastTest.log",
+          "sha256": "fbe50e98a9a37c8ea101a250e630b0cafe31e0b6939ddbed33c079092539d05e",
+          "passed": 137,
+          "total": 137
+        },
+        {
+          "path": "build-reference/optimization-task-ci-evidence/verification-windows-latest-Release/consumer-build/Testing/Temporary/LastTest.log",
+          "sha256": "5098bdb25416082ba539c849f780110fae5447ba14a389e2f4b66e5acd42d6ed",
+          "passed": 2,
+          "total": 2
+        }
+      ]
+    },
+    {
+      "os": "ubuntu-latest",
+      "configuration": "Debug",
+      "ctest": 137,
+      "consumers": 2,
+      "wheel": 410,
+      "suites": 26,
+      "task_tests": 12,
+      "wheel_report": {
+        "path": "build-reference/optimization-task-ci-evidence/verification-ubuntu-latest-Debug/installed-python-verification/installed-python-validation.json",
+        "sha256": "879125aae7c2fdf61ab32ba833a11266f4b0b1064f73234c561ecdd452c4ba2f"
+      },
+      "logs": [
+        {
+          "path": "build-reference/optimization-task-ci-evidence/verification-ubuntu-latest-Debug/build/Testing/Temporary/LastTest.log",
+          "sha256": "df09e9d31d2a797339ba71c5980a3c7307725fbf8a81dcb13cddee784b186b2e",
+          "passed": 137,
+          "total": 137
+        },
+        {
+          "path": "build-reference/optimization-task-ci-evidence/verification-ubuntu-latest-Debug/consumer-build/Testing/Temporary/LastTest.log",
+          "sha256": "ea37d55264bb5215cb2701e59982d0f7cadb154d7e7fd5d4831c9b97e3901921",
+          "passed": 2,
+          "total": 2
+        }
+      ]
+    },
+    {
+      "os": "ubuntu-latest",
+      "configuration": "Release",
+      "ctest": 137,
+      "consumers": 2,
+      "wheel": 410,
+      "suites": 26,
+      "task_tests": 12,
+      "wheel_report": {
+        "path": "build-reference/optimization-task-ci-evidence/verification-ubuntu-latest-Release/installed-python-verification/installed-python-validation.json",
+        "sha256": "6239b98f8256bd6cb69c3da0fe3ddab3144f8621b5eb6d59af3373334ebe4457"
+      },
+      "logs": [
+        {
+          "path": "build-reference/optimization-task-ci-evidence/verification-ubuntu-latest-Release/build/Testing/Temporary/LastTest.log",
+          "sha256": "3972a2906fd90863ed638c22973bc0f4d0fca03fb5a0f84b3cc65735441d7192",
+          "passed": 137,
+          "total": 137
+        },
+        {
+          "path": "build-reference/optimization-task-ci-evidence/verification-ubuntu-latest-Release/consumer-build/Testing/Temporary/LastTest.log",
+          "sha256": "c18e035d8d844d65ff37d256f1fe92ebc0b64728a7a6694491191499cb3b06e3",
+          "passed": 2,
+          "total": 2
+        }
+      ]
+    },
+    {
+      "os": "macos-latest",
+      "configuration": "Debug",
+      "ctest": 137,
+      "consumers": 2,
+      "wheel": 410,
+      "suites": 26,
+      "task_tests": 12,
+      "wheel_report": {
+        "path": "build-reference/optimization-task-ci-evidence/verification-macos-latest-Debug/installed-python-verification/installed-python-validation.json",
+        "sha256": "cde124a38428f2390540721084f76e6af981d6da256029da4141ea89c613d67b"
+      },
+      "logs": [
+        {
+          "path": "build-reference/optimization-task-ci-evidence/verification-macos-latest-Debug/build/Testing/Temporary/LastTest.log",
+          "sha256": "f2d5f529c7832be5fcbcd7fe51c10f850879dd21db5259688c1c36249d624c81",
+          "passed": 137,
+          "total": 137
+        },
+        {
+          "path": "build-reference/optimization-task-ci-evidence/verification-macos-latest-Debug/consumer-build/Testing/Temporary/LastTest.log",
+          "sha256": "b7a43395598c4b3b52d4b2ae61a21ed5f9b9b430d712c59f60d2993dc9c7d631",
+          "passed": 2,
+          "total": 2
+        }
+      ]
+    },
+    {
+      "os": "macos-latest",
+      "configuration": "Release",
+      "ctest": 137,
+      "consumers": 2,
+      "wheel": 410,
+      "suites": 26,
+      "task_tests": 12,
+      "wheel_report": {
+        "path": "build-reference/optimization-task-ci-evidence/verification-macos-latest-Release/installed-python-verification/installed-python-validation.json",
+        "sha256": "4607f38d604e471fdbf53c1e7741cdb1ac46266e45d2903878504fa55e0b61fe"
+      },
+      "logs": [
+        {
+          "path": "build-reference/optimization-task-ci-evidence/verification-macos-latest-Release/build/Testing/Temporary/LastTest.log",
+          "sha256": "4e14ad5d3ef36f7834e13efc9c81c76537f1f907b94e6226ea5de87d5393854e",
+          "passed": 137,
+          "total": 137
+        },
+        {
+          "path": "build-reference/optimization-task-ci-evidence/verification-macos-latest-Release/consumer-build/Testing/Temporary/LastTest.log",
+          "sha256": "855afdeb2a0965f586febd79992a0f60d9917c13ed7ab50d962a55cba46fec0f",
+          "passed": 2,
+          "total": 2
+        }
+      ]
+    }
+  ]
+}

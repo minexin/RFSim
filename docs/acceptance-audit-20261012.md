@@ -105,3 +105,9 @@ LC 匹配与共享 LO 相干镜像抑制任务分别用独立阻抗和三角函�
 ## A10 后续证据：首次恢复推送后的六配置 CI
 
 用户已恢复阶段推送授权，13 个既有本地提交已推送至 `0dc3bc4`。[该提交的远程验收](../validation/optimization-api-ci-validation-20261012.json)核验 GitHub Actions 六组 Windows/Ubuntu/macOS Debug/Release 的成功状态及下载产物：每组 136/136 CTest、2/2 安装消费者、398/398 wheel 测试，零跳过。它补齐该提交的干净检出和 macOS 执行证据；之后的新提交须各自验收。正式版本发布与完整厂商能力验收仍不能据此宣布完成。
+
+## A09 后续推进：原生 Monte Carlo 容差分析
+
+新增 C++17 六种独立分布、明确的 64 位随机流映射、尝试/求值/有效/失败计数、停止或拒绝策略、同步取消及可重放轨迹。统计使用中心化和缩放的两遍计算，覆盖极大值、相邻 ULP、单样本和全失败情况，区分全部尝试与有效样本中的合格比例。电阻容差网络逐样本核对闭式 S 参数，并检查解析均值、概率与分位数。公开契约见 [Monte Carlo 说明](monte-carlo.md)。
+
+Monte Carlo C ABI/Python/声明式任务、相关输入与厂商对照仍未完成；A09 整项保持开放。Windows/Linux Debug/Release 四组均通过 139/139 核心测试和 2/2 安装消费端测试，完整轨迹重放及独立 Python 统计核对通过；证据和源文件指纹见 [本阶段机读报告](../validation/monte-carlo-native-validation-20261012.json)。本地未单独重建 wheel，远程三平台验收随阶段推送执行。

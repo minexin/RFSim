@@ -1,6 +1,6 @@
 # 有界参数优化：C++、C ABI 与 Python 契约
 
-A09 的第一项原生实现提供 `include/rfmodel/optimization.hpp` 中的 `minimize_bounded(parameters, objective, options, cancelled)`。目标是最小化调用者给定的一个有限实标量；可用它调用 RFModel 网络、噪声或器件原语并组合设计误差。现已提供 C ABI 和 Python 同步回调入口；现已增加参数绑定和通用 JSON 优化任务；Monte Carlo 与 SystemVue 优化器对照尚未完成。
+A09 的第一项原生实现提供 `include/rfmodel/optimization.hpp` 中的 `minimize_bounded(parameters, objective, options, cancelled)`。目标是最小化调用者给定的一个有限实标量；可用它调用 RFModel 网络、噪声或器件原语并组合设计误差。现已提供 C ABI 和 Python 同步回调入口；现已增加参数绑定和通用 JSON 优化任务；另已提供[原生 Monte Carlo](monte-carlo.md)，其 C/Python/任务接入与 SystemVue 对照尚未完成。
 
 ## 参数及约束
 
@@ -185,3 +185,5 @@ LC 任务与前述两元件解析解一致。镜像抑制任务在共享 LO 时�
 四组安装包均通过 CLI 执行并重放两个完整任务，同配置输出逐字节一致。[LC 完整结果](../validation/optimization-task-lc-match-example-20261012.json)保存 174 次评估，达到 |S11|²≈6.9625e-15；[镜像抑制完整结果](../validation/optimization-task-image-rejection-example-20261012.json)保存 66 次评估，φ≈1.570796466 rad，镜像功率≈4.8404e-15 W，目标边带功率≈1 W。每一评估点都对照独立电路公式；两类任务的最大目标值绝对差均小于 1e-12。
 
 此前跨语言阶段提交 `0dc3bc4` 已按恢复的阶段推送授权发布到 GitHub，并通过 Windows/Ubuntu/macOS Debug/Release 六组干净检出 CI：各 136/136 核心测试、2/2 安装消费者和 398/398 wheel 回归。[CI 机读记录](../validation/optimization-api-ci-validation-20261012.json)精确对应该提交，不能替代随后新增 JSON 任务的远程验证；任务层报告生成时尚待提交推送。历史报告的未推送标记保持其记录时刻的含义。
+
+此前声明式优化任务提交 `b0a7158` 已通过 Windows/Ubuntu/macOS Debug/Release 六组干净检出 CI，每组为 137/137 核心测试、2/2 安装消费端及 410/410 wheel 回归。[该提交的 CI 机读记录](../validation/optimization-task-ci-validation-20261012.json)现已归档，补充任务层验证的发布状态，不覆盖后续 Monte Carlo 实现。

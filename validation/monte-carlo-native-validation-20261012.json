@@ -1,0 +1,716 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-12",
+  "stage": "A09 native Monte Carlo tolerance analysis and stable statistics",
+  "base_commit": "b0a715826d331aedf465aa298ffb60d5d27d49b6",
+  "implementation": [
+    "Six independent distributions with explicit MT19937-64 random word mapping and seed",
+    "Attempt budget, failure stop/reject, cancellation and optional replayable history",
+    "Distinct sampling/evaluation/valid/rejected counters and two explicitly defined pass fractions",
+    "Centered and scaled two-pass statistics, optional unrepresentable statistics and type-7 quantiles",
+    "Complete RF resistor tolerance example with analytic per-sample, population and pass references"
+  ],
+  "independent_checks": [
+    "Standard MT19937-64 10000th output golden constant through public uniform sampling",
+    "Six distribution analytic moments with 50000 samples and discrete uniform histogram",
+    "Known exact quantiles/sample variance, large offset adjacent ULP variance and extreme finite values",
+    "Same-environment byte replay, recording-independent streams and frozen request copies",
+    "Failure, nonfinite output, incorrect dimensions, fatal exceptions, cancellation and invalid requests",
+    "Every RF trace point checked against resistor circuit closed form and Python statistics",
+    "Declared six-standard-error mean/pass tolerances and DKW quantile probability envelope"
+  ],
+  "configurations": [
+    {
+      "platform": "Windows",
+      "configuration": "Debug",
+      "build": "all targets; new native header and tests; Linux fresh native build directory",
+      "ctest": {
+        "passed": 139,
+        "total": 139,
+        "seconds": 85.77,
+        "log": {
+          "path": "build-reference/monte-carlo-native-ctest-Debug.log",
+          "sha256": "2098d88dcf707323a12288aa91cc1f3d7dac62e37ce3434ecb913f1baccecc6f"
+        }
+      },
+      "installed_consumers": {
+        "passed": 2,
+        "total": 2,
+        "seconds": 0.24,
+        "log": {
+          "path": "build-reference/monte-carlo-native-consumer-ctest-Debug.log",
+          "sha256": "10f09cb1987125875f97440d0621e7cd191f89c3175ec081327c01c6ab0fcd59"
+        }
+      },
+      "example": {
+        "format": "rfmodel.monte-carlo-example",
+        "version": 1,
+        "algorithm": "mt19937_64-box-muller52-v1",
+        "frequency_hz": 1000000000,
+        "reference_ohms": 50,
+        "parameter_order": [
+          "R1_ohms",
+          "R2_ohms"
+        ],
+        "distributions": [
+          {
+            "kind": "uniform",
+            "lower": 45,
+            "upper": 55
+          },
+          {
+            "kind": "fixed",
+            "value": 50
+          }
+        ],
+        "metric_order": [
+          "transmitted_power_fraction",
+          "reflected_power_fraction"
+        ],
+        "criteria": [
+          {
+            "lower": 0.25
+          },
+          {
+            "upper": 0.25
+          }
+        ],
+        "quantile_levels": [
+          0.05,
+          0.5,
+          0.95
+        ],
+        "invalid_sample": "stop",
+        "record_history": true,
+        "seed": 20261012,
+        "requested_samples": 4096,
+        "samples_attempted": 4096,
+        "evaluations": 4096,
+        "accepted_samples": 4096,
+        "rejected_samples": 0,
+        "random_words": 4096,
+        "stop": "completed",
+        "passed_samples": 2060,
+        "passed_fraction": 0.5029296875,
+        "valid_pass_fraction": 0.5029296875,
+        "analytic_population_means": [
+          0.2501563477173233,
+          0.24994793622409495
+        ],
+        "analytic_gain_population_variance": 5.2181111780902345e-05,
+        "analytic_pass_probability": 0.5,
+        "checks": {
+          "sample_circuit_abs_tolerance": 1e-12,
+          "mean_and_pass_SE_multiplier": 6,
+          "quantile_DKW_alpha": 1e-06,
+          "quantile_probability_slack": 0.000244140625
+        },
+        "statistics": [
+          {
+            "count": 4096,
+            "mean": 0.250199625523448,
+            "minimum": 0.23796361443830807,
+            "maximum": 0.26298376463803647,
+            "sample_variance": 5.192401808383162e-05,
+            "sample_standard_deviation": 0.007205832227011091,
+            "standard_error": 0.0001125911285470483,
+            "quantiles": [
+              0.2391250984869912,
+              0.2500681589586079,
+              0.2615314796791859
+            ]
+          },
+          {
+            "count": 4096,
+            "mean": 0.24990415201093877,
+            "minimum": 0.23734491077565165,
+            "maximum": 0.26233332700703293,
+            "sample_variance": 5.183950991657582e-05,
+            "sample_standard_deviation": 0.00719996596634844,
+            "standard_error": 0.00011249946822419437,
+            "quantiles": [
+              0.23872850809212023,
+              0.24993185033602622,
+              0.26111671716347035
+            ]
+          }
+        ],
+        "report": {
+          "path": "build-reference/monte-carlo-native-example-Windows-Debug.json",
+          "sha256": "1e5f2a5bba33bb06364a35423f9ddb7e76e059106fc249df3127dea14ee45091"
+        },
+        "replay": {
+          "path": "build-reference/monte-carlo-native-replay-Windows-Debug.json",
+          "sha256": "1e5f2a5bba33bb06364a35423f9ddb7e76e059106fc249df3127dea14ee45091"
+        },
+        "replay_identical": true,
+        "max_independent_trace_error": 2.7755575615628914e-16,
+        "gain_mean_standard_errors": 0.38343216962804905,
+        "pass_fraction_standard_errors": 0.375,
+        "independent_statistics": "Python statistics mean/variance/stdev and explicit sorted quantiles"
+      },
+      "logs": [
+        {
+          "path": "build-reference/monte-carlo-native-build-Debug.log",
+          "sha256": "9d82040965e9053b268d76e4e1855e90b83b66b9732f89f94b4f57784d240c12"
+        },
+        {
+          "path": "build-reference/monte-carlo-native-install-Debug.log",
+          "sha256": "d4a699bd87045dc6098ef69f7e782e1e7f3341ab244b91a2db43045be423eeb8"
+        },
+        {
+          "path": "build-reference/monte-carlo-native-consumer-configure-Debug.log",
+          "sha256": "c357751ccac74cc6033a26990f77240cb190744f846848800e6912d0c104bb2a"
+        },
+        {
+          "path": "build-reference/monte-carlo-native-consumer-build-Debug.log",
+          "sha256": "4ef9064ef60f560f31838f446be0e642aec66468a74f4cbf6498cf92e2d54eac"
+        }
+      ]
+    },
+    {
+      "platform": "Windows",
+      "configuration": "Release",
+      "build": "all targets; new native header and tests; Linux fresh native build directory",
+      "ctest": {
+        "passed": 139,
+        "total": 139,
+        "seconds": 68.53,
+        "log": {
+          "path": "build-reference/monte-carlo-native-ctest-Release.log",
+          "sha256": "dd1467989b9a93b62ce67937057b7610d0ece8acc15de8c02d601bfc58083e69"
+        }
+      },
+      "installed_consumers": {
+        "passed": 2,
+        "total": 2,
+        "seconds": 0.17,
+        "log": {
+          "path": "build-reference/monte-carlo-native-consumer-ctest-Release.log",
+          "sha256": "6d6804ba975b505a27e448c9b621e98382bcf27e87d10e401510d1e973310983"
+        }
+      },
+      "example": {
+        "format": "rfmodel.monte-carlo-example",
+        "version": 1,
+        "algorithm": "mt19937_64-box-muller52-v1",
+        "frequency_hz": 1000000000,
+        "reference_ohms": 50,
+        "parameter_order": [
+          "R1_ohms",
+          "R2_ohms"
+        ],
+        "distributions": [
+          {
+            "kind": "uniform",
+            "lower": 45,
+            "upper": 55
+          },
+          {
+            "kind": "fixed",
+            "value": 50
+          }
+        ],
+        "metric_order": [
+          "transmitted_power_fraction",
+          "reflected_power_fraction"
+        ],
+        "criteria": [
+          {
+            "lower": 0.25
+          },
+          {
+            "upper": 0.25
+          }
+        ],
+        "quantile_levels": [
+          0.05,
+          0.5,
+          0.95
+        ],
+        "invalid_sample": "stop",
+        "record_history": true,
+        "seed": 20261012,
+        "requested_samples": 4096,
+        "samples_attempted": 4096,
+        "evaluations": 4096,
+        "accepted_samples": 4096,
+        "rejected_samples": 0,
+        "random_words": 4096,
+        "stop": "completed",
+        "passed_samples": 2060,
+        "passed_fraction": 0.5029296875,
+        "valid_pass_fraction": 0.5029296875,
+        "analytic_population_means": [
+          0.2501563477173233,
+          0.24994793622409495
+        ],
+        "analytic_gain_population_variance": 5.2181111780902345e-05,
+        "analytic_pass_probability": 0.5,
+        "checks": {
+          "sample_circuit_abs_tolerance": 1e-12,
+          "mean_and_pass_SE_multiplier": 6,
+          "quantile_DKW_alpha": 1e-06,
+          "quantile_probability_slack": 0.000244140625
+        },
+        "statistics": [
+          {
+            "count": 4096,
+            "mean": 0.250199625523448,
+            "minimum": 0.23796361443830807,
+            "maximum": 0.26298376463803647,
+            "sample_variance": 5.192401808383162e-05,
+            "sample_standard_deviation": 0.007205832227011091,
+            "standard_error": 0.0001125911285470483,
+            "quantiles": [
+              0.2391250984869912,
+              0.2500681589586079,
+              0.2615314796791859
+            ]
+          },
+          {
+            "count": 4096,
+            "mean": 0.24990415201093877,
+            "minimum": 0.23734491077565165,
+            "maximum": 0.26233332700703293,
+            "sample_variance": 5.183950991657582e-05,
+            "sample_standard_deviation": 0.00719996596634844,
+            "standard_error": 0.00011249946822419437,
+            "quantiles": [
+              0.23872850809212023,
+              0.24993185033602622,
+              0.26111671716347035
+            ]
+          }
+        ],
+        "report": {
+          "path": "build-reference/monte-carlo-native-example-Windows-Release.json",
+          "sha256": "1e5f2a5bba33bb06364a35423f9ddb7e76e059106fc249df3127dea14ee45091"
+        },
+        "replay": {
+          "path": "build-reference/monte-carlo-native-replay-Windows-Release.json",
+          "sha256": "1e5f2a5bba33bb06364a35423f9ddb7e76e059106fc249df3127dea14ee45091"
+        },
+        "replay_identical": true,
+        "max_independent_trace_error": 2.7755575615628914e-16,
+        "gain_mean_standard_errors": 0.38343216962804905,
+        "pass_fraction_standard_errors": 0.375,
+        "independent_statistics": "Python statistics mean/variance/stdev and explicit sorted quantiles"
+      },
+      "logs": [
+        {
+          "path": "build-reference/monte-carlo-native-build-Release.log",
+          "sha256": "c72f3c0b792a5be486b062b8e77da28ad0522d037e17f6a0eb90c58ed3a4ec2f"
+        },
+        {
+          "path": "build-reference/monte-carlo-native-install-Release.log",
+          "sha256": "50c74c5b12af444ab100ec0e8d6fe3fb6c1a43caaa4002e78819ce532196691c"
+        },
+        {
+          "path": "build-reference/monte-carlo-native-consumer-configure-Release.log",
+          "sha256": "54eae7d2461b9417a537a42bc62e149d0905e151aa1ea80d0d26fd62a6bc9fb8"
+        },
+        {
+          "path": "build-reference/monte-carlo-native-consumer-build-Release.log",
+          "sha256": "060facdddf6f5f28e72f2103c4d6f9fc8f4f1b20a69a031032195b9fadcdc446"
+        }
+      ]
+    },
+    {
+      "platform": "Linux",
+      "configuration": "Debug",
+      "build": "all targets; new native header and tests; Linux fresh native build directory",
+      "ctest": {
+        "passed": 139,
+        "total": 139,
+        "seconds": 60.7,
+        "log": {
+          "path": "build-reference/monte-carlo-native-linux-ctest-Debug.log",
+          "sha256": "3d80dcf80b8b6069c0e57d39f1a15eca46ae6bd95ac3c21b815833cefb334b44"
+        }
+      },
+      "installed_consumers": {
+        "passed": 2,
+        "total": 2,
+        "seconds": 0.06,
+        "log": {
+          "path": "build-reference/monte-carlo-native-linux-consumer-ctest-Debug.log",
+          "sha256": "bca81a1d4df9d681b9ce1407a1763ca4c6aec5c08e86be4b639cd176616f81c4"
+        }
+      },
+      "example": {
+        "format": "rfmodel.monte-carlo-example",
+        "version": 1,
+        "algorithm": "mt19937_64-box-muller52-v1",
+        "frequency_hz": 1000000000,
+        "reference_ohms": 50,
+        "parameter_order": [
+          "R1_ohms",
+          "R2_ohms"
+        ],
+        "distributions": [
+          {
+            "kind": "uniform",
+            "lower": 45,
+            "upper": 55
+          },
+          {
+            "kind": "fixed",
+            "value": 50
+          }
+        ],
+        "metric_order": [
+          "transmitted_power_fraction",
+          "reflected_power_fraction"
+        ],
+        "criteria": [
+          {
+            "lower": 0.25
+          },
+          {
+            "upper": 0.25
+          }
+        ],
+        "quantile_levels": [
+          0.05,
+          0.5,
+          0.95
+        ],
+        "invalid_sample": "stop",
+        "record_history": true,
+        "seed": 20261012,
+        "requested_samples": 4096,
+        "samples_attempted": 4096,
+        "evaluations": 4096,
+        "accepted_samples": 4096,
+        "rejected_samples": 0,
+        "random_words": 4096,
+        "stop": "completed",
+        "passed_samples": 2060,
+        "passed_fraction": 0.5029296875,
+        "valid_pass_fraction": 0.5029296875,
+        "analytic_population_means": [
+          0.2501563477173233,
+          0.24994793622409495
+        ],
+        "analytic_gain_population_variance": 5.2181111780902345e-05,
+        "analytic_pass_probability": 0.5,
+        "checks": {
+          "sample_circuit_abs_tolerance": 1e-12,
+          "mean_and_pass_SE_multiplier": 6,
+          "quantile_DKW_alpha": 1e-06,
+          "quantile_probability_slack": 0.000244140625
+        },
+        "statistics": [
+          {
+            "count": 4096,
+            "mean": 0.250199625523448,
+            "minimum": 0.23796361443830807,
+            "maximum": 0.26298376463803647,
+            "sample_variance": 5.192401808383162e-05,
+            "sample_standard_deviation": 0.007205832227011091,
+            "standard_error": 0.0001125911285470483,
+            "quantiles": [
+              0.2391250984869912,
+              0.2500681589586079,
+              0.2615314796791859
+            ]
+          },
+          {
+            "count": 4096,
+            "mean": 0.24990415201093877,
+            "minimum": 0.23734491077565165,
+            "maximum": 0.26233332700703293,
+            "sample_variance": 5.183950991657582e-05,
+            "sample_standard_deviation": 0.00719996596634844,
+            "standard_error": 0.00011249946822419437,
+            "quantiles": [
+              0.23872850809212023,
+              0.24993185033602622,
+              0.26111671716347035
+            ]
+          }
+        ],
+        "report": {
+          "path": "build-reference/monte-carlo-native-example-Linux-Debug.json",
+          "sha256": "31464ee94687ba300ffd8ac16eae1f5e8bec57b6fe4d1d86ab627713b53c1835"
+        },
+        "replay": {
+          "path": "build-reference/monte-carlo-native-replay-Linux-Debug.json",
+          "sha256": "31464ee94687ba300ffd8ac16eae1f5e8bec57b6fe4d1d86ab627713b53c1835"
+        },
+        "replay_identical": true,
+        "max_independent_trace_error": 2.7755575615628914e-16,
+        "gain_mean_standard_errors": 0.38343216962804905,
+        "pass_fraction_standard_errors": 0.375,
+        "independent_statistics": "Python statistics mean/variance/stdev and explicit sorted quantiles"
+      },
+      "logs": [
+        {
+          "path": "build-reference/monte-carlo-native-linux-build-Debug.log",
+          "sha256": "0aa0b92f7d4ca736ffe7fc0df1e52a289ee127033c2fd52fea6c17ea021f43b6"
+        },
+        {
+          "path": "build-reference/monte-carlo-native-linux-install-Debug.log",
+          "sha256": "ae23499c36b53af0a8dc1560e2d1ec48c6376ebea162e1261f1b09f4841b3673"
+        },
+        {
+          "path": "build-reference/monte-carlo-native-linux-consumer-configure-Debug.log",
+          "sha256": "db020dc1d24e180098413195f4b2b029dcfd4cc9cefdff2197ebc643592f5671"
+        },
+        {
+          "path": "build-reference/monte-carlo-native-linux-consumer-build-Debug.log",
+          "sha256": "753cc2365a9aa59499bedec5a3eb62bd5f8cfd15ea7bded6753dbadf0c9f85e7"
+        }
+      ]
+    },
+    {
+      "platform": "Linux",
+      "configuration": "Release",
+      "build": "all targets; new native header and tests; Linux fresh native build directory",
+      "ctest": {
+        "passed": 139,
+        "total": 139,
+        "seconds": 30.33,
+        "log": {
+          "path": "build-reference/monte-carlo-native-linux-ctest-Release.log",
+          "sha256": "6dc750eb3275170c6a6b73171e39d777c51b6364b81b3bf5989d23d18829770d"
+        }
+      },
+      "installed_consumers": {
+        "passed": 2,
+        "total": 2,
+        "seconds": 0.03,
+        "log": {
+          "path": "build-reference/monte-carlo-native-linux-consumer-ctest-Release.log",
+          "sha256": "ff455ba20adf953455e0719798b4925f73886638262fd6a751949d3d5a16f40f"
+        }
+      },
+      "example": {
+        "format": "rfmodel.monte-carlo-example",
+        "version": 1,
+        "algorithm": "mt19937_64-box-muller52-v1",
+        "frequency_hz": 1000000000,
+        "reference_ohms": 50,
+        "parameter_order": [
+          "R1_ohms",
+          "R2_ohms"
+        ],
+        "distributions": [
+          {
+            "kind": "uniform",
+            "lower": 45,
+            "upper": 55
+          },
+          {
+            "kind": "fixed",
+            "value": 50
+          }
+        ],
+        "metric_order": [
+          "transmitted_power_fraction",
+          "reflected_power_fraction"
+        ],
+        "criteria": [
+          {
+            "lower": 0.25
+          },
+          {
+            "upper": 0.25
+          }
+        ],
+        "quantile_levels": [
+          0.05,
+          0.5,
+          0.95
+        ],
+        "invalid_sample": "stop",
+        "record_history": true,
+        "seed": 20261012,
+        "requested_samples": 4096,
+        "samples_attempted": 4096,
+        "evaluations": 4096,
+        "accepted_samples": 4096,
+        "rejected_samples": 0,
+        "random_words": 4096,
+        "stop": "completed",
+        "passed_samples": 2060,
+        "passed_fraction": 0.5029296875,
+        "valid_pass_fraction": 0.5029296875,
+        "analytic_population_means": [
+          0.2501563477173233,
+          0.24994793622409495
+        ],
+        "analytic_gain_population_variance": 5.2181111780902345e-05,
+        "analytic_pass_probability": 0.5,
+        "checks": {
+          "sample_circuit_abs_tolerance": 1e-12,
+          "mean_and_pass_SE_multiplier": 6,
+          "quantile_DKW_alpha": 1e-06,
+          "quantile_probability_slack": 0.000244140625
+        },
+        "statistics": [
+          {
+            "count": 4096,
+            "mean": 0.250199625523448,
+            "minimum": 0.23796361443830807,
+            "maximum": 0.26298376463803647,
+            "sample_variance": 5.192401808383162e-05,
+            "sample_standard_deviation": 0.007205832227011091,
+            "standard_error": 0.0001125911285470483,
+            "quantiles": [
+              0.2391250984869912,
+              0.2500681589586079,
+              0.2615314796791859
+            ]
+          },
+          {
+            "count": 4096,
+            "mean": 0.24990415201093877,
+            "minimum": 0.23734491077565165,
+            "maximum": 0.26233332700703293,
+            "sample_variance": 5.183950991657582e-05,
+            "sample_standard_deviation": 0.00719996596634844,
+            "standard_error": 0.00011249946822419437,
+            "quantiles": [
+              0.23872850809212023,
+              0.24993185033602622,
+              0.26111671716347035
+            ]
+          }
+        ],
+        "report": {
+          "path": "build-reference/monte-carlo-native-example-Linux-Release.json",
+          "sha256": "31464ee94687ba300ffd8ac16eae1f5e8bec57b6fe4d1d86ab627713b53c1835"
+        },
+        "replay": {
+          "path": "build-reference/monte-carlo-native-replay-Linux-Release.json",
+          "sha256": "31464ee94687ba300ffd8ac16eae1f5e8bec57b6fe4d1d86ab627713b53c1835"
+        },
+        "replay_identical": true,
+        "max_independent_trace_error": 2.7755575615628914e-16,
+        "gain_mean_standard_errors": 0.38343216962804905,
+        "pass_fraction_standard_errors": 0.375,
+        "independent_statistics": "Python statistics mean/variance/stdev and explicit sorted quantiles"
+      },
+      "logs": [
+        {
+          "path": "build-reference/monte-carlo-native-linux-build-Release.log",
+          "sha256": "5a9ecdb9275dce90612ef6de3c7ea5a750d72b1321404c4e2b77889e7d8c3dbd"
+        },
+        {
+          "path": "build-reference/monte-carlo-native-linux-install-Release.log",
+          "sha256": "e8d533145403e181614ce299ad2ea26e2059902680ff42e8c9b6dd2b03e50db2"
+        },
+        {
+          "path": "build-reference/monte-carlo-native-linux-consumer-configure-Release.log",
+          "sha256": "3559ed38a34a4dca10ba7acb93844d0c4755624b5e6e050cfcb5ba8fa7df8fb2"
+        },
+        {
+          "path": "build-reference/monte-carlo-native-linux-consumer-build-Release.log",
+          "sha256": "753cc2365a9aa59499bedec5a3eb62bd5f8cfd15ea7bded6753dbadf0c9f85e7"
+        }
+      ]
+    }
+  ],
+  "committed_example_trace": {
+    "path": "validation/monte-carlo-resistor-example-20261012.json",
+    "sha256": "1e5f2a5bba33bb06364a35423f9ddb7e76e059106fc249df3127dea14ee45091"
+  },
+  "format": {
+    "files": 162,
+    "passed": true,
+    "example_checked_separately": true,
+    "log": {
+      "path": "build-reference/monte-carlo-native-format.log",
+      "sha256": "65b5e6daedac01f9b6a189343f189b4dd3ca2d74c1d62268d4a7a32d2954d87b"
+    }
+  },
+  "source_files": [
+    {
+      "path": "include/rfmodel/monte_carlo.hpp",
+      "sha256": "3bf0ef6f35d9b157d6f5e6356249be0e41e8f2f0d78ed7dc315a011a7ed9b89b"
+    },
+    {
+      "path": "tests/monte_carlo_test.cpp",
+      "sha256": "261c3b99ac4db7235966aa061c9b859823c1b6e49c56847d0b482790a5e28d62"
+    },
+    {
+      "path": "examples/monte_carlo_resistor.cpp",
+      "sha256": "51608b0fb7dc041af80f789bbfe709dc543e4ba1b9ef3d6a90ce12a6f2250aed"
+    },
+    {
+      "path": "tests/consumer/main.cpp",
+      "sha256": "84e611a3fc4fd719bb585c6b47f75194d44e7ec2a4f865f0f1d8623fc7983916"
+    },
+    {
+      "path": "CMakeLists.txt",
+      "sha256": "51a49712001703e5895d9997470c182fcebebbe6702d563ddea460764008eb5a"
+    }
+  ],
+  "prior_uncommitted_files": [
+    {
+      "path": "scripts/reference/archive-cascade-reference.py",
+      "sha256": "a482db6bd6ae64c050d74e6df321749ec84a7098fb7aa49733079183149806dc",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/reference/capture-cascade-reference.ps1",
+      "sha256": "fb42165db2ad10c6213a415c2080e1eeb6e5ec0bcd1dc119bb1d1707c5283f3e",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/reference/compare-cascade-amplifier.py",
+      "sha256": "af1260adb093946954d0fb7e4bb2059669706a291418aac19ba193fed7554d9d",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/reference/run-systemvue-reference.py",
+      "sha256": "5df486d061ce09c28b396bf62e7fcba473dc6e9086d52861fdc7be6c85864f4e",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/reference/test_compare_cascade_amplifier.py",
+      "sha256": "190ea23b0ce0733846db8052ead9bb4d5ba41ff30e007c1f06e1a1753bc3fcf1",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/reference/test_run_systemvue_reference.py",
+      "sha256": "7eeeb2f890e59b986fec7eb9af58313f129b73ffccfd924f2f273ff52c396eb5",
+      "unchanged": true
+    },
+    {
+      "path": "measurements_test.obj",
+      "sha256": "4935bda18e7d8471560016c7303f3b7136842ab2ec429975440c7d617de3d97f",
+      "unchanged": true
+    },
+    {
+      "path": "verify-measurements.cmd",
+      "sha256": "c629d73c222dad5768c3c33c88a66eea99daf012dc79885f6cd7a7f0cebf7f7f",
+      "unchanged": true
+    }
+  ],
+  "new_systemvue_analysis_calls": 0,
+  "full_A09_closed": false,
+  "publication_at_validation": {
+    "current_stage_committed": false,
+    "current_stage_pushed": false,
+    "previous_stage_pushed_commit": "b0a715826d331aedf465aa298ffb60d5d27d49b6",
+    "previous_stage_ci": {
+      "path": "validation/optimization-task-ci-validation-20261012.json",
+      "sha256": "89b8f86957531df663a38372bcf6bf7981d4002c25eda40578b5025166a15f28"
+    },
+    "current_stage_remote_ci": "pending commit and push"
+  },
+  "limitations": [
+    "Native C++ only; Monte Carlo C ABI, Python and generic task input remain open",
+    "Independent marginal inputs only; correlated inputs and covariance output not implemented",
+    "No vendor Monte Carlo or random algorithm equivalence evidence; A09 remains open",
+    "Failed attempts are not resampled; valid-only statistics may be conditionally biased",
+    "Same-environment deterministic replay; no cross-platform transcendental byte identity contract",
+    "Statistics retain O(samples*metrics) observations even with history disabled",
+    "Local Linux runs use WSL2; current-stage macOS and clean-checkout verification follow remote CI",
+    "Local full CTest includes preserved reference drafts; eight pre-existing files remain unchanged",
+    "C ABI and Python unchanged; no separate local wheel rebuild, existing binding tests included in full CTest"
+  ]
+}

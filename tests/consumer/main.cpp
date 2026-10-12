@@ -1,3 +1,4 @@
+#include "rfmodel/monte_carlo.hpp"
 #include "rfmodel/optimization.hpp"
 #include "rfmodel/conversion_frequency_plan.hpp"
 #include "rfmodel/am_pm_linearization.hpp"
@@ -46,6 +47,21 @@
 #include <rfmodel/term_propagation.hpp>
 
 int main() {
+    {
+        rfmodel::MonteCarloOptions options;
+        options.samples = 2;
+        const auto result = rfmodel::run_monte_carlo(
+            {{rfmodel::MonteCarloDistribution::Fixed, 3., 0.}},
+            1,
+            [](const auto &x) {
+                return x;
+            },
+            options);
+        if (result.accepted_samples != 2 || result.statistics[0].mean != 3. ||
+            result.statistics[0].sample_variance != 0. || result.random_words != 0) {
+            return 114;
+        }
+    }
     {
         rfmodel::OptimizationOptions options;
         options.target = 0.;
