@@ -543,7 +543,184 @@ static int test_highorder_conversion_abi(void) {
     return 0;
 }
 
+static int test_am_pm_abi(void) {
+    const size_t ports[2] = {0, 1};
+    const int bins[2] = {1, 1};
+    size_t selected[2] = {1, 1};
+    const rfmodel_complex zero[4] = {{0}}, source[2] = {{.01, 0.}, {0}};
+    rfmodel_complex base_a[4] = {{0}, {0}, {2., 0.}, {0}}, base_b[4] = {{0}},
+                    nominal[2] = {{0}, {.02, 0.}};
+    rfmodel_am_pm_parameters phase = {-5., 10., selected, 1};
+    rfmodel_am_pm_response response = {19., 29.}, saved_response;
+    rfmodel_am_pm_linearization_request request = {
+        2, 1e6, 50., ports, bins, nominal, base_a, base_b, phase};
+    rfmodel_complex values[10], saved[10];
+    rfmodel_conversion_linearization_output output = {values, values + 4, values + 8, 4, 2};
+    int scenario;
+    CHECK(rfmodel_evaluate_am_pm(-5., 10., .01, &response) == RFMODEL_OK);
+    CHECK(fabs(response.radial_phase_slope * log(10.) / 20. * 180. / acos(-1.) + 5.) < 1e-12);
+    saved_response = response;
+    CHECK(rfmodel_evaluate_am_pm(-5., 10., -1., &response) != RFMODEL_OK);
+    CHECK(memcmp(&response, &saved_response, sizeof(response)) == 0);
+    CHECK(rfmodel_apply_output_am_pm(&request, &output) == RFMODEL_OK);
+    CHECK(fabs(values[9].real * values[9].real + values[9].imag * values[9].imag - .0004) < 1e-14);
+    CHECK(fabs(values[6].imag) > 0.01);
+    memcpy(saved, values, sizeof(values));
+    for (scenario = 0; scenario < 10; ++scenario) {
+        rfmodel_am_pm_linearization_request attempt = request;
+        rfmodel_conversion_linearization_output out = output;
+        switch (scenario) {
+        case 0:
+            attempt.phase.output_channels = NULL;
+            break;
+        case 1:
+            attempt.phase.output_count = (size_t)-1;
+            break;
+        case 2:
+            attempt.phase.output_count = 2;
+            break;
+        case 3:
+            selected[0] = 2;
+            break;
+        case 4:
+            out.direct = (rfmodel_complex *)selected;
+            break;
+        case 5:
+            out.conjugate = base_a;
+            break;
+        case 6:
+            out.operating_outgoing = nominal;
+            break;
+        case 7:
+            out.direct = (rfmodel_complex *)&attempt;
+            break;
+        case 8:
+            attempt.phase.peak_degrees_per_db = NAN;
+            break;
+        case 9:
+            out.wave_capacity = (size_t)-1;
+            break;
+        }
+        CHECK(rfmodel_apply_output_am_pm(&attempt, &out) != RFMODEL_OK);
+        CHECK(memcmp(saved, values, sizeof(values)) == 0);
+        CHECK(selected[1] == 1 && base_a[2].real == 2. && nominal[1].real == .02);
+        selected[0] = 1;
+    }
+    {
+        const double coefficients[2] = {0., 2.};
+        rfmodel_polynomial_amplifier_parameters polynomial = {coefficients, 2, 0, 1};
+        rfmodel_conversion_nonlinear_model model = {
+            0, RFMODEL_NONLINEAR_POLYNOMIAL_AMPLIFIER, &polynomial};
+        rfmodel_conversion_am_pm phases[2] = {{0, {-5., 10., selected, 1}},
+                                              {0, {-5., 10., selected, 1}}};
+        rfmodel_conversion_request device = {0};
+        rfmodel_conversion_operating_options options = {NULL, 0, 50, 24, 1e-9, 1e-12};
+        rfmodel_conversion_operating_diagnostics diagnostics = {0}, saved_diagnostics;
+        rfmodel_complex waves[12], saved_waves[12], loaded_values[16], saved_loaded[16];
+        const rfmodel_complex noise[4] = {{1e-9, 0.}};
+        double residual, net[2], saved_net[2], saved_residual;
+        rfmodel_conversion_output out = {waves, waves + 2, waves + 4, waves + 8, 2, 4, &residual};
+        rfmodel_conversion_loaded_output loaded = {
+            loaded_values, loaded_values + 4, loaded_values + 8, loaded_values + 12, net, 4, 2};
+        device.count = 2;
+        device.spacing_hz = 1e6;
+        device.reference_ohms = 50.;
+        device.physical_ports = ports;
+        device.bins = bins;
+        device.direct = zero;
+        device.conjugate = zero;
+        device.source = source;
+        device.source_covariance = noise;
+        CHECK(rfmodel_conversion_network_solve_nonlinear_am_pm(&device,
+                                                               1,
+                                                               NULL,
+                                                               0,
+                                                               &model,
+                                                               1,
+                                                               phases,
+                                                               1,
+                                                               &options,
+                                                               NULL,
+                                                               NULL,
+                                                               &out,
+                                                               &loaded,
+                                                               &diagnostics) == RFMODEL_OK);
+        CHECK(fabs(waves[3].real - values[9].real) < 1e-12 &&
+              fabs(waves[3].imag - values[9].imag) < 1e-12);
+        CHECK(fabs(waves[7].real / 1e-9 -
+                   (values[2].real * values[2].real + values[2].imag * values[2].imag +
+                    values[6].real * values[6].real + values[6].imag * values[6].imag)) < 1e-12);
+        memcpy(saved_waves, waves, sizeof(waves));
+        memcpy(saved_loaded, loaded_values, sizeof(loaded_values));
+        memcpy(saved_net, net, sizeof(net));
+        saved_residual = residual;
+        memcpy(&saved_diagnostics, &diagnostics, sizeof(diagnostics));
+        for (scenario = 0; scenario < 9; ++scenario) {
+            rfmodel_conversion_output attempt = out;
+            rfmodel_conversion_loaded_output attempted_loaded = loaded;
+            rfmodel_conversion_operating_diagnostics *diag = &diagnostics;
+            size_t phase_count = 1;
+            switch (scenario) {
+            case 0:
+                phases[0].device = 1;
+                break;
+            case 1:
+                phases[0].phase.output_channels = NULL;
+                break;
+            case 2:
+                phases[0].phase.output_count = 513;
+                break;
+            case 3:
+                attempt.outgoing = (rfmodel_complex *)selected;
+                break;
+            case 4:
+                diag = (rfmodel_conversion_operating_diagnostics *)phases;
+                break;
+            case 5:
+                attempted_loaded.net_noise_into_device_w_per_hz = (double *)selected;
+                break;
+            case 6:
+                phase_count = 2;
+                break;
+            case 7:
+                phases[0].phase.output_reference_dbm = NAN;
+                break;
+            case 8:
+                selected[0] = 2;
+                break;
+            }
+            CHECK(rfmodel_conversion_network_solve_nonlinear_am_pm(&device,
+                                                                   1,
+                                                                   NULL,
+                                                                   0,
+                                                                   &model,
+                                                                   1,
+                                                                   phases,
+                                                                   phase_count,
+                                                                   &options,
+                                                                   NULL,
+                                                                   NULL,
+                                                                   &attempt,
+                                                                   &attempted_loaded,
+                                                                   diag) != RFMODEL_OK);
+            CHECK(memcmp(saved_waves, waves, sizeof(waves)) == 0 &&
+                  memcmp(saved_loaded, loaded_values, sizeof(loaded_values)) == 0);
+            CHECK(memcmp(saved_net, net, sizeof(net)) == 0 && residual == saved_residual);
+            CHECK(memcmp(&saved_diagnostics, &diagnostics, sizeof(diagnostics)) == 0);
+            phases[0].device = 0;
+            phases[0].phase = phase;
+            selected[0] = 1;
+        }
+    }
+    request.phase.output_channels = NULL;
+    request.phase.output_count = 0;
+    CHECK(rfmodel_apply_output_am_pm(&request, &output) == RFMODEL_OK);
+    CHECK(values[9].real == .02 && values[9].imag == 0. && values[2].real == 2.);
+    return 0;
+}
+
 int main(int argc, char **argv) {
+    CHECK(test_am_pm_abi() == 0);
     CHECK(test_highorder_conversion_abi() == 0);
     CHECK(test_polynomial_conversion_abi() == 0);
     CHECK(test_saturating_conversion_abi() == 0);

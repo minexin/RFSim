@@ -131,6 +131,7 @@ def analyze_conversion_network(library, document, base_directory=None):
     use_affine = False
     nonlinear_mixers, nonlinear_amplifiers, nonlinear_polynomials = [], [], []
     nonlinear_highorders = []
+    nonlinear_phases = []
     for entry in entries:
         if (
             not isinstance(entry, dict)
@@ -143,9 +144,15 @@ def analyze_conversion_network(library, document, base_directory=None):
         model = entry.get("model")
         generated_offset = None
         if isinstance(model, dict) and model.get("type") == "linear":
+            if "am_pm" in entry:
+                raise ValueError("AM-PM requires a nonlinear operating-point model")
             native = linear_device(library, entry, spacing, reference, base_directory)
         else:
-            _object(entry, ("id", "channels", "model", "noise"), ("source_noise", "output_offset"))
+            _object(
+                entry,
+                ("id", "channels", "model", "noise"),
+                ("source_noise", "output_offset", "am_pm"),
+            )
             if not isinstance(entry["channels"], list) or not 1 <= len(entry["channels"]) <= 512:
                 raise ValueError("Expected conversion channel list")
             channels = []
@@ -189,6 +196,23 @@ def analyze_conversion_network(library, document, base_directory=None):
                 operating_points.append((name, len(labels), operating))
             else:
                 a, b = conversion_matrices(library, spacing, channels, model, reference)
+            if "am_pm" in entry:
+                if not isinstance(model, dict) or model.get("type") not in {
+                    "bilinear_real_mixer",
+                    "saturating_amplifier",
+                    "polynomial_amplifier",
+                    "highorder_amplifier",
+                }:
+                    raise ValueError("AM-PM requires an explicit nonlinear operating-point model")
+                from . import _am_pm_parameters
+
+                phase = entry["am_pm"]
+                if not isinstance(phase, dict) or not isinstance(
+                    phase.get("output_channels"), list
+                ):
+                    raise ValueError("AM-PM requires an object with output_channels array")
+                _am_pm_parameters(phase)
+                nonlinear_phases.append(dict(device=len(devices), **phase))
             c, p = noise_pair(entry["noise"], len(channels))
             native = {
                 "channels": channels,
@@ -329,6 +353,7 @@ def analyze_conversion_network(library, document, base_directory=None):
             amplifiers=nonlinear_amplifiers,
             polynomials=nonlinear_polynomials,
             highorders=nonlinear_highorders,
+            am_pm=nonlinear_phases,
             **operating_options(document["operating_point"], len(labels)),
         )
     result = library.conversion_network(
@@ -364,6 +389,7 @@ def analyze_conversion_network(library, document, base_directory=None):
             nonlinear_amplifiers,
             nonlinear_polynomials,
             nonlinear_highorders,
+            nonlinear_phases,
         )
         use_affine = True
     operating_reports = check_operating_points(operating_points, result)

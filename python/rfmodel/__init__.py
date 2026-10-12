@@ -1,5 +1,6 @@
 """Standard-library Python bindings for the RFModel linear-network C ABI."""
 import ctypes as ct
+import math
 from enum import IntEnum
 import operator
 from pathlib import Path
@@ -357,6 +358,65 @@ class _PolynomialAmplifierRequest(ct.Structure):
     ]
 
 
+class AmPmResponse(NamedTuple):
+    phase_rad: float
+    radial_phase_slope: float
+
+
+class _AmPmResponse(ct.Structure):
+    _fields_ = [("phase_rad", ct.c_double), ("radial_phase_slope", ct.c_double)]
+
+
+class _AmPmParameters(ct.Structure):
+    _fields_ = [
+        ("peak_degrees_per_db", ct.c_double),
+        ("output_reference_dbm", ct.c_double),
+        ("output_channels", ct.POINTER(ct.c_size_t)),
+        ("output_count", ct.c_size_t),
+    ]
+
+
+class _ConversionAmPm(ct.Structure):
+    _fields_ = [("device", ct.c_size_t), ("phase", _AmPmParameters)]
+
+
+class _AmPmRequest(ct.Structure):
+    _fields_ = [
+        ("count", ct.c_size_t),
+        ("spacing_hz", ct.c_double),
+        ("reference_ohms", ct.c_double),
+        ("physical_ports", ct.POINTER(ct.c_size_t)),
+        ("bins", ct.POINTER(ct.c_int)),
+        ("operating_outgoing", ct.POINTER(_Complex)),
+        ("direct", ct.POINTER(_Complex)),
+        ("conjugate", ct.POINTER(_Complex)),
+        ("phase", _AmPmParameters),
+    ]
+
+
+def _am_pm_parameters(spec):
+    required = {"peak_degrees_per_db", "output_reference_dbm", "output_channels"}
+    if not isinstance(spec, dict) or set(spec) != required:
+        raise ValueError(
+            "AM-PM requires peak_degrees_per_db, output_reference_dbm, output_channels"
+        )
+    if any(type(spec[k]) not in (int, float) for k in required - {"output_channels"}):
+        raise TypeError("AM-PM slope and reference must be real numbers")
+    values = spec["output_channels"]
+    if isinstance(values, (str, bytes, dict)):
+        raise ValueError("AM-PM channels must be a sequence")
+    values = tuple(values)
+    if len(values) > 512:
+        raise ValueError("Too many AM-PM output channels")
+    selected = (ct.c_size_t * len(values))(*(_index(v) for v in values))
+    return (
+        _AmPmParameters(
+            spec["peak_degrees_per_db"], spec["output_reference_dbm"], selected, len(selected)
+        ),
+        selected,
+    )
+
+
 class _HighorderAmplifierParameters(ct.Structure):
     _fields_ = [
         ("power_gain_db", ct.c_double),
@@ -521,6 +581,7 @@ def _operating_inputs(spec, total):
         "amplifiers",
         "polynomials",
         "highorders",
+        "am_pm",
         "initial_incident",
         "max_iterations",
         "max_backtracks",
@@ -573,7 +634,7 @@ def _operating_inputs(spec, total):
     ):
         raise ValueError("Too many nonlinear devices")
     models, parameters = None, []
-    if amplifier_entries or polynomial_entries or highorder_entries:
+    if amplifier_entries or polynomial_entries or highorder_entries or spec.get("am_pm"):
         entries = []
         for mixer in packed:
             parameters.append(mixer.model)
@@ -615,7 +676,20 @@ def _operating_inputs(spec, total):
                 _ConversionNonlinearModel(device, 4, ct.cast(ct.pointer(model), ct.c_void_p))
             )
         models = (_ConversionNonlinearModel * len(entries))(*entries)
-    return options, mixers, initial, models, parameters
+    phase_entries = tuple(spec.get("am_pm", ()))
+    if len(phase_entries) > 512:
+        raise ValueError("Too many AM-PM devices")
+    packed_phases = []
+    for entry in phase_entries:
+        if not isinstance(entry, dict) or "device" not in entry:
+            raise ValueError("AM-PM requires device index")
+        fields = dict(entry)
+        device = _index(fields.pop("device"))
+        phase, selected = _am_pm_parameters(fields)
+        parameters.extend([phase, selected])
+        packed_phases.append(_ConversionAmPm(device, phase))
+    phases = (_ConversionAmPm * len(packed_phases))(*packed_phases)
+    return options, mixers, initial, models, parameters, phases
 
 
 class MixerLinearization(NamedTuple):
@@ -1318,6 +1392,33 @@ class Library:
                     ct.POINTER(_ConversionLoadedOutput),
                     ct.POINTER(_ConversionOperatingDiagnostics),
                 ],
+            ),
+            "rfmodel_conversion_network_solve_nonlinear_am_pm": (
+                ct.c_int,
+                [
+                    ct.POINTER(_ConversionRequest),
+                    size,
+                    ct.POINTER(_ConversionConnection),
+                    size,
+                    ct.POINTER(_ConversionNonlinearModel),
+                    size,
+                    ct.POINTER(_ConversionAmPm),
+                    size,
+                    ct.POINTER(_ConversionOperatingOptions),
+                    ct.POINTER(_ConversionAffineOffset),
+                    ct.POINTER(_ConversionSourceNoise),
+                    ct.POINTER(_ConversionOutput),
+                    ct.POINTER(_ConversionLoadedOutput),
+                    ct.POINTER(_ConversionOperatingDiagnostics),
+                ],
+            ),
+            "rfmodel_evaluate_am_pm": (
+                ct.c_int,
+                [ct.c_double, ct.c_double, ct.c_double, ct.POINTER(_AmPmResponse)],
+            ),
+            "rfmodel_apply_output_am_pm": (
+                ct.c_int,
+                [ct.POINTER(_AmPmRequest), ct.POINTER(_MixerLinearizationOutput)],
             ),
             "rfmodel_linearize_bilinear_mixer": (
                 ct.c_int,
@@ -2484,6 +2585,76 @@ class Library:
         )
         return tuple(output[: count.value])
 
+    def am_pm_response(self, output_power_w, *, peak_degrees_per_db, output_reference_dbm):
+        """Legacy PointDerivative phase in radians and radial phase slope."""
+        if any(
+            type(v) not in (int, float)
+            for v in (output_power_w, peak_degrees_per_db, output_reference_dbm)
+        ):
+            raise TypeError("AM-PM power, slope and reference must be real numbers")
+        value = _AmPmResponse()
+        self._check(
+            self._dll.rfmodel_evaluate_am_pm(
+                peak_degrees_per_db, output_reference_dbm, output_power_w, ct.byref(value)
+            )
+        )
+        return AmPmResponse(value.phase_rad, value.radial_phase_slope)
+
+    def apply_output_am_pm(
+        self,
+        spacing_hz,
+        channels,
+        operating_incident,
+        base,
+        *,
+        peak_degrees_per_db,
+        output_reference_dbm,
+        output_channels,
+        reference_ohms=50.0,
+    ):
+        """Compose phase with an existing local response; return general affine offset."""
+        ports, bins = _conversion_channels(channels)
+        count = len(ports)
+        waves = tuple(complex(v) for v in operating_incident)
+        if any(not math.isfinite(v.real) or not math.isfinite(v.imag) for v in waves):
+            raise ValueError("AM-PM incident waves must be finite")
+        nominal = tuple(base.operating_outgoing)
+        na, a = _matrix(base.direct)
+        nb, b = _matrix(base.conjugate)
+        if len(waves) != count or len(nominal) != count or na != count or nb != count:
+            raise ValueError("AM-PM local dimensions differ")
+        native = (_Complex * count)(*(_Complex.from_value(v) for v in nominal))
+        phase, selected = _am_pm_parameters(
+            dict(
+                peak_degrees_per_db=peak_degrees_per_db,
+                output_reference_dbm=output_reference_dbm,
+                output_channels=output_channels,
+            )
+        )
+        request = _AmPmRequest(
+            count, float(spacing_hz), float(reference_ohms), ports, bins, native, a, b, phase
+        )
+        direct, conjugate, outgoing = (
+            (_Complex * (count * count))(),
+            (_Complex * (count * count))(),
+            (_Complex * count)(),
+        )
+        output = _MixerLinearizationOutput(direct, conjugate, outgoing, count * count, count)
+        self._check(self._dll.rfmodel_apply_output_am_pm(ct.byref(request), ct.byref(output)))
+        a, b, values = (
+            _rows(direct, count),
+            _rows(conjugate, count),
+            tuple(v.value() for v in outgoing),
+        )
+        offset = tuple(
+            values[i]
+            - sum(a[i][j] * waves[j] + b[i][j] * waves[j].conjugate() for j in range(count))
+            for i in range(count)
+        )
+        if any(not math.isfinite(v.real) or not math.isfinite(v.imag) for v in offset):
+            raise ValueError("AM-PM affine offset overflow")
+        return AmplifierLinearization(a, b, values, offset)
+
     def linearize_highorder_amplifier(
         self,
         spacing_hz,
@@ -2686,6 +2857,7 @@ class Library:
         amplifiers=(),
         polynomials=(),
         highorders=(),
+        am_pm=(),
         initial_incident=None,
         max_iterations=50,
         max_backtracks=24,
@@ -2703,6 +2875,7 @@ class Library:
                 amplifiers=amplifiers,
                 polynomials=polynomials,
                 highorders=highorders,
+                am_pm=am_pm,
                 initial_incident=initial_incident,
                 max_iterations=max_iterations,
                 max_backtracks=max_backtracks,
@@ -2898,13 +3071,19 @@ class Library:
             affine = _ConversionAffineOffset(total, native_offset)
         diagnostics = None
         if operating_point is not None:
-            options, mixers, initial, models, parameters = _operating_inputs(operating_point, total)
+            options, mixers, initial, models, parameters, phases = _operating_inputs(
+                operating_point, total
+            )
             diagnostics = _ConversionOperatingDiagnostics()
             solve = (
                 self._dll.rfmodel_conversion_network_solve_nonlinear
                 if models is not None
                 else self._dll.rfmodel_conversion_network_solve_operating_point
             )
+            phase_args = ()
+            if len(phases):
+                solve = self._dll.rfmodel_conversion_network_solve_nonlinear_am_pm
+                phase_args = (phases, len(phases))
             nonlinear = models if models is not None else mixers
             self._check(
                 solve(
@@ -2914,6 +3093,7 @@ class Library:
                     len(native_connections),
                     nonlinear,
                     len(nonlinear),
+                    *phase_args,
                     ct.byref(options),
                     ct.byref(affine) if affine is not None else None,
                     ct.byref(extra) if extra is not None else None,

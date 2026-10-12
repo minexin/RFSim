@@ -117,6 +117,7 @@ def update_converged_models(
     amplifiers=(),
     polynomials=(),
     highorders=(),
+    am_pm=(),
 ):
     starts, total = [], 0
     for device in devices:
@@ -140,6 +141,17 @@ def update_converged_models(
             reference_ohms=reference,
             **parameters,
         )
+        for phase_spec in am_pm:
+            if phase_spec["device"] == index:
+                phase = {k: v for k, v in phase_spec.items() if k != "device"}
+                point = library.apply_output_am_pm(
+                    spacing,
+                    device["channels"],
+                    waves.incident[start : start + count],
+                    point,
+                    reference_ohms=reference,
+                    **phase,
+                )
         device["direct"], device["conjugate"] = point.direct, point.conjugate
         for local, emission in enumerate(point.output_offset):
             offsets[start + local] += emission

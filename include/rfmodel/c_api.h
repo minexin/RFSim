@@ -274,6 +274,27 @@ typedef struct rfmodel_conversion_nonlinear_model {
     const void *parameters;
 } rfmodel_conversion_nonlinear_model;
 
+/* Legacy PointDerivative phase, radians returned by response; slope in degrees/dB. */
+typedef struct rfmodel_am_pm_parameters {
+    double peak_degrees_per_db, output_reference_dbm;
+    const size_t *output_channels; /* Local RF channel indices, unique; NULL iff count=0 allowed. */
+    size_t output_count;           /* 0..512, explicit empty selection is identity. */
+} rfmodel_am_pm_parameters;
+
+typedef struct rfmodel_conversion_am_pm {
+    size_t device; /* Must identify one of the supplied nonlinear models; unique. */
+    rfmodel_am_pm_parameters phase;
+} rfmodel_conversion_am_pm;
+
+typedef struct rfmodel_am_pm_response {
+    double phase_rad, radial_phase_slope;
+} rfmodel_am_pm_response;
+
+RFMODEL_API int rfmodel_evaluate_am_pm(double peak_degrees_per_db,
+                                       double output_reference_dbm,
+                                       double output_power_w,
+                                       rfmodel_am_pm_response *output);
+
 typedef struct rfmodel_conversion_operating_options {
     const rfmodel_complex *initial_incident; /* NULL and count=0 uses boundary sources. */
     size_t initial_count;
@@ -317,6 +338,25 @@ RFMODEL_API int rfmodel_conversion_network_solve_nonlinear(
     size_t connection_count,
     const rfmodel_conversion_nonlinear_model *models,
     size_t model_count,
+    const rfmodel_conversion_operating_options *options,
+    const rfmodel_conversion_affine_offset *fixed_offset,
+    const rfmodel_conversion_source_noise *additional_source_noise,
+    const rfmodel_conversion_output *output,
+    const rfmodel_conversion_loaded_output *loaded,
+    rfmodel_conversion_operating_diagnostics *diagnostics);
+
+/* Output-phase composition on explicit nonlinear devices, before fixed offsets.
+ * Each selected RF output uses its own power. All nested phase/index storage is
+ * protected against output overlap. Failure leaves every output unchanged. */
+RFMODEL_API int rfmodel_conversion_network_solve_nonlinear_am_pm(
+    const rfmodel_conversion_request *devices,
+    size_t device_count,
+    const rfmodel_conversion_connection *connections,
+    size_t connection_count,
+    const rfmodel_conversion_nonlinear_model *models,
+    size_t model_count,
+    const rfmodel_conversion_am_pm *phases,
+    size_t phase_count,
     const rfmodel_conversion_operating_options *options,
     const rfmodel_conversion_affine_offset *fixed_offset,
     const rfmodel_conversion_source_noise *additional_source_noise,
@@ -450,6 +490,19 @@ RFMODEL_API int rfmodel_linearize_bilinear_mixer(const rfmodel_bilinear_mixer_re
                                                  const rfmodel_mixer_linearization_output *output);
 
 typedef rfmodel_mixer_linearization_output rfmodel_conversion_linearization_output;
+
+typedef struct rfmodel_am_pm_linearization_request {
+    size_t count;
+    double spacing_hz, reference_ohms;
+    const size_t *physical_ports;
+    const int *bins;
+    const rfmodel_complex *operating_outgoing;
+    const rfmodel_complex *direct, *conjugate; /* count*count row-major base Jacobian. */
+    rfmodel_am_pm_parameters phase;
+} rfmodel_am_pm_linearization_request;
+
+RFMODEL_API int rfmodel_apply_output_am_pm(const rfmodel_am_pm_linearization_request *request,
+                                           const rfmodel_conversion_linearization_output *output);
 
 typedef struct rfmodel_saturating_amplifier_request {
     size_t count;

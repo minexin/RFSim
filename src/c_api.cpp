@@ -36,6 +36,7 @@
 #include "rfmodel/amplifier_model.hpp"
 #include "rfmodel/polynomial_amplifier.hpp"
 #include "rfmodel/highorder_linearization.hpp"
+#include "rfmodel/am_pm_linearization.hpp"
 #include "rfmodel/ideal_mixer.hpp"
 #include "rfmodel/spectrum_analysis.hpp"
 #include "rfmodel/tabulated_model.hpp"
@@ -518,6 +519,19 @@ highorder_point(double spacing,
         p.output_port);
 }
 
+std::pair<const void *, size_t> am_pm_range(const rfmodel_am_pm_parameters &p) {
+    require(p.output_count <= 512 && (!p.output_count || p.output_channels));
+    return {p.output_channels, p.output_count * sizeof(size_t)};
+}
+
+std::vector<size_t> am_pm_channels(const rfmodel_am_pm_parameters &p) {
+    am_pm_range(p);
+    if (!p.output_count) {
+        return {};
+    }
+    return {p.output_channels, p.output_channels + p.output_count};
+}
+
 void analyze_conversion_network_outputs(
     const rfmodel_conversion_request *devices,
     size_t device_count,
@@ -532,7 +546,9 @@ void analyze_conversion_network_outputs(
     size_t mixer_count = 0,
     rfmodel_conversion_operating_diagnostics *diagnostics = nullptr,
     const rfmodel_conversion_nonlinear_model *models = nullptr,
-    size_t model_count = 0) {
+    size_t model_count = 0,
+    const rfmodel_conversion_am_pm *phases = nullptr,
+    size_t phase_count = 0) {
     require(output);
     const auto &o = *output;
     size_t total;
@@ -590,6 +606,12 @@ void analyze_conversion_network_outputs(
         require(model_count <= device_count && mixer_count + model_count <= device_count &&
                 (!model_count || models));
         inputs.push_back({models, model_count * sizeof(*models)});
+        require(phase_count <= model_count && (!phase_count || phases));
+        inputs.push_back({phases, phase_count * sizeof(*phases)});
+        for (size_t i = 0; i < phase_count; ++i) {
+            inputs.push_back(am_pm_range(phases[i].phase));
+        }
+
         for (size_t i = 0; i < model_count; ++i) {
             require(models[i].parameters);
             size_t bytes = 0;
@@ -709,6 +731,22 @@ void analyze_conversion_network_outputs(
                                              spacing, channels, wave, parameters, reference);
                                      }});
             }
+        }
+        std::set<size_t> phased_devices;
+        for (size_t i = 0; i < phase_count; ++i) {
+            const auto &spec = phases[i];
+            require(phased_devices.insert(spec.device).second);
+            auto found = std::find_if(nonlinear.begin(), nonlinear.end(), [&](const auto &entry) {
+                return entry.device == spec.device;
+            });
+            require(found != nonlinear.end());
+            const auto evaluate = found->evaluate;
+            const rfmodel::LegacyPointDerivativeAmPm law(spec.phase.peak_degrees_per_db,
+                                                         spec.phase.output_reference_dbm);
+            const auto selected = am_pm_channels(spec.phase);
+            found->evaluate = [=](const std::vector<rfmodel::Complex> &wave) {
+                return rfmodel::apply_output_am_pm(evaluate(wave), law, selected);
+            };
         }
         std::vector<rfmodel::ConversionPortConnection> wires;
         for (size_t i = 0; i < connection_count; ++i) {
@@ -2197,6 +2235,57 @@ int rfmodel_linearize_saturating_amplifier(const rfmodel_saturating_amplifier_re
     });
 }
 
+int rfmodel_evaluate_am_pm(double peak,
+                           double reference_dbm,
+                           double power,
+                           rfmodel_am_pm_response *output) {
+    return guarded([&] {
+        require(output);
+        const auto value = rfmodel::LegacyPointDerivativeAmPm(peak, reference_dbm).response(power);
+        *output = {value.phase_rad, value.radial_phase_slope};
+    });
+}
+
+int rfmodel_apply_output_am_pm(const rfmodel_am_pm_linearization_request *request,
+                               const rfmodel_conversion_linearization_output *output) {
+    return guarded([&] {
+        require(request && request->count > 0 && request->count <= 512 && request->direct &&
+                request->conjugate);
+        const auto &r = *request;
+        const auto range = am_pm_range(r.phase);
+        rfmodel_saturating_amplifier_request proxy{};
+        proxy.count = r.count;
+        proxy.spacing_hz = r.spacing_hz;
+        proxy.reference_ohms = r.reference_ohms;
+        proxy.physical_ports = r.physical_ports;
+        proxy.bins = r.bins;
+        proxy.operating_incident = r.operating_outgoing;
+        linearize_conversion_outputs(
+            &proxy,
+            output,
+            [&](const auto &, const auto &channels, const auto &waves) {
+                auto a = rfmodel::conversion_detail::zero(r.count), b = a;
+                for (size_t i = 0; i < r.count * r.count; ++i) {
+                    a.values[i] = {r.direct[i].real, r.direct[i].imag};
+                    b.values[i] = {r.conjugate[i].real, r.conjugate[i].imag};
+                }
+                const rfmodel::ConversionLinearization base{
+                    rfmodel::FrequencyConversionModel(
+                        r.spacing_hz, channels, a, b, r.reference_ohms),
+                    waves};
+                return rfmodel::apply_output_am_pm(
+                    base,
+                    rfmodel::LegacyPointDerivativeAmPm(r.phase.peak_degrees_per_db,
+                                                       r.phase.output_reference_dbm),
+                    am_pm_channels(r.phase));
+            },
+            {{request, sizeof(*request)},
+             {r.direct, r.count * r.count * sizeof(rfmodel_complex)},
+             {r.conjugate, r.count * r.count * sizeof(rfmodel_complex)},
+             range});
+    });
+}
+
 int rfmodel_linearize_highorder_amplifier(const rfmodel_highorder_amplifier_request *request,
                                           const rfmodel_conversion_linearization_output *output) {
     return guarded([&] {
@@ -2294,6 +2383,42 @@ int rfmodel_conversion_network_solve_nonlinear(
                                            diagnostics,
                                            models,
                                            model_count);
+    });
+}
+
+int rfmodel_conversion_network_solve_nonlinear_am_pm(
+    const rfmodel_conversion_request *devices,
+    size_t device_count,
+    const rfmodel_conversion_connection *connections,
+    size_t connection_count,
+    const rfmodel_conversion_nonlinear_model *models,
+    size_t model_count,
+    const rfmodel_conversion_am_pm *phases,
+    size_t phase_count,
+    const rfmodel_conversion_operating_options *options,
+    const rfmodel_conversion_affine_offset *fixed_offset,
+    const rfmodel_conversion_source_noise *additional_source_noise,
+    const rfmodel_conversion_output *output,
+    const rfmodel_conversion_loaded_output *loaded,
+    rfmodel_conversion_operating_diagnostics *diagnostics) {
+    return guarded([&] {
+        require(options && diagnostics);
+        analyze_conversion_network_outputs(devices,
+                                           device_count,
+                                           connections,
+                                           connection_count,
+                                           output,
+                                           loaded,
+                                           additional_source_noise,
+                                           fixed_offset,
+                                           options,
+                                           nullptr,
+                                           0,
+                                           diagnostics,
+                                           models,
+                                           model_count,
+                                           phases,
+                                           phase_count);
     });
 }
 

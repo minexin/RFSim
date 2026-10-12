@@ -1,0 +1,313 @@
+{
+  "schema_version": 1,
+  "recorded_at_utc": "2026-10-12T02:23:35.543630+00:00",
+  "base_commit": "81a6fc29eac17a1be46098904826d9b368fb409a",
+  "scope": "Legacy PointDerivative AM-PM C ABI, Python and JSON composition",
+  "status": "local_engineering_passed",
+  "systemvue_comparison": "not_executed",
+  "source_files": [
+    {
+      "path": "CMakeLists.txt",
+      "sha256": "37f314249e8a9587947a627150acd0d61e3200e80946bfa8dff0e3493b5d56bf"
+    },
+    {
+      "path": "include/rfmodel/c_api.h",
+      "sha256": "f5131acf5a6d1299558d4977111b7430edc0785dbaa91bbe6df9cb05ab28ebb2"
+    },
+    {
+      "path": "src/c_api.cpp",
+      "sha256": "3b87140148307984e68e4ddedf2cad0285b97bbdf829035473716a028d41930c"
+    },
+    {
+      "path": "python/rfmodel/__init__.py",
+      "sha256": "051ca37c69058a39542bdb46d8100a31c2594be3d3f13f7c2a6ab6c9d2fd7c3d"
+    },
+    {
+      "path": "python/rfmodel/conversion_network_file.py",
+      "sha256": "739b4510609151ef8e8da23ef2ccad49ff29a29867f270e22716d81c9711e59d"
+    },
+    {
+      "path": "python/rfmodel/operating_point.py",
+      "sha256": "c62ec4f4b8467cccaea0effbb185133fe446dd73278c866ce0057f80e35e0ad8"
+    },
+    {
+      "path": "tests/c_api_test.c",
+      "sha256": "ef234b7a0002da7f0eb6bc0845f1a9bcbbeb68ac926fa78fe2002f9743331af3"
+    },
+    {
+      "path": "tests/consumer/c_main.c",
+      "sha256": "155ccd3af0845832e71d3fabc615c6eafb0114b72ac4c833afc5d0382cf29389"
+    },
+    {
+      "path": "tests/test_am_pm_operating_point.py",
+      "sha256": "010394900db7ee3962f8480090222a900e943abfd88b969032fd5f0d1a545d43"
+    },
+    {
+      "path": "examples/nonlinear-am-pm-feedback.json",
+      "sha256": "493b1342cc060ee8d3ebb81e70031d88f3a0f1d900b003d3bf8aaaefeda60b08"
+    },
+    {
+      "path": "include/rfmodel/am_pm.hpp",
+      "sha256": "2e560674535d1b8b4e7b45e26340a62a527c4f924cfdd9a89ac3621b733543f8"
+    },
+    {
+      "path": "include/rfmodel/am_pm_linearization.hpp",
+      "sha256": "924612b002ee58af291acfaba783793e24b53df37173a788134c79ce0ff8f414"
+    },
+    {
+      "path": "tests/am_pm_test.cpp",
+      "sha256": "a727bf96c230b870f27b1e4d4ba82aaee09c17f26ff2ac273d49be5679731732"
+    }
+  ],
+  "native": {
+    "compiler": "MSVC 2022 x64",
+    "clean_first": true,
+    "configurations": [
+      {
+        "name": "Debug",
+        "ctest_passed": 120,
+        "ctest_total": 120,
+        "installed_consumers_passed": 2,
+        "installed_consumers_total": 2
+      },
+      {
+        "name": "Release",
+        "ctest_passed": 120,
+        "ctest_total": 120,
+        "installed_consumers_passed": 2,
+        "installed_consumers_total": 2
+      }
+    ],
+    "logs": [
+      {
+        "path": "build-reference/am-pm-api-build-Debug.log",
+        "sha256": "6a27d555dd02723f8f1c3db3d106d1b4672e38d5325f9d3ca9d93cfdefc02591"
+      },
+      {
+        "path": "build-reference/am-pm-api-ctest-Debug.log",
+        "sha256": "b5a2a5fa5e5cac4d499069ca2437686d6664375b3076fe2139dcda6ea92e51f1"
+      },
+      {
+        "path": "build-reference/am-pm-api-install-Debug.log",
+        "sha256": "76ad02b4848a097c35f645338ab3e04ea888b5c1ffb15c64609c4380398ab6dd"
+      },
+      {
+        "path": "build-reference/am-pm-api-consumer-build-Debug.log",
+        "sha256": "7ab4a792922b6bd27784649dfd10485c2f93ca46aa87fe58beaf6de38027ff83"
+      },
+      {
+        "path": "build-reference/am-pm-api-consumer-test-Debug.log",
+        "sha256": "00ebd388e3361081f3bfb3405a2d449ec5e3e485e2f36f4ed87b1edb314a6a42"
+      },
+      {
+        "path": "build-reference/am-pm-api-build-Release.log",
+        "sha256": "545745dadcb376a8ae49dc72fdc4098c965b33118ea20e80db5d5fac4ce5bc3f"
+      },
+      {
+        "path": "build-reference/am-pm-api-ctest-Release.log",
+        "sha256": "c4f9636f3ee9e21f6e2a07112ebb6b869fa0e408a00a9583a25d9a249ec0ef8c"
+      },
+      {
+        "path": "build-reference/am-pm-api-install-Release.log",
+        "sha256": "814ca4ff6923432486b7223328e902ff98af137885e7f5513723ad9a9c4502e6"
+      },
+      {
+        "path": "build-reference/am-pm-api-consumer-build-Release.log",
+        "sha256": "014122ee219f2f8ba674d73bef224850f30b88017df23db8f68592b0300d3c4b"
+      },
+      {
+        "path": "build-reference/am-pm-api-consumer-test-Release.log",
+        "sha256": "465029c4e0675e97675242686ee9325e27a1650746c0cb0c7ecb51150e1f436c"
+      }
+    ]
+  },
+  "python": {
+    "runtime": "3.12.14",
+    "import_verified_from_wheel": true,
+    "wheel": {
+      "path": "build-reference/am-pm-api-dist/rfmodel-0.1.0-py3-none-any.whl",
+      "sha256": "43c84c33c4f1be4f3feed967143ceb29180c488fd6cec1bd5e5f270c28868f81"
+    },
+    "native_library": {
+      "path": "build-install-capi/bin/rfmodel_c.dll",
+      "sha256": "6e1d7af3588b1f029d796e404ae5d44d687aeecfe1eda1609416b7d9e0d92013"
+    },
+    "suite_count": 17,
+    "tests_passed": 322,
+    "suites": [
+      {
+        "path": "build-reference/am-pm-api-wheel-affine_conversion.log",
+        "sha256": "22611adbaa37e507248f9df066d277ca7cc27ec4c070dcb9a738bd53f6b0ed4f",
+        "suite": "affine_conversion",
+        "tests": 11,
+        "status": "passed"
+      },
+      {
+        "path": "build-reference/am-pm-api-wheel-am_pm_operating_point.log",
+        "sha256": "7ebf0117e1ae4bb6a579af48d06b013b996e70138f58dff4fe049916eee119b1",
+        "suite": "am_pm_operating_point",
+        "tests": 14,
+        "status": "passed"
+      },
+      {
+        "path": "build-reference/am-pm-api-wheel-amplifier_operating_point.log",
+        "sha256": "d36bf0f9c0c1eb09f72a6bd2b44b6f22d4f139b0110da33d27e2ecbf090646d6",
+        "suite": "amplifier_operating_point",
+        "tests": 14,
+        "status": "passed"
+      },
+      {
+        "path": "build-reference/am-pm-api-wheel-channel_noise.log",
+        "sha256": "63fbac1afe4184b81e533e3e3349eb7aac373b5c6dfc916347d3a36a25286e0a",
+        "suite": "channel_noise",
+        "tests": 11,
+        "status": "passed"
+      },
+      {
+        "path": "build-reference/am-pm-api-wheel-coherent_system_file.log",
+        "sha256": "8f11467d5e588c9a1c457047ac399fff6f28f7da83e53b6d37141316428f25dc",
+        "suite": "coherent_system_file",
+        "tests": 51,
+        "status": "passed"
+      },
+      {
+        "path": "build-reference/am-pm-api-wheel-conversion_loaded_noise.log",
+        "sha256": "ebbf0f9496b44d3557515d38b1a6003a753816ffed18d35320d0a9904f0e50d1",
+        "suite": "conversion_loaded_noise",
+        "tests": 9,
+        "status": "passed"
+      },
+      {
+        "path": "build-reference/am-pm-api-wheel-conversion_network.log",
+        "sha256": "4e90568abdff7cc0cf6da562d94ae142def505cb5168709341fcc289b1c16d18",
+        "suite": "conversion_network",
+        "tests": 13,
+        "status": "passed"
+      },
+      {
+        "path": "build-reference/am-pm-api-wheel-conversion_noise.log",
+        "sha256": "3ee291e08beec64bee2ca2a03ce00a75977cafb87dbf99554a44ec61f8e7a01a",
+        "suite": "conversion_noise",
+        "tests": 12,
+        "status": "passed"
+      },
+      {
+        "path": "build-reference/am-pm-api-wheel-frequency_conversion.log",
+        "sha256": "e0312e20f7b5f1656421bbb14db212f312c3fecf6d3014973cfa736b9b5693af",
+        "suite": "frequency_conversion",
+        "tests": 11,
+        "status": "passed"
+      },
+      {
+        "path": "build-reference/am-pm-api-wheel-highorder_operating_point.log",
+        "sha256": "73e33b379b605b0fddfc7db9d9f1ade8b9a50104ef85b3356b1419ef938bc3ea",
+        "suite": "highorder_operating_point",
+        "tests": 15,
+        "status": "passed"
+      },
+      {
+        "path": "build-reference/am-pm-api-wheel-linear_noise_analysis.log",
+        "sha256": "9f9b824ec0cbb72107f296b4a74fbfc33098120ca82b18fafa411580326180e9",
+        "suite": "linear_noise_analysis",
+        "tests": 9,
+        "status": "passed"
+      },
+      {
+        "path": "build-reference/am-pm-api-wheel-mixer_linearization.log",
+        "sha256": "046b617874e73585b915d76445cdfe41b0d5ca789012fb9cfa96ed6ebb792db0",
+        "suite": "mixer_linearization",
+        "tests": 13,
+        "status": "passed"
+      },
+      {
+        "path": "build-reference/am-pm-api-wheel-operating_point.log",
+        "sha256": "1eb64c6933012476a4de5223ac9f68986e2004834f5d39117f248f146928f92f",
+        "suite": "operating_point",
+        "tests": 13,
+        "status": "passed"
+      },
+      {
+        "path": "build-reference/am-pm-api-wheel-phase_noise.log",
+        "sha256": "ed27ffc85d02b6a99281725297ee29aae12d9535b1f19f0460d066a2f5543f34",
+        "suite": "phase_noise",
+        "tests": 13,
+        "status": "passed"
+      },
+      {
+        "path": "build-reference/am-pm-api-wheel-polynomial_operating_point.log",
+        "sha256": "1c2b7f544024d953d26d3a918bfd58803a54c52b63c01af70d43450a8526d492",
+        "suite": "polynomial_operating_point",
+        "tests": 15,
+        "status": "passed"
+      },
+      {
+        "path": "build-reference/am-pm-api-wheel-python_api.log",
+        "sha256": "209d0328b53ee8992c095c874f289ad18c35ccb3f75dbd17e7bc9d6aa15c49fc",
+        "suite": "python_api",
+        "tests": 85,
+        "status": "passed"
+      },
+      {
+        "path": "build-reference/am-pm-api-wheel-shared_phase_noise.log",
+        "sha256": "1b8540bfe0162ed4ade2b2cdb47e74f61a16ef433d3f59bb96ac94a7499dfb58",
+        "suite": "shared_phase_noise",
+        "tests": 13,
+        "status": "passed"
+      }
+    ]
+  },
+  "reproduce": [
+    "cmake --build build-msvc --config <Debug|Release> --clean-first",
+    "ctest --test-dir build-msvc -C <Debug|Release> --output-on-failure",
+    "cmake --install build-msvc --config <Debug|Release> --prefix build-install-capi",
+    "cmake -S tests/consumer -B build-consumer-capi -DRFModel_DIR=D:/project/RFModel/build-install-capi/lib/cmake/RFModel",
+    "cmake --build build-consumer-capi --config <Debug|Release> --clean-first",
+    "ctest --test-dir build-consumer-capi -C <Debug|Release> --output-on-failure",
+    "From python/: setuptools.build_meta.build_wheel(output_directory)",
+    "Outside python/: set PYTHONPATH to the built wheel; verify rfmodel.__file__ contains .whl; run each tests/test_<suite>.py <installed Release library> --installed"
+  ],
+  "limitations": [
+    "Local ignored build logs/artifacts are hashed, not embedded in the repository",
+    "Windows verification only for this stage; no new remote CI",
+    "No fresh vendor reference or full AM-PM compatibility claim",
+    "Full CTest ran in the current working tree including the preserved reference drafts listed separately; this is not evidence from a pristine checkout of the new commit"
+  ],
+  "push_merge_publish": "not_performed",
+  "format_validation": {
+    "cpp_files_checked": 150,
+    "cpp_format": "passed",
+    "git_diff_check": "passed"
+  },
+  "preexisting_uncommitted_reference_drafts": [
+    {
+      "path": "scripts/reference/archive-cascade-reference.py",
+      "sha256": "a482db6bd6ae64c050d74e6df321749ec84a7098fb7aa49733079183149806dc",
+      "included_in_stage_commit": false
+    },
+    {
+      "path": "scripts/reference/capture-cascade-reference.ps1",
+      "sha256": "fb42165db2ad10c6213a415c2080e1eeb6e5ec0bcd1dc119bb1d1707c5283f3e",
+      "included_in_stage_commit": false
+    },
+    {
+      "path": "scripts/reference/compare-cascade-amplifier.py",
+      "sha256": "af1260adb093946954d0fb7e4bb2059669706a291418aac19ba193fed7554d9d",
+      "included_in_stage_commit": false
+    },
+    {
+      "path": "scripts/reference/run-systemvue-reference.py",
+      "sha256": "5df486d061ce09c28b396bf62e7fcba473dc6e9086d52861fdc7be6c85864f4e",
+      "included_in_stage_commit": false
+    },
+    {
+      "path": "scripts/reference/test_compare_cascade_amplifier.py",
+      "sha256": "190ea23b0ce0733846db8052ead9bb4d5ba41ff30e007c1f06e1a1753bc3fcf1",
+      "included_in_stage_commit": false
+    },
+    {
+      "path": "scripts/reference/test_run_systemvue_reference.py",
+      "sha256": "7eeeb2f890e59b986fec7eb9af58313f129b73ffccfd924f2f273ff52c396eb5",
+      "included_in_stage_commit": false
+    }
+  ]
+}

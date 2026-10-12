@@ -89,3 +89,5 @@ rfmodel_loaded_noise 与 rfmodel_thermal_boundary_noise 扩展了外部失配和
 详细约定见 [失配噪声接口](loaded-noise.md)。原 network_external_noise 继续表示匹配外部条件。
 
 共同限幅高阶放大器的局部导数及混合器件工作点接口见 [高阶工作点接口](highorder-linearization.md)，支持显式 a2..a11、生成频点选择、反馈与收敛噪声。
+
+旧式输出功率 AM-PM 已提供相位求值、局部 A/B 组合及工作点求解的 C/Python/JSON 接口，见 [AM-PM 接口](am-pm.md)。早期章节的接口缺项和测试数属于其标注日期，当前阶段证据见 [剩余验收审计](acceptance-audit-20261012.md)。

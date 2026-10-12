@@ -3,6 +3,14 @@
 
 int main(int argc, char **argv) {
     {
+        rfmodel_am_pm_response response;
+        if (rfmodel_evaluate_am_pm(-5., 10., .01, &response) != RFMODEL_OK ||
+            fabs(response.radial_phase_slope * log(10.) / 20. * 180. / acos(-1.) + 5.) > 1e-12) {
+            return 1;
+        }
+    }
+
+    {
         const size_t ports[3] = {0, 1, 1};
         const int bins[3] = {1, 1, 3}, generating[1] = {1};
         const double coefficients[2] = {0., .1};

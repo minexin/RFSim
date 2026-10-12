@@ -1,0 +1,222 @@
+{
+  "schema_version": 1,
+  "recorded_at_utc": "2026-10-12T02:23:35.543630+00:00",
+  "base_commit": "81a6fc29eac17a1be46098904826d9b368fb409a",
+  "scope": [
+    "SystemVue 2023 Linear Analysis",
+    "SystemVue 2023 RF System Analysis",
+    "Full relevant RF Design catalog"
+  ],
+  "overall_status": "incomplete",
+  "vendor_data_collected_this_stage": false,
+  "read_only_planning_documents": [
+    {
+      "path": "docs/acceptance-matrix.md",
+      "sha256": "a84da5398797c24df37e054dc08bc5c94791f80e2c49135b69f20512fc4a8af1"
+    },
+    {
+      "path": "docs/roadmap.md",
+      "sha256": "f254a0b45d8ce88463f44e99769c2af1d7b8c7f9e770eb382220c1d90ee1b51f"
+    },
+    {
+      "path": "docs/systemvue-2023-matrix.md",
+      "sha256": "208429b0d285fdb3cd2123040d822816bb6bcf42e4c23a9c211492041a1097be"
+    }
+  ],
+  "catalog": {
+    "parts": 243,
+    "models": 281,
+    "links": 401,
+    "assessment_counts": {
+      "unassessed": 243
+    },
+    "meaning": "Inventory flags do not replace separate model assessments",
+    "sources": [
+      {
+        "path": "validation/systemvue-2023-rf-catalog.json",
+        "sha256": "a4e34849f35604c348fb4538a1b7f134be0eaa55e21a6d46749afda9bcb46353"
+      },
+      {
+        "path": "validation/systemvue-2023-rf-models.json",
+        "sha256": "6884b3921dba96e1175bc9b9092908a7d31c864d66ccbce39431f1e5edf22e69"
+      }
+    ]
+  },
+  "existing_vendor_reports": [
+    {
+      "path": "validation/systemvue-2023-coherent-network.json",
+      "sha256": "67549f5af8075216751f31d8e7884d761b141dd4e98696b91fa4e91191645e22",
+      "top_level_results": {
+        "scope": "Two-source TLE/tee/attenuator: path waves, clock relations and a separate RFPwrIn comparison",
+        "relative_tolerance": 1e-07,
+        "cancellation_absolute_tolerance_w": 1e-15,
+        "path_wave_and_clock_relation_passed": true,
+        "rfpwrin_agreement_passed": true,
+        "limitation": "This reference does not validate nonlinear/LO propagation or a split-source fixture; RFPwrIn is a separately compared measurement, not assumed equivalent to coherent drive",
+        "passed": true
+      },
+      "report_count": 1,
+      "failed_checks": 0
+    },
+    {
+      "path": "validation/systemvue-2023-coherent-phase-scan.json",
+      "sha256": "ecfbdb8dea3e3ca30c1372154aa2a30bbd90bcb17e96c001d92eaa91cc9309ca",
+      "top_level_results": {
+        "scope": "Two-source TLE/tee/attenuator: path waves, clock relations and a separate RFPwrIn comparison",
+        "relative_tolerance": 1e-07,
+        "cancellation_absolute_tolerance_w": 1e-15,
+        "path_wave_and_clock_relation_passed": true,
+        "rfpwrin_agreement_passed": false,
+        "limitation": "This reference does not validate nonlinear/LO propagation or a split-source fixture; RFPwrIn is a separately compared measurement, not assumed equivalent to coherent drive",
+        "passed": false
+      },
+      "report_count": 6,
+      "failed_checks": 5
+    },
+    {
+      "path": "validation/systemvue-2023-coherent-total-scan.json",
+      "sha256": "2f26350fec6970f1dc9344be9057786c94a4b495b48b43e43a583795050bb5d4",
+      "top_level_results": {
+        "direction_total_power_cases": 6,
+        "direction_total_power_passed": true,
+        "scope": "Two-source TLE/tee/attenuator: path waves, clock relations, optional direction-total power and separate RFPwrIn",
+        "relative_tolerance": 1e-07,
+        "cancellation_absolute_tolerance_w": 1e-15,
+        "path_wave_and_clock_relation_passed": true,
+        "rfpwrin_agreement_passed": false,
+        "limitation": "This reference does not validate nonlinear/LO propagation or a split-source fixture; RFPwrIn is a separately compared measurement, not assumed equivalent to coherent drive",
+        "passed": false
+      },
+      "report_count": 6,
+      "failed_checks": 5
+    },
+    {
+      "path": "validation/systemvue-2023-shared-compression.json",
+      "sha256": "672990219267d8e3bd5f7677b8ecb829b2e694bcc18f401ad4b28745dcc372ed",
+      "top_level_results": {
+        "scope": "Isolated RFAMP direct-carrier shared compression, input at/below P1dB",
+        "relative_tolerance": 1e-07,
+        "cancellation_absolute_tolerance_w": 1e-15,
+        "warning_free_case_count": 21,
+        "diagnostic_case_count": 2,
+        "direct_carrier_passed": true,
+        "drive_power_passed": false,
+        "passed": false
+      },
+      "report_count": 21,
+      "failed_checks": 4
+    },
+    {
+      "path": "validation/systemvue-2023-cascade-amplifier.json",
+      "sha256": "27aa0c15a2e18f454e4ecd44a6d37a7873f552a1f916b9b347c1a7c2f39cfdde",
+      "top_level_results": {
+        "scope": "Two matched RFAMP stages; primary-carrier distortion generation and conducted distortion",
+        "relative_tolerance": 1e-07,
+        "passed": false
+      },
+      "report_count": 8,
+      "failed_checks": 22
+    },
+    {
+      "path": "validation/systemvue-2023-antenna-comparison.json",
+      "sha256": "1fe4804c639e7d2583dbbf552d81181bedf82c25df914ebd83c90c0a462d53cf",
+      "top_level_results": {
+        "passed": false,
+        "scope": "Official antenna example; matched small-signal RFModel approximation only"
+      }
+    },
+    {
+      "path": "validation/systemvue-2023-attenuator-1db-comparison.json",
+      "sha256": "c741cfdbe49def138ff6047adb28e68c2de1ebef28166ed2f586f9e22f85955f",
+      "top_level_results": {
+        "passed": false,
+        "scope": "One matched 1 dB attenuator at 100 MHz and 290 K; not library compatibility"
+      }
+    },
+    {
+      "path": "validation/systemvue-2023-highorder-input-diagnostic.json",
+      "sha256": "23375ffeaaadafe0e43eb2c4f8f6cc40495061e17bcb1359bfa0d949be3a14b3",
+      "top_level_results": {
+        "classification": "diagnostic_only",
+        "eligible_for_compatibility": false,
+        "scope": "First-stage local orders 4..11 driven by measured input voltage at fixed Zref",
+        "relative_wave_tolerance": 1e-07
+      }
+    }
+  ],
+  "open_acceptance_items": [
+    {
+      "id": "A01",
+      "priority": "P1",
+      "status": "open",
+      "current_boundary": "旧式 AM-PM 已实现 PointDerivative；DataPoints、Compression Curve 尚缺",
+      "closure_criteria": "保存各模式的参数/单位/插值/外推规则；独立数学回归；厂商正负峰值、参考功率、拐点、饱和、单/双音和选通策略的全新对照；C/C++/Python/JSON 同步验收"
+    },
+    {
+      "id": "A02",
+      "priority": "P1",
+      "status": "open",
+      "current_boundary": "RFAMP/RFAMP_HO 自动高阶系数、共同限幅和来源语义未完成",
+      "closure_criteria": "多组参数及未参与标定的输入，验证 IMN/IP、正负系数、阶数、直达/合并总谱、削减开关、递归次级失真；保留原失败和诊断分类，不以固定系数拟合代替算法"
+    },
+    {
+      "id": "A03",
+      "priority": "P1",
+      "status": "open",
+      "current_boundary": "相干网络原语已实现，RFPwrIn/噪声驱动/路径预算有观测差异",
+      "closure_criteria": "明确每种功率量与参考面，锁相/独立源、反相、分支、反馈和噪声开关逐项通过；旧五组差异有可重跑解释或修复证据"
+    },
+    {
+      "id": "A04",
+      "priority": "P1",
+      "status": "open",
+      "current_boundary": "固定/双线性混频、反馈工作点和 C/P 噪声已有；实际 LO/自动扩频未验收",
+      "closure_criteria": "厂商 RF/LO 工作点、转换矩阵、LO 驱动、压缩、泄漏、杂散及噪声数据；频点规划可复现，闭环根/导数/噪声有独立核对"
+    },
+    {
+      "id": "A05",
+      "priority": "P2",
+      "status": "open",
+      "current_boundary": "外部复参考与噪声转换已有；完整线性分析仍未验收",
+      "closure_criteria": "ZPORT、S/Z/Y、CS 定义逐频点/端口对照；内部不同参考面接线的电压电流和净功率守恒；通用器件 DC 偏置及线性化独立证明，不能以多项式 DC 频点代替"
+    },
+    {
+      "id": "A06",
+      "priority": "P2",
+      "status": "open",
+      "current_boundary": "相关噪声、失配热负载和显式频带 NF 已有；厂商定义未齐",
+      "closure_criteria": "参考温度、单/双边谱、信号边带、带宽、失配源/负载和跨器件相关约定；无源热平衡与有源实验两类对照；NF/CS/噪声参数互转和失败输入"
+    },
+    {
+      "id": "A07",
+      "priority": "P2",
+      "status": "open",
+      "current_boundary": "243 器件、281 模型、401 关联为目录基线",
+      "closure_criteria": "每项稳定帮助页 ID 对应参数/默认值/单位/范围/端口/适用分析/API 映射、缺项、机读输入输出、厂商数据及预定容差；所有类别及跨库引用保留，目录清单不等于实现清单"
+    },
+    {
+      "id": "A08",
+      "priority": "P2",
+      "status": "open",
+      "current_boundary": "一阶相噪及共享参考传播已有；PNCP、PLL、调制谱和 PHD 尚未完成",
+      "closure_criteria": "各自公开契约、模型/文件输入、有效范围、独立参考、接口回归和厂商对照；分别验收，不将一阶侧带模型外推为全功能振荡器或 PHD"
+    },
+    {
+      "id": "A09",
+      "priority": "P2",
+      "status": "open",
+      "current_boundary": "显式频率扫描和批处理已有；优化/Monte Carlo 未实现",
+      "closure_criteria": "参数类型和约束、随机种子、目标函数、收敛/失败报告、机读结果、确定性重放和已知最优/统计参考；形成完整系统分析案例"
+    },
+    {
+      "id": "A10",
+      "priority": "P1",
+      "status": "open",
+      "current_boundary": "本地安装/ABI/wheel 已验证；本次跨平台及发布未执行",
+      "closure_criteria": "同一提交的 Windows/Linux/macOS Debug/Release、安装 C/C++ 消费者、wheel 从安装路径导入并加载对应原生库；ABI/格式版本策略和打包验证；发布单独遵守授权"
+    }
+  ],
+  "current_engineering_evidence": "validation/am-pm-api-validation-20261012.json",
+  "cross_platform_ci_for_this_stage": "not_run",
+  "push_merge_publish": "not_performed"
+}
