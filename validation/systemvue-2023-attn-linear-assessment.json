@@ -1,0 +1,161 @@
+{
+  "schema_version": 1,
+  "assessment_date": "2026-10-12",
+  "part_help_page": "rfdesign/Attenuator_Part.html",
+  "model_help_page": "rfdesign/ATTN_Linear.html",
+  "model_name": "ATTN_Linear",
+  "implementation_status": "partial_matched_primitive_mapping",
+  "vendor_comparison_status": "failed_subset",
+  "full_model_compatibility": false,
+  "scope": "One matched 1 dB, 100 MHz, 290 K, 50 ohm archived Spectrasys case; no new vendor run",
+  "identity_evidence": {
+    "saved_workspace_model": "ATTN_Linear",
+    "saved_workspace_sha256": "89784b61cb3ec533b70618f8bb4b32a0ae883cc61d90e6f9445fab2cec8e1616",
+    "runtime_model_name": "not_recorded",
+    "part_page_sha256": "d833906abed7f68306c89064a091d0f41ba462c923a33da8a7c8750c3739d0ad",
+    "model_page_sha256": "b181c390a6313e766c2a6b125615c6ed9192d0578f3b19e11bd73cb737f42b67"
+  },
+  "ports": {
+    "vendor": [
+      "Port_1",
+      "Port_2"
+    ],
+    "rfmodel_indices": [
+      0,
+      1
+    ],
+    "matrix_order": [
+      "S11",
+      "S12",
+      "S21",
+      "S22"
+    ],
+    "mapped_case": "reciprocal matched two-port, S11=S22=0, S21=S12=10^(-L/20)"
+  },
+  "parameters": [
+    {
+      "name": "L",
+      "display_unit": "dB",
+      "help_default": 3,
+      "help_numeric_range": "not specified on model page",
+      "case_display_value": 1,
+      "capture_data": 1.2589254117941673,
+      "capture_unit": "linear power loss ratio",
+      "conversion_to_api": "loss_db=10*log10(Data)",
+      "api": "MatchedTransmissionModel.loss_db / rfmodel_matched_transmission_s.loss_db / Library.matched_transmission(loss_db=...) / JSON model.loss_db",
+      "api_range": "finite nonnegative",
+      "status": "mapped for matched constant loss"
+    },
+    {
+      "name": "Zref",
+      "display_unit": "ohm",
+      "help_default": 50,
+      "saved_value": "default",
+      "runtime_data": null,
+      "api": "reference_ohms",
+      "api_range": "positive finite real",
+      "status": "matched common reference only; runtime null is not proof of resolved 50"
+    },
+    {
+      "name": "ZIN",
+      "display_unit": "ohm",
+      "help_default": 50,
+      "saved_value": "default",
+      "runtime_data": null,
+      "api": null,
+      "status": "independent input mismatch not mapped by MatchedTransmissionModel"
+    },
+    {
+      "name": "ZOUT",
+      "display_unit": "ohm",
+      "help_default": 50,
+      "help_prose_default": "input impedance unless otherwise specified",
+      "saved_value": "default",
+      "runtime_data": null,
+      "api": null,
+      "status": "independent output mismatch and extreme impedance ratio behavior unverified"
+    },
+    {
+      "name": "Ta",
+      "display_unit": "degC",
+      "help_default": "blank inherits analysis temperature",
+      "saved_value": "default",
+      "runtime_data": null,
+      "case_effective_device_temperature_c": 16.85,
+      "case_effective_source_environment_k": 290,
+      "api": "passive_thermal_noise / rfmodel_passive_noise / Library.passive_noise / JSON temperature_k",
+      "conversion_to_api": "temperature_k=Ta+273.15; caller must resolve inheritance",
+      "status": "thermal SI primitive exists; exact vendor normalization fails"
+    },
+    {
+      "name": "ParamFreqList",
+      "display_unit": "MHz",
+      "help_default": [
+        100
+      ],
+      "runtime_data": null,
+      "api": "evaluation frequency_hz is supplied separately; no vendor frequency-array adapter",
+      "status": "not mapped"
+    },
+    {
+      "name": "FrequencyDataName",
+      "display_unit": "filename",
+      "help_default": "none",
+      "saved_value": "blank",
+      "runtime_data": null,
+      "api": null,
+      "status": "not mapped"
+    }
+  ],
+  "api_files": [
+    "include/rfmodel/ideal_devices.hpp",
+    "include/rfmodel/c_api.h",
+    "python/rfmodel/__init__.py",
+    "python/rfmodel/model_file.py",
+    "include/rfmodel/noise_matrix.hpp",
+    "include/rfmodel/linear_path_noise.hpp",
+    "tests/reference_attenuator.cpp"
+  ],
+  "parameter_limits": [
+    "Factory defaults differ: RFModel JSON loss_db defaults to 0, official L defaults to 3; explicit 1 dB is mandatory for this case",
+    "Do not pass raw L Data=1.258925... directly as dB",
+    "CF is Hz; CGAIN/CNF are linear power ratios; CND W/Hz; DCP W",
+    "Physical source and device temperature 290 K; noise-factor reference temperature 290 K",
+    "Physical impedances near 50 in raw V/Z do not substitute for missing resolved runtime properties"
+  ],
+  "evidence": [
+    "validation/systemvue-2023-attenuator-1db.json",
+    "validation/systemvue-2023-attenuator-1db-comparison.json",
+    "validation/systemvue-2023-attenuator-offline-evidence.json",
+    "validation/systemvue-2023-attenuator-offline-diagnostic.json"
+  ],
+  "original_acceptance": {
+    "relative_tolerance": 1e-7,
+    "passed": [
+      "gain",
+      "noise_factor",
+      "signal_output_w"
+    ],
+    "failed": [
+      "output_noise_w_per_hz"
+    ],
+    "passed_overall": false
+  },
+  "unrelated_models_not_assessed": [
+    "ATTN_NonLinear",
+    "AttnPwr",
+    "MOD_DSA",
+    "SDATA_NL",
+    "SDATA_NLI",
+    "NPO2",
+    "NPOD2"
+  ],
+  "remaining_acceptance": [
+    "Resolved same-run model/impedance/temperature and analysis noise setting capture",
+    "Internal thermal constant or independently controlled source/intrinsic-noise reference definition",
+    "Input/output mismatch and vendor return-loss rule",
+    "Frequency-array/file behavior, Ta override and DC semantics",
+    "Cross-language full model adapter and vendor held-out cases"
+  ],
+  "catalog_update_policy": "Separate assessment keyed by stable help-page IDs; inventory flags remain unchanged and do not imply full part support"
+}

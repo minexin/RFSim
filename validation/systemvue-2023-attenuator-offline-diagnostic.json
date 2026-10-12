@@ -1,0 +1,264 @@
+{
+  "schema_version": 1,
+  "classification": "offline_diagnostic_only",
+  "eligible_for_full_model_compatibility": false,
+  "part_help_page": "rfdesign/Attenuator_Part.html",
+  "model_help_page": "rfdesign/ATTN_Linear.html",
+  "original_relative_tolerance": 1e-07,
+  "vendor_subset_passed": false,
+  "original_failure_preserved": true,
+  "absolute_comparison": [
+    {
+      "measurement": "gain",
+      "actual": 0.7943282347242817,
+      "expected": 0.7943282307526429,
+      "relative_error": 4.999997031272327e-09,
+      "relative_tolerance": 1e-07,
+      "passed": true,
+      "historical_rfmodel": 0.7943282347242817,
+      "historical_native_absolute_delta": 0.0,
+      "historical_relative_error": 4.999997031272327e-09
+    },
+    {
+      "measurement": "noise_factor",
+      "actual": 1.258925411794167,
+      "expected": 1.2589254117941686,
+      "relative_error": 1.234634093421053e-15,
+      "relative_tolerance": 1e-07,
+      "passed": true,
+      "historical_rfmodel": 1.2589254117941668,
+      "historical_native_absolute_delta": 2.220446049250313e-16,
+      "historical_relative_error": 1.4110103924812034e-15
+    },
+    {
+      "measurement": "output_noise_w_per_hz",
+      "actual": 4.0038821e-21,
+      "expected": 4.003886060470589e-21,
+      "relative_error": 9.891566665229852e-07,
+      "relative_tolerance": 1e-07,
+      "passed": false,
+      "historical_rfmodel": 4.0038821e-21,
+      "historical_native_absolute_delta": 0.0,
+      "historical_relative_error": 9.891566665229852e-07
+    },
+    {
+      "measurement": "signal_output_w",
+      "actual": 7.943282347242817e-20,
+      "expected": 7.943282108944365e-20,
+      "relative_error": 2.9999998642905726e-08,
+      "relative_tolerance": 1e-07,
+      "passed": true,
+      "historical_rfmodel": 7.943282347242817e-20,
+      "historical_native_absolute_delta": 0.0,
+      "historical_relative_error": 2.9999998642905726e-08
+    }
+  ],
+  "independent_decimal_expected": {
+    "gain": 0.7943282347242815,
+    "noise_factor": 1.2589254117941673,
+    "output_noise_w_per_hz": 4.0038821e-21,
+    "signal_output_w": 7.943282347242815e-20,
+    "source_output_w_per_hz": 3.180396600537149e-21,
+    "intrinsic_output_w_per_hz": 8.234854994628508e-22
+  },
+  "probe_independent_checks": {
+    "gain": {
+      "actual": 0.7943282347242817,
+      "expected": 0.7943282347242815,
+      "relative_error": 2.795375956919182e-16,
+      "relative_tolerance": 1e-13,
+      "passed": true
+    },
+    "noise_factor": {
+      "actual": 1.258925411794167,
+      "expected": 1.2589254117941673,
+      "relative_error": 1.7637629906015062e-16,
+      "relative_tolerance": 1e-13,
+      "passed": true
+    },
+    "output_noise_w_per_hz": {
+      "actual": 4.0038821e-21,
+      "expected": 4.0038821e-21,
+      "relative_error": 0.0,
+      "relative_tolerance": 1e-13,
+      "passed": true
+    },
+    "signal_output_w": {
+      "actual": 7.943282347242817e-20,
+      "expected": 7.943282347242815e-20,
+      "relative_error": 3.030752685405523e-16,
+      "relative_tolerance": 1e-13,
+      "passed": true
+    }
+  },
+  "path_noise_decomposition": {
+    "source_offset_from_si_kT": 9.890158463310428e-07,
+    "output_offset_from_si_kT": 9.891576449039263e-07,
+    "output_over_source_offset": 1.417985728835447e-10,
+    "source_only_replacement_prediction": 4.0038852454626356e-21,
+    "source_only_remaining_relative_error": 2.0355423225210085e-07,
+    "inferred_added_from_path": 8.234863144708042e-22,
+    "inferred_added_offset_from_si": 9.897052879459523e-07,
+    "example_constant": 1.3806503e-23,
+    "example_constant_offset_from_si": 9.415861670358794e-07,
+    "example_constant_remaining_relative_error": 4.757143064663886e-08,
+    "interpretation": "Observed common normalization discrepancy; example constant is a diagnostic hypothesis, never substituted into core or acceptance"
+  },
+  "spectral_peak_voltage_power_checks": [
+    {
+      "identity": "{4}[Source_Noise:0],Source",
+      "port": 1,
+      "frequency_hz": 99999999.5,
+      "actual": 4.003886079922277e-21,
+      "expected": 4.003886079922277e-21,
+      "relative_error": 0.0,
+      "relative_tolerance": 1e-13,
+      "passed": true
+    },
+    {
+      "identity": "{4}[Source_Noise:0],Source",
+      "port": 1,
+      "frequency_hz": 100000000.5,
+      "actual": 4.003886079922277e-21,
+      "expected": 4.003886079922277e-21,
+      "relative_error": 0.0,
+      "relative_tolerance": 1e-13,
+      "passed": true
+    },
+    {
+      "identity": "{4}[Source_Noise:0],Source,Attn",
+      "port": 2,
+      "frequency_hz": 99999999.5,
+      "actual": 3.1803997459997897e-21,
+      "expected": 3.1803997459997897e-21,
+      "relative_error": 0.0,
+      "relative_tolerance": 1e-13,
+      "passed": true
+    },
+    {
+      "identity": "{4}[Source_Noise:0],Source,Attn",
+      "port": 2,
+      "frequency_hz": 100000000.5,
+      "actual": 3.1803997459997897e-21,
+      "expected": 3.1803997459997897e-21,
+      "relative_error": 0.0,
+      "relative_tolerance": 1e-13,
+      "passed": true
+    },
+    {
+      "identity": "{3}[Attn_Noise:1],Attn",
+      "port": 2,
+      "frequency_hz": 99999999.5,
+      "actual": 8.234863344902218e-22,
+      "expected": 8.234863344902218e-22,
+      "relative_error": 0.0,
+      "relative_tolerance": 1e-13,
+      "passed": true
+    },
+    {
+      "identity": "{3}[Attn_Noise:1],Attn",
+      "port": 2,
+      "frequency_hz": 100000000.5,
+      "actual": 8.234863344902218e-22,
+      "expected": 8.234863344902218e-22,
+      "relative_error": 0.0,
+      "relative_tolerance": 1e-13,
+      "passed": true
+    },
+    {
+      "identity": "Node Noise from 'Attn'",
+      "port": 2,
+      "frequency_hz": 99999999.5,
+      "actual": 4.003886080490012e-21,
+      "expected": 4.003886080490012e-21,
+      "relative_error": 0.0,
+      "relative_tolerance": 1e-13,
+      "passed": true
+    },
+    {
+      "identity": "Node Noise from 'Attn'",
+      "port": 2,
+      "frequency_hz": 100000000.5,
+      "actual": 4.003886080490012e-21,
+      "expected": 4.003886080490012e-21,
+      "relative_error": 0.0,
+      "relative_tolerance": 1e-13,
+      "passed": true
+    }
+  ],
+  "spectral_noise_budgets": [
+    {
+      "frequency_hz": 99999999.5,
+      "raw_input_source": 4.003886079922277e-21,
+      "raw_output_source": 3.1803997459997897e-21,
+      "raw_output_intrinsic": 8.234863344902218e-22,
+      "raw_output_total": 4.003886080490012e-21,
+      "sum_check": {
+        "actual": 4.003886080490011e-21,
+        "expected": 4.003886080490012e-21,
+        "relative_error": 1.878965508514649e-16,
+        "relative_tolerance": 1e-13,
+        "passed": true
+      },
+      "source_relative_to_si_budget": 9.89015847885355e-07,
+      "intrinsic_relative_to_si_budget": 1.014015877043306e-06,
+      "raw_source_transfer_over_ideal": -4.9999990814342254e-09,
+      "path_CND_over_raw_total": -4.999998193255806e-09
+    },
+    {
+      "frequency_hz": 100000000.5,
+      "raw_input_source": 4.003886079922277e-21,
+      "raw_output_source": 3.1803997459997897e-21,
+      "raw_output_intrinsic": 8.234863344902218e-22,
+      "raw_output_total": 4.003886080490012e-21,
+      "sum_check": {
+        "actual": 4.003886080490011e-21,
+        "expected": 4.003886080490012e-21,
+        "relative_error": 1.878965508514649e-16,
+        "relative_tolerance": 1e-13,
+        "passed": true
+      },
+      "source_relative_to_si_budget": 9.89015847885355e-07,
+      "intrinsic_relative_to_si_budget": 1.014015877043306e-06,
+      "raw_source_transfer_over_ideal": -4.9999990814342254e-09,
+      "path_CND_over_raw_total": -4.999998193255806e-09
+    }
+  ],
+  "confirmed": [
+    "Original three passes and absolute CND failure reproduced without tolerance changes",
+    "Actual RFModel probe agrees with independent 50-digit SI thermal budget",
+    "Both raw source and intrinsic output terms differ from SI predictions",
+    "Correcting source noise alone leaves an above-threshold path CND residual",
+    "Saved XML identifies ATTN_Linear; separate scan returns L as linear loss ratio"
+  ],
+  "unresolved": [
+    "Simulator internal thermal constant and precise origin of remaining numeric offsets",
+    "Resolved runtime Model/Zref/ZIN/ZOUT/source and load settings were not all captured",
+    "Raw spectral P and path CND normalization are numerically distinct",
+    "No mismatch, frequency-array, temperature-override or full model acceptance"
+  ],
+  "minimum_followup_data": [
+    "Same-run resolved model name, Zref/ZIN/ZOUT, source/load impedance and temperatures, analysis noise settings",
+    "Authoritative internal k/noise normalization definition or separately controlled source-only and intrinsic-noise captures with path CND and raw V/Z/P"
+  ],
+  "new_vendor_capture": false,
+  "inputs": [
+    {
+      "path": "validation\\systemvue-2023-attenuator-1db.json",
+      "sha256": "a09586b46974af5de1f815c0d87e38c9d01ea26a4b94ff7aeef5f8ecb85b3c94"
+    },
+    {
+      "path": "validation\\systemvue-2023-attenuator-1db-comparison.json",
+      "sha256": "c741cfdbe49def138ff6047adb28e68c2de1ebef28166ed2f586f9e22f85955f"
+    },
+    {
+      "path": "validation\\systemvue-2023-attenuator-offline-evidence.json",
+      "sha256": "abfcf0869c005043a33439f7579f1a4fd31e77985a6c9497fbfde847ac77dbdc"
+    },
+    {
+      "path": "build-msvc\\Release\\reference_attenuator.exe",
+      "sha256": "eba2531a405f31fac31ed87b66086afc5bdcf9e04b21f9e9414b03f6c0ed86f9"
+    }
+  ],
+  "diagnostic_script_sha256": "05cca61bcc232362a790607969cae1538bf40bd76c2c30b4efc10a774a2cfb51"
+}

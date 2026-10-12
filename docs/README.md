@@ -102,3 +102,5 @@
 [共同限幅高阶工作点](highorder-linearization.md)提供既有高阶放大器的 C++/C/Python/JSON 链式导数与工作点接口、生成频点选择、混合器件反馈和收敛噪声；厂商模型语义仍待实测验收。
 
 [旧式峰值导数 AM-PM](am-pm.md)提供文档约束推导的 C++ 相位曲线及工作点链式导数；跨语言接口与厂商实测仍待完成。
+
+[1 dB 衰减器离线复核](systemvue-attenuator-offline-audit.md)：确切 ATTN_Linear 参数/API 映射、原阈值失败重放和独立噪声预算。

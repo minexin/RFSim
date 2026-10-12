@@ -1,0 +1,169 @@
+{
+  "schema_version": 1,
+  "stage": "Bounded offline 1 dB ATTN_Linear diagnosis",
+  "base_commit": "3c035f7f92408b6244a5b9bca088445d3c7f83f1",
+  "status": "offline_deliverables_complete_vendor_root_cause_unresolved",
+  "timing": {
+    "started_utc": "2026-10-12T02:29:31+00:00",
+    "deliverables_verified_utc": "2026-10-12T02:50:31.960285+00:00",
+    "elapsed_wall_seconds": 1260.960285,
+    "includes": "Offline research, implementation, tests, documentation and interleaved user-authorized COM/policy diagnostics",
+    "pure_offline_time_separately_measured": false,
+    "calibration_limit": "One existing archived case with usable raw data; not an estimate for acquiring a new vendor case"
+  },
+  "tests": {
+    "new_diagnostic_unit_tests": 10,
+    "python_312_direct": "passed",
+    "ctest_debug": {
+      "passed": 1,
+      "total": 1,
+      "internal_python_tests": 10
+    },
+    "ctest_release": {
+      "passed": 1,
+      "total": 1,
+      "internal_python_tests": 10
+    },
+    "original_comparator_unit_tests": 9,
+    "original_comparator_exit_codes": {
+      "Debug": 1,
+      "Release": 1
+    },
+    "original_vendor_values_thresholds_and_classifications_unchanged": true,
+    "historical_native_numeric_drift": [
+      {
+        "configuration": "Debug",
+        "measurement": "noise_factor",
+        "historical": 1.2589254117941668,
+        "current": 1.258925411794167,
+        "absolute_delta": 2.220446049250313e-16
+      },
+      {
+        "configuration": "Release",
+        "measurement": "noise_factor",
+        "historical": 1.2589254117941668,
+        "current": 1.258925411794167,
+        "absolute_delta": 2.220446049250313e-16
+      }
+    ],
+    "full_ctest_this_stage": "not_run",
+    "installed_consumers_this_stage": "not_run",
+    "wheel_this_stage": "not_run"
+  },
+  "files": [
+    {
+      "path": "scripts/reference/diagnose-attenuator-1db.py",
+      "sha256": "05cca61bcc232362a790607969cae1538bf40bd76c2c30b4efc10a774a2cfb51"
+    },
+    {
+      "path": "scripts/reference/test_diagnose_attenuator_1db.py",
+      "sha256": "34a64b5267be6051d94c3c2124d909b0029fb8f90fbaff298a73b3f3e5e230c5"
+    },
+    {
+      "path": "tests/reference_attenuator.cpp",
+      "sha256": "6f0a1cc61b2adebe02010ae73ca7608b59fc9fb925dfe7ff0f39c74602efbe1b"
+    },
+    {
+      "path": "validation/systemvue-2023-attenuator-1db.json",
+      "sha256": "a09586b46974af5de1f815c0d87e38c9d01ea26a4b94ff7aeef5f8ecb85b3c94"
+    },
+    {
+      "path": "validation/systemvue-2023-attenuator-1db-comparison.json",
+      "sha256": "c741cfdbe49def138ff6047adb28e68c2de1ebef28166ed2f586f9e22f85955f"
+    },
+    {
+      "path": "validation/systemvue-2023-attenuator-offline-evidence.json",
+      "sha256": "abfcf0869c005043a33439f7579f1a4fd31e77985a6c9497fbfde847ac77dbdc"
+    },
+    {
+      "path": "validation/systemvue-2023-attenuator-offline-diagnostic.json",
+      "sha256": "0e86d56f423f5bbceb08c07fc4fbae9da5c4c366c919e82f6682e46b829296b8"
+    },
+    {
+      "path": "validation/systemvue-2023-attn-linear-assessment.json",
+      "sha256": "1ae000b487417a5c1a678ada7299c034fa2b56d9d16319a967270841af82ce0a"
+    }
+  ],
+  "logs": [
+    {
+      "path": "build-reference/attenuator-offline-build-Debug.log",
+      "sha256": "302a3c642a63a0fd158a22ddf6737d8ef2e612e239d701c2c667c19707d1c871"
+    },
+    {
+      "path": "build-reference/attenuator-offline-test-Debug.log",
+      "sha256": "fe089c34f2ef4af5daf8f75bf65a276086150e6c36e799d6263edad1eebca7be"
+    },
+    {
+      "path": "build-reference/attenuator-offline-build-Release.log",
+      "sha256": "f782f92cf4e910a7e6c13023027b94337c4dc2accdcb348ab63251b968b0ae75"
+    },
+    {
+      "path": "build-reference/attenuator-offline-test-Release.log",
+      "sha256": "3e20d500cfcf456fd0e7906e8edcbf10cbf6af8f6fe09237663dcd848cf8ce95"
+    }
+  ],
+  "unrelated_reference_drafts_preserved": [
+    {
+      "path": "scripts/reference/archive-cascade-reference.py",
+      "sha256": "a482db6bd6ae64c050d74e6df321749ec84a7098fb7aa49733079183149806dc"
+    },
+    {
+      "path": "scripts/reference/capture-cascade-reference.ps1",
+      "sha256": "fb42165db2ad10c6213a415c2080e1eeb6e5ec0bcd1dc119bb1d1707c5283f3e"
+    },
+    {
+      "path": "scripts/reference/compare-cascade-amplifier.py",
+      "sha256": "af1260adb093946954d0fb7e4bb2059669706a291418aac19ba193fed7554d9d"
+    },
+    {
+      "path": "scripts/reference/run-systemvue-reference.py",
+      "sha256": "5df486d061ce09c28b396bf62e7fcba473dc6e9086d52861fdc7be6c85864f4e"
+    },
+    {
+      "path": "scripts/reference/test_compare_cascade_amplifier.py",
+      "sha256": "190ea23b0ce0733846db8052ead9bb4d5ba41ff30e007c1f06e1a1753bc3fcf1"
+    },
+    {
+      "path": "scripts/reference/test_run_systemvue_reference.py",
+      "sha256": "7eeeb2f890e59b986fec7eb9af58313f129b73ffccfd924f2f273ff52c396eb5"
+    }
+  ],
+  "root_cause_status": "Common noise normalization discrepancy in both source and intrinsic contributions observed; internal simulator constant/numerical origin unproven",
+  "vendor_subset_passed": false,
+  "original_tolerance": 1e-07,
+  "new_vendor_simulation_or_capture": false,
+  "interleaved_live_diagnostics": {
+    "initial_attempt": {
+      "failure_stage": "PowerShell script loading before COM",
+      "error": "SecurityError / UnauthorizedAccess",
+      "elapsed_seconds": 0.3589999999385327
+    },
+    "authorized_retry": {
+      "state": "completed",
+      "elapsed_seconds": 0.7190000000409782,
+      "helper_pid": 13760,
+      "systemvue_pid": 21556,
+      "systemvue_responding_after": true,
+      "workspace_count": 1,
+      "steps": {
+        "GetActiveObject": "0x00000000",
+        "CastApplication": "0x00000000",
+        "Application.Manager": "0x00000000",
+        "Manager.GetWorkspaceCount": "0x00000000"
+      },
+      "execution_policy": "RemoteSigned in child only; permanent scopes unchanged and independent host Restricted after exit"
+    },
+    "logs": [
+      {
+        "path": "build-reference/systemvue-readonly-probe-20261012-1037.log",
+        "sha256": "ee4d35a0e063deb256e94f2870c8267a1e787ca55064c7e252e5ebe5d7a9a863"
+      },
+      {
+        "path": "build-reference/systemvue-readonly-probe-20261012-1044.log",
+        "sha256": "69446b806aa39930e5b232ad34a87be62c9175857c01114519d014330e3af4ee"
+      }
+    ],
+    "SystemVue_start_stop_FileOpen_analysis_save_Quit": "none"
+  },
+  "publication": "Local commit only; no push, merge or publication"
+}

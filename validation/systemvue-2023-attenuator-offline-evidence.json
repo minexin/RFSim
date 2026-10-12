@@ -1,0 +1,326 @@
+{
+  "schema_version": 1,
+  "kind": "offline_archive_excerpt",
+  "part_help_page": "rfdesign/Attenuator_Part.html",
+  "model_help_page": "rfdesign/ATTN_Linear.html",
+  "help_sha256": {
+    "rfdesign/Attenuator_Part.html": "d833906abed7f68306c89064a091d0f41ba462c923a33da8a7c8750c3739d0ad",
+    "rfdesign/ATTN_Linear.html": "b181c390a6313e766c2a6b125615c6ed9192d0578f3b19e11bd73cb737f42b67"
+  },
+  "sources": [
+    {
+      "role": "original_archive",
+      "path": "build-reference\\attenuator-inspection.json",
+      "sha256": "311524862d2c38a6f0ed4ff8b632042df30ca2a05115fe9fde978a0df8f2331e"
+    },
+    {
+      "role": "later_1db_scan",
+      "path": "build-reference\\attenuator-scan-1.json",
+      "sha256": "bec47e35d5a15399634a94167a632700405331e87b73e0fc45c512e7b99aacf6"
+    },
+    {
+      "role": "saved_workspace",
+      "path": "build-reference\\RFModel_AttenuatorNoise.wsv",
+      "sha256": "89784b61cb3ec533b70618f8bb4b32a0ae883cc61d90e6f9445fab2cec8e1616"
+    },
+    {
+      "role": "official_help",
+      "path": "C:\\Program Files\\Keysight\\SystemVue2023\\Help\\systemvue.qch",
+      "sha256": "eacdae962108181a917525b8e233d5b33d97f683674d1c79007c1c2b7a24bd83"
+    }
+  ],
+  "original_reference_sha256": "a09586b46974af5de1f815c0d87e38c9d01ea26a4b94ff7aeef5f8ecb85b3c94",
+  "original_reference_canonical_sha256": "fb3b47737579b139de31cca4e7eb2a7ca6556fb11206c47132100a0a181152be",
+  "original_dataset_timestamp": "1790239430",
+  "original_measurements": [
+    {
+      "path": "RFModel_AttenuatorNoise/Designs/System1_Data_Folder/System1_Sch1_Data_Path1/Eqns/VarBlock/CF",
+      "data": [
+        100000000,
+        100000000
+      ],
+      "dimensions": [
+        2
+      ]
+    },
+    {
+      "path": "RFModel_AttenuatorNoise/Designs/System1_Data_Folder/System1_Sch1_Data_Path1/Eqns/VarBlock/CGAIN",
+      "data": [
+        1,
+        0.7943282307526429
+      ],
+      "dimensions": [
+        2
+      ]
+    },
+    {
+      "path": "RFModel_AttenuatorNoise/Designs/System1_Data_Folder/System1_Sch1_Data_Path1/Eqns/VarBlock/CND",
+      "data": [
+        4.003886059902843e-21,
+        4.003886060470589e-21
+      ],
+      "dimensions": [
+        2
+      ]
+    },
+    {
+      "path": "RFModel_AttenuatorNoise/Designs/System1_Data_Folder/System1_Sch1_Data_Path1/Eqns/VarBlock/CNF",
+      "data": [
+        1,
+        1.2589254117941686
+      ],
+      "dimensions": [
+        2
+      ]
+    },
+    {
+      "path": "RFModel_AttenuatorNoise/Designs/System1_Data_Folder/System1_Sch1_Data_Path1/Eqns/VarBlock/DCP",
+      "data": [
+        9.999999749999992e-20,
+        7.943282108944365e-20
+      ],
+      "dimensions": [
+        2
+      ]
+    }
+  ],
+  "saved_workspace_parts": {
+    "Attn": {
+      "model": "ATTN_Linear",
+      "netlist": "Port_1,1?Part0|Port_2,2?Part2",
+      "parameters": {
+        "L": {
+          "entry": "Atten",
+          "data": null,
+          "uses_default": false,
+          "unit_code": "47769"
+        },
+        "Zref": {
+          "entry": "",
+          "data": null,
+          "uses_default": true,
+          "unit_code": "34769"
+        },
+        "ZIN": {
+          "entry": "",
+          "data": null,
+          "uses_default": true,
+          "unit_code": "34769"
+        },
+        "ZOUT": {
+          "entry": "",
+          "data": null,
+          "uses_default": true,
+          "unit_code": "34769"
+        },
+        "Ta": {
+          "entry": "",
+          "data": null,
+          "uses_default": true,
+          "unit_code": "12001"
+        },
+        "ParamFreqList": {
+          "entry": "",
+          "data": null,
+          "uses_default": true,
+          "unit_code": "1003"
+        },
+        "FrequencyDataName": {
+          "entry": "",
+          "data": null,
+          "uses_default": false,
+          "unit_code": null
+        }
+      }
+    },
+    "Source": {
+      "model": "MultiSource",
+      "netlist": "1,1?Part1",
+      "parameters": {
+        "Freq": {
+          "entry": "100",
+          "data": null,
+          "uses_default": false,
+          "unit_code": "1003"
+        },
+        "Pwr": {
+          "entry": "-160",
+          "data": null,
+          "uses_default": false,
+          "unit_code": "11002"
+        },
+        "ZO": {
+          "entry": "",
+          "data": null,
+          "uses_default": true,
+          "unit_code": "2000"
+        },
+        "Ta": {
+          "entry": "",
+          "data": null,
+          "uses_default": true,
+          "unit_code": "12001"
+        }
+      }
+    },
+    "Port_2": {
+      "model": "*OUT",
+      "netlist": "Port_1,2?Part1",
+      "parameters": {
+        "ZO": {
+          "entry": "",
+          "data": null,
+          "uses_default": true,
+          "unit_code": "2000"
+        },
+        "Ta": {
+          "entry": "",
+          "data": null,
+          "uses_default": true,
+          "unit_code": "12001"
+        }
+      }
+    }
+  },
+  "saved_example_constants": {
+    "loss_db": 1.0,
+    "temperature_c": 16.85,
+    "example_boltzmann": 1.3806503e-23
+  },
+  "runtime_readbacks": {
+    "L": 1.2589254117941673,
+    "Zref": null,
+    "ZIN": null,
+    "ZOUT": null,
+    "Ta": null,
+    "ParamFreqList": null,
+    "FrequencyDataName": null,
+    "room_temperature_c": 16.85,
+    "device_temperatures_c": [
+      16.85
+    ],
+    "device_temperature_names": [
+      "Attn"
+    ]
+  },
+  "spectral_terms": [
+    {
+      "port": 1,
+      "identity": "{4}[Source_Noise:0],Source",
+      "frequency_hz": 99999999.5,
+      "power_field": 4.003886079922277e-21,
+      "voltage_peak": [
+        6.327626762065577e-10,
+        0
+      ],
+      "impedance_ohms": [
+        49.999999551417964,
+        0
+      ]
+    },
+    {
+      "port": 1,
+      "identity": "{4}[Source_Noise:0],Source",
+      "frequency_hz": 100000000.5,
+      "power_field": 4.003886079922277e-21,
+      "voltage_peak": [
+        6.327626762065577e-10,
+        0
+      ],
+      "impedance_ohms": [
+        49.999999551417964,
+        0
+      ]
+    },
+    {
+      "port": 2,
+      "identity": "{4}[Source_Noise:0],Source,Attn",
+      "frequency_hz": 99999999.5,
+      "power_field": 3.1803997459997897e-21,
+      "voltage_peak": [
+        5.63950328495143e-10,
+        0
+      ],
+      "impedance_ohms": [
+        49.99999975000009,
+        0
+      ]
+    },
+    {
+      "port": 2,
+      "identity": "{4}[Source_Noise:0],Source,Attn",
+      "frequency_hz": 100000000.5,
+      "power_field": 3.1803997459997897e-21,
+      "voltage_peak": [
+        5.63950328495143e-10,
+        0
+      ],
+      "impedance_ohms": [
+        49.99999975000009,
+        0
+      ]
+    },
+    {
+      "port": 2,
+      "identity": "{3}[Attn_Noise:1],Attn",
+      "frequency_hz": 99999999.5,
+      "power_field": 8.234863344902218e-22,
+      "voltage_peak": [
+        2.869645152928828e-10,
+        0
+      ],
+      "impedance_ohms": [
+        49.99999975000009,
+        0
+      ]
+    },
+    {
+      "port": 2,
+      "identity": "{3}[Attn_Noise:1],Attn",
+      "frequency_hz": 100000000.5,
+      "power_field": 8.234863344902218e-22,
+      "voltage_peak": [
+        2.869645152928828e-10,
+        0
+      ],
+      "impedance_ohms": [
+        49.99999975000009,
+        0
+      ]
+    },
+    {
+      "port": 2,
+      "identity": "Node Noise from 'Attn'",
+      "frequency_hz": 99999999.5,
+      "power_field": 4.003886080490012e-21,
+      "voltage_peak": [
+        6.327626775079729e-10,
+        0
+      ],
+      "impedance_ohms": [
+        49.99999975000009,
+        0
+      ]
+    },
+    {
+      "port": 2,
+      "identity": "Node Noise from 'Attn'",
+      "frequency_hz": 100000000.5,
+      "power_field": 4.003886080490012e-21,
+      "voltage_peak": [
+        6.327626775079729e-10,
+        0
+      ],
+      "impedance_ohms": [
+        49.99999975000009,
+        0
+      ]
+    }
+  ],
+  "limits": [
+    "Saved model/defaults are not runtime property readbacks",
+    "Null Data does not establish a resolved parameter value",
+    "Raw spectral P and path CND are retained as distinct reference quantities",
+    "Example equation constant does not establish the simulator's internal constant"
+  ]
+}
