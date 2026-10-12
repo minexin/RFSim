@@ -17,6 +17,136 @@
 extern "C" {
 #endif
 
+typedef struct rfmodel_monte_carlo_result rfmodel_monte_carlo_result;
+
+enum rfmodel_monte_carlo_distribution {
+    RFMODEL_MC_FIXED = 0,
+    RFMODEL_MC_UNIFORM = 1,
+    RFMODEL_MC_LOG_UNIFORM = 2,
+    RFMODEL_MC_NORMAL = 3,
+    RFMODEL_MC_LOG_NORMAL = 4,
+    RFMODEL_MC_DISCRETE_UNIFORM = 5
+};
+
+enum rfmodel_monte_carlo_stop {
+    RFMODEL_MC_COMPLETED = 0,
+    RFMODEL_MC_SAMPLING_FAILURE = 1,
+    RFMODEL_MC_EVALUATION_FAILURE = 2,
+    RFMODEL_MC_CANCELLED = 3
+};
+
+enum rfmodel_monte_carlo_sample_status {
+    RFMODEL_MC_ACCEPTED = 0,
+    RFMODEL_MC_SAMPLE_UNREPRESENTABLE = 1,
+    RFMODEL_MC_NONFINITE_MEASUREMENT = 2,
+    RFMODEL_MC_INVALID_MEASUREMENT_COUNT = 3,
+    RFMODEL_MC_EXCEPTION = 4
+};
+
+typedef struct rfmodel_monte_carlo_parameter {
+    int distribution;
+    double first, second;
+} rfmodel_monte_carlo_parameter;
+
+typedef struct rfmodel_monte_carlo_limits {
+    int has_lower, has_upper; /* 0/1; absent bounds must be zero. */
+    double lower, upper;
+} rfmodel_monte_carlo_limits;
+
+typedef struct rfmodel_monte_carlo_options {
+    size_t samples;
+    uint64_t seed;
+    int reject_invalid, record_history; /* 0/1 */
+    const double *quantile_levels;
+    size_t quantile_count; /* zero disables quantiles; maximum 256 */
+    const rfmodel_monte_carlo_limits *criteria;
+    size_t criteria_count; /* zero disables classification; otherwise metric_count */
+} rfmodel_monte_carlo_options;
+
+typedef struct rfmodel_monte_carlo_summary {
+    size_t parameter_count, metric_count, quantile_count, history_count;
+    size_t requested_samples, samples_attempted, evaluations, accepted_samples, rejected_samples;
+    size_t passed_samples, last_failure_count, last_error_bytes;
+    uint64_t seed, random_words;
+    int stop, has_statistics, criteria_enabled, has_passed_fraction, has_valid_pass_fraction;
+    double passed_fraction, valid_pass_fraction; /* zero when absent */
+} rfmodel_monte_carlo_summary;
+
+typedef struct rfmodel_monte_carlo_statistics {
+    size_t count, quantile_count;
+    double mean, minimum, maximum; /* NaN when count is zero */
+    int has_sample_variance, has_sample_standard_deviation, has_standard_error;
+    double sample_variance, sample_standard_deviation, standard_error; /* zero when absent */
+} rfmodel_monte_carlo_statistics;
+
+typedef struct rfmodel_monte_carlo_sample {
+    size_t index, value_count, error_bytes;
+    int status, passed; /* passed meaningful only when criteria_enabled */
+} rfmodel_monte_carlo_sample;
+
+/* Synchronous cdecl callbacks. Input is read-only and valid during this call.
+   Evaluator returns 0, writes exactly metric_capacity finite values and sets
+   *value_count to metric_capacity; other counts are sample dimension failures.
+   Values are initially NaN and *value_count is initially zero. Never write beyond
+   metric_capacity. Nonzero return means a failed sample with optional error text
+   (error_capacity=513 including NUL). Cancellation: 0=continue, positive=cancel,
+   negative=API failure. Callbacks may reenter RFModel but must not throw across C. */
+typedef int (*rfmodel_monte_carlo_evaluator)(const double *parameters,
+                                             size_t count,
+                                             void *user_data,
+                                             double *values,
+                                             size_t metric_capacity,
+                                             size_t *value_count,
+                                             char *error,
+                                             size_t error_capacity);
+typedef int (*rfmodel_monte_carlo_cancel)(void *user_data);
+/* Inputs including pointed-to options arrays are copied before callbacks.
+   out must point to NULL, not overlap any inputs, and remain unchanged by callbacks.
+   NULL options selects native defaults (including the three default quantiles).
+   API failure preserves out. A successful API call returns an immutable snapshot
+   even when sampling/evaluation failed or the run was cancelled. */
+RFMODEL_API int rfmodel_run_monte_carlo(const rfmodel_monte_carlo_parameter *parameters,
+                                        size_t count,
+                                        size_t metric_count,
+                                        const rfmodel_monte_carlo_options *options,
+                                        rfmodel_monte_carlo_evaluator evaluator,
+                                        rfmodel_monte_carlo_cancel cancelled,
+                                        void *user_data,
+                                        rfmodel_monte_carlo_result **out);
+RFMODEL_API void rfmodel_monte_carlo_destroy(rfmodel_monte_carlo_result *result);
+RFMODEL_API int rfmodel_monte_carlo_get_summary(const rfmodel_monte_carlo_result *result,
+                                                rfmodel_monte_carlo_summary *summary);
+RFMODEL_API int rfmodel_monte_carlo_get_quantile_levels(const rfmodel_monte_carlo_result *result,
+                                                        double *levels,
+                                                        size_t capacity);
+/* NULL quantiles and zero capacity queries statistics only. Otherwise capacity
+   must hold info.quantile_count entries (zero when there are no valid samples). */
+RFMODEL_API int rfmodel_monte_carlo_get_statistics(const rfmodel_monte_carlo_result *result,
+                                                   size_t metric_index,
+                                                   rfmodel_monte_carlo_statistics *info,
+                                                   double *quantiles,
+                                                   size_t capacity);
+RFMODEL_API int rfmodel_monte_carlo_get_last_failure(const rfmodel_monte_carlo_result *result,
+                                                     double *parameters,
+                                                     size_t capacity,
+                                                     char *error,
+                                                     size_t error_capacity);
+/* All data buffers NULL with zero capacities queries info only. Otherwise all
+   required lengths must fit; values may be NULL/0 when info.value_count is zero.
+   Errors need error_bytes+1 bytes including NUL. Sampling failure parameters may
+   contain nonfinite values. Reads never invoke callbacks, preserve all outputs on
+   errors, and leave buffer tails untouched. Output ranges must not overlap each
+   other or the opaque result object. The handle is valid until destroy. */
+RFMODEL_API int rfmodel_monte_carlo_get_sample(const rfmodel_monte_carlo_result *result,
+                                               size_t history_index,
+                                               rfmodel_monte_carlo_sample *info,
+                                               double *parameters,
+                                               size_t parameter_capacity,
+                                               double *values,
+                                               size_t value_capacity,
+                                               char *error,
+                                               size_t error_capacity);
+
 typedef struct rfmodel_optimization_result rfmodel_optimization_result;
 
 enum rfmodel_optimization_parameter_kind {

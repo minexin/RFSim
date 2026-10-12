@@ -1,3 +1,4 @@
+#include "rfmodel/monte_carlo.hpp"
 #include "rfmodel/optimization.hpp"
 #include <memory>
 #include "rfmodel/conversion_frequency_plan.hpp"
@@ -50,6 +51,11 @@
 #include "rfmodel/rlgc_transmission_line.hpp"
 #include <cstdio>
 #include <new>
+
+struct rfmodel_monte_carlo_result {
+    rfmodel::MonteCarloResult core;
+    size_t parameter_count{};
+};
 
 struct rfmodel_optimization_result {
     rfmodel::OptimizationResult core;
@@ -871,7 +877,8 @@ void linearize_conversion_outputs(
 } // namespace
 
 namespace {
-size_t optimization_buffer(const rfmodel_optimization_result *result,
+template <class Result>
+size_t optimization_buffer(const Result *result,
                            const void *pointer,
                            size_t capacity,
                            size_t required,
@@ -890,6 +897,243 @@ void optimization_text(const std::string &source, char *output) {
 } // namespace
 
 extern "C" {
+int rfmodel_run_monte_carlo(const rfmodel_monte_carlo_parameter *parameters,
+                            size_t count,
+                            size_t metric_count,
+                            const rfmodel_monte_carlo_options *options,
+                            rfmodel_monte_carlo_evaluator evaluator,
+                            rfmodel_monte_carlo_cancel cancelled,
+                            void *user_data,
+                            rfmodel_monte_carlo_result **out) {
+    return guarded([&] {
+        require(parameters && count > 0 && count <= 64 && metric_count > 0 && metric_count <= 64 &&
+                evaluator && out);
+        disjoint(out, sizeof(*out), parameters, count * sizeof(*parameters));
+        rfmodel::MonteCarloOptions opt;
+        if (options) {
+            disjoint(out, sizeof(*out), options, sizeof(*options));
+            const auto &o = *options;
+            require((o.reject_invalid == 0 || o.reject_invalid == 1) &&
+                    (o.record_history == 0 || o.record_history == 1));
+            require(o.quantile_count <= 256 && (o.quantile_levels || o.quantile_count == 0));
+            require((o.criteria_count == 0 || o.criteria_count == metric_count) &&
+                    (o.criteria || o.criteria_count == 0));
+            disjoint(out, sizeof(*out), o.quantile_levels, o.quantile_count * sizeof(double));
+            disjoint(out, sizeof(*out), o.criteria, o.criteria_count * sizeof(*o.criteria));
+            opt.samples = o.samples;
+            opt.seed = o.seed;
+            opt.invalid_sample = o.reject_invalid ? rfmodel::MonteCarloFailurePolicy::Reject
+                                                  : rfmodel::MonteCarloFailurePolicy::Stop;
+            opt.record_history = o.record_history != 0;
+            opt.quantile_levels.clear();
+            for (size_t i = 0; i < o.quantile_count; ++i) {
+                opt.quantile_levels.push_back(o.quantile_levels[i]);
+            }
+            for (size_t i = 0; i < o.criteria_count; ++i) {
+                const auto &c = o.criteria[i];
+                require((c.has_lower == 0 || c.has_lower == 1) &&
+                        (c.has_upper == 0 || c.has_upper == 1));
+                require((c.has_lower || c.lower == 0.) && (c.has_upper || c.upper == 0.));
+                opt.criteria.push_back(
+                    {c.has_lower ? std::optional<double>{c.lower} : std::nullopt,
+                     c.has_upper ? std::optional<double>{c.upper} : std::nullopt});
+            }
+        }
+        require(*out == nullptr);
+        std::vector<rfmodel::MonteCarloParameter> native;
+        for (size_t i = 0; i < count; ++i) {
+            native.push_back(
+                {static_cast<rfmodel::MonteCarloDistribution>(parameters[i].distribution),
+                 parameters[i].first,
+                 parameters[i].second});
+        }
+        auto owned = std::make_unique<rfmodel_monte_carlo_result>();
+        owned->parameter_count = count;
+        owned->core = rfmodel::run_monte_carlo(
+            native,
+            metric_count,
+            [&](const std::vector<double> &point) {
+                std::vector<double> values(metric_count, std::numeric_limits<double>::quiet_NaN());
+                size_t value_count = 0;
+                char error[513]{};
+                const int status = evaluator(point.data(),
+                                             point.size(),
+                                             user_data,
+                                             values.data(),
+                                             values.size(),
+                                             &value_count,
+                                             error,
+                                             sizeof(error));
+                error[512] = '\0';
+                if (status != 0) {
+                    throw std::runtime_error(error[0] ? error
+                                                      : "Monte Carlo evaluator callback failed");
+                }
+                if (value_count != metric_count) {
+                    values.clear();
+                }
+                return values;
+            },
+            opt,
+            [&] {
+                if (!cancelled) {
+                    return false;
+                }
+                const int status = cancelled(user_data);
+                if (status < 0) {
+                    throw std::runtime_error("Monte Carlo cancellation callback failed");
+                }
+                return status > 0;
+            });
+        last_error[0] = '\0';
+        *out = owned.release();
+    });
+}
+
+void rfmodel_monte_carlo_destroy(rfmodel_monte_carlo_result *result) {
+    delete result;
+}
+
+int rfmodel_monte_carlo_get_summary(const rfmodel_monte_carlo_result *result,
+                                    rfmodel_monte_carlo_summary *summary) {
+    return guarded([&] {
+        require(result && summary);
+        disjoint(summary, sizeof(*summary), result, sizeof(*result));
+        const auto &r = result->core;
+        *summary = {result->parameter_count,
+                    r.statistics.size(),
+                    r.quantile_levels.size(),
+                    r.history.size(),
+                    r.requested_samples,
+                    r.samples_attempted,
+                    r.evaluations,
+                    r.accepted_samples,
+                    r.rejected_samples,
+                    r.passed_samples,
+                    r.last_failed_parameters.size(),
+                    r.last_error.size(),
+                    r.seed,
+                    r.random_words,
+                    static_cast<int>(r.stop),
+                    r.has_statistics ? 1 : 0,
+                    r.criteria_enabled ? 1 : 0,
+                    r.passed_fraction ? 1 : 0,
+                    r.valid_pass_fraction ? 1 : 0,
+                    r.passed_fraction.value_or(0.),
+                    r.valid_pass_fraction.value_or(0.)};
+    });
+}
+
+int rfmodel_monte_carlo_get_quantile_levels(const rfmodel_monte_carlo_result *result,
+                                            double *levels,
+                                            size_t capacity) {
+    return guarded([&] {
+        require(result != nullptr);
+        optimization_buffer(
+            result, levels, capacity, result->core.quantile_levels.size(), sizeof(double));
+        if (!result->core.quantile_levels.empty()) {
+            std::copy(
+                result->core.quantile_levels.begin(), result->core.quantile_levels.end(), levels);
+        }
+    });
+}
+
+int rfmodel_monte_carlo_get_statistics(const rfmodel_monte_carlo_result *result,
+                                       size_t metric_index,
+                                       rfmodel_monte_carlo_statistics *info,
+                                       double *quantiles,
+                                       size_t capacity) {
+    return guarded([&] {
+        require(result && info && metric_index < result->core.statistics.size());
+        disjoint(info, sizeof(*info), result, sizeof(*result));
+        const auto &s = result->core.statistics[metric_index];
+        const rfmodel_monte_carlo_statistics meta{s.count,
+                                                  s.quantiles.size(),
+                                                  s.mean,
+                                                  s.minimum,
+                                                  s.maximum,
+                                                  s.sample_variance ? 1 : 0,
+                                                  s.sample_standard_deviation ? 1 : 0,
+                                                  s.standard_error ? 1 : 0,
+                                                  s.sample_variance.value_or(0.),
+                                                  s.sample_standard_deviation.value_or(0.),
+                                                  s.standard_error.value_or(0.)};
+        if (!quantiles && capacity == 0) {
+            *info = meta;
+            return;
+        }
+        const auto bytes =
+            optimization_buffer(result, quantiles, capacity, s.quantiles.size(), sizeof(double));
+        disjoint(info, sizeof(*info), quantiles, bytes);
+        if (!s.quantiles.empty()) {
+            std::copy(s.quantiles.begin(), s.quantiles.end(), quantiles);
+        }
+        *info = meta;
+    });
+}
+
+int rfmodel_monte_carlo_get_last_failure(const rfmodel_monte_carlo_result *result,
+                                         double *parameters,
+                                         size_t capacity,
+                                         char *error,
+                                         size_t error_capacity) {
+    return guarded([&] {
+        require(result != nullptr);
+        const auto &r = result->core;
+        const auto bytes = optimization_buffer(
+            result, parameters, capacity, r.last_failed_parameters.size(), sizeof(double));
+        const auto error_bytes =
+            optimization_buffer(result, error, error_capacity, r.last_error.size() + 1, 1);
+        disjoint(parameters, bytes, error, error_bytes);
+        if (!r.last_failed_parameters.empty()) {
+            std::copy(r.last_failed_parameters.begin(), r.last_failed_parameters.end(), parameters);
+        }
+        optimization_text(r.last_error, error);
+    });
+}
+
+int rfmodel_monte_carlo_get_sample(const rfmodel_monte_carlo_result *result,
+                                   size_t history_index,
+                                   rfmodel_monte_carlo_sample *info,
+                                   double *parameters,
+                                   size_t parameter_capacity,
+                                   double *values,
+                                   size_t value_capacity,
+                                   char *error,
+                                   size_t error_capacity) {
+    return guarded([&] {
+        require(result && info && history_index < result->core.history.size());
+        disjoint(info, sizeof(*info), result, sizeof(*result));
+        const auto &s = result->core.history[history_index];
+        const rfmodel_monte_carlo_sample meta{
+            s.index, s.values.size(), s.error.size(), static_cast<int>(s.status), s.passed ? 1 : 0};
+        if (!parameters && !parameter_capacity && !values && !value_capacity && !error &&
+            !error_capacity) {
+            *info = meta;
+            return;
+        }
+        const auto pbytes = optimization_buffer(
+            result, parameters, parameter_capacity, s.parameters.size(), sizeof(double));
+        const auto vbytes =
+            optimization_buffer(result, values, value_capacity, s.values.size(), sizeof(double));
+        const auto ebytes =
+            optimization_buffer(result, error, error_capacity, s.error.size() + 1, 1);
+        const std::pair<const void *, size_t> outputs[] = {
+            {info, sizeof(*info)}, {parameters, pbytes}, {values, vbytes}, {error, ebytes}};
+        for (size_t i = 0; i < 4; ++i) {
+            for (size_t j = 0; j < i; ++j) {
+                disjoint(outputs[i].first, outputs[i].second, outputs[j].first, outputs[j].second);
+            }
+        }
+        std::copy(s.parameters.begin(), s.parameters.end(), parameters);
+        if (!s.values.empty()) {
+            std::copy(s.values.begin(), s.values.end(), values);
+        }
+        optimization_text(s.error, error);
+        *info = meta;
+    });
+}
+
 int rfmodel_optimize_bounded(const rfmodel_optimization_parameter *parameters,
                              size_t count,
                              const rfmodel_optimization_options *options,

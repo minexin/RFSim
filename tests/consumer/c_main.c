@@ -1,6 +1,26 @@
 #include <rfmodel/c_api.h>
 #include <math.h>
 
+static int monte_carlo_evaluate(const double *p,
+                                size_t count,
+                                void *context,
+                                double *values,
+                                size_t capacity,
+                                size_t *written,
+                                char *error,
+                                size_t error_capacity) {
+    (void)count;
+    (void)context;
+    (void)error;
+    (void)error_capacity;
+    if (capacity != 1) {
+        return 1;
+    }
+    values[0] = p[0] * p[0];
+    *written = 1;
+    return 0;
+}
+
 static int optimization_objective(
     const double *p, size_t count, void *context, double *value, char *error, size_t capacity) {
     (void)count;
@@ -12,6 +32,29 @@ static int optimization_objective(
 }
 
 int main(int argc, char **argv) {
+    {
+        const rfmodel_monte_carlo_parameter p = {RFMODEL_MC_FIXED, 2., 0.};
+        const rfmodel_monte_carlo_options options = {2, 99, 0, 1, NULL, 0, NULL, 0};
+        rfmodel_monte_carlo_result *result = NULL;
+        rfmodel_monte_carlo_summary summary;
+        rfmodel_monte_carlo_statistics stats;
+        rfmodel_monte_carlo_sample info;
+        double point, value;
+        char error[1];
+        if (rfmodel_run_monte_carlo(
+                &p, 1, 1, &options, monte_carlo_evaluate, NULL, NULL, &result) ||
+            rfmodel_monte_carlo_get_summary(result, &summary) ||
+            rfmodel_monte_carlo_get_statistics(result, 0, &stats, NULL, 0) ||
+            rfmodel_monte_carlo_get_quantile_levels(result, NULL, 0) ||
+            rfmodel_monte_carlo_get_last_failure(result, NULL, 0, error, 1) ||
+            rfmodel_monte_carlo_get_sample(result, 0, &info, &point, 1, &value, 1, error, 1) ||
+            summary.accepted_samples != 2 || summary.random_words != 0 || stats.mean != 4. ||
+            !stats.has_sample_variance || stats.sample_variance != 0. || point != 2. ||
+            value != 4.) {
+            return 114;
+        }
+        rfmodel_monte_carlo_destroy(result);
+    }
     {
         const rfmodel_optimization_parameter p = {2., 2., 2., RFMODEL_OPT_REAL};
         rfmodel_optimization_result *result = NULL;

@@ -61,10 +61,54 @@ criteria 为空时不计算合格比例，否则必须与指标数相同，至�
 
 传输功率总体均值为 `1000*(1/195-1/205)`，二阶矩为 `1e7/3*(195^-3-205^-3)`。测试在观察结果之前固定均值及通过比例容差为六倍总体标准误，并以预设 alpha=1e-6 的 DKW 概率坐标包络检查分位数，另加 1/n 插值余量。完整样本再次独立核对样本均值及方差。分布单元测试另以 50000 个样本检查六种边缘分布的解析均值和方差。
 
-本阶段范围是原生 C++ 接口、安装消费端和解析 RF 示例。Monte Carlo 的 C ABI、Python、声明式任务与参数绑定、相关输入/协方差、厂商随机算法及 SystemVue 容差分析对照仍未完成，A09 保持开放。
+原生阶段的范围是 C++ 接口、安装消费端和解析 RF 示例；后续 C ABI/Python 接入见下文。声明式任务与参数绑定、相关输入/协方差、厂商随机算法及 SystemVue 容差分析对照仍未完成，A09 保持开放。
 
-## 本阶段验证
+## 原生阶段验证（8fc3710）
 
 验证入口为 `monte_carlo_test`、`monte_carlo_resistor` 两个 CTest 用例及安装后的消费端测试。可用 `ctest --test-dir build -C Release -R monte_carlo --output-on-failure` 重跑新增用例；`rfmodel_tolerance_analysis` 的标准输出即完整 JSON 轨迹。示例源码为 [monte_carlo_resistor.cpp](../examples/monte_carlo_resistor.cpp)。
 
-[机读验证报告](../validation/monte-carlo-native-validation-20261012.json)记录四个本地配置的核心、安装、同环境重放、独立 Python 统计核对和源文件指纹；[完整电阻容差轨迹](../validation/monte-carlo-resistor-example-20261012.json)保留全部 4096 个样本。本阶段 C ABI 与 Python 源码未改动，本地完整 CTest 包含原有绑定测试，没有另行构建安装新 wheel；干净检出的三平台 wheel 回归随阶段推送执行。报告中发布状态保留生成时刻的含义。
+[机读验证报告](../validation/monte-carlo-native-validation-20261012.json)记录四个本地配置的核心、安装、同环境重放、独立 Python 统计核对和源文件指纹；[完整电阻容差轨迹](../validation/monte-carlo-resistor-example-20261012.json)保留全部 4096 个样本。原生阶段 C ABI 与 Python 源码未改动，本地完整 CTest 包含原有绑定测试，没有另行构建安装新 wheel；干净检出的三平台 wheel 回归随阶段推送执行。报告中发布状态保留生成时刻的含义。
+
+## C ABI 与 Python 同步回调
+
+`rfmodel_run_monte_carlo` 现提供与原生 C++ 相同的采样/统计语义，不改变已有 ABI 布局。新结构体、枚举与函数声明见 [c_api.h](../include/rfmodel/c_api.h)。结果是独立、只读的 `rfmodel_monte_carlo_result`，由 `rfmodel_monte_carlo_destroy` 释放；输入和 options 指向的分位数/判据数组在首次回调前复制。
+
+C 求值回调接收只读参数、指标输出缓冲区、其容量以及 value_count 输出指针。缓冲区容量就是 metric_count，初值为 NaN，value_count 初值为零。成功时写满指标并设置实际个数，再返回 0；个数不符记为 InvalidMeasurementCount，未写满或非有限值记为 NonFiniteMeasurement。不得越界写入。非零返回记为 Exception，可写最多 512 字节诊断；库保证第 513 字节为 NUL。取消回调返回零继续，正值取消，负值表示 API 失败。回调可重入 RFModel，但不能跨 C 边界抛异常，也不能修改调用方 out 槽。
+
+out 初始必须为 NULL，且不与请求及其数组重叠。NULL options 使用原生默认值；非 NULL options 中 quantile_count=0 关闭分位数，criteria_count=0 关闭判定，否则判据数必须等于 metric_count。所有布尔字段要求 0/1，不存在的上下界值必须为零。API 失败不写入 out；正常返回的句柄也可能报告采样失败、求值失败或取消，调用方必须检查 stop。
+
+读取接口包括 summary、quantile_levels、逐指标 statistics、last_failure 和逐条 sample。statistics 在分位数缓冲区 NULL/0 时只查询元数据；sample 在三个数据缓冲区均 NULL/0 时只查询元数据。失败样本的 value_count 为零，可用 NULL/0 读取其空指标。所有查询均先完成全部容量、溢出和输出重叠检查，再写入结果；错误不改变输出，成功不触及缓冲区剩余区域。查询不会重新执行回调。调用方不得在读取期间销毁同一句柄。
+
+C 统计结构用 has_sample_variance、has_sample_standard_deviation、has_standard_error 显式表示可用性，不可用时对应数值置零。没有有效样本时 mean/minimum/maximum 为 NaN。两个比例分别有可用性标志，不可用时数值置零。采样失败参数可含非有限值，不能不加处理直接输出为标准 JSON。
+
+Python 的 `Library.run_monte_carlo` 提供相同入口，参数为 `MonteCarloParameter(distribution, first, second=0)` 或同字段 dict，分布名为 fixed、uniform、log_uniform、normal、log_normal、discrete_uniform。判据为 `MonteCarloLimits(lower=None, upper=None)` 或同字段 dict。seed 只接受 0..2^64-1 的 Python int，布尔值和浮点数不作为种子。其余选项沿用原生命名和默认值。
+
+```python
+import rfmodel
+lib = rfmodel.Library('path/to/rfmodel_c.dll')
+result = lib.run_monte_carlo(
+    [rfmodel.MonteCarloParameter('uniform', 45, 55)],
+    1,
+    lambda x: [10000 / (150 + x[0])**2],
+    samples=4096, seed=20261012,
+    criteria=[rfmodel.MonteCarloLimits(lower=0.25)],
+)
+print(result.statistics[0].mean, result.passed_fraction)
+```
+
+回调收到不可变 tuple，返回指标的可迭代对象；最多读取 metric_count+1 项以判断维数错误，不耗尽任意长生成器。参数、分位数及判据输入也受长度上限约束。结果及其统计、历史为不可变 NamedTuple/tuple，原生句柄在结果复制后释放，读取过程不调用求值函数。没有统计量和失败参数中的非有限值映射为 None；下溢到零等有限失败参数保留数值。未启用判据时每条样本的 passed 为 None。因而快照可用 `json.dumps(result._asdict(), allow_nan=False)` 序列化，但深层 NamedTuple 将按数组输出；命名字段 JSON 可参见完整 Python 示例的显式转换。
+
+普通 Python 求值异常成为样本失败；MemoryError、KeyboardInterrupt、SystemExit 和其他非 Exception 的 BaseException 在安全返回后重新抛出，Reject 策略也不会继续调用下一次求值。取消回调异常或非 bool 返回同样重新抛出。结果提取失败仍释放句柄；诊断截断保持有效 UTF-8，异常文本格式化本身出错也会重新抛出。
+
+[Python 电阻容差示例](../examples/monte_carlo_resistor.py)重建与 C++ 示例相同的两电阻网络，通过 C ABI 逐样本求解，再核对解析电路和统计值。运行方式为 `python examples/monte_carlo_resistor.py path/to/native/library`；加 `--installed` 时使用已安装包，配合隔离安装环境验证。此示例不构成通用 Monte Carlo 任务格式。
+
+本次 wheel 需要包含上述新导出符号的配套原生库；仅替换 Python 包不能使旧 SDK 获得新能力。Monte Carlo 的声明式任务与参数绑定、相关输入/协方差及厂商对照仍待完成，A09 整项继续保持开放。
+
+
+## C/Python 阶段验证
+
+[跨语言机读报告](../validation/monte-carlo-api-validation-20261012.json)分别记录 Windows/Linux Debug/Release 的全量 CTest、C/C++ 安装消费端、安装 wheel 与源文件指纹。新增纯 C 回归覆盖输出失败原子性和所有状态，17 项 Python 测试覆盖回调、句柄释放、统计边界与实际 RF 网络；这些测试通过安装 wheel 验证工具自动纳入三平台 CI。
+
+[安装后 Python 完整轨迹](../validation/monte-carlo-python-resistor-example-20261012.json)保存 4096 个样本及全部输入选项。每个配置均与本配置的 C++ 示例逐点比较参数和指标，并独立计算电路与统计参考。原生随机流/统计实现的源码指纹保持不变，前一阶段远程验证见 [8fc3710 的 CI 记录](../validation/monte-carlo-native-ci-validation-20261012.json)。
+
+四个本地配置实际结果为：各 141/141 核心测试、2/2 安装消费端、427/427 安装 wheel 回归。完整 C++/Python 参数轨迹相同，最大指标差 5.56e-17，独立电路误差不超过 2.78e-16。Linux 首次 wheel 安装因系统 Python 缺少 pip 停止，随后使用工作区既有环境和独立安装目录完成全部验证；报告保留首次失败和成功重跑的证据。

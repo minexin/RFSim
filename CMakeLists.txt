@@ -55,6 +55,12 @@ if(RFMODEL_BUILD_C_API)
     add_executable(c_api_highorder_frequency_plan_test tests/c_api_highorder_frequency_plan_test.c)
     target_link_libraries(c_api_highorder_frequency_plan_test PRIVATE RFModel::c_api)
     add_test(NAME c_api_highorder_frequency_plan_test COMMAND c_api_highorder_frequency_plan_test)
+    add_executable(c_api_monte_carlo_test tests/c_api_monte_carlo_test.c)
+    target_link_libraries(c_api_monte_carlo_test PRIVATE RFModel::c_api)
+    if(UNIX)
+        target_link_libraries(c_api_monte_carlo_test PRIVATE m)
+    endif()
+    add_test(NAME c_api_monte_carlo_test COMMAND c_api_monte_carlo_test)
     add_executable(c_api_optimization_test tests/c_api_optimization_test.c)
     target_link_libraries(c_api_optimization_test PRIVATE RFModel::c_api)
     if(UNIX)
@@ -81,6 +87,8 @@ if(RFMODEL_BUILD_C_API)
             ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_python_api.py $<TARGET_FILE:rfmodel_c>)
         add_test(NAME optimization_task_file_test COMMAND ${Python3_EXECUTABLE}
             ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_optimization_file.py $<TARGET_FILE:rfmodel_c>)
+        add_test(NAME monte_carlo_python_test COMMAND ${Python3_EXECUTABLE}
+            ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_monte_carlo.py $<TARGET_FILE:rfmodel_c>)
         add_test(NAME optimization_python_test COMMAND ${Python3_EXECUTABLE}
             ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_optimization.py $<TARGET_FILE:rfmodel_c>)
         add_test(NAME mixed_reference_file_test COMMAND ${Python3_EXECUTABLE}

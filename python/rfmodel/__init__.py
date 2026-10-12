@@ -13,6 +13,10 @@ from .frequency_plan import (
 )
 
 
+from .monte_carlo import (
+    MonteCarloParameter, MonteCarloLimits, MonteCarloStatistics, MonteCarloSample, MonteCarloResult,
+    _signatures as _monte_carlo_signatures, run_monte_carlo as _run_monte_carlo,
+)
 from .optimization import (
     OptimizationParameter, OptimizationResult, OptimizationEvaluation,
     _signatures as _optimization_signatures, minimize_bounded as _minimize_bounded,
@@ -1735,6 +1739,7 @@ class Library:
             ),
         }
         signatures.update(_optimization_signatures())
+        signatures.update(_monte_carlo_signatures())
         for name, (result, arguments) in signatures.items():
             function = getattr(self._dll, name)
             function.restype = result
@@ -1746,6 +1751,10 @@ class Library:
         if status:
             message = self._dll.rfmodel_last_error().decode("utf-8", errors="replace")
             raise RFModelError(status, message)
+
+    def run_monte_carlo(self, parameters, metric_count, evaluate, **options):
+        """Run native Monte Carlo sampling with a synchronous multi-metric evaluator."""
+        return _run_monte_carlo(self, parameters, metric_count, evaluate, **options)
 
     def minimize_bounded(self, parameters, objective, **options):
         """Minimize a Python objective using native bounded coordinate polling."""

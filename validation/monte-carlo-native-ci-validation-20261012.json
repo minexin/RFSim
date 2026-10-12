@@ -1,0 +1,207 @@
+{
+  "commit": "8fc3710fc620403d1811fdb813afa97f5d7bd11e",
+  "run_id": 38241813740,
+  "run_url": "https://github.com/minexin/RFSim/actions/runs/38241813740",
+  "status": "completed",
+  "conclusion": "success",
+  "configurations": [
+    {
+      "os": "windows-latest",
+      "configuration": "Debug",
+      "ctest": 139,
+      "consumers": 2,
+      "wheel": 410,
+      "suites": 26,
+      "monte_carlo_example": {
+        "samples": 4096,
+        "passed_samples": 2060,
+        "passed_fraction": 0.5029296875,
+        "mean_gain": 0.250199625523448,
+        "max_independent_trace_error": 2.7755575615628914e-16
+      },
+      "wheel_report": {
+        "path": "build-reference/monte-carlo-native-ci-evidence/verification-windows-latest-Debug/installed-python-verification/installed-python-validation.json",
+        "sha256": "52f4e53ac773b65b1a0935274ee12d14b50eb961b167534fc1a0f6d9f43f771b"
+      },
+      "logs": [
+        {
+          "path": "build-reference/monte-carlo-native-ci-evidence/verification-windows-latest-Debug/build/Testing/Temporary/LastTest.log",
+          "sha256": "f32b7ff4d38a23d4ffd9510ab55b46eb6becc73a4ea04fbcb3b6fa9fccd62581",
+          "passed": 139,
+          "total": 139
+        },
+        {
+          "path": "build-reference/monte-carlo-native-ci-evidence/verification-windows-latest-Debug/consumer-build/Testing/Temporary/LastTest.log",
+          "sha256": "2443138e29369becd4da815f0453b356860c99456e50c4b00035c226464ad252",
+          "passed": 2,
+          "total": 2
+        }
+      ]
+    },
+    {
+      "os": "windows-latest",
+      "configuration": "Release",
+      "ctest": 139,
+      "consumers": 2,
+      "wheel": 410,
+      "suites": 26,
+      "monte_carlo_example": {
+        "samples": 4096,
+        "passed_samples": 2060,
+        "passed_fraction": 0.5029296875,
+        "mean_gain": 0.250199625523448,
+        "max_independent_trace_error": 2.7755575615628914e-16
+      },
+      "wheel_report": {
+        "path": "build-reference/monte-carlo-native-ci-evidence/verification-windows-latest-Release/installed-python-verification/installed-python-validation.json",
+        "sha256": "6eb64fbca81fe4f1add0c1732561fe87f22978b79575d22d85f79fb65a675315"
+      },
+      "logs": [
+        {
+          "path": "build-reference/monte-carlo-native-ci-evidence/verification-windows-latest-Release/build/Testing/Temporary/LastTest.log",
+          "sha256": "6a64fb97ebb7da558e050f31ad5307643e7d355fa4bc24b52168951dcef36a66",
+          "passed": 139,
+          "total": 139
+        },
+        {
+          "path": "build-reference/monte-carlo-native-ci-evidence/verification-windows-latest-Release/consumer-build/Testing/Temporary/LastTest.log",
+          "sha256": "a2fa7ceab000808617fc21d69182c1bf50d03c925444537ee1a98b8d920308ab",
+          "passed": 2,
+          "total": 2
+        }
+      ]
+    },
+    {
+      "os": "ubuntu-latest",
+      "configuration": "Debug",
+      "ctest": 139,
+      "consumers": 2,
+      "wheel": 410,
+      "suites": 26,
+      "monte_carlo_example": {
+        "samples": 4096,
+        "passed_samples": 2060,
+        "passed_fraction": 0.5029296875,
+        "mean_gain": 0.250199625523448,
+        "max_independent_trace_error": 2.7755575615628914e-16
+      },
+      "wheel_report": {
+        "path": "build-reference/monte-carlo-native-ci-evidence/verification-ubuntu-latest-Debug/installed-python-verification/installed-python-validation.json",
+        "sha256": "1661a556fa0c6aacb36dd473c8693d037b98d053e6f27b53ffcfb7b42e29487b"
+      },
+      "logs": [
+        {
+          "path": "build-reference/monte-carlo-native-ci-evidence/verification-ubuntu-latest-Debug/build/Testing/Temporary/LastTest.log",
+          "sha256": "08c8f992b528509ec2ba0a7fee190cc2f986f70c11bbfe91b55e43882bd89d7b",
+          "passed": 139,
+          "total": 139
+        },
+        {
+          "path": "build-reference/monte-carlo-native-ci-evidence/verification-ubuntu-latest-Debug/consumer-build/Testing/Temporary/LastTest.log",
+          "sha256": "b1d5002d605c9222a6ad9221d8dcc0778c010d171a5d9e320200f558b2fb4a94",
+          "passed": 2,
+          "total": 2
+        }
+      ]
+    },
+    {
+      "os": "ubuntu-latest",
+      "configuration": "Release",
+      "ctest": 139,
+      "consumers": 2,
+      "wheel": 410,
+      "suites": 26,
+      "monte_carlo_example": {
+        "samples": 4096,
+        "passed_samples": 2060,
+        "passed_fraction": 0.5029296875,
+        "mean_gain": 0.250199625523448,
+        "max_independent_trace_error": 2.7755575615628914e-16
+      },
+      "wheel_report": {
+        "path": "build-reference/monte-carlo-native-ci-evidence/verification-ubuntu-latest-Release/installed-python-verification/installed-python-validation.json",
+        "sha256": "dffb1e24044d9390cd7a1059da8d715ca72afb2789112195bc9da98612e68ffc"
+      },
+      "logs": [
+        {
+          "path": "build-reference/monte-carlo-native-ci-evidence/verification-ubuntu-latest-Release/build/Testing/Temporary/LastTest.log",
+          "sha256": "a3da317fe5d7a471790e4abb0865b3eaa5cbb2d159cb90d53ab16844a21cfcb6",
+          "passed": 139,
+          "total": 139
+        },
+        {
+          "path": "build-reference/monte-carlo-native-ci-evidence/verification-ubuntu-latest-Release/consumer-build/Testing/Temporary/LastTest.log",
+          "sha256": "730490bb402cb4a5e4dd9173c47cb372d2ccffab8d8d75b7fce7af5e891c1f19",
+          "passed": 2,
+          "total": 2
+        }
+      ]
+    },
+    {
+      "os": "macos-latest",
+      "configuration": "Debug",
+      "ctest": 139,
+      "consumers": 2,
+      "wheel": 410,
+      "suites": 26,
+      "monte_carlo_example": {
+        "samples": 4096,
+        "passed_samples": 2060,
+        "passed_fraction": 0.5029296875,
+        "mean_gain": 0.250199625523448,
+        "max_independent_trace_error": 3.885780586188048e-16
+      },
+      "wheel_report": {
+        "path": "build-reference/monte-carlo-native-ci-evidence/verification-macos-latest-Debug/installed-python-verification/installed-python-validation.json",
+        "sha256": "6acd982e3f7dbb59046a524d7ac9916c2acd6a8d75ef5712ca5faf42016afed0"
+      },
+      "logs": [
+        {
+          "path": "build-reference/monte-carlo-native-ci-evidence/verification-macos-latest-Debug/build/Testing/Temporary/LastTest.log",
+          "sha256": "5c7a7baab15bb6e4d2d19918a6fa8b58584bdeb4765d2a4fc1b85399dc5862e4",
+          "passed": 139,
+          "total": 139
+        },
+        {
+          "path": "build-reference/monte-carlo-native-ci-evidence/verification-macos-latest-Debug/consumer-build/Testing/Temporary/LastTest.log",
+          "sha256": "7475aa61e41ad720c821ef4470f150471f0d0dc7cea9c4db749e0a80ba8a1592",
+          "passed": 2,
+          "total": 2
+        }
+      ]
+    },
+    {
+      "os": "macos-latest",
+      "configuration": "Release",
+      "ctest": 139,
+      "consumers": 2,
+      "wheel": 410,
+      "suites": 26,
+      "monte_carlo_example": {
+        "samples": 4096,
+        "passed_samples": 2060,
+        "passed_fraction": 0.5029296875,
+        "mean_gain": 0.250199625523448,
+        "max_independent_trace_error": 3.885780586188048e-16
+      },
+      "wheel_report": {
+        "path": "build-reference/monte-carlo-native-ci-evidence/verification-macos-latest-Release/installed-python-verification/installed-python-validation.json",
+        "sha256": "c87083c393cdeaf2714959a606afd2b3546b72a6ed7118fc7849c44914957e6d"
+      },
+      "logs": [
+        {
+          "path": "build-reference/monte-carlo-native-ci-evidence/verification-macos-latest-Release/build/Testing/Temporary/LastTest.log",
+          "sha256": "6a7df1ce74b766c50d31e0a8251351f3bb9efc9654b6c5723d10a8850f2c2e1a",
+          "passed": 139,
+          "total": 139
+        },
+        {
+          "path": "build-reference/monte-carlo-native-ci-evidence/verification-macos-latest-Release/consumer-build/Testing/Temporary/LastTest.log",
+          "sha256": "af6574db716513508c9bfb5aee9d25ea63092d442ffd90bb3f565c4d64571685",
+          "passed": 2,
+          "total": 2
+        }
+      ]
+    }
+  ]
+}
