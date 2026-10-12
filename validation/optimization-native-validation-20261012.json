@@ -1,0 +1,563 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-12",
+  "stage": "A09 native bounded parameter optimization with analytic RF design validation",
+  "base_commit": "d06fe4abcb90537b8350326052c6119d1737a29a",
+  "implementation": [
+    "Deterministic complete coordinate polling over finite box bounds",
+    "Real, logarithmic and exactly representable integer parameters with fixed-parameter support",
+    "Explicit evaluation/iteration caps, objective target, cancellation and numerical-resolution stops",
+    "Default stop-on-invalid objective; explicit reject policy, preserved incumbent and bounded failure diagnostics",
+    "Optional complete evaluation history; recording does not affect candidate sequence",
+    "Standalone RF LC matching design outputs full machine-readable inputs, options, result and evaluation trace"
+  ],
+  "independent_checks": [
+    "Known mixed real/log/integer minimizer and bound/nonsmooth minimizers",
+    "Best full-poll direction rather than first improvement",
+    "Same-environment full trace replay and history-disabled search identity",
+    "Failure, nonfinite output, budget, cancellation, fixed parameters and numerical-resolution distinctions",
+    "Invalid requests rejected before objective invocation",
+    "RF LC network optimum compared with analytic L=25/omega and C=.02/omega",
+    "Every recorded RF objective independently recomputed from physical impedance, not network S assembly"
+  ],
+  "configurations": [
+    {
+      "platform": "Windows",
+      "configuration": "Debug",
+      "build": "clean-first all targets",
+      "ctest": {
+        "passed": 134,
+        "total": 134,
+        "seconds": 96.53,
+        "log": {
+          "path": "build-reference/optimization-native-ctest-Debug.log",
+          "sha256": "6ef9727ed4bfd5b6110679c153b8463b89480333e2ed0508560734f69d1c76c2"
+        }
+      },
+      "installed_consumers": {
+        "passed": 2,
+        "total": 2,
+        "seconds": 0.22,
+        "log": {
+          "path": "build-reference/optimization-native-consumer-ctest-Debug.log",
+          "sha256": "9e892348a032ff8af3dadbb2e0d8edc00f65d5569e3bc2b642204c9eb67187ae"
+        }
+      },
+      "example": {
+        "format": "rfmodel.optimization-example",
+        "version": 1,
+        "algorithm": "bounded_coordinate_poll",
+        "parameter_order": [
+          "series_inductance_h",
+          "shunt_capacitance_f"
+        ],
+        "frequency_hz": 1000000000,
+        "source_reference_ohms": 50,
+        "load_ohms": 25,
+        "target_reflected_power_fraction": 1e-14,
+        "initial_step": 0.25,
+        "minimum_step": 1e-09,
+        "contraction": 0.5,
+        "max_evaluations": 10000,
+        "max_iterations": 2000,
+        "parameter_bounds_and_initial": [
+          [
+            1e-10,
+            3e-08,
+            2e-09
+          ],
+          [
+            1e-13,
+            1e-10,
+            1e-11
+          ]
+        ],
+        "parameter_scales": [
+          "log",
+          "log"
+        ],
+        "stop": "target_reached",
+        "evaluations": 174,
+        "iterations": 44,
+        "rejected_evaluations": 0,
+        "final_step": 2.384185791015625e-07,
+        "parameters": [
+          3.978873679589438e-09,
+          3.183098336973333e-12
+        ],
+        "analytic_parameters": [
+          3.9788735772973836e-09,
+          3.1830988618379067e-12
+        ],
+        "objective": 6.96250199257126e-15,
+        "physical_input_impedance_ohms": [
+          50.00000128543852,
+          8.244553849294334e-06
+        ],
+        "physical_reflected_power_fraction": 6.9625018577389364e-15,
+        "report": {
+          "path": "build-reference/optimization-native-example-Windows-Debug.json",
+          "sha256": "efad7115c0abcb3e733c2afb9708f7ec5d312687440a3c47b74497ba4f92b0b8"
+        },
+        "replay": {
+          "path": "build-reference/optimization-native-replay-Windows-Debug.json",
+          "sha256": "efad7115c0abcb3e733c2afb9708f7ec5d312687440a3c47b74497ba4f92b0b8"
+        },
+        "replay_identical": true,
+        "parameter_relative_errors": [
+          2.5708797313228615e-08,
+          1.6489106891004468e-07
+        ],
+        "max_independent_trace_objective_error": 2.3314683517128287e-15
+      },
+      "logs": [
+        {
+          "path": "build-reference/optimization-native-build-Debug.log",
+          "sha256": "73ec193a4366381e6fab28dafc96b5505c580efabf32571dcbac2ee37c19fc63"
+        },
+        {
+          "path": "build-reference/optimization-native-install-Debug.log",
+          "sha256": "fc580a79ccd1162ebaba1a8564b3ba739cbe9caf71314c66e6facf03390b9591"
+        },
+        {
+          "path": "build-reference/optimization-native-consumer-configure-Debug.log",
+          "sha256": "f2ddada9874cbbaab5dc58bdc9cd85f1d58344b8ecd596928b81400882104159"
+        },
+        {
+          "path": "build-reference/optimization-native-consumer-build-Debug.log",
+          "sha256": "f419a6f891c252e3f0a8a2ea466bae4c1d7f3b1092b8972dc1eb331dc42ae716"
+        }
+      ]
+    },
+    {
+      "platform": "Windows",
+      "configuration": "Release",
+      "build": "clean-first all targets",
+      "ctest": {
+        "passed": 134,
+        "total": 134,
+        "seconds": 75.76,
+        "log": {
+          "path": "build-reference/optimization-native-ctest-Release.log",
+          "sha256": "e3456de7e4427fb0093aad654253656da6e2006865a262df69fffe57308a65fb"
+        }
+      },
+      "installed_consumers": {
+        "passed": 2,
+        "total": 2,
+        "seconds": 0.21,
+        "log": {
+          "path": "build-reference/optimization-native-consumer-ctest-Release.log",
+          "sha256": "8cb289c72b45a101f922ab4f0a1b98807b579604f489cc121c834a72fb11eb2a"
+        }
+      },
+      "example": {
+        "format": "rfmodel.optimization-example",
+        "version": 1,
+        "algorithm": "bounded_coordinate_poll",
+        "parameter_order": [
+          "series_inductance_h",
+          "shunt_capacitance_f"
+        ],
+        "frequency_hz": 1000000000,
+        "source_reference_ohms": 50,
+        "load_ohms": 25,
+        "target_reflected_power_fraction": 1e-14,
+        "initial_step": 0.25,
+        "minimum_step": 1e-09,
+        "contraction": 0.5,
+        "max_evaluations": 10000,
+        "max_iterations": 2000,
+        "parameter_bounds_and_initial": [
+          [
+            1e-10,
+            3e-08,
+            2e-09
+          ],
+          [
+            1e-13,
+            1e-10,
+            1e-11
+          ]
+        ],
+        "parameter_scales": [
+          "log",
+          "log"
+        ],
+        "stop": "target_reached",
+        "evaluations": 174,
+        "iterations": 44,
+        "rejected_evaluations": 0,
+        "final_step": 2.384185791015625e-07,
+        "parameters": [
+          3.978873679589438e-09,
+          3.183098336973333e-12
+        ],
+        "analytic_parameters": [
+          3.9788735772973836e-09,
+          3.1830988618379067e-12
+        ],
+        "objective": 6.96250199257126e-15,
+        "physical_input_impedance_ohms": [
+          50.00000128543852,
+          8.244553849294334e-06
+        ],
+        "physical_reflected_power_fraction": 6.9625018577389364e-15,
+        "report": {
+          "path": "build-reference/optimization-native-example-Windows-Release.json",
+          "sha256": "efad7115c0abcb3e733c2afb9708f7ec5d312687440a3c47b74497ba4f92b0b8"
+        },
+        "replay": {
+          "path": "build-reference/optimization-native-replay-Windows-Release.json",
+          "sha256": "efad7115c0abcb3e733c2afb9708f7ec5d312687440a3c47b74497ba4f92b0b8"
+        },
+        "replay_identical": true,
+        "parameter_relative_errors": [
+          2.5708797313228615e-08,
+          1.6489106891004468e-07
+        ],
+        "max_independent_trace_objective_error": 2.3314683517128287e-15
+      },
+      "logs": [
+        {
+          "path": "build-reference/optimization-native-build-Release.log",
+          "sha256": "c71f1817dd300cc9dc9f31d4a1208dbe2f98a60b3ee7fb0e684e044798f2d625"
+        },
+        {
+          "path": "build-reference/optimization-native-install-Release.log",
+          "sha256": "6abc74fee98bca7092f57a4a4e6f29c6d05d335ea3f84e740912b82cda888c8b"
+        },
+        {
+          "path": "build-reference/optimization-native-consumer-configure-Release.log",
+          "sha256": "a9765fa7f209039f8903daa8ff1daa2c6c3b97fb06e1c33141258aea5233ae3b"
+        },
+        {
+          "path": "build-reference/optimization-native-consumer-build-Release.log",
+          "sha256": "8fd43d185413aed6a9f20d912c86b22d4f83479261c172991741870e22e917ce"
+        }
+      ]
+    },
+    {
+      "platform": "Linux",
+      "configuration": "Debug",
+      "build": "clean-first all targets",
+      "ctest": {
+        "passed": 134,
+        "total": 134,
+        "seconds": 60.25,
+        "log": {
+          "path": "build-reference/optimization-native-linux-ctest-Debug.log",
+          "sha256": "3cde856665c21c10ebc10062626ea20c519ea0d16bb4feebb2f7d53fa0ab45f1"
+        }
+      },
+      "installed_consumers": {
+        "passed": 2,
+        "total": 2,
+        "seconds": 0.07,
+        "log": {
+          "path": "build-reference/optimization-native-linux-consumer-ctest-Debug.log",
+          "sha256": "fbb816d247b6ce15e2e8caa8c63c6ad4e0d5ff5ff30ca4edf7f63ff4033af941"
+        }
+      },
+      "example": {
+        "format": "rfmodel.optimization-example",
+        "version": 1,
+        "algorithm": "bounded_coordinate_poll",
+        "parameter_order": [
+          "series_inductance_h",
+          "shunt_capacitance_f"
+        ],
+        "frequency_hz": 1000000000,
+        "source_reference_ohms": 50,
+        "load_ohms": 25,
+        "target_reflected_power_fraction": 1e-14,
+        "initial_step": 0.25,
+        "minimum_step": 1e-09,
+        "contraction": 0.5,
+        "max_evaluations": 10000,
+        "max_iterations": 2000,
+        "parameter_bounds_and_initial": [
+          [
+            1e-10,
+            3e-08,
+            2e-09
+          ],
+          [
+            1e-13,
+            1e-10,
+            1e-11
+          ]
+        ],
+        "parameter_scales": [
+          "log",
+          "log"
+        ],
+        "stop": "target_reached",
+        "evaluations": 174,
+        "iterations": 44,
+        "rejected_evaluations": 0,
+        "final_step": 2.384185791015625e-07,
+        "parameters": [
+          3.978873679589438e-09,
+          3.183098336973333e-12
+        ],
+        "analytic_parameters": [
+          3.9788735772973836e-09,
+          3.1830988618379067e-12
+        ],
+        "objective": 6.96250199257126e-15,
+        "physical_input_impedance_ohms": [
+          50.00000128543852,
+          8.244553849294334e-06
+        ],
+        "physical_reflected_power_fraction": 6.9625018577389364e-15,
+        "report": {
+          "path": "build-reference/optimization-native-example-Linux-Debug.json",
+          "sha256": "e868506ddf2a187fdeb656361901006e40c1b09b949aebc4bf73f8d4d0246a2f"
+        },
+        "replay": {
+          "path": "build-reference/optimization-native-replay-Linux-Debug.json",
+          "sha256": "e868506ddf2a187fdeb656361901006e40c1b09b949aebc4bf73f8d4d0246a2f"
+        },
+        "replay_identical": true,
+        "parameter_relative_errors": [
+          2.5708797313228615e-08,
+          1.6489106891004468e-07
+        ],
+        "max_independent_trace_objective_error": 2.3314683517128287e-15
+      },
+      "logs": [
+        {
+          "path": "build-reference/optimization-native-linux-build-Debug.log",
+          "sha256": "f4469da919434248e9f7f44aafb252459298f5780b79eda84af3c70427d209aa"
+        },
+        {
+          "path": "build-reference/optimization-native-linux-install-Debug.log",
+          "sha256": "7e0dcf088e57ae668d687ed1dc94453a3ca93e1d3b5880df8f4e647f2d8cc6a5"
+        },
+        {
+          "path": "build-reference/optimization-native-linux-consumer-configure-Debug.log",
+          "sha256": "10ddb238a6ba2f05b146f2c88946df140cd89bfedaa6c3caae69eb22e20524b1"
+        },
+        {
+          "path": "build-reference/optimization-native-linux-consumer-build-Debug.log",
+          "sha256": "753cc2365a9aa59499bedec5a3eb62bd5f8cfd15ea7bded6753dbadf0c9f85e7"
+        }
+      ]
+    },
+    {
+      "platform": "Linux",
+      "configuration": "Release",
+      "build": "clean-first all targets",
+      "ctest": {
+        "passed": 134,
+        "total": 134,
+        "seconds": 26.52,
+        "log": {
+          "path": "build-reference/optimization-native-linux-ctest-Release.log",
+          "sha256": "dfa7e3bc94ecec78d5218b3047c066b853048c3f0ba6f7fd1b08f259c345cda6"
+        }
+      },
+      "installed_consumers": {
+        "passed": 2,
+        "total": 2,
+        "seconds": 0.02,
+        "log": {
+          "path": "build-reference/optimization-native-linux-consumer-ctest-Release.log",
+          "sha256": "901dbab52535eb8e348b1afffead6cc862d946196f008fd1c5f8324f97f0132b"
+        }
+      },
+      "example": {
+        "format": "rfmodel.optimization-example",
+        "version": 1,
+        "algorithm": "bounded_coordinate_poll",
+        "parameter_order": [
+          "series_inductance_h",
+          "shunt_capacitance_f"
+        ],
+        "frequency_hz": 1000000000,
+        "source_reference_ohms": 50,
+        "load_ohms": 25,
+        "target_reflected_power_fraction": 1e-14,
+        "initial_step": 0.25,
+        "minimum_step": 1e-09,
+        "contraction": 0.5,
+        "max_evaluations": 10000,
+        "max_iterations": 2000,
+        "parameter_bounds_and_initial": [
+          [
+            1e-10,
+            3e-08,
+            2e-09
+          ],
+          [
+            1e-13,
+            1e-10,
+            1e-11
+          ]
+        ],
+        "parameter_scales": [
+          "log",
+          "log"
+        ],
+        "stop": "target_reached",
+        "evaluations": 174,
+        "iterations": 44,
+        "rejected_evaluations": 0,
+        "final_step": 2.384185791015625e-07,
+        "parameters": [
+          3.978873679589438e-09,
+          3.183098336973333e-12
+        ],
+        "analytic_parameters": [
+          3.9788735772973836e-09,
+          3.1830988618379067e-12
+        ],
+        "objective": 6.96250199257126e-15,
+        "physical_input_impedance_ohms": [
+          50.00000128543852,
+          8.244553849294334e-06
+        ],
+        "physical_reflected_power_fraction": 6.9625018577389364e-15,
+        "report": {
+          "path": "build-reference/optimization-native-example-Linux-Release.json",
+          "sha256": "e868506ddf2a187fdeb656361901006e40c1b09b949aebc4bf73f8d4d0246a2f"
+        },
+        "replay": {
+          "path": "build-reference/optimization-native-replay-Linux-Release.json",
+          "sha256": "e868506ddf2a187fdeb656361901006e40c1b09b949aebc4bf73f8d4d0246a2f"
+        },
+        "replay_identical": true,
+        "parameter_relative_errors": [
+          2.5708797313228615e-08,
+          1.6489106891004468e-07
+        ],
+        "max_independent_trace_objective_error": 2.3314683517128287e-15,
+        "capture_scope": "Example target rebuilt in a fresh native Linux directory after the earlier temporary build directory was no longer present; original full CTest and consumer logs retained",
+        "rebuild_evidence": [
+          {
+            "path": "build-reference/optimization-native-linux-release-example-configure.log",
+            "sha256": "c838171e1dca64528a26674a372c3464cbf41c6325a45f2c6da3d58ba11d6f6a"
+          },
+          {
+            "path": "build-reference/optimization-native-linux-release-example-build.log",
+            "sha256": "efc51da0199e3e6520a4be9b8d33d8d532775da65f206a7cc03588f4e19e36d2"
+          },
+          {
+            "path": "build-reference/optimization-native-linux-release-example-binary.sha256",
+            "sha256": "a3abce38e56330c1f4b73c409bb89f0a9e470d22b5bc76ada111816aeb58bfcd"
+          }
+        ]
+      },
+      "logs": [
+        {
+          "path": "build-reference/optimization-native-linux-build-Release.log",
+          "sha256": "59ebd777e00f4139613d1421711fedab7fc03c386bea93a2df18ec00341b995a"
+        },
+        {
+          "path": "build-reference/optimization-native-linux-install-Release.log",
+          "sha256": "2370deef7b6d4b1ec0a1ea61e171a7dc9da3252df94a82e804f52577b230545b"
+        },
+        {
+          "path": "build-reference/optimization-native-linux-consumer-configure-Release.log",
+          "sha256": "7443e8e62b83435f5ccb980ca4acabeaff13886b4c9d8842da502d88fad74b81"
+        },
+        {
+          "path": "build-reference/optimization-native-linux-consumer-build-Release.log",
+          "sha256": "753cc2365a9aa59499bedec5a3eb62bd5f8cfd15ea7bded6753dbadf0c9f85e7"
+        }
+      ]
+    }
+  ],
+  "committed_example_trace": {
+    "path": "validation/optimization-lc-match-example-20261012.json",
+    "sha256": "efad7115c0abcb3e733c2afb9708f7ec5d312687440a3c47b74497ba4f92b0b8"
+  },
+  "format": {
+    "files": 160,
+    "passed": true,
+    "log": {
+      "path": "build-reference/optimization-native-format.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "source_files": [
+    {
+      "path": "include/rfmodel/optimization.hpp",
+      "sha256": "6334100b5bb716c35aae5fe354ad0afbeb21865ea7321194d6dbd524d6b6d3b6"
+    },
+    {
+      "path": "tests/optimization_test.cpp",
+      "sha256": "35da18bdac2ed31a67d9b339c157007d9719b3913083553bb8ed8b73881c3b61"
+    },
+    {
+      "path": "examples/optimize_lc_match.cpp",
+      "sha256": "4881badfc10e44e2dde1dc1a2506ba9dd5a680b71ec1cbbc0f19c8671b5015b9"
+    },
+    {
+      "path": "tests/consumer/main.cpp",
+      "sha256": "2affb428d9bc155dd0a1cd565f66f0616ed134b6ac83a8b7d6ac8d0d7b594b2a"
+    },
+    {
+      "path": "CMakeLists.txt",
+      "sha256": "7cd22c0d025864294211e422baf9f4fd9e5fc41360b6fe7ecfeaf64e80f9df94"
+    }
+  ],
+  "prior_uncommitted_files": [
+    {
+      "path": "scripts/reference/archive-cascade-reference.py",
+      "sha256": "a482db6bd6ae64c050d74e6df321749ec84a7098fb7aa49733079183149806dc",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/reference/capture-cascade-reference.ps1",
+      "sha256": "fb42165db2ad10c6213a415c2080e1eeb6e5ec0bcd1dc119bb1d1707c5283f3e",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/reference/compare-cascade-amplifier.py",
+      "sha256": "af1260adb093946954d0fb7e4bb2059669706a291418aac19ba193fed7554d9d",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/reference/run-systemvue-reference.py",
+      "sha256": "5df486d061ce09c28b396bf62e7fcba473dc6e9086d52861fdc7be6c85864f4e",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/reference/test_compare_cascade_amplifier.py",
+      "sha256": "190ea23b0ce0733846db8052ead9bb4d5ba41ff30e007c1f06e1a1753bc3fcf1",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/reference/test_run_systemvue_reference.py",
+      "sha256": "7eeeb2f890e59b986fec7eb9af58313f129b73ffccfd924f2f273ff52c396eb5",
+      "unchanged": true
+    },
+    {
+      "path": "measurements_test.obj",
+      "sha256": "4935bda18e7d8471560016c7303f3b7136842ab2ec429975440c7d617de3d97f",
+      "unchanged": true
+    },
+    {
+      "path": "verify-measurements.cmd",
+      "sha256": "c629d73c222dad5768c3c33c88a66eea99daf012dc79885f6cd7a7f0cebf7f7f",
+      "unchanged": true
+    }
+  ],
+  "new_systemvue_analysis_calls": 0,
+  "pushed": false,
+  "remote_ci_executed": false,
+  "macos_verified": false,
+  "full_A09_closed": false,
+  "public_algorithm_reference": "https://www.mathworks.com/help/gads/how-pattern-search-polling-works.html",
+  "limitations": [
+    "Native C++ optimizer only; no optimization C ABI, Python or generic task-format input yet",
+    "Monte Carlo, system parameter binding and vendor optimizer compatibility remain open",
+    "Box constraints and local coordinate polling do not guarantee global optimality or discovery of disconnected feasible regions",
+    "Deterministic same-environment replay is verified; cross-platform byte equality is not a contract",
+    "Linux is local Ubuntu WSL2; no macOS or remote CI run",
+    "Full CTest includes six preserved reference-script drafts and is not a clean checkout",
+    "No new wheel was built or separately installed in this stage because C ABI and Python sources are unchanged; existing binding suites ran through full CTest"
+  ]
+}

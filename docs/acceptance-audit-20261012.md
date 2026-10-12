@@ -75,3 +75,9 @@ P1 中工程回归可持续本地推进；需要厂商数据的项目待会话�
 在原生接线实现上新增 C ABI 添加/查询接口、Python Network 方法和线性 JSON 器件常量/逐频率参考。参数模型 S 与内嵌噪声联合重归一化，显式 S/相关矩阵保持局部坐标，信号和加载噪声标明实际参考。原生、跨语言、CLI 和安装验证对应本阶段记录；RF 系统图混合参考、厂商 ZPORT/CS、DC 偏置及线性化仍未关闭。
 
 本阶段 [跨语言机读验证](../validation/mixed-reference-api-validation-20261012.json)记录 Windows/Linux 两配置各 132/132 CTest、2/2 安装消费者，以及各 392/392 新 wheel 测试；其中 13 项为新混合参考接口回归。未新增厂商通过项，A05 整项仍开放。
+
+## A09 后续推进：原生有界参数优化
+
+新增原生连续/对数/整数参数的确定性坐标轮询，明确边界、目标、预算、取消、目标函数异常和轨迹重放。LC 匹配设计同时经过网络求解与独立物理阻抗公式核对。公开契约见 [原生优化说明](optimization.md)。这不证明全局最优或厂商算法等价；C/Python/任务格式、系统级参数绑定、Monte Carlo 和厂商对照仍需推进，A09 整项保持开放。
+
+本阶段 [优化器机读验收](../validation/optimization-native-validation-20261012.json)记录 Windows/Linux 两配置各 134/134 CTest、2/2 安装消费者，及四组 RF 目标函数逐点物理核对和确定性重放。[完整示例轨迹](../validation/optimization-lc-match-example-20261012.json)同时归档。

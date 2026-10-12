@@ -1,3 +1,4 @@
+#include "rfmodel/optimization.hpp"
 #include "rfmodel/conversion_frequency_plan.hpp"
 #include "rfmodel/am_pm_linearization.hpp"
 #include "rfmodel/highorder_linearization.hpp"
@@ -45,6 +46,20 @@
 #include <rfmodel/term_propagation.hpp>
 
 int main() {
+    {
+        rfmodel::OptimizationOptions options;
+        options.target = 0.;
+        const auto fit = rfmodel::minimize_bounded(
+            {{0., 1., .5}},
+            [](const auto &x) {
+                return (x[0] - .25) * (x[0] - .25);
+            },
+            options);
+        if (fit.stop != rfmodel::OptimizationStop::TargetReached || fit.parameters[0] != .25) {
+            return 113;
+        }
+    }
+
     {
         rfmodel::LinearNetwork network;
         network.add_power_waves({2, {0., .5, .5, 0.}}, {{50., 10.}, {75., -5.}});

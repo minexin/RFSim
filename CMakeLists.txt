@@ -459,3 +459,11 @@ add_test(NAME highorder_frequency_plan_test COMMAND highorder_frequency_plan_tes
 add_executable(mixed_reference_network_test tests/mixed_reference_network_test.cpp)
 target_link_libraries(mixed_reference_network_test PRIVATE rfmodel)
 add_test(NAME mixed_reference_network_test COMMAND mixed_reference_network_test)
+
+add_executable(optimization_test tests/optimization_test.cpp)
+target_link_libraries(optimization_test PRIVATE rfmodel)
+add_test(NAME optimization_test COMMAND optimization_test)
+
+add_executable(rfmodel_match_design examples/optimize_lc_match.cpp)
+target_link_libraries(rfmodel_match_design PRIVATE rfmodel)
+add_test(NAME optimization_match_design COMMAND rfmodel_match_design)
