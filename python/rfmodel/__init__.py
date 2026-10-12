@@ -9,6 +9,7 @@ from typing import NamedTuple, Optional
 import weakref
 from .frequency_plan import (
     ConversionFrequencyPlan, _FrequencyRequest, _FrequencyOutput, _FrequencyDiagnostics,
+    _HighOrderFrequencyRule,
 )
 
 
@@ -1419,6 +1420,11 @@ class Library:
                 ct.c_int,
                 [ct.POINTER(_FrequencyRequest), ct.POINTER(_FrequencyOutput),
                  ct.POINTER(_FrequencyDiagnostics)],
+            ),
+            "rfmodel_plan_conversion_frequencies_with_highorders": (
+                ct.c_int,
+                [ct.POINTER(_FrequencyRequest), ct.POINTER(_HighOrderFrequencyRule), ct.c_size_t,
+                 ct.POINTER(_FrequencyOutput), ct.POINTER(_FrequencyDiagnostics)],
             ),
             "rfmodel_evaluate_am_pm": (
                 ct.c_int,

@@ -8,7 +8,7 @@
 
 `linearized_real_mixer` JSON 器件同时生成 A/B/d，完成网络求解后核对每个本地通道的入射波与提供的 operating_incident，包括 IF 负载反射。允许误差为 `1e-12 + 1e-9*max(abs(actual),abs(expected))` sqrt(W)。不一致即报错，不能继续输出基于错误工作点的噪声报告。成功结果包含 operating_point_checks，记录最大误差及容差。
 
-这是**给定工作点的一致性检查**。linearized_real_mixer 路径不自动迭代非线性工作点；显式自动求解另见[工作点接口](conversion-operating-point.md)。两者都不自动扩展混频频率；A/B/d 在本次分析中固定。对于手工 matrix 或显式 output_offset，调用者负责其物理含义与工作点有效性。
+这是**给定工作点的一致性检查**。linearized_real_mixer 路径不自动迭代非线性工作点；显式自动求解另见[工作点接口](conversion-operating-point.md)。给定工作点的仿射路径仍要求完整通道，A/B/d 在本次分析中固定；自动工作点路径可先通过 [frequency_plan](conversion-frequency-plan.md) 闭合已注册器件的通道。对于手工 matrix 或显式 output_offset，调用者负责其物理含义与工作点有效性。
 
 ## C++、C、Python 接口
 

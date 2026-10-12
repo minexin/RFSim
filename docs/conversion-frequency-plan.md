@@ -13,7 +13,7 @@
 | `FrequencyCopyRule{input_port, output_port}` | 输入端所有频点传到输出端；适合已知单向同频传输 |
 | `FrequencyPolynomialRule{input_port, output_port, polynomial}` | 对每个非零系数阶次生成实信号正负频率的所有和，再保留非负频率；包含DC与2..11阶谐波/互调 |
 | `FrequencyMixerRule{rf_port, lo_port, if_port}` | 所有RF/LO通道对的和频与绝对差频；支持DC、多个LO频点与相等频率产生DC |
-| `FrequencyHighOrderRule{input_port, output_port, polynomial, generating_bins}` | C++：所有 RF 输入同频传播，仅选定输入产生正频高阶产物；内部 DC 不导出 |
+| `FrequencyHighOrderRule{input_port, output_port, polynomial, generating_bins}` | 所有 RF 输入同频传播，仅选定输入产生正频高阶产物；内部 DC 不导出 |
 | `linear_frequency_rules(ports)` | 所有端口的同频集合取并集，包含反向传播；可用于稠密线性N端口 |
 
 多项式的常数项非零时生成DC；零系数阶次不产生输出，但较高非零阶次计算所需的中间频率仍保留。零多项式不会自动制造DC或其他输出。`linear_frequency_rules` 不检查S矩阵；已知结构性零耦合可用实际的有向Copy规则表达。瞬时数值恰好为零不等于结构性零。
@@ -53,7 +53,7 @@ auto plan = plan_conversion_frequencies(1e6, description, wires);
 
 **限制是失败边界，不是带宽截断。** 例如平方器输出反馈到RF输入时，1→2→4→8等频点继续扩展，不能把达到max_bin后的有限集合称为闭合。相反，纯DC平方反馈或LO为DC的混频反馈可以在有限集合上闭合。结构频率闭合不等于非线性工作点一定收敛，也不证明动态稳定。
 
-C++ 规则覆盖同频传播、双线性混频、实电压多项式以及显式选择生成频点的高阶放大器。固定泵矩阵的支持推导、厂商自动频点选择、截断误差控制、非公度频率、连续噪声频带与厂商频谱削减仍待完成。高阶规则的 C/Python/JSON 接入尚未实现；下文已有跨语言支持范围保持四类模型。
+C++ 规则覆盖同频传播、双线性混频、实电压多项式以及显式选择生成频点的高阶放大器。固定泵矩阵的支持推导、厂商自动频点选择、截断误差控制、非公度频率、连续噪声频带与厂商频谱削减仍待完成。高阶规则也已接入 C/Python/JSON，使用同一原生闭包和资源检查。
 
 ## 验证
 
@@ -86,11 +86,11 @@ plan = library.plan_conversion_frequencies(1e6, [
 # plan.seed_channel_indices == ((1, 0),)
 ```
 
-Python接受type为copy/polynomial/mixer的严格规则对象，返回ConversionFrequencyPlan，所有通道与映射为tuple。Copy与Polynomial用input_port/output_port，后者还需voltage_coefficients。可传max_total_channels、max_bin、max_transitions；布尔索引、未知字段、重复或越界通道均拒绝。纯Python wheel不包含DLL，必须连接含新增符号的原生库。
+Python接受type为copy/polynomial/mixer/highorder的严格规则对象，返回ConversionFrequencyPlan，所有通道与映射为tuple。Copy与Polynomial用input_port/output_port，后者还需voltage_coefficients。可传max_total_channels、max_bin、max_transitions；布尔索引、未知字段、重复或越界通道均拒绝。纯Python wheel不包含DLL，必须连接含新增符号的原生库。
 
 ## JSON 显式自动规划
 
-在 `rfmodel.conversion-network` 版本1顶层增加frequency_plan对象后启用。缺省不启用，旧通道顺序和求解流程保持原有契约。当前可自动推导规则的model.type为linear、bilinear_real_mixer、polynomial_amplifier和saturating_amplifier；其他类型明确拒绝，不猜测矩阵或高阶放大器的特殊选频规则。
+在 `rfmodel.conversion-network` 版本1顶层增加frequency_plan对象后启用。缺省不启用，旧通道顺序和求解流程保持原有契约。当前可自动推导规则的model.type为linear、bilinear_real_mixer、polynomial_amplifier、saturating_amplifier和highorder_amplifier；其他类型明确拒绝，不猜测矩阵或厂商自动选频规则。
 
 ```json
 "frequency_plan": {
@@ -127,7 +127,7 @@ python -m rfmodel examples/auto-frequency-mixer-polynomial.json --library build-
 跨语言阶段的实际构建、测试与wheel记录见 [接口验证JSON](../validation/conversion-frequency-plan-api-validation-20261012.json)。厂商自动选频、频谱削减和非公度频率仍未验收；新增接口没有改变AM/PM实测差异结论。
 跨语言验证（2026-10-12）：MSVC Debug/Release clean-first与全量CTest各126/126，安装后的C/C++消费者各2/2；153个C/C++文件格式检查通过。Python 3.12.14从新wheel导入并加载安装后的Release DLL，自动规划10项、既有转换网络13项、AM-PM14项、通用API85项，共122项通过。全量CTest使用Python 3.10及保留既有草稿的工作区，不是纯净提交检出或新的跨平台CI证据。本轮未推送、未新增SystemVue分析。
 
-## 高阶放大器的显式生成集合（C++）
+## 高阶放大器的显式生成集合
 
 `FrequencyHighOrderRule` 与 `linearize_highorder_amplifier` 使用同一频点契约：全部正频输入均要求同频输出，只有 `generating_bins` 中的频点参与高阶乘积。传播回来的谐波仍参与公共压缩/限幅，但不因出现在输入上就自动成为新的生成源。生成集合为空时仅需 RF 同频传输。
 
@@ -150,8 +150,40 @@ DC 不通过此规则同频传播，也不自动作为高阶输出导出。显�
 
 `highorder_frequency_plan_test` 覆盖晚到的生成频点、未选杂散的公共限幅耦合、DC 投影与显式 DC、空集合/零系数、十一阶、闭合幂等性和声明顺序、缺失/重复/非正生成频点、资源与整数溢出。8 通道负反馈案例将自动计划与刻意改变通道顺序的手工完整网格比较，核验全部复波及完整输出 C/P；另用独立标量压缩/限幅固定点和时域三次多项式 Fourier 投影核验载波、谐波和反馈入射波。
 
-本扩展修改了 C++ `ConversionFrequencyRule` 的 variant，C++ 消费者须重新编译。既有 C ABI、Python 和 JSON 布局及规则种类未变，高阶工作点接口本身仍可按既有完整通道数组调用。高阶自动规划的跨语言适配及厂商自动选频均是后续工作。
+本扩展修改了 C++ `ConversionFrequencyRule` 的 variant，C++ 消费者须重新编译。既有 C ABI 结构布局和旧函数未变；下述新增入口完成高阶规则的跨语言适配。厂商自动选频仍是后续工作。
 
 构建、安装消费者和保护文件记录见 [高阶规划验证 JSON](../validation/highorder-frequency-plan-validation-20261012.json)。本阶段未新增 SystemVue 分析或推送；数学闭合与工程回归不代表 RFAMP_HO 的厂商频谱选择已验收。
 
 2026-10-12 高阶原生规划验证：MSVC Debug/Release clean-first 成功，CTest 各 127/127（71.63/53.87 秒），独立安装 C/C++ 消费者各 2/2；154 个 C/C++ 文件格式检查和 git diff --check 通过。八份既有未提交文件 SHA256 未变。全量回归使用包含原有参考脚本草稿的工作区，不是纯净提交检出；没有新的 Linux/macOS、远程 CI 或 wheel 验证。
+
+### 高阶规则的 C/Python/JSON 接入
+
+新增 `rfmodel_plan_conversion_frequencies_with_highorders(request, highorders, highorder_count, output, diagnostics)`，复用旧 request/output/diagnostics 描述符，并额外接收 `rfmodel_highorder_frequency_rule` 数组。每项为 device、input_port、output_port、完整 voltage_coefficients 指针/计数、generating_bins 指针/计数。普通规则和补充高阶规则的总数不超过 4096；highorder_count 为零时与旧入口等价。旧函数仍只使用旧三类规则，无需调用者重建已有描述符。
+
+高阶系数必须为 1..12 项完整 c0..c11，且 c0=c1=0；NULL 生成数组只允许零计数。与旧入口相同，output=NULL 可查询尺寸，全部声明输出容量及 diagnostics 必须与补充描述符及两组嵌套输入数组分离，任何失败都不修改输出。补充规则的输出顺序仍由全局 port/bin 排序决定，不取决于它在普通规则之前还是之后执行。
+
+```python
+plan = library.plan_conversion_frequencies(1e6, [
+    {"ports": [0, 1], "seeds": [(0, 1), (0, 13)], "rules": [
+        {"type": "highorder", "input_port": 0, "output_port": 1,
+         "voltage_coefficients": [0, 0, 0, 0.1], "generating_bins": [1]}
+    ]}
+])
+# 输入 1、13 MHz；输出 1、3、13 MHz。13 MHz 不生成新的高阶产物。
+```
+
+Python 包装将 highorder 规则放入补充数组，普通规则继续使用原描述符；所有缓冲区在两次原生调用期间保持有效。wheel 仍不含原生库，须连接包含新增符号的 DLL/共享库。
+
+JSON 启用顶层 `frequency_plan` 后，`model.type="highorder_amplifier"` 使用模型中原有的 a2 起始 `nonlinear_voltage_coefficients` 和显式 `generating_bins`。适配层只负责在系数前加两个零，频率闭包由原生规则计算。generating_bins 不作为额外种子偷偷插入：每项必须由种子、上游或物理接线实际带入输入，缺失即失败。原有高阶增益/限幅、DC、来源和工作点合同继续适用。
+
+[自动高阶反馈示例](../examples/auto-frequency-highorder-feedback.json)只有线性反馈器件 1 MHz 的两个种子通道，高阶器件种子为空；接线后闭合为两个器件各端口 1/3 MHz，共 8 通道、新增 6 个。反馈器件固定输出偏置为 0.03 sqrt(W)，同频传输为 -0.02，内生 C 在每个规划频点按物理两端口模型重新评估。反馈噪声通过共同压缩/限幅的线性化传播，不能把它当成全局种子噪声矩阵补零。
+
+```powershell
+python -m rfmodel examples/auto-frequency-highorder-feedback.json --library build-msvc/Release/rfmodel_c.dll --output build-reference/auto-highorder-result.json
+```
+
+`test_highorder_frequency_plan.py` 包含原生混合规则、晚到选择、空选择/零系数、十一阶、严格参数与资源限制、DC、自定义端口、CLI 失败保留旧结果；完整反馈复波和输出 C/P 对照手工网格，独立标量参考和时域 Fourier 投影检查信号。另以已知种子排列核验源/内生/附加 C/P、初值、输出偏置及 AM-PM 通道选择全部映射。C 专项检查 24 类失败和补充描述符/两组嵌套数组别名，包括未使用的输出容量尾部。
+
+本阶段证据见 [跨语言高阶规划验证 JSON](../validation/highorder-frequency-plan-api-validation-20261012.json)。这些验证只覆盖 RFModel 已定义的显式模型，未改变厂商高阶自动系数、选频、来源分解和频谱削减的未验收状态。
+
+2026-10-12 高阶跨语言验证：Debug/Release clean-first 和全量 CTest 各 129/129（73.43/55.50 秒），独立安装 C/C++ 消费者各 2/2，155 个 C/C++ 文件格式检查通过。Python 3.12.14 从新 wheel 导入并加载安装后的 Release DLL，六组共 145 项通过（高阶规划 8、既有规划 10、高阶工作点 15、转换网络 13、AM-PM 14、API 85）。安装后的 CLI 示例输出 8 通道、新增 6 个，Newton 迭代 3 次、scaled_residual=0.0009196666。未新增 SystemVue 分析、推送或跨平台 CI；原有八份未提交文件逐字节未变。

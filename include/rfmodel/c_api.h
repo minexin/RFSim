@@ -216,6 +216,32 @@ rfmodel_plan_conversion_frequencies(const rfmodel_frequency_plan_request *reques
                                     const rfmodel_frequency_plan_output *output,
                                     rfmodel_frequency_plan_diagnostics *diagnostics);
 
+/* Additive selected high-order rules. Existing request/device/rule layouts stay
+ * unchanged. Coefficients are full c0..c11 (1..12 finite values, c0=c1=0),
+ * not the a2-first array accepted by high-order amplifier parameters.
+ * generating_bins contains 0..512 unique positive bins, all of which must be
+ * present on the input port after closure. Empty selection means RF copy only.
+ * All positive input bins propagate; only selected bins generate RF products.
+ * DC is blocked; its internal polynomial channel still counts toward limits. */
+typedef struct rfmodel_highorder_frequency_rule {
+    size_t device, input_port, output_port;
+    const double *voltage_coefficients;
+    size_t coefficient_count;
+    const int *generating_bins;
+    size_t generating_count;
+} rfmodel_highorder_frequency_rule;
+
+/* Same output/query/atomicity contract as rfmodel_plan_conversion_frequencies,
+ * extended to cover this supplemental rule array and its nested arrays.
+ * Total normal plus high-order rules <=4096. NULL highorders requires count=0.
+ * With count=0 this is equivalent to the original entry point. */
+RFMODEL_API int rfmodel_plan_conversion_frequencies_with_highorders(
+    const rfmodel_frequency_plan_request *request,
+    const rfmodel_highorder_frequency_rule *highorders,
+    size_t highorder_count,
+    const rfmodel_frequency_plan_output *output,
+    rfmodel_frequency_plan_diagnostics *diagnostics);
+
 /* Assemble independent conversion devices, then connect every bin of each port.
  * Device order followed by local channel order defines all output indices.
  * Connected ports must have identical bin sets and no boundary source/noise or

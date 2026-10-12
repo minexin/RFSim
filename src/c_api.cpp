@@ -2323,18 +2323,22 @@ int rfmodel_linearize_polynomial_amplifier(const rfmodel_polynomial_amplifier_re
     });
 }
 
-int rfmodel_plan_conversion_frequencies(const rfmodel_frequency_plan_request *request,
-                                        const rfmodel_frequency_plan_output *output,
-                                        rfmodel_frequency_plan_diagnostics *diagnostics) {
+static int plan_conversion_frequencies_impl(const rfmodel_frequency_plan_request *request,
+                                            const rfmodel_highorder_frequency_rule *highorders,
+                                            size_t highorder_count,
+                                            const rfmodel_frequency_plan_output *output,
+                                            rfmodel_frequency_plan_diagnostics *diagnostics) {
     return guarded([&] {
         require(request && diagnostics);
+        require(highorder_count <= 4096 && (highorders || highorder_count == 0));
         const auto &r = *request;
         require(r.devices && r.device_count > 0 && r.device_count <= 512);
         require(r.connection_count <= 256 && (r.connections || r.connection_count == 0));
         using Range = std::pair<const void *, size_t>;
         std::vector<Range> inputs{{request, sizeof(*request)},
                                   {r.devices, r.device_count * sizeof(*r.devices)},
-                                  {r.connections, r.connection_count * sizeof(*r.connections)}};
+                                  {r.connections, r.connection_count * sizeof(*r.connections)},
+                                  {highorders, highorder_count * sizeof(*highorders)}};
         rfmodel::ConversionFrequencyOptions options;
         if (r.options) {
             inputs.emplace_back(r.options, sizeof(*r.options));
@@ -2342,7 +2346,7 @@ int rfmodel_plan_conversion_frequencies(const rfmodel_frequency_plan_request *re
                 r.options->max_total_channels, r.options->max_bin, r.options->max_transitions};
         }
         std::vector<rfmodel::ConversionFrequencyDevice> devices;
-        size_t seed_count = 0, port_count = 0, rule_count = 0;
+        size_t seed_count = 0, port_count = 0, rule_count = highorder_count;
         for (size_t d = 0; d < r.device_count; ++d) {
             const auto &entry = r.devices[d];
             require(entry.ports && entry.port_count > 0 && entry.port_count <= 512 - port_count);
@@ -2387,6 +2391,25 @@ int rfmodel_plan_conversion_frequencies(const rfmodel_frequency_plan_request *re
                 }
             }
             devices.push_back(std::move(device));
+        }
+        for (size_t i = 0; i < highorder_count; ++i) {
+            const auto &rule = highorders[i];
+            require(rule.device < devices.size() && rule.voltage_coefficients &&
+                    rule.coefficient_count > 0 && rule.coefficient_count <= 12 &&
+                    rule.generating_count <= 512 &&
+                    (rule.generating_bins || rule.generating_count == 0));
+            inputs.emplace_back(rule.voltage_coefficients, rule.coefficient_count * sizeof(double));
+            inputs.emplace_back(rule.generating_bins, rule.generating_count * sizeof(int));
+            std::vector<int> generating;
+            for (size_t j = 0; j < rule.generating_count; ++j) {
+                generating.push_back(rule.generating_bins[j]);
+            }
+            devices[rule.device].rules.emplace_back(rfmodel::FrequencyHighOrderRule{
+                rule.input_port,
+                rule.output_port,
+                rfmodel::MemorylessPolynomial(std::vector<double>(
+                    rule.voltage_coefficients, rule.voltage_coefficients + rule.coefficient_count)),
+                std::move(generating)});
         }
         std::vector<rfmodel::ConversionPortConnection> wires;
         for (size_t i = 0; i < r.connection_count; ++i) {
@@ -2445,6 +2468,22 @@ int rfmodel_plan_conversion_frequencies(const rfmodel_frequency_plan_request *re
                         plan.iterations,
                         plan.transitions};
     });
+}
+
+int rfmodel_plan_conversion_frequencies(const rfmodel_frequency_plan_request *request,
+                                        const rfmodel_frequency_plan_output *output,
+                                        rfmodel_frequency_plan_diagnostics *diagnostics) {
+    return plan_conversion_frequencies_impl(request, nullptr, 0, output, diagnostics);
+}
+
+int rfmodel_plan_conversion_frequencies_with_highorders(
+    const rfmodel_frequency_plan_request *request,
+    const rfmodel_highorder_frequency_rule *highorders,
+    size_t highorder_count,
+    const rfmodel_frequency_plan_output *output,
+    rfmodel_frequency_plan_diagnostics *diagnostics) {
+    return plan_conversion_frequencies_impl(
+        request, highorders, highorder_count, output, diagnostics);
 }
 
 int rfmodel_polynomial_output_bins(const int *input_bins,

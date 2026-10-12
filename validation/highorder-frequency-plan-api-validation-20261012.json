@@ -1,0 +1,465 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-12",
+  "stage": "Selected high-order frequency planning through C ABI, Python and JSON",
+  "base_commit": "a648fb21ed4cb6f2ea6a506739e2c111b29cd597",
+  "implementation_scope": [
+    "Additive rfmodel_plan_conversion_frequencies_with_highorders symbol and supplemental rule descriptor; original C structures unchanged",
+    "Full c0..c11 polynomial and explicit selected generating bins; C++ closure remains authoritative",
+    "Native combined normal/high-order rule limits, nested-input alias checks and unchanged outputs on failure",
+    "Python highorder rule packing and strict JSON highorder_amplifier adaptation with seed statistics preserved"
+  ],
+  "verification": {
+    "Debug_ctest": {
+      "passed": 129,
+      "total": 129,
+      "seconds": 73.43
+    },
+    "Debug_consumer-ctest": {
+      "passed": 2,
+      "total": 2,
+      "seconds": 0.16
+    },
+    "Release_ctest": {
+      "passed": 129,
+      "total": 129,
+      "seconds": 55.5
+    },
+    "Release_consumer-ctest": {
+      "passed": 2,
+      "total": 2,
+      "seconds": 0.14
+    },
+    "msvc_clean_first": [
+      "Debug",
+      "Release"
+    ],
+    "cpp_format_files": 155,
+    "c_failure_scenarios": 24,
+    "c_alias_checks": "Supplemental rule descriptor, coefficients, generating bins, size-query diagnostics and unused output capacity tail",
+    "independent_reference": "Eight-channel feedback checked against manually expanded/permuted grid for all waves and all C/P entries; independent scalar gain/limiter fixed point and 128-sample time-domain cubic Fourier projection for signals",
+    "seed_mapping": "Known permutation [3,1,0] checks intrinsic/source/additional covariance and complementary covariance, initial waves, fixed output offsets and AM-PM output selection"
+  },
+  "wheel": {
+    "python_version": "3.12.14",
+    "import_path": "D:\\project\\RFModel\\build-reference\\highorder-plan-api-wheel\\rfmodel\\__init__.py",
+    "source_files_equal": true,
+    "suites": {
+      "highorder_frequency_plan": 8,
+      "conversion_frequency_plan": 10,
+      "highorder_operating_point": 15,
+      "conversion_network": 13,
+      "am_pm_operating_point": 14,
+      "python_api": 85
+    },
+    "total_tests": 145,
+    "artifact": {
+      "path": "build-reference/highorder-plan-api-dist/rfmodel-0.1.0-py3-none-any.whl",
+      "sha256": "7cdc383a09887934da0b780a97a26d828bfcaa455498aa8c069d01e09e4c82b4"
+    },
+    "native_library": {
+      "path": "build-reference/highorder-plan-api-install-Release/bin/rfmodel_c.dll",
+      "sha256": "5df0377b9b0ab042a9506d02ff76b148a8c310dfc9e4a80677d853d6fc1a343e"
+    }
+  },
+  "installed_example": {
+    "artifact": {
+      "path": "build-reference/highorder-plan-api-example-result.json",
+      "sha256": "fe8edf981f11a3cc07606912ed18e4881623719f19846295f540a0ff23686648"
+    },
+    "frequency_plan": {
+      "method": "native_structural_closure",
+      "total_channels": 8,
+      "generated_channels": 6,
+      "iterations": 4,
+      "transitions": 62,
+      "limits": {
+        "max_total_channels": 512,
+        "max_bin": 2147483647,
+        "max_transitions": 10000000
+      },
+      "devices": [
+        {
+          "id": "highorder",
+          "seed_channel_indices": []
+        },
+        {
+          "id": "feedback",
+          "seed_channel_indices": [
+            0,
+            2
+          ]
+        }
+      ],
+      "generated_boundary_channels": []
+    },
+    "operating_point": {
+      "method": "damped_newton",
+      "iterations": 3,
+      "backtracks": 0,
+      "scaled_residual": 0.0009196665878653304,
+      "relative_tolerance": 1e-09,
+      "absolute_tolerance_sqrt_w": 1e-12
+    },
+    "channels": [
+      {
+        "device": "highorder",
+        "port": 0,
+        "bin": 1,
+        "frequency_hz": 1000000.0,
+        "connected": true,
+        "incident": [
+          0.02522922024203177,
+          0.0
+        ],
+        "outgoing": [
+          0.0,
+          0.0
+        ],
+        "outgoing_power_w": 0.0,
+        "incident_noise_w_per_hz": 7.205831591246814e-10,
+        "outgoing_noise_w_per_hz": 0.0,
+        "net_noise_into_device_w_per_hz": 7.205831591246814e-10
+      },
+      {
+        "device": "highorder",
+        "port": 0,
+        "bin": 3,
+        "frequency_hz": 3000000.0,
+        "connected": true,
+        "incident": [
+          -6.656507982922686e-07,
+          0.0
+        ],
+        "outgoing": [
+          0.0,
+          0.0
+        ],
+        "outgoing_power_w": 0.0,
+        "incident_noise_w_per_hz": 7.07349249883959e-10,
+        "outgoing_noise_w_per_hz": 0.0,
+        "net_noise_into_device_w_per_hz": 7.07349249883959e-10
+      },
+      {
+        "device": "highorder",
+        "port": 1,
+        "bin": 1,
+        "frequency_hz": 1000000.0,
+        "connected": true,
+        "incident": [
+          0.0,
+          0.0
+        ],
+        "outgoing": [
+          0.23853898789819108,
+          0.0
+        ],
+        "outgoing_power_w": 0.056900848747493356,
+        "incident_noise_w_per_hz": 0.0,
+        "outgoing_noise_w_per_hz": 5.728141915046783e-08,
+        "net_noise_into_device_w_per_hz": -5.728141915046783e-08
+      },
+      {
+        "device": "highorder",
+        "port": 1,
+        "bin": 3,
+        "frequency_hz": 3000000.0,
+        "connected": true,
+        "incident": [
+          0.0,
+          0.0
+        ],
+        "outgoing": [
+          3.3282539915510945e-05,
+          0.0
+        ],
+        "outgoing_power_w": 1.1077274632275793e-09,
+        "incident_noise_w_per_hz": 0.0,
+        "outgoing_noise_w_per_hz": 6.317025914261977e-08,
+        "net_noise_into_device_w_per_hz": -6.317025914261977e-08
+      },
+      {
+        "device": "feedback",
+        "port": 0,
+        "bin": 1,
+        "frequency_hz": 1000000.0,
+        "connected": true,
+        "incident": [
+          0.23853898789841138,
+          0.0
+        ],
+        "outgoing": [
+          0.0,
+          0.0
+        ],
+        "outgoing_power_w": 0.0,
+        "incident_noise_w_per_hz": 5.728141915046783e-08,
+        "outgoing_noise_w_per_hz": 0.0,
+        "net_noise_into_device_w_per_hz": 5.728141915046783e-08
+      },
+      {
+        "device": "feedback",
+        "port": 0,
+        "bin": 3,
+        "frequency_hz": 3000000.0,
+        "connected": true,
+        "incident": [
+          3.3282539914613436e-05,
+          0.0
+        ],
+        "outgoing": [
+          0.0,
+          0.0
+        ],
+        "outgoing_power_w": 0.0,
+        "incident_noise_w_per_hz": 6.317025914261977e-08,
+        "outgoing_noise_w_per_hz": 0.0,
+        "net_noise_into_device_w_per_hz": 6.317025914261977e-08
+      },
+      {
+        "device": "feedback",
+        "port": 1,
+        "bin": 1,
+        "frequency_hz": 1000000.0,
+        "connected": true,
+        "incident": [
+          0.0,
+          0.0
+        ],
+        "outgoing": [
+          0.025229220242031773,
+          0.0
+        ],
+        "outgoing_power_w": 0.0006365135540209458,
+        "incident_noise_w_per_hz": 0.0,
+        "outgoing_noise_w_per_hz": 7.205831591246814e-10,
+        "net_noise_into_device_w_per_hz": -7.205831591246814e-10
+      },
+      {
+        "device": "feedback",
+        "port": 1,
+        "bin": 3,
+        "frequency_hz": 3000000.0,
+        "connected": true,
+        "incident": [
+          0.0,
+          0.0
+        ],
+        "outgoing": [
+          -6.656507982922687e-07,
+          0.0
+        ],
+        "outgoing_power_w": 4.430909852671346e-13,
+        "incident_noise_w_per_hz": 0.0,
+        "outgoing_noise_w_per_hz": 7.07349249883959e-10,
+        "net_noise_into_device_w_per_hz": -7.07349249883959e-10
+      }
+    ]
+  },
+  "logs": [
+    {
+      "path": "build-reference/highorder-plan-api-build-Debug.log",
+      "sha256": "857c0f265a97b3b6d35233339bb8600f99b53f4b484f6a49a12f5f5c9f37c464",
+      "exit_code": 0
+    },
+    {
+      "path": "build-reference/highorder-plan-api-ctest-Debug.log",
+      "sha256": "e38b9c0efe8ba0248fac84c12523a57be4be900c87e1588fd1058a1f90fc0d85",
+      "exit_code": 0
+    },
+    {
+      "path": "build-reference/highorder-plan-api-install-Debug.log",
+      "sha256": "6cbb5d1f423c6055377887cb18dba0576d32636ca2d7e24f3593541abcfe5b69",
+      "exit_code": 0
+    },
+    {
+      "path": "build-reference/highorder-plan-api-consumer-configure-Debug.log",
+      "sha256": "b986f98c79ca4e1ef399f74e6aeeea284f78357393deee13a77a1e326f6a4633",
+      "exit_code": 0
+    },
+    {
+      "path": "build-reference/highorder-plan-api-consumer-build-Debug.log",
+      "sha256": "65ff7dbb71015078fbd419696e91254e2dc0802cf7a4896aeb543f1b7c6337e4",
+      "exit_code": 0
+    },
+    {
+      "path": "build-reference/highorder-plan-api-consumer-ctest-Debug.log",
+      "sha256": "96d02a6b59835f4d9cfeb65797cee76b5fa5d98f01013c7e848a4ce86d6d65ba",
+      "exit_code": 0
+    },
+    {
+      "path": "build-reference/highorder-plan-api-build-Release.log",
+      "sha256": "4b19a1d0c38944129cf59d77985fc93d2cc33a9cbdd2a040ddef4aa465dfc245",
+      "exit_code": 0
+    },
+    {
+      "path": "build-reference/highorder-plan-api-ctest-Release.log",
+      "sha256": "9fd64c129b10ce5795110796c4b266cd43efb2d6339c3c45921350ba2e4cb445",
+      "exit_code": 0
+    },
+    {
+      "path": "build-reference/highorder-plan-api-install-Release.log",
+      "sha256": "81da4c0f7cca7e0b6df85f80605bbb87faa14e6a0009b0d9ca05e2b7fffd0568",
+      "exit_code": 0
+    },
+    {
+      "path": "build-reference/highorder-plan-api-consumer-configure-Release.log",
+      "sha256": "50e091fac718773a93850bf52214954910a07762468e7974c86da9eeeb22c061",
+      "exit_code": 0
+    },
+    {
+      "path": "build-reference/highorder-plan-api-consumer-build-Release.log",
+      "sha256": "6ab3b83acb9156515bf634e638ecffb108ca6ecbf61404aed57140048c29b7b0",
+      "exit_code": 0
+    },
+    {
+      "path": "build-reference/highorder-plan-api-consumer-ctest-Release.log",
+      "sha256": "31828ac7c7d8e7e2b69a6ea82535a065904056ab623171161bb3d614fb657c6e",
+      "exit_code": 0
+    },
+    {
+      "path": "build-reference/highorder-plan-api-format.log",
+      "sha256": "fcad28ab9c153f806c82fb2a816826e175decfe557f7b793c39c8e07dc55e21a",
+      "exit_code": 0
+    },
+    {
+      "path": "build-reference/highorder-plan-api-wheel-build.log",
+      "sha256": "2c69c0c3c10b591afb98500fbbe67cf9a96d4a1f267f34bad20cace32d8dd8f6",
+      "exit_code": 0
+    },
+    {
+      "path": "build-reference/highorder-plan-api-wheel-install.log",
+      "sha256": "1cea3ad783b3dd42a0399818b1275588d2d1825c82d639883b438b16000cd274",
+      "exit_code": 0
+    },
+    {
+      "path": "build-reference/highorder-plan-api-example.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "exit_code": 0
+    },
+    {
+      "path": "build-reference/highorder-plan-api-wheel-highorder_frequency_plan.log",
+      "sha256": "158d4949c256064d13fe282b52f42786221785f1205e3cc5183df6deed5bc63a",
+      "exit_code": 0
+    },
+    {
+      "path": "build-reference/highorder-plan-api-wheel-conversion_frequency_plan.log",
+      "sha256": "eb9c79dd072614ee716883cae9e6cd14e1ddfed7e2b8952c55c559f1532b45ff",
+      "exit_code": 0
+    },
+    {
+      "path": "build-reference/highorder-plan-api-wheel-highorder_operating_point.log",
+      "sha256": "76c30e7cf99d11a52a54d89687cd89f12e6f05c5af48824a14795e2c20cffd53",
+      "exit_code": 0
+    },
+    {
+      "path": "build-reference/highorder-plan-api-wheel-conversion_network.log",
+      "sha256": "e58f270627194bb1a477107b49ec028f8206dd8f9c2184d90991a918642ab33f",
+      "exit_code": 0
+    },
+    {
+      "path": "build-reference/highorder-plan-api-wheel-am_pm_operating_point.log",
+      "sha256": "38c5e014c63b0bdac63d8ed56b6b8739c1b400a2704a71a4d4c7de34f71feb12",
+      "exit_code": 0
+    },
+    {
+      "path": "build-reference/highorder-plan-api-wheel-python_api.log",
+      "sha256": "b4d6b3b6108fea967fedb59c7852279fad4bb6d5dcac9968e571cd37fa309bb0",
+      "exit_code": 0
+    }
+  ],
+  "source_files": [
+    {
+      "path": "include/rfmodel/c_api.h",
+      "sha256": "9b82998cf15c3a0a5c4af8c307a9097830340e79e230892ea220505ad955dd6f"
+    },
+    {
+      "path": "src/c_api.cpp",
+      "sha256": "9b2fe0ee4b80114401cca0ca846af3f43bc93b73172852b3451fcb665754c8a6"
+    },
+    {
+      "path": "python/rfmodel/__init__.py",
+      "sha256": "37391290de3b295a5e117a27de9b78d773bb6a93023445d55bd78f76018e5cae"
+    },
+    {
+      "path": "python/rfmodel/frequency_plan.py",
+      "sha256": "f0ff2a879903c2ff8ddca714ae25db70d712cfbdd5ecf52b7ee3bfff3b1e9100"
+    },
+    {
+      "path": "python/rfmodel/frequency_plan_file.py",
+      "sha256": "cc208af03ecc9b185c649a129bc1cb9352fd6359083c280860df97b946a06440"
+    },
+    {
+      "path": "tests/c_api_highorder_frequency_plan_test.c",
+      "sha256": "262ac24f181a84c1209a23ad9f1ce4cf4f3418874b79aebc1cdad38326e111ab"
+    },
+    {
+      "path": "tests/test_highorder_frequency_plan.py",
+      "sha256": "217a35547b757545654cd67aa5ec42591892ea4b2b3ea6bf0c65b3b371351f68"
+    },
+    {
+      "path": "tests/consumer/c_main.c",
+      "sha256": "30513510d02ea48ecfa89e0307399a706d3a80e044b23e66bc945f17d7a8cece"
+    },
+    {
+      "path": "examples/auto-frequency-highorder-feedback.json",
+      "sha256": "5cbbedb379bd19031aa3699f879e5358f31a47210e06aa456a6f7a315ee70a25"
+    },
+    {
+      "path": "CMakeLists.txt",
+      "sha256": "b856fdbf9aae883f5612d5e47cba853f9766bccf3f56885e5f206e09821ad8ed"
+    }
+  ],
+  "prior_uncommitted_files": [
+    {
+      "path": "scripts/reference/archive-cascade-reference.py",
+      "sha256": "a482db6bd6ae64c050d74e6df321749ec84a7098fb7aa49733079183149806dc",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/reference/capture-cascade-reference.ps1",
+      "sha256": "fb42165db2ad10c6213a415c2080e1eeb6e5ec0bcd1dc119bb1d1707c5283f3e",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/reference/compare-cascade-amplifier.py",
+      "sha256": "af1260adb093946954d0fb7e4bb2059669706a291418aac19ba193fed7554d9d",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/reference/run-systemvue-reference.py",
+      "sha256": "5df486d061ce09c28b396bf62e7fcba473dc6e9086d52861fdc7be6c85864f4e",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/reference/test_compare_cascade_amplifier.py",
+      "sha256": "190ea23b0ce0733846db8052ead9bb4d5ba41ff30e007c1f06e1a1753bc3fcf1",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/reference/test_run_systemvue_reference.py",
+      "sha256": "7eeeb2f890e59b986fec7eb9af58313f129b73ffccfd924f2f273ff52c396eb5",
+      "unchanged": true
+    },
+    {
+      "path": "measurements_test.obj",
+      "sha256": "4935bda18e7d8471560016c7303f3b7136842ab2ec429975440c7d617de3d97f",
+      "unchanged": true
+    },
+    {
+      "path": "verify-measurements.cmd",
+      "sha256": "c629d73c222dad5768c3c33c88a66eea99daf012dc79885f6cd7a7f0cebf7f7f",
+      "unchanged": true
+    }
+  ],
+  "new_systemvue_analysis_calls": 0,
+  "pushed": false,
+  "vendor_compatibility_proven": false,
+  "limitations": [
+    "No new non-Windows or remote CI evidence",
+    "Full CTest used current workspace with prior reference-script drafts, not clean checkout",
+    "No vendor automatic high-order coefficient selection, frequency selection or spectrum reduction",
+    "Fixed-pump matrix frequency inference, noncommensurate frequencies and controlled spectral truncation remain open",
+    "Generated statistical positions are zero extensions of explicitly seed-supported noise; ordinary linear intrinsic noise is evaluated at every planned frequency"
+  ]
+}

@@ -3,6 +3,25 @@
 
 int main(int argc, char **argv) {
     {
+        const size_t ports[2] = {0, 1};
+        const rfmodel_frequency_channel seeds[2] = {{0, 2}, {0, 7}};
+        const rfmodel_frequency_device device = {ports, 2, seeds, 2, NULL, 0};
+        const rfmodel_frequency_plan_request request = {1., &device, 1, NULL, 0, NULL};
+        const double coefficients[3] = {0., 0., .1};
+        const int generating = 2;
+        const rfmodel_highorder_frequency_rule rule = {0, 0, 1, coefficients, 3, &generating, 1};
+        rfmodel_frequency_channel channels[5];
+        size_t offsets[2], mapping[2];
+        const rfmodel_frequency_plan_output output = {channels, 5, offsets, 2, mapping, 2};
+        rfmodel_frequency_plan_diagnostics diagnostics;
+        if (rfmodel_plan_conversion_frequencies_with_highorders(
+                &request, &rule, 1, &output, &diagnostics) != RFMODEL_OK ||
+            diagnostics.channel_count != 5 || channels[3].bin != 4 || channels[4].bin != 7) {
+            return 111;
+        }
+    }
+
+    {
         const size_t ports[3] = {0, 1, 2};
         const rfmodel_frequency_channel seeds[2] = {{0, 5}, {1, 3}};
         const rfmodel_frequency_rule rule = {RFMODEL_FREQUENCY_MIXER, 0, 1, 2, NULL, 0};

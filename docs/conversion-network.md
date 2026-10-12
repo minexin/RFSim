@@ -16,7 +16,7 @@
 
 C++ lift_linear_conversion 接收递增的非负 bins、每个频点的 SMatrix 和 NoiseCorrelation。每个频点的 S 写入直接矩阵 A 的对角分块，B=0；平稳噪声不同频点相互独立。正频率 P=0，DC 使用 P=C。通道按 bin 优先、端口其次排序。
 
-JSON linear 模型支持静态 S 或现有参数模型（包括 Touchstone、RLC、传输线、滤波器和功分/耦合模型），复用原有频点采样及噪声验证。没有自动频率扩展：用户必须明确给出连接所需频率集合，遗漏混频产物或两端集合不同会失败。
+JSON linear 模型支持静态 S 或现有参数模型（包括 Touchstone、RLC、传输线、滤波器和功分/耦合模型），复用原有频点采样及噪声验证。默认要求用户明确给出连接所需频率集合，遗漏产物或两端集合不同会失败。显式启用 [frequency_plan](conversion-frequency-plan.md) 可先对线性、双线性混频、多项式、基波压缩和高阶放大器联合器件规则与接线自动闭合；固定泵矩阵和未注册规则仍需完整通道。
 
 ## 接口
 
@@ -46,7 +46,7 @@ Python Library.conversion_network(spacing_hz, devices, connections=(), reference
 
 设备有两种形式：
 
-- 转换设备：必需 id、channels（{port,bin} 列表）、model、noise。model 为已有 matrix 或 ideal_real_mixer 格式。noise 必须为 {"noiseless":true}，或包含 covariance、可选 complementary 的局部完整矩阵。
+- 转换设备：必需 id、channels（{port,bin} 列表）、model、noise。model 可为 matrix 或 ideal_real_mixer；显式启用 operating_point 后也支持 bilinear_real_mixer、saturating_amplifier、polynomial_amplifier 和 highorder_amplifier，见[工作点接口](conversion-operating-point.md)。noise 必须为 {"noiseless":true}，或包含 covariance、可选 complementary 的局部完整矩阵。
 - 线性设备：必需 id、bins、model、noise。model={"type":"linear","s":矩阵}，或 {"type":"linear","device":参数模型}，二者只能选其一。noise 复用线性格式，明确选择 temperature_k、covariance、covariance_samples 或 noiseless。Touchstone 还可显式采用文件内噪声参数，遵循原有 Touchstone 输入约束。
 
 每个设备可选 source_noise，格式与转换设备 noise 相同；用于表达同一器件外部通道之间的相关源噪声。
@@ -65,7 +65,7 @@ python -m rfmodel examples/filtered-conversion-network.json --library build-msvc
 
 解析回归覆盖：独立 Butterworth/Chebyshev 极点公式得到的复幅相；两个温热衰减器夹混频器的信号、热噪声、镜像折叠与跨频率 C/P；不同通道排列的物理连接；DC 实噪声；普通线性网络退化对照；反射往返的波和完整噪声闭式解；严格边界、非法接线及 C 输出原子性。安装消费者实际调用新 C/C++ 网络入口。
 
-仍待实现：自动频率闭包/截谱策略、稀疏大规模求解、跨设备相关输入噪声接口、泵驱动与压缩工作点联立、LO 相噪、转换矩阵标定、宽带噪声后处理及 SystemVue 厂商参数/数值验证。现有相干非线性前馈图未自动迁移到本求解器。此阶段不宣称 RF Design 完整兼容。
+后续已补充显式结构频率闭包、全局相关源/共享相噪、带宽积分及非线性工作点联立，见下列接口文档。仍待完成：厂商自动选频与频谱削减、稀疏大规模求解、实际 LO 非理想模型、转换矩阵标定及 SystemVue 厂商参数/数值验证。现有相干非线性前馈图未自动迁移到本求解器。此阶段不宣称 RF Design 完整兼容。
 
 ## 工程验证记录（2026-10-09）
 
@@ -86,3 +86,5 @@ python -m rfmodel examples/filtered-conversion-network.json --library build-msvc
 [全局相关源与共享参考相噪](shared-phase-noise.md)可通过 additional_source_noise 或 phase_noise_groups 接入，并保留跨器件统计量。
 
 绝对波器件偏置和 linearized_real_mixer 装配见[仿射网络](affine-conversion.md)；原默认转换矩阵分析保持不变。
+
+[结构频率规划](conversion-frequency-plan.md)已提供 C++/C/Python 规则入口和 JSON frequency_plan，包含高阶 generating_bins 的显式选择、种子统计量映射与新增边界。自动高阶反馈示例见 [auto-frequency-highorder-feedback.json](../examples/auto-frequency-highorder-feedback.json)。

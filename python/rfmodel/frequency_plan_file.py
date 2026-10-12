@@ -3,7 +3,7 @@ import copy
 
 from .frequency_plan import integer
 from .model_file import _object, _number, _complex, _matrix, _encode
-from .operating_point import bilinear_spec, polynomial_spec, amplifier_spec
+from .operating_point import bilinear_spec, polynomial_spec, amplifier_spec, highorder_spec
 
 
 def expand_vector(values, mapping, count):
@@ -116,6 +116,12 @@ def prepare_frequency_plan(library, document):
                 ports = [model_spec['input_port'], model_spec['output_port']]
                 rules = [dict(type='polynomial', input_port=ports[0], output_port=ports[1],
                               voltage_coefficients=model_spec['voltage_coefficients'])]
+            elif kind == 'highorder_amplifier':
+                model_spec = highorder_spec(model)
+                ports = [model_spec.get('input_port', 0), model_spec.get('output_port', 1)]
+                rules = [dict(type='highorder', input_port=ports[0], output_port=ports[1],
+                              voltage_coefficients=[0, 0] + model_spec['nonlinear_voltage_coefficients'],
+                              generating_bins=model_spec['generating_bins'])]
             elif kind == 'saturating_amplifier':
                 model_spec = amplifier_spec(model)
                 ports = [model_spec['input_port'], model_spec['output_port']]

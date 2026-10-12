@@ -1,0 +1,88 @@
+{
+  "format": "rfmodel.conversion-network",
+  "version": 1,
+  "spacing_hz": 1000000.0,
+  "frequency_plan": {},
+  "devices": [
+    {
+      "id": "highorder",
+      "channels": [],
+      "model": {
+        "type": "highorder_amplifier",
+        "power_gain_db": 20,
+        "output_p1db_dbm": 20,
+        "output_saturation_dbm": 23,
+        "nonlinear_voltage_coefficients": [
+          0,
+          0.1
+        ],
+        "generating_bins": [
+          1
+        ]
+      },
+      "noise": {
+        "noiseless": true
+      }
+    },
+    {
+      "id": "feedback",
+      "bins": [
+        1
+      ],
+      "model": {
+        "type": "linear",
+        "s": [
+          [
+            0,
+            0
+          ],
+          [
+            -0.02,
+            0
+          ]
+        ]
+      },
+      "noise": {
+        "covariance": [
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            1e-09
+          ]
+        ]
+      },
+      "output_offset": [
+        0,
+        0.03
+      ]
+    }
+  ],
+  "connections": [
+    [
+      [
+        "highorder",
+        1
+      ],
+      [
+        "feedback",
+        0
+      ]
+    ],
+    [
+      [
+        "highorder",
+        0
+      ],
+      [
+        "feedback",
+        1
+      ]
+    ]
+  ],
+  "boundaries": [],
+  "operating_point": {},
+  "loaded_noise": true
+}

@@ -109,7 +109,7 @@ python -m rfmodel examples/nonlinear-mixer-network.json --library build-msvc/Rel
 python -m rfmodel examples/nonlinear-mixer-feedback.json --library build-msvc/Release/rfmodel_c.dll --output build-reference/nonlinear-feedback-result.json
 ```
 
-不收敛或输入错误时 CLI 返回非零并保留已有结果文件。模型仍是固定系数理想双线性器件，不包含实际 LO 限幅、压缩、杂散或自动频率扩展。
+不收敛或输入错误时 CLI 返回非零并保留已有结果文件。混频模型仍是固定系数理想双线性器件，不包含实际 LO 限幅、压缩或非理想杂散。显式 frequency_plan 可在工作点求解前完成已注册规则的结构扩频，详见[频率规划](conversion-frequency-plan.md)。
 
 ## 跨语言接口验证记录
 

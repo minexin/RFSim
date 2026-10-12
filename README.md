@@ -106,4 +106,4 @@ Windows 本机可运行 `scripts/build-msvc.ps1` 自动定位已有 VS 工具链
 
 [旧式峰值导数 AM-PM](docs/am-pm.md)已提供 C++/C/Python/JSON 相位曲线及工作点链式导数；[实测对比](docs/systemvue-am-pm-existing-reference.md)有30/37点超差，厂商兼容仍未完成。
 
-[转换网络结构频率规划](docs/conversion-frequency-plan.md)已贯通 C++17/C/Python 与显式 JSON 自动扩频，联合闭合器件规则和物理接线，保留源/噪声/初值映射；C++ 高阶放大器另支持显式生成频点与 RF 投影闭包，其跨语言适配尚未接入。频谱截断和厂商选频语义仍待完成。
+[转换网络结构频率规划](docs/conversion-frequency-plan.md)已贯通 C++17/C/Python 与显式 JSON 自动扩频，联合闭合器件规则和物理接线，保留源/噪声/初值映射；高阶放大器的显式生成频点与 RF 投影闭包也已接入 C/Python/JSON，并提供自动扩频反馈示例。频谱截断和厂商选频语义仍待完成。
