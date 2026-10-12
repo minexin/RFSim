@@ -46,6 +46,23 @@
 
 int main() {
     {
+        const rfmodel::CoherentHighOrderAmplifier amplifier(20., 20., 23., {.1});
+        const auto plan = rfmodel::plan_conversion_frequencies(
+            1.,
+            {{{0, 1},
+              {{0, 2}, {0, 7}},
+              {rfmodel::FrequencyHighOrderRule{
+                  0, 1, rfmodel::MemorylessPolynomial(amplifier.voltage_coefficients()), {2}}}}},
+            {});
+        const auto point = rfmodel::linearize_highorder_amplifier(
+            1., plan.channels[0], {.01, .02, 0., 0., 0.}, amplifier, {2});
+        if (plan.total_channels != 5 || plan.channels[0][3].bin != 4 ||
+            std::abs(point.outgoing[3]) == 0. || plan.channels[0][4].bin != 7) {
+            return 111;
+        }
+    }
+
+    {
         const auto plan = rfmodel::plan_conversion_frequencies(
             1e6, {{{0, 1, 2}, {{0, 5}, {1, 3}}, {rfmodel::FrequencyMixerRule{0, 1, 2}}}}, {});
         const auto point =

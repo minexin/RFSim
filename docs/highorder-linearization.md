@@ -106,7 +106,7 @@ $env:PYTHONPATH = "python"
 python -m rfmodel examples/nonlinear-highorder-feedback.json --library build-msvc/Release/rfmodel_c.dll --output highorder-result.json
 ```
 
-频点规划可先用 `polynomial_output_bins(generating_bins, [0, 0] + coefficients)` 求完整结构支撑，去除 DC 后与全部输入 RF 频点取并集。生成集合为空时仅需同频直接输出；网络不会自动扩频，也没有 MaxOrder 截断开关。
+C++ 可用 [FrequencyHighOrderRule](conversion-frequency-plan.md) 联合物理接线完成频率闭合，保留全部 RF 直接传播并仅对显式 generating_bins 生成产物。C/Python/JSON 的高阶自动规划尚未接入，仍需完整通道数组；可先用 `polynomial_output_bins(generating_bins, [0, 0] + coefficients)` 求完整结构支撑，去除 DC 后与全部输入 RF 频点取并集。生成集合为空时仅需同频直接输出，没有 MaxOrder 截断开关。
 
 ## 数值验证
 

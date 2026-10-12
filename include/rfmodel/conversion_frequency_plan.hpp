@@ -21,8 +21,17 @@ struct FrequencyMixerRule {
     std::size_t rf_port, lo_port, if_port;
 };
 
-using ConversionFrequencyRule =
-    std::variant<FrequencyCopyRule, FrequencyPolynomialRule, FrequencyMixerRule>;
+// All RF inputs propagate directly; only the explicitly selected RF bins
+// generate products. The polynomial is c0..c11 with c0=c1=0 (direct gain is
+// separate), as returned by CoherentHighOrderAmplifier::voltage_coefficients.
+struct FrequencyHighOrderRule {
+    std::size_t input_port, output_port;
+    MemorylessPolynomial polynomial;
+    std::vector<int> generating_bins;
+};
+
+using ConversionFrequencyRule = std::
+    variant<FrequencyCopyRule, FrequencyPolynomialRule, FrequencyMixerRule, FrequencyHighOrderRule>;
 
 struct ConversionFrequencyDevice {
     std::vector<std::size_t> ports;
@@ -120,6 +129,20 @@ plan_conversion_frequencies(double spacing_hz,
                         if (value.input_port == value.output_port) {
                             throw std::invalid_argument(
                                 "frequency rule input/output ports must differ");
+                        }
+                        if constexpr (std::is_same_v<Rule, FrequencyHighOrderRule>) {
+                            if (value.polynomial.coefficient(0) != 0. ||
+                                value.polynomial.coefficient(1) != 0. ||
+                                value.generating_bins.size() > 512) {
+                                throw std::invalid_argument("invalid high-order frequency rule");
+                            }
+                            std::set<int> selected;
+                            for (auto bin : value.generating_bins) {
+                                if (bin <= 0 || !selected.insert(bin).second) {
+                                    throw std::invalid_argument(
+                                        "invalid or duplicate high-order generating bin");
+                                }
+                            }
                         }
                     }
                 },
@@ -225,6 +248,22 @@ plan_conversion_frequencies(double spacing_hz,
                                 }
                             }
                         } else {
+                            if constexpr (std::is_same_v<Rule, FrequencyHighOrderRule>) {
+                                for (auto bin : first) {
+                                    if (bin > 0) {
+                                        changed = insert(d, rule.output_port, bin) || changed;
+                                    }
+                                }
+                                // Selected bins may arrive after wire propagation.
+                                // Check their presence only after closure.
+                                std::set<int> selected;
+                                for (auto bin : rule.generating_bins) {
+                                    if (first.count(bin)) {
+                                        selected.insert(bin);
+                                    }
+                                }
+                                first = std::move(selected);
+                            }
                             if (rule.polynomial.coefficient(0) != 0.) {
                                 changed = insert(d, rule.output_port, 0) || changed;
                             }
@@ -241,6 +280,7 @@ plan_conversion_frequencies(double spacing_hz,
                                 signed_bins.insert(-bin);
                             }
                             std::set<long long> support{0};
+                            std::set<long long> highorder_outputs;
                             for (std::size_t order = 1; order <= degree; ++order) {
                                 std::set<long long> next;
                                 for (auto left : support) {
@@ -257,6 +297,20 @@ plan_conversion_frequencies(double spacing_hz,
                                 if (rule.polynomial.coefficient(order) != 0.) {
                                     for (auto bin : support) {
                                         if (bin >= 0) {
+                                            if constexpr (std::is_same_v<Rule,
+                                                                         FrequencyHighOrderRule>) {
+                                                highorder_outputs.insert(bin);
+                                                // DC counts in the linearizer's internal
+                                                // polynomial before RF projection.
+                                                if (first.size() + highorder_outputs.size() > 512) {
+                                                    throw std::length_error(
+                                                        "high-order internal polynomial channel "
+                                                        "limit exceeded");
+                                                }
+                                                if (bin == 0) {
+                                                    continue;
+                                                }
+                                            }
                                             changed = insert(d, rule.output_port, bin) || changed;
                                         }
                                     }
@@ -281,6 +335,19 @@ plan_conversion_frequencies(double spacing_hz,
     result.channels.resize(devices.size());
     result.seed_channel_indices.resize(devices.size());
     for (std::size_t d = 0; d < devices.size(); ++d) {
+        for (const auto &rule : devices[d].rules) {
+            if (const auto *highorder = std::get_if<FrequencyHighOrderRule>(&rule)) {
+                const auto &inputs = grids[d].at(highorder->input_port);
+                if (inputs.empty() || *inputs.rbegin() == 0) {
+                    throw std::invalid_argument("high-order frequency rule requires RF input");
+                }
+                for (auto bin : highorder->generating_bins) {
+                    if (!inputs.count(bin)) {
+                        throw std::invalid_argument("missing high-order generating input bin");
+                    }
+                }
+            }
+        }
         std::map<std::pair<std::size_t, int>, std::size_t> indices;
         for (const auto &port : grids[d]) {
             if (port.second.empty()) {

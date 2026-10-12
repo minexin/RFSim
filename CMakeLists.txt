@@ -438,3 +438,7 @@ add_test(NAME am_pm_test COMMAND am_pm_test)
 add_executable(conversion_frequency_plan_test tests/conversion_frequency_plan_test.cpp)
 target_link_libraries(conversion_frequency_plan_test PRIVATE rfmodel)
 add_test(NAME conversion_frequency_plan_test COMMAND conversion_frequency_plan_test)
+
+add_executable(highorder_frequency_plan_test tests/highorder_frequency_plan_test.cpp)
+target_link_libraries(highorder_frequency_plan_test PRIVATE rfmodel)
+add_test(NAME highorder_frequency_plan_test COMMAND highorder_frequency_plan_test)

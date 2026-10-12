@@ -1,0 +1,193 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-12",
+  "stage": "C++17 selected high-order amplifier frequency planning",
+  "base_commit": "e32b7482b09a51d3d9d44badf51af36cf6363d1b",
+  "implementation_scope": [
+    "Native FrequencyHighOrderRule with explicit positive generating_bins",
+    "All RF input bins propagate directly; selected bins alone generate nonlinear RF products",
+    "Selected input availability checked after fixed-point closure with physical wires",
+    "Internal polynomial DC counts toward 512-channel resource limit even though RF projection removes DC",
+    "C++ variant extended; consumers must rebuild; C ABI and Python/JSON unchanged"
+  ],
+  "verification": {
+    "Debug_ctest": {
+      "passed": 127,
+      "total": 127,
+      "seconds": 71.63
+    },
+    "Debug_consumer-ctest": {
+      "passed": 2,
+      "total": 2,
+      "seconds": 0.16
+    },
+    "Release_ctest": {
+      "passed": 127,
+      "total": 127,
+      "seconds": 53.87
+    },
+    "Release_consumer-ctest": {
+      "passed": 2,
+      "total": 2,
+      "seconds": 0.13
+    },
+    "msvc_clean_first": [
+      "Debug",
+      "Release"
+    ],
+    "cpp_format_files": 154,
+    "feedback_total_channels": 8,
+    "feedback_generated_channels": 7,
+    "signal_reference": "Independent scalar gain/limiter fixed point with harmonic feedback, plus time-domain cubic and 128-sample Fourier projection",
+    "manual_grid_reference": "All 8 incident/outgoing complex waves and all 64 entries of outgoing covariance and complementary covariance, mapped against a deliberately permuted manually specified grid",
+    "structural_cases": [
+      "Selected bins arriving through wire propagation",
+      "Nonselected spur drives shared limiting without generating products",
+      "DC RF projection and explicitly retained DC seed",
+      "Empty selection and zero polynomial",
+      "Eleventh-order support",
+      "Idempotence and device-order independence",
+      "Invalid, duplicate, nonpositive and missing selected bins",
+      "max_bin and max_transitions failures",
+      "Integer overflow",
+      "512 network channels versus 513 internal polynomial channels including DC"
+    ]
+  },
+  "logs": [
+    {
+      "path": "build-reference/highorder-plan-build-Debug.log",
+      "sha256": "35e54655efef2f89ff4c7f506b7aed39cef3304b65ceb377ccd9f13f902545da",
+      "exit_code": 0
+    },
+    {
+      "path": "build-reference/highorder-plan-ctest-Debug.log",
+      "sha256": "1cbd17feb9385ff410c6bad34a77a89a82cdb44ea8a735f6607929d76e762a93",
+      "exit_code": 0
+    },
+    {
+      "path": "build-reference/highorder-plan-install-Debug.log",
+      "sha256": "d1d6af696b51f8eee2683060762b76bbb71ebea35e2232312e9258292d449f32",
+      "exit_code": 0
+    },
+    {
+      "path": "build-reference/highorder-plan-consumer-configure-Debug.log",
+      "sha256": "d66a9c2b44050da775b1d48ff19204acceb5fe0cd9d8248671707470b094b38f",
+      "exit_code": 0
+    },
+    {
+      "path": "build-reference/highorder-plan-consumer-build-Debug.log",
+      "sha256": "b384b112aea44e058b1b09bee4d61f05f6519d5b20016244857b7c43468d2938",
+      "exit_code": 0
+    },
+    {
+      "path": "build-reference/highorder-plan-consumer-ctest-Debug.log",
+      "sha256": "c3ed4e35842652915cdaf806de0dfb484044a626c2e9597d05be886900b95ee2",
+      "exit_code": 0
+    },
+    {
+      "path": "build-reference/highorder-plan-build-Release.log",
+      "sha256": "b5937f8aebe4a340251daef3d6a838c200d4df3054ebc24176268291707c1b51",
+      "exit_code": 0
+    },
+    {
+      "path": "build-reference/highorder-plan-ctest-Release.log",
+      "sha256": "64b75944c9f009384dceb76d8759b97ba894e3c9b6eacde273980317c4527ed7",
+      "exit_code": 0
+    },
+    {
+      "path": "build-reference/highorder-plan-install-Release.log",
+      "sha256": "e2111d2c0e8fe8984c1c409d434d96117ecf8241141ae2da89edf1f51c51ffe5",
+      "exit_code": 0
+    },
+    {
+      "path": "build-reference/highorder-plan-consumer-configure-Release.log",
+      "sha256": "b7b25ec6ebb45a175343eb91733a5abe161d355192aa6be5acaaac4507cf3705",
+      "exit_code": 0
+    },
+    {
+      "path": "build-reference/highorder-plan-consumer-build-Release.log",
+      "sha256": "7a63d8b4ac3fc318c6a90d5942bb07e6b514c9322d9d104106f690f50f6fafd3",
+      "exit_code": 0
+    },
+    {
+      "path": "build-reference/highorder-plan-consumer-ctest-Release.log",
+      "sha256": "30fdceceb4343b807defe4121bce24ae48a9d57beac3a627f74f4a6e6aca9746",
+      "exit_code": 0
+    },
+    {
+      "path": "build-reference/highorder-plan-format.log",
+      "sha256": "ead9e970a981fc707e9b999e9ebc456dd852be02a974bf85c0ab78407144266a",
+      "exit_code": 0
+    }
+  ],
+  "source_files": [
+    {
+      "path": "include/rfmodel/conversion_frequency_plan.hpp",
+      "sha256": "55939ef2876a5b09393e6f4e97267dd30a855b4d90ac6d1ff764e0bcb921b616"
+    },
+    {
+      "path": "tests/highorder_frequency_plan_test.cpp",
+      "sha256": "9dcf3cd448db1ffba80840020cbbc23b534fa7f43aade9e7d3a11d69412d9f3f"
+    },
+    {
+      "path": "tests/consumer/main.cpp",
+      "sha256": "ee3e4555e2797f3e449fdc7092d9a7ebc18ba6e9385f6f5c8ab1099413aa2bff"
+    },
+    {
+      "path": "CMakeLists.txt",
+      "sha256": "debc61ca556e5439dc3315eb49ab4a4655a3ad9081c2eb87849fa821b6746fbe"
+    }
+  ],
+  "prior_uncommitted_files": [
+    {
+      "path": "scripts/reference/archive-cascade-reference.py",
+      "sha256": "a482db6bd6ae64c050d74e6df321749ec84a7098fb7aa49733079183149806dc",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/reference/capture-cascade-reference.ps1",
+      "sha256": "fb42165db2ad10c6213a415c2080e1eeb6e5ec0bcd1dc119bb1d1707c5283f3e",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/reference/compare-cascade-amplifier.py",
+      "sha256": "af1260adb093946954d0fb7e4bb2059669706a291418aac19ba193fed7554d9d",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/reference/run-systemvue-reference.py",
+      "sha256": "5df486d061ce09c28b396bf62e7fcba473dc6e9086d52861fdc7be6c85864f4e",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/reference/test_compare_cascade_amplifier.py",
+      "sha256": "190ea23b0ce0733846db8052ead9bb4d5ba41ff30e007c1f06e1a1753bc3fcf1",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/reference/test_run_systemvue_reference.py",
+      "sha256": "7eeeb2f890e59b986fec7eb9af58313f129b73ffccfd924f2f273ff52c396eb5",
+      "unchanged": true
+    },
+    {
+      "path": "measurements_test.obj",
+      "sha256": "4935bda18e7d8471560016c7303f3b7136842ab2ec429975440c7d617de3d97f",
+      "unchanged": true
+    },
+    {
+      "path": "verify-measurements.cmd",
+      "sha256": "c629d73c222dad5768c3c33c88a66eea99daf012dc79885f6cd7a7f0cebf7f7f",
+      "unchanged": true
+    }
+  ],
+  "new_systemvue_analysis_calls": 0,
+  "pushed": false,
+  "vendor_compatibility_proven": false,
+  "limitations": [
+    "High-order frequency planning exposed only in C++; C/Python/JSON adaptation remains open",
+    "No new non-Windows or remote CI evidence",
+    "Full CTest uses current workspace with preserved prior reference-script drafts, not a clean checkout",
+    "No new Python wheel built because Python and C ABI interfaces are unchanged; existing Python suites run through full CTest with Python 3.10",
+    "No vendor automatic selection, spectrum reduction, noncommensurate grid or controlled truncation"
+  ]
+}
