@@ -1,7 +1,8 @@
 """Frequency-dependent connected networks with explicit RF coherence groups."""
 from . import PortCoherentComponent, SourceCoherence
 from .coherence_file import _decode_component, _encode_reduction
-from .model_file import _object, _number, _matrix, analyze
+from .model_file import _object, _number, _matrix
+from .linear_stage_file import _linear_stage_samples
 
 
 def _endpoint(value):
@@ -47,7 +48,7 @@ def _analyze_ports(library, spacing, reference, network, inputs, outputs, base_d
     if not isinstance(devices, list) or not devices:
         raise ValueError("At least one device is required")
     for device in devices:
-        _object(device, ("id",), ("s", "model"))
+        _object(device, ("id",), ("s", "model", "reference_impedances_ohms"))
     if not isinstance(external, list) or not 1 <= len(external) <= 1024:
         raise ValueError("Select 1..1024 external ports")
     endpoints = [_endpoint(port) for port in external]
@@ -76,9 +77,8 @@ def _analyze_ports(library, spacing, reference, network, inputs, outputs, base_d
     bins = sorted(by_bin)
     if len(bins) > 2048:
         raise ValueError("At most 2048 distinct frequency bins")
-    linear = dict(network, format="rfmodel.linear-network", version=1, reference_ohms=reference,
-                  frequencies_hz=[index * spacing for index in bins] or [0.])
-    samples = analyze(library, linear, base_directory=base_directory)["samples"]
+    samples = _linear_stage_samples(
+        library, network, [index * spacing for index in bins] or [0.], reference, base_directory)
     transmitted = {output: [] for output in outputs}
     for index, sample in zip(bins or [0], samples):
         with library.network(reference) as reduced:

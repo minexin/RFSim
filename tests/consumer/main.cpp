@@ -1,4 +1,5 @@
 #include "rfmodel/monte_carlo.hpp"
+#include "rfmodel/power_wave_network.hpp"
 #include "rfmodel/optimization.hpp"
 #include "rfmodel/conversion_frequency_plan.hpp"
 #include "rfmodel/am_pm_linearization.hpp"
@@ -47,6 +48,14 @@
 #include <rfmodel/term_propagation.hpp>
 
 int main() {
+    {
+        rfmodel::LinearNetwork local;
+        local.add_power_waves({2, {0., 1., 1., 0.}}, {25., 100.});
+        const auto snapshot = rfmodel::reduce_power_wave_network(local, {0, 1}, 50.);
+        if (std::abs(snapshot.external_s({0, 1})(1, 0) - rfmodel::Complex{.8, 0.}) > 1e-12) {
+            return 150;
+        }
+    }
     {
         rfmodel::MonteCarloOptions options;
         options.samples = 32;

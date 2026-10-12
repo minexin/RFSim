@@ -73,6 +73,12 @@ if(RFMODEL_BUILD_C_API)
         target_link_libraries(c_api_optimization_test PRIVATE m)
     endif()
     add_test(NAME c_api_optimization_test COMMAND c_api_optimization_test)
+    add_executable(c_api_power_wave_network_test tests/c_api_power_wave_network_test.c)
+    target_link_libraries(c_api_power_wave_network_test PRIVATE RFModel::c_api)
+    if(UNIX)
+        target_link_libraries(c_api_power_wave_network_test PRIVATE m)
+    endif()
+    add_test(NAME c_api_power_wave_network_test COMMAND c_api_power_wave_network_test)
     add_executable(c_api_mixed_reference_test tests/c_api_mixed_reference_test.c)
     target_link_libraries(c_api_mixed_reference_test PRIVATE RFModel::c_api)
     if(UNIX)
@@ -89,6 +95,8 @@ if(RFMODEL_BUILD_C_API)
         find_package(Python3 3.9 COMPONENTS Interpreter QUIET)
     endif()
     if(Python3_Interpreter_FOUND)
+        add_test(NAME power_wave_stages_python_test COMMAND ${Python3_EXECUTABLE}
+            ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_power_wave_stages.py $<TARGET_FILE:rfmodel_c>)
         add_test(NAME python_api_test COMMAND ${Python3_EXECUTABLE}
             ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_python_api.py $<TARGET_FILE:rfmodel_c>)
         add_test(NAME optimization_task_file_test COMMAND ${Python3_EXECUTABLE}
@@ -483,6 +491,10 @@ add_test(NAME conversion_frequency_plan_test COMMAND conversion_frequency_plan_t
 add_executable(highorder_frequency_plan_test tests/highorder_frequency_plan_test.cpp)
 target_link_libraries(highorder_frequency_plan_test PRIVATE rfmodel)
 add_test(NAME highorder_frequency_plan_test COMMAND highorder_frequency_plan_test)
+
+add_executable(power_wave_network_test tests/power_wave_network_test.cpp)
+target_link_libraries(power_wave_network_test PRIVATE rfmodel)
+add_test(NAME power_wave_network_test COMMAND power_wave_network_test)
 
 add_executable(mixed_reference_network_test tests/mixed_reference_network_test.cpp)
 target_link_libraries(mixed_reference_network_test PRIVATE rfmodel)

@@ -33,6 +33,26 @@ static int optimization_objective(
 
 int main(int argc, char **argv) {
     {
+        rfmodel_network *local = NULL, *snapshot = NULL;
+        const size_t ports[2] = {0, 1};
+        const rfmodel_complex s[4] = {{0, 0}, {1, 0}, {1, 0}, {0, 0}},
+                              refs[2] = {{25, 0}, {100, 0}};
+        size_t offset;
+        rfmodel_complex result[4];
+        if (rfmodel_network_create(50., &local) ||
+            rfmodel_network_add_power_waves(local, 2, s, 4, refs, 2, &offset) ||
+            rfmodel_network_reduce_power_waves(local, ports, 2, 50., &snapshot)) {
+            return 150;
+        }
+        rfmodel_network_destroy(local);
+        if (rfmodel_network_external_s(snapshot, ports, 2, result, 4) ||
+            fabs(result[2].real - .8) > 1e-12) {
+            rfmodel_network_destroy(snapshot);
+            return 151;
+        }
+        rfmodel_network_destroy(snapshot);
+    }
+    {
         const rfmodel_monte_carlo_parameter p[2] = {{RFMODEL_MC_NORMAL, 0., 1.},
                                                     {RFMODEL_MC_NORMAL, 0., 1.}};
         const rfmodel_monte_carlo_options options = {32, 20261012, 0, 0, NULL, 0, NULL, 0};

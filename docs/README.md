@@ -105,3 +105,5 @@
 [旧式峰值导数 AM-PM](am-pm.md)提供文档约束推导的 C++ 相位曲线及工作点链式导数；跨语言接口与厂商实测仍待完成。
 
 [1 dB 衰减器离线复核](systemvue-attenuator-offline-audit.md)：确切 ATTN_Linear 参数/API 映射、原阈值失败重放和独立噪声预算。
+
+- [RF 线性阶段的混合参考接线](power-wave-stages.md)

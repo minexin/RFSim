@@ -574,7 +574,7 @@ class CoherentSystemFileTests(unittest.TestCase):
             component["bandwidth_hz"] = 0.1
         baseline = self.evaluate(model)
         post_network(model, {"s": [[0, 0.5], [0.5, 0]]})
-        with patch("rfmodel.coherent_network_file.analyze", wraps=analyze) as extraction:
+        with patch("rfmodel.linear_stage_file.analyze", wraps=analyze) as extraction:
             result = self.evaluate(model)
         self.assertEqual(extraction.call_count, 1)
         self.assertEqual(len(extraction.call_args.args[1]["frequencies_hz"]), len(powers(baseline)))
@@ -1145,7 +1145,7 @@ class CoherentSystemFileTests(unittest.TestCase):
     def test_split_mix_combine_and_one_extraction_per_network(self):
         model = fixture()
         original = copy.deepcopy(model)
-        with patch("rfmodel.coherent_network_file.analyze", wraps=analyze) as linear:
+        with patch("rfmodel.linear_stage_file.analyze", wraps=analyze) as linear:
             result = self.evaluate(model)
         self.assertEqual(linear.call_count, 2)
         self.assertEqual(model, original)

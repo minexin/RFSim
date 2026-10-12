@@ -1,0 +1,573 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-12",
+  "stage": "A05 common-real-reference reduction of mixed complex power-wave linear stages",
+  "base_commit": "6f727f802e87a38d4f59360ab99270e88bf0c7c6",
+  "passed": true,
+  "local_configurations": [
+    {
+      "platform": "Windows",
+      "configuration": "Debug",
+      "ctest": 149,
+      "installed_consumers": 2,
+      "installed_python": 478,
+      "installed_python_suites": 30,
+      "new_python_tests": 16,
+      "wheel_report": {
+        "path": "build-reference/power-wave-stage-final-wheel-Debug/installed-python-validation.json",
+        "sha256": "e1a48886d5e70674fd8ba7732f63b1319abffc5e58f7a205414c06016884efa7"
+      },
+      "native_library": {
+        "path": "build-reference/power-wave-stage-install-Debug/bin/rfmodel_cd.dll",
+        "sha256": "16ad16163a5d1073b9fff9cb47a83d26dede98d0f07d4672f09260f60d3011f6"
+      },
+      "test_logs": [
+        {
+          "path": "build-reference/power-wave-stage-ctest-Debug.log",
+          "sha256": "5f116230c09eea2bc20ac0f1f41b514403d94365302b017dfd35679c38587066",
+          "passed": 149,
+          "total": 149
+        },
+        {
+          "path": "build-reference/power-wave-stage-consumer-ctest-Debug.log",
+          "sha256": "e055f0127e54ba1339d241f2a8cd34997fac090753e0da52059f1ed8778303dd",
+          "passed": 2,
+          "total": 2
+        }
+      ],
+      "legacy_c_consumer": {
+        "binary": {
+          "path": "build-reference/power-wave-stage-legacy-Debug/c_consumer.exe",
+          "sha256": "21103e9a4632dfada0dfd9586cc67e2729358040bb8299f8b0181b9546efc68b"
+        },
+        "unchanged_from": {
+          "path": "build-reference/monte-carlo-joint-api-consumer-Debug/Debug/c_consumer.exe",
+          "sha256": "21103e9a4632dfada0dfd9586cc67e2729358040bb8299f8b0181b9546efc68b"
+        },
+        "loaded_dll": {
+          "path": "build-reference/power-wave-stage-legacy-Debug/rfmodel_cd.dll",
+          "sha256": "16ad16163a5d1073b9fff9cb47a83d26dede98d0f07d4672f09260f60d3011f6"
+        },
+        "provenance": "Pre-stage consumer executable copied unchanged next to the new DLL.",
+        "log": {
+          "path": "build-reference/power-wave-stage-legacy-Debug.log",
+          "sha256": "61dcad843da2db3e58f9d09d55d731ec1db7b4604cce6976375ca9dc1f3fbded"
+        },
+        "passed": true
+      },
+      "example": {
+        "path": "build-reference/power-wave-stage-final-example-Windows-Debug.json",
+        "sha256": "973f82bc3124142fa0b23cf9fcbefdec1808c869c3587724b47b53ef2b9ec429"
+      },
+      "byte_identical_replay": true,
+      "independent_physics": {
+        "passed": true,
+        "method": "quadratic Fourier coefficients plus physical series-R/shunt-C ABCD",
+        "wave_absolute_tolerance": 1e-14,
+        "power_absolute_tolerance_w": 1e-20,
+        "relative_tolerance": 1e-11,
+        "wave_values_checked": 4,
+        "power_values_checked": 6,
+        "maximum_wave_absolute_error": 2.611104600503256e-18,
+        "maximum_power_absolute_error_w": 4.0657581468206416e-20,
+        "source_origins_preserved": true,
+        "expected_filtered": [
+          {
+            "bin": 10,
+            "frequency_hz": 1000000000.0,
+            "amplitude": [
+              0.007725508243424176,
+              -0.001456223996567327
+            ],
+            "power_w": 6.180406594739341e-05
+          },
+          {
+            "bin": 20,
+            "frequency_hz": 2000000000.0,
+            "amplitude": [
+              0.00017511259469224507,
+              -6.60158929243445e-05
+            ],
+            "power_w": 3.502251893844902e-08
+          }
+        ]
+      }
+    },
+    {
+      "platform": "Windows",
+      "configuration": "Release",
+      "ctest": 149,
+      "installed_consumers": 2,
+      "installed_python": 478,
+      "installed_python_suites": 30,
+      "new_python_tests": 16,
+      "wheel_report": {
+        "path": "build-reference/power-wave-stage-final-wheel-Release/installed-python-validation.json",
+        "sha256": "a9202d660ff4d21b07cde5381b339676697040fa0bbe85ef74f88346aeccf07c"
+      },
+      "native_library": {
+        "path": "build-reference/power-wave-stage-install-Release/bin/rfmodel_c.dll",
+        "sha256": "1412eb8b3acfed49a61a67c6419ec223e2fc89d7fc992b75edc610497ea34393"
+      },
+      "test_logs": [
+        {
+          "path": "build-reference/power-wave-stage-ctest-Release.log",
+          "sha256": "8f67fb1437476e7f344e78861186131d49dad615ced6d6f7df5f9a103fc4567f",
+          "passed": 149,
+          "total": 149
+        },
+        {
+          "path": "build-reference/power-wave-stage-consumer-ctest-Release.log",
+          "sha256": "2e6433acf364b3350053a5b001143603e9f3542df5711795f8ebfaaa16897d28",
+          "passed": 2,
+          "total": 2
+        }
+      ],
+      "legacy_c_consumer": {
+        "binary": {
+          "path": "build-reference/power-wave-stage-legacy-Release/c_consumer.exe",
+          "sha256": "f680dffffd0233f302d4b0e12dd9a089aa3910f8d84cb1e8a8938d041f283a15"
+        },
+        "unchanged_from": {
+          "path": "build-reference/monte-carlo-joint-api-consumer-Release/Release/c_consumer.exe",
+          "sha256": "f680dffffd0233f302d4b0e12dd9a089aa3910f8d84cb1e8a8938d041f283a15"
+        },
+        "loaded_dll": {
+          "path": "build-reference/power-wave-stage-legacy-Release/rfmodel_c.dll",
+          "sha256": "1412eb8b3acfed49a61a67c6419ec223e2fc89d7fc992b75edc610497ea34393"
+        },
+        "provenance": "Pre-stage consumer executable copied unchanged next to the new DLL.",
+        "log": {
+          "path": "build-reference/power-wave-stage-legacy-Release.log",
+          "sha256": "61dcad843da2db3e58f9d09d55d731ec1db7b4604cce6976375ca9dc1f3fbded"
+        },
+        "passed": true
+      },
+      "example": {
+        "path": "build-reference/power-wave-stage-final-example-Windows-Release.json",
+        "sha256": "973f82bc3124142fa0b23cf9fcbefdec1808c869c3587724b47b53ef2b9ec429"
+      },
+      "byte_identical_replay": true,
+      "independent_physics": {
+        "passed": true,
+        "method": "quadratic Fourier coefficients plus physical series-R/shunt-C ABCD",
+        "wave_absolute_tolerance": 1e-14,
+        "power_absolute_tolerance_w": 1e-20,
+        "relative_tolerance": 1e-11,
+        "wave_values_checked": 4,
+        "power_values_checked": 6,
+        "maximum_wave_absolute_error": 2.611104600503256e-18,
+        "maximum_power_absolute_error_w": 4.0657581468206416e-20,
+        "source_origins_preserved": true,
+        "expected_filtered": [
+          {
+            "bin": 10,
+            "frequency_hz": 1000000000.0,
+            "amplitude": [
+              0.007725508243424176,
+              -0.001456223996567327
+            ],
+            "power_w": 6.180406594739341e-05
+          },
+          {
+            "bin": 20,
+            "frequency_hz": 2000000000.0,
+            "amplitude": [
+              0.00017511259469224507,
+              -6.60158929243445e-05
+            ],
+            "power_w": 3.502251893844902e-08
+          }
+        ]
+      }
+    },
+    {
+      "platform": "Linux",
+      "configuration": "Debug",
+      "ctest": 149,
+      "installed_consumers": 2,
+      "installed_python": 478,
+      "installed_python_suites": 30,
+      "new_python_tests": 16,
+      "wheel_report": {
+        "path": "build-reference/power-wave-stage-linux-final-wheel-Debug/installed-python-validation.json",
+        "sha256": "5dba9c4e2e201563379793ee5a69e102d72e4c7bc3565226e9b051f71d940ec7"
+      },
+      "native_library": {
+        "path": "build-reference/power-wave-stage-linux-install-Debug/lib/librfmodel_cd.so",
+        "sha256": "b83ebf1a7994a7bb7af27603bc1df9fe33f71f780bf483bc20e445faf58b329d"
+      },
+      "test_logs": [
+        {
+          "path": "build-reference/power-wave-stage-linux-ctest-Debug.log",
+          "sha256": "89ef16e884f26327b0381770ddedc7c04d26c798b98f128975309ee33a9d78c6",
+          "passed": 149,
+          "total": 149
+        },
+        {
+          "path": "build-reference/power-wave-stage-linux-consumer-ctest-Debug.log",
+          "sha256": "a4b9641cc93a419c78b40cf3678174221728442c442cc90f3e1faa4ff96b4a99",
+          "passed": 2,
+          "total": 2
+        }
+      ],
+      "legacy_c_consumer": {
+        "binary": {
+          "path": "build-reference/monte-carlo-joint-api-linux-legacy-Debug/c_consumer",
+          "sha256": "13808965d3e2d59d45a30d0f9562c849d74115cb60ec2fdaf817b304862a74a9"
+        },
+        "dynamic_linkage": {
+          "path": "build-reference/power-wave-stage-linux-legacy-link-Debug.log",
+          "sha256": "5c1ebdf185337da8f62cc1707034d0f13bbab4e1913987abbbcb3b24faa52091"
+        },
+        "unchanged_since": "validation/monte-carlo-joint-api-validation-20261012.json",
+        "provenance": "Existing prior-stage binary built there from d888587 consumer sources; not rebuilt for this stage.",
+        "log": {
+          "path": "build-reference/power-wave-stage-linux-legacy-Debug.log",
+          "sha256": "f8ff85c72fd13def39dbeac266a89d91b22c3a3cb46afe1d597dd00d88f869b8"
+        },
+        "passed": true
+      },
+      "example": {
+        "path": "build-reference/power-wave-stage-final-example-Linux-Debug.json",
+        "sha256": "64d50981065b77cd8921db7c398439cae51ce613e24426cd0dde9df4361be11a"
+      },
+      "byte_identical_replay": true,
+      "independent_physics": {
+        "passed": true,
+        "method": "quadratic Fourier coefficients plus physical series-R/shunt-C ABCD",
+        "wave_absolute_tolerance": 1e-14,
+        "power_absolute_tolerance_w": 1e-20,
+        "relative_tolerance": 1e-11,
+        "wave_values_checked": 4,
+        "power_values_checked": 6,
+        "maximum_wave_absolute_error": 2.611104600503256e-18,
+        "maximum_power_absolute_error_w": 4.0657581468206416e-20,
+        "source_origins_preserved": true,
+        "expected_filtered": [
+          {
+            "bin": 10,
+            "frequency_hz": 1000000000.0,
+            "amplitude": [
+              0.007725508243424176,
+              -0.001456223996567327
+            ],
+            "power_w": 6.180406594739341e-05
+          },
+          {
+            "bin": 20,
+            "frequency_hz": 2000000000.0,
+            "amplitude": [
+              0.00017511259469224507,
+              -6.60158929243445e-05
+            ],
+            "power_w": 3.502251893844902e-08
+          }
+        ]
+      }
+    },
+    {
+      "platform": "Linux",
+      "configuration": "Release",
+      "ctest": 149,
+      "installed_consumers": 2,
+      "installed_python": 478,
+      "installed_python_suites": 30,
+      "new_python_tests": 16,
+      "wheel_report": {
+        "path": "build-reference/power-wave-stage-linux-final-wheel-Release/installed-python-validation.json",
+        "sha256": "14c9f49857db94470da11e49a5f69201865107037d511b26b92726296e4be52c"
+      },
+      "native_library": {
+        "path": "build-reference/power-wave-stage-linux-install-Release/lib/librfmodel_c.so",
+        "sha256": "fa1e36edb1203f1da12d1d60b4334c86d74ce4174a2cb40fa8484c238727a82b"
+      },
+      "test_logs": [
+        {
+          "path": "build-reference/power-wave-stage-linux-ctest-Release.log",
+          "sha256": "b037e316d110964007011dc603f6e7dc4577473ca82c69b5b749696d4286ccd9",
+          "passed": 149,
+          "total": 149
+        },
+        {
+          "path": "build-reference/power-wave-stage-linux-consumer-ctest-Release.log",
+          "sha256": "4bf89093deb78406768aded328bf7543c904c64e6e490ddb535258dcfef7dd6a",
+          "passed": 2,
+          "total": 2
+        }
+      ],
+      "legacy_c_consumer": {
+        "binary": {
+          "path": "build-reference/monte-carlo-joint-api-linux-legacy-Release/c_consumer",
+          "sha256": "b4f866a50133d9e01ed541f41bfeca3badf3d3450bb6ef86dd0f446e723c6139"
+        },
+        "dynamic_linkage": {
+          "path": "build-reference/power-wave-stage-linux-legacy-link-Release.log",
+          "sha256": "d5f9958959523d908079de90438f4e9a8f9d789ebbb20d2297182d3642bfd7df"
+        },
+        "unchanged_since": "validation/monte-carlo-joint-api-validation-20261012.json",
+        "provenance": "Existing prior-stage binary built there from d888587 consumer sources; not rebuilt for this stage.",
+        "log": {
+          "path": "build-reference/power-wave-stage-linux-legacy-Release.log",
+          "sha256": "f8ff85c72fd13def39dbeac266a89d91b22c3a3cb46afe1d597dd00d88f869b8"
+        },
+        "passed": true
+      },
+      "example": {
+        "path": "build-reference/power-wave-stage-final-example-Linux-Release.json",
+        "sha256": "64d50981065b77cd8921db7c398439cae51ce613e24426cd0dde9df4361be11a"
+      },
+      "byte_identical_replay": true,
+      "independent_physics": {
+        "passed": true,
+        "method": "quadratic Fourier coefficients plus physical series-R/shunt-C ABCD",
+        "wave_absolute_tolerance": 1e-14,
+        "power_absolute_tolerance_w": 1e-20,
+        "relative_tolerance": 1e-11,
+        "wave_values_checked": 4,
+        "power_values_checked": 6,
+        "maximum_wave_absolute_error": 2.611104600503256e-18,
+        "maximum_power_absolute_error_w": 4.0657581468206416e-20,
+        "source_origins_preserved": true,
+        "expected_filtered": [
+          {
+            "bin": 10,
+            "frequency_hz": 1000000000.0,
+            "amplitude": [
+              0.007725508243424176,
+              -0.001456223996567327
+            ],
+            "power_w": 6.180406594739341e-05
+          },
+          {
+            "bin": 20,
+            "frequency_hz": 2000000000.0,
+            "amplitude": [
+              0.00017511259469224507,
+              -6.60158929243445e-05
+            ],
+            "power_w": 3.502251893844902e-08
+          }
+        ]
+      }
+    }
+  ],
+  "evidence_order": "Clean-first native builds, full 149 CTest and 2 installed consumers passed before the final Python-only cleanup-order improvement. The final wheel and updated Python suite were then rerun in all four configurations: 478 tests each, no skipped tests. Native code and installed SDK were unchanged between these runs. Same-commit clean remote CI follows push.",
+  "final_wheel": {
+    "path": "build-reference/power-wave-stage-final-wheel/rfmodel-0.1.0-py3-none-any.whl",
+    "sha256": "770783dd2145d11561ed614d4f0a48963e8bc713b2b8ce51b4f743c6e513186a"
+  },
+  "wheel_matches_all_current_python_modules": true,
+  "published_example": {
+    "path": "validation/coherent-mixed-reference-rc-example-20261012.json",
+    "sha256": "973f82bc3124142fa0b23cf9fcbefdec1808c869c3587724b47b53ef2b9ec429"
+  },
+  "independent_verifier": {
+    "path": "scripts/verify-power-wave-stage-example.py",
+    "sha256": "95996b45c5621842d4f70bb7d6b6afc1041b1b04d27b84ea458eda8b500672df"
+  },
+  "independent_verifier_rejects_corruption": [
+    "wave",
+    "power",
+    "coherence_group",
+    "origins"
+  ],
+  "abi": {
+    "version": 1,
+    "existing_typedefs_unchanged": 90,
+    "added_export": "rfmodel_network_reduce_power_waves",
+    "unchanged_core_headers": [
+      {
+        "path": "include/rfmodel/network.hpp",
+        "sha256": "c408f46cc79477546412ff0b8f4f1d7a0fdca9ad0cc0a866000f2095f2756088"
+      },
+      {
+        "path": "include/rfmodel/power_wave_reference.hpp",
+        "sha256": "cacfa3c6fb6e12a084f89db809d6a2c93aadceb4a976a42853262d90847e86c3"
+      },
+      {
+        "path": "include/rfmodel/coherent_network.hpp",
+        "sha256": "0a89547f0661697886427bbfdf301e070dc99a465e685f5b0346db010ea91ebb"
+      },
+      {
+        "path": "include/rfmodel/power_wave_spectrum.hpp",
+        "sha256": "5dd9aa97073e5d9508ef24b9aac58e80017ec125fd5a52c05ca6575771c10cc5"
+      },
+      {
+        "path": "include/rfmodel/term_propagation.hpp",
+        "sha256": "4c44f61a66e9eae4be20d11fe97f04b692d41922a23624402a202cfbc46d9c3e"
+      }
+    ],
+    "new_wheel_requires_new_export": true
+  },
+  "source_fingerprints": [
+    {
+      "path": "CMakeLists.txt",
+      "sha256": "25a6a1176756b391cff3a0c69da68b4add466f840e275b7910d97d5224d4764b"
+    },
+    {
+      "path": "README.md",
+      "sha256": "3fcdfe1c64142833a30c42105771c909c5a62146e4fcbae9ff5fd38a0ddd9f64"
+    },
+    {
+      "path": "docs/README.md",
+      "sha256": "1d0c28bd4232eddf3f602a1551c07a5aa10d73509153cd4a70dc60f1fee529fa"
+    },
+    {
+      "path": "docs/acceptance-audit-20261012.md",
+      "sha256": "3c7cd58bab121b649da2d40cf8daa024e965e80572e4356ae99c34bb9d18fe56"
+    },
+    {
+      "path": "docs/c-api.md",
+      "sha256": "62ceeb4b4355eecf6c70ac38dfb13b7928e8252c69bc73cc4125c5f61f258e9c"
+    },
+    {
+      "path": "docs/power-wave-references.md",
+      "sha256": "851eacb42cf35964619f2c705b14012715a478d440cc57f32b5cf926bd045311"
+    },
+    {
+      "path": "docs/power-wave-stages.md",
+      "sha256": "aba989fe47a1d1f11a06d91f8528f897481aa887a11bfa2f2ae21c289125a517"
+    },
+    {
+      "path": "docs/python-api.md",
+      "sha256": "1632dcb69f32192cd9395ecc087409287707077526fc43465ed25f68e1182600"
+    },
+    {
+      "path": "docs/systemvue-2023-matrix.md",
+      "sha256": "49a3a73ba8cb7e199f8c6973898f23c89727a0c9007dc28770df63171f3bd56d"
+    },
+    {
+      "path": "examples/coherent-mixed-reference-rc.json",
+      "sha256": "a046de9c3e76a3dff3379bee84dd34a8ce3fa6036ee90f4c5a079797b3acd6d6"
+    },
+    {
+      "path": "include/rfmodel/c_api.h",
+      "sha256": "da14a3cf9197afba4b1a238e1d2a75f8e59175ed83a74e6596f7e515ce855453"
+    },
+    {
+      "path": "include/rfmodel/power_wave_network.hpp",
+      "sha256": "356c9cf910c451f67f42091cacb96d063c1ceed1ffbdcac7edd94b1bb982c7e9"
+    },
+    {
+      "path": "python/rfmodel/__init__.py",
+      "sha256": "c682f0bb77f0c0e6e83bc594887dcd829781b9adb07c853a4eb888094f3dc6b1"
+    },
+    {
+      "path": "python/rfmodel/amplifier_file.py",
+      "sha256": "7c08427a0e57e99373b6a73ef571a60c54534c0f89ca2cff6cce8253a401ee28"
+    },
+    {
+      "path": "python/rfmodel/coherent_network_file.py",
+      "sha256": "56e46224e31a127747398c80284024a153e57450d2e2ce0bdfbab2f35b863212"
+    },
+    {
+      "path": "python/rfmodel/linear_stage_file.py",
+      "sha256": "9deea4c6852abadb89b30ef8897c91550b0169b9749e30b266cda195902921de"
+    },
+    {
+      "path": "python/rfmodel/spectrum_file.py",
+      "sha256": "fe5fecd2391d6e6057f6f2961f32d96a6c93937137c8d1ba352389a4262ba301"
+    },
+    {
+      "path": "scripts/verify-power-wave-stage-example.py",
+      "sha256": "95996b45c5621842d4f70bb7d6b6afc1041b1b04d27b84ea458eda8b500672df"
+    },
+    {
+      "path": "src/c_api.cpp",
+      "sha256": "2a828afe0e4c9b7622b3fe83a5d128b2097a4cb0cde050455a04229664bb64d5"
+    },
+    {
+      "path": "tests/c_api_power_wave_network_test.c",
+      "sha256": "291f8bcdd1c68a01290b3fea7e45d69a73742935522c4f088eb08860a2b683ec"
+    },
+    {
+      "path": "tests/consumer/c_main.c",
+      "sha256": "a24c7bde665c4a578cd18e5788cdad5f62930c6dc2d959b6a65c733a145e7510"
+    },
+    {
+      "path": "tests/consumer/main.cpp",
+      "sha256": "1c5d01441a0e5dac0f1d63514ea9df094b39122a7fba6f1bc819563f3dfdbc14"
+    },
+    {
+      "path": "tests/power_wave_network_test.cpp",
+      "sha256": "167d64c4f785534b3dacea2cc05b791077b15322731e51093a77de9080289e99"
+    },
+    {
+      "path": "tests/test_coherent_network_file.py",
+      "sha256": "eee0bc8483bb552aa33d96f91cb2c695e22f2a4884d8f9332c19ee8e98a4050b"
+    },
+    {
+      "path": "tests/test_coherent_system_file.py",
+      "sha256": "30140dc2afccc48a9775c87067018093ce2f24be4d763f5cf0e5716cd0fe2e96"
+    },
+    {
+      "path": "tests/test_power_wave_stages.py",
+      "sha256": "9c983948be1e8361640f2bb85114b6e40eaa1674bd04e5846e03be2d9fc54b00"
+    },
+    {
+      "path": "validation/coherent-mixed-reference-rc-example-20261012.json",
+      "sha256": "973f82bc3124142fa0b23cf9fcbefdec1808c869c3587724b47b53ef2b9ec429"
+    },
+    {
+      "path": "validation/rf-parameter-inventory-ci-validation-20261012.json",
+      "sha256": "1ed20b9af57207325b49ee6d893e9bd32f31cb0f1f6930ac0c027446a83c6935"
+    }
+  ],
+  "prior_uncommitted_files": [
+    {
+      "path": "scripts/reference/archive-cascade-reference.py",
+      "sha256": "a482db6bd6ae64c050d74e6df321749ec84a7098fb7aa49733079183149806dc",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/reference/capture-cascade-reference.ps1",
+      "sha256": "fb42165db2ad10c6213a415c2080e1eeb6e5ec0bcd1dc119bb1d1707c5283f3e",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/reference/compare-cascade-amplifier.py",
+      "sha256": "af1260adb093946954d0fb7e4bb2059669706a291418aac19ba193fed7554d9d",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/reference/run-systemvue-reference.py",
+      "sha256": "5df486d061ce09c28b396bf62e7fcba473dc6e9086d52861fdc7be6c85864f4e",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/reference/test_compare_cascade_amplifier.py",
+      "sha256": "190ea23b0ce0733846db8052ead9bb4d5ba41ff30e007c1f06e1a1753bc3fcf1",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/reference/test_run_systemvue_reference.py",
+      "sha256": "7eeeb2f890e59b986fec7eb9af58313f129b73ffccfd924f2f273ff52c396eb5",
+      "unchanged": true
+    },
+    {
+      "path": "measurements_test.obj",
+      "sha256": "4935bda18e7d8471560016c7303f3b7136842ab2ec429975440c7d617de3d97f",
+      "unchanged": true
+    },
+    {
+      "path": "verify-measurements.cmd",
+      "sha256": "c629d73c222dad5768c3c33c88a66eea99daf012dc79885f6cd7a7f0cebf7f7f",
+      "unchanged": true
+    }
+  ],
+  "incidents_resolved": [
+    "Initial Debug full runs on both platforms found two existing Python mock targets still pointing at the moved analyze import; updated only those mock targets, retained assertions, reran full suites successfully.",
+    "Final Python ownership review moved finalizer registration before native allocation; allocation-failure and post-success BaseException cleanup tests passed, and all four installed-wheel suites were rerun."
+  ],
+  "systemvue_calls_this_stage": 0,
+  "systemvue_calls_used_total": 24,
+  "compatibility_not_upgraded": true,
+  "remaining_boundaries": [
+    "SystemVue ZPORT/CS and vendor path-budget acceptance",
+    "Mixed-reference frequency-conversion graphs",
+    "General device DC operating points and nonlinear bias",
+    "Full SystemVue 2023 Linear Analysis, RF System Analysis and RF Design compatibility remains open"
+  ],
+  "goal_complete": false
+}

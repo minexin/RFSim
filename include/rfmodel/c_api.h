@@ -1750,6 +1750,17 @@ RFMODEL_API int rfmodel_network_add_power_waves(rfmodel_network *network,
 RFMODEL_API int rfmodel_network_get_references(const rfmodel_network *network,
                                                rfmodel_complex *references,
                                                size_t capacity);
+/* Owned signal-only external snapshot at a common positive real reference.
+   Ports are reindexed 0..port_count-1 in selection order. Internal connections
+   and zero-source terminations are eliminated; input is never changed. Noise
+   covariance is not stored in network handles and is not part of this snapshot.
+   out must point to NULL and be disjoint from ports and the input handle.
+   On failure *out is unchanged. Destroy a successful snapshot normally. */
+RFMODEL_API int rfmodel_network_reduce_power_waves(const rfmodel_network *network,
+                                                   const size_t *ports,
+                                                   size_t port_count,
+                                                   double reference_ohms,
+                                                   rfmodel_network **out);
 RFMODEL_API int rfmodel_network_connect(rfmodel_network *network, size_t first, size_t second);
 RFMODEL_API int rfmodel_network_terminate(rfmodel_network *network,
                                           size_t port,

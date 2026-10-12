@@ -1,5 +1,6 @@
 """Versioned RF amplifier component analysis, without an implicit family sum."""
-from .model_file import _object, _number, _matrix, analyze
+from .model_file import _object, _number, _matrix
+from .linear_stage_file import _linear_stage_samples
 from .spectrum_file import _decode, _encode
 
 
@@ -10,9 +11,8 @@ def _encode_terms(terms, spacing):
 
 def _propagate(library, terms, spacing, reference, network, base_directory):
     bins = sorted({term.bin for term in terms})
-    document = dict(network, format="rfmodel.linear-network", version=1, reference_ohms=reference,
-                    frequencies_hz=[index * spacing for index in bins] or [0.])
-    samples = analyze(library, document, base_directory=base_directory)["samples"]
+    samples = _linear_stage_samples(
+        library, network, [index * spacing for index in bins] or [0.], reference, base_directory)
     transmitted = {}
     for index, sample in zip(bins or [0], samples):
         selected = [term for term in terms if term.bin == index]
@@ -60,7 +60,7 @@ def analyze_amplifier(library, document, *, base_directory=None):
         if not isinstance(network["devices"], list):
             raise ValueError("Post-stage devices must be an array")
         for device in network["devices"]:
-            _object(device, ("id",), ("s", "model"))
+            _object(device, ("id",), ("s", "model", "reference_impedances_ohms"))
     amplitudes = _decode(document["input"], spacing)
     response = library.multitone_amplifier(spacing, amplitudes,
                                            reference_ohms=reference, **parameters)

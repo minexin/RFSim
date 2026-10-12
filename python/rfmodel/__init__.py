@@ -1285,6 +1285,8 @@ class Library:
                 [handle, size, complex_pointer, size, complex_pointer, size, ct.POINTER(size)],
             ),
             "rfmodel_network_get_references": (ct.c_int, [handle, complex_pointer, size]),
+            "rfmodel_network_reduce_power_waves": (
+                ct.c_int, [handle, ct.POINTER(size), size, ct.c_double, ct.POINTER(handle)]),
             "rfmodel_network_connect": (ct.c_int, [handle, size, size]),
             "rfmodel_network_terminate": (ct.c_int, [handle, size, _Complex, _Complex]),
             "rfmodel_network_port_count": (ct.c_int, [handle, ct.POINTER(size)]),
@@ -3827,6 +3829,38 @@ class Network:
                 self._handle, selection, count, result, len(result)))
             return tuple(tuple(result[row * count + column].value() for column in range(count))
                          for row in range(count))
+
+    def reduce_power_waves(self, external_ports, *, reference_ohms=50.):
+        """Independent signal-only snapshot; selected ports become 0..N-1 at real Zref."""
+        with self._lock:
+            self._open()
+            if isinstance(reference_ohms, bool):
+                raise ValueError("Reference impedance must be positive and real")
+            reference = float(reference_ohms)
+            indices = []
+            for port in external_ports:
+                indices.append(_index(port))
+                if len(indices) > 1024:
+                    raise ValueError("Select 1..1024 external ports")
+            if not indices:
+                raise ValueError("Select 1..1024 external ports")
+            selection = (ct.c_size_t * len(indices))(*indices)
+            # Install cleanup before native allocation. The finalizer retains this
+            # same mutable ctypes handle, which the C function fills on success.
+            result = object.__new__(Network)
+            result._library = self._library
+            result._reference = reference
+            result._lock = RLock()
+            result._handle = ct.c_void_p()
+            result._finalizer = weakref.finalize(
+                result, self._library._dll.rfmodel_network_destroy, result._handle)
+            try:
+                self._library._check(self._library._dll.rfmodel_network_reduce_power_waves(
+                    self._handle, selection, len(indices), reference, ct.byref(result._handle)))
+                return result
+            except BaseException:
+                result.close()
+                raise
 
     def transmit_spectrum(self, spacing_hz, amplitudes, external_ports):
         """Transmit fixed-S network with matched external input/output ports."""

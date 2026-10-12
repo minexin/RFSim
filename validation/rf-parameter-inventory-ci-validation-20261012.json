@@ -1,0 +1,176 @@
+{
+  "commit": "6f727f802e87a38d4f59360ab99270e88bf0c7c6",
+  "run_id": 38257943624,
+  "run_url": "https://github.com/minexin/RFSim/actions/runs/38257943624",
+  "status": "completed",
+  "conclusion": "success",
+  "parameter_test_log": {
+    "path": "build-reference/rf-parameters-ci-full.log",
+    "sha256": "44444e9b66b7aac43d2d2bfd10386fbbe37f877d2609965254895dfdd280b322"
+  },
+  "configurations": [
+    {
+      "os": "windows-latest",
+      "configuration": "Debug",
+      "parameter_inventory_tests": 15,
+      "ctest": 146,
+      "consumers": 2,
+      "wheel": 462,
+      "suites": 29,
+      "wheel_report": {
+        "path": "build-reference/rf-parameters-ci-evidence/verification-windows-latest-Debug/installed-python-verification/installed-python-validation.json",
+        "sha256": "2b28bca9459f2916bb954416f36d26b18a3a9283338ab211582194702937d6d7"
+      },
+      "logs": [
+        {
+          "path": "build-reference/rf-parameters-ci-evidence/verification-windows-latest-Debug/build/Testing/Temporary/LastTest.log",
+          "sha256": "70be87d68f0c8b0f996aa83fb4c625fb778c7d5d86eff92f5890948522047dfc",
+          "passed": 146,
+          "total": 146
+        },
+        {
+          "path": "build-reference/rf-parameters-ci-evidence/verification-windows-latest-Debug/consumer-build/Testing/Temporary/LastTest.log",
+          "sha256": "6381eb52257e30d8109487df3e5f1e6201142ff4441ab8792e95be26bb809671",
+          "passed": 2,
+          "total": 2
+        }
+      ]
+    },
+    {
+      "os": "windows-latest",
+      "configuration": "Release",
+      "parameter_inventory_tests": 15,
+      "ctest": 146,
+      "consumers": 2,
+      "wheel": 462,
+      "suites": 29,
+      "wheel_report": {
+        "path": "build-reference/rf-parameters-ci-evidence/verification-windows-latest-Release/installed-python-verification/installed-python-validation.json",
+        "sha256": "f601314cca511b346eaf4d4ba29f182736e0ef1643afd54699bdc5e48cb2798f"
+      },
+      "logs": [
+        {
+          "path": "build-reference/rf-parameters-ci-evidence/verification-windows-latest-Release/build/Testing/Temporary/LastTest.log",
+          "sha256": "8e0f4319eba91ad75733724038916930c0beaf533dfcce3e7d333760f2be45e7",
+          "passed": 146,
+          "total": 146
+        },
+        {
+          "path": "build-reference/rf-parameters-ci-evidence/verification-windows-latest-Release/consumer-build/Testing/Temporary/LastTest.log",
+          "sha256": "283ed7d5c10ef1802d6d374df881e31e0aff3a526a7ea9dc39b986b72da6308e",
+          "passed": 2,
+          "total": 2
+        }
+      ]
+    },
+    {
+      "os": "ubuntu-latest",
+      "configuration": "Debug",
+      "parameter_inventory_tests": 15,
+      "ctest": 146,
+      "consumers": 2,
+      "wheel": 462,
+      "suites": 29,
+      "wheel_report": {
+        "path": "build-reference/rf-parameters-ci-evidence/verification-ubuntu-latest-Debug/installed-python-verification/installed-python-validation.json",
+        "sha256": "2782fff5eda41e531442104c8cfedadeb4f7b859bf219471f2e03e0abf3c6e42"
+      },
+      "logs": [
+        {
+          "path": "build-reference/rf-parameters-ci-evidence/verification-ubuntu-latest-Debug/build/Testing/Temporary/LastTest.log",
+          "sha256": "59edd863af5efd6fc9586adb94534cd69c1e6380d9ca55c4f8e5cbddc63ddc8c",
+          "passed": 146,
+          "total": 146
+        },
+        {
+          "path": "build-reference/rf-parameters-ci-evidence/verification-ubuntu-latest-Debug/consumer-build/Testing/Temporary/LastTest.log",
+          "sha256": "e084ca726d343cfee6f516ace0a9d690c43addd5c935c296c8a0766f8ff53ce4",
+          "passed": 2,
+          "total": 2
+        }
+      ]
+    },
+    {
+      "os": "ubuntu-latest",
+      "configuration": "Release",
+      "parameter_inventory_tests": 15,
+      "ctest": 146,
+      "consumers": 2,
+      "wheel": 462,
+      "suites": 29,
+      "wheel_report": {
+        "path": "build-reference/rf-parameters-ci-evidence/verification-ubuntu-latest-Release/installed-python-verification/installed-python-validation.json",
+        "sha256": "9a086f89b5a82c4ea683007cec6fd61ce0cf51f836c528bbaae6f403fc6d5cf3"
+      },
+      "logs": [
+        {
+          "path": "build-reference/rf-parameters-ci-evidence/verification-ubuntu-latest-Release/build/Testing/Temporary/LastTest.log",
+          "sha256": "27431d0a11932b11749220c57df30c045ffc6697c290e1328a23e0b46e70fe09",
+          "passed": 146,
+          "total": 146
+        },
+        {
+          "path": "build-reference/rf-parameters-ci-evidence/verification-ubuntu-latest-Release/consumer-build/Testing/Temporary/LastTest.log",
+          "sha256": "0662d72185edeec4f854e395b8af68714550c9e07deead456f8ca79eba27fcf3",
+          "passed": 2,
+          "total": 2
+        }
+      ]
+    },
+    {
+      "os": "macos-latest",
+      "configuration": "Debug",
+      "parameter_inventory_tests": 15,
+      "ctest": 146,
+      "consumers": 2,
+      "wheel": 462,
+      "suites": 29,
+      "wheel_report": {
+        "path": "build-reference/rf-parameters-ci-evidence/verification-macos-latest-Debug/installed-python-verification/installed-python-validation.json",
+        "sha256": "f9382cef8507504237813eaadbda2b7cedd704266eea390c67a8ca75b73ff277"
+      },
+      "logs": [
+        {
+          "path": "build-reference/rf-parameters-ci-evidence/verification-macos-latest-Debug/build/Testing/Temporary/LastTest.log",
+          "sha256": "ffb755012bfd7173c2f0fb78c584f0e7ec6a6d53895fdc6a79d3cbef15a359ee",
+          "passed": 146,
+          "total": 146
+        },
+        {
+          "path": "build-reference/rf-parameters-ci-evidence/verification-macos-latest-Debug/consumer-build/Testing/Temporary/LastTest.log",
+          "sha256": "9224b475eafb9d9866880f3b44a654405817d1255cb6754eb384e749393a0fa1",
+          "passed": 2,
+          "total": 2
+        }
+      ]
+    },
+    {
+      "os": "macos-latest",
+      "configuration": "Release",
+      "parameter_inventory_tests": 15,
+      "ctest": 146,
+      "consumers": 2,
+      "wheel": 462,
+      "suites": 29,
+      "wheel_report": {
+        "path": "build-reference/rf-parameters-ci-evidence/verification-macos-latest-Release/installed-python-verification/installed-python-validation.json",
+        "sha256": "d4ac3b3576875ab907d046fc274c5a1208a38c10be6cb59c368b348b4d993ea2"
+      },
+      "logs": [
+        {
+          "path": "build-reference/rf-parameters-ci-evidence/verification-macos-latest-Release/build/Testing/Temporary/LastTest.log",
+          "sha256": "05e8eef296f94743b05e0b3b9fd866c91868a2396b164aea6776c9673d9039a5",
+          "passed": 146,
+          "total": 146
+        },
+        {
+          "path": "build-reference/rf-parameters-ci-evidence/verification-macos-latest-Release/consumer-build/Testing/Temporary/LastTest.log",
+          "sha256": "2ea5c92916db20253174ea3832ce3160462c54568bc90d79d39475ca18ddbe69",
+          "passed": 2,
+          "total": 2
+        }
+      ]
+    }
+  ],
+  "scope": "Same-commit clean checkouts, parameter metadata regressions and full existing native/installed SDK/wheel regression. No vendor simulation or compatibility upgrade."
+}

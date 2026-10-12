@@ -150,7 +150,7 @@ class CoherentNetworkFileTests(unittest.TestCase):
                     self.evaluate(model)
         model = combiner()
         mutations[-1](model)
-        with patch("rfmodel.coherent_network_file.analyze") as linear:
+        with patch("rfmodel.linear_stage_file.analyze") as linear:
             with self.assertRaises(ValueError):
                 self.evaluate(model)
             linear.assert_not_called()

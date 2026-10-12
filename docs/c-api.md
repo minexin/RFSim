@@ -94,3 +94,5 @@ rfmodel_loaded_noise 与 rfmodel_thermal_boundary_noise 扩展了外部失配和
 
 
 新增 Monte Carlo 相关采样采用独立 extension 结构和 `rfmodel_run_monte_carlo_extended`，旧结构体布局与旧入口保持不变；有效相关矩阵和联合统计通过只读查询取得。详见 [相关采样接口](monte-carlo.md)。
+
+`rfmodel_network_reduce_power_waves` 新增独立、统一实参考的信号网络快照，选择端口按顺序重编号，失败不写输出；见 [RF 线性阶段与快照契约](power-wave-stages.md)。

@@ -36,6 +36,7 @@
 #include "rfmodel/multitone_amplifier.hpp"
 #include "rfmodel/term_propagation.hpp"
 #include "rfmodel/network.hpp"
+#include "rfmodel/power_wave_network.hpp"
 #include "rfmodel/loaded_noise.hpp"
 #include "rfmodel/amplifier_model.hpp"
 #include "rfmodel/polynomial_amplifier.hpp"
@@ -2459,6 +2460,25 @@ int rfmodel_ideal_mixer_transmit(double spacing_hz,
         const rfmodel::IdealRealMixer model(
             "C API mixer", lo_bin, conversion_gain_db, lo_phase_radians, reference_ohms);
         write_spectrum(model.transmit(incident), output, capacity, output_count);
+    });
+}
+
+int rfmodel_network_reduce_power_waves(const rfmodel_network *network,
+                                       const size_t *ports,
+                                       size_t port_count,
+                                       double reference_ohms,
+                                       rfmodel_network **out) {
+    return guarded([&] {
+        require(network && ports && port_count > 0 && port_count <= 1024 && out);
+        disjoint(out, sizeof(*out), network, sizeof(*network));
+        disjoint(out, sizeof(*out), ports, port_count * sizeof(*ports));
+        require(*out == nullptr);
+        auto core = rfmodel::reduce_power_wave_network(
+            network->core, std::vector<size_t>(ports, ports + port_count), reference_ohms);
+        auto result = std::make_unique<rfmodel_network>(reference_ohms);
+        result->core = std::move(core);
+        result->ports = port_count;
+        *out = result.release();
     });
 }
 

@@ -1,7 +1,8 @@
 """Versioned matched forward spectrum chains; native kernels perform transmission."""
 import math
 from functools import partial
-from .model_file import _object, _number, _complex, _matrix, analyze
+from .model_file import _object, _number, _complex, _matrix
+from .linear_stage_file import _linear_stage_samples
 
 
 def _index(value):
@@ -25,10 +26,9 @@ def _encode(amplitudes, spacing):
 def _linear_stage(library, spacing, amplitudes, *, reference_ohms, network, base_directory=None):
     """Evaluate the native network at every current bin, including new mixer products."""
     indices = sorted(amplitudes)
-    document = dict(network, format="rfmodel.linear-network", version=1,
-                    reference_ohms=reference_ohms,
-                    frequencies_hz=[index * spacing for index in indices] or [0.])
-    samples = analyze(library, document, base_directory=base_directory)["samples"]
+    samples = _linear_stage_samples(
+        library, network, [index * spacing for index in indices] or [0.],
+        reference_ohms, base_directory)
     output = {}
     for index, sample in zip(indices, samples):
         # The reduced two-port includes all internal feedback at this frequency.
@@ -138,7 +138,7 @@ def analyze_spectrum(library, document, *, base_directory=None):
             if not isinstance(network["devices"], list):
                 raise ValueError("Linear spectrum devices must be an array")
             for device in network["devices"]:
-                _object(device, ("id",), ("s", "model"))
+                _object(device, ("id",), ("s", "model", "reference_impedances_ohms"))
             parameters = {"network": network}
             operation = partial(_linear_stage, library, base_directory=base_directory)
         else:
