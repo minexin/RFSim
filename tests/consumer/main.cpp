@@ -46,6 +46,19 @@
 
 int main() {
     {
+        rfmodel::LinearNetwork network;
+        network.add_power_waves({2, {0., .5, .5, 0.}}, {{50., 10.}, {75., -5.}});
+        network.add_power_waves({1, {0.}}, {{25., 20.}});
+        network.connect(1, 2);
+        network.terminate(0, {}, 1.);
+        const auto waves = network.solve();
+        if (!std::isfinite(waves.outgoing[2].real()) ||
+            network.port_reference_impedance_ohms(1) != rfmodel::Complex{75., -5.}) {
+            return 112;
+        }
+    }
+
+    {
         const rfmodel::CoherentHighOrderAmplifier amplifier(20., 20., 23., {.1});
         const auto plan = rfmodel::plan_conversion_frequencies(
             1.,

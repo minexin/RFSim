@@ -63,3 +63,9 @@ P1 中工程回归可持续本地推进；需要厂商数据的项目待会话�
 ## A10 后续推进：安装 wheel 的执行验证
 
 本文件前述快照保留。后续新增 [隔离安装验证器与本地 Linux 运行](installed-python-validation.md)，修复一个安装模式 CLI 用例误用源码路径，并将完整绑定套件加入六配置 CI。当前阶段的机器证据见 [A10 后续记录](../validation/installed-python-a10-validation-20261012.json)；macOS、当前提交远程运行和发布仍未执行，因此 A10 整项保持开放。
+
+## A05 后续推进：原生内部复参考物理接线
+
+原生 LinearNetwork 已新增每端口复功率波参考输入，用电压连续和电流守恒得到的完整连接矩阵同时求解信号与内生噪声。独立物理 Z 方程、功率守恒、奇异 Z 的理想直通、先重归一化后接线、无源热平衡及安装后 C++ 消费者纳入验证。接口和边界见 [功率波参考说明](power-wave-references.md)。C/Python/JSON 内部网络构造、厂商 ZPORT/CS 和通用 DC 线性化仍未关闭；A05 整项保持开放。
+
+本次工程验证见 [混合参考接线机读记录](../validation/mixed-reference-network-validation-20261012.json)：Windows/Linux 两种配置各 130/130 CTest、2/2 安装消费者和 379/379 既有 wheel 回归；这些结果不增加厂商兼容通过项。

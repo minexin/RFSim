@@ -1,6 +1,6 @@
 # 独立复参考阻抗与功率波
 
-Linear Analysis 可在每个频率为每个外部端口指定独立复参考阻抗，并一起变换 S 参数和内生噪声相关矩阵。内部器件、连接、源及负载仍按网络的统一正实参考阻抗求解；输出转换不会改变物理网络。
+Linear Analysis 可在每个频率为每个外部端口指定独立复参考阻抗，并一起变换 S 参数和内生噪声相关矩阵。原生 C++ LinearNetwork 也支持器件端口各自的复参考阻抗及物理连接；C/Python/JSON 网络构造仍使用统一正实参考。输出坐标转换不会改变物理网络。
 
 ## 波定义和单位
 
@@ -56,7 +56,7 @@ physical_z = library.power_wave_parameters(
 
 新增回归覆盖解析复负载、理想开短路、二端口直通、三端口公共结点、非互易矩阵、V/I 与净功率一致性、噪声传递、kT(I-SS†)、往返恢复、端口重排、逐频率参考、奇异输入及 C 缓冲区失败原子性。C/C++ 安装消费和 Python wheel 验证随本阶段执行，结果以本次工程验证记录为准。
 
-这补齐 RFModel 的独立复参考输出表达能力。SystemVue 2023 的 ZPORT 波定义、复参考 S 和 CS 的单位/数值对照仍待实测；本阶段不宣称这部分已与厂商一致。内部混合参考器件连接和 RF 系统图尚未扩展。复参考噪声参数后处理由[二端口噪声接口](power-wave-noise.md)提供。
+这补齐 RFModel 的独立复参考输出表达能力。SystemVue 2023 的 ZPORT 波定义、复参考 S 和 CS 的单位/数值对照仍待实测；本阶段不宣称这部分已与厂商一致。原生线性混合参考接线见下节；C/Python/JSON 网络构造和 RF 系统图尚未扩展。复参考噪声参数后处理由[二端口噪声接口](power-wave-noise.md)提供。
 
 ## 本阶段工程验证（2026-10-09）
 
@@ -66,3 +66,34 @@ physical_z = library.power_wave_parameters(
 - wheel 命令行运行 examples/complex-reference-network.json，输出两个频率、功率波标记和独立复参考数组，检查通过。
 - C++ 格式检查 118 个文件通过。跨平台 CI 由本次提交触发，其结论以 GitHub Actions 为准。
 - 工作目录保留另一项尚未实测成功的 SystemVue 高阶模型采集草稿；该草稿不包含在本阶段提交中，也未作为上述复参考阻抗验证证据。
+
+## 原生内部混合参考接线（2026-10-12）
+
+`LinearNetwork::add_power_waves(s, references)` 接收每端口一项 `Complex` 参考阻抗。实部须为正，实部、虚部均须有限；S 必须已经用这些 Kurokawa 功率波坐标表示。该方法不把输入当作 50 Ω S 自动换算。它返回首个全局端口索引，仍受整个网络 1024 端口限制。`port_reference_impedance_ohms(port)` 返回单个端口的实际参考。
+
+原有 `add(s, reference_ohms)` 继续要求与构造时的公共正实参考一致。`reference_impedance_ohms()` 只有全部端口都使用该公共参考时才返回；混合参考或独立复参考时抛错，防止依赖统一电阻的相干/谱分析误用新网络。原生类布局已改变，下游 C++ 消费者须重新编译。
+
+`connect(p,q)` 表示理想导线：电压相等、电流（正向流入各自器件）互为相反数。在端口原有坐标中，记 Rp=Re(Zp)、Rq=Re(Zq)、D=conj(Zp+Zq)，连接约束为：
+
+~~~text
+ap = (conj(Zq)-Zp)/D * bp + 2 sqrt(Rp Rq)/D * bq
+aq = 2 sqrt(Rp Rq)/D * bp + (conj(Zp)-Zq)/D * bq
+~~~
+
+这些式子直接由 `V=(conj(Z)a+Zb)/sqrt(Re Z)`、`I=(a-b)/sqrt(Re Z)` 消元得到。相同正实参考时退化为交换波；相同但非实的复参考一般不能直接交换。实现缩放阻抗以避免直接相加和乘积溢出，非有限连接系数在改变边界前报错。
+
+信号方程使用完整连接矩阵 K：`(I-KS)a=e`；内生噪声使用同一 K：`(I-SK)b=c`。连接本身没有附加噪声或损耗。`solve()` 中的 incident/outgoing、`external_s()` 和 `external_noise()` 均保留每个端口的原始局部坐标；内生相关矩阵及跨器件相关项也必须以这些坐标提供。`external_noise_contributions()` 继续表示各器件噪声相互独立的分项。
+
+`terminate(p, reflection, source)` 仍是 `ap=source+reflection*bp`，参数须在端口的局部坐标定义。对于接在端口 p 的物理负载 ZL，reflection 为 `(ZL-Zp)/(ZL+conj(Zp))`，因此复参考下 reflection=0 对应 ZL=Zp。此接口不隐式添加终端热噪声。
+
+`analyze_linear()` 现在按所选外部端口顺序记录实际参考阻抗，并从这些参考转换到可选 output_references；S 与噪声同步转换。逐频率构建回调可以提供不同的局部参考。未使用新方法的既有网络行为不变。
+
+`tests/mixed_reference_network_test.cpp` 覆盖四端口独立物理 Z 方程、连接电压电流与净功率守恒、先重归一化再接线的独立对照、非互易器件、复失配源/负载、双端激励、理想直通的奇异 Z、同复/共轭/不同实参考、无源热平衡和噪声分项、输出端口重排、线性分析参考标注及失败输入。C++ 安装消费者实际调用新接口。
+
+这是 A05 的原生物理接线实现。SystemVue ZPORT/CS 对照、C/Python/JSON 内部混合参考网络接口、通用器件 DC 偏置和线性化仍待完成，不能据此关闭 A05。
+
+### 本次原生接线工程验证
+
+[2026-10-12 机读记录](../validation/mixed-reference-network-validation-20261012.json)保存源码、日志、安装库和 wheel 的哈希。Windows MSVC 与 Ubuntu WSL2 GCC 均为 Debug/Release clean-first 全目标构建：四组全量 CTest 各 130/130、独立安装 C/C++ 消费者各 2/2。四组安装库分别加载既有未改动的 wheel，全部 23 组 379 项通过、零跳过；这是既有公共参考接口回归，新混合参考输入仍只在 C++ 暴露。156 个 C/C++ 文件格式检查通过。
+
+Linux 构建目录位于原生 /tmp，最终构建与消费者日志没有共享盘时间戳告警。原有八份未提交文件哈希保持不变，CTest 仍包含这些参考脚本草稿，不能称为纯净提交检出。未新增 SystemVue 分析、未推送、未执行远程 CI 或 macOS 验证。

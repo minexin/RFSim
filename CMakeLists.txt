@@ -447,3 +447,7 @@ add_test(NAME conversion_frequency_plan_test COMMAND conversion_frequency_plan_t
 add_executable(highorder_frequency_plan_test tests/highorder_frequency_plan_test.cpp)
 target_link_libraries(highorder_frequency_plan_test PRIVATE rfmodel)
 add_test(NAME highorder_frequency_plan_test COMMAND highorder_frequency_plan_test)
+
+add_executable(mixed_reference_network_test tests/mixed_reference_network_test.cpp)
+target_link_libraries(mixed_reference_network_test PRIVATE rfmodel)
+add_test(NAME mixed_reference_network_test COMMAND mixed_reference_network_test)

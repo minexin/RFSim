@@ -1,0 +1,337 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-12",
+  "stage": "A05 native mixed complex reference physical linear-network connections",
+  "base_commit": "683f62f3b829e1bac5820ef54f218589c6ccff54",
+  "implementation": [
+    "Per-port complex power-wave reference input in LinearNetwork.add_power_waves",
+    "Voltage/current continuous ideal wiring with self and cross coefficients in local coordinates",
+    "Identical physical connection matrix for signal and intrinsic covariance propagation",
+    "LinearAnalysis returns actual external references and jointly renormalizes S and noise",
+    "Legacy common-reference getter rejects incompatible independent coordinates"
+  ],
+  "independent_checks": [
+    "Physical four-port Z equations with complex mismatched sources and loads and two-sided excitation",
+    "Connected voltages equal, currents opposite, and net power conserved",
+    "Renormalize each device to 50 ohms before wiring then transform external ports",
+    "Ideal thru does not require nonsingular physical Z",
+    "Equal complex, conjugate and unequal real references",
+    "Passive thermal equilibrium and independent device noise contributions",
+    "External ordering, analysis noise transformation, invalid references and connection failures"
+  ],
+  "configurations": [
+    {
+      "platform": "Windows",
+      "configuration": "Debug",
+      "build": "clean-first all targets",
+      "ctest": {
+        "passed": 130,
+        "total": 130,
+        "seconds": 99.4,
+        "log": {
+          "path": "build-reference/mixed-reference-ctest-Debug.log",
+          "sha256": "aa2a06f58f19338b89ea9c5149a0cd0a49db1826103f70bce3fcef95c47db1fe"
+        }
+      },
+      "installed_consumers": {
+        "passed": 2,
+        "total": 2,
+        "seconds": 0.22,
+        "log": {
+          "path": "build-reference/mixed-reference-consumer-ctest-Debug.log",
+          "sha256": "2c28189d00afb1e3cdee1e50e238f0f4d74c3f2e89e9be7263014b102229d861"
+        }
+      },
+      "wheel_report": {
+        "path": "build-reference/mixed-reference-wheel-Debug/installed-python-validation.json",
+        "sha256": "b17a715511cb67d0d6b572f48a6f4909a99fcef0af64dbaa575ade98bd2e5b6e"
+      },
+      "wheel_tests": 379,
+      "wheel_suites": 23,
+      "skipped_tests": 0,
+      "python": "3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)]",
+      "native_library": {
+        "path": "D:\\project\\RFModel\\build-reference\\mixed-reference-install-Debug\\bin\\rfmodel_cd.dll",
+        "sha256": "07eded6deb8ae10825d44f7f5ac429f81b1b776aa9a2a3486fcb6ab353114233"
+      },
+      "wheel": {
+        "path": "D:\\project\\RFModel\\build-reference\\highorder-plan-api-dist\\rfmodel-0.1.0-py3-none-any.whl",
+        "sha256": "7cdc383a09887934da0b780a97a26d828bfcaa455498aa8c069d01e09e4c82b4"
+      },
+      "logs": [
+        {
+          "path": "build-reference/mixed-reference-build-Debug.log",
+          "sha256": "2657b0796a0c6fb3754c68f0e9275a34083e5342bd450d28450d235666602128"
+        },
+        {
+          "path": "build-reference/mixed-reference-install-Debug.log",
+          "sha256": "92f5fe03bf9e49e06e1cd3f231278c51cb0469e26cfa97f2131247883634e4af"
+        },
+        {
+          "path": "build-reference/mixed-reference-consumer-configure-Debug.log",
+          "sha256": "11e094ad35111453a076c78b340b4007188c019cf2b0a3a8f946f60c57cfb7b0"
+        },
+        {
+          "path": "build-reference/mixed-reference-consumer-build-Debug.log",
+          "sha256": "f64daaa54467fd4ea55ef825e4e806cbfc9fb989f81238aeb28f391c85070076"
+        }
+      ]
+    },
+    {
+      "platform": "Windows",
+      "configuration": "Release",
+      "build": "clean-first all targets",
+      "ctest": {
+        "passed": 130,
+        "total": 130,
+        "seconds": 93.48,
+        "log": {
+          "path": "build-reference/mixed-reference-ctest-Release.log",
+          "sha256": "8e097b9df1ed11092f0bc6fef40e3821f815f7bcfba8d2194a58fa0c67fa5a00"
+        }
+      },
+      "installed_consumers": {
+        "passed": 2,
+        "total": 2,
+        "seconds": 0.17,
+        "log": {
+          "path": "build-reference/mixed-reference-consumer-ctest-Release.log",
+          "sha256": "7c37fc86f968fb46d38dfdd26fa848c982d496f26613f20b808c26512e4ae0bd"
+        }
+      },
+      "wheel_report": {
+        "path": "build-reference/mixed-reference-wheel-Release/installed-python-validation.json",
+        "sha256": "96955cf68214833fa37fb357010a9c73dbdb2b908e4a79b04e1f4164e306456c"
+      },
+      "wheel_tests": 379,
+      "wheel_suites": 23,
+      "skipped_tests": 0,
+      "python": "3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)]",
+      "native_library": {
+        "path": "D:\\project\\RFModel\\build-reference\\mixed-reference-install-Release\\bin\\rfmodel_c.dll",
+        "sha256": "ae1f988a0436605b16d63748b10a3571b74777508afaea82a7cc49a02658c59d"
+      },
+      "wheel": {
+        "path": "D:\\project\\RFModel\\build-reference\\highorder-plan-api-dist\\rfmodel-0.1.0-py3-none-any.whl",
+        "sha256": "7cdc383a09887934da0b780a97a26d828bfcaa455498aa8c069d01e09e4c82b4"
+      },
+      "logs": [
+        {
+          "path": "build-reference/mixed-reference-build-Release.log",
+          "sha256": "ce588a00374b927ff3df3c4452f5d4da7d2d8ef9ed5000a6488ed7b3526ceaad"
+        },
+        {
+          "path": "build-reference/mixed-reference-install-Release.log",
+          "sha256": "56ee84365f429ac38b13166660de03a6bab181f9c5574df2f6dd1bd78074e465"
+        },
+        {
+          "path": "build-reference/mixed-reference-consumer-configure-Release.log",
+          "sha256": "88cbf2aa5481d0433c0871912a2e3a6383d00b61af0ed2d25f73d946b5ae1620"
+        },
+        {
+          "path": "build-reference/mixed-reference-consumer-build-Release.log",
+          "sha256": "0e810c704863b0b45e924bf09ab4d6eb354a79d436099a972a772a15dfeabb85"
+        }
+      ]
+    },
+    {
+      "platform": "Ubuntu WSL2",
+      "configuration": "Debug",
+      "build": "clean-first all targets",
+      "ctest": {
+        "passed": 130,
+        "total": 130,
+        "seconds": 95.57,
+        "log": {
+          "path": "build-reference/mixed-reference-linux-ctest-Debug.log",
+          "sha256": "5f56f7a3517b3cd5f8b1d7e9e80341c62d879348fd20f670ddca39d38a678538"
+        }
+      },
+      "installed_consumers": {
+        "passed": 2,
+        "total": 2,
+        "seconds": 0.06,
+        "log": {
+          "path": "build-reference/mixed-reference-linux-consumer-ctest-Debug.log",
+          "sha256": "0c794ea5aed439b2c74db5f6a312094f33b40de16cef285d0ea8fff14cfca783"
+        }
+      },
+      "wheel_report": {
+        "path": "build-reference/mixed-reference-linux-wheel-Debug/installed-python-validation.json",
+        "sha256": "24e7ff39d872b74cdadc85444e47676301c7051978dfbbbf1073e47dcf028ef5"
+      },
+      "wheel_tests": 379,
+      "wheel_suites": 23,
+      "skipped_tests": 0,
+      "python": "3.12.3 (main, Nov  6 2024, 18:32:19) [GCC 13.2.0]",
+      "native_library": {
+        "path": "/mnt/d/project/RFModel/build-reference/mixed-reference-linux-install-Debug/lib/librfmodel_cd.so",
+        "sha256": "093638312f6a9ca1ae710004b6a84fb70801edd646238b68f7ef7a53af20b8fd"
+      },
+      "wheel": {
+        "path": "/mnt/d/project/RFModel/build-reference/highorder-plan-api-dist/rfmodel-0.1.0-py3-none-any.whl",
+        "sha256": "7cdc383a09887934da0b780a97a26d828bfcaa455498aa8c069d01e09e4c82b4"
+      },
+      "logs": [
+        {
+          "path": "build-reference/mixed-reference-linux-build-Debug.log",
+          "sha256": "d9b306ec2169a24fb97640e3bc6c8ef8da2a13ee8557ee9f150b161b137983c2"
+        },
+        {
+          "path": "build-reference/mixed-reference-linux-install-Debug.log",
+          "sha256": "461b75960e36ea3050f8c35721e4b5fb54c08d88119f571731d7ea0bd5ee484a"
+        },
+        {
+          "path": "build-reference/mixed-reference-linux-consumer-configure-Debug.log",
+          "sha256": "c818e9f0e7881e6fc4ab738e4201dfb8576a8e6332495e85e7989fb47e879b4b"
+        },
+        {
+          "path": "build-reference/mixed-reference-linux-consumer-build-Debug.log",
+          "sha256": "9d2c31576b59f7ada0b195bee5014d15202255634b189bfb65766735ae7ab759"
+        }
+      ]
+    },
+    {
+      "platform": "Ubuntu WSL2",
+      "configuration": "Release",
+      "build": "clean-first all targets",
+      "ctest": {
+        "passed": 130,
+        "total": 130,
+        "seconds": 25.9,
+        "log": {
+          "path": "build-reference/mixed-reference-linux-ctest-Release.log",
+          "sha256": "124745520c1ba2f6e8d8ac4cdee664de8c1b0ee958e2e8f12807a61063782948"
+        }
+      },
+      "installed_consumers": {
+        "passed": 2,
+        "total": 2,
+        "seconds": 0.03,
+        "log": {
+          "path": "build-reference/mixed-reference-linux-consumer-ctest-Release.log",
+          "sha256": "ec33dcb2c0564e3741f98a259cb30c2e9122abb5530582c5dfa0b030ec8ef533"
+        }
+      },
+      "wheel_report": {
+        "path": "build-reference/mixed-reference-linux-wheel-Release/installed-python-validation.json",
+        "sha256": "87530fafb6905a83479ceeb068e53d35b4e9042ff8f0573d10ecff84688e245a"
+      },
+      "wheel_tests": 379,
+      "wheel_suites": 23,
+      "skipped_tests": 0,
+      "python": "3.12.3 (main, Nov  6 2024, 18:32:19) [GCC 13.2.0]",
+      "native_library": {
+        "path": "/mnt/d/project/RFModel/build-reference/mixed-reference-linux-install-Release/lib/librfmodel_c.so",
+        "sha256": "9763ee39252741697e83551523140b706001b68b040971ddcf2bcac4cffbb75b"
+      },
+      "wheel": {
+        "path": "/mnt/d/project/RFModel/build-reference/highorder-plan-api-dist/rfmodel-0.1.0-py3-none-any.whl",
+        "sha256": "7cdc383a09887934da0b780a97a26d828bfcaa455498aa8c069d01e09e4c82b4"
+      },
+      "logs": [
+        {
+          "path": "build-reference/mixed-reference-linux-build-Release.log",
+          "sha256": "79591e392d0932e1f57265a04316f0e1d67eeea9eb89e348c57b15db5d183d1c"
+        },
+        {
+          "path": "build-reference/mixed-reference-linux-install-Release.log",
+          "sha256": "cb4749058b67bbb3b023006c0b14a2769bdf7598175c5006116e00a7ae0628ea"
+        },
+        {
+          "path": "build-reference/mixed-reference-linux-consumer-configure-Release.log",
+          "sha256": "6b91219f2169aeecd6644c37c1feb4c3a323b0f8e888c60ac9e6b818fd01157c"
+        },
+        {
+          "path": "build-reference/mixed-reference-linux-consumer-build-Release.log",
+          "sha256": "753cc2365a9aa59499bedec5a3eb62bd5f8cfd15ea7bded6753dbadf0c9f85e7"
+        }
+      ]
+    }
+  ],
+  "format": {
+    "files": 156,
+    "passed": true,
+    "log": {
+      "path": "build-reference/mixed-reference-format.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "source_files": [
+    {
+      "path": "include/rfmodel/network.hpp",
+      "sha256": "c408f46cc79477546412ff0b8f4f1d7a0fdca9ad0cc0a866000f2095f2756088"
+    },
+    {
+      "path": "include/rfmodel/linear_analysis.hpp",
+      "sha256": "df3d39271f3da44bcfa27f16a9773ef3f3fe1795f9c9d5fb0b464d48d0359370"
+    },
+    {
+      "path": "tests/mixed_reference_network_test.cpp",
+      "sha256": "c99da44f4c3d115987e32208ecf631d911fda797a3b5e6ac48dc1b67cbdae252"
+    },
+    {
+      "path": "tests/consumer/main.cpp",
+      "sha256": "995927cc7aeedb351571808dc7f2e8b7429d5aa315dc38c79fb4c55bbd7db12e"
+    },
+    {
+      "path": "CMakeLists.txt",
+      "sha256": "fcf6e0b06f82fa3074b289572f78c76562f3d8b9a4270055a9eb178c0bd724b6"
+    }
+  ],
+  "prior_uncommitted_files": [
+    {
+      "path": "scripts/reference/archive-cascade-reference.py",
+      "sha256": "a482db6bd6ae64c050d74e6df321749ec84a7098fb7aa49733079183149806dc",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/reference/capture-cascade-reference.ps1",
+      "sha256": "fb42165db2ad10c6213a415c2080e1eeb6e5ec0bcd1dc119bb1d1707c5283f3e",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/reference/compare-cascade-amplifier.py",
+      "sha256": "af1260adb093946954d0fb7e4bb2059669706a291418aac19ba193fed7554d9d",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/reference/run-systemvue-reference.py",
+      "sha256": "5df486d061ce09c28b396bf62e7fcba473dc6e9086d52861fdc7be6c85864f4e",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/reference/test_compare_cascade_amplifier.py",
+      "sha256": "190ea23b0ce0733846db8052ead9bb4d5ba41ff30e007c1f06e1a1753bc3fcf1",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/reference/test_run_systemvue_reference.py",
+      "sha256": "7eeeb2f890e59b986fec7eb9af58313f129b73ffccfd924f2f273ff52c396eb5",
+      "unchanged": true
+    },
+    {
+      "path": "measurements_test.obj",
+      "sha256": "4935bda18e7d8471560016c7303f3b7136842ab2ec429975440c7d617de3d97f",
+      "unchanged": true
+    },
+    {
+      "path": "verify-measurements.cmd",
+      "sha256": "c629d73c222dad5768c3c33c88a66eea99daf012dc79885f6cd7a7f0cebf7f7f",
+      "unchanged": true
+    }
+  ],
+  "new_systemvue_analysis_calls": 0,
+  "pushed": false,
+  "remote_ci_executed": false,
+  "macos_verified": false,
+  "full_A05_closed": false,
+  "limitations": [
+    "New mixed-reference input is native C++ only; C/Python/JSON network construction and RF system graphs still use uniform real references",
+    "Existing unchanged universal wheel was reused to verify common-reference API regression with rebuilt libraries; it does not expose the new C++ feature",
+    "C++ class layout changed; installed consumers were rebuilt",
+    "No SystemVue ZPORT/CS compatibility claims and no generic DC operating-point implementation",
+    "Linux is local Ubuntu WSL2, not remote GitHub runner; native /tmp build directories avoid shared-drive Makefile timestamps",
+    "Full CTest ran with six preserved reference-script drafts in the worktree, not a clean checkout"
+  ]
+}

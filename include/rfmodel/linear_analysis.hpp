@@ -33,8 +33,10 @@ inline LinearAnalysisResult analyze_linear(
         try {
             auto network = build(f);
             auto matrix = network.external_s(external_ports);
-            std::vector<Complex> references(external_ports.size(),
-                                            network.reference_impedance_ohms());
+            std::vector<Complex> references;
+            for (auto port : external_ports) {
+                references.push_back(network.port_reference_impedance_ohms(port));
+            }
             NoiseCorrelation noise;
             if (intrinsic_noise) {
                 noise = network.external_noise(external_ports, intrinsic_noise(f, network));

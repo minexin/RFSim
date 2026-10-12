@@ -13,7 +13,7 @@ struct NetworkWaves {
     double relative_residual{};
 };
 
-// One frequency point; all blocks use the same positive real reference resistance.
+// One frequency point; each block may use independent complex power-wave references.
 class LinearNetwork {
     struct Block {
         SMatrix s;
@@ -24,11 +24,13 @@ class LinearNetwork {
         std::size_t partner;
         Complex reflection{}, source{};
         bool assigned{};
+        Complex coupling{};
     };
 
     std::vector<Block> blocks_;
     std::vector<Boundary> boundaries_;
     double reference_;
+    std::vector<Complex> references_;
 
     static bool finite(Complex x) {
         return std::isfinite(x.real()) && std::isfinite(x.imag());
@@ -68,7 +70,16 @@ class LinearNetwork {
 
 public:
     double reference_impedance_ohms() const {
+        for (auto reference : references_) {
+            if (reference != Complex{reference_, 0.}) {
+                throw std::invalid_argument("network has independent power-wave references");
+            }
+        }
         return reference_;
+    }
+
+    Complex port_reference_impedance_ohms(std::size_t port) const {
+        return references_.at(port);
     }
 
     // Selected external ports must be unassigned. Their order defines S rows/columns.
@@ -107,9 +118,10 @@ private:
                 if (!boundary.assigned) {
                     continue; // Matched external port.
                 }
-                const Complex multiplier =
-                    boundary.partner == p ? boundary.reflection : Complex{1., 0.};
-                matrix(r, boundary.partner) -= s(r, p) * multiplier;
+                matrix(r, p) -= s(r, p) * boundary.reflection;
+                if (boundary.partner != p) {
+                    matrix(r, boundary.partner) -= s(r, p) * boundary.coupling;
+                }
             }
         }
         // a=C*b => (I-S*C)*b=c. Solve all noise excitations together.
@@ -192,8 +204,24 @@ public:
         if (reference_ohms != reference_) {
             throw std::invalid_argument("reference renormalization required");
         }
+        if (!s.ports || s.ports > 1024) {
+            throw std::invalid_argument("invalid block dimensions");
+        }
+        return add_power_waves(s, std::vector<Complex>(s.ports, reference_ohms));
+    }
+
+    // Matrices and all returned waves retain the supplied local coordinates.
+    std::size_t add_power_waves(const SMatrix &s, const std::vector<Complex> &references) {
         if (!s.ports || s.ports > 1024 || s.values.size() != s.ports * s.ports) {
             throw std::invalid_argument("invalid block dimensions");
+        }
+        if (references.size() != s.ports) {
+            throw std::invalid_argument("one power-wave reference required per port");
+        }
+        for (auto z : references) {
+            if (!finite(z) || z.real() <= 0.) {
+                throw std::invalid_argument("power-wave reference requires positive real part");
+            }
         }
         for (auto x : s.values) {
             if (!finite(x)) {
@@ -205,6 +233,7 @@ public:
             throw std::invalid_argument("dense solver port limit exceeded");
         }
         blocks_.push_back({s, offset});
+        references_.insert(references_.end(), references.begin(), references.end());
         for (std::size_t i = 0; i < s.ports; ++i) {
             boundaries_.push_back({offset + i, {}, {}, false});
         }
@@ -217,8 +246,23 @@ public:
         if (p == q) {
             throw std::invalid_argument("cannot connect port to itself");
         }
-        boundaries_[p] = {q, {}, {}, true};
-        boundaries_[q] = {p, {}, {}, true};
+        const auto zp = references_[p], zq = references_[q];
+        // Vp=Vq and Ip=-Iq, with currents directed into the devices.
+        // Scaling avoids overflow in Zp+Zq and in sqrt(Rp*Rq).
+        const double scale =
+            std::max({zp.real(), zq.real(), std::abs(zp.imag()), std::abs(zq.imag())});
+        const auto up = zp / scale, uq = zq / scale;
+        const auto denominator = std::conj(up + uq);
+        const auto coupling = (2. * (std::sqrt(zp.real()) / std::sqrt(scale)) *
+                               (std::sqrt(zq.real()) / std::sqrt(scale))) /
+                              denominator;
+        const auto rp = (std::conj(uq) - up) / denominator;
+        const auto rq = (std::conj(up) - uq) / denominator;
+        if (!finite(rp) || !finite(rq) || !finite(coupling)) {
+            throw std::runtime_error("power-wave connection coefficient overflow");
+        }
+        boundaries_[p] = {q, rp, {}, true, coupling};
+        boundaries_[q] = {p, rq, {}, true, coupling};
     }
 
     // a[p] = source + reflection * b[p]. Matched termination: both zero.
@@ -254,10 +298,12 @@ public:
         double norm = 0;
         for (std::size_t r = 0; r < n; ++r) {
             const auto &b = boundaries_[r];
-            const Complex multiplier = b.partner == r ? b.reflection : Complex{1, 0};
             double row_norm = 0;
             for (std::size_t c = 0; c < n; ++c) {
-                matrix(r, c) = (r == c ? Complex{1, 0} : Complex{}) - multiplier * s(b.partner, c);
+                matrix(r, c) = (r == c ? Complex{1, 0} : Complex{}) - b.reflection * s(r, c);
+                if (b.partner != r) {
+                    matrix(r, c) -= b.coupling * s(b.partner, c);
+                }
                 if (!finite(matrix(r, c))) {
                     throw std::runtime_error("network coefficient overflow");
                 }
