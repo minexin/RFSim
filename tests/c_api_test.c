@@ -1612,6 +1612,29 @@ int main(int argc, char **argv) {
         CHECK(memcmp(&output, &saved_output, sizeof(output)) == 0);
     }
     {
+        const rfmodel_complex source_s = {0., 0.}, source_noise = {1., 0.},
+                              old_reference = {1., 0.};
+        const rfmodel_complex references[] = {
+            {1e-24, 0.}, {1e-24, 3e-25}, {1e-12, 0.}, {1e12, 0.}, {1e24, 0.}, {1e24, 3e23}};
+        for (size_t index = 0; index < sizeof(references) / sizeof(references[0]); ++index) {
+            rfmodel_complex changed_s, changed_noise;
+            const double real = references[index].real, imag = references[index].imag;
+            const double denominator = (1. + real) * (1. + real) + imag * imag;
+            const double expected = 4. * real / denominator;
+            CHECK(rfmodel_power_wave_renormalize(1,
+                                                 &source_s,
+                                                 1,
+                                                 &old_reference,
+                                                 &references[index],
+                                                 &source_noise,
+                                                 &changed_s,
+                                                 &changed_noise,
+                                                 1) == RFMODEL_OK);
+            CHECK(fabs(changed_noise.real / expected - 1.) < 1e-12 &&
+                  fabs(changed_noise.imag) < 1e-12 * expected);
+        }
+    }
+    {
         double levels[3] = {0., -40., -60.};
         int signs[2] = {1, -1};
         double output[4] = {7., 8., 9., 10.}, saved[4];

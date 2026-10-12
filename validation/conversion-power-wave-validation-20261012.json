@@ -1,0 +1,1083 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-12",
+  "stage": "A05 native fixed-pump conversion power-wave coordinates and stable noise transfers",
+  "base_commit": "b9ff55a3471ea0d78cd80e94e1d9f5cc8e330aba",
+  "passed": true,
+  "local_configurations": [
+    {
+      "platform": "Windows",
+      "configuration": "Debug",
+      "ctest": 152,
+      "installed_consumers": 2,
+      "installed_python": 479,
+      "python_suites": 30,
+      "python_skipped": 0,
+      "wheel_report": {
+        "path": "build-reference/conversion-power-wave-final-wheel-Debug/installed-python-validation.json",
+        "sha256": "078f6f38dcb49032cfd6093d873704d82300d0b00c262556be8dd157d0c9091a"
+      },
+      "native_library": {
+        "path": "build-reference/conversion-power-wave-final-install-Debug/bin/rfmodel_cd.dll",
+        "sha256": "799529aa948df98ec102de02454a43c3a4f11082c7849374fb0ad8a1b3989350"
+      },
+      "installed_headers": [
+        {
+          "path": "build-reference/conversion-power-wave-final-install-Debug/include/rfmodel/conversion_power_wave.hpp",
+          "sha256": "fe00e9fbcda3224fd2a0ffed8ce9eaefa15cdfa2f80764ddc1f3360e2b1aeb91"
+        },
+        {
+          "path": "build-reference/conversion-power-wave-final-install-Debug/include/rfmodel/frequency_conversion.hpp",
+          "sha256": "26c986f79a6938d4fbf6b699e09eabe3aa37c8db0164844108a5a38fe5eba5fc"
+        },
+        {
+          "path": "build-reference/conversion-power-wave-final-install-Debug/include/rfmodel/conversion_network.hpp",
+          "sha256": "0e4c4520f1969c39bfcda6c0ca067ad5fa1e2e03cf87837b7abd08f472b3cc19"
+        },
+        {
+          "path": "build-reference/conversion-power-wave-final-install-Debug/include/rfmodel/power_wave_reference.hpp",
+          "sha256": "fd8332f11ce53f1f6b95e6f23815f71a087d1f2d61581801f3beb68b3ec0f813"
+        },
+        {
+          "path": "build-reference/conversion-power-wave-final-install-Debug/include/rfmodel/network.hpp",
+          "sha256": "aa0f56fa6963c952e4cd724b175e66b24a2962cc2e1bae0a576afcf63f1371e0"
+        }
+      ],
+      "test_logs": [
+        {
+          "path": "build-reference/conversion-power-wave-final-ctest-Debug.log",
+          "sha256": "88629dc2dcc669d4cc83e5fcef838a7e9068f6be1fe4459a94b525fdfe831ec8",
+          "passed": 152,
+          "total": 152
+        },
+        {
+          "path": "build-reference/conversion-power-wave-final-consumer-ctest-Debug.log",
+          "sha256": "d0573818e5dd18f132b4fd5c6d2d641936ecde4ddc63b86814365e0e0746211c",
+          "passed": 2,
+          "total": 2
+        }
+      ],
+      "independent_native": {
+        "passed": true,
+        "wave_checks": 409,
+        "noise_checks": 1389,
+        "maximum_wave_absolute_error": 2.8066088919804617e-16,
+        "maximum_noise_absolute_error_w_per_hz": 7.52316384526264e-36,
+        "wide_reference_checks": 54,
+        "maximum_wide_reference_relative_error": 6.207981308544467e-16
+      },
+      "native_report": {
+        "path": "build-reference/conversion-power-wave-final-native-Windows-Debug.json",
+        "sha256": "a3095059fb2a138ccdbfcf92465fbd31510b588796749e89fdfd26339358699b"
+      },
+      "independent_example": {
+        "passed": true,
+        "method": "independent Fourier/matched-resistor/thermal C and P formulas plus V/I reconstruction",
+        "cases": [
+          {
+            "passed": true,
+            "reference_scale": 0.5,
+            "wave_checks": 48,
+            "noise_checks": 13,
+            "maximum_wave_absolute_error": 2.7755575615628914e-17,
+            "maximum_noise_absolute_error_w_per_hz": 1.2037062152420224e-35,
+            "expected_outgoing": [
+              [
+                0.008926161321257684,
+                -0.0005688972375423363
+              ],
+              [
+                0.005810814582788479,
+                0.006799590714480746
+              ]
+            ],
+            "expected_output_noise_w_per_hz": 7.681242272e-21,
+            "expected_sideband_complementary_w_per_hz": [
+              4.45892293982186e-21,
+              4.591078981756947e-21
+            ],
+            "output_sha256": "9fff450ad4c04f9ab20ef37bde9ab3a1602127d16e3e0886946c66f8cd2721ad"
+          },
+          {
+            "passed": true,
+            "reference_scale": 1,
+            "wave_checks": 48,
+            "noise_checks": 13,
+            "maximum_wave_absolute_error": 4.347204570675246e-17,
+            "maximum_noise_absolute_error_w_per_hz": 6.018531076210112e-36,
+            "expected_outgoing": [
+              [
+                0.008926161321257684,
+                -0.0005688972375423363
+              ],
+              [
+                0.005810814582788479,
+                0.006799590714480746
+              ]
+            ],
+            "expected_output_noise_w_per_hz": 7.681242272e-21,
+            "expected_sideband_complementary_w_per_hz": [
+              4.45892293982186e-21,
+              4.591078981756947e-21
+            ],
+            "output_sha256": "9551ba0fab38af381d09f22d38540a58b48e67b7e1e32c0d6a834121b46903ce"
+          },
+          {
+            "passed": true,
+            "reference_scale": 2,
+            "wave_checks": 48,
+            "noise_checks": 13,
+            "maximum_wave_absolute_error": 4.4776368373981534e-17,
+            "maximum_noise_absolute_error_w_per_hz": 9.027796614315168e-36,
+            "expected_outgoing": [
+              [
+                0.008926161321257684,
+                -0.0005688972375423363
+              ],
+              [
+                0.005810814582788479,
+                0.006799590714480746
+              ]
+            ],
+            "expected_output_noise_w_per_hz": 7.681242272e-21,
+            "expected_sideband_complementary_w_per_hz": [
+              4.45892293982186e-21,
+              4.591078981756947e-21
+            ],
+            "output_sha256": "ae73e295b451ce06630e31ab6d38987f90c390dd37bb5d6b1c3dce4a64451877"
+          }
+        ],
+        "byte_replay": true,
+        "verifier_rejects_corruption": [
+          "wave",
+          "complementary_noise",
+          "voltage",
+          "net_noise"
+        ],
+        "example_rejects_invalid_scalings": [
+          "0",
+          "-1",
+          "nan",
+          "1x"
+        ],
+        "executable_sha256": "04ecc8f8a57bde5da2ede297b9452a2ea1e527321a6b98264b307d22b5b17b2b"
+      },
+      "independent_example_report": {
+        "path": "build-reference/conversion-power-wave-final-independent-Windows-Debug.json",
+        "sha256": "c51974254277694f5ce45a5f36421d286cdca495fb15ca47e74d0d57c889731c"
+      },
+      "example": {
+        "path": "build-reference/conversion-power-wave-final-example-Windows-Debug.json",
+        "sha256": "9551ba0fab38af381d09f22d38540a58b48e67b7e1e32c0d6a834121b46903ce"
+      },
+      "fresh_example_recheck": {
+        "passed": true,
+        "reference_scale": 1,
+        "wave_checks": 48,
+        "noise_checks": 13,
+        "maximum_wave_absolute_error": 4.347204570675246e-17,
+        "maximum_noise_absolute_error_w_per_hz": 6.018531076210112e-36,
+        "expected_outgoing": [
+          [
+            0.008926161321257684,
+            -0.0005688972375423363
+          ],
+          [
+            0.005810814582788479,
+            0.006799590714480746
+          ]
+        ],
+        "expected_output_noise_w_per_hz": 7.681242272e-21,
+        "expected_sideband_complementary_w_per_hz": [
+          4.45892293982186e-21,
+          4.591078981756947e-21
+        ]
+      },
+      "old_c_binary": {
+        "binary": {
+          "path": "build-reference/conversion-power-wave-final-legacy-Debug/c_consumer.exe",
+          "sha256": "f9138e65d0a4200e143ec8ccc610309f1f02329e8295fad172b2233a922bb9b4"
+        },
+        "unchanged_from": {
+          "path": "build-reference/power-wave-stage-consumer-Debug/Debug/c_consumer.exe",
+          "sha256": "f9138e65d0a4200e143ec8ccc610309f1f02329e8295fad172b2233a922bb9b4"
+        },
+        "loaded_library": {
+          "path": "build-reference/conversion-power-wave-final-legacy-Debug/rfmodel_cd.dll",
+          "sha256": "799529aa948df98ec102de02454a43c3a4f11082c7849374fb0ad8a1b3989350"
+        },
+        "passed": true,
+        "log": {
+          "path": "build-reference/conversion-power-wave-final-legacy-Debug.log",
+          "sha256": "0e4b086060b0585be3f47e46fe102f30110fcc7f85ed21f6bc3ab7800f879bdd"
+        }
+      }
+    },
+    {
+      "platform": "Windows",
+      "configuration": "Release",
+      "ctest": 152,
+      "installed_consumers": 2,
+      "installed_python": 479,
+      "python_suites": 30,
+      "python_skipped": 0,
+      "wheel_report": {
+        "path": "build-reference/conversion-power-wave-final-wheel-Release/installed-python-validation.json",
+        "sha256": "e62f011a94fe3d64956ebe96eeef6f64e82d71195b27e35679f4a9345fe585f2"
+      },
+      "native_library": {
+        "path": "build-reference/conversion-power-wave-final-install-Release/bin/rfmodel_c.dll",
+        "sha256": "567ad94d6feb8ec8d1fcbe017eed461b17e3ce193939dc38f5c4622933a8cd5a"
+      },
+      "installed_headers": [
+        {
+          "path": "build-reference/conversion-power-wave-final-install-Release/include/rfmodel/conversion_power_wave.hpp",
+          "sha256": "fe00e9fbcda3224fd2a0ffed8ce9eaefa15cdfa2f80764ddc1f3360e2b1aeb91"
+        },
+        {
+          "path": "build-reference/conversion-power-wave-final-install-Release/include/rfmodel/frequency_conversion.hpp",
+          "sha256": "26c986f79a6938d4fbf6b699e09eabe3aa37c8db0164844108a5a38fe5eba5fc"
+        },
+        {
+          "path": "build-reference/conversion-power-wave-final-install-Release/include/rfmodel/conversion_network.hpp",
+          "sha256": "0e4c4520f1969c39bfcda6c0ca067ad5fa1e2e03cf87837b7abd08f472b3cc19"
+        },
+        {
+          "path": "build-reference/conversion-power-wave-final-install-Release/include/rfmodel/power_wave_reference.hpp",
+          "sha256": "fd8332f11ce53f1f6b95e6f23815f71a087d1f2d61581801f3beb68b3ec0f813"
+        },
+        {
+          "path": "build-reference/conversion-power-wave-final-install-Release/include/rfmodel/network.hpp",
+          "sha256": "aa0f56fa6963c952e4cd724b175e66b24a2962cc2e1bae0a576afcf63f1371e0"
+        }
+      ],
+      "test_logs": [
+        {
+          "path": "build-reference/conversion-power-wave-final-ctest-Release.log",
+          "sha256": "08d201fee03d3dfc6b0c8b94f00f44d8ffb2d35461f5885b9e7c9ed1593d75b5",
+          "passed": 152,
+          "total": 152
+        },
+        {
+          "path": "build-reference/conversion-power-wave-final-consumer-ctest-Release.log",
+          "sha256": "bbe7dce10c4903b9fb21f2b105b9bd670e950be672c21311a26de4b399811769",
+          "passed": 2,
+          "total": 2
+        }
+      ],
+      "independent_native": {
+        "passed": true,
+        "wave_checks": 409,
+        "noise_checks": 1389,
+        "maximum_wave_absolute_error": 2.8066088919804617e-16,
+        "maximum_noise_absolute_error_w_per_hz": 7.52316384526264e-36,
+        "wide_reference_checks": 54,
+        "maximum_wide_reference_relative_error": 6.207981308544467e-16
+      },
+      "native_report": {
+        "path": "build-reference/conversion-power-wave-final-native-Windows-Release.json",
+        "sha256": "a3095059fb2a138ccdbfcf92465fbd31510b588796749e89fdfd26339358699b"
+      },
+      "independent_example": {
+        "passed": true,
+        "method": "independent Fourier/matched-resistor/thermal C and P formulas plus V/I reconstruction",
+        "cases": [
+          {
+            "passed": true,
+            "reference_scale": 0.5,
+            "wave_checks": 48,
+            "noise_checks": 13,
+            "maximum_wave_absolute_error": 2.7755575615628914e-17,
+            "maximum_noise_absolute_error_w_per_hz": 1.2037062152420224e-35,
+            "expected_outgoing": [
+              [
+                0.008926161321257684,
+                -0.0005688972375423363
+              ],
+              [
+                0.005810814582788479,
+                0.006799590714480746
+              ]
+            ],
+            "expected_output_noise_w_per_hz": 7.681242272e-21,
+            "expected_sideband_complementary_w_per_hz": [
+              4.45892293982186e-21,
+              4.591078981756947e-21
+            ],
+            "output_sha256": "9fff450ad4c04f9ab20ef37bde9ab3a1602127d16e3e0886946c66f8cd2721ad"
+          },
+          {
+            "passed": true,
+            "reference_scale": 1,
+            "wave_checks": 48,
+            "noise_checks": 13,
+            "maximum_wave_absolute_error": 4.347204570675246e-17,
+            "maximum_noise_absolute_error_w_per_hz": 6.018531076210112e-36,
+            "expected_outgoing": [
+              [
+                0.008926161321257684,
+                -0.0005688972375423363
+              ],
+              [
+                0.005810814582788479,
+                0.006799590714480746
+              ]
+            ],
+            "expected_output_noise_w_per_hz": 7.681242272e-21,
+            "expected_sideband_complementary_w_per_hz": [
+              4.45892293982186e-21,
+              4.591078981756947e-21
+            ],
+            "output_sha256": "9551ba0fab38af381d09f22d38540a58b48e67b7e1e32c0d6a834121b46903ce"
+          },
+          {
+            "passed": true,
+            "reference_scale": 2,
+            "wave_checks": 48,
+            "noise_checks": 13,
+            "maximum_wave_absolute_error": 4.4776368373981534e-17,
+            "maximum_noise_absolute_error_w_per_hz": 9.027796614315168e-36,
+            "expected_outgoing": [
+              [
+                0.008926161321257684,
+                -0.0005688972375423363
+              ],
+              [
+                0.005810814582788479,
+                0.006799590714480746
+              ]
+            ],
+            "expected_output_noise_w_per_hz": 7.681242272e-21,
+            "expected_sideband_complementary_w_per_hz": [
+              4.45892293982186e-21,
+              4.591078981756947e-21
+            ],
+            "output_sha256": "ae73e295b451ce06630e31ab6d38987f90c390dd37bb5d6b1c3dce4a64451877"
+          }
+        ],
+        "byte_replay": true,
+        "verifier_rejects_corruption": [
+          "wave",
+          "complementary_noise",
+          "voltage",
+          "net_noise"
+        ],
+        "example_rejects_invalid_scalings": [
+          "0",
+          "-1",
+          "nan",
+          "1x"
+        ],
+        "executable_sha256": "5afead9fe30c232a78ca517ae8c3b86e38163171a02923c412be8fa09f2fd0ff"
+      },
+      "independent_example_report": {
+        "path": "build-reference/conversion-power-wave-final-independent-Windows-Release.json",
+        "sha256": "229c74e0cf61105e32d0de5d8d78a16f315a021c13a02c57f0902c48cc4f70c2"
+      },
+      "example": {
+        "path": "build-reference/conversion-power-wave-final-example-Windows-Release.json",
+        "sha256": "9551ba0fab38af381d09f22d38540a58b48e67b7e1e32c0d6a834121b46903ce"
+      },
+      "fresh_example_recheck": {
+        "passed": true,
+        "reference_scale": 1,
+        "wave_checks": 48,
+        "noise_checks": 13,
+        "maximum_wave_absolute_error": 4.347204570675246e-17,
+        "maximum_noise_absolute_error_w_per_hz": 6.018531076210112e-36,
+        "expected_outgoing": [
+          [
+            0.008926161321257684,
+            -0.0005688972375423363
+          ],
+          [
+            0.005810814582788479,
+            0.006799590714480746
+          ]
+        ],
+        "expected_output_noise_w_per_hz": 7.681242272e-21,
+        "expected_sideband_complementary_w_per_hz": [
+          4.45892293982186e-21,
+          4.591078981756947e-21
+        ]
+      },
+      "old_c_binary": {
+        "binary": {
+          "path": "build-reference/conversion-power-wave-final-legacy-Release/c_consumer.exe",
+          "sha256": "ffd8bd8228ee006f8cde7f9a2452b9715ff64ad03aac7fb1fb82c1dec71f9a43"
+        },
+        "unchanged_from": {
+          "path": "build-reference/power-wave-stage-consumer-Release/Release/c_consumer.exe",
+          "sha256": "ffd8bd8228ee006f8cde7f9a2452b9715ff64ad03aac7fb1fb82c1dec71f9a43"
+        },
+        "loaded_library": {
+          "path": "build-reference/conversion-power-wave-final-legacy-Release/rfmodel_c.dll",
+          "sha256": "567ad94d6feb8ec8d1fcbe017eed461b17e3ce193939dc38f5c4622933a8cd5a"
+        },
+        "passed": true,
+        "log": {
+          "path": "build-reference/conversion-power-wave-final-legacy-Release.log",
+          "sha256": "0e4b086060b0585be3f47e46fe102f30110fcc7f85ed21f6bc3ab7800f879bdd"
+        }
+      }
+    },
+    {
+      "platform": "Linux",
+      "configuration": "Debug",
+      "ctest": 152,
+      "installed_consumers": 2,
+      "installed_python": 479,
+      "python_suites": 30,
+      "python_skipped": 0,
+      "wheel_report": {
+        "path": "build-reference/conversion-power-wave-final-linux-wheel-Debug/installed-python-validation.json",
+        "sha256": "4e199816a5dad89c6aa12c64b75ee0273298c7730c6b8b743e986e191fa6cb9a"
+      },
+      "native_library": {
+        "path": "build-reference/conversion-power-wave-final-linux-install-Debug/lib/librfmodel_cd.so",
+        "sha256": "c0a597154c280c71adcaa131028142eb4e97e6759c0b2bbc613f94a66b4d04ce"
+      },
+      "installed_headers": [
+        {
+          "path": "build-reference/conversion-power-wave-final-linux-install-Debug/include/rfmodel/conversion_power_wave.hpp",
+          "sha256": "fe00e9fbcda3224fd2a0ffed8ce9eaefa15cdfa2f80764ddc1f3360e2b1aeb91"
+        },
+        {
+          "path": "build-reference/conversion-power-wave-final-linux-install-Debug/include/rfmodel/frequency_conversion.hpp",
+          "sha256": "26c986f79a6938d4fbf6b699e09eabe3aa37c8db0164844108a5a38fe5eba5fc"
+        },
+        {
+          "path": "build-reference/conversion-power-wave-final-linux-install-Debug/include/rfmodel/conversion_network.hpp",
+          "sha256": "0e4c4520f1969c39bfcda6c0ca067ad5fa1e2e03cf87837b7abd08f472b3cc19"
+        },
+        {
+          "path": "build-reference/conversion-power-wave-final-linux-install-Debug/include/rfmodel/power_wave_reference.hpp",
+          "sha256": "fd8332f11ce53f1f6b95e6f23815f71a087d1f2d61581801f3beb68b3ec0f813"
+        },
+        {
+          "path": "build-reference/conversion-power-wave-final-linux-install-Debug/include/rfmodel/network.hpp",
+          "sha256": "aa0f56fa6963c952e4cd724b175e66b24a2962cc2e1bae0a576afcf63f1371e0"
+        }
+      ],
+      "test_logs": [
+        {
+          "path": "build-reference/conversion-power-wave-final-linux-ctest-Debug.log",
+          "sha256": "2ca426023325e6c7ea3f76a8fdd2c4b945d23607c96a3c7d77cbaf7d17064024",
+          "passed": 152,
+          "total": 152
+        },
+        {
+          "path": "build-reference/conversion-power-wave-final-linux-consumer-ctest-Debug.log",
+          "sha256": "63388d45a34ca2e3bf97c88fb301c6a5f8fb704ae83b9f86f4c06bd789508033",
+          "passed": 2,
+          "total": 2
+        }
+      ],
+      "independent_native": {
+        "passed": true,
+        "wave_checks": 409,
+        "noise_checks": 1389,
+        "maximum_wave_absolute_error": 2.8066088919804617e-16,
+        "maximum_noise_absolute_error_w_per_hz": 7.52316384526264e-36,
+        "wide_reference_checks": 54,
+        "maximum_wide_reference_relative_error": 6.207981308544467e-16
+      },
+      "native_report": {
+        "path": "build-reference/conversion-power-wave-final-native-Linux-Debug.json",
+        "sha256": "2500acf2728f9dd2e6c3d7c2cf4cf8e80f1e69d35a373e0f021f05e982e1df4b"
+      },
+      "independent_example": {
+        "passed": true,
+        "method": "independent Fourier/matched-resistor/thermal C and P formulas plus V/I reconstruction",
+        "cases": [
+          {
+            "passed": true,
+            "reference_scale": 0.5,
+            "wave_checks": 48,
+            "noise_checks": 13,
+            "maximum_wave_absolute_error": 2.7755575615628914e-17,
+            "maximum_noise_absolute_error_w_per_hz": 1.2037062152420224e-35,
+            "expected_outgoing": [
+              [
+                0.008926161321257684,
+                -0.0005688972375423363
+              ],
+              [
+                0.005810814582788479,
+                0.006799590714480746
+              ]
+            ],
+            "expected_output_noise_w_per_hz": 7.681242272e-21,
+            "expected_sideband_complementary_w_per_hz": [
+              4.45892293982186e-21,
+              4.591078981756947e-21
+            ],
+            "output_sha256": "45e2de363f224829eba0bd7c09d16028dbbfa7f7e2602bd8c842e1950f9516da"
+          },
+          {
+            "passed": true,
+            "reference_scale": 1,
+            "wave_checks": 48,
+            "noise_checks": 13,
+            "maximum_wave_absolute_error": 4.347204570675246e-17,
+            "maximum_noise_absolute_error_w_per_hz": 6.018531076210112e-36,
+            "expected_outgoing": [
+              [
+                0.008926161321257684,
+                -0.0005688972375423363
+              ],
+              [
+                0.005810814582788479,
+                0.006799590714480746
+              ]
+            ],
+            "expected_output_noise_w_per_hz": 7.681242272e-21,
+            "expected_sideband_complementary_w_per_hz": [
+              4.45892293982186e-21,
+              4.591078981756947e-21
+            ],
+            "output_sha256": "dc6326e05a947aeffafdb98e7bc591e288b0a4aa57f4bd268ffdb6eebbcc2cc7"
+          },
+          {
+            "passed": true,
+            "reference_scale": 2,
+            "wave_checks": 48,
+            "noise_checks": 13,
+            "maximum_wave_absolute_error": 4.4776368373981534e-17,
+            "maximum_noise_absolute_error_w_per_hz": 9.027796614315168e-36,
+            "expected_outgoing": [
+              [
+                0.008926161321257684,
+                -0.0005688972375423363
+              ],
+              [
+                0.005810814582788479,
+                0.006799590714480746
+              ]
+            ],
+            "expected_output_noise_w_per_hz": 7.681242272e-21,
+            "expected_sideband_complementary_w_per_hz": [
+              4.45892293982186e-21,
+              4.591078981756947e-21
+            ],
+            "output_sha256": "0eb88d9fdd5b9ea21a5ca11daa2f88d0508be01869e375f72f789257ac4e6e40"
+          }
+        ],
+        "byte_replay": true,
+        "verifier_rejects_corruption": [
+          "wave",
+          "complementary_noise",
+          "voltage",
+          "net_noise"
+        ],
+        "example_rejects_invalid_scalings": [
+          "0",
+          "-1",
+          "nan",
+          "1x"
+        ],
+        "executable_sha256": "83e5f72dfd7bb61e36d27f228cfaf25fc3b7bd459d18a916e640f17f74f0d692"
+      },
+      "independent_example_report": {
+        "path": "build-reference/conversion-power-wave-final-independent-Linux-Debug.json",
+        "sha256": "7cc8e10dec3b6a887eb8cb1fa0984599e8266858fa1c7569bce6c1e4b5139072"
+      },
+      "example": {
+        "path": "build-reference/conversion-power-wave-final-example-Linux-Debug.json",
+        "sha256": "dc6326e05a947aeffafdb98e7bc591e288b0a4aa57f4bd268ffdb6eebbcc2cc7"
+      },
+      "fresh_example_recheck": {
+        "passed": true,
+        "reference_scale": 1,
+        "wave_checks": 48,
+        "noise_checks": 13,
+        "maximum_wave_absolute_error": 4.347204570675246e-17,
+        "maximum_noise_absolute_error_w_per_hz": 6.018531076210112e-36,
+        "expected_outgoing": [
+          [
+            0.008926161321257684,
+            -0.0005688972375423363
+          ],
+          [
+            0.005810814582788479,
+            0.006799590714480746
+          ]
+        ],
+        "expected_output_noise_w_per_hz": 7.681242272e-21,
+        "expected_sideband_complementary_w_per_hz": [
+          4.45892293982186e-21,
+          4.591078981756947e-21
+        ]
+      },
+      "old_c_binary": {
+        "binary": {
+          "path": "build-reference/monte-carlo-joint-api-linux-legacy-Debug/c_consumer",
+          "sha256": "13808965d3e2d59d45a30d0f9562c849d74115cb60ec2fdaf817b304862a74a9"
+        },
+        "linkage": {
+          "path": "build-reference/conversion-power-wave-final-linux-legacy-link-Debug.log",
+          "sha256": "7fcbb406507a95aca600836b84998069247f98c38a563fa3a1de2d6bed217c79"
+        },
+        "provenance": "Unchanged prior-stage C binary built there from d888587 consumer sources; not rebuilt for this stage.",
+        "passed": true,
+        "log": {
+          "path": "build-reference/conversion-power-wave-final-linux-legacy-Debug.log",
+          "sha256": "f8ff85c72fd13def39dbeac266a89d91b22c3a3cb46afe1d597dd00d88f869b8"
+        }
+      }
+    },
+    {
+      "platform": "Linux",
+      "configuration": "Release",
+      "ctest": 152,
+      "installed_consumers": 2,
+      "installed_python": 479,
+      "python_suites": 30,
+      "python_skipped": 0,
+      "wheel_report": {
+        "path": "build-reference/conversion-power-wave-final-linux-wheel-Release/installed-python-validation.json",
+        "sha256": "19ba892d3a2685d15a8367df7279a28c479527eec4c6996d0986d821f819e770"
+      },
+      "native_library": {
+        "path": "build-reference/conversion-power-wave-final-linux-install-Release/lib/librfmodel_c.so",
+        "sha256": "c8488bb64d0c171583d3ceb70ef86ee1684ff4ac0e730041d380bd43e0d54d12"
+      },
+      "installed_headers": [
+        {
+          "path": "build-reference/conversion-power-wave-final-linux-install-Release/include/rfmodel/conversion_power_wave.hpp",
+          "sha256": "fe00e9fbcda3224fd2a0ffed8ce9eaefa15cdfa2f80764ddc1f3360e2b1aeb91"
+        },
+        {
+          "path": "build-reference/conversion-power-wave-final-linux-install-Release/include/rfmodel/frequency_conversion.hpp",
+          "sha256": "26c986f79a6938d4fbf6b699e09eabe3aa37c8db0164844108a5a38fe5eba5fc"
+        },
+        {
+          "path": "build-reference/conversion-power-wave-final-linux-install-Release/include/rfmodel/conversion_network.hpp",
+          "sha256": "0e4c4520f1969c39bfcda6c0ca067ad5fa1e2e03cf87837b7abd08f472b3cc19"
+        },
+        {
+          "path": "build-reference/conversion-power-wave-final-linux-install-Release/include/rfmodel/power_wave_reference.hpp",
+          "sha256": "fd8332f11ce53f1f6b95e6f23815f71a087d1f2d61581801f3beb68b3ec0f813"
+        },
+        {
+          "path": "build-reference/conversion-power-wave-final-linux-install-Release/include/rfmodel/network.hpp",
+          "sha256": "aa0f56fa6963c952e4cd724b175e66b24a2962cc2e1bae0a576afcf63f1371e0"
+        }
+      ],
+      "test_logs": [
+        {
+          "path": "build-reference/conversion-power-wave-final-linux-ctest-Release.log",
+          "sha256": "7e5a3ef0b2a527789095bb7278a93f9b4d0bb6aa3aed5b787b8f47d9ce93694b",
+          "passed": 152,
+          "total": 152
+        },
+        {
+          "path": "build-reference/conversion-power-wave-final-linux-consumer-ctest-Release.log",
+          "sha256": "378b2cfeb9d80e19558cd477e6eb3fbc9edeff102aed6327eade3fec87a7a305",
+          "passed": 2,
+          "total": 2
+        }
+      ],
+      "independent_native": {
+        "passed": true,
+        "wave_checks": 409,
+        "noise_checks": 1389,
+        "maximum_wave_absolute_error": 2.8066088919804617e-16,
+        "maximum_noise_absolute_error_w_per_hz": 7.52316384526264e-36,
+        "wide_reference_checks": 54,
+        "maximum_wide_reference_relative_error": 6.207981308544467e-16
+      },
+      "native_report": {
+        "path": "build-reference/conversion-power-wave-final-native-Linux-Release.json",
+        "sha256": "2500acf2728f9dd2e6c3d7c2cf4cf8e80f1e69d35a373e0f021f05e982e1df4b"
+      },
+      "independent_example": {
+        "passed": true,
+        "method": "independent Fourier/matched-resistor/thermal C and P formulas plus V/I reconstruction",
+        "cases": [
+          {
+            "passed": true,
+            "reference_scale": 0.5,
+            "wave_checks": 48,
+            "noise_checks": 13,
+            "maximum_wave_absolute_error": 2.7755575615628914e-17,
+            "maximum_noise_absolute_error_w_per_hz": 1.2037062152420224e-35,
+            "expected_outgoing": [
+              [
+                0.008926161321257684,
+                -0.0005688972375423363
+              ],
+              [
+                0.005810814582788479,
+                0.006799590714480746
+              ]
+            ],
+            "expected_output_noise_w_per_hz": 7.681242272e-21,
+            "expected_sideband_complementary_w_per_hz": [
+              4.45892293982186e-21,
+              4.591078981756947e-21
+            ],
+            "output_sha256": "45e2de363f224829eba0bd7c09d16028dbbfa7f7e2602bd8c842e1950f9516da"
+          },
+          {
+            "passed": true,
+            "reference_scale": 1,
+            "wave_checks": 48,
+            "noise_checks": 13,
+            "maximum_wave_absolute_error": 4.347204570675246e-17,
+            "maximum_noise_absolute_error_w_per_hz": 6.018531076210112e-36,
+            "expected_outgoing": [
+              [
+                0.008926161321257684,
+                -0.0005688972375423363
+              ],
+              [
+                0.005810814582788479,
+                0.006799590714480746
+              ]
+            ],
+            "expected_output_noise_w_per_hz": 7.681242272e-21,
+            "expected_sideband_complementary_w_per_hz": [
+              4.45892293982186e-21,
+              4.591078981756947e-21
+            ],
+            "output_sha256": "dc6326e05a947aeffafdb98e7bc591e288b0a4aa57f4bd268ffdb6eebbcc2cc7"
+          },
+          {
+            "passed": true,
+            "reference_scale": 2,
+            "wave_checks": 48,
+            "noise_checks": 13,
+            "maximum_wave_absolute_error": 4.4776368373981534e-17,
+            "maximum_noise_absolute_error_w_per_hz": 9.027796614315168e-36,
+            "expected_outgoing": [
+              [
+                0.008926161321257684,
+                -0.0005688972375423363
+              ],
+              [
+                0.005810814582788479,
+                0.006799590714480746
+              ]
+            ],
+            "expected_output_noise_w_per_hz": 7.681242272e-21,
+            "expected_sideband_complementary_w_per_hz": [
+              4.45892293982186e-21,
+              4.591078981756947e-21
+            ],
+            "output_sha256": "0eb88d9fdd5b9ea21a5ca11daa2f88d0508be01869e375f72f789257ac4e6e40"
+          }
+        ],
+        "byte_replay": true,
+        "verifier_rejects_corruption": [
+          "wave",
+          "complementary_noise",
+          "voltage",
+          "net_noise"
+        ],
+        "example_rejects_invalid_scalings": [
+          "0",
+          "-1",
+          "nan",
+          "1x"
+        ],
+        "executable_sha256": "80e57d90be660cf22d897eb69aa11742a85b821f55b75823318931198f1a62f8"
+      },
+      "independent_example_report": {
+        "path": "build-reference/conversion-power-wave-final-independent-Linux-Release.json",
+        "sha256": "db080165330a0eb63ba4f74a9cef4be27ccf57b1e2b9f2ca1de440838f5edd74"
+      },
+      "example": {
+        "path": "build-reference/conversion-power-wave-final-example-Linux-Release.json",
+        "sha256": "dc6326e05a947aeffafdb98e7bc591e288b0a4aa57f4bd268ffdb6eebbcc2cc7"
+      },
+      "fresh_example_recheck": {
+        "passed": true,
+        "reference_scale": 1,
+        "wave_checks": 48,
+        "noise_checks": 13,
+        "maximum_wave_absolute_error": 4.347204570675246e-17,
+        "maximum_noise_absolute_error_w_per_hz": 6.018531076210112e-36,
+        "expected_outgoing": [
+          [
+            0.008926161321257684,
+            -0.0005688972375423363
+          ],
+          [
+            0.005810814582788479,
+            0.006799590714480746
+          ]
+        ],
+        "expected_output_noise_w_per_hz": 7.681242272e-21,
+        "expected_sideband_complementary_w_per_hz": [
+          4.45892293982186e-21,
+          4.591078981756947e-21
+        ]
+      },
+      "old_c_binary": {
+        "binary": {
+          "path": "build-reference/monte-carlo-joint-api-linux-legacy-Release/c_consumer",
+          "sha256": "b4f866a50133d9e01ed541f41bfeca3badf3d3450bb6ef86dd0f446e723c6139"
+        },
+        "linkage": {
+          "path": "build-reference/conversion-power-wave-final-linux-legacy-link-Release.log",
+          "sha256": "22c08230a1a189e8d664c09d4cbcc1dc744c2132fe473183fd33b7092f06cc08"
+        },
+        "provenance": "Unchanged prior-stage C binary built there from d888587 consumer sources; not rebuilt for this stage.",
+        "passed": true,
+        "log": {
+          "path": "build-reference/conversion-power-wave-final-linux-legacy-Release.log",
+          "sha256": "f8ff85c72fd13def39dbeac266a89d91b22c3a3cb46afe1d597dd00d88f869b8"
+        }
+      }
+    }
+  ],
+  "build_scope": "Final Windows MSVC and Linux GCC Debug/Release clean-first full builds, CTest, installed C/C++ consumers and isolated installed wheel. The checkout retains eight pre-existing edits; same-commit clean remote CI follows push.",
+  "linux_debug_capture": "Final Debug full CTest/consumer/wheel and native metric capture passed. An ignored runner used a mistyped verifier path and stopped before extra example capture; after confirming the temporary tree was gone, only the two header-only example/test executables were rebuilt for persistent capture, with identical native metrics. Installed Debug SDK and wheel evidence were retained, not rebuilt or substituted. Release ran in full afterward.",
+  "cancellation_fix": {
+    "root_cause": "Subtracting X-Mnew*V or u-GammaNew*w loses small finite noise/source coefficients at wide impedance ratios. The conversion and existing linear S noise transforms now solve the inverse-coordinate equation; boundary transfer uses a scaled reciprocal.",
+    "physical_probe": {
+      "old_reference_ohms": 1,
+      "new_reference_ohms": [
+        1e+24,
+        3e+23
+      ],
+      "old_scattering": 0,
+      "before_after": [
+        {
+          "quantity": "converted model noise",
+          "before": [
+            0.0,
+            3.0517578125e-05
+          ],
+          "after": [
+            1.8348623853211007e-12,
+            -5.504587155963302e-13
+          ],
+          "expected": [
+            1.834862385321101e-12,
+            -5.504587155963303e-13
+          ]
+        },
+        {
+          "quantity": "converted boundary source",
+          "before": [
+            0.0,
+            -3.0517578125e-05
+          ],
+          "after": [
+            1.8348623853211007e-12,
+            5.504587155963302e-13
+          ],
+          "expected": [
+            1.834862385321101e-12,
+            5.504587155963303e-13
+          ]
+        },
+        {
+          "quantity": "linear noise",
+          "before": [
+            0.0,
+            3.0517578125e-05
+          ],
+          "after": [
+            1.8348623853211007e-12,
+            -5.504587155963302e-13
+          ],
+          "expected": [
+            1.834862385321101e-12,
+            -5.504587155963303e-13
+          ]
+        }
+      ],
+      "before_log": {
+        "path": "build-reference/conversion-boundary-probe-before.log",
+        "sha256": "d28cdc0890db4f92c3149b9d19214c7d3c23029c04de2b04c15aa3bd5f741516"
+      },
+      "after_log": {
+        "path": "build-reference/conversion-boundary-probe-after.log",
+        "sha256": "0cc423236e01995d739195807f27a6c9e84c8d80e5879acbee3c4beaace9c267"
+      }
+    },
+    "native_wide_reference_checks": 54,
+    "relative_tolerance": 1e-12,
+    "pure_c_physical_cases": 6,
+    "python_physical_cases": 6,
+    "python_test": "test_power_wave_noise_preserves_small_transfer_at_wide_references"
+  },
+  "prior_initial_runs": "Four initial complete configurations passed 152/2/478 before review exposed the cancellation case. Those logs and old headers are retained separately under build-reference/conversion-power-wave-initial-evidence. All four final builds/test sets above include the numerical correction and new C/Python cases; initial results are not used as final acceptance.",
+  "unchanged_c_abi_files": [
+    {
+      "path": "include/rfmodel/c_api.h",
+      "sha256": "da14a3cf9197afba4b1a238e1d2a75f8e59175ed83a74e6596f7e515ce855453"
+    },
+    {
+      "path": "src/c_api.cpp",
+      "sha256": "2a828afe0e4c9b7622b3fe83a5d128b2097a4cb0cde050455a04229664bb64d5"
+    }
+  ],
+  "c_abi_version": 1,
+  "new_conversion_input_exposure": "C++ only; C/Python/JSON mixed-reference conversion inputs and nonlinear operating-point coordinates remain follow-up work. The existing C/Python linear S noise API receives the numerical correction.",
+  "unchanged_python_package": true,
+  "baseline_wheel": {
+    "path": "build-reference/power-wave-stage-final-wheel/rfmodel-0.1.0-py3-none-any.whl",
+    "sha256": "770783dd2145d11561ed614d4f0a48963e8bc713b2b8ce51b4f743c6e513186a"
+  },
+  "wheel_matches_current_python_modules": true,
+  "published_example": {
+    "path": "validation/conversion-power-wave-example-20261012.json",
+    "sha256": "dc6326e05a947aeffafdb98e7bc591e288b0a4aa57f4bd268ffdb6eebbcc2cc7"
+  },
+  "independent_example_checker": {
+    "path": "scripts/verify-conversion-power-wave-example.py",
+    "sha256": "4a29e5bacbe5879374b7514261607b3968a842169ef5d2a94f8554153f7226b6"
+  },
+  "c_cpp_format_files": 174,
+  "source_fingerprints": [
+    {
+      "path": "CMakeLists.txt",
+      "sha256": "65f3dbbd3700f98601641100cd68f81aed32bf6b7ee6716b05bf3c1d540bf062"
+    },
+    {
+      "path": "README.md",
+      "sha256": "93d3a79a4b15e2ee1977504bed93e0d238e7968e53cd759a7bfb66425041f88a"
+    },
+    {
+      "path": "docs/README.md",
+      "sha256": "741f05f1fdc1d6892c8b2999be3dfcf01a05278401aab308f6b421b0fd6e5565"
+    },
+    {
+      "path": "docs/acceptance-audit-20261012.md",
+      "sha256": "a597fa0f1f9a384e44697e9bd62537a6e2f85abca3c8b01ea29826c20bfd3b70"
+    },
+    {
+      "path": "docs/conversion-network.md",
+      "sha256": "0f1c583eb3f4e555175555ef60975e88b11fd726cf5d375fccbc670898154297"
+    },
+    {
+      "path": "docs/conversion-power-wave.md",
+      "sha256": "3b587f6132f707187b6d3436fab3f952cb1e23196d26323228a7a96d92f4260c"
+    },
+    {
+      "path": "docs/frequency-conversion.md",
+      "sha256": "b6ac6f7b46c69b6d93ee31d5b1b432b3e286a42eabc153ea67d2d8d7415f71f3"
+    },
+    {
+      "path": "docs/power-wave-references.md",
+      "sha256": "18464719a1a10e572e3422ce16aa11f3c5a59742b833496853108dd5806b0443"
+    },
+    {
+      "path": "docs/power-wave-stages.md",
+      "sha256": "dfc0eb1e670ea49c3041ddd382a6eb66a077e17d700a4c2eec830000860890e3"
+    },
+    {
+      "path": "docs/systemvue-2023-matrix.md",
+      "sha256": "de0b255b413a85156279a4660fc57a257e057b082ecdb5eb1edbb7a95ec2f576"
+    },
+    {
+      "path": "examples/mixed_reference_conversion.cpp",
+      "sha256": "659b26e82c8af5cad16a2aa4c9eb32c9d9bffaf37efca4b96f2ab91fefbf4f7d"
+    },
+    {
+      "path": "include/rfmodel/conversion_network.hpp",
+      "sha256": "0e4c4520f1969c39bfcda6c0ca067ad5fa1e2e03cf87837b7abd08f472b3cc19"
+    },
+    {
+      "path": "include/rfmodel/conversion_power_wave.hpp",
+      "sha256": "fe00e9fbcda3224fd2a0ffed8ce9eaefa15cdfa2f80764ddc1f3360e2b1aeb91"
+    },
+    {
+      "path": "include/rfmodel/frequency_conversion.hpp",
+      "sha256": "26c986f79a6938d4fbf6b699e09eabe3aa37c8db0164844108a5a38fe5eba5fc"
+    },
+    {
+      "path": "include/rfmodel/network.hpp",
+      "sha256": "aa0f56fa6963c952e4cd724b175e66b24a2962cc2e1bae0a576afcf63f1371e0"
+    },
+    {
+      "path": "include/rfmodel/power_wave_reference.hpp",
+      "sha256": "fd8332f11ce53f1f6b95e6f23815f71a087d1f2d61581801f3beb68b3ec0f813"
+    },
+    {
+      "path": "scripts/verify-conversion-power-wave-example.py",
+      "sha256": "4a29e5bacbe5879374b7514261607b3968a842169ef5d2a94f8554153f7226b6"
+    },
+    {
+      "path": "tests/c_api_test.c",
+      "sha256": "d728211a030e0ad894d897c7df750e4fb059dc29d39622b99bd9eaf6d1c84662"
+    },
+    {
+      "path": "tests/consumer/main.cpp",
+      "sha256": "386d49ff72aa007218dfe88df570651f23cb57084be5134d6b30f6f0cbb8a101"
+    },
+    {
+      "path": "tests/conversion_power_wave_test.cpp",
+      "sha256": "41e3828450a55ae788533c921359e94f57b16d84181a9954f6f89426a1cf769f"
+    },
+    {
+      "path": "tests/test_python_api.py",
+      "sha256": "dd7e8256a31aa630400a67398107be044767c5f1eaf2265f4b67c11f9c70e4ce"
+    },
+    {
+      "path": "validation/conversion-power-wave-example-20261012.json",
+      "sha256": "dc6326e05a947aeffafdb98e7bc591e288b0a4aa57f4bd268ffdb6eebbcc2cc7"
+    },
+    {
+      "path": "validation/power-wave-stage-ci-validation-20261012.json",
+      "sha256": "39c3d703e49ab56cc6cc80b5c0537ce4f1b3f9bd5e0ed9118aa181194912a839"
+    }
+  ],
+  "prior_uncommitted_files": [
+    {
+      "path": "scripts/reference/archive-cascade-reference.py",
+      "sha256": "a482db6bd6ae64c050d74e6df321749ec84a7098fb7aa49733079183149806dc",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/reference/capture-cascade-reference.ps1",
+      "sha256": "fb42165db2ad10c6213a415c2080e1eeb6e5ec0bcd1dc119bb1d1707c5283f3e",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/reference/compare-cascade-amplifier.py",
+      "sha256": "af1260adb093946954d0fb7e4bb2059669706a291418aac19ba193fed7554d9d",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/reference/run-systemvue-reference.py",
+      "sha256": "5df486d061ce09c28b396bf62e7fcba473dc6e9086d52861fdc7be6c85864f4e",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/reference/test_compare_cascade_amplifier.py",
+      "sha256": "190ea23b0ce0733846db8052ead9bb4d5ba41ff30e007c1f06e1a1753bc3fcf1",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/reference/test_run_systemvue_reference.py",
+      "sha256": "7eeeb2f890e59b986fec7eb9af58313f129b73ffccfd924f2f273ff52c396eb5",
+      "unchanged": true
+    },
+    {
+      "path": "measurements_test.obj",
+      "sha256": "4935bda18e7d8471560016c7303f3b7136842ab2ec429975440c7d617de3d97f",
+      "unchanged": true
+    },
+    {
+      "path": "verify-measurements.cmd",
+      "sha256": "c629d73c222dad5768c3c33c88a66eea99daf012dc79885f6cd7a7f0cebf7f7f",
+      "unchanged": true
+    }
+  ],
+  "systemvue_calls_this_stage": 0,
+  "systemvue_calls_used_total": 24,
+  "vendor_compatibility_upgraded": false,
+  "remaining_boundaries": [
+    "C/Python/JSON per-channel mixed-reference conversion input and result metadata",
+    "Mixed-reference nonlinear operating points and physical LO driving",
+    "SystemVue ZPORT/CS, conversion/noise conventions and path-budget acceptance",
+    "General device DC bias and linearization",
+    "Full RF Design device implementation and release acceptance"
+  ],
+  "goal_complete": false
+}

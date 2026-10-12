@@ -63,9 +63,16 @@ public:
     }
 
     std::size_t add(ConversionDevice device) {
+        if (device.model.reference_ohms() != reference_) {
+            throw std::invalid_argument("conversion device reference differs");
+        }
+        return add_power_waves(std::move(device));
+    }
+
+    std::size_t add_power_waves(ConversionDevice device) {
         const auto n = device.model.channels().size();
-        if (device.model.spacing_hz() != spacing_ || device.model.reference_ohms() != reference_ ||
-            n > 512 - total_ || device.source.size() != n || device.reflection.size() != n) {
+        if (device.model.spacing_hz() != spacing_ || n > 512 - total_ ||
+            device.source.size() != n || device.reflection.size() != n) {
             throw std::invalid_argument("conversion device grid/reference/size differs");
         }
         for (const auto *matrix : {&device.source_noise.covariance,
@@ -88,6 +95,23 @@ public:
         const auto zero = model.zero_noise();
         return add(
             {std::move(model), std::vector<Complex>(n), std::vector<Complex>(n), zero, zero});
+    }
+
+    std::size_t add_power_waves(FrequencyConversionModel model) {
+        const auto n = model.channels().size();
+        const auto zero = model.zero_noise();
+        return add_power_waves(
+            {std::move(model), std::vector<Complex>(n), std::vector<Complex>(n), zero, zero});
+    }
+
+    std::vector<Complex> reference_impedances_ohms() const {
+        std::vector<Complex> result;
+        result.reserve(total_);
+        for (const auto &device : devices_) {
+            const auto &local = device.model.reference_impedances_ohms();
+            result.insert(result.end(), local.begin(), local.end());
+        }
+        return result;
     }
 
     void connect(std::size_t first_device,
@@ -158,7 +182,8 @@ public:
                 }
             }
         }
-        const FrequencyConversionModel combined(spacing_, channels, a, b, reference_);
+        const FrequencyConversionModel combined(
+            spacing_, channels, a, b, reference_impedances_ohms());
         if (additional_source_noise) {
             combined.validate_noise(source_noise);
             combined.validate_noise(*additional_source_noise);
@@ -299,11 +324,15 @@ public:
 
 // Stationary linear S/noise samples become independent frequency blocks. DC
 // covariance is real and has P=C; positive-frequency stationary noise has P=0.
-inline ConversionDevice lift_linear_conversion(double spacing_hz,
-                                               const std::vector<int> &bins,
-                                               const std::vector<SMatrix> &samples,
-                                               const std::vector<NoiseCorrelation> &noise,
-                                               double reference_ohms = 50.) {
+inline ConversionDevice
+lift_linear_conversion(double spacing_hz,
+                       const std::vector<int> &bins,
+                       const std::vector<SMatrix> &samples,
+                       const std::vector<NoiseCorrelation> &noise,
+                       const std::vector<std::vector<Complex>> &references) {
+    if (references.size() != bins.size()) {
+        throw std::invalid_argument("one reference vector required per linear sample");
+    }
     if (bins.empty() || bins.size() > 512 || samples.size() != bins.size() ||
         noise.size() != bins.size()) {
         throw std::invalid_argument("invalid lifted linear sample count");
@@ -316,7 +345,11 @@ inline ConversionDevice lift_linear_conversion(double spacing_hz,
     auto a = conversion_detail::zero(count), b = a;
     ConversionNoise intrinsic{a, a}, source_noise{a, a};
     std::vector<ConversionChannel> channels;
+    std::vector<Complex> channel_references;
     for (std::size_t k = 0; k < bins.size(); ++k) {
+        power_wave_detail::references(references[k], ports);
+        channel_references.insert(
+            channel_references.end(), references[k].begin(), references[k].end());
         if (bins[k] < 0 || (k && bins[k] <= bins[k - 1])) {
             throw std::invalid_argument("linear bins must increase");
         }
@@ -337,11 +370,31 @@ inline ConversionDevice lift_linear_conversion(double spacing_hz,
             }
         }
     }
-    FrequencyConversionModel model(spacing_hz, channels, a, b, reference_ohms);
+    FrequencyConversionModel model(spacing_hz, channels, a, b, channel_references);
     return {std::move(model),
             std::vector<Complex>(count),
             std::vector<Complex>(count),
             source_noise,
             intrinsic};
+}
+
+inline ConversionDevice lift_linear_conversion(double spacing_hz,
+                                               const std::vector<int> &bins,
+                                               const std::vector<SMatrix> &samples,
+                                               const std::vector<NoiseCorrelation> &noise,
+                                               double reference_ohms = 50.) {
+    if (bins.empty() || bins.size() > 512 || samples.size() != bins.size() ||
+        noise.size() != bins.size() || !samples.front().ports ||
+        samples.front().ports > 512 / bins.size() || !std::isfinite(reference_ohms) ||
+        reference_ohms <= 0.) {
+        throw std::invalid_argument("invalid lifted linear samples/reference");
+    }
+    return lift_linear_conversion(
+        spacing_hz,
+        bins,
+        samples,
+        noise,
+        std::vector<std::vector<Complex>>(
+            bins.size(), std::vector<Complex>(samples.front().ports, reference_ohms)));
 }
 } // namespace rfmodel

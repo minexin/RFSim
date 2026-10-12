@@ -95,6 +95,9 @@ if(RFMODEL_BUILD_C_API)
         find_package(Python3 3.9 COMPONENTS Interpreter QUIET)
     endif()
     if(Python3_Interpreter_FOUND)
+        add_test(NAME conversion_power_wave_example_test COMMAND ${Python3_EXECUTABLE}
+            ${CMAKE_CURRENT_SOURCE_DIR}/scripts/verify-conversion-power-wave-example.py
+            --executable $<TARGET_FILE:mixed_reference_conversion_example>)
         add_test(NAME power_wave_stages_python_test COMMAND ${Python3_EXECUTABLE}
             ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_power_wave_stages.py $<TARGET_FILE:rfmodel_c>)
         add_test(NAME python_api_test COMMAND ${Python3_EXECUTABLE}
@@ -427,6 +430,14 @@ add_test(NAME butterworth_filter_test COMMAND butterworth_filter_test)
 add_executable(chebyshev_filter_test tests/chebyshev_filter_test.cpp)
 target_link_libraries(chebyshev_filter_test PRIVATE rfmodel)
 add_test(NAME chebyshev_filter_test COMMAND chebyshev_filter_test)
+
+add_executable(mixed_reference_conversion_example examples/mixed_reference_conversion.cpp)
+target_link_libraries(mixed_reference_conversion_example PRIVATE rfmodel)
+add_test(NAME mixed_reference_conversion_example COMMAND mixed_reference_conversion_example)
+
+add_executable(conversion_power_wave_test tests/conversion_power_wave_test.cpp)
+target_link_libraries(conversion_power_wave_test PRIVATE rfmodel)
+add_test(NAME conversion_power_wave_test COMMAND conversion_power_wave_test)
 
 add_executable(frequency_conversion_test tests/frequency_conversion_test.cpp)
 target_link_libraries(frequency_conversion_test PRIVATE rfmodel)

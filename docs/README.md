@@ -107,3 +107,5 @@
 [1 dB 衰减器离线复核](systemvue-attenuator-offline-audit.md)：确切 ATTN_Linear 参数/API 映射、原阈值失败重放和独立噪声预算。
 
 - [RF 线性阶段的混合参考接线](power-wave-stages.md)
+
+- [原生变频网络的复功率波参考](conversion-power-wave.md)

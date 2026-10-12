@@ -140,10 +140,14 @@ with library.network(50) as network:
 
 可运行输入见 [mixed-reference-network.json](../examples/mixed-reference-network.json)：两个串联电阻在两个频率使用不同内部复参考，同时计算信号和加载噪声。新测试还覆盖显式局部 S、跨器件复相关噪声、Touchstone 噪声/NF、内部物理负载、输出重归一化、CLI 失败保护和新 C ABI 缓冲区错误。
 
-后续[RF 线性阶段](power-wave-stages.md)已支持常量局部复参考，并在阶段边界转换回公共实参考；新增网络快照可供既有传播接口使用。原传播入口直接接收混合参考网络仍会拒绝，变频图独立复参考尚未接入。SystemVue ZPORT/CS 与通用 DC 线性化仍待验收，A05 继续开放。
+后续[RF 线性阶段](power-wave-stages.md)已支持常量局部复参考，并在阶段边界转换回公共实参考；新增网络快照可供既有传播接口使用。原传播入口直接接收混合参考网络仍会拒绝，变频图跨语言独立复参考尚未接入。SystemVue ZPORT/CS 与通用 DC 线性化仍待验收，A05 继续开放。
 
 ### 跨语言接口工程验证（2026-10-12）
 
 [本阶段机读记录](../validation/mixed-reference-api-validation-20261012.json)保存源码、构建/测试日志、安装库、新 wheel 与实际 CLI 示例输出的 SHA256。Windows MSVC 和 Ubuntu WSL2 GCC 均执行 Debug/Release clean-first 全目标构建；四组 CTest 各 132/132、安装 C/C++ 消费者各 2/2。新 wheel 从独立安装目录加载对应原生库，四组各通过 24 组 392 项、零跳过，其中混合参考新套件 13 项，每组核查 66 次 CLI 调用的安装来源。
 
 安装后的 Windows Debug CLI 运行公开例子，两个频点的 S21=0.5，并从输出的局部波与参考重建电压电流，连接连续性误差小于 1e-12。157 个 C/C++ 文件格式检查通过。原有八份未提交文件哈希未变；全量 CTest 包含这些参考脚本草稿，不能当作纯净提交检出。没有新增 SystemVue 分析、推送、macOS 或远程 CI 执行。
+
+后续原生 C++ 已支持[变频网络逐通道复参考](conversion-power-wave.md)，包括 A/B、偏置和 C/P 联合转换及内部物理接线；变频 C/Python/JSON 扩展输入与混合参考非线性工作点仍未开放。
+
+变频复参考阶段还修正了大阻抗比下内生噪声传递的相消：普通 S 变换的噪声系数改用逆坐标方程直接求解；既有 C/Python 线性重归一化调用同一原生实现。参见[数值契约及独立回归](conversion-power-wave.md)。

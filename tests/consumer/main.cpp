@@ -1,5 +1,6 @@
 #include "rfmodel/monte_carlo.hpp"
 #include "rfmodel/power_wave_network.hpp"
+#include "rfmodel/conversion_power_wave.hpp"
 #include "rfmodel/optimization.hpp"
 #include "rfmodel/conversion_frequency_plan.hpp"
 #include "rfmodel/am_pm_linearization.hpp"
@@ -48,6 +49,25 @@
 #include <rfmodel/term_propagation.hpp>
 
 int main() {
+    {
+        const rfmodel::FrequencyConversionModel model(1e9, {{0, 1}}, {1, {.2}}, {1, {.1}});
+        const auto changed = rfmodel::renormalize_power_waves(model, {{75., 10.}});
+        const auto zero = model.zero_noise();
+        const auto boundary = rfmodel::renormalize_conversion_boundary(
+            model, {{75., 10.}}, {0}, {rfmodel::Complex{.01, .02}}, {0.}, zero);
+        rfmodel::FrequencyConversionNetwork network(1e9);
+        network.add_power_waves(
+            {changed.model, boundary.source, boundary.reflection, boundary.source_noise, zero});
+        const auto result = network.analyze();
+        const rfmodel::Complex z{75., 10.};
+        const auto voltage =
+            (std::conj(z) * result.incident[0] + z * result.outgoing[0]) / std::sqrt(z.real());
+        const auto current = (result.incident[0] - result.outgoing[0]) / std::sqrt(z.real());
+        const auto common = (voltage - 50. * current) / (2. * std::sqrt(50.));
+        if (std::abs(common - rfmodel::Complex{.003, .002}) > 1e-12) {
+            return 92;
+        }
+    }
     {
         rfmodel::LinearNetwork local;
         local.add_power_waves({2, {0., 1., 1., 0.}}, {25., 100.});

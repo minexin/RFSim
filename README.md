@@ -117,3 +117,5 @@ Windows 本机可运行 `scripts/build-msvc.ps1` 自动定位已有 VS 工具链
 [RF Design 参数清单](docs/rf-design-catalog.md)新增全部 281 模型的 3,404 条参数记录，保留默认值、单位、源位置及异常复核项；独立 DOM 全量核对通过，逐模型 API 适配和厂商行为验收仍待完成。
 
 [RF 线性阶段的混合参考](docs/power-wave-stages.md)支持相干系统、频谱链及失真来源后级中的逐端口复参考接线，并在阶段边界统一波坐标；C++/C/Python 新增独立网络快照，含 RC 谐波传播与物理守恒回归。
+
+- [原生变频网络的复功率波参考](docs/conversion-power-wave.md)

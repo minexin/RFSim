@@ -2,6 +2,7 @@
 #include "device_model.hpp"
 #include "network_parameters.hpp"
 #include "noise_matrix.hpp"
+#include "power_wave_reference.hpp"
 #include <algorithm>
 #include <cmath>
 #include <limits>
@@ -246,23 +247,9 @@ public:
         if (p == q) {
             throw std::invalid_argument("cannot connect port to itself");
         }
-        const auto zp = references_[p], zq = references_[q];
-        // Vp=Vq and Ip=-Iq, with currents directed into the devices.
-        // Scaling avoids overflow in Zp+Zq and in sqrt(Rp*Rq).
-        const double scale =
-            std::max({zp.real(), zq.real(), std::abs(zp.imag()), std::abs(zq.imag())});
-        const auto up = zp / scale, uq = zq / scale;
-        const auto denominator = std::conj(up + uq);
-        const auto coupling = (2. * (std::sqrt(zp.real()) / std::sqrt(scale)) *
-                               (std::sqrt(zq.real()) / std::sqrt(scale))) /
-                              denominator;
-        const auto rp = (std::conj(uq) - up) / denominator;
-        const auto rq = (std::conj(up) - uq) / denominator;
-        if (!finite(rp) || !finite(rq) || !finite(coupling)) {
-            throw std::runtime_error("power-wave connection coefficient overflow");
-        }
-        boundaries_[p] = {q, rp, {}, true, coupling};
-        boundaries_[q] = {p, rq, {}, true, coupling};
+        const auto wire = power_wave_detail::connection(references_[p], references_[q]);
+        boundaries_[p] = {q, wire.first_reflection, {}, true, wire.coupling};
+        boundaries_[q] = {p, wire.second_reflection, {}, true, wire.coupling};
     }
 
     // a[p] = source + reflection * b[p]. Matched termination: both zero.

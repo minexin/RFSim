@@ -83,4 +83,6 @@ python scripts/verify-power-wave-stage-example.py `
 
 C 专项检查失败原子性、输出别名、已有句柄不被覆盖及独立生命周期。Python 16 项回归涵盖 RC 独立解析、三端口锁相/独立源合路、Touchstone、混频新增频点、多项式/高阶来源传播、内存异常释放、非法/空输入和 CLI 输出保留。完整本地、安装 wheel、旧 C 二进制及远程验证以[本阶段机读记录](../validation/power-wave-stage-validation-20261012.json)和对应提交 CI 为准。
 
-这些是物理及工程回归。SystemVue ZPORT/CS、厂商路径预算、变频图复参考和通用器件 DC 工作点仍未验收，A05 整项保持开放。
+这些是物理及工程回归。SystemVue ZPORT/CS、厂商路径预算、变频图跨语言复参考、混合参考非线性工作点和通用器件 DC 工作点仍未验收，A05 整项保持开放。
+
+后续原生 C++ 已支持[变频网络逐通道复参考](conversion-power-wave.md)，包括 A/B、偏置和 C/P 联合转换及内部物理接线；变频 C/Python/JSON 扩展输入与混合参考非线性工作点仍未开放。

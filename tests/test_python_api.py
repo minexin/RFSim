@@ -136,6 +136,16 @@ class PythonApiTests(unittest.TestCase):
                 self.assertAlmostEqual(z[0][0], load_impedance)
                 self.assertAlmostEqual(y[0][0], 1 / load_impedance)
 
+    def test_power_wave_noise_preserves_small_transfer_at_wide_references(self):
+        # A physical one-ohm matched device with unit intrinsic wave variance.
+        # Its transformed Norton source factor is 2*sqrt(Re Z)/(1+Z).
+        for reference in (1e-24, 1e-24+3e-25j, 1e-12, 1e12, 1e24, 1e24+3e23j):
+            with self.subTest(reference=reference):
+                result = self.library.renormalize_power_waves([[0]], [1], [reference], noise=[[1]])
+                factor = 2 * math.sqrt(complex(reference).real) / (1 + reference)
+                expected = abs(factor)**2
+                self.assertLess(abs(result.noise_correlation[0][0] / expected - 1), 1e-12)
+
     def test_power_wave_noise_and_roundtrip(self):
         scattering = ((0.1j, 0.3), (0.4j, -0.1))
         old, new = [50, 50], [25 + 10j, 100 - 15j]

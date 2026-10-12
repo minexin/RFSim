@@ -88,3 +88,5 @@ python -m rfmodel examples/filtered-conversion-network.json --library build-msvc
 绝对波器件偏置和 linearized_real_mixer 装配见[仿射网络](affine-conversion.md)；原默认转换矩阵分析保持不变。
 
 [结构频率规划](conversion-frequency-plan.md)已提供 C++/C/Python 规则入口和 JSON frequency_plan，包含高阶 generating_bins 的显式选择、种子统计量映射与新增边界。自动高阶反馈示例见 [auto-frequency-highorder-feedback.json](../examples/auto-frequency-highorder-feedback.json)。
+
+后续原生 C++ 已支持[变频网络逐通道复参考](conversion-power-wave.md)，包括 A/B、偏置和 C/P 联合转换及内部物理接线；变频 C/Python/JSON 扩展输入与混合参考非线性工作点仍未开放。

@@ -1,6 +1,7 @@
 #pragma once
 #include "network_parameters.hpp"
 #include "noise_matrix.hpp"
+#include "power_wave_reference.hpp"
 #include <set>
 #include <limits>
 
@@ -83,9 +84,10 @@ inline ConversionNoise complex_noise(const SMatrix &q) {
 } // namespace conversion_detail
 
 // Fixed-pump, finite-channel model b=A*a+B*conj(a)+c. Channels retain physical
-// port and frequency identity. All waves use a common positive real reference.
+// port and frequency identity. Waves retain their per-channel power-wave references.
 class FrequencyConversionModel {
     double spacing_, reference_;
+    std::vector<Complex> references_;
     std::vector<ConversionChannel> channels_;
     SMatrix direct_, conjugate_, quadrature_;
 
@@ -126,12 +128,33 @@ public:
                              SMatrix direct,
                              SMatrix conjugate,
                              double reference_ohms = 50.)
-        : spacing_(spacing_hz), reference_(reference_ohms), channels_(std::move(channels)),
+        : FrequencyConversionModel(spacing_hz,
+                                   channels,
+                                   std::move(direct),
+                                   std::move(conjugate),
+                                   std::vector<Complex>(channels.size(), reference_ohms)) {
+    }
+
+    // Matrices and all boundary quantities are already in these coordinates.
+    // DC is a real channel and therefore requires a real reference impedance.
+    FrequencyConversionModel(double spacing_hz,
+                             std::vector<ConversionChannel> channels,
+                             SMatrix direct,
+                             SMatrix conjugate,
+                             std::vector<Complex> references)
+        : spacing_(spacing_hz), reference_(references.empty() ? 0. : references.front().real()),
+          references_(std::move(references)), channels_(std::move(channels)),
           direct_(std::move(direct)), conjugate_(std::move(conjugate)) {
         const auto n = channels_.size();
         if (!n || n > 512 || !std::isfinite(spacing_) || spacing_ <= 0. ||
             !std::isfinite(reference_) || reference_ <= 0.) {
             throw std::invalid_argument("invalid conversion channels or reference");
+        }
+        power_wave_detail::references(references_, n);
+        for (std::size_t i = 0; i < n; ++i) {
+            if (channels_[i].bin == 0 && references_[i].imag() != 0.) {
+                throw std::invalid_argument("DC conversion reference must be real");
+            }
         }
         noise_detail::finite_matrix(direct_);
         noise_detail::finite_matrix(conjugate_);
@@ -176,7 +199,16 @@ public:
     }
 
     double reference_ohms() const {
+        for (const auto value : references_) {
+            if (value != Complex{reference_, 0.}) {
+                throw std::invalid_argument("conversion model has no common real reference");
+            }
+        }
         return reference_;
+    }
+
+    const std::vector<Complex> &reference_impedances_ohms() const {
+        return references_;
     }
 
     const SMatrix &direct() const {
@@ -229,6 +261,8 @@ public:
         auto source_q = quadrature_noise(source_noise);
         auto intrinsic_q = quadrature_noise(intrinsic_noise);
         std::vector<std::size_t> partner(n, n);
+        auto boundary_self = reflection;
+        std::vector<Complex> boundary_other(n);
         for (const auto &connection : connections) {
             const auto a = connection.first, b = connection.second;
             if (a >= n || b >= n || a == b || partner[a] != n || partner[b] != n ||
@@ -237,6 +271,10 @@ public:
             }
             partner[a] = b;
             partner[b] = a;
+            const auto wire = power_wave_detail::connection(references_[a], references_[b]);
+            boundary_self[a] = wire.first_reflection;
+            boundary_self[b] = wire.second_reflection;
+            boundary_other[a] = boundary_other[b] = wire.coupling;
             for (auto index : {a, b}) {
                 if (source[index] != Complex{} || reflection[index] != Complex{}) {
                     throw std::invalid_argument("connected channel cannot have a boundary drive");
@@ -258,13 +296,18 @@ public:
                 (channels_[j].bin == 0 && (source[j].imag() != 0. || reflection[j].imag() != 0.))) {
                 throw std::invalid_argument("invalid conversion boundary or complex DC");
             }
-            const auto destination = partner[j] == n ? j : partner[j];
-            const Complex coefficient = partner[j] == n ? reflection[j] : Complex{1., 0.};
-            for (std::size_t i = 0; i < m; ++i) {
-                equation(i, 2 * destination) -= quadrature_(i, 2 * j) * coefficient.real() +
-                                                quadrature_(i, 2 * j + 1) * coefficient.imag();
-                equation(i, 2 * destination + 1) += quadrature_(i, 2 * j) * coefficient.imag() -
-                                                    quadrature_(i, 2 * j + 1) * coefficient.real();
+            const auto subtract = [&](std::size_t destination, Complex coefficient) {
+                for (std::size_t i = 0; i < m; ++i) {
+                    equation(i, 2 * destination) -= quadrature_(i, 2 * j) * coefficient.real() +
+                                                    quadrature_(i, 2 * j + 1) * coefficient.imag();
+                    equation(i, 2 * destination + 1) +=
+                        quadrature_(i, 2 * j) * coefficient.imag() -
+                        quadrature_(i, 2 * j + 1) * coefficient.real();
+                }
+            };
+            subtract(j, boundary_self[j]);
+            if (partner[j] != n) {
+                subtract(partner[j], boundary_other[j]);
             }
         }
         for (std::size_t i = 0; i < m; ++i) {
@@ -292,8 +335,10 @@ public:
             result.outgoing[i] = {outgoing[2 * i], outgoing[2 * i + 1]};
         }
         for (std::size_t i = 0; i < n; ++i) {
-            result.incident[i] = partner[i] == n ? reflection[i] * result.outgoing[i] + source[i]
-                                                 : result.outgoing[partner[i]];
+            result.incident[i] = boundary_self[i] * result.outgoing[i] + source[i];
+            if (partner[i] != n) {
+                result.incident[i] += boundary_other[i] * result.outgoing[partner[i]];
+            }
             if (!conversion_detail::finite(result.outgoing[i]) ||
                 !conversion_detail::finite(result.incident[i])) {
                 throw std::overflow_error("conversion waves overflow");
@@ -332,12 +377,16 @@ public:
         if (loaded_noise) {
             auto boundary = conversion_detail::zero(m);
             for (std::size_t i = 0; i < n; ++i) {
-                const auto j = partner[i] == n ? i : partner[i];
-                const Complex coefficient = partner[i] == n ? reflection[i] : Complex{1., 0.};
-                boundary(2 * i, 2 * j) = coefficient.real();
-                boundary(2 * i, 2 * j + 1) = -coefficient.imag();
-                boundary(2 * i + 1, 2 * j) = coefficient.imag();
-                boundary(2 * i + 1, 2 * j + 1) = coefficient.real();
+                const auto assign = [&](std::size_t j, Complex coefficient) {
+                    boundary(2 * i, 2 * j) = coefficient.real();
+                    boundary(2 * i, 2 * j + 1) = -coefficient.imag();
+                    boundary(2 * i + 1, 2 * j) = coefficient.imag();
+                    boundary(2 * i + 1, 2 * j + 1) = coefficient.real();
+                };
+                assign(i, boundary_self[i]);
+                if (partner[i] != n) {
+                    assign(partner[i], boundary_other[i]);
+                }
             }
             const auto incident_intrinsic = conversion_detail::multiply(boundary, inverse);
             auto incident_source = conversion_detail::multiply(boundary, transfer);

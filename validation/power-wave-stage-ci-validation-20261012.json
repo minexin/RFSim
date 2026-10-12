@@ -1,0 +1,176 @@
+{
+  "commit": "b9ff55a3471ea0d78cd80e94e1d9f5cc8e330aba",
+  "run_id": 38263890433,
+  "run_url": "https://github.com/minexin/RFSim/actions/runs/38263890433",
+  "status": "completed",
+  "conclusion": "success",
+  "parameter_test_log": {
+    "path": "build-reference/power-wave-stage-ci-full.log",
+    "sha256": "e8b216659dd0662d0082b33e65a2e803882690192212aaa35255de5794f66779"
+  },
+  "configurations": [
+    {
+      "os": "windows-latest",
+      "configuration": "Debug",
+      "parameter_inventory_tests": 15,
+      "ctest": 149,
+      "consumers": 2,
+      "wheel": 478,
+      "suites": 30,
+      "wheel_report": {
+        "path": "build-reference/power-wave-stage-ci-evidence/verification-windows-latest-Debug/installed-python-verification/installed-python-validation.json",
+        "sha256": "d1b4718ac28cc167c4b1289592008ae378bf09debd78260e5c5af355735d0d4f"
+      },
+      "logs": [
+        {
+          "path": "build-reference/power-wave-stage-ci-evidence/verification-windows-latest-Debug/build/Testing/Temporary/LastTest.log",
+          "sha256": "327acbf50b812d22e116e263d95d0754e20727f3be722907182bf5553a0836c4",
+          "passed": 149,
+          "total": 149
+        },
+        {
+          "path": "build-reference/power-wave-stage-ci-evidence/verification-windows-latest-Debug/consumer-build/Testing/Temporary/LastTest.log",
+          "sha256": "f15f9bfe2dc81ec21d41be094b30fc2d0d887320c9efc4289678f78ccbff74a6",
+          "passed": 2,
+          "total": 2
+        }
+      ]
+    },
+    {
+      "os": "windows-latest",
+      "configuration": "Release",
+      "parameter_inventory_tests": 15,
+      "ctest": 149,
+      "consumers": 2,
+      "wheel": 478,
+      "suites": 30,
+      "wheel_report": {
+        "path": "build-reference/power-wave-stage-ci-evidence/verification-windows-latest-Release/installed-python-verification/installed-python-validation.json",
+        "sha256": "881e7674528896aee6322232cb1d082e24c049372a090811c2cb4e24643e96c6"
+      },
+      "logs": [
+        {
+          "path": "build-reference/power-wave-stage-ci-evidence/verification-windows-latest-Release/build/Testing/Temporary/LastTest.log",
+          "sha256": "ba793a98704dcb3426e74b033e7888df4e91a0a39c0a7336a3607dcddb20d0ea",
+          "passed": 149,
+          "total": 149
+        },
+        {
+          "path": "build-reference/power-wave-stage-ci-evidence/verification-windows-latest-Release/consumer-build/Testing/Temporary/LastTest.log",
+          "sha256": "007e1d5b06de3d32a113d36ce17382ae92be379f661125c8a4a3965c6b5a9704",
+          "passed": 2,
+          "total": 2
+        }
+      ]
+    },
+    {
+      "os": "ubuntu-latest",
+      "configuration": "Debug",
+      "parameter_inventory_tests": 15,
+      "ctest": 149,
+      "consumers": 2,
+      "wheel": 478,
+      "suites": 30,
+      "wheel_report": {
+        "path": "build-reference/power-wave-stage-ci-evidence/verification-ubuntu-latest-Debug/installed-python-verification/installed-python-validation.json",
+        "sha256": "64d60935aa7e9273d1d8a6d3dab1c21be8776230bd4a9ab51dbc059348c724da"
+      },
+      "logs": [
+        {
+          "path": "build-reference/power-wave-stage-ci-evidence/verification-ubuntu-latest-Debug/build/Testing/Temporary/LastTest.log",
+          "sha256": "cbc827f6c8488fb18dfa315ce72de874cd70b613c289ac812af3e1a2170999b6",
+          "passed": 149,
+          "total": 149
+        },
+        {
+          "path": "build-reference/power-wave-stage-ci-evidence/verification-ubuntu-latest-Debug/consumer-build/Testing/Temporary/LastTest.log",
+          "sha256": "2886ae00ba159f2f7bae691e9d3928b6d09abe0709a559fbae491a0d809575f6",
+          "passed": 2,
+          "total": 2
+        }
+      ]
+    },
+    {
+      "os": "ubuntu-latest",
+      "configuration": "Release",
+      "parameter_inventory_tests": 15,
+      "ctest": 149,
+      "consumers": 2,
+      "wheel": 478,
+      "suites": 30,
+      "wheel_report": {
+        "path": "build-reference/power-wave-stage-ci-evidence/verification-ubuntu-latest-Release/installed-python-verification/installed-python-validation.json",
+        "sha256": "80c435bf6f5cfcf99086843b61a211af86cad28b759465af42c7dd8de5011f6e"
+      },
+      "logs": [
+        {
+          "path": "build-reference/power-wave-stage-ci-evidence/verification-ubuntu-latest-Release/build/Testing/Temporary/LastTest.log",
+          "sha256": "753fcf9c3c88b0571c6e37276bc6f5cbb9a0b94eea696ae9484bf9a4d73886e3",
+          "passed": 149,
+          "total": 149
+        },
+        {
+          "path": "build-reference/power-wave-stage-ci-evidence/verification-ubuntu-latest-Release/consumer-build/Testing/Temporary/LastTest.log",
+          "sha256": "4474411ecafd584e2435f3e6a680839fa56066257b59fd94af568875fb5a48dd",
+          "passed": 2,
+          "total": 2
+        }
+      ]
+    },
+    {
+      "os": "macos-latest",
+      "configuration": "Debug",
+      "parameter_inventory_tests": 15,
+      "ctest": 149,
+      "consumers": 2,
+      "wheel": 478,
+      "suites": 30,
+      "wheel_report": {
+        "path": "build-reference/power-wave-stage-ci-evidence/verification-macos-latest-Debug/installed-python-verification/installed-python-validation.json",
+        "sha256": "e0dbb5e3d1a4047adcbee44cf8c775ba19ed00bcf26998f631968ff45a2783a6"
+      },
+      "logs": [
+        {
+          "path": "build-reference/power-wave-stage-ci-evidence/verification-macos-latest-Debug/build/Testing/Temporary/LastTest.log",
+          "sha256": "9c202fdd2c3e8bbd8b516cab6b0b7e5aed2d25ba3edf142751f7809c201a100e",
+          "passed": 149,
+          "total": 149
+        },
+        {
+          "path": "build-reference/power-wave-stage-ci-evidence/verification-macos-latest-Debug/consumer-build/Testing/Temporary/LastTest.log",
+          "sha256": "8d58390dbff7adccbd34d13d6686954d771751219f154d8dee1c4673fe6882ef",
+          "passed": 2,
+          "total": 2
+        }
+      ]
+    },
+    {
+      "os": "macos-latest",
+      "configuration": "Release",
+      "parameter_inventory_tests": 15,
+      "ctest": 149,
+      "consumers": 2,
+      "wheel": 478,
+      "suites": 30,
+      "wheel_report": {
+        "path": "build-reference/power-wave-stage-ci-evidence/verification-macos-latest-Release/installed-python-verification/installed-python-validation.json",
+        "sha256": "8768daa23ce93583d589d8aab30b02b5bb2af323b4aafb3c3110872355c94a0f"
+      },
+      "logs": [
+        {
+          "path": "build-reference/power-wave-stage-ci-evidence/verification-macos-latest-Release/build/Testing/Temporary/LastTest.log",
+          "sha256": "77ff90fe7b92991ba3d14dc02f255d7afe8d23162cc46124d7a1ac357435142c",
+          "passed": 149,
+          "total": 149
+        },
+        {
+          "path": "build-reference/power-wave-stage-ci-evidence/verification-macos-latest-Release/consumer-build/Testing/Temporary/LastTest.log",
+          "sha256": "eef0e3d351e12e4e72c33c2a41286a3f302ec6de1dfdd801ea09c7093e8c50e1",
+          "passed": 2,
+          "total": 2
+        }
+      ]
+    }
+  ],
+  "scope": "Same-commit clean checkouts: 149 native/CLI/Python CTest cases, 2 installed C/C++ consumers, 478 installed-wheel tests in 30 suites including 16 power-wave-stage tests. This verifies the final Python cleanup improvement together with rebuilt native code. No vendor simulation or compatibility upgrade."
+}

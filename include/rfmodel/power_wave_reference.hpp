@@ -15,6 +15,48 @@ inline void references(const std::vector<Complex> &values, std::size_t ports) {
     }
 }
 
+struct Connection {
+    Complex first_reflection, second_reflection, coupling;
+};
+
+// Vp=Vq and Ip=-Iq, with currents directed into each device. Inputs have
+// already been validated. Scale before adding impedances or multiplying roots.
+inline Connection connection(Complex first, Complex second) {
+    const double scale =
+        std::max({first.real(), second.real(), std::abs(first.imag()), std::abs(second.imag())});
+    const auto p = first / scale, q = second / scale;
+    const auto denominator = std::conj(p + q);
+    const auto coupling = (2. * (std::sqrt(first.real()) / std::sqrt(scale)) *
+                           (std::sqrt(second.real()) / std::sqrt(scale))) /
+                          denominator;
+    Connection result{(std::conj(q) - p) / denominator, (std::conj(p) - q) / denominator, coupling};
+    for (const auto value : {result.first_reflection, result.second_reflection, result.coupling}) {
+        if (!std::isfinite(value.real()) || !std::isfinite(value.imag())) {
+            throw std::runtime_error("power-wave connection coefficient overflow");
+        }
+    }
+    return result;
+}
+
+struct Coordinates {
+    Complex incident_from_incident, incident_from_outgoing;
+    Complex outgoing_from_incident, outgoing_from_outgoing;
+};
+
+// New waves in terms of old waves at the same physical V/I. Both impedances
+// have positive real parts. Splitting the imaginary ratio avoids root products.
+inline Coordinates coordinates(Complex old_reference, Complex new_reference) {
+    const double old_root = std::sqrt(old_reference.real());
+    const double new_root = std::sqrt(new_reference.real());
+    const double ratio = old_root / new_root, inverse = new_root / old_root;
+    const double large = std::max(old_root, new_root), small = std::min(old_root, new_root);
+    const double imaginary =
+        .5 * (new_reference.imag() / large) / small - .5 * (old_reference.imag() / large) / small;
+    const Complex a{.5 * ratio + .5 * inverse, imaginary};
+    const Complex b{.5 * ratio - .5 * inverse, -imaginary};
+    return {a, b, std::conj(b), std::conj(a)};
+}
+
 inline SMatrix transpose(const SMatrix &m) {
     SMatrix result{m.ports, std::vector<Complex>(m.values.size())};
     for (std::size_t row = 0; row < m.ports; ++row) {
@@ -65,20 +107,14 @@ renormalize_power_waves(const SMatrix &s,
     power_wave_detail::references(old_references, s.ports);
     power_wave_detail::references(new_references, s.ports);
     SMatrix incident{s.ports, std::vector<Complex>(s.values.size())}, outgoing = incident;
-    std::vector<Complex> b(s.ports), d(s.ports);
+    std::vector<Complex> a_diagonal(s.ports), b(s.ports), d(s.ports);
     for (std::size_t row = 0; row < s.ports; ++row) {
-        const double old_root = std::sqrt(old_references[row].real());
-        const double new_root = std::sqrt(new_references[row].real());
-        const double ratio = old_root / new_root;
-        const double inverse = new_root / old_root;
-        const double large = std::max(old_root, new_root);
-        const double small = std::min(old_root, new_root);
-        const double imaginary = .5 * (new_references[row].imag() / large) / small -
-                                 .5 * (old_references[row].imag() / large) / small;
-        const Complex a{.5 * ratio + .5 * inverse, imaginary};
-        b[row] = {.5 * ratio - .5 * inverse, -imaginary};
-        const Complex c = std::conj(b[row]);
-        d[row] = std::conj(a);
+        const auto change =
+            power_wave_detail::coordinates(old_references[row], new_references[row]);
+        const auto a = change.incident_from_incident, c = change.outgoing_from_incident;
+        a_diagonal[row] = a;
+        b[row] = change.incident_from_outgoing;
+        d[row] = change.outgoing_from_outgoing;
         for (std::size_t column = 0; column < s.ports; ++column) {
             const double identity = row == column ? 1. : 0.;
             incident(row, column) = a * identity + b[row] * s(row, column);
@@ -86,14 +122,19 @@ renormalize_power_waves(const SMatrix &s,
         }
     }
     auto changed = power_wave_detail::right_solve(incident, outgoing, 1.);
-    SMatrix transfer{s.ports, std::vector<Complex>(s.values.size())};
+    // Inverse coordinates give (A+S*B)*b_new=(C+S*D)*a_new+c_old.
+    // Compute the noise transfer by a solve, not D-S_new*B: that subtraction
+    // can erase a small finite transfer at very different reference impedances.
+    SMatrix equation{s.ports, std::vector<Complex>(s.values.size())}, identity = equation;
     for (std::size_t row = 0; row < s.ports; ++row) {
         for (std::size_t column = 0; column < s.ports; ++column) {
-            transfer(row, column) =
-                (row == column ? d[row] : Complex{}) - changed(row, column) * b[column];
+            equation(row, column) =
+                (row == column ? a_diagonal[row] : Complex{}) + s(row, column) * b[column];
         }
+        identity(row, row) = 1.;
     }
-    noise_detail::finite_matrix(transfer);
+    noise_detail::finite_matrix(equation);
+    auto transfer = parameter_detail::solve(equation, identity, 1.);
     return {std::move(changed), std::move(transfer)};
 }
 
