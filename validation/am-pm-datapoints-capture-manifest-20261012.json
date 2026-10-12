@@ -1,0 +1,223 @@
+{
+  "profiles": [
+    {
+      "name": "interpolation-boundary",
+      "power_dbm": [
+        0,
+        10,
+        20
+      ],
+      "phase_deg": [
+        10,
+        40,
+        -20
+      ],
+      "output_targets_dbm": [
+        -5,
+        0,
+        5,
+        9.999,
+        10,
+        10.001,
+        15,
+        20,
+        25
+      ],
+      "source_phase_deg": 0
+    },
+    {
+      "name": "wrap",
+      "power_dbm": [
+        0,
+        10
+      ],
+      "phase_deg": [
+        170,
+        -170
+      ],
+      "output_targets_dbm": [
+        0,
+        5,
+        10
+      ],
+      "source_phase_deg": 0
+    },
+    {
+      "name": "unwrapped-equivalent",
+      "power_dbm": [
+        0,
+        10
+      ],
+      "phase_deg": [
+        170,
+        190
+      ],
+      "output_targets_dbm": [
+        0,
+        5,
+        10
+      ],
+      "source_phase_deg": 0
+    },
+    {
+      "name": "full-turn",
+      "power_dbm": [
+        0,
+        10
+      ],
+      "phase_deg": [
+        10,
+        370
+      ],
+      "output_targets_dbm": [
+        0,
+        5,
+        10
+      ],
+      "source_phase_deg": 0
+    },
+    {
+      "name": "source-phase-offset",
+      "power_dbm": [
+        0,
+        10,
+        20
+      ],
+      "phase_deg": [
+        20,
+        20,
+        20
+      ],
+      "output_targets_dbm": [
+        5
+      ],
+      "source_phase_deg": 30
+    },
+    {
+      "name": "natural-cubic-followup",
+      "power_dbm": [
+        0,
+        10,
+        20
+      ],
+      "phase_deg": [
+        10,
+        40,
+        -20
+      ],
+      "output_targets_dbm": [
+        2.5,
+        0.001
+      ],
+      "source_phase_deg": 0
+    }
+  ],
+  "captures": [
+    {
+      "profile": "interpolation-boundary",
+      "path": "build-reference/a01-interpolation-boundary-20261012T060815Z-1c8f7c97/point-00.json",
+      "sha256": "257d5a5a6aa42d5de4c2e3dd3f9ea732fb5fafbf9ff49635f7bac19c3267c7a2"
+    },
+    {
+      "profile": "interpolation-boundary",
+      "path": "build-reference/a01-interpolation-boundary-20261012T060815Z-1c8f7c97/point-01.json",
+      "sha256": "4878104b504f04c2cad74c38ce4c94935155bab25cdf894bb7f8ab39437c6b28"
+    },
+    {
+      "profile": "interpolation-boundary",
+      "path": "build-reference/a01-interpolation-boundary-20261012T060815Z-1c8f7c97/point-02.json",
+      "sha256": "b6be460c5db88e19f95e76728c5fc6ee2bc123167df159118d5ad79564e9e2b3"
+    },
+    {
+      "profile": "interpolation-boundary",
+      "path": "build-reference/a01-interpolation-boundary-20261012T060815Z-1c8f7c97/point-03.json",
+      "sha256": "9105db392508718143a7a03680c73c6b60df6b5a2c83f02d2b7493fca957eb91"
+    },
+    {
+      "profile": "interpolation-boundary",
+      "path": "build-reference/a01-interpolation-boundary-20261012T060815Z-1c8f7c97/point-04.json",
+      "sha256": "4a4faadf8d9a4d4ac9be78fa90c0c659480929531ba81eca211b846722e558bf"
+    },
+    {
+      "profile": "interpolation-boundary",
+      "path": "build-reference/a01-interpolation-boundary-20261012T060815Z-1c8f7c97/point-05.json",
+      "sha256": "89c315c50a34f4d9f1677ffd338305b97ff77f9e0b7550a782581c5ef8889b60"
+    },
+    {
+      "profile": "interpolation-boundary",
+      "path": "build-reference/a01-interpolation-boundary-20261012T060815Z-1c8f7c97/point-06.json",
+      "sha256": "8dd26f2d882cafedd5c193638a0ed93ed91144198a719f4b181b459aa372aa4d"
+    },
+    {
+      "profile": "interpolation-boundary",
+      "path": "build-reference/a01-interpolation-boundary-20261012T060815Z-1c8f7c97/point-07.json",
+      "sha256": "388a5a9eea4e9aaa1fe2f9072670f4afa3a0185ea251a2a0ac9c2198cd2b7f9d"
+    },
+    {
+      "profile": "interpolation-boundary",
+      "path": "build-reference/a01-interpolation-boundary-20261012T060815Z-1c8f7c97/point-08.json",
+      "sha256": "555c923d518a06ed611b1e42eae43dc18d2fba43d5f8107f6ee336ffa3c2d4c8"
+    },
+    {
+      "profile": "wrap",
+      "path": "build-reference/a01-wrap-20261012T061121Z-af388279/point-00.json",
+      "sha256": "b346388f0611623a2321bfbd182a3ec6eab83d1782e9458a87c18160c1dcab8a"
+    },
+    {
+      "profile": "wrap",
+      "path": "build-reference/a01-wrap-20261012T061121Z-af388279/point-01.json",
+      "sha256": "5ef7792d254be1a8d75f04830fa7c07f0faab51cc78fc5c845b911f73e5fe63a"
+    },
+    {
+      "profile": "wrap",
+      "path": "build-reference/a01-wrap-20261012T061121Z-af388279/point-02.json",
+      "sha256": "e0390d3c98a7290d009d6deed6d1d4f4d5f2957dbe9574fc24f1dc3c29983099"
+    },
+    {
+      "profile": "unwrapped-equivalent",
+      "path": "build-reference/a01-unwrapped-equivalent-20261012T061222Z-166202ef/point-00.json",
+      "sha256": "46aadeb5bc270f43b56d953f05fffccf28492e240dd3b5f43879d830efbb50cd"
+    },
+    {
+      "profile": "unwrapped-equivalent",
+      "path": "build-reference/a01-unwrapped-equivalent-20261012T061222Z-166202ef/point-01.json",
+      "sha256": "ec2be2632e7f404e21039268e44f93864e61cd25d804b85002e3b93eba5a5ac2"
+    },
+    {
+      "profile": "unwrapped-equivalent",
+      "path": "build-reference/a01-unwrapped-equivalent-20261012T061222Z-166202ef/point-02.json",
+      "sha256": "64a7bb1a7240d6e9857de0e30300c3f054dec963473fc1d1aa003ad772fe40fe"
+    },
+    {
+      "profile": "full-turn",
+      "path": "build-reference/a01-full-turn-20261012T061342Z-dfcac868/point-00.json",
+      "sha256": "8ea57d1d47729640596cc8eb69ba4564ff5bff374a3f06b39876d7b1ebe8509e"
+    },
+    {
+      "profile": "full-turn",
+      "path": "build-reference/a01-full-turn-20261012T061342Z-dfcac868/point-01.json",
+      "sha256": "57c3c4cc0b5f2f40dec37926f0778cf18e814bd8f1cdfd953f706aeb12ff8e08"
+    },
+    {
+      "profile": "full-turn",
+      "path": "build-reference/a01-full-turn-20261012T061342Z-dfcac868/point-02.json",
+      "sha256": "5c3c344ed177caad60881689fe0e81d167a8f7b03cffdf9a2dd2dd31c2703efd"
+    },
+    {
+      "profile": "source-phase-offset",
+      "path": "build-reference/a01-source-phase-offset-20261012T061355Z-512b16cd/point-00.json",
+      "sha256": "41f3c5d232bb43e396d062f740533f43a9dfd4093b6937f44e9c0023278b6a30"
+    },
+    {
+      "profile": "natural-cubic-followup",
+      "path": "build-reference/a01-natural-cubic-followup-20261012T061516Z-fdb19731/point-00.json",
+      "sha256": "bc1bf76f80741a68765dffddd05412b2c4735ae766acaa53462a50bfad38fcbe"
+    },
+    {
+      "profile": "natural-cubic-followup",
+      "path": "build-reference/a01-recover-followup-20261012T061641Z-be0cb327/recovered-point.json",
+      "sha256": "19367fc150fa04f038abce18781092ef69d53079a6ed9f0fc9e9460f6e70bee3"
+    }
+  ],
+  "diagnostic_phase_absolute_tolerance_degrees": 1e-05
+}

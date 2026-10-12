@@ -63,6 +63,8 @@ if(RFMODEL_BUILD_C_API)
             ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_python_api.py $<TARGET_FILE:rfmodel_c>)
         add_test(NAME linear_noise_analysis_file_test COMMAND ${Python3_EXECUTABLE}
             ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_linear_noise_analysis.py $<TARGET_FILE:rfmodel_c>)
+        add_test(NAME am_pm_datapoints_hypotheses_test COMMAND ${Python3_EXECUTABLE}
+            ${CMAKE_CURRENT_SOURCE_DIR}/scripts/reference/test_analyze_am_pm_datapoints.py)
         add_test(NAME offline_attenuator_diagnostic_test COMMAND ${Python3_EXECUTABLE}
             ${CMAKE_CURRENT_SOURCE_DIR}/scripts/reference/test_diagnose_attenuator_1db.py $<TARGET_FILE:reference_attenuator>)
         add_test(NAME am_pm_operating_point_file_test COMMAND ${Python3_EXECUTABLE}

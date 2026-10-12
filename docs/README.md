@@ -26,6 +26,7 @@
 - [线性网络 JSON 文件与批处理](linear-model-file.md)
 - [能力边界与验收矩阵](acceptance-matrix.md)
 - [2026-10-12 剩余验收审计与闭合条件](acceptance-audit-20261012.md)
+- [A01 DataPoints 实测辨识与零 dBm 反例](systemvue-am-pm-datapoints-a01.md)
 - [有阻抗失配的均匀传输线](transmission-line.md)
 - [分布参数 RLGC 传输线](rlgc-transmission-line.md)
 - [理想功分/合路器和正交耦合器](multiport-devices.md)

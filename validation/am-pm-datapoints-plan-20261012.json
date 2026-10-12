@@ -1,0 +1,149 @@
+{
+  "registered_utc": "2026-10-12T05:47:32.162818+00:00",
+  "baseline_required": true,
+  "max_analysis_calls": 24,
+  "planned_baseline_calls": 2,
+  "planned_diagnostic_calls": 19,
+  "per_helper_timeout_seconds": 120,
+  "baseline_phase_absolute_tolerance_degrees": 1e-05,
+  "baseline_power_relative_tolerance": 1e-07,
+  "diagnostic_phase_absolute_tolerance_degrees": 1e-05,
+  "design": "Single source 100 MHz, baseline first. Diagnostic DataPoints only; G=20 dB, OP1dB=100 dBm, OPSAT=103 dBm, OIP2=140 dBm, OIP3=130 dBm to isolate phase lookup; original settings restored each helper.",
+  "actual_axis": "Use measured output DCP converted W->dBm. Source setpoint minus/plus gain is not accepted as actual output.",
+  "hypotheses": {
+    "interpolation": [
+      "linear dBm",
+      "linear watt",
+      "linear voltage amplitude",
+      "other smooth interpolation"
+    ],
+    "phase": [
+      "raw numeric angle interpolation",
+      "unwrap/shortest-angle interpolation",
+      "complex phasor interpolation"
+    ],
+    "outside_table": [
+      "constant endpoint",
+      "linear extrapolation",
+      "reject/no contribution"
+    ],
+    "composition": [
+      "table phase plus source phase",
+      "absolute replacement phase"
+    ]
+  },
+  "candidates_at_first_midpoint_deg": {
+    "dbm_linear": 25,
+    "watt_linear": 17.207592200561265,
+    "amplitude_linear": 20.798050005913446
+  },
+  "phase_candidates_midpoint_deg": {
+    "wrap_raw": 0,
+    "wrap_shortest": 180,
+    "unwrapped_raw": 180,
+    "full_turn_raw": 190,
+    "full_turn_modulo_first": 10
+  },
+  "profiles": [
+    {
+      "name": "interpolation-boundary",
+      "power_dbm": [
+        0,
+        10,
+        20
+      ],
+      "phase_deg": [
+        10,
+        40,
+        -20
+      ],
+      "output_targets_dbm": [
+        -5,
+        0,
+        5,
+        9.999,
+        10,
+        10.001,
+        15,
+        20,
+        25
+      ],
+      "source_phase_deg": 0
+    },
+    {
+      "name": "wrap",
+      "power_dbm": [
+        0,
+        10
+      ],
+      "phase_deg": [
+        170,
+        -170
+      ],
+      "output_targets_dbm": [
+        0,
+        5,
+        10
+      ],
+      "source_phase_deg": 0
+    },
+    {
+      "name": "unwrapped-equivalent",
+      "power_dbm": [
+        0,
+        10
+      ],
+      "phase_deg": [
+        170,
+        190
+      ],
+      "output_targets_dbm": [
+        0,
+        5,
+        10
+      ],
+      "source_phase_deg": 0
+    },
+    {
+      "name": "full-turn",
+      "power_dbm": [
+        0,
+        10
+      ],
+      "phase_deg": [
+        10,
+        370
+      ],
+      "output_targets_dbm": [
+        0,
+        5,
+        10
+      ],
+      "source_phase_deg": 0
+    },
+    {
+      "name": "source-phase-offset",
+      "power_dbm": [
+        0,
+        10,
+        20
+      ],
+      "phase_deg": [
+        20,
+        20,
+        20
+      ],
+      "output_targets_dbm": [
+        5
+      ],
+      "source_phase_deg": 30
+    }
+  ],
+  "do_not_infer": [
+    "Compression Curve semantics",
+    "all devices",
+    "invalid tables",
+    "multi-tone",
+    "full vendor compatibility"
+  ]
+}

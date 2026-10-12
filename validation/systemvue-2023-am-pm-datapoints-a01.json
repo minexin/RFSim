@@ -1,0 +1,1533 @@
+{
+  "schema_version": 1,
+  "recorded_utc": "2026-10-12T06:29:49.286441+00:00",
+  "status": "bounded_identification_completed_contract_unresolved",
+  "vendor_compatibility": false,
+  "kernel_implementation_changed": false,
+  "total_analysis_calls": 24,
+  "maximum_analysis_calls": 24,
+  "original_baseline_calls": 2,
+  "repair_baseline_calls": 1,
+  "diagnostic_points": 21,
+  "per_helper_deadline_seconds": 120,
+  "official_workspace": {
+    "path": "C:\\Program Files\\Keysight\\SystemVue2023\\Examples\\RF Architecture Design\\RF Design Kit\\AM to AM PM\\AM to PM Basics.wsv",
+    "sha256": "ead90a212c786eff0cfa782dab47dbfe14c421b3f43b32c573bb990cb8348877",
+    "unchanged": true
+  },
+  "workspace_copy": {
+    "path": "build-reference/a01-datapoints-20261012/RFModel_AMPM_A01.wsv",
+    "sha256": "ead90a212c786eff0cfa782dab47dbfe14c421b3f43b32c573bb990cb8348877",
+    "bytes": 542378,
+    "unchanged": true
+  },
+  "baseline_results": [
+    {
+      "mode": "pd",
+      "capture": {
+        "path": "build-reference/a01-baseline-pd-20261012T060358Z-da10364c/capture.json",
+        "sha256": "0686a11e8dd890894417a0e8bcd0d827c7e8dd7dfca02667cf99e6d58dbb0898",
+        "bytes": 1655408
+      },
+      "invocation_status": {
+        "path": "build-reference/a01-baseline-pd-20261012T060358Z-da10364c/status.json",
+        "sha256": "52a91b9f1936a7a8e63b18e251df9c35cd4f21e7c9668186c9307745525bef18",
+        "bytes": 1222
+      },
+      "dataset_timestamp": 1791785041,
+      "timestamp_in_recorded_invocation_interval": true,
+      "numeric_comparison": {
+        "mode": "pd",
+        "dataset": "RFModel_AMPM_A01/PointDerivative/System1_Data_Folder/System1_Data_Path2",
+        "dataset_timestamp": "1791785041",
+        "point_count": 37,
+        "maximum_power_relative_error": 2.4821781438744e-16,
+        "maximum_phase_error_deg": 9.93923337957349e-17,
+        "numeric_match": true,
+        "manager_errors": "",
+        "powers_w": [
+          9.999999699827242e-13,
+          9.999999698272342e-12,
+          9.999999682723508e-11,
+          9.999999527235117e-10,
+          9.999997972351152e-09,
+          9.999982423518343e-08,
+          9.999826935855028e-07,
+          9.998272125707618e-06,
+          9.982730672810597e-05,
+          0.00039537372776892615,
+          0.0006240981748655371,
+          0.0009827981001541302,
+          0.0015417936309857078,
+          0.002404061714946985,
+          0.0037119658438996947,
+          0.005640527349023968,
+          0.008346970059464923,
+          0.009999999760951143,
+          0.01189701459564911,
+          0.013977429301420723,
+          0.015963939005199965,
+          0.017581744896995738,
+          0.01870114833149495,
+          0.019365137477401075,
+          0.019707184820635448,
+          0.019861650156874355,
+          0.019944195509648384,
+          0.01995220363105905,
+          0.019952613457104394,
+          0.019952622967841425,
+          0.01995262305005066,
+          0.01995262305018934,
+          0.01995262305013519,
+          0.019952623050092107,
+          0.019952623050057863,
+          0.019952623050030698,
+          0.019952623050019252
+        ],
+        "phase_rad": [
+          -1.1372971678616275e-10,
+          -1.1372862365288661e-09,
+          -1.1372516674104325e-08,
+          -1.137142338171443e-07,
+          -1.1367964879591258e-06,
+          -1.1357016080060125e-05,
+          -0.00011322273162052464,
+          -0.0011211233428741506,
+          -0.010849152131689618,
+          -0.0409915910390899,
+          -0.0630968701270193,
+          -0.09619802296379242,
+          -0.1447434225024575,
+          -0.2138245253689002,
+          -0.3078326077909068,
+          -0.4273404935202397,
+          -0.5637818856664052,
+          -0.631763268755659,
+          -0.6970383740604369,
+          -0.7542540103998748,
+          -0.7959004238741204,
+          -0.821026910128339,
+          -0.8340092668089246,
+          -0.8400614066043924,
+          -0.8427089935175768,
+          -0.8438008826295831,
+          -0.8443580485389844,
+          -0.8444111278217246,
+          -0.8444138395899559,
+          -0.8444139025137044,
+          -0.8444139030557697,
+          -0.8444139030552125,
+          -0.844413903053683,
+          -0.8444139030524676,
+          -0.8444139030515021,
+          -0.844413903050735,
+          -0.8444139030504128
+        ]
+      },
+      "synchronous_capture_return_available": true
+    },
+    {
+      "mode": "dp",
+      "capture": {
+        "path": "build-reference/a01-read-warning-20261012T060501Z-d42a70ed/before.json",
+        "sha256": "7be73207831a5be06673a030e0c643ce1b0cf421ac8fcd79e9d20a427363f544",
+        "bytes": 1676559
+      },
+      "invocation_status": {
+        "path": "build-reference/a01-baseline-dp-20261012T060414Z-9b0e266a/status.json",
+        "sha256": "550590cdbc24703587cce48a5e3088c47d6d0a786191559dfa81074b9db20201",
+        "bytes": 1223
+      },
+      "dataset_timestamp": 1791785058,
+      "timestamp_in_recorded_invocation_interval": true,
+      "numeric_comparison": {
+        "mode": "dp",
+        "dataset": "RFModel_AMPM_A01/DataPoints/System2_Data_Folder/System2_Sch2_Data_Path2",
+        "dataset_timestamp": "1791785058",
+        "point_count": 37,
+        "maximum_power_relative_error": 6.955373459045834e-16,
+        "maximum_phase_error_deg": 3.180554681463517e-14,
+        "numeric_match": true,
+        "manager_errors": " (WARNING) PwrAMtoPMpoints has non monotonic data points that are ignored!\n",
+        "powers_w": [
+          9.999999699827242e-13,
+          9.999999698272342e-12,
+          9.999999682723508e-11,
+          9.999999527235117e-10,
+          9.999997972351152e-09,
+          9.999982423518343e-08,
+          9.99982693585503e-07,
+          9.998272125707627e-06,
+          9.982730672810588e-05,
+          0.0003953737277689263,
+          0.0006240981748655368,
+          0.0009827981001541302,
+          0.0015417936309857082,
+          0.0024040617149469826,
+          0.0037119658438996947,
+          0.005640527349023971,
+          0.008346970059464923,
+          0.009999999760951145,
+          0.011897014595649104,
+          0.013977429301420728,
+          0.01596393900519999,
+          0.01758174489699573,
+          0.01870114833149495,
+          0.019365137477401085,
+          0.019707184820635458,
+          0.019861650156874355,
+          0.019944195509648394,
+          0.019952203631059068,
+          0.019952613457104383,
+          0.01995262296784143,
+          0.019952623050050675,
+          0.019952623050189355,
+          0.01995262305013519,
+          0.019952623050092107,
+          0.019952623050057863,
+          0.0199526230500307,
+          0.019952623050019262
+        ],
+        "phase_rad": [
+          -1.1372989572520521e-10,
+          -1.1372858920396163e-09,
+          -1.1372518025591582e-08,
+          -1.137142302802061e-07,
+          -1.1367965159954406e-06,
+          -1.1357016123689926e-05,
+          -0.000113222732935206,
+          -0.0011211233525800644,
+          -0.010849152236354213,
+          -0.04099159142735107,
+          -0.06309687071392987,
+          -0.09619802384171831,
+          -0.14474342378816257,
+          -0.21382452719801168,
+          -0.3078326102844683,
+          -0.4273404967115614,
+          -0.5637818893683935,
+          -0.6317632725446117,
+          -0.6970383777559087,
+          -0.7542540137782376,
+          -0.7959004267542457,
+          -0.8210269124707685,
+          -0.8340092687095234,
+          -0.840061408224313,
+          -0.8427089949621108,
+          -0.8438008840538863,
+          -0.8443580497672571,
+          -0.8444111294026404,
+          -0.8444138404089888,
+          -0.8444146437002642,
+          -0.844417574377356,
+          -0.8444175858413699,
+          -0.8444175858461759,
+          -0.8444175858449603,
+          -0.8444175858439947,
+          -0.8444175858432279,
+          -0.8444175858429058
+        ]
+      },
+      "synchronous_capture_return_available": false
+    }
+  ],
+  "phase_tolerance_deg": 1e-05,
+  "power_relative_tolerance": 1e-07,
+  "candidate_summary": {
+    "linear_candidates_matching_all_points": 0,
+    "natural_cubic_report_axis": {
+      "matched": 16,
+      "total": 21,
+      "all_passed": false
+    },
+    "natural_cubic_raw_axis": {
+      "matched": 17,
+      "total": 21,
+      "all_passed": false
+    },
+    "known_counterexamples": [
+      "Four nominal 0 dBm points return zero phase despite nonzero table first phase; raw voltage confirms",
+      "Nominal 0.001 dBm point: DCP reports 0 dBm while raw power is near 0.001 dBm"
+    ],
+    "root_causes_verified": false
+  },
+  "last_point_recovery": {
+    "analysis_done": 1,
+    "new_analysis_calls": 0,
+    "run_returned_utc": null,
+    "analysis_done_observed_utc": "2026-10-12T06:16:41.9693529Z",
+    "restoration": {
+      "path": "build-reference/a01-recover-followup-20261012T061641Z-be0cb327/restored.json",
+      "sha256": "8ccf1be619893d69c9a1dd016456c7c69333905354d0dec535a7f747c1b857f3",
+      "bytes": 1667524
+    },
+    "expressions_restored": true,
+    "datasets_recomputed_after_restore": false
+  },
+  "runs": [
+    {
+      "status_file": {
+        "path": "build-reference/a01-baseline-dp-20261012T060414Z-9b0e266a/status.json",
+        "sha256": "550590cdbc24703587cce48a5e3088c47d6d0a786191559dfa81074b9db20201",
+        "bytes": 1223
+      },
+      "status": {
+        "command": [
+          "C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe",
+          "-NoProfile",
+          "-NonInteractive",
+          "-File",
+          "D:\\project\\RFModel\\build-reference\\a01-datapoints-20261012\\capture-a01.ps1",
+          "-OutputDirectory",
+          "D:\\project\\RFModel\\build-reference\\a01-baseline-dp-20261012T060414Z-9b0e266a",
+          "-Mode",
+          "baseline-dp"
+        ],
+        "started_utc": "2026-10-12T06:04:14.626959+00:00",
+        "systemvue": {
+          "Id": 13656,
+          "Responding": true,
+          "MainWindowHandle": 656452,
+          "MainWindowTitle": "SystemVue 2023"
+        },
+        "limit_seconds": 120,
+        "process_policy_override": false,
+        "planned_analysis_calls": 1,
+        "mode": "baseline-dp",
+        "script_sha256": "a057d05129f36eecc32551a39b405b0261c21a9b86e359337e33230b72b8be01",
+        "output_directory": "D:\\project\\RFModel\\build-reference\\a01-baseline-dp-20261012T060414Z-9b0e266a",
+        "helper_pid": 16016,
+        "elapsed_seconds": 3.625,
+        "exit_code": 1,
+        "status": "failed",
+        "dialog_evidence": [],
+        "progress_window_observations": [
+          {
+            "handle": 723172,
+            "class": "#32770",
+            "title": "System2 Simulation Status"
+          }
+        ],
+        "finished_utc": "2026-10-12T06:04:18.258308+00:00"
+      },
+      "stdout.log": {
+        "path": "build-reference/a01-baseline-dp-20261012T060414Z-9b0e266a/stdout.log",
+        "sha256": "084f4e539824a5ff98beecf0a9aec9abee11a2e8b4d6daa1232156ef2789fb6d",
+        "bytes": 194
+      },
+      "stderr.log": {
+        "path": "build-reference/a01-baseline-dp-20261012T060414Z-9b0e266a/stderr.log",
+        "sha256": "453d4bf842c5d6280a2fc0fb58553f5bb3b28d2b4bfb3fe8e9ca0762404a495e",
+        "bytes": 96
+      }
+    },
+    {
+      "status_file": {
+        "path": "build-reference/a01-baseline-pd-20261012T060358Z-da10364c/status.json",
+        "sha256": "52a91b9f1936a7a8e63b18e251df9c35cd4f21e7c9668186c9307745525bef18",
+        "bytes": 1222
+      },
+      "status": {
+        "command": [
+          "C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe",
+          "-NoProfile",
+          "-NonInteractive",
+          "-File",
+          "D:\\project\\RFModel\\build-reference\\a01-datapoints-20261012\\capture-a01.ps1",
+          "-OutputDirectory",
+          "D:\\project\\RFModel\\build-reference\\a01-baseline-pd-20261012T060358Z-da10364c",
+          "-Mode",
+          "baseline-pd"
+        ],
+        "started_utc": "2026-10-12T06:03:58.085812+00:00",
+        "systemvue": {
+          "Id": 13656,
+          "Responding": true,
+          "MainWindowHandle": 656452,
+          "MainWindowTitle": "SystemVue 2023"
+        },
+        "limit_seconds": 120,
+        "process_policy_override": false,
+        "planned_analysis_calls": 1,
+        "mode": "baseline-pd",
+        "script_sha256": "a057d05129f36eecc32551a39b405b0261c21a9b86e359337e33230b72b8be01",
+        "output_directory": "D:\\project\\RFModel\\build-reference\\a01-baseline-pd-20261012T060358Z-da10364c",
+        "helper_pid": 4052,
+        "elapsed_seconds": 5.438,
+        "exit_code": 0,
+        "status": "passed",
+        "dialog_evidence": [],
+        "progress_window_observations": [
+          {
+            "handle": 657636,
+            "class": "#32770",
+            "title": "System1 Simulation Status"
+          }
+        ],
+        "finished_utc": "2026-10-12T06:04:03.528737+00:00"
+      },
+      "stdout.log": {
+        "path": "build-reference/a01-baseline-pd-20261012T060358Z-da10364c/stdout.log",
+        "sha256": "f52bb38c37914649ec8e6fb835681ba0c891d81590b9570dfa30591029ba11f7",
+        "bytes": 242
+      },
+      "stderr.log": {
+        "path": "build-reference/a01-baseline-pd-20261012T060358Z-da10364c/stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    },
+    {
+      "status_file": {
+        "path": "build-reference/a01-full-turn-20261012T061342Z-dfcac868/status.json",
+        "sha256": "0f5e30ea603a9ced47514d96bd97d48443a74386829f21dc09a9eae76ebb9f97",
+        "bytes": 1449
+      },
+      "status": {
+        "command": [
+          "C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe",
+          "-NoProfile",
+          "-NonInteractive",
+          "-File",
+          "D:\\project\\RFModel\\build-reference\\a01-datapoints-20261012\\capture-a01-profile.ps1",
+          "-OutputDirectory",
+          "D:\\project\\RFModel\\build-reference\\a01-full-turn-20261012T061342Z-dfcac868",
+          "-Profile",
+          "full-turn"
+        ],
+        "started_utc": "2026-10-12T06:13:42.668001+00:00",
+        "systemvue": {
+          "Id": 13656,
+          "Responding": true,
+          "MainWindowHandle": 656452,
+          "MainWindowTitle": "SystemVue 2023"
+        },
+        "limit_seconds": 120,
+        "process_policy_override": false,
+        "planned_analysis_calls": 3,
+        "mode": "full-turn",
+        "script_sha256": "c0d0982bb3eb9a021acc04ed6cdacf97b8e87495802b273e98f00d5b4c3c0271",
+        "output_directory": "D:\\project\\RFModel\\build-reference\\a01-full-turn-20261012T061342Z-dfcac868",
+        "helper_pid": 8300,
+        "elapsed_seconds": 12.296,
+        "exit_code": 0,
+        "status": "passed",
+        "dialog_evidence": [],
+        "progress_window_observations": [
+          {
+            "handle": 1706204,
+            "class": "#32770",
+            "title": "System2 Simulation Status"
+          },
+          {
+            "handle": 1771740,
+            "class": "#32770",
+            "title": "System2 Simulation Status"
+          },
+          {
+            "handle": 1837276,
+            "class": "#32770",
+            "title": "System2 Simulation Status"
+          }
+        ],
+        "finished_utc": "2026-10-12T06:13:54.964436+00:00"
+      },
+      "stdout.log": {
+        "path": "build-reference/a01-full-turn-20261012T061342Z-dfcac868/stdout.log",
+        "sha256": "2fdf915e75617c34a2d72e9b59f33942a4a4e67d95883c129489f867f97dbea2",
+        "bytes": 566
+      },
+      "stderr.log": {
+        "path": "build-reference/a01-full-turn-20261012T061342Z-dfcac868/stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    },
+    {
+      "status_file": {
+        "path": "build-reference/a01-inspect-20261012T055704Z-ef1a93a3/status.json",
+        "sha256": "e29bda5cc57829ad55ba023efac1b50180a857aa453d188682c2c87dd8bb1fc7",
+        "bytes": 1095
+      },
+      "status": {
+        "command": [
+          "C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe",
+          "-NoProfile",
+          "-NonInteractive",
+          "-File",
+          "D:\\project\\RFModel\\build-reference\\a01-datapoints-20261012\\capture-a01.ps1",
+          "-OutputDirectory",
+          "D:\\project\\RFModel\\build-reference\\a01-inspect-20261012T055704Z-ef1a93a3",
+          "-Mode",
+          "inspect"
+        ],
+        "started_utc": "2026-10-12T05:57:04.635245+00:00",
+        "systemvue": {
+          "Id": 17588,
+          "Responding": true,
+          "MainWindowHandle": 1770928,
+          "MainWindowTitle": "SystemVue 2023"
+        },
+        "limit_seconds": 120,
+        "process_policy_override": false,
+        "planned_analysis_calls": 0,
+        "mode": "inspect",
+        "script_sha256": "7e9a8d9f877c7da15ed60aeab359da2bc45aae86a39ef7c733f10ab253e5db2c",
+        "output_directory": "D:\\project\\RFModel\\build-reference\\a01-inspect-20261012T055704Z-ef1a93a3",
+        "helper_pid": 16312,
+        "elapsed_seconds": 0.766,
+        "exit_code": 1,
+        "status": "failed",
+        "dialog_evidence": [],
+        "progress_window_observations": [],
+        "finished_utc": "2026-10-12T05:57:05.405133+00:00"
+      },
+      "stdout.log": {
+        "path": "build-reference/a01-inspect-20261012T055704Z-ef1a93a3/stdout.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "stderr.log": {
+        "path": "build-reference/a01-inspect-20261012T055704Z-ef1a93a3/stderr.log",
+        "sha256": "5cd0e21d7d978d15a2fd822cd73e75cc3eede2f3cbd0d7809d91367a094adfef",
+        "bytes": 51
+      }
+    },
+    {
+      "status_file": {
+        "path": "build-reference/a01-inspect-20261012T055727Z-cd8d2ec1/status.json",
+        "sha256": "382972f2d29321adc22f0b6585124f81cdabbfa6691ae8c0d47252cd8a0e61f0",
+        "bytes": 1095
+      },
+      "status": {
+        "command": [
+          "C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe",
+          "-NoProfile",
+          "-NonInteractive",
+          "-File",
+          "D:\\project\\RFModel\\build-reference\\a01-datapoints-20261012\\capture-a01.ps1",
+          "-OutputDirectory",
+          "D:\\project\\RFModel\\build-reference\\a01-inspect-20261012T055727Z-cd8d2ec1",
+          "-Mode",
+          "inspect"
+        ],
+        "started_utc": "2026-10-12T05:57:27.195162+00:00",
+        "systemvue": {
+          "Id": 17588,
+          "Responding": true,
+          "MainWindowHandle": 1770928,
+          "MainWindowTitle": "SystemVue 2023"
+        },
+        "limit_seconds": 120,
+        "process_policy_override": false,
+        "planned_analysis_calls": 0,
+        "mode": "inspect",
+        "script_sha256": "31f2895c8e9ce8b350d41556803b50244eeef1492f41fcb211a32e31245885c0",
+        "output_directory": "D:\\project\\RFModel\\build-reference\\a01-inspect-20261012T055727Z-cd8d2ec1",
+        "helper_pid": 20712,
+        "elapsed_seconds": 0.781,
+        "exit_code": 1,
+        "status": "failed",
+        "dialog_evidence": [],
+        "progress_window_observations": [],
+        "finished_utc": "2026-10-12T05:57:27.981023+00:00"
+      },
+      "stdout.log": {
+        "path": "build-reference/a01-inspect-20261012T055727Z-cd8d2ec1/stdout.log",
+        "sha256": "5d05a6fa89838ce171292a8badffd5be20c06436a6f6d5416d590aded08cc21e",
+        "bytes": 18
+      },
+      "stderr.log": {
+        "path": "build-reference/a01-inspect-20261012T055727Z-cd8d2ec1/stderr.log",
+        "sha256": "5cd0e21d7d978d15a2fd822cd73e75cc3eede2f3cbd0d7809d91367a094adfef",
+        "bytes": 51
+      }
+    },
+    {
+      "status_file": {
+        "path": "build-reference/a01-interpolation-boundary-20261012T060815Z-1c8f7c97/status.json",
+        "sha256": "86248d7dd7b522a90d6f2a2b107aaa999517b3cbb5b40c5d19b34fe6ae0a2544",
+        "bytes": 2164
+      },
+      "status": {
+        "command": [
+          "C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe",
+          "-NoProfile",
+          "-NonInteractive",
+          "-File",
+          "D:\\project\\RFModel\\build-reference\\a01-datapoints-20261012\\capture-a01-profile.ps1",
+          "-OutputDirectory",
+          "D:\\project\\RFModel\\build-reference\\a01-interpolation-boundary-20261012T060815Z-1c8f7c97",
+          "-Profile",
+          "interpolation-boundary"
+        ],
+        "started_utc": "2026-10-12T06:08:15.819936+00:00",
+        "systemvue": {
+          "Id": 13656,
+          "Responding": true,
+          "MainWindowHandle": 656452,
+          "MainWindowTitle": "SystemVue 2023"
+        },
+        "limit_seconds": 120,
+        "process_policy_override": false,
+        "planned_analysis_calls": 9,
+        "mode": "interpolation-boundary",
+        "script_sha256": "5a1f2b1917151a2a092772267cb4417afec3c0c993904f0c74870ac0fbe23470",
+        "output_directory": "D:\\project\\RFModel\\build-reference\\a01-interpolation-boundary-20261012T060815Z-1c8f7c97",
+        "helper_pid": 10904,
+        "elapsed_seconds": 24.39,
+        "exit_code": 0,
+        "status": "passed",
+        "dialog_evidence": [],
+        "progress_window_observations": [
+          {
+            "handle": 854256,
+            "class": "#32770",
+            "title": "System2 Simulation Status"
+          },
+          {
+            "handle": 919792,
+            "class": "#32770",
+            "title": "System2 Simulation Status"
+          },
+          {
+            "handle": 985328,
+            "class": "#32770",
+            "title": "System2 Simulation Status"
+          },
+          {
+            "handle": 1050864,
+            "class": "#32770",
+            "title": "System2 Simulation Status"
+          },
+          {
+            "handle": 1116400,
+            "class": "#32770",
+            "title": "System2 Simulation Status"
+          },
+          {
+            "handle": 1181936,
+            "class": "#32770",
+            "title": "System2 Simulation Status"
+          },
+          {
+            "handle": 1247472,
+            "class": "#32770",
+            "title": "System2 Simulation Status"
+          },
+          {
+            "handle": 1313008,
+            "class": "#32770",
+            "title": "System2 Simulation Status"
+          },
+          {
+            "handle": 1378544,
+            "class": "#32770",
+            "title": "System2 Simulation Status"
+          }
+        ],
+        "finished_utc": "2026-10-12T06:08:40.209002+00:00"
+      },
+      "stdout.log": {
+        "path": "build-reference/a01-interpolation-boundary-20261012T060815Z-1c8f7c97/stdout.log",
+        "sha256": "de48f80365fa6bd377091b401961d40cf38ae22d5e622d9ee1f257dfe01fcfc5",
+        "bytes": 1550
+      },
+      "stderr.log": {
+        "path": "build-reference/a01-interpolation-boundary-20261012T060815Z-1c8f7c97/stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    },
+    {
+      "status_file": {
+        "path": "build-reference/a01-natural-cubic-followup-20261012T061516Z-fdb19731/status.json",
+        "sha256": "21db94bc340fe2b775c8eb3cd39a33058eda88f56a7e3a1bafecea2f5ab56837",
+        "bytes": 1407
+      },
+      "status": {
+        "command": [
+          "C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe",
+          "-NoProfile",
+          "-NonInteractive",
+          "-File",
+          "D:\\project\\RFModel\\build-reference\\a01-datapoints-20261012\\capture-a01-followup.ps1",
+          "-OutputDirectory",
+          "D:\\project\\RFModel\\build-reference\\a01-natural-cubic-followup-20261012T061516Z-fdb19731",
+          "-Profile",
+          "natural-cubic-followup"
+        ],
+        "started_utc": "2026-10-12T06:15:17.001407+00:00",
+        "systemvue": {
+          "Id": 13656,
+          "Responding": true,
+          "MainWindowHandle": 656452,
+          "MainWindowTitle": "SystemVue 2023"
+        },
+        "limit_seconds": 120,
+        "process_policy_override": false,
+        "planned_analysis_calls": 2,
+        "mode": "natural-cubic-followup",
+        "script_sha256": "8bc38ef80c8f8195b6f638d5149065091843e5808e0e9aa57cd249de123a8fc4",
+        "output_directory": "D:\\project\\RFModel\\build-reference\\a01-natural-cubic-followup-20261012T061516Z-fdb19731",
+        "helper_pid": 13008,
+        "elapsed_seconds": 6.61,
+        "exit_code": 1,
+        "status": "dialog_or_window_unavailable",
+        "dialog_evidence": [
+          {
+            "handle": 2033884,
+            "class": "#32770",
+            "title": "Simulation Status"
+          }
+        ],
+        "progress_window_observations": [
+          {
+            "handle": 1968348,
+            "class": "#32770",
+            "title": "System2 Simulation Status"
+          }
+        ],
+        "finished_utc": "2026-10-12T06:15:23.614174+00:00"
+      },
+      "stdout.log": {
+        "path": "build-reference/a01-natural-cubic-followup-20261012T061516Z-fdb19731/stdout.log",
+        "sha256": "0c0a12d9014362965936630ba0946339b4071cd3e9e81dd5c226385da163d68e",
+        "bytes": 355
+      },
+      "stderr.log": {
+        "path": "build-reference/a01-natural-cubic-followup-20261012T061516Z-fdb19731/stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    },
+    {
+      "status_file": {
+        "path": "build-reference/a01-open-20261012T054504Z-6b2ae7db/status.json",
+        "sha256": "37d16325e49fac9b1b89c87ced693e8a1b100d8e29209b17803697c36ae56c41",
+        "bytes": 1205
+      },
+      "status": {
+        "command": [
+          "C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe",
+          "-NoProfile",
+          "-NonInteractive",
+          "-File",
+          "D:\\project\\RFModel\\build-reference\\a01-datapoints-20261012\\capture-a01.ps1",
+          "-OutputDirectory",
+          "D:\\project\\RFModel\\build-reference\\a01-open-20261012T054504Z-6b2ae7db",
+          "-Mode",
+          "open"
+        ],
+        "started_utc": "2026-10-12T05:45:04.420422+00:00",
+        "systemvue": {
+          "Id": 21556,
+          "Responding": true,
+          "MainWindowHandle": 133156,
+          "MainWindowTitle": "SystemVue 2023"
+        },
+        "limit_seconds": 120,
+        "process_policy_override": false,
+        "planned_analysis_calls": 0,
+        "mode": "open",
+        "script_sha256": "5a5ab78fb374f617e6c42f1f6a1325b39a58576b500ed1431df412fbe7323602",
+        "output_directory": "D:\\project\\RFModel\\build-reference\\a01-open-20261012T054504Z-6b2ae7db",
+        "helper_pid": 7824,
+        "elapsed_seconds": 0.843,
+        "exit_code": 1,
+        "status": "dialog_or_window_unavailable",
+        "dialog_evidence": [
+          {
+            "handle": 526798,
+            "class": "#32770",
+            "title": "SystemVue 2023"
+          }
+        ],
+        "progress_window_observations": [],
+        "finished_utc": "2026-10-12T05:45:05.269468+00:00"
+      },
+      "stdout.log": {
+        "path": "build-reference/a01-open-20261012T054504Z-6b2ae7db/stdout.log",
+        "sha256": "6dfd256e4c19d1e3c5d4278ccdb189876ca6a188bc07fd6246e17cc8d99483de",
+        "bytes": 59
+      },
+      "stderr.log": {
+        "path": "build-reference/a01-open-20261012T054504Z-6b2ae7db/stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    },
+    {
+      "status_file": {
+        "path": "build-reference/a01-open-20261012T055746Z-7daa8bfd/status.json",
+        "sha256": "1678f0430907de5efbd3c5e08cc327a8c7e00d381e291dac395057950fc0f927",
+        "bytes": 1083
+      },
+      "status": {
+        "command": [
+          "C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe",
+          "-NoProfile",
+          "-NonInteractive",
+          "-File",
+          "D:\\project\\RFModel\\build-reference\\a01-datapoints-20261012\\capture-a01.ps1",
+          "-OutputDirectory",
+          "D:\\project\\RFModel\\build-reference\\a01-open-20261012T055746Z-7daa8bfd",
+          "-Mode",
+          "open"
+        ],
+        "started_utc": "2026-10-12T05:57:46.642268+00:00",
+        "systemvue": {
+          "Id": 17588,
+          "Responding": true,
+          "MainWindowHandle": 1770928,
+          "MainWindowTitle": "SystemVue 2023"
+        },
+        "limit_seconds": 120,
+        "process_policy_override": false,
+        "planned_analysis_calls": 0,
+        "mode": "open",
+        "script_sha256": "113b20968d949aaf3fa3e1fa0e8a9d8fea205fe638b998bbf71600d50282be34",
+        "output_directory": "D:\\project\\RFModel\\build-reference\\a01-open-20261012T055746Z-7daa8bfd",
+        "helper_pid": 13408,
+        "elapsed_seconds": 1.328,
+        "exit_code": 1,
+        "status": "failed",
+        "dialog_evidence": [],
+        "progress_window_observations": [],
+        "finished_utc": "2026-10-12T05:57:47.982138+00:00"
+      },
+      "stdout.log": {
+        "path": "build-reference/a01-open-20261012T055746Z-7daa8bfd/stdout.log",
+        "sha256": "7989256c0000489ec4d8048301c3b0a8bd6ae42f0331870822eb865671071781",
+        "bytes": 77
+      },
+      "stderr.log": {
+        "path": "build-reference/a01-open-20261012T055746Z-7daa8bfd/stderr.log",
+        "sha256": "b9e499b02ce688614acb61f8c0cdf6454816f3f6fe4305c76bc3c6fa3ebbcbc8",
+        "bytes": 54
+      }
+    },
+    {
+      "status_file": {
+        "path": "build-reference/a01-open-20261012T060335Z-82a15eaa/status.json",
+        "sha256": "86219ac1c81ac42ae09eea2d8bce80370983cd5f8a96534adb3db67e65f6d504",
+        "bytes": 1080
+      },
+      "status": {
+        "command": [
+          "C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe",
+          "-NoProfile",
+          "-NonInteractive",
+          "-File",
+          "D:\\project\\RFModel\\build-reference\\a01-datapoints-20261012\\capture-a01.ps1",
+          "-OutputDirectory",
+          "D:\\project\\RFModel\\build-reference\\a01-open-20261012T060335Z-82a15eaa",
+          "-Mode",
+          "open"
+        ],
+        "started_utc": "2026-10-12T06:03:35.980101+00:00",
+        "systemvue": {
+          "Id": 13656,
+          "Responding": true,
+          "MainWindowHandle": 656452,
+          "MainWindowTitle": "SystemVue 2023"
+        },
+        "limit_seconds": 120,
+        "process_policy_override": false,
+        "planned_analysis_calls": 0,
+        "mode": "open",
+        "script_sha256": "a057d05129f36eecc32551a39b405b0261c21a9b86e359337e33230b72b8be01",
+        "output_directory": "D:\\project\\RFModel\\build-reference\\a01-open-20261012T060335Z-82a15eaa",
+        "helper_pid": 6240,
+        "elapsed_seconds": 3.75,
+        "exit_code": 0,
+        "status": "passed",
+        "dialog_evidence": [],
+        "progress_window_observations": [],
+        "finished_utc": "2026-10-12T06:03:39.728190+00:00"
+      },
+      "stdout.log": {
+        "path": "build-reference/a01-open-20261012T060335Z-82a15eaa/stdout.log",
+        "sha256": "84ce7f11bdeae4ee6706c4f2c7402e14059546b96bcfc1839ccfc9596f54937f",
+        "bytes": 231
+      },
+      "stderr.log": {
+        "path": "build-reference/a01-open-20261012T060335Z-82a15eaa/stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    },
+    {
+      "status_file": {
+        "path": "build-reference/a01-read-warning-20261012T060501Z-d42a70ed/status.json",
+        "sha256": "3e3afe5129d4a6fddd9e161ee96d2f850b71a1ec42b22e0a750c61c4fd673ca8",
+        "bytes": 1114
+      },
+      "status": {
+        "command": [
+          "C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe",
+          "-NoProfile",
+          "-NonInteractive",
+          "-File",
+          "D:\\project\\RFModel\\build-reference\\a01-datapoints-20261012\\capture-a01.ps1",
+          "-OutputDirectory",
+          "D:\\project\\RFModel\\build-reference\\a01-read-warning-20261012T060501Z-d42a70ed",
+          "-Mode",
+          "read-warning"
+        ],
+        "started_utc": "2026-10-12T06:05:01.731507+00:00",
+        "systemvue": {
+          "Id": 13656,
+          "Responding": true,
+          "MainWindowHandle": 656452,
+          "MainWindowTitle": "SystemVue 2023"
+        },
+        "limit_seconds": 120,
+        "process_policy_override": false,
+        "planned_analysis_calls": 0,
+        "mode": "read-warning",
+        "script_sha256": "08fa51df183c6b9aa3f3ad514546febec1f732182b2b193e608273fce51d8c5c",
+        "output_directory": "D:\\project\\RFModel\\build-reference\\a01-read-warning-20261012T060501Z-d42a70ed",
+        "helper_pid": 12200,
+        "elapsed_seconds": 2.813,
+        "exit_code": 0,
+        "status": "passed",
+        "dialog_evidence": [],
+        "progress_window_observations": [],
+        "finished_utc": "2026-10-12T06:05:04.540748+00:00"
+      },
+      "stdout.log": {
+        "path": "build-reference/a01-read-warning-20261012T060501Z-d42a70ed/stdout.log",
+        "sha256": "26130fa63efaec25ab19583f4232e869a1d16ef0c43f04736d30aa620ba4b096",
+        "bytes": 222
+      },
+      "stderr.log": {
+        "path": "build-reference/a01-read-warning-20261012T060501Z-d42a70ed/stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    },
+    {
+      "status_file": {
+        "path": "build-reference/a01-recover-followup-20261012T061641Z-be0cb327/status.json",
+        "sha256": "629690be82da439764bec222c041fa27db673e57add6fd9632085c90b9ee3a98",
+        "bytes": 1138
+      },
+      "status": {
+        "command": [
+          "C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe",
+          "-NoProfile",
+          "-NonInteractive",
+          "-File",
+          "D:\\project\\RFModel\\build-reference\\a01-datapoints-20261012\\recover-a01-followup.ps1",
+          "-OutputDirectory",
+          "D:\\project\\RFModel\\build-reference\\a01-recover-followup-20261012T061641Z-be0cb327",
+          "-Mode",
+          "recover-followup"
+        ],
+        "started_utc": "2026-10-12T06:16:41.212421+00:00",
+        "systemvue": {
+          "Id": 13656,
+          "Responding": true,
+          "MainWindowHandle": 656452,
+          "MainWindowTitle": "SystemVue 2023"
+        },
+        "limit_seconds": 120,
+        "process_policy_override": false,
+        "planned_analysis_calls": 0,
+        "mode": "recover-followup",
+        "script_sha256": "6070d43fee25fe1af4989119de6cd7b2f936ddd6e9997b0727168fe53dd5deec",
+        "output_directory": "D:\\project\\RFModel\\build-reference\\a01-recover-followup-20261012T061641Z-be0cb327",
+        "helper_pid": 7848,
+        "elapsed_seconds": 4.532,
+        "exit_code": 0,
+        "status": "passed",
+        "dialog_evidence": [],
+        "progress_window_observations": [],
+        "finished_utc": "2026-10-12T06:16:45.747100+00:00"
+      },
+      "stdout.log": {
+        "path": "build-reference/a01-recover-followup-20261012T061641Z-be0cb327/stdout.log",
+        "sha256": "9f8a039f62bd53c32c9ea98e48b9125561b78862f90d820f9f176f18c3bd0eea",
+        "bytes": 127
+      },
+      "stderr.log": {
+        "path": "build-reference/a01-recover-followup-20261012T061641Z-be0cb327/stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    },
+    {
+      "status_file": {
+        "path": "build-reference/a01-repair-baseline-dp-20261012T061043Z-68acabf6/status.json",
+        "sha256": "a07ce6b8f1186a033977ad8fa39bc45804ce9b56dc219dde740870c35107eab9",
+        "bytes": 1252
+      },
+      "status": {
+        "command": [
+          "C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe",
+          "-NoProfile",
+          "-NonInteractive",
+          "-File",
+          "D:\\project\\RFModel\\build-reference\\a01-datapoints-20261012\\capture-a01.ps1",
+          "-OutputDirectory",
+          "D:\\project\\RFModel\\build-reference\\a01-repair-baseline-dp-20261012T061043Z-68acabf6",
+          "-Mode",
+          "repair-baseline-dp"
+        ],
+        "started_utc": "2026-10-12T06:10:43.805230+00:00",
+        "systemvue": {
+          "Id": 13656,
+          "Responding": true,
+          "MainWindowHandle": 656452,
+          "MainWindowTitle": "SystemVue 2023"
+        },
+        "limit_seconds": 120,
+        "process_policy_override": false,
+        "planned_analysis_calls": 1,
+        "mode": "repair-baseline-dp",
+        "script_sha256": "a722a255fce0d9aca37d2920e0c64cad5da0dfe6a5c756c29908a582f9a8cc73",
+        "output_directory": "D:\\project\\RFModel\\build-reference\\a01-repair-baseline-dp-20261012T061043Z-68acabf6",
+        "helper_pid": 16456,
+        "elapsed_seconds": 4.656,
+        "exit_code": 0,
+        "status": "passed",
+        "dialog_evidence": [],
+        "progress_window_observations": [
+          {
+            "handle": 1444080,
+            "class": "#32770",
+            "title": "System2 Simulation Status"
+          }
+        ],
+        "finished_utc": "2026-10-12T06:10:48.472067+00:00"
+      },
+      "stdout.log": {
+        "path": "build-reference/a01-repair-baseline-dp-20261012T061043Z-68acabf6/stdout.log",
+        "sha256": "95e6f47ac7ef30168fc0c676fb0373e2ea5f3d34a26dd75a8db365c505835d90",
+        "bytes": 489
+      },
+      "stderr.log": {
+        "path": "build-reference/a01-repair-baseline-dp-20261012T061043Z-68acabf6/stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    },
+    {
+      "status_file": {
+        "path": "build-reference/a01-restart-20261012/status.json",
+        "sha256": "0962a3be105656bd552423f51b068b018ae9be344d1096ddb2d4a9ac20b019d3",
+        "bytes": 354
+      },
+      "status": {
+        "started_utc": "2026-10-12T05:56:22.0351262Z",
+        "pid": 17588,
+        "executable": "C:/Program Files/Keysight/SystemVue2023/bin/SystemVue.exe",
+        "workspace_copy": "D:/project/RFModel/build-reference/a01-datapoints-20261012/RFModel_AMPM_A01.wsv",
+        "authorization": "User explicitly reported crash and requested restart",
+        "analysis_calls": 0
+      }
+    },
+    {
+      "status_file": {
+        "path": "build-reference/a01-restart-nativepath-20261012/status.json",
+        "sha256": "67bee61ce44571b87ee55cc1f4061acdae23d900f5c1c0a84d0e752d01d77664",
+        "bytes": 284
+      },
+      "status": {
+        "started_utc": "2026-10-12T05:59:59.8706427Z",
+        "pid": 13656,
+        "executable": "C:/Program Files/Keysight/SystemVue2023/bin/SystemVue.exe",
+        "arguments": [],
+        "analysis_calls": 0,
+        "reason": "One bounded native Windows path correction after user closed crash report"
+      }
+    },
+    {
+      "status_file": {
+        "path": "build-reference/a01-source-phase-offset-20261012T061355Z-512b16cd/status.json",
+        "sha256": "e2e6c301ee35f7fe933f5e311ccb2b6fd26f00465ee3f921fe49363e301739de",
+        "bytes": 1267
+      },
+      "status": {
+        "command": [
+          "C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe",
+          "-NoProfile",
+          "-NonInteractive",
+          "-File",
+          "D:\\project\\RFModel\\build-reference\\a01-datapoints-20261012\\capture-a01-profile.ps1",
+          "-OutputDirectory",
+          "D:\\project\\RFModel\\build-reference\\a01-source-phase-offset-20261012T061355Z-512b16cd",
+          "-Profile",
+          "source-phase-offset"
+        ],
+        "started_utc": "2026-10-12T06:13:55.372771+00:00",
+        "systemvue": {
+          "Id": 13656,
+          "Responding": true,
+          "MainWindowHandle": 656452,
+          "MainWindowTitle": "SystemVue 2023"
+        },
+        "limit_seconds": 120,
+        "process_policy_override": false,
+        "planned_analysis_calls": 1,
+        "mode": "source-phase-offset",
+        "script_sha256": "c0d0982bb3eb9a021acc04ed6cdacf97b8e87495802b273e98f00d5b4c3c0271",
+        "output_directory": "D:\\project\\RFModel\\build-reference\\a01-source-phase-offset-20261012T061355Z-512b16cd",
+        "helper_pid": 18388,
+        "elapsed_seconds": 8.375,
+        "exit_code": 0,
+        "status": "passed",
+        "dialog_evidence": [],
+        "progress_window_observations": [
+          {
+            "handle": 1902812,
+            "class": "#32770",
+            "title": "System2 Simulation Status"
+          }
+        ],
+        "finished_utc": "2026-10-12T06:14:03.740459+00:00"
+      },
+      "stdout.log": {
+        "path": "build-reference/a01-source-phase-offset-20261012T061355Z-512b16cd/stdout.log",
+        "sha256": "901f182c479ffb0d0ae8e3aeca095a23192631775b8369d812cf32611c406be7",
+        "bytes": 273
+      },
+      "stderr.log": {
+        "path": "build-reference/a01-source-phase-offset-20261012T061355Z-512b16cd/stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    },
+    {
+      "status_file": {
+        "path": "build-reference/a01-unwrapped-equivalent-20261012T061222Z-166202ef/status.json",
+        "sha256": "c3f5001fbc158cb8987b4f41f66423a95ceb0bf2a3a774cea9e9cd7c8613acf0",
+        "bytes": 1493
+      },
+      "status": {
+        "command": [
+          "C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe",
+          "-NoProfile",
+          "-NonInteractive",
+          "-File",
+          "D:\\project\\RFModel\\build-reference\\a01-datapoints-20261012\\capture-a01-profile.ps1",
+          "-OutputDirectory",
+          "D:\\project\\RFModel\\build-reference\\a01-unwrapped-equivalent-20261012T061222Z-166202ef",
+          "-Profile",
+          "unwrapped-equivalent"
+        ],
+        "started_utc": "2026-10-12T06:12:22.746971+00:00",
+        "systemvue": {
+          "Id": 13656,
+          "Responding": true,
+          "MainWindowHandle": 656452,
+          "MainWindowTitle": "SystemVue 2023"
+        },
+        "limit_seconds": 120,
+        "process_policy_override": false,
+        "planned_analysis_calls": 3,
+        "mode": "unwrapped-equivalent",
+        "script_sha256": "c0d0982bb3eb9a021acc04ed6cdacf97b8e87495802b273e98f00d5b4c3c0271",
+        "output_directory": "D:\\project\\RFModel\\build-reference\\a01-unwrapped-equivalent-20261012T061222Z-166202ef",
+        "helper_pid": 6364,
+        "elapsed_seconds": 12.343,
+        "exit_code": 0,
+        "status": "passed",
+        "dialog_evidence": [],
+        "progress_window_observations": [
+          {
+            "handle": 1706224,
+            "class": "#32770",
+            "title": "System2 Simulation Status"
+          },
+          {
+            "handle": 1771760,
+            "class": "#32770",
+            "title": "System2 Simulation Status"
+          },
+          {
+            "handle": 1837296,
+            "class": "#32770",
+            "title": "System2 Simulation Status"
+          }
+        ],
+        "finished_utc": "2026-10-12T06:12:35.094669+00:00"
+      },
+      "stdout.log": {
+        "path": "build-reference/a01-unwrapped-equivalent-20261012T061222Z-166202ef/stdout.log",
+        "sha256": "61632f1edde8f4f09292440c07bcacf644127afaf04b16152b03171b3ca5f138",
+        "bytes": 726
+      },
+      "stderr.log": {
+        "path": "build-reference/a01-unwrapped-equivalent-20261012T061222Z-166202ef/stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    },
+    {
+      "status_file": {
+        "path": "build-reference/a01-wrap-20261012T060909Z-668c86be/status.json",
+        "sha256": "7fbb74432d12d81fa3eb12a7622ef7b2d7457bb756d3a285552d1894cc872399",
+        "bytes": 1093
+      },
+      "status": {
+        "command": [
+          "C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe",
+          "-NoProfile",
+          "-NonInteractive",
+          "-File",
+          "D:\\project\\RFModel\\build-reference\\a01-datapoints-20261012\\capture-a01-profile.ps1",
+          "-OutputDirectory",
+          "D:\\project\\RFModel\\build-reference\\a01-wrap-20261012T060909Z-668c86be",
+          "-Profile",
+          "wrap"
+        ],
+        "started_utc": "2026-10-12T06:09:09.266632+00:00",
+        "systemvue": {
+          "Id": 13656,
+          "Responding": true,
+          "MainWindowHandle": 656452,
+          "MainWindowTitle": "SystemVue 2023"
+        },
+        "limit_seconds": 120,
+        "process_policy_override": false,
+        "planned_analysis_calls": 3,
+        "mode": "wrap",
+        "script_sha256": "5a1f2b1917151a2a092772267cb4417afec3c0c993904f0c74870ac0fbe23470",
+        "output_directory": "D:\\project\\RFModel\\build-reference\\a01-wrap-20261012T060909Z-668c86be",
+        "helper_pid": 22260,
+        "elapsed_seconds": 0.672,
+        "exit_code": 1,
+        "status": "failed",
+        "dialog_evidence": [],
+        "progress_window_observations": [],
+        "finished_utc": "2026-10-12T06:09:09.942329+00:00"
+      },
+      "stdout.log": {
+        "path": "build-reference/a01-wrap-20261012T060909Z-668c86be/stdout.log",
+        "sha256": "9f8a039f62bd53c32c9ea98e48b9125561b78862f90d820f9f176f18c3bd0eea",
+        "bytes": 127
+      },
+      "stderr.log": {
+        "path": "build-reference/a01-wrap-20261012T060909Z-668c86be/stderr.log",
+        "sha256": "b68c46318653920cffbc35dfff7b62decd03acd4c4caf892ddc7579b0d62e734",
+        "bytes": 158
+      }
+    },
+    {
+      "status_file": {
+        "path": "build-reference/a01-wrap-20261012T061121Z-af388279/status.json",
+        "sha256": "9b351778d295ffa5419b49cf77e1eb65584b4bf2c381c427d3eba7c75837d8c5",
+        "bytes": 1429
+      },
+      "status": {
+        "command": [
+          "C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe",
+          "-NoProfile",
+          "-NonInteractive",
+          "-File",
+          "D:\\project\\RFModel\\build-reference\\a01-datapoints-20261012\\capture-a01-profile.ps1",
+          "-OutputDirectory",
+          "D:\\project\\RFModel\\build-reference\\a01-wrap-20261012T061121Z-af388279",
+          "-Profile",
+          "wrap"
+        ],
+        "started_utc": "2026-10-12T06:11:21.976842+00:00",
+        "systemvue": {
+          "Id": 13656,
+          "Responding": true,
+          "MainWindowHandle": 656452,
+          "MainWindowTitle": "SystemVue 2023"
+        },
+        "limit_seconds": 120,
+        "process_policy_override": false,
+        "planned_analysis_calls": 3,
+        "mode": "wrap",
+        "script_sha256": "5a1f2b1917151a2a092772267cb4417afec3c0c993904f0c74870ac0fbe23470",
+        "output_directory": "D:\\project\\RFModel\\build-reference\\a01-wrap-20261012T061121Z-af388279",
+        "helper_pid": 3476,
+        "elapsed_seconds": 11.781,
+        "exit_code": 0,
+        "status": "passed",
+        "dialog_evidence": [],
+        "progress_window_observations": [
+          {
+            "handle": 1509616,
+            "class": "#32770",
+            "title": "System2 Simulation Status"
+          },
+          {
+            "handle": 1575152,
+            "class": "#32770",
+            "title": "System2 Simulation Status"
+          },
+          {
+            "handle": 1640688,
+            "class": "#32770",
+            "title": "System2 Simulation Status"
+          }
+        ],
+        "finished_utc": "2026-10-12T06:11:33.758946+00:00"
+      },
+      "stdout.log": {
+        "path": "build-reference/a01-wrap-20261012T061121Z-af388279/stdout.log",
+        "sha256": "b48d055aa8b5edc3487ca2dd0aaada9ebff8750eafa06b0df60bc2bd33d8ccfb",
+        "bytes": 661
+      },
+      "stderr.log": {
+        "path": "build-reference/a01-wrap-20261012T061121Z-af388279/stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    }
+  ],
+  "helpers": [
+    {
+      "path": "build-reference/a01-datapoints-20261012/capture-a01-before-inspect.ps1",
+      "sha256": "5a5ab78fb374f617e6c42f1f6a1325b39a58576b500ed1431df412fbe7323602",
+      "bytes": 11153
+    },
+    {
+      "path": "build-reference/a01-datapoints-20261012/capture-a01-followup.ps1",
+      "sha256": "8bc38ef80c8f8195b6f638d5149065091843e5808e0e9aa57cd249de123a8fc4",
+      "bytes": 17215
+    },
+    {
+      "path": "build-reference/a01-datapoints-20261012/capture-a01-nativepath-baseline.ps1",
+      "sha256": "a057d05129f36eecc32551a39b405b0261c21a9b86e359337e33230b72b8be01",
+      "bytes": 11403
+    },
+    {
+      "path": "build-reference/a01-datapoints-20261012/capture-a01-profile-disabled-sweep.ps1",
+      "sha256": "5a1f2b1917151a2a092772267cb4417afec3c0c993904f0c74870ac0fbe23470",
+      "bytes": 16892
+    },
+    {
+      "path": "build-reference/a01-datapoints-20261012/capture-a01-profile.ps1",
+      "sha256": "c0d0982bb3eb9a021acc04ed6cdacf97b8e87495802b273e98f00d5b4c3c0271",
+      "bytes": 17181
+    },
+    {
+      "path": "build-reference/a01-datapoints-20261012/capture-a01.ps1",
+      "sha256": "a722a255fce0d9aca37d2920e0c64cad5da0dfe6a5c756c29908a582f9a8cc73",
+      "bytes": 12251
+    },
+    {
+      "path": "build-reference/a01-datapoints-20261012/recover-a01-followup.ps1",
+      "sha256": "6070d43fee25fe1af4989119de6cd7b2f936ddd6e9997b0727168fe53dd5deec",
+      "bytes": 13656
+    }
+  ],
+  "python_supervisors": [
+    {
+      "path": "build-reference/a01-datapoints-20261012/run-a01.py",
+      "sha256": "f3e6d128686bb7dbfd4c66d9ff9092fadb83504c67bcea54bafcc14fd5d88c76",
+      "bytes": 4365
+    },
+    {
+      "path": "build-reference/a01-datapoints-20261012/run-followup.py",
+      "sha256": "78f9a023b4bb25577a81f127a0c09225e947755373839c013df51407ff0c4a6d",
+      "bytes": 4432
+    },
+    {
+      "path": "build-reference/a01-datapoints-20261012/run-profile.py",
+      "sha256": "7b8c4ed9bcb72fb23dbdc74bace98c0ace26879df9641fb59976e4bd70800f80",
+      "bytes": 4485
+    },
+    {
+      "path": "build-reference/a01-datapoints-20261012/run-recovery.py",
+      "sha256": "49d8d83e6a3df3b0f95c2ab84bdf386ca7b34d4e282c02663a511de407a61569",
+      "bytes": 4256
+    }
+  ],
+  "supporting_local_evidence": [
+    {
+      "path": "build-reference/a01-datapoints-20261012/preregistered-plan.json",
+      "sha256": "ddb8f40ee15cbe9d65c182a31f21727e5472f856e65ab325731b97a57bb7601b",
+      "bytes": 3249
+    },
+    {
+      "path": "build-reference/a01-datapoints-20261012/plan-amendment-quick-scan.json",
+      "sha256": "9fc6add13b43ab197dda3f2f338002a502cdeade78a282636302089a6e7aa575",
+      "bytes": 1182
+    },
+    {
+      "path": "build-reference/a01-datapoints-20261012/archived-baselines.json",
+      "sha256": "45d34a4aef4076caea14fd9564ccd36913978678684b621f8686b8fe8f953339",
+      "bytes": 10575
+    },
+    {
+      "path": "build-reference/a01-datapoints-20261012/baseline-comparison.json",
+      "sha256": "8a3593c436993d4a00f35919c88f42c87b6237b8721ef4295fbe70849d36def1",
+      "bytes": 5708
+    },
+    {
+      "path": "build-reference/a01-datapoints-20261012/xml-integrity.json",
+      "sha256": "2cc92c7625565cabd84788f7754c2843a75e130df437e17e21a7e34cdaa80a1c",
+      "bytes": 283
+    },
+    {
+      "path": "build-reference/a01-datapoints-20261012/open-dialog-readonly.json",
+      "sha256": "1ed0ad6ab61c9346e3803b8ef6c455bd7d3aba6905bc36e31b59cbb8075202fd",
+      "bytes": 787
+    },
+    {
+      "path": "build-reference/a01-datapoints-20261012/python310-timestamp-initial-failure.log",
+      "sha256": "781f832ca7dd56705d524e08d774f1b04b53d2d7b6e88b2bba53a5d9332a45dc",
+      "bytes": 6024
+    }
+  ],
+  "tests": [
+    {
+      "configuration": "Python312",
+      "command": [
+        "C:\\Users\\Administrator\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+        "scripts/reference/test_analyze_am_pm_datapoints.py"
+      ],
+      "exit_code": 0,
+      "python_tests": 21,
+      "log": "build-reference/a01-datapoints-20261012/final-test-Python312.log",
+      "sha256": "eef90434c08715ab66396ecb2ffd79e1e73863284099b2569acd564e14466321"
+    },
+    {
+      "configuration": "Debug",
+      "command": [
+        "C:/Program Files (x86)/Microsoft Visual Studio/2022/BuildTools/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/bin/ctest.exe",
+        "--test-dir",
+        "D:\\project\\RFModel\\build-msvc",
+        "-C",
+        "Debug",
+        "-R",
+        "^am_pm_datapoints_hypotheses_test$",
+        "--output-on-failure",
+        "-V"
+      ],
+      "exit_code": 0,
+      "python_tests": 21,
+      "log": "build-reference/a01-datapoints-20261012/final-test-Debug.log",
+      "sha256": "1e476ef2c302884a27734186ec25408d63d8e1e2674ce0ff00d1b0492d1b55b5"
+    },
+    {
+      "configuration": "Release",
+      "command": [
+        "C:/Program Files (x86)/Microsoft Visual Studio/2022/BuildTools/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/bin/ctest.exe",
+        "--test-dir",
+        "D:\\project\\RFModel\\build-msvc",
+        "-C",
+        "Release",
+        "-R",
+        "^am_pm_datapoints_hypotheses_test$",
+        "--output-on-failure",
+        "-V"
+      ],
+      "exit_code": 0,
+      "python_tests": 21,
+      "log": "build-reference/a01-datapoints-20261012/final-test-Release.log",
+      "sha256": "9e2288b91c51ba138fbdd867f23e0e697cb4ef31365061592a81ab5f333219ed"
+    }
+  ],
+  "raw_replay_matches_committed_evidence": true,
+  "prior_uncommitted_files": [
+    {
+      "path": "scripts/reference/archive-cascade-reference.py",
+      "sha256": "a482db6bd6ae64c050d74e6df321749ec84a7098fb7aa49733079183149806dc",
+      "current_sha256": "a482db6bd6ae64c050d74e6df321749ec84a7098fb7aa49733079183149806dc",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/reference/capture-cascade-reference.ps1",
+      "sha256": "fb42165db2ad10c6213a415c2080e1eeb6e5ec0bcd1dc119bb1d1707c5283f3e",
+      "current_sha256": "fb42165db2ad10c6213a415c2080e1eeb6e5ec0bcd1dc119bb1d1707c5283f3e",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/reference/compare-cascade-amplifier.py",
+      "sha256": "af1260adb093946954d0fb7e4bb2059669706a291418aac19ba193fed7554d9d",
+      "current_sha256": "af1260adb093946954d0fb7e4bb2059669706a291418aac19ba193fed7554d9d",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/reference/run-systemvue-reference.py",
+      "sha256": "5df486d061ce09c28b396bf62e7fcba473dc6e9086d52861fdc7be6c85864f4e",
+      "current_sha256": "5df486d061ce09c28b396bf62e7fcba473dc6e9086d52861fdc7be6c85864f4e",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/reference/test_compare_cascade_amplifier.py",
+      "sha256": "190ea23b0ce0733846db8052ead9bb4d5ba41ff30e007c1f06e1a1753bc3fcf1",
+      "current_sha256": "190ea23b0ce0733846db8052ead9bb4d5ba41ff30e007c1f06e1a1753bc3fcf1",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/reference/test_run_systemvue_reference.py",
+      "sha256": "7eeeb2f890e59b986fec7eb9af58313f129b73ffccfd924f2f273ff52c396eb5",
+      "current_sha256": "7eeeb2f890e59b986fec7eb9af58313f129b73ffccfd924f2f273ff52c396eb5",
+      "unchanged": true
+    },
+    {
+      "path": "measurements_test.obj",
+      "sha256": "4935bda18e7d8471560016c7303f3b7136842ab2ec429975440c7d617de3d97f",
+      "current_sha256": "4935bda18e7d8471560016c7303f3b7136842ab2ec429975440c7d617de3d97f",
+      "unchanged": true
+    },
+    {
+      "path": "verify-measurements.cmd",
+      "sha256": "c629d73c222dad5768c3c33c88a66eea99daf012dc79885f6cd7a7f0cebf7f7f",
+      "current_sha256": "c629d73c222dad5768c3c33c88a66eea99daf012dc79885f6cd7a7f0cebf7f7f",
+      "unchanged": true
+    }
+  ],
+  "limitations": [
+    "Complete raw COM dumps and execution helpers remain local in ignored build-reference; committed observations include selected numerical/phasor evidence and hashes",
+    "Last point recovered after supervisor stopped owned helper on generic Simulation Status; do not infer synchronous return time",
+    "Initial startup/open crashes recorded; corrected native path opening succeeded but causality not established",
+    "DataPoints baseline warning preserved; not a warning-free baseline",
+    "No full C++ rebuild, full CTest, new remote CI or push in this stage"
+  ],
+  "user_assistance": [
+    "User confirmed clicking No on old workspace save prompt",
+    "User reported crash and authorized restart",
+    "User supplied crash-report screenshot and confirmed clicking Dont Send",
+    "User confirmed closing Getting Started dialog"
+  ],
+  "safety_settings_changed": false,
+  "pushed": false,
+  "selected_committed_artifacts": [
+    {
+      "path": "validation/am-pm-datapoints-plan-20261012.json",
+      "sha256": "ddb8f40ee15cbe9d65c182a31f21727e5472f856e65ab325731b97a57bb7601b",
+      "bytes": 3249
+    },
+    {
+      "path": "validation/am-pm-datapoints-followup-plan-20261012.json",
+      "sha256": "023818f24fa63b869029d13e598862a2ed95a6ea324d9ff5b4d486935a9403d4",
+      "bytes": 1172
+    },
+    {
+      "path": "validation/am-pm-datapoints-capture-manifest-20261012.json",
+      "sha256": "2302643e34db27588fb1f8b934af1a9b205ace4ad3afd4daff3593b9e2fafcc6",
+      "bytes": 6781
+    },
+    {
+      "path": "validation/am-pm-datapoints-observations-20261012.json",
+      "sha256": "66527c5c80264cfb2ba6394bd76754e5bcc65d5c81cc41309ef4980acdb3ba22",
+      "bytes": 298700
+    },
+    {
+      "path": "scripts/reference/archive-am-pm-datapoints.py",
+      "sha256": "816c42280c3cfa868d10461661871e11366f8bbd03a53847befeb9eb2e2c8e71",
+      "bytes": 9311
+    },
+    {
+      "path": "scripts/reference/analyze-am-pm-datapoints.py",
+      "sha256": "56d4b9db966d2a5bc991ba2dd683cfe4b9807f8c6b040317889bf057f5fc633e",
+      "bytes": 10741
+    },
+    {
+      "path": "scripts/reference/test_analyze_am_pm_datapoints.py",
+      "sha256": "1f89b3d78308c63aaf11e7271cf1999afe6e6bf03e5b7be01c34bef42d0af543",
+      "bytes": 16519
+    }
+  ]
+}

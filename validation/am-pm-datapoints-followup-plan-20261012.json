@@ -1,0 +1,37 @@
+{
+  "registered_utc": "2026-10-12T06:15:01.410055+00:00",
+  "classification": "post_initial_data_followup_preregistered_before_new_points",
+  "max_total_analysis_calls": 24,
+  "completed_analysis_calls": 22,
+  "additional_analysis_calls": 2,
+  "per_helper_timeout_seconds": 120,
+  "diagnostic_phase_absolute_tolerance_degrees": 1e-05,
+  "hypothesis": "Natural cubic spline on output dBm, numeric input angles, constant endpoint extension, plus source phase; zero-dBm anomaly retained as a counterexample, not excluded from overall assessment",
+  "prediction_basis": "Three-point natural spline endpoint second derivatives zero and interior second derivative -1.35 deg/dBm^2",
+  "planned_nominal_predictions_deg": {
+    "2.5": 22.7734375,
+    "0.001": 10.0052499999775
+  },
+  "profiles": [
+    {
+      "name": "natural-cubic-followup",
+      "power_dbm": [
+        0,
+        10,
+        20
+      ],
+      "phase_deg": [
+        10,
+        40,
+        -20
+      ],
+      "output_targets_dbm": [
+        2.5,
+        0.001
+      ],
+      "source_phase_deg": 0
+    }
+  ],
+  "tolerances_changed": false,
+  "vendor_compatibility": false
+}
