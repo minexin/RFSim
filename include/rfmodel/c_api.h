@@ -247,10 +247,23 @@ typedef struct rfmodel_polynomial_amplifier_parameters {
     size_t input_port, output_port;
 } rfmodel_polynomial_amplifier_parameters;
 
+/* Common-drive gain/limiter with explicit a2..a11 and generating RF bins.
+ * Empty coefficient/generating arrays are allowed (NULL only with count=0).
+ * Pointed storage remains valid throughout the call. */
+typedef struct rfmodel_highorder_amplifier_parameters {
+    double power_gain_db, output_p1db_dbm, output_saturation_dbm;
+    const double *nonlinear_voltage_coefficients;
+    size_t coefficient_count; /* 0..10: a2 through a11. */
+    const int *generating_bins;
+    size_t generating_count; /* 0..512; unique positive input bins. */
+    size_t input_port, output_port;
+} rfmodel_highorder_amplifier_parameters;
+
 enum rfmodel_conversion_nonlinear_kind {
     RFMODEL_NONLINEAR_BILINEAR_MIXER = 1,
     RFMODEL_NONLINEAR_SATURATING_AMPLIFIER = 2,
-    RFMODEL_NONLINEAR_POLYNOMIAL_AMPLIFIER = 3
+    RFMODEL_NONLINEAR_POLYNOMIAL_AMPLIFIER = 3,
+    RFMODEL_NONLINEAR_HIGHORDER_AMPLIFIER = 4
 };
 
 /* parameters points to the matching typed parameter struct. Unknown kinds fail.
@@ -469,6 +482,23 @@ typedef struct rfmodel_polynomial_amplifier_request {
 RFMODEL_API int
 rfmodel_linearize_polynomial_amplifier(const rfmodel_polynomial_amplifier_request *request,
                                        const rfmodel_conversion_linearization_output *output);
+
+typedef struct rfmodel_highorder_amplifier_request {
+    size_t count;
+    double spacing_hz, reference_ohms;
+    const size_t *physical_ports;
+    const int *bins;
+    const rfmodel_complex *operating_incident;
+    rfmodel_highorder_amplifier_parameters model;
+} rfmodel_highorder_amplifier_request;
+
+/* All input RF bins drive compression; only generating_bins create products.
+ * Requires all direct/generated RF outputs even at zero drive. DC is blocked;
+ * any incident DC must be zero. No same-frequency source-history selection.
+ * Both nested arrays are protected by the common non-overlap/atomicity contract. */
+RFMODEL_API int
+rfmodel_linearize_highorder_amplifier(const rfmodel_highorder_amplifier_request *request,
+                                      const rfmodel_conversion_linearization_output *output);
 
 /* Full local structural output bins, sorted. NULL output and zero capacity query
  * the count. Otherwise capacity must suffice. On failure all outputs, including

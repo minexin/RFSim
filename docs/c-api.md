@@ -87,3 +87,5 @@ RFMODEL_INVALID_ARGUMENT，不再落入内部未知错误；输出矩阵保持�
 
 rfmodel_loaded_noise 与 rfmodel_thermal_boundary_noise 扩展了外部失配和边界发射噪声，
 详细约定见 [失配噪声接口](loaded-noise.md)。原 network_external_noise 继续表示匹配外部条件。
+
+共同限幅高阶放大器的局部导数及混合器件工作点接口见 [高阶工作点接口](highorder-linearization.md)，支持显式 a2..a11、生成频点选择、反馈与收敛噪声。

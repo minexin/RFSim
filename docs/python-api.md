@@ -111,3 +111,5 @@ Library.loaded_noise 与 Library.thermal_boundary_noise 现支持已提取 N 端
 
 Library.compress_coherent_fundamentals 提供多个相干组的共同基波压缩，
 返回输入驱动和完整 CoherentReduction，见 [相干压缩接口](coherent-compression.md)。
+
+共同限幅高阶放大器的局部导数及混合器件工作点接口见 [高阶工作点接口](highorder-linearization.md)，支持显式 a2..a11、生成频点选择、反馈与收敛噪声。

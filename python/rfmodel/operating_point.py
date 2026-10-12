@@ -53,6 +53,31 @@ def polynomial_spec(model):
     return result
 
 
+def highorder_spec(model):
+    _object(
+        model,
+        (
+            "type",
+            "power_gain_db",
+            "output_p1db_dbm",
+            "output_saturation_dbm",
+            "nonlinear_voltage_coefficients",
+            "generating_bins",
+        ),
+        ("input_port", "output_port"),
+    )
+    result = {k: v for k, v in model.items() if k != "type"}
+    if not isinstance(result["nonlinear_voltage_coefficients"], list) or not isinstance(
+        result["generating_bins"], list
+    ):
+        raise ValueError("High-order coefficients and bins must be arrays")
+    # Shared strict typing and native range checks apply when the descriptor is packed.
+    from . import _highorder_parameters
+
+    _highorder_parameters(result)
+    return result
+
+
 def operating_options(value, total):
     _object(
         value,
@@ -82,7 +107,16 @@ def operating_options(value, total):
 
 
 def update_converged_models(
-    library, spacing, reference, devices, specs, waves, offsets, amplifiers=(), polynomials=()
+    library,
+    spacing,
+    reference,
+    devices,
+    specs,
+    waves,
+    offsets,
+    amplifiers=(),
+    polynomials=(),
+    highorders=(),
 ):
     starts, total = [], 0
     for device in devices:
@@ -92,6 +126,7 @@ def update_converged_models(
         [(s, library.linearize_bilinear_mixer) for s in specs]
         + [(s, library.linearize_saturating_amplifier) for s in amplifiers]
         + [(s, library.linearize_polynomial_amplifier) for s in polynomials]
+        + [(s, library.linearize_highorder_amplifier) for s in highorders]
     )
     for spec, linearize in models:
         parameters = dict(spec)

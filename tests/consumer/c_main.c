@@ -2,6 +2,21 @@
 #include <math.h>
 
 int main(int argc, char **argv) {
+    {
+        const size_t ports[3] = {0, 1, 1};
+        const int bins[3] = {1, 1, 3}, generating[1] = {1};
+        const double coefficients[2] = {0., .1};
+        const rfmodel_complex waves[3] = {{.01, 0.}, {0}, {0}};
+        rfmodel_complex values[21];
+        const rfmodel_highorder_amplifier_request request = {
+            3, 1e6, 50., ports, bins, waves, {20., 20., 23., coefficients, 2, generating, 1, 0, 1}};
+        const rfmodel_conversion_linearization_output output = {
+            values, values + 9, values + 18, 9, 3};
+        if (rfmodel_linearize_highorder_amplifier(&request, &output) != RFMODEL_OK ||
+            fabs(values[20].real - 2.5e-6) > 1e-12 || fabs(values[6].real - .00075) > 1e-12) {
+            return 1;
+        }
+    }
 
     {
         const double coefficients[4] = {0., 2., 0., -.02};

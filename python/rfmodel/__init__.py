@@ -357,6 +357,63 @@ class _PolynomialAmplifierRequest(ct.Structure):
     ]
 
 
+class _HighorderAmplifierParameters(ct.Structure):
+    _fields_ = [
+        ("power_gain_db", ct.c_double),
+        ("output_p1db_dbm", ct.c_double),
+        ("output_saturation_dbm", ct.c_double),
+        ("nonlinear_voltage_coefficients", ct.POINTER(ct.c_double)),
+        ("coefficient_count", ct.c_size_t),
+        ("generating_bins", ct.POINTER(ct.c_int)),
+        ("generating_count", ct.c_size_t),
+        ("input_port", ct.c_size_t),
+        ("output_port", ct.c_size_t),
+    ]
+
+
+class _HighorderAmplifierRequest(ct.Structure):
+    _fields_ = _SaturatingAmplifierRequest._fields_[:-1] + [
+        ("model", _HighorderAmplifierParameters)
+    ]
+
+
+def _highorder_parameters(spec):
+    anchors = {"power_gain_db", "output_p1db_dbm", "output_saturation_dbm"}
+    required = anchors | {"nonlinear_voltage_coefficients", "generating_bins"}
+    if (
+        not isinstance(spec, dict)
+        or not required <= spec.keys()
+        or set(spec) - required - {"input_port", "output_port"}
+    ):
+        raise ValueError("Invalid high-order amplifier parameters")
+    if any(type(spec[name]) not in (int, float) for name in anchors):
+        raise TypeError("High-order gain and power anchors must be numbers")
+    coefficients, generating = spec["nonlinear_voltage_coefficients"], spec["generating_bins"]
+    if isinstance(coefficients, (str, bytes, dict)) or isinstance(generating, (str, bytes, dict)):
+        raise ValueError("High-order coefficients and bins must be sequences")
+    coefficients, generating = tuple(coefficients), tuple(generating)
+    if len(coefficients) > 10 or any(type(v) not in (int, float) for v in coefficients):
+        raise ValueError("High-order requires 0..10 real coefficients a2..a11")
+    if len(generating) > 512 or any(
+        type(v) is not int or not 1 <= v <= 2147483647 for v in generating
+    ):
+        raise ValueError("High-order generating bins must be positive integers")
+    c = (ct.c_double * len(coefficients))(*coefficients)
+    g = (ct.c_int * len(generating))(*generating)
+    model = _HighorderAmplifierParameters(
+        spec["power_gain_db"],
+        spec["output_p1db_dbm"],
+        spec["output_saturation_dbm"],
+        c,
+        len(c),
+        g,
+        len(g),
+        _index(spec.get("input_port", 0)),
+        _index(spec.get("output_port", 1)),
+    )
+    return model, c, g
+
+
 def _polynomial_coefficients(values):
     if isinstance(values, (str, bytes, dict)):
         raise ValueError("Polynomial coefficients must be a numeric sequence")
@@ -463,6 +520,7 @@ def _operating_inputs(spec, total):
         "mixers",
         "amplifiers",
         "polynomials",
+        "highorders",
         "initial_incident",
         "max_iterations",
         "max_backtracks",
@@ -508,10 +566,14 @@ def _operating_inputs(spec, total):
     )
     amplifier_entries = tuple(spec.get("amplifiers", ()))
     polynomial_entries = tuple(spec.get("polynomials", ()))
-    if len(amplifier_entries) + len(polynomial_entries) + len(packed) > 512:
+    highorder_entries = tuple(spec.get("highorders", ()))
+    if (
+        len(amplifier_entries) + len(polynomial_entries) + len(highorder_entries) + len(packed)
+        > 512
+    ):
         raise ValueError("Too many nonlinear devices")
     models, parameters = None, []
-    if amplifier_entries or polynomial_entries:
+    if amplifier_entries or polynomial_entries or highorder_entries:
         entries = []
         for mixer in packed:
             parameters.append(mixer.model)
@@ -541,6 +603,16 @@ def _operating_inputs(spec, total):
             parameters.extend([model, coefficients])
             entries.append(
                 _ConversionNonlinearModel(device, 3, ct.cast(ct.pointer(model), ct.c_void_p))
+            )
+        for highorder in highorder_entries:
+            if not isinstance(highorder, dict) or "device" not in highorder:
+                raise ValueError("High-order amplifier requires device index")
+            fields = dict(highorder)
+            device = _index(fields.pop("device"))
+            model, coefficients, generating = _highorder_parameters(fields)
+            parameters.extend([model, coefficients, generating])
+            entries.append(
+                _ConversionNonlinearModel(device, 4, ct.cast(ct.pointer(model), ct.c_void_p))
             )
         models = (_ConversionNonlinearModel * len(entries))(*entries)
     return options, mixers, initial, models, parameters
@@ -1205,6 +1277,10 @@ class Library:
                     ct.POINTER(_Complex),
                     size,
                 ],
+            ),
+            "rfmodel_linearize_highorder_amplifier": (
+                ct.c_int,
+                [ct.POINTER(_HighorderAmplifierRequest), ct.POINTER(_MixerLinearizationOutput)],
             ),
             "rfmodel_linearize_polynomial_amplifier": (
                 ct.c_int,
@@ -2408,6 +2484,60 @@ class Library:
         )
         return tuple(output[: count.value])
 
+    def linearize_highorder_amplifier(
+        self,
+        spacing_hz,
+        channels,
+        operating_incident,
+        *,
+        nonlinear_voltage_coefficients,
+        generating_bins,
+        power_gain_db,
+        output_p1db_dbm,
+        output_saturation_dbm,
+        input_port=0,
+        output_port=1,
+        reference_ohms=50.0,
+    ):
+        """Common-limited high-order RF response, exact A/B and general affine offset."""
+        ports, bins = _conversion_channels(channels)
+        count = len(ports)
+        waves = tuple(complex(value) for value in operating_incident)
+        if len(waves) != count:
+            raise ValueError("High-order operating point must cover every channel")
+        native = (_Complex * count)(*(_Complex.from_value(v) for v in waves))
+        parameters, coefficients, generating = _highorder_parameters(
+            dict(
+                nonlinear_voltage_coefficients=nonlinear_voltage_coefficients,
+                generating_bins=generating_bins,
+                power_gain_db=power_gain_db,
+                output_p1db_dbm=output_p1db_dbm,
+                output_saturation_dbm=output_saturation_dbm,
+                input_port=input_port,
+                output_port=output_port,
+            )
+        )
+        request = _HighorderAmplifierRequest(
+            count, float(spacing_hz), float(reference_ohms), ports, bins, native, parameters
+        )
+        direct, conjugate = (_Complex * (count * count))(), (_Complex * (count * count))()
+        nominal = (_Complex * count)()
+        output = _MixerLinearizationOutput(direct, conjugate, nominal, count * count, count)
+        self._check(
+            self._dll.rfmodel_linearize_highorder_amplifier(ct.byref(request), ct.byref(output))
+        )
+        a, b, values = (
+            _rows(direct, count),
+            _rows(conjugate, count),
+            tuple(v.value() for v in nominal),
+        )
+        offset = tuple(
+            values[i]
+            - sum(a[i][j] * waves[j] + b[i][j] * waves[j].conjugate() for j in range(count))
+            for i in range(count)
+        )
+        return AmplifierLinearization(a, b, values, offset)
+
     def linearize_polynomial_amplifier(
         self,
         spacing_hz,
@@ -2555,6 +2685,7 @@ class Library:
         mixers=(),
         amplifiers=(),
         polynomials=(),
+        highorders=(),
         initial_incident=None,
         max_iterations=50,
         max_backtracks=24,
@@ -2562,7 +2693,7 @@ class Library:
         absolute_tolerance=1e-12,
         **network_options,
     ):
-        """Native damped Newton with mixer, compressed and polynomial amplifier overrides."""
+        """Native damped Newton with mixer and nonlinear amplifier overrides."""
         return self.conversion_network(
             spacing_hz,
             devices,
@@ -2571,6 +2702,7 @@ class Library:
                 mixers=mixers,
                 amplifiers=amplifiers,
                 polynomials=polynomials,
+                highorders=highorders,
                 initial_incident=initial_incident,
                 max_iterations=max_iterations,
                 max_backtracks=max_backtracks,

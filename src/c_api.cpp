@@ -35,6 +35,7 @@
 #include "rfmodel/loaded_noise.hpp"
 #include "rfmodel/amplifier_model.hpp"
 #include "rfmodel/polynomial_amplifier.hpp"
+#include "rfmodel/highorder_linearization.hpp"
 #include "rfmodel/ideal_mixer.hpp"
 #include "rfmodel/spectrum_analysis.hpp"
 #include "rfmodel/tabulated_model.hpp"
@@ -481,6 +482,42 @@ polynomial_model(const rfmodel_polynomial_amplifier_parameters &parameters) {
                             parameters.voltage_coefficients + parameters.coefficient_count));
 }
 
+std::vector<std::pair<const void *, size_t>>
+highorder_ranges(const rfmodel_highorder_amplifier_parameters &p) {
+    require(p.coefficient_count <= 10 &&
+            (!p.coefficient_count || p.nonlinear_voltage_coefficients));
+    require(p.generating_count <= 512 && (!p.generating_count || p.generating_bins));
+    return {{p.nonlinear_voltage_coefficients, p.coefficient_count * sizeof(double)},
+            {p.generating_bins, p.generating_count * sizeof(int)}};
+}
+
+rfmodel::ConversionLinearization
+highorder_point(double spacing,
+                const std::vector<rfmodel::ConversionChannel> &channels,
+                const std::vector<rfmodel::Complex> &waves,
+                const rfmodel_highorder_amplifier_parameters &p,
+                double reference) {
+    highorder_ranges(p);
+    std::vector<double> coefficients;
+    std::vector<int> generating;
+    if (p.coefficient_count) {
+        coefficients.assign(p.nonlinear_voltage_coefficients,
+                            p.nonlinear_voltage_coefficients + p.coefficient_count);
+    }
+    if (p.generating_count) {
+        generating.assign(p.generating_bins, p.generating_bins + p.generating_count);
+    }
+    return rfmodel::linearize_highorder_amplifier(
+        spacing,
+        channels,
+        waves,
+        rfmodel::CoherentHighOrderAmplifier(
+            p.power_gain_db, p.output_p1db_dbm, p.output_saturation_dbm, coefficients, reference),
+        generating,
+        p.input_port,
+        p.output_port);
+}
+
 void analyze_conversion_network_outputs(
     const rfmodel_conversion_request *devices,
     size_t device_count,
@@ -569,6 +606,14 @@ void analyze_conversion_network_outputs(
                     *static_cast<const rfmodel_polynomial_amplifier_parameters *>(
                         models[i].parameters)));
                 break;
+            case RFMODEL_NONLINEAR_HIGHORDER_AMPLIFIER:
+                bytes = sizeof(rfmodel_highorder_amplifier_parameters);
+                for (const auto &range :
+                     highorder_ranges(*static_cast<const rfmodel_highorder_amplifier_parameters *>(
+                         models[i].parameters))) {
+                    inputs.push_back(range);
+                }
+                break;
             default:
                 throw std::invalid_argument("unknown nonlinear conversion model kind");
             }
@@ -629,6 +674,15 @@ void analyze_conversion_network_outputs(
                     spec.device,
                     base,
                     *static_cast<const rfmodel_bilinear_mixer_parameters *>(spec.parameters)));
+            } else if (spec.kind == RFMODEL_NONLINEAR_HIGHORDER_AMPLIFIER) {
+                const auto parameters =
+                    *static_cast<const rfmodel_highorder_amplifier_parameters *>(spec.parameters);
+                const auto channels = base.channels();
+                const double spacing = base.spacing_hz(), reference = base.reference_ohms();
+                nonlinear.push_back({spec.device, [=](const std::vector<rfmodel::Complex> &wave) {
+                                         return highorder_point(
+                                             spacing, channels, wave, parameters, reference);
+                                     }});
             } else if (spec.kind == RFMODEL_NONLINEAR_POLYNOMIAL_AMPLIFIER) {
                 const auto parameters =
                     *static_cast<const rfmodel_polynomial_amplifier_parameters *>(spec.parameters);
@@ -2140,6 +2194,21 @@ int rfmodel_linearize_saturating_amplifier(const rfmodel_saturating_amplifier_re
             request, output, [](const auto &r, const auto &channels, const auto &waves) {
                 return amplifier_point(r.spacing_hz, channels, waves, r.model, r.reference_ohms);
             });
+    });
+}
+
+int rfmodel_linearize_highorder_amplifier(const rfmodel_highorder_amplifier_request *request,
+                                          const rfmodel_conversion_linearization_output *output) {
+    return guarded([&] {
+        require(request);
+        const auto ranges = highorder_ranges(request->model);
+        linearize_conversion_outputs(
+            request,
+            output,
+            [](const auto &r, const auto &channels, const auto &waves) {
+                return highorder_point(r.spacing_hz, channels, waves, r.model, r.reference_ohms);
+            },
+            ranges);
     });
 }
 
