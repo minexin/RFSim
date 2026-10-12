@@ -1,0 +1,159 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-12",
+  "stage": "C++17 conversion network structural frequency closure",
+  "base_commit": "294a136755dd7c2cf7144d10a1c3e2874e4d49fb",
+  "implementation_scope": [
+    "Copy, real polynomial degree 0..11 and bilinear mixer support rules",
+    "Least finite closure with bidirectional physical port connections",
+    "Stable port/bin ordering and original seed-to-channel index mapping",
+    "Explicit frequency/resource failure without spectral truncation"
+  ],
+  "verification": {
+    "msvc_debug_ctest": "124/124",
+    "msvc_release_ctest": "124/124",
+    "installed_debug_consumers": "2/2",
+    "installed_release_consumers": "2/2",
+    "cpp_format_files": 152,
+    "independent_numeric_reference": "Time-domain mixed-signal multiplication and polynomial evaluation, then Fourier projection of all 9 final bins",
+    "integrated_network_channels": 24
+  },
+  "logs": [
+    {
+      "path": "build-reference/frequency-plan-build-Debug.log",
+      "sha256": "67c8e4acffaba921b40582de1d28bd756b867b1a281ae77b0856331d30708dcb",
+      "exit_code": 0
+    },
+    {
+      "path": "build-reference/frequency-plan-ctest-Debug.log",
+      "sha256": "c7eef041511f6e136a5336cafe90a85765c784413c8c828d50ea0a425e2d1999",
+      "exit_code": 0
+    },
+    {
+      "path": "build-reference/frequency-plan-install-Debug.log",
+      "sha256": "037ee7fefdde2c02cb366559d81303f93e7e4aad5dec2291959f9a35b3e1a6b1",
+      "exit_code": 0
+    },
+    {
+      "path": "build-reference/frequency-plan-consumer-configure-Debug.log",
+      "sha256": "16a2d707d282217968900de3bae83d7a7230e6e669133460edb01dad4df07d98",
+      "exit_code": 0
+    },
+    {
+      "path": "build-reference/frequency-plan-consumer-build-Debug.log",
+      "sha256": "7bd28c8e5fa39cb72ccf1a6cbd052b6fb9b94e59dd258e5cb42b91a2291848dd",
+      "exit_code": 0
+    },
+    {
+      "path": "build-reference/frequency-plan-consumer-ctest-Debug.log",
+      "sha256": "54e1de233612dbfbfc14063ad36fe25245a37c768f0991bba461912a98821c75",
+      "exit_code": 0
+    },
+    {
+      "path": "build-reference/frequency-plan-build-Release.log",
+      "sha256": "3f28ca18f6ba2e1d1bff0bb00eceac080ef2d19c1b13a0d071b08e8cfbf97e12",
+      "exit_code": 0
+    },
+    {
+      "path": "build-reference/frequency-plan-ctest-Release.log",
+      "sha256": "ff2f28236df165b5de4e56b0dd38cfc9236acab0bd98486300d2a05fbd82ba04",
+      "exit_code": 0
+    },
+    {
+      "path": "build-reference/frequency-plan-install-Release.log",
+      "sha256": "2d76e81e5302cec9d14dbffc593a82a2abc98b3294634fbeace28ae6c44a5150",
+      "exit_code": 0
+    },
+    {
+      "path": "build-reference/frequency-plan-consumer-configure-Release.log",
+      "sha256": "3ca93bfe7b4b9cfe57de7d220dd32a3c86824ad367c89bc5bee2edf9ec6cc66b",
+      "exit_code": 0
+    },
+    {
+      "path": "build-reference/frequency-plan-consumer-build-Release.log",
+      "sha256": "735f84fc3c113e97a708517c3879e52b281133618281ead8c62d0b9041d691fb",
+      "exit_code": 0
+    },
+    {
+      "path": "build-reference/frequency-plan-consumer-ctest-Release.log",
+      "sha256": "c191668713a0d0bb461e46eb05b5b8002de5cbaf3cf642c802f408a90a6b808a",
+      "exit_code": 0
+    },
+    {
+      "path": "build-reference/frequency-plan-format.log",
+      "sha256": "6b564ccf75a2ea2d32247be56469ef5645bd2979c2a7c48eaee727d186a05f96",
+      "exit_code": 0
+    }
+  ],
+  "source_files": [
+    {
+      "path": "include/rfmodel/conversion_frequency_plan.hpp",
+      "sha256": "5b557a465254b607c588097f448b6ee39bc98a006ab13317daa2e748822808f0"
+    },
+    {
+      "path": "tests/conversion_frequency_plan_test.cpp",
+      "sha256": "e00f7f83fb548666c20ec86a93586a77f358e512bd57f613e4ff70ce5c533336"
+    },
+    {
+      "path": "tests/consumer/main.cpp",
+      "sha256": "5a8dd4441106f65864e9a9235d5931fe2aa60bd9d946ef795c4e8c8663d812ef"
+    },
+    {
+      "path": "CMakeLists.txt",
+      "sha256": "1aca752d3ab482b94ef344c45f4053dad2ad0ef256aa3fd8267f907452629569"
+    }
+  ],
+  "prior_uncommitted_files": [
+    {
+      "path": "scripts/reference/archive-cascade-reference.py",
+      "sha256": "a482db6bd6ae64c050d74e6df321749ec84a7098fb7aa49733079183149806dc",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/reference/capture-cascade-reference.ps1",
+      "sha256": "fb42165db2ad10c6213a415c2080e1eeb6e5ec0bcd1dc119bb1d1707c5283f3e",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/reference/compare-cascade-amplifier.py",
+      "sha256": "af1260adb093946954d0fb7e4bb2059669706a291418aac19ba193fed7554d9d",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/reference/run-systemvue-reference.py",
+      "sha256": "5df486d061ce09c28b396bf62e7fcba473dc6e9086d52861fdc7be6c85864f4e",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/reference/test_compare_cascade_amplifier.py",
+      "sha256": "190ea23b0ce0733846db8052ead9bb4d5ba41ff30e007c1f06e1a1753bc3fcf1",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/reference/test_run_systemvue_reference.py",
+      "sha256": "7eeeb2f890e59b986fec7eb9af58313f129b73ffccfd924f2f273ff52c396eb5",
+      "unchanged": true
+    },
+    {
+      "path": "measurements_test.obj",
+      "sha256": "4935bda18e7d8471560016c7303f3b7136842ab2ec429975440c7d617de3d97f",
+      "unchanged": true
+    },
+    {
+      "path": "verify-measurements.cmd",
+      "sha256": "c629d73c222dad5768c3c33c88a66eea99daf012dc79885f6cd7a7f0cebf7f7f",
+      "unchanged": true
+    }
+  ],
+  "new_systemvue_analysis_calls": 0,
+  "pushed": false,
+  "vendor_compatibility_proven": false,
+  "limitations": [
+    "C++ API only; C ABI/Python/JSON frequency planning not integrated yet",
+    "No automatic device rule inference, spectral truncation or SystemVue spectrum reduction",
+    "No new non-Windows or remote CI validation",
+    "Incremental full-target build, not clean-first",
+    "Full CTest used preserved prior draft scripts; not clean-checkout validation",
+    "Frequency closure does not guarantee operating point convergence or stability"
+  ]
+}

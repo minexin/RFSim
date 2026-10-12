@@ -80,7 +80,7 @@ Windows 本机可运行 `scripts/build-msvc.ps1` 自动定位已有 VS 工具链
 
 [固定泵频率转换与相关噪声](docs/frequency-conversion.md) 新增直接/共轭转换矩阵、跨频率反射反馈、DC 及 C/P 噪声统计量，贯通 C++/C/Python/JSON；厂商 Mixer 标定仍待完成。
 
-[多器件转换网络](docs/conversion-network.md) 已支持线性器件与混频器按物理端口接线、反射往返、镜像噪声折叠及跨频率 C/P，提供完整 JSON/CLI 示例；频率自动扩展仍待完成；双线性混频与公共基波压缩已支持工作点联立。
+[多器件转换网络](docs/conversion-network.md) 已支持线性器件与混频器按物理端口接线、反射往返、镜像噪声折叠及跨频率 C/P，提供完整 JSON/CLI 示例；C++已有结构频率规划，跨语言自动扩频接入仍待完成；双线性混频与公共基波压缩已支持工作点联立。
 
 [变频网络噪声分析](docs/conversion-noise-analysis.md) 支持显式参考/热噪声频带、单边带和多频带归一化、复反射及等效输入噪声温度，保留原网络源条件；宽带、热负载和厂商 CNF 验收仍待完成。
 
@@ -104,4 +104,6 @@ Windows 本机可运行 `scripts/build-msvc.ps1` 自动定位已有 VS 工具链
 
 [共同限幅高阶工作点](docs/highorder-linearization.md)提供既有高阶放大器的 C++/C/Python/JSON 链式导数与工作点接口、生成频点选择、混合器件反馈和收敛噪声；厂商模型语义仍待实测验收。
 
-[旧式峰值导数 AM-PM](docs/am-pm.md)提供文档约束推导的 C++ 相位曲线及工作点链式导数；跨语言接口与厂商实测仍待完成。
+[旧式峰值导数 AM-PM](docs/am-pm.md)已提供 C++/C/Python/JSON 相位曲线及工作点链式导数；[实测对比](docs/systemvue-am-pm-existing-reference.md)有30/37点超差，厂商兼容仍未完成。
+
+[转换网络结构频率规划](docs/conversion-frequency-plan.md)新增 C++17 规则与物理接线的联合闭合，自动补齐双线性混频和十一阶多项式产物，生成现有工作点求解器所需通道；跨语言接入、频谱截断和厂商选频语义仍待完成。

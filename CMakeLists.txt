@@ -429,3 +429,7 @@ add_test(NAME highorder_linearization_test COMMAND highorder_linearization_test)
 add_executable(am_pm_test tests/am_pm_test.cpp)
 target_link_libraries(am_pm_test PRIVATE rfmodel)
 add_test(NAME am_pm_test COMMAND am_pm_test)
+
+add_executable(conversion_frequency_plan_test tests/conversion_frequency_plan_test.cpp)
+target_link_libraries(conversion_frequency_plan_test PRIVATE rfmodel)
+add_test(NAME conversion_frequency_plan_test COMMAND conversion_frequency_plan_test)

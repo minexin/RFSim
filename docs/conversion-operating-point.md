@@ -10,7 +10,7 @@ ConversionNonlinearDevice 以器件索引和 evaluate 回调描述非线性。�
 
 ConversionDevice 继续保存源、反射及独立源/内部噪声 C/P。回调替换该器件的确定性模型；普通器件保持原 A/B。全局 fixed_offset 可作为额外确定性内部出射项，适用于已接线通道。噪声数组在本次求解中固定，回调不隐式生成工作点相关器件噪声。
 
-linearize_bilinear_mixer 使用固定系数 k=10^(gain_db/20)/lo_reference_amplitude，时域 RMS 波定义为 y=sqrt(2)*k*x_RF*x_LO。lo_reference_amplitude 的单位为 sqrt(W)，必须为有限正数。实际 LO 可为零、多谱线或 DC；它改变输出而不会重设 k。所有 RF/LO 通道对的和频与绝对差频 IF 通道必须显式提供，即使初始波为零也会检查。接口不自动扩频。
+linearize_bilinear_mixer 使用固定系数 k=10^(gain_db/20)/lo_reference_amplitude，时域 RMS 波定义为 y=sqrt(2)*k*x_RF*x_LO。lo_reference_amplitude 的单位为 sqrt(W)，必须为有限正数。实际 LO 可为零、多谱线或 DC；它改变输出而不会重设 k。所有 RF/LO 通道对的和频与绝对差频 IF 通道必须显式提供，即使初始波为零也会检查。该局部接口不自动扩频；C++调用者可先使用[网络结构频率规划](conversion-frequency-plan.md)沿器件规则和物理接线生成闭合通道。
 
 原 linearize_real_mixer 保持给定单泵工作点归一化与名义/一阶频率闭合语义。不能在每次迭代中按当前 LO 幅度重新归一化，然后将其当作固定的非线性器件。
 

@@ -1,3 +1,4 @@
+#include "rfmodel/conversion_frequency_plan.hpp"
 #include "rfmodel/am_pm_linearization.hpp"
 #include "rfmodel/highorder_linearization.hpp"
 #include "rfmodel/polynomial_linearization.hpp"
@@ -44,6 +45,17 @@
 #include <rfmodel/term_propagation.hpp>
 
 int main() {
+    {
+        const auto plan = rfmodel::plan_conversion_frequencies(
+            1e6, {{{0, 1, 2}, {{0, 5}, {1, 3}}, {rfmodel::FrequencyMixerRule{0, 1, 2}}}}, {});
+        const auto point =
+            rfmodel::linearize_bilinear_mixer(1e6, plan.channels[0], {.2, .5, 0., 0.}, 0., 1.);
+        if (plan.total_channels != 4 || plan.channels[0][2].bin != 2 ||
+            plan.channels[0][3].bin != 8 || std::abs(point.operating_outgoing[2] - .1) > 1e-12 ||
+            std::abs(point.operating_outgoing[3] - .1) > 1e-12) {
+            return 110;
+        }
+    }
     {
         const rfmodel::LegacyPointDerivativeAmPm phase(-5., 10.);
         const auto original = rfmodel::linearize_saturating_amplifier(
