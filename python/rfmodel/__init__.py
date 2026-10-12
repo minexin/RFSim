@@ -15,7 +15,9 @@ from .frequency_plan import (
 
 from .monte_carlo import (
     MonteCarloParameter, MonteCarloLimits, MonteCarloStatistics, MonteCarloSample, MonteCarloResult,
+    MonteCarloJointStatistics, MonteCarloExtendedResult,
     _signatures as _monte_carlo_signatures, run_monte_carlo as _run_monte_carlo,
+    run_monte_carlo_extended as _run_monte_carlo_extended,
 )
 from .optimization import (
     OptimizationParameter, OptimizationResult, OptimizationEvaluation,
@@ -1755,6 +1757,10 @@ class Library:
     def run_monte_carlo(self, parameters, metric_count, evaluate, **options):
         """Run native Monte Carlo sampling with a synchronous multi-metric evaluator."""
         return _run_monte_carlo(self, parameters, metric_count, evaluate, **options)
+
+    def run_monte_carlo_extended(self, parameters, metric_count, evaluate, **options):
+        """Run native correlated sampling and optional paired statistics with an extended snapshot."""
+        return _run_monte_carlo_extended(self, parameters, metric_count, evaluate, **options)
 
     def minimize_bounded(self, parameters, objective, **options):
         """Minimize a Python objective using native bounded coordinate polling."""

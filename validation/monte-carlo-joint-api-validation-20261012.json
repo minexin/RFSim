@@ -1,0 +1,1073 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-12",
+  "stage": "A09 correlated Monte Carlo C/Python extension and JSON v2",
+  "base_commit": "d888587728bef144bba5e9d4daf5c56231d87b09",
+  "implementation": [
+    "Additive C entry point and extension struct; all previous C struct declarations preserved",
+    "Failure-atomic dependence and optional joint matrix reads, no reevaluation",
+    "Original Python 19-field result preserved; new immutable extended snapshot",
+    "Version 2 JSON tasks and results expose optional latent matrix and accepted-row joint statistics",
+    "Version 1 options/result shape and independent random stream preserved",
+    "Matrix/options/version frozen before user callbacks; safe fatal and extraction cleanup",
+    "Installed C consumer uses the new extension; Windows prior binary and Linux prior-source/SDK consumer run against new libraries"
+  ],
+  "independent_checks": [
+    "Pure C query bounds/overlap/failure atomicity, frozen input and reentrant callbacks",
+    "18 Python tests cover six distributions, paired covariance, scale extremes, failures/cancellation and handle cleanup",
+    "Version 2 tasks execute all nine analysis formats",
+    "CLI protects source/Touchstone hardlinks and old outputs on invalid requests",
+    "4096 task parameter samples exactly match corresponding native C++ samples",
+    "RF powers, sample moments, covariance/correlation and quantiles independently recomputed",
+    "Legacy native output exactly matches previous stage in each environment"
+  ],
+  "configurations": [
+    {
+      "platform": "Windows",
+      "configuration": "Debug",
+      "build": "clean-first all targets; Linux fresh native directory",
+      "ctest": {
+        "passed": 146,
+        "total": 146,
+        "seconds": 146.03,
+        "log": {
+          "path": "build-reference/monte-carlo-joint-api-ctest-Debug.log",
+          "sha256": "e752d966b1969b13a0962fa2252efd8060f8991b4e490fe09046ddd727548d46"
+        }
+      },
+      "installed_consumers": {
+        "passed": 2,
+        "total": 2,
+        "seconds": 0.25,
+        "log": {
+          "path": "build-reference/monte-carlo-joint-api-consumer-ctest-Debug.log",
+          "sha256": "8b23665fc457b1862046796ba103807daa6a94da7fe81be2e685f3c979e47c90"
+        }
+      },
+      "wheel_report": {
+        "path": "build-reference/monte-carlo-joint-api-wheel-Debug/installed-python-validation.json",
+        "sha256": "fce52616dcf0ff7fd291bb90e0dc22493b3890955049ba9348470025f0cd2d2e"
+      },
+      "wheel_tests": 462,
+      "wheel_suites": 29,
+      "extended_tests": 18,
+      "wheel": {
+        "path": "D:\\project\\RFModel\\build-reference\\monte-carlo-joint-api-wheel\\rfmodel-0.1.0-py3-none-any.whl",
+        "sha256": "4a34968fcaf17e8f3328b57f315c27a86561bb957ddc464a3964f03ed6dc147b"
+      },
+      "native_library": {
+        "path": "D:\\project\\RFModel\\build-reference\\monte-carlo-joint-api-install-Debug\\bin\\rfmodel_cd.dll",
+        "sha256": "555de4d99943f6178e91e11d0ac165b2c137691daddca1f8424a8d650cf93443"
+      },
+      "example": {
+        "samples": 4096,
+        "analysis_evaluations": 4096,
+        "passed_samples": 2066,
+        "parameter_stream_exactly_matches_cpp": true,
+        "maximum_native_metric_errors": [
+          5.551115123125783e-17,
+          5.551115123125783e-17
+        ],
+        "maximum_independent_physical_errors": [
+          2.7755575615628914e-16,
+          2.7755575615628914e-16
+        ],
+        "parameter_joint": {
+          "dimension": 2,
+          "count": 4096,
+          "sample_covariance": [
+            3.9320574154306662,
+            3.1776347322036202,
+            3.1776347322036202,
+            3.9935326030086986
+          ],
+          "sample_correlation": [
+            1.0,
+            0.8018911699170822,
+            0.8018911699170822,
+            1.0
+          ]
+        },
+        "metric_joint": {
+          "dimension": 2,
+          "count": 4096,
+          "sample_covariance": [
+            8.979170367532055e-05,
+            -8.949012841523606e-05,
+            -8.949012841523606e-05,
+            8.92610936249781e-05
+          ],
+          "sample_correlation": [
+            1.0,
+            -0.9995992546782438,
+            -0.9995992546782438,
+            1.0
+          ]
+        },
+        "report": {
+          "path": "build-reference/monte-carlo-joint-api-task-Windows-Debug.json",
+          "sha256": "2f4716eed242d614e9b81eb1a2f8bedf53a02f93cc1b4d4f796e71ad421b0e57"
+        },
+        "replay": {
+          "path": "build-reference/monte-carlo-joint-api-task-replay-Windows-Debug.json",
+          "sha256": "2f4716eed242d614e9b81eb1a2f8bedf53a02f93cc1b4d4f796e71ad421b0e57"
+        },
+        "replay_identical": true,
+        "native_example": {
+          "path": "build-reference/monte-carlo-joint-api-example-Windows-Debug.json",
+          "sha256": "6bd834b15897ff8e63d3991caf3ab0fbd25b377cb2cbab970f9ed79318b185ac"
+        },
+        "native_unchanged_from_previous_stage": true,
+        "native_checks": {
+          "samples": 4096,
+          "passed_samples": 2066,
+          "passed_fraction": 0.50439453125,
+          "maximum_physical_errors": [
+            2.7755575615628914e-16,
+            2.7755575615628914e-16,
+            1.1368683772161603e-13
+          ],
+          "population_standard_errors": {
+            "total_resistance_mean": 0.1651102800372499,
+            "total_resistance_variance": -0.3743768139722572,
+            "parameter_covariance": -0.27939532847123927,
+            "pass_fraction": 0.5625
+          },
+          "declared_standard_error_limit": 6,
+          "parameter_joint": {
+            "dimension": 2,
+            "count": 4096,
+            "sample_covariance": [
+              3.9320574154306662,
+              3.1776347322036202,
+              3.1776347322036202,
+              3.9935326030086986
+            ],
+            "sample_correlation": [
+              1,
+              0.8018911699170822,
+              0.8018911699170822,
+              1
+            ]
+          },
+          "metric_joint": {
+            "dimension": 3,
+            "count": 4096,
+            "sample_covariance": [
+              8.979170367532055e-05,
+              -8.949012841523606e-05,
+              -0.03577732520834233,
+              -8.949012841523606e-05,
+              8.92610936249781e-05,
+              0.03569982086496018,
+              -0.03577732520834233,
+              0.03569982086496018,
+              14.280859482846607
+            ],
+            "sample_correlation": [
+              1,
+              -0.9995992546782438,
+              -0.9991083527628697,
+              -0.9995992546782438,
+              1,
+              0.9999027485994639,
+              -0.9991083527628697,
+              0.9999027485994639,
+              1
+            ]
+          }
+        }
+      },
+      "previous_binary_compatibility": {
+        "passed": true,
+        "log": {
+          "path": "build-reference/monte-carlo-joint-api-legacy-Debug.log",
+          "sha256": "9d73e9180638275bd0f6b0da81227d2c3a250977845ea5bd12e784a294585849"
+        },
+        "built_before_current_changes": true,
+        "previous_binary": {
+          "path": "build-reference/monte-carlo-joint-consumer-Debug/Debug/c_consumer.exe",
+          "sha256": "230a1388c4e61dae72aec86f8611d85d7c7c9d675984e8aa0debd3fc5e9cb5bd"
+        },
+        "executed_binary": {
+          "path": "build-reference/monte-carlo-joint-api-legacy-Debug/c_consumer.exe",
+          "sha256": "230a1388c4e61dae72aec86f8611d85d7c7c9d675984e8aa0debd3fc5e9cb5bd"
+        },
+        "native_library": {
+          "path": "build-reference/monte-carlo-joint-api-legacy-Debug/rfmodel_cd.dll",
+          "sha256": "555de4d99943f6178e91e11d0ac165b2c137691daddca1f8424a8d650cf93443"
+        }
+      },
+      "logs": [
+        {
+          "path": "build-reference/monte-carlo-joint-api-build-Debug.log",
+          "sha256": "a38707fad9925950dee86c9d1f309960720e553fa85b0ec7fbc7c18b698aec8b"
+        },
+        {
+          "path": "build-reference/monte-carlo-joint-api-install-Debug.log",
+          "sha256": "295d2ebf3b1fceaf52afdcacf60fc17e51d7d9d0c93842dbe56430f22633748f"
+        },
+        {
+          "path": "build-reference/monte-carlo-joint-api-consumer-configure-Debug.log",
+          "sha256": "0445e25b074ef51fc7f1544f32058eb4162474ea07142fefef8d85551a92f1c8"
+        },
+        {
+          "path": "build-reference/monte-carlo-joint-api-consumer-build-Debug.log",
+          "sha256": "af3549e8cf32d7e77569ef6cc4d67ac8ae9977eb26fa0ed05692547bcded3e22"
+        }
+      ]
+    },
+    {
+      "platform": "Windows",
+      "configuration": "Release",
+      "build": "clean-first all targets; Linux fresh native directory",
+      "ctest": {
+        "passed": 146,
+        "total": 146,
+        "seconds": 86.48,
+        "log": {
+          "path": "build-reference/monte-carlo-joint-api-ctest-Release.log",
+          "sha256": "f998b37dcac855cfc3ca456a3ecbdcd5256b91499f1a2d1b681ce48cfa8d7f7e"
+        }
+      },
+      "installed_consumers": {
+        "passed": 2,
+        "total": 2,
+        "seconds": 0.2,
+        "log": {
+          "path": "build-reference/monte-carlo-joint-api-consumer-ctest-Release.log",
+          "sha256": "e010bde18a64e413f95d22027c79b7e85a22336b46c1007791f35be7e4c57d57"
+        }
+      },
+      "wheel_report": {
+        "path": "build-reference/monte-carlo-joint-api-wheel-Release/installed-python-validation.json",
+        "sha256": "44a584df1f73db0d59f1f1b80cf7731b45ed3eb81816ce72b3cb3e9b19670f88"
+      },
+      "wheel_tests": 462,
+      "wheel_suites": 29,
+      "extended_tests": 18,
+      "wheel": {
+        "path": "D:\\project\\RFModel\\build-reference\\monte-carlo-joint-api-wheel\\rfmodel-0.1.0-py3-none-any.whl",
+        "sha256": "4a34968fcaf17e8f3328b57f315c27a86561bb957ddc464a3964f03ed6dc147b"
+      },
+      "native_library": {
+        "path": "D:\\project\\RFModel\\build-reference\\monte-carlo-joint-api-install-Release\\bin\\rfmodel_c.dll",
+        "sha256": "639f625ba4b93d9478b4ac35218a75d63b73f967c677e2bffb3bf577ce458ff7"
+      },
+      "example": {
+        "samples": 4096,
+        "analysis_evaluations": 4096,
+        "passed_samples": 2066,
+        "parameter_stream_exactly_matches_cpp": true,
+        "maximum_native_metric_errors": [
+          5.551115123125783e-17,
+          5.551115123125783e-17
+        ],
+        "maximum_independent_physical_errors": [
+          2.7755575615628914e-16,
+          2.7755575615628914e-16
+        ],
+        "parameter_joint": {
+          "dimension": 2,
+          "count": 4096,
+          "sample_covariance": [
+            3.9320574154306662,
+            3.1776347322036202,
+            3.1776347322036202,
+            3.9935326030086986
+          ],
+          "sample_correlation": [
+            1.0,
+            0.8018911699170822,
+            0.8018911699170822,
+            1.0
+          ]
+        },
+        "metric_joint": {
+          "dimension": 2,
+          "count": 4096,
+          "sample_covariance": [
+            8.979170367532055e-05,
+            -8.949012841523606e-05,
+            -8.949012841523606e-05,
+            8.92610936249781e-05
+          ],
+          "sample_correlation": [
+            1.0,
+            -0.9995992546782438,
+            -0.9995992546782438,
+            1.0
+          ]
+        },
+        "report": {
+          "path": "build-reference/monte-carlo-joint-api-task-Windows-Release.json",
+          "sha256": "2f4716eed242d614e9b81eb1a2f8bedf53a02f93cc1b4d4f796e71ad421b0e57"
+        },
+        "replay": {
+          "path": "build-reference/monte-carlo-joint-api-task-replay-Windows-Release.json",
+          "sha256": "2f4716eed242d614e9b81eb1a2f8bedf53a02f93cc1b4d4f796e71ad421b0e57"
+        },
+        "replay_identical": true,
+        "native_example": {
+          "path": "build-reference/monte-carlo-joint-api-example-Windows-Release.json",
+          "sha256": "6bd834b15897ff8e63d3991caf3ab0fbd25b377cb2cbab970f9ed79318b185ac"
+        },
+        "native_unchanged_from_previous_stage": true,
+        "native_checks": {
+          "samples": 4096,
+          "passed_samples": 2066,
+          "passed_fraction": 0.50439453125,
+          "maximum_physical_errors": [
+            2.7755575615628914e-16,
+            2.7755575615628914e-16,
+            1.1368683772161603e-13
+          ],
+          "population_standard_errors": {
+            "total_resistance_mean": 0.1651102800372499,
+            "total_resistance_variance": -0.3743768139722572,
+            "parameter_covariance": -0.27939532847123927,
+            "pass_fraction": 0.5625
+          },
+          "declared_standard_error_limit": 6,
+          "parameter_joint": {
+            "dimension": 2,
+            "count": 4096,
+            "sample_covariance": [
+              3.9320574154306662,
+              3.1776347322036202,
+              3.1776347322036202,
+              3.9935326030086986
+            ],
+            "sample_correlation": [
+              1,
+              0.8018911699170822,
+              0.8018911699170822,
+              1
+            ]
+          },
+          "metric_joint": {
+            "dimension": 3,
+            "count": 4096,
+            "sample_covariance": [
+              8.979170367532055e-05,
+              -8.949012841523606e-05,
+              -0.03577732520834233,
+              -8.949012841523606e-05,
+              8.92610936249781e-05,
+              0.03569982086496018,
+              -0.03577732520834233,
+              0.03569982086496018,
+              14.280859482846607
+            ],
+            "sample_correlation": [
+              1,
+              -0.9995992546782438,
+              -0.9991083527628697,
+              -0.9995992546782438,
+              1,
+              0.9999027485994639,
+              -0.9991083527628697,
+              0.9999027485994639,
+              1
+            ]
+          }
+        }
+      },
+      "previous_binary_compatibility": {
+        "passed": true,
+        "log": {
+          "path": "build-reference/monte-carlo-joint-api-legacy-Release.log",
+          "sha256": "9d73e9180638275bd0f6b0da81227d2c3a250977845ea5bd12e784a294585849"
+        },
+        "built_before_current_changes": true,
+        "previous_binary": {
+          "path": "build-reference/monte-carlo-joint-consumer-Release/Release/c_consumer.exe",
+          "sha256": "ada58e2cdf5ba3855464aa7540bd5620b2895a59f1105b1de915f487df5e8adb"
+        },
+        "executed_binary": {
+          "path": "build-reference/monte-carlo-joint-api-legacy-Release/c_consumer.exe",
+          "sha256": "ada58e2cdf5ba3855464aa7540bd5620b2895a59f1105b1de915f487df5e8adb"
+        },
+        "native_library": {
+          "path": "build-reference/monte-carlo-joint-api-legacy-Release/rfmodel_c.dll",
+          "sha256": "639f625ba4b93d9478b4ac35218a75d63b73f967c677e2bffb3bf577ce458ff7"
+        }
+      },
+      "logs": [
+        {
+          "path": "build-reference/monte-carlo-joint-api-build-Release.log",
+          "sha256": "8fbf8a44625cab6acf7037a0a441733e73feb8b35bdce0c0139bb3dc08bcb074"
+        },
+        {
+          "path": "build-reference/monte-carlo-joint-api-install-Release.log",
+          "sha256": "1b7794f353984c38765b124e18f777bb93d3b0b4b71e67662ddfc6b547f2103f"
+        },
+        {
+          "path": "build-reference/monte-carlo-joint-api-consumer-configure-Release.log",
+          "sha256": "2d28104ae0681be2f1dc26849500349c7252624ac91f134477e75a2a6b0883de"
+        },
+        {
+          "path": "build-reference/monte-carlo-joint-api-consumer-build-Release.log",
+          "sha256": "88edf868d863dd1d852d2a2b083e10af3c3b085b30ac4a6700aca3522613f089"
+        }
+      ]
+    },
+    {
+      "platform": "Linux",
+      "configuration": "Debug",
+      "build": "clean-first all targets; Linux fresh native directory",
+      "ctest": {
+        "passed": 146,
+        "total": 146,
+        "seconds": 94.05,
+        "log": {
+          "path": "build-reference/monte-carlo-joint-api-linux-ctest-Debug.log",
+          "sha256": "2949cc8520631c069b08ca7cd211b01cce053e7b0832b77d9202121a526f6e5f"
+        }
+      },
+      "installed_consumers": {
+        "passed": 2,
+        "total": 2,
+        "seconds": 0.12,
+        "log": {
+          "path": "build-reference/monte-carlo-joint-api-linux-consumer-ctest-Debug.log",
+          "sha256": "aa0a3bc76d7db7344b340d15af15019dac4c8be3ffed2e6a0b1d813ad379b9b6"
+        }
+      },
+      "wheel_report": {
+        "path": "build-reference/monte-carlo-joint-api-linux-wheel-Debug/installed-python-validation.json",
+        "sha256": "38c3c80165d47e8884b78f0ebfdc59fcd07e3a4aa50a21dbe97e1408c809a64f"
+      },
+      "wheel_tests": 462,
+      "wheel_suites": 29,
+      "extended_tests": 18,
+      "wheel": {
+        "path": "/mnt/d/project/RFModel/build-reference/monte-carlo-joint-api-wheel/rfmodel-0.1.0-py3-none-any.whl",
+        "sha256": "4a34968fcaf17e8f3328b57f315c27a86561bb957ddc464a3964f03ed6dc147b"
+      },
+      "native_library": {
+        "path": "/mnt/d/project/RFModel/build-reference/monte-carlo-joint-api-linux-install-Debug/lib/librfmodel_cd.so",
+        "sha256": "4af0db771faeffd15bcb77156407e85469d598944492bc74e3575728ca8882d8"
+      },
+      "example": {
+        "samples": 4096,
+        "analysis_evaluations": 4096,
+        "passed_samples": 2066,
+        "parameter_stream_exactly_matches_cpp": true,
+        "maximum_native_metric_errors": [
+          5.551115123125783e-17,
+          0.0
+        ],
+        "maximum_independent_physical_errors": [
+          2.7755575615628914e-16,
+          2.7755575615628914e-16
+        ],
+        "parameter_joint": {
+          "dimension": 2,
+          "count": 4096,
+          "sample_covariance": [
+            3.9320574154306662,
+            3.1776347322036202,
+            3.1776347322036202,
+            3.9935326030086986
+          ],
+          "sample_correlation": [
+            1.0,
+            0.8018911699170822,
+            0.8018911699170822,
+            1.0
+          ]
+        },
+        "metric_joint": {
+          "dimension": 2,
+          "count": 4096,
+          "sample_covariance": [
+            8.979170367532055e-05,
+            -8.949012841523607e-05,
+            -8.949012841523607e-05,
+            8.92610936249781e-05
+          ],
+          "sample_correlation": [
+            1.0,
+            -0.999599254678244,
+            -0.999599254678244,
+            1.0
+          ]
+        },
+        "report": {
+          "path": "build-reference/monte-carlo-joint-api-task-Linux-Debug.json",
+          "sha256": "9444ab8f7c547e0101f0152006da55a786dedd7e7895458effe9ded4b8164f35"
+        },
+        "replay": {
+          "path": "build-reference/monte-carlo-joint-api-task-replay-Linux-Debug.json",
+          "sha256": "9444ab8f7c547e0101f0152006da55a786dedd7e7895458effe9ded4b8164f35"
+        },
+        "replay_identical": true,
+        "native_example": {
+          "path": "build-reference/monte-carlo-joint-api-example-Linux-Debug.json",
+          "sha256": "2390877125abc2f1a10b0e54cfc214ef0fbddebbd8bcbb88b2f381ff07dd6abc"
+        },
+        "native_unchanged_from_previous_stage": true,
+        "native_checks": {
+          "samples": 4096,
+          "passed_samples": 2066,
+          "passed_fraction": 0.50439453125,
+          "maximum_physical_errors": [
+            2.7755575615628914e-16,
+            2.7755575615628914e-16,
+            1.1368683772161603e-13
+          ],
+          "population_standard_errors": {
+            "total_resistance_mean": 0.1651102800372499,
+            "total_resistance_variance": -0.3743768139722572,
+            "parameter_covariance": -0.27939532847123927,
+            "pass_fraction": 0.5625
+          },
+          "declared_standard_error_limit": 6,
+          "parameter_joint": {
+            "dimension": 2,
+            "count": 4096,
+            "sample_covariance": [
+              3.9320574154306662,
+              3.1776347322036202,
+              3.1776347322036202,
+              3.9935326030086986
+            ],
+            "sample_correlation": [
+              1,
+              0.8018911699170822,
+              0.8018911699170822,
+              1
+            ]
+          },
+          "metric_joint": {
+            "dimension": 3,
+            "count": 4096,
+            "sample_covariance": [
+              8.979170367532055e-05,
+              -8.949012841523607e-05,
+              -0.03577732520834233,
+              -8.949012841523607e-05,
+              8.92610936249781e-05,
+              0.03569982086496018,
+              -0.03577732520834233,
+              0.03569982086496018,
+              14.280859482846607
+            ],
+            "sample_correlation": [
+              1,
+              -0.999599254678244,
+              -0.9991083527628697,
+              -0.999599254678244,
+              1,
+              0.9999027485994639,
+              -0.9991083527628697,
+              0.9999027485994639,
+              1
+            ]
+          }
+        }
+      },
+      "previous_binary_compatibility": {
+        "passed": true,
+        "log": {
+          "path": "build-reference/monte-carlo-joint-api-linux-legacy-Debug.log",
+          "sha256": "655b81700bca01d279f560b1f47fa3573c5f0fe9db664d5f77d79d24dc21e686"
+        },
+        "built_before_current_changes": false,
+        "executed_binary": {
+          "path": "build-reference/monte-carlo-joint-api-linux-legacy-Debug/c_consumer",
+          "sha256": "13808965d3e2d59d45a30d0f9562c849d74115cb60ec2fdaf817b304862a74a9"
+        },
+        "loader_resolution": {
+          "path": "build-reference/monte-carlo-joint-api-linux-legacy-link-Debug.log",
+          "sha256": "3aa3ebdaf4c430c9c44e5fa915e24bc08e45e2a1868f501531f1b32b128600e7"
+        },
+        "native_library": {
+          "path": "/mnt/d/project/RFModel/build-reference/monte-carlo-joint-api-linux-install-Debug/lib/librfmodel_cd.so",
+          "sha256": "4af0db771faeffd15bcb77156407e85469d598944492bc74e3575728ca8882d8"
+        },
+        "previous_sdk_library": {
+          "path": "build-reference/monte-carlo-joint-linux-install-Debug/lib/librfmodel_cd.so",
+          "sha256": "f6c2fb01ecc3e612756c5ac8c472da8c35c267c8bc20b5f0f3ef7b429393a2c1"
+        },
+        "previous_sdk_header": {
+          "path": "build-reference/monte-carlo-joint-linux-install-Debug/include/rfmodel/c_api.h",
+          "sha256": "a14fc009da93929d2b626c9c8c93569acf5f66e107463559590f471c52804559"
+        },
+        "baseline_old_sdk_run": {
+          "path": "build-reference/monte-carlo-joint-api-linux-legacy-baseline-Debug.log",
+          "sha256": "41f8cc635cf5aa49bbacaca299764b9b9e425c19834d32a877f98798a006ee3b"
+        },
+        "source_commit": "d888587728bef144bba5e9d4daf5c56231d87b09",
+        "source_files": [
+          {
+            "path": "build-reference/monte-carlo-joint-api-legacy-source/CMakeLists.txt",
+            "sha256": "1f3f13076263cb81719e9acbaa2e346de04fcf816e5db89978b910985534846c"
+          },
+          {
+            "path": "build-reference/monte-carlo-joint-api-legacy-source/main.cpp",
+            "sha256": "1ae5fb3d3ba6662e20aa835074202d7835300351648a7c21c3cae8161fa31ed5"
+          },
+          {
+            "path": "build-reference/monte-carlo-joint-api-legacy-source/c_main.c",
+            "sha256": "51ae535e4fc0f23195e0a02f445311710863384d9ccdd81dcc3cb6cb292f1291"
+          },
+          {
+            "path": "build-reference/monte-carlo-joint-api-legacy-source/matched.s1p",
+            "sha256": "d9304123e9c32d51c3047fee0185c16ede0f13d11cd81183dd8fe88a1252ef5a"
+          }
+        ],
+        "rebuild_reason": "Original Linux executable was in a temporary directory that no longer existed; rebuilt only the prior-source C consumer against the retained prior SDK."
+      },
+      "logs": [
+        {
+          "path": "build-reference/monte-carlo-joint-api-linux-build-Debug.log",
+          "sha256": "f39a325f6544b4d1756de6ccb2c0f49fa066846a7a624c512c79fb634be219b1"
+        },
+        {
+          "path": "build-reference/monte-carlo-joint-api-linux-install-Debug.log",
+          "sha256": "42cee889432c027cd915271281eaa0e8ac3aec1552fbf8ae06414f4f612c5e84"
+        },
+        {
+          "path": "build-reference/monte-carlo-joint-api-linux-consumer-configure-Debug.log",
+          "sha256": "71d16cc847ed5f41c78d6ac50c5cbee96b01c449aec2a778cf1086b38d95339f"
+        },
+        {
+          "path": "build-reference/monte-carlo-joint-api-linux-consumer-build-Debug.log",
+          "sha256": "753cc2365a9aa59499bedec5a3eb62bd5f8cfd15ea7bded6753dbadf0c9f85e7"
+        }
+      ]
+    },
+    {
+      "platform": "Linux",
+      "configuration": "Release",
+      "build": "clean-first all targets; Linux fresh native directory",
+      "ctest": {
+        "passed": 146,
+        "total": 146,
+        "seconds": 62.45,
+        "log": {
+          "path": "build-reference/monte-carlo-joint-api-linux-ctest-Release.log",
+          "sha256": "30b14471b9f5a212a7e9f4c8ccecb71ba2d9c5b58fbd3f48b7ef9a780bd8b0a0"
+        }
+      },
+      "installed_consumers": {
+        "passed": 2,
+        "total": 2,
+        "seconds": 0.05,
+        "log": {
+          "path": "build-reference/monte-carlo-joint-api-linux-consumer-ctest-Release.log",
+          "sha256": "a7173e804a6cdb5391282f7275dc4d18468c92a640578c79c2d25278fb41a056"
+        }
+      },
+      "wheel_report": {
+        "path": "build-reference/monte-carlo-joint-api-linux-wheel-Release/installed-python-validation.json",
+        "sha256": "f4451188bdfd7694a9d703cc97aeb141951509f683168afe37de1f20afb5991a"
+      },
+      "wheel_tests": 462,
+      "wheel_suites": 29,
+      "extended_tests": 18,
+      "wheel": {
+        "path": "/mnt/d/project/RFModel/build-reference/monte-carlo-joint-api-wheel/rfmodel-0.1.0-py3-none-any.whl",
+        "sha256": "4a34968fcaf17e8f3328b57f315c27a86561bb957ddc464a3964f03ed6dc147b"
+      },
+      "native_library": {
+        "path": "/mnt/d/project/RFModel/build-reference/monte-carlo-joint-api-linux-install-Release/lib/librfmodel_c.so",
+        "sha256": "85cce45ef6a2748a7a7ee025e381b70b9c7312ebf0ffd34befced42d7602f4e9"
+      },
+      "example": {
+        "samples": 4096,
+        "analysis_evaluations": 4096,
+        "passed_samples": 2066,
+        "parameter_stream_exactly_matches_cpp": true,
+        "maximum_native_metric_errors": [
+          5.551115123125783e-17,
+          0.0
+        ],
+        "maximum_independent_physical_errors": [
+          2.7755575615628914e-16,
+          2.7755575615628914e-16
+        ],
+        "parameter_joint": {
+          "dimension": 2,
+          "count": 4096,
+          "sample_covariance": [
+            3.9320574154306662,
+            3.1776347322036202,
+            3.1776347322036202,
+            3.9935326030086986
+          ],
+          "sample_correlation": [
+            1.0,
+            0.8018911699170822,
+            0.8018911699170822,
+            1.0
+          ]
+        },
+        "metric_joint": {
+          "dimension": 2,
+          "count": 4096,
+          "sample_covariance": [
+            8.979170367532055e-05,
+            -8.949012841523607e-05,
+            -8.949012841523607e-05,
+            8.92610936249781e-05
+          ],
+          "sample_correlation": [
+            1.0,
+            -0.999599254678244,
+            -0.999599254678244,
+            1.0
+          ]
+        },
+        "report": {
+          "path": "build-reference/monte-carlo-joint-api-task-Linux-Release.json",
+          "sha256": "9444ab8f7c547e0101f0152006da55a786dedd7e7895458effe9ded4b8164f35"
+        },
+        "replay": {
+          "path": "build-reference/monte-carlo-joint-api-task-replay-Linux-Release.json",
+          "sha256": "9444ab8f7c547e0101f0152006da55a786dedd7e7895458effe9ded4b8164f35"
+        },
+        "replay_identical": true,
+        "native_example": {
+          "path": "build-reference/monte-carlo-joint-api-example-Linux-Release.json",
+          "sha256": "2390877125abc2f1a10b0e54cfc214ef0fbddebbd8bcbb88b2f381ff07dd6abc"
+        },
+        "native_unchanged_from_previous_stage": true,
+        "native_checks": {
+          "samples": 4096,
+          "passed_samples": 2066,
+          "passed_fraction": 0.50439453125,
+          "maximum_physical_errors": [
+            2.7755575615628914e-16,
+            2.7755575615628914e-16,
+            1.1368683772161603e-13
+          ],
+          "population_standard_errors": {
+            "total_resistance_mean": 0.1651102800372499,
+            "total_resistance_variance": -0.3743768139722572,
+            "parameter_covariance": -0.27939532847123927,
+            "pass_fraction": 0.5625
+          },
+          "declared_standard_error_limit": 6,
+          "parameter_joint": {
+            "dimension": 2,
+            "count": 4096,
+            "sample_covariance": [
+              3.9320574154306662,
+              3.1776347322036202,
+              3.1776347322036202,
+              3.9935326030086986
+            ],
+            "sample_correlation": [
+              1,
+              0.8018911699170822,
+              0.8018911699170822,
+              1
+            ]
+          },
+          "metric_joint": {
+            "dimension": 3,
+            "count": 4096,
+            "sample_covariance": [
+              8.979170367532055e-05,
+              -8.949012841523607e-05,
+              -0.03577732520834233,
+              -8.949012841523607e-05,
+              8.92610936249781e-05,
+              0.03569982086496018,
+              -0.03577732520834233,
+              0.03569982086496018,
+              14.280859482846607
+            ],
+            "sample_correlation": [
+              1,
+              -0.999599254678244,
+              -0.9991083527628697,
+              -0.999599254678244,
+              1,
+              0.9999027485994639,
+              -0.9991083527628697,
+              0.9999027485994639,
+              1
+            ]
+          }
+        }
+      },
+      "previous_binary_compatibility": {
+        "passed": true,
+        "log": {
+          "path": "build-reference/monte-carlo-joint-api-linux-legacy-Release.log",
+          "sha256": "655b81700bca01d279f560b1f47fa3573c5f0fe9db664d5f77d79d24dc21e686"
+        },
+        "built_before_current_changes": false,
+        "executed_binary": {
+          "path": "build-reference/monte-carlo-joint-api-linux-legacy-Release/c_consumer",
+          "sha256": "b4f866a50133d9e01ed541f41bfeca3badf3d3450bb6ef86dd0f446e723c6139"
+        },
+        "loader_resolution": {
+          "path": "build-reference/monte-carlo-joint-api-linux-legacy-link-Release.log",
+          "sha256": "55b4229893674f02a2899e862017b6398835d6ac6eec5d238eb1431ea272f4a9"
+        },
+        "native_library": {
+          "path": "/mnt/d/project/RFModel/build-reference/monte-carlo-joint-api-linux-install-Release/lib/librfmodel_c.so",
+          "sha256": "85cce45ef6a2748a7a7ee025e381b70b9c7312ebf0ffd34befced42d7602f4e9"
+        },
+        "previous_sdk_library": {
+          "path": "build-reference/monte-carlo-joint-linux-install-Release/lib/librfmodel_c.so",
+          "sha256": "f08935154cb4cfbf9b6f1bf8332f38d7c76b6e2b14a42067f1c7019a77376a8e"
+        },
+        "previous_sdk_header": {
+          "path": "build-reference/monte-carlo-joint-linux-install-Release/include/rfmodel/c_api.h",
+          "sha256": "a14fc009da93929d2b626c9c8c93569acf5f66e107463559590f471c52804559"
+        },
+        "baseline_old_sdk_run": {
+          "path": "build-reference/monte-carlo-joint-api-linux-legacy-baseline-Release.log",
+          "sha256": "41f8cc635cf5aa49bbacaca299764b9b9e425c19834d32a877f98798a006ee3b"
+        },
+        "source_commit": "d888587728bef144bba5e9d4daf5c56231d87b09",
+        "source_files": [
+          {
+            "path": "build-reference/monte-carlo-joint-api-legacy-source/CMakeLists.txt",
+            "sha256": "1f3f13076263cb81719e9acbaa2e346de04fcf816e5db89978b910985534846c"
+          },
+          {
+            "path": "build-reference/monte-carlo-joint-api-legacy-source/main.cpp",
+            "sha256": "1ae5fb3d3ba6662e20aa835074202d7835300351648a7c21c3cae8161fa31ed5"
+          },
+          {
+            "path": "build-reference/monte-carlo-joint-api-legacy-source/c_main.c",
+            "sha256": "51ae535e4fc0f23195e0a02f445311710863384d9ccdd81dcc3cb6cb292f1291"
+          },
+          {
+            "path": "build-reference/monte-carlo-joint-api-legacy-source/matched.s1p",
+            "sha256": "d9304123e9c32d51c3047fee0185c16ede0f13d11cd81183dd8fe88a1252ef5a"
+          }
+        ],
+        "rebuild_reason": "Original Linux executable was in a temporary directory that no longer existed; rebuilt only the prior-source C consumer against the retained prior SDK."
+      },
+      "logs": [
+        {
+          "path": "build-reference/monte-carlo-joint-api-linux-build-Release.log",
+          "sha256": "2be951f464a21e1a9f7801ba8d15b594c571c9a6cd51a5613f8dd54bec6870e6"
+        },
+        {
+          "path": "build-reference/monte-carlo-joint-api-linux-install-Release.log",
+          "sha256": "2ded89e290e80e29a928373d625c666dd0582b7f3febc14f98546f4f85073a4e"
+        },
+        {
+          "path": "build-reference/monte-carlo-joint-api-linux-consumer-configure-Release.log",
+          "sha256": "395a56ce009c5b5533a736f97d5631a7dd8cbbc39d1433f4ce9b9b841fbb487a"
+        },
+        {
+          "path": "build-reference/monte-carlo-joint-api-linux-consumer-build-Release.log",
+          "sha256": "753cc2365a9aa59499bedec5a3eb62bd5f8cfd15ea7bded6753dbadf0c9f85e7"
+        }
+      ]
+    }
+  ],
+  "committed_example_trace": {
+    "path": "validation/monte-carlo-correlated-task-example-20261012.json",
+    "sha256": "2f4716eed242d614e9b81eb1a2f8bedf53a02f93cc1b4d4f796e71ad421b0e57"
+  },
+  "unchanged_native_core": {
+    "path": "include/rfmodel/monte_carlo.hpp",
+    "sha256": "29bbafa4c98940adddf0bf663212b590e873de29e8c58b8f22c8260cda3974e7"
+  },
+  "preserved_c_struct_declarations": [
+    "rfmodel_monte_carlo_parameter",
+    "rfmodel_monte_carlo_limits",
+    "rfmodel_monte_carlo_options",
+    "rfmodel_monte_carlo_summary",
+    "rfmodel_monte_carlo_statistics",
+    "rfmodel_monte_carlo_sample",
+    "rfmodel_optimization_parameter",
+    "rfmodel_optimization_options",
+    "rfmodel_optimization_summary",
+    "rfmodel_optimization_evaluation",
+    "rfmodel_touchstone_info",
+    "rfmodel_complex",
+    "rfmodel_two_tone_intercept",
+    "rfmodel_channel_noise_request",
+    "rfmodel_channel_noise_result",
+    "rfmodel_conversion_request",
+    "rfmodel_conversion_output",
+    "rfmodel_conversion_connection",
+    "rfmodel_frequency_channel",
+    "rfmodel_frequency_rule",
+    "rfmodel_frequency_device",
+    "rfmodel_frequency_plan_options",
+    "rfmodel_frequency_plan_request",
+    "rfmodel_frequency_plan_output",
+    "rfmodel_frequency_plan_diagnostics",
+    "rfmodel_highorder_frequency_rule",
+    "rfmodel_conversion_loaded_output",
+    "rfmodel_conversion_source_noise",
+    "rfmodel_conversion_affine_offset",
+    "rfmodel_bilinear_mixer_parameters",
+    "rfmodel_conversion_bilinear_mixer",
+    "rfmodel_saturating_amplifier_parameters",
+    "rfmodel_polynomial_amplifier_parameters",
+    "rfmodel_highorder_amplifier_parameters",
+    "rfmodel_conversion_nonlinear_model",
+    "rfmodel_am_pm_parameters",
+    "rfmodel_conversion_am_pm",
+    "rfmodel_am_pm_response",
+    "rfmodel_conversion_operating_options",
+    "rfmodel_conversion_operating_diagnostics",
+    "rfmodel_conversion_noise_request",
+    "rfmodel_conversion_noise_result",
+    "rfmodel_phase_noise_carrier",
+    "rfmodel_mixer_linearization_request",
+    "rfmodel_mixer_linearization_output",
+    "rfmodel_bilinear_mixer_request",
+    "rfmodel_am_pm_linearization_request",
+    "rfmodel_saturating_amplifier_request",
+    "rfmodel_polynomial_amplifier_request",
+    "rfmodel_highorder_amplifier_request",
+    "rfmodel_butterworth_parameters",
+    "rfmodel_chebyshev_parameters",
+    "rfmodel_noise_parameters",
+    "rfmodel_source_coherence",
+    "rfmodel_coherent_component",
+    "rfmodel_coherent_mixer_input",
+    "rfmodel_bin_power",
+    "rfmodel_port_coherent_component",
+    "rfmodel_amplifier_operating_point",
+    "rfmodel_spectrum_bin",
+    "rfmodel_amplifier_component",
+    "rfmodel_amplifier_drive",
+    "rfmodel_origin_factor",
+    "rfmodel_mixing_origin",
+    "rfmodel_origin_contribution",
+    "rfmodel_origin_expression",
+    "rfmodel_origin_expression_term",
+    "rfmodel_coherent_polynomial_term",
+    "rfmodel_coherent_polynomial_term_v2",
+    "rfmodel_coherent_amplifier_term",
+    "rfmodel_amplifier_term",
+    "rfmodel_incident_spectrum"
+  ],
+  "source_files": [
+    {
+      "path": "include/rfmodel/c_api.h",
+      "sha256": "057df2f289ed5a7850b798f8fb488265b78a320a0c51e43c52eab6e9a84f8585"
+    },
+    {
+      "path": "src/c_api.cpp",
+      "sha256": "dd95b0ac096e250ddfc17ed7258953caa4d8b890126cf361b48b667fac774e4b"
+    },
+    {
+      "path": "python/rfmodel/monte_carlo.py",
+      "sha256": "15adf9aeadf883a4a9407a5ed410fe7747cdd3844d86816b4f3501a37dbed33d"
+    },
+    {
+      "path": "python/rfmodel/__init__.py",
+      "sha256": "66f19b413dfbdd3ebcddad76600887b70597ac00bc3d20a54f6205579658c810"
+    },
+    {
+      "path": "python/rfmodel/monte_carlo_file.py",
+      "sha256": "29bf3f71e8a23d8649c9b407fdeba19adaab7a8006226ed6a7ee9272fb52d907"
+    },
+    {
+      "path": "tests/c_api_monte_carlo_extended_test.c",
+      "sha256": "787e4773991e91053d0e972945b2819ca2015b5b2e6cd9b2afd22f6e2d1fb578"
+    },
+    {
+      "path": "tests/test_monte_carlo_extended.py",
+      "sha256": "77ff78ebe8c7d18c331206ee040b70638b5fc7475db58344edcfd0efaa63d68f"
+    },
+    {
+      "path": "tests/consumer/c_main.c",
+      "sha256": "c6bdb37b5aa29055f8849185aee1f75161462e11a970d25fdd28775189a2437f"
+    },
+    {
+      "path": "examples/monte-carlo-correlated-resistors.json",
+      "sha256": "c463fceb6726a43d2d7f394e53ceb46921e1226c3f9b60caf67abae08c83fc8e"
+    },
+    {
+      "path": "CMakeLists.txt",
+      "sha256": "8c300bb81991b4d2055e22cd682b0e617a977c330804ab13e7b3fd7a9be62b44"
+    }
+  ],
+  "format": {
+    "passed": true,
+    "files": 165,
+    "log": {
+      "path": "build-reference/monte-carlo-joint-api-format.log",
+      "sha256": "373fc926fabd64973340586b6330d7593a7640eebdbc3b5dd8348d722328666c"
+    }
+  },
+  "wheel_build": {
+    "path": "build-reference/monte-carlo-joint-api-wheel-build.log",
+    "sha256": "5e8f15fa7a77c589d2225b34e5e57b98b8020aa1d84cf53b549c830eed88abef"
+  },
+  "prior_uncommitted_files": [
+    {
+      "path": "scripts/reference/archive-cascade-reference.py",
+      "sha256": "a482db6bd6ae64c050d74e6df321749ec84a7098fb7aa49733079183149806dc",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/reference/capture-cascade-reference.ps1",
+      "sha256": "fb42165db2ad10c6213a415c2080e1eeb6e5ec0bcd1dc119bb1d1707c5283f3e",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/reference/compare-cascade-amplifier.py",
+      "sha256": "af1260adb093946954d0fb7e4bb2059669706a291418aac19ba193fed7554d9d",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/reference/run-systemvue-reference.py",
+      "sha256": "5df486d061ce09c28b396bf62e7fcba473dc6e9086d52861fdc7be6c85864f4e",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/reference/test_compare_cascade_amplifier.py",
+      "sha256": "190ea23b0ce0733846db8052ead9bb4d5ba41ff30e007c1f06e1a1753bc3fcf1",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/reference/test_run_systemvue_reference.py",
+      "sha256": "7eeeb2f890e59b986fec7eb9af58313f129b73ffccfd924f2f273ff52c396eb5",
+      "unchanged": true
+    },
+    {
+      "path": "measurements_test.obj",
+      "sha256": "4935bda18e7d8471560016c7303f3b7136842ab2ec429975440c7d617de3d97f",
+      "unchanged": true
+    },
+    {
+      "path": "verify-measurements.cmd",
+      "sha256": "c629d73c222dad5768c3c33c88a66eea99daf012dc79885f6cd7a7f0cebf7f7f",
+      "unchanged": true
+    }
+  ],
+  "new_systemvue_analysis_calls": 0,
+  "full_A09_closed": false,
+  "validation_incidents": [
+    "A new extreme-scale correlation test initially used exact equality to -1; observed -0.9999999999999999 with exact covariance. Corrected only that new assertion to 1e-14 floating tolerance; native implementation unchanged.",
+    "The Linux prior-stage temporary executable no longer existed after successful Debug tests; resumed only the missing ABI check using prior commit sources and preserved prior SDK, then performed Release validation."
+  ],
+  "publication_at_validation": {
+    "current_stage_committed": false,
+    "current_stage_pushed": false,
+    "previous_stage_ci": {
+      "path": "validation/monte-carlo-joint-ci-validation-20261012.json",
+      "sha256": "cc6eb34f7fb3fa226ecf1ba47402885ec5f46115e3df8319f21288564ba12b07"
+    },
+    "current_stage_remote_ci": "pending commit and push"
+  },
+  "limitations": [
+    "A Gaussian copula is not arbitrary joint dependence or a physical Pearson calibration for nonnormal marginals",
+    "Finite-precision inverse discrete transformation does not promise exact bin probabilities",
+    "Effective matrix and rank expose near-singular numerical truncation",
+    "Joint matrices condition on accepted rows; no parameter-metric cross block or automatic confidence intervals",
+    "New wheel requires the newly added exported symbols; an old ABI-1 library is not feature-equivalent",
+    "SystemVue Monte Carlo/optimization comparison remains open",
+    "Local Linux is WSL2; remote clean-checkout/macOS evidence follows push",
+    "Eight unrelated pre-existing files remain uncommitted"
+  ]
+}

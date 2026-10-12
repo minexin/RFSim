@@ -167,7 +167,7 @@ Touchstone 文件在运行前后核对 SHA-256，变化则拒绝整份任务结�
 
 ## 原生相关输入与联合统计
 
-C++ `MonteCarloOptions` 新增 `latent_correlation` 和 `joint_statistics=false`。相关矩阵为空时保持原有独立随机算法及消耗顺序；只打开联合统计也不改变随机流、回调次数或任何边缘统计。C ABI、Python 和 JSON 任务当前仍使用独立模式，尚未开放这两个新字段；它们的既有结构布局未改变。C++ 头文件使用者需重新编译，不能混用新旧 C++ 类型布局。
+C++ `MonteCarloOptions` 新增 `latent_correlation` 和 `joint_statistics=false`。相关矩阵为空时保持原有独立随机算法及消耗顺序；只打开联合统计也不改变随机流、回调次数或任何边缘统计。本原生阶段的 C ABI、Python 和 JSON 任务仍使用独立模式；后续扩展见下节。它们的既有结构布局未改变。C++ 头文件使用者需重新编译，不能混用新旧 C++ 类型布局。
 
 ```cpp
 rfmodel::MonteCarloOptions options;
@@ -212,6 +212,58 @@ Normal 直接使用 `mean + standard_deviation*z`，LogNormal 再取指数；其
 
 总体总电阻均值为 100、方差为 14.4，两个电阻协方差为 3.2；传输≥0.25 且反射≤0.25 对应总电阻≤100，未排除极端无效电阻的总电阻正态模型给出解析通过概率 0.5。正态存在无界负尾，器件拒绝负电阻时仍按既有失败策略处理，不能把未观察到极端失败当作分布截断。预先设定均值、方差、协方差和通过比例各六倍总体标准误的一致性门槛；另独立重算全部轨迹的样本矩与分位数。
 
-[本阶段机器验证](../validation/monte-carlo-joint-validation-20261012.json)和[相关电阻完整轨迹](../validation/monte-carlo-correlated-resistors-example-20261012.json)记录实际结果。前一任务层提交的六配置结果见 [9dc33fa CI 记录](../validation/monte-carlo-task-ci-validation-20261012.json)。本阶段不增加 SystemVue 厂商验收项；C/Python/JSON 扩展及厂商 Monte Carlo/优化对照继续开放。
+[本阶段机器验证](../validation/monte-carlo-joint-validation-20261012.json)和[相关电阻完整轨迹](../validation/monte-carlo-correlated-resistors-example-20261012.json)记录实际结果。前一任务层提交的六配置结果见 [9dc33fa CI 记录](../validation/monte-carlo-task-ci-validation-20261012.json)。本阶段不增加 SystemVue 厂商验收项；本原生阶段留下的跨语言扩展见下节；厂商 Monte Carlo/优化对照继续开放。
 
 本地 Windows/Linux Debug/Release 均完成 clean-first 构建，各通过 144/144 CTest、2/2 安装消费者、444/444 安装 wheel 回归。四组相关电阻示例各 4096 样本，2066 个通过；功率逐点误差不超过 2.78e-16，总电阻误差不超过 1.14e-13 欧姆。四项总体一致性偏差最大 0.5625 个标准误，同环境完整输出重放逐字节相同。报告中的发布状态为生成时快照，当前提交的远端结果在推送后独立核查。
+
+
+## 相关采样的 C/Python 接口与 JSON v2
+
+相关采样、矩阵验证与联合统计继续只由原生 C++ 实现；适配层负责输入复制、回调及只读结果提取。旧 C 结构体和旧函数签名、Python 原 19 字段 `MonteCarloResult`、JSON v1 的选项和输出形状均保留。扩展使用新增符号，C ABI 主版本仍为 1；新的 wheel 必须配套含新增符号的库，不能据相同 ABI 主版本推断旧动态库已有这些功能。
+
+### C ABI 扩展
+
+`rfmodel_run_monte_carlo_extended` 在原 options 之后增加可空 `rfmodel_monte_carlo_extension*`，其余参数、回调及所有权规则与原函数一致。extension 包含 latent_correlation 指针、correlation_count 和 0/1 joint_statistics。correlation_count 为 0 时保留独立随机流，否则必须等于参数数目的平方，并指向完整行优先矩阵。空 extension 等价于旧入口；原函数本身继续返回独立采样结果。
+
+新请求结构和矩阵均不能与 out 槽重叠，数据在任何回调前复制。矩阵数值错误在求值和取消回调前返回；API 失败保持 out 不变。扩展没有绕过原有失败策略或重新执行分析。
+
+`rfmodel_monte_carlo_get_dependence(result, info, effective_correlation, capacity)` 返回 correlation_count、latent_rank、algorithm 和 joint_statistics 开关。算法枚举 0 为原 `mt19937_64-box-muller52-v1`，1 为 `mt19937_64-box-muller52-gaussian-copula-pivoted-v1`。effective_correlation 是实际因子的行优先相关矩阵；独立模式长度为零。NULL/0 缓冲区仅查询元数据。
+
+`rfmodel_monte_carlo_get_joint_statistics(result, parameters, info, values, capacity)` 的 parameters 只能为 1（参数）或 0（指标）。info 返回 dimension/count，values 为 dimension² 项行优先 `rfmodel_monte_carlo_joint_value`。每项包含 has_covariance、has_correlation 和两个值；不可用值的标志为 0、数值为 0。NULL/0 只查询元数据，非空缓冲区须容纳完整矩阵。关闭联合统计时维度、计数为 0；开启但无有效样本时仍保留维度，所有元素不可用。
+
+两个读取接口先检查全部容量、字节溢出和输出重叠，再写入。错误不修改任何输出，成功不触及缓冲区尾部；输出不可与彼此或 opaque result 对象重叠。查询旧函数生成的结果也有效，会得到独立算法与禁用的联合统计。所有查询均不调用求值函数；句柄生命周期仍由 destroy 管理。
+
+### Python 扩展快照
+
+`Library.run_monte_carlo_extended` 接收原入口的全部选项，另加 `latent_correlation=()` 和 `joint_statistics=False`。矩阵为扁平的可迭代对象，顺序与 parameters 一致；长度必须为 0 或 N²，迭代读取有界，布尔值、字符串和嵌套行列表不作为矩阵元素。joint_statistics 必须为 bool。
+
+返回新的不可变 `MonteCarloExtendedResult`，字段为 result、latent_rank、effective_latent_correlation、parameter_joint、metric_joint。result 是原 19 字段 `MonteCarloResult`，其中 algorithm 来自实际原生模式。两个 joint 对象为不可变 `MonteCarloJointStatistics(dimension, count, sample_covariance, sample_correlation)`，矩阵保存为扁平 tuple，不可用元素为 None。例：
+
+```python
+extended = lib.run_monte_carlo_extended(
+    [rfmodel.MonteCarloParameter('normal', 50, 2)] * 2,
+    2, lambda values: values, samples=4096, seed=20261012,
+    latent_correlation=[1, .8, .8, 1], joint_statistics=True,
+)
+print(extended.result.algorithm, extended.parameter_joint.sample_covariance)
+```
+
+不带新选项的 `Library.run_monte_carlo` 保留原返回类型、字段数和独立流。扩展入口不自动把非正态输出 Pearson 相关解释为输入矩阵。普通求值异常、致命异常、取消和读取失败继续遵循原契约；任何结果提取失败都会释放已创建的原生句柄。快照无借用指针，可严格 JSON 序列化，但 NamedTuple 的嵌套命名字段需显式 `_asdict()`，如下面的任务层结果。
+
+### JSON v2 与可重放任务
+
+输入仍为 `format: "rfmodel.monte-carlo"`，显式 `version: 2` 开放 options.latent_correlation（扁平 JSON 数组，默认 []）和 options.joint_statistics（bool，默认 false）。其余参数绑定、九类分析、指标、失败策略和文件保护继承 v1。v1 拒绝这两个新字段；未知版本和布尔/浮点版本号继续拒绝。没有显式矩阵时，v2 也保持独立随机流。
+
+输出为 `rfmodel.monte-carlo-results` version 2。result 保留原字段并增加 latent_rank、effective_latent_correlation、parameter_joint、metric_joint，后两者为具名对象及行优先数组。矩阵坐标分别对应 parameter_order 与 metric_order，参数单位的乘积就是参数协方差单位；metric covariance 同理。输入 options 完整记录请求矩阵，结果单独保留实际有效矩阵。版本号、模板和选项在回调前冻结；输出不增加预算外分析。
+
+[相关电阻 JSON v2 任务](../examples/monte-carlo-correlated-resistors.json)复现原生例子的两个电阻和功率指标。执行：
+
+```text
+python -m rfmodel examples/monte-carlo-correlated-resistors.json --library path/to/native/library --output result.json
+```
+
+该任务逐点与原生 C++ 的参数及前两个指标比较，同时独立计算闭式电路、全部样本联合矩和分位数；不是用另一个封装的同一输出替代数学核对。v1 示例继续通过原有回归，v2 对九类分析各有实际调用验证。机读证据见 [跨语言相关采样验证](../validation/monte-carlo-joint-api-validation-20261012.json)，[v2 完整结果](../validation/monte-carlo-correlated-task-example-20261012.json)保留全部 4096 行输入/输出。前一原生提交的六组 CI 见 [d888587 CI 记录](../validation/monte-carlo-joint-ci-validation-20261012.json)。
+
+相关矩阵含义、奇异容差、有限精度离散变换、仅有效样本的条件统计，以及没有输入-输出交叉块或自动置信区间等边界不因适配层而改变。SystemVue 容差/优化行为对照仍未完成，A09 不据此整体关闭。
+
+本跨语言阶段的 Windows/Linux Debug/Release 各完成 clean-first 构建并通过 146/146 CTest、2/2 安装消费端、462/462 安装 wheel 回归。四组 v2 电阻任务与原生参数流逐点相同，功率跨语言误差不超过 5.56e-17、独立电路误差不超过 2.78e-16，完整 JSON 重放逐字节一致。72 个既有 C 结构声明保持不变；Windows 直接运行先前二进制，Linux 因原临时文件已不存在，使用先前提交源码与保留旧 SDK 重建消费端并分别加载旧、新库验证，报告明确区分这两类证据。当前提交远端 CI 随推送单独核查。

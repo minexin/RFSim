@@ -58,6 +58,40 @@ class MonteCarloResult(NamedTuple):
     history: tuple
 
 
+class MonteCarloJointStatistics(NamedTuple):
+    dimension: int
+    count: int
+    sample_covariance: tuple
+    sample_correlation: tuple
+
+
+class MonteCarloExtendedResult(NamedTuple):
+    result: MonteCarloResult
+    latent_rank: int
+    effective_latent_correlation: tuple
+    parameter_joint: MonteCarloJointStatistics
+    metric_joint: MonteCarloJointStatistics
+
+
+class _Extension(ct.Structure):
+    _fields_ = [('latent_correlation', ct.POINTER(ct.c_double)),
+                ('correlation_count', ct.c_size_t), ('joint_statistics', ct.c_int)]
+
+
+class _Dependence(ct.Structure):
+    _fields_ = [('correlation_count', ct.c_size_t), ('latent_rank', ct.c_size_t),
+                ('algorithm', ct.c_int), ('joint_statistics', ct.c_int)]
+
+
+class _JointStatistics(ct.Structure):
+    _fields_ = [('dimension', ct.c_size_t), ('count', ct.c_size_t)]
+
+
+class _JointValue(ct.Structure):
+    _fields_ = [('has_covariance', ct.c_int), ('has_correlation', ct.c_int),
+                ('sample_covariance', ct.c_double), ('sample_correlation', ct.c_double)]
+
+
 class _Parameter(ct.Structure):
     _fields_ = [('distribution', ct.c_int), ('first', ct.c_double), ('second', ct.c_double)]
 
@@ -109,6 +143,7 @@ _STOPS = ('completed', 'sampling_failure', 'evaluation_failure', 'cancelled')
 _STATUSES = ('accepted', 'sampling_failure', 'nonfinite_measurement',
              'invalid_measurement_count', 'exception')
 ALGORITHM = 'mt19937_64-box-muller52-v1'
+COPULA_ALGORITHM = 'mt19937_64-box-muller52-gaussian-copula-pivoted-v1'
 
 
 def _signatures():
@@ -116,6 +151,12 @@ def _signatures():
     return {
         'rfmodel_run_monte_carlo': (ct.c_int, [ct.POINTER(_Parameter), size, size,
             ct.POINTER(_Options), _EVALUATE, _CANCEL, handle, ct.POINTER(handle)]),
+        'rfmodel_run_monte_carlo_extended': (ct.c_int, [ct.POINTER(_Parameter), size, size,
+            ct.POINTER(_Options), ct.POINTER(_Extension), _EVALUATE, _CANCEL, handle, ct.POINTER(handle)]),
+        'rfmodel_monte_carlo_get_dependence': (ct.c_int,
+            [handle, ct.POINTER(_Dependence), _DOUBLE, size]),
+        'rfmodel_monte_carlo_get_joint_statistics': (ct.c_int,
+            [handle, ct.c_int, ct.POINTER(_JointStatistics), ct.POINTER(_JointValue), size]),
         'rfmodel_monte_carlo_destroy': (None, [handle]),
         'rfmodel_monte_carlo_get_summary': (ct.c_int, [handle, ct.POINTER(_Summary)]),
         'rfmodel_monte_carlo_get_quantile_levels': (ct.c_int, [handle, _DOUBLE, size]),
@@ -172,9 +213,9 @@ def _finite_or_none(value):
     return value if math.isfinite(value) else None
 
 
-def run_monte_carlo(library, parameters, metric_count, evaluate, *, samples=1000, seed=0,
+def _run(library, parameters, metric_count, evaluate, *, samples=1000, seed=0,
                     invalid_sample='stop', record_history=True, quantile_levels=(.05, .5, .95),
-                    criteria=(), cancelled=None):
+                    criteria=(), cancelled=None, _extension=None):
     """Sample using the native engine once; reads never call the evaluator again.
 
     Ordinary evaluator exceptions become failed samples. Fatal exceptions and
@@ -200,6 +241,18 @@ def run_monte_carlo(library, parameters, metric_count, evaluate, *, samples=1000
     criteria = (_Limits * len(criteria))(*[_limits(c) for c in criteria])
     options = _Options(samples, seed, invalid_sample == 'reject', record_history,
                        quantiles, len(quantiles), criteria, len(criteria))
+    extension = None
+    if _extension is not None:
+        correlation, joint = _extension
+        if type(joint) is not bool:
+            raise ValueError('joint_statistics must be bool')
+        if isinstance(correlation, (str, bytes)):
+            raise ValueError('latent_correlation must be a flat numeric iterable')
+        correlation = _items(correlation, len(parameters)**2, 'latent correlation entries')
+        if len(correlation) not in (0, len(parameters)**2):
+            raise ValueError('latent correlation dimension mismatch')
+        correlation = (ct.c_double * len(correlation))(*[_real(x) for x in correlation])
+        extension = _Extension(correlation, len(correlation), joint)
     fatal = []
 
     @_EVALUATE
@@ -240,8 +293,12 @@ def run_monte_carlo(library, parameters, metric_count, evaluate, *, samples=1000
 
     handle = ct.c_void_p()
     try:
-        status = library._dll.rfmodel_run_monte_carlo(native, len(native), metric_count,
-            ct.byref(options), evaluator, cancel, None, ct.byref(handle))
+        if extension is None:
+            status = library._dll.rfmodel_run_monte_carlo(native, len(native), metric_count,
+                ct.byref(options), evaluator, cancel, None, ct.byref(handle))
+        else:
+            status = library._dll.rfmodel_run_monte_carlo_extended(native, len(native), metric_count,
+                ct.byref(options), ct.byref(extension), evaluator, cancel, None, ct.byref(handle))
         if fatal:
             raise fatal[0]
         library._check(status)
@@ -274,7 +331,23 @@ def run_monte_carlo(library, parameters, metric_count, evaluate, *, samples=1000
             history.append(MonteCarloSample(info.index, tuple(_finite_or_none(x) for x in point),
                 tuple(values), _STATUSES[info.status], message.value.decode('utf-8', errors='replace'),
                 bool(info.passed) if summary.criteria_enabled else None))
-        return MonteCarloResult(ALGORITHM, summary.seed, summary.random_words,
+        algorithm = ALGORITHM
+        if extension is not None:
+            dependence = _Dependence()
+            library._check(library._dll.rfmodel_monte_carlo_get_dependence(handle, ct.byref(dependence), None, 0))
+            effective = (ct.c_double * dependence.correlation_count)()
+            library._check(library._dll.rfmodel_monte_carlo_get_dependence(handle, ct.byref(dependence), effective, len(effective)))
+            algorithm = (ALGORITHM, COPULA_ALGORITHM)[dependence.algorithm]
+            joints = []
+            for parameters_matrix in (1, 0):
+                meta = _JointStatistics()
+                library._check(library._dll.rfmodel_monte_carlo_get_joint_statistics(handle, parameters_matrix, ct.byref(meta), None, 0))
+                entries = (_JointValue * (meta.dimension**2))()
+                library._check(library._dll.rfmodel_monte_carlo_get_joint_statistics(handle, parameters_matrix, ct.byref(meta), entries, len(entries)))
+                joints.append(MonteCarloJointStatistics(meta.dimension, meta.count,
+                    tuple(v.sample_covariance if v.has_covariance else None for v in entries),
+                    tuple(v.sample_correlation if v.has_correlation else None for v in entries)))
+        result = MonteCarloResult(algorithm, summary.seed, summary.random_words,
             summary.requested_samples, summary.samples_attempted, summary.evaluations,
             summary.accepted_samples, summary.rejected_samples, _STOPS[summary.stop],
             bool(summary.has_statistics), bool(summary.criteria_enabled), summary.passed_samples,
@@ -282,6 +355,32 @@ def run_monte_carlo(library, parameters, metric_count, evaluate, *, samples=1000
             summary.valid_pass_fraction if summary.has_valid_pass_fraction else None,
             tuple(levels), tuple(statistics), tuple(_finite_or_none(x) for x in failed),
             error.value.decode('utf-8', errors='replace'), tuple(history))
+        if extension is None:
+            return result
+        return MonteCarloExtendedResult(result, dependence.latent_rank, tuple(effective), *joints)
     finally:
         if handle.value:
             library._dll.rfmodel_monte_carlo_destroy(handle)
+
+
+def run_monte_carlo(library, parameters, metric_count, evaluate, *, samples=1000, seed=0,
+                    invalid_sample='stop', record_history=True, quantile_levels=(.05, .5, .95),
+                    criteria=(), cancelled=None):
+    """Original independent API; preserves the 19-field MonteCarloResult layout."""
+    return _run(library, parameters, metric_count, evaluate, samples=samples, seed=seed,
+        invalid_sample=invalid_sample, record_history=record_history, quantile_levels=quantile_levels,
+        criteria=criteria, cancelled=cancelled)
+
+
+def run_monte_carlo_extended(library, parameters, metric_count, evaluate, *, samples=1000, seed=0,
+                             invalid_sample='stop', record_history=True, quantile_levels=(.05, .5, .95),
+                             criteria=(), cancelled=None, latent_correlation=(), joint_statistics=False):
+    """Native copula and optional paired statistics; returns MonteCarloExtendedResult.
+
+    latent_correlation is a flat row-major matrix in parameter order. Empty uses
+    the original independent stream. Joint matrices contain only accepted rows.
+    The original result is available at .result; all snapshots are immutable.
+    """
+    return _run(library, parameters, metric_count, evaluate, samples=samples, seed=seed,
+        invalid_sample=invalid_sample, record_history=record_history, quantile_levels=quantile_levels,
+        criteria=criteria, cancelled=cancelled, _extension=(latent_correlation, joint_statistics))

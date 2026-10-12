@@ -43,15 +43,19 @@ def analyze_monte_carlo(library, document, *, base_directory=None, cancelled=Non
     Shared parameter bindings reuse the same sample, preserving their dependency.
     """
     _object(document, ('format', 'version', 'analysis', 'parameters', 'metrics'), ('options',))
-    if document['format'] != 'rfmodel.monte-carlo' or type(document['version']) is not int or document['version'] != 1:
+    if document['format'] != 'rfmodel.monte-carlo' or type(document['version']) is not int or document['version'] not in (1, 2):
         raise ValueError('Unsupported Monte Carlo format/version')
+    version = document['version']
     # Task snapshots must remain serializable even when individual samples fail.
     json.dumps(document, allow_nan=False)
     template = copy.deepcopy(document['analysis'])
     operation = analysis_operation(template)
     options = document.get('options', {})
-    _object(options, (), _DEFAULTS)
-    options = copy.deepcopy(dict(_DEFAULTS, **options))
+    defaults = _DEFAULTS if version == 1 else dict(_DEFAULTS, latent_correlation=[], joint_statistics=False)
+    _object(options, (), defaults)
+    options = copy.deepcopy(dict(defaults, **options))
+    if version == 2 and not isinstance(options['latent_correlation'], list):
+        raise ValueError('latent_correlation must be a flat JSON array')
     if not isinstance(options['quantile_levels'], list):
         raise ValueError('quantile_levels must be a JSON array')
     parameter_specs, native, bindings = [], [], []
@@ -128,14 +132,20 @@ def analyze_monte_carlo(library, document, *, base_directory=None, cancelled=Non
         analysis = operation(library, candidate, base_directory=base_directory)
         return [_number(_measurement(_resolve(analysis, m['path'])[0], m['component'])) for m in metrics]
 
-    result = library.run_monte_carlo(native, len(metrics), evaluate, criteria=criteria if has_limits else (),
-                                      cancelled=cancelled, **options)
+    runner = library.run_monte_carlo if version == 1 else library.run_monte_carlo_extended
+    snapshot = runner(native, len(metrics), evaluate, criteria=criteria if has_limits else (),
+                      cancelled=cancelled, **options)
+    result = snapshot if version == 1 else snapshot.result
     if _fingerprints(template, base_directory) != dependencies:
         raise RuntimeError('Touchstone input changed during Monte Carlo analysis')
     encoded_result = result._asdict()
     encoded_result['statistics'] = [entry._asdict() for entry in result.statistics]
     encoded_result['history'] = [entry._asdict() for entry in result.history]
-    return dict(format='rfmodel.monte-carlo-results', version=1, algorithm=result.algorithm,
+    if version == 2:
+        encoded_result.update(latent_rank=snapshot.latent_rank,
+            effective_latent_correlation=snapshot.effective_latent_correlation,
+            parameter_joint=snapshot.parameter_joint._asdict(), metric_joint=snapshot.metric_joint._asdict())
+    return dict(format='rfmodel.monte-carlo-results', version=version, algorithm=result.algorithm,
                 parameter_order=[p['id'] for p in parameter_specs], parameters=parameter_specs,
                 metric_order=[m['id'] for m in metrics], metrics=metrics, options=options,
                 input_analysis=template, dependencies=dependencies,

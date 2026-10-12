@@ -905,6 +905,19 @@ int rfmodel_run_monte_carlo(const rfmodel_monte_carlo_parameter *parameters,
                             rfmodel_monte_carlo_cancel cancelled,
                             void *user_data,
                             rfmodel_monte_carlo_result **out) {
+    return rfmodel_run_monte_carlo_extended(
+        parameters, count, metric_count, options, nullptr, evaluator, cancelled, user_data, out);
+}
+
+int rfmodel_run_monte_carlo_extended(const rfmodel_monte_carlo_parameter *parameters,
+                                     size_t count,
+                                     size_t metric_count,
+                                     const rfmodel_monte_carlo_options *options,
+                                     const rfmodel_monte_carlo_extension *extension,
+                                     rfmodel_monte_carlo_evaluator evaluator,
+                                     rfmodel_monte_carlo_cancel cancelled,
+                                     void *user_data,
+                                     rfmodel_monte_carlo_result **out) {
     return guarded([&] {
         require(parameters && count > 0 && count <= 64 && metric_count > 0 && metric_count <= 64 &&
                 evaluator && out);
@@ -937,6 +950,18 @@ int rfmodel_run_monte_carlo(const rfmodel_monte_carlo_parameter *parameters,
                 opt.criteria.push_back(
                     {c.has_lower ? std::optional<double>{c.lower} : std::nullopt,
                      c.has_upper ? std::optional<double>{c.upper} : std::nullopt});
+            }
+        }
+        if (extension) {
+            disjoint(out, sizeof(*out), extension, sizeof(*extension));
+            const auto &e = *extension;
+            require((e.joint_statistics == 0 || e.joint_statistics == 1) &&
+                    (e.correlation_count == 0 || e.correlation_count == count * count) &&
+                    (e.latent_correlation || e.correlation_count == 0));
+            disjoint(out, sizeof(*out), e.latent_correlation, e.correlation_count * sizeof(double));
+            opt.joint_statistics = e.joint_statistics != 0;
+            for (size_t i = 0; i < e.correlation_count; ++i) {
+                opt.latent_correlation.push_back(e.latent_correlation[i]);
             }
         }
         require(*out == nullptr);
@@ -992,6 +1017,66 @@ int rfmodel_run_monte_carlo(const rfmodel_monte_carlo_parameter *parameters,
 
 void rfmodel_monte_carlo_destroy(rfmodel_monte_carlo_result *result) {
     delete result;
+}
+
+int rfmodel_monte_carlo_get_dependence(const rfmodel_monte_carlo_result *result,
+                                       rfmodel_monte_carlo_dependence *info,
+                                       double *effective_correlation,
+                                       size_t capacity) {
+    return guarded([&] {
+        require(result && info);
+        disjoint(info, sizeof(*info), result, sizeof(*result));
+        const auto &r = result->core;
+        const rfmodel_monte_carlo_dependence meta{r.effective_latent_correlation.size(),
+                                                  r.latent_rank,
+                                                  r.effective_latent_correlation.empty()
+                                                      ? RFMODEL_MC_INDEPENDENT_V1
+                                                      : RFMODEL_MC_GAUSSIAN_COPULA_V1,
+                                                  r.parameter_joint.dimension ? 1 : 0};
+        if (!effective_correlation && capacity == 0) {
+            *info = meta;
+            return;
+        }
+        const auto bytes = optimization_buffer(result,
+                                               effective_correlation,
+                                               capacity,
+                                               r.effective_latent_correlation.size(),
+                                               sizeof(double));
+        disjoint(info, sizeof(*info), effective_correlation, bytes);
+        if (!r.effective_latent_correlation.empty()) {
+            std::copy(r.effective_latent_correlation.begin(),
+                      r.effective_latent_correlation.end(),
+                      effective_correlation);
+        }
+        *info = meta;
+    });
+}
+
+int rfmodel_monte_carlo_get_joint_statistics(const rfmodel_monte_carlo_result *result,
+                                             int parameters,
+                                             rfmodel_monte_carlo_joint_statistics *info,
+                                             rfmodel_monte_carlo_joint_value *values,
+                                             size_t capacity) {
+    return guarded([&] {
+        require(result && info && (parameters == 0 || parameters == 1));
+        disjoint(info, sizeof(*info), result, sizeof(*result));
+        const auto &j = parameters ? result->core.parameter_joint : result->core.metric_joint;
+        const rfmodel_monte_carlo_joint_statistics meta{j.dimension, j.count};
+        if (!values && capacity == 0) {
+            *info = meta;
+            return;
+        }
+        const auto bytes = optimization_buffer(
+            result, values, capacity, j.sample_covariance.size(), sizeof(*values));
+        disjoint(info, sizeof(*info), values, bytes);
+        for (size_t k = 0; k < j.sample_covariance.size(); ++k) {
+            values[k] = {j.sample_covariance[k] ? 1 : 0,
+                         j.sample_correlation[k] ? 1 : 0,
+                         j.sample_covariance[k].value_or(0.),
+                         j.sample_correlation[k].value_or(0.)};
+        }
+        *info = meta;
+    });
 }
 
 int rfmodel_monte_carlo_get_summary(const rfmodel_monte_carlo_result *result,

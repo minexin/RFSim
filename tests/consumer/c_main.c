@@ -33,6 +33,28 @@ static int optimization_objective(
 
 int main(int argc, char **argv) {
     {
+        const rfmodel_monte_carlo_parameter p[2] = {{RFMODEL_MC_NORMAL, 0., 1.},
+                                                    {RFMODEL_MC_NORMAL, 0., 1.}};
+        const rfmodel_monte_carlo_options options = {32, 20261012, 0, 0, NULL, 0, NULL, 0};
+        const double matrix[4] = {1., -1., -1., 1.};
+        const rfmodel_monte_carlo_extension extension = {matrix, 4, 1};
+        rfmodel_monte_carlo_result *result = NULL;
+        rfmodel_monte_carlo_dependence dependence;
+        rfmodel_monte_carlo_joint_statistics info;
+        rfmodel_monte_carlo_joint_value values[4];
+        double effective[4];
+        if (rfmodel_run_monte_carlo_extended(
+                p, 2, 1, &options, &extension, monte_carlo_evaluate, NULL, NULL, &result) ||
+            rfmodel_monte_carlo_get_dependence(result, &dependence, effective, 4) ||
+            rfmodel_monte_carlo_get_joint_statistics(result, 1, &info, values, 4) ||
+            dependence.latent_rank != 1 || dependence.algorithm != RFMODEL_MC_GAUSSIAN_COPULA_V1 ||
+            effective[1] != -1. || info.dimension != 2 || info.count != 32 ||
+            !values[1].has_correlation || fabs(values[1].sample_correlation + 1.) > 1e-12) {
+            return 115;
+        }
+        rfmodel_monte_carlo_destroy(result);
+    }
+    {
         const rfmodel_monte_carlo_parameter p = {RFMODEL_MC_FIXED, 2., 0.};
         const rfmodel_monte_carlo_options options = {2, 99, 0, 1, NULL, 0, NULL, 0};
         rfmodel_monte_carlo_result *result = NULL;

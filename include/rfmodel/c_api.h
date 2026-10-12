@@ -63,6 +63,34 @@ typedef struct rfmodel_monte_carlo_options {
     size_t criteria_count; /* zero disables classification; otherwise metric_count */
 } rfmodel_monte_carlo_options;
 
+/* Additive extension: existing options/summary layouts and entry point are unchanged.
+   Matrix is row-major count*count in parameter order; zero entries disables the
+   copula. Values are copied before any callback. joint_statistics is 0/1. */
+typedef struct rfmodel_monte_carlo_extension {
+    const double *latent_correlation;
+    size_t correlation_count;
+    int joint_statistics;
+} rfmodel_monte_carlo_extension;
+
+enum rfmodel_monte_carlo_algorithm {
+    RFMODEL_MC_INDEPENDENT_V1 = 0,
+    RFMODEL_MC_GAUSSIAN_COPULA_V1 = 1
+};
+
+typedef struct rfmodel_monte_carlo_dependence {
+    size_t correlation_count, latent_rank;
+    int algorithm, joint_statistics;
+} rfmodel_monte_carlo_dependence;
+
+typedef struct rfmodel_monte_carlo_joint_statistics {
+    size_t dimension, count;
+} rfmodel_monte_carlo_joint_statistics;
+
+typedef struct rfmodel_monte_carlo_joint_value {
+    int has_covariance, has_correlation;
+    double sample_covariance, sample_correlation; /* zero when absent */
+} rfmodel_monte_carlo_joint_value;
+
 typedef struct rfmodel_monte_carlo_summary {
     size_t parameter_count, metric_count, quantile_count, history_count;
     size_t requested_samples, samples_attempted, evaluations, accepted_samples, rejected_samples;
@@ -113,6 +141,32 @@ RFMODEL_API int rfmodel_run_monte_carlo(const rfmodel_monte_carlo_parameter *par
                                         rfmodel_monte_carlo_cancel cancelled,
                                         void *user_data,
                                         rfmodel_monte_carlo_result **out);
+/* NULL extension preserves the original independent run. All original input,
+   callback, ownership and failure-atomic output rules apply to this entry. */
+RFMODEL_API int rfmodel_run_monte_carlo_extended(const rfmodel_monte_carlo_parameter *parameters,
+                                                 size_t count,
+                                                 size_t metric_count,
+                                                 const rfmodel_monte_carlo_options *options,
+                                                 const rfmodel_monte_carlo_extension *extension,
+                                                 rfmodel_monte_carlo_evaluator evaluator,
+                                                 rfmodel_monte_carlo_cancel cancelled,
+                                                 void *user_data,
+                                                 rfmodel_monte_carlo_result **out);
+/* NULL/0 data buffer queries info only. Otherwise the full row-major matrix must
+   fit (effective correlation_count entries or joint dimension squared entries).
+   parameters selects the parameter matrix (1) or metric matrix (0).
+   Joint matrices include only accepted rows, including for parameter statistics.
+   All reads are failure-atomic, disallow overlap and leave buffer tails unchanged. */
+RFMODEL_API int rfmodel_monte_carlo_get_dependence(const rfmodel_monte_carlo_result *result,
+                                                   rfmodel_monte_carlo_dependence *info,
+                                                   double *effective_correlation,
+                                                   size_t capacity);
+RFMODEL_API int rfmodel_monte_carlo_get_joint_statistics(const rfmodel_monte_carlo_result *result,
+                                                         int parameters,
+                                                         rfmodel_monte_carlo_joint_statistics *info,
+                                                         rfmodel_monte_carlo_joint_value *values,
+                                                         size_t capacity);
+
 RFMODEL_API void rfmodel_monte_carlo_destroy(rfmodel_monte_carlo_result *result);
 RFMODEL_API int rfmodel_monte_carlo_get_summary(const rfmodel_monte_carlo_result *result,
                                                 rfmodel_monte_carlo_summary *summary);

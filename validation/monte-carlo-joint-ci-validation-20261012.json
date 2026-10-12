@@ -1,0 +1,519 @@
+{
+  "commit": "d888587728bef144bba5e9d4daf5c56231d87b09",
+  "run_id": 38251283037,
+  "run_url": "https://github.com/minexin/RFSim/actions/runs/38251283037",
+  "status": "completed",
+  "conclusion": "success",
+  "configurations": [
+    {
+      "os": "windows-latest",
+      "configuration": "Debug",
+      "ctest": 144,
+      "consumers": 2,
+      "wheel": 444,
+      "suites": 28,
+      "correlated_monte_carlo_example": {
+        "samples": 4096,
+        "passed_samples": 2066,
+        "passed_fraction": 0.50439453125,
+        "maximum_physical_errors": [
+          2.7755575615628914e-16,
+          2.7755575615628914e-16,
+          1.1368683772161603e-13
+        ],
+        "population_standard_errors": {
+          "total_resistance_mean": 0.1651102800372499,
+          "total_resistance_variance": -0.3743768139722572,
+          "parameter_covariance": -0.27939532847123927,
+          "pass_fraction": 0.5625
+        },
+        "declared_standard_error_limit": 6,
+        "parameter_joint": {
+          "dimension": 2,
+          "count": 4096,
+          "sample_covariance": [
+            3.9320574154306662,
+            3.1776347322036202,
+            3.1776347322036202,
+            3.9935326030086986
+          ],
+          "sample_correlation": [
+            1,
+            0.8018911699170822,
+            0.8018911699170822,
+            1
+          ]
+        },
+        "metric_joint": {
+          "dimension": 3,
+          "count": 4096,
+          "sample_covariance": [
+            8.979170367532055e-05,
+            -8.949012841523606e-05,
+            -0.03577732520834233,
+            -8.949012841523606e-05,
+            8.92610936249781e-05,
+            0.03569982086496018,
+            -0.03577732520834233,
+            0.03569982086496018,
+            14.280859482846607
+          ],
+          "sample_correlation": [
+            1,
+            -0.9995992546782438,
+            -0.9991083527628697,
+            -0.9995992546782438,
+            1,
+            0.9999027485994639,
+            -0.9991083527628697,
+            0.9999027485994639,
+            1
+          ]
+        }
+      },
+      "wheel_report": {
+        "path": "build-reference/monte-carlo-joint-ci-evidence/verification-windows-latest-Debug/installed-python-verification/installed-python-validation.json",
+        "sha256": "63e9f78314e00ee59dd43d9b0c429fbdf49cffea1d264c7d5586908b6ce68c06"
+      },
+      "logs": [
+        {
+          "path": "build-reference/monte-carlo-joint-ci-evidence/verification-windows-latest-Debug/build/Testing/Temporary/LastTest.log",
+          "sha256": "97a807d16770666d0b3548dd5db413df018496137d18fd8196da05a9e8527ee7",
+          "passed": 144,
+          "total": 144
+        },
+        {
+          "path": "build-reference/monte-carlo-joint-ci-evidence/verification-windows-latest-Debug/consumer-build/Testing/Temporary/LastTest.log",
+          "sha256": "b4dc6e9247780924a9c50b3104a3b30b78013a35a16c4e699a7d01d12533e5f3",
+          "passed": 2,
+          "total": 2
+        }
+      ]
+    },
+    {
+      "os": "windows-latest",
+      "configuration": "Release",
+      "ctest": 144,
+      "consumers": 2,
+      "wheel": 444,
+      "suites": 28,
+      "correlated_monte_carlo_example": {
+        "samples": 4096,
+        "passed_samples": 2066,
+        "passed_fraction": 0.50439453125,
+        "maximum_physical_errors": [
+          2.7755575615628914e-16,
+          2.7755575615628914e-16,
+          1.1368683772161603e-13
+        ],
+        "population_standard_errors": {
+          "total_resistance_mean": 0.1651102800372499,
+          "total_resistance_variance": -0.3743768139722572,
+          "parameter_covariance": -0.27939532847123927,
+          "pass_fraction": 0.5625
+        },
+        "declared_standard_error_limit": 6,
+        "parameter_joint": {
+          "dimension": 2,
+          "count": 4096,
+          "sample_covariance": [
+            3.9320574154306662,
+            3.1776347322036202,
+            3.1776347322036202,
+            3.9935326030086986
+          ],
+          "sample_correlation": [
+            1,
+            0.8018911699170822,
+            0.8018911699170822,
+            1
+          ]
+        },
+        "metric_joint": {
+          "dimension": 3,
+          "count": 4096,
+          "sample_covariance": [
+            8.979170367532055e-05,
+            -8.949012841523606e-05,
+            -0.03577732520834233,
+            -8.949012841523606e-05,
+            8.92610936249781e-05,
+            0.03569982086496018,
+            -0.03577732520834233,
+            0.03569982086496018,
+            14.280859482846607
+          ],
+          "sample_correlation": [
+            1,
+            -0.9995992546782438,
+            -0.9991083527628697,
+            -0.9995992546782438,
+            1,
+            0.9999027485994639,
+            -0.9991083527628697,
+            0.9999027485994639,
+            1
+          ]
+        }
+      },
+      "wheel_report": {
+        "path": "build-reference/monte-carlo-joint-ci-evidence/verification-windows-latest-Release/installed-python-verification/installed-python-validation.json",
+        "sha256": "35c57118930a9bc8bdaf7002c6b103c0ffdb65722a2f545985890c096526a63d"
+      },
+      "logs": [
+        {
+          "path": "build-reference/monte-carlo-joint-ci-evidence/verification-windows-latest-Release/build/Testing/Temporary/LastTest.log",
+          "sha256": "f77444b471f70b99c5c6507e339e7a53b8ea443e3928d86f6adcefb96bc04307",
+          "passed": 144,
+          "total": 144
+        },
+        {
+          "path": "build-reference/monte-carlo-joint-ci-evidence/verification-windows-latest-Release/consumer-build/Testing/Temporary/LastTest.log",
+          "sha256": "ffd16b0de21c90050b2c4369eb4a56c61b50a2b2106754e5d35ca71123c6c21e",
+          "passed": 2,
+          "total": 2
+        }
+      ]
+    },
+    {
+      "os": "ubuntu-latest",
+      "configuration": "Debug",
+      "ctest": 144,
+      "consumers": 2,
+      "wheel": 444,
+      "suites": 28,
+      "correlated_monte_carlo_example": {
+        "samples": 4096,
+        "passed_samples": 2066,
+        "passed_fraction": 0.50439453125,
+        "maximum_physical_errors": [
+          2.7755575615628914e-16,
+          2.7755575615628914e-16,
+          1.1368683772161603e-13
+        ],
+        "population_standard_errors": {
+          "total_resistance_mean": 0.1651102800372499,
+          "total_resistance_variance": -0.3743768139722572,
+          "parameter_covariance": -0.27939532847123927,
+          "pass_fraction": 0.5625
+        },
+        "declared_standard_error_limit": 6,
+        "parameter_joint": {
+          "dimension": 2,
+          "count": 4096,
+          "sample_covariance": [
+            3.9320574154306662,
+            3.1776347322036202,
+            3.1776347322036202,
+            3.9935326030086986
+          ],
+          "sample_correlation": [
+            1,
+            0.8018911699170822,
+            0.8018911699170822,
+            1
+          ]
+        },
+        "metric_joint": {
+          "dimension": 3,
+          "count": 4096,
+          "sample_covariance": [
+            8.979170367532055e-05,
+            -8.949012841523607e-05,
+            -0.03577732520834233,
+            -8.949012841523607e-05,
+            8.92610936249781e-05,
+            0.03569982086496018,
+            -0.03577732520834233,
+            0.03569982086496018,
+            14.280859482846607
+          ],
+          "sample_correlation": [
+            1,
+            -0.999599254678244,
+            -0.9991083527628697,
+            -0.999599254678244,
+            1,
+            0.9999027485994639,
+            -0.9991083527628697,
+            0.9999027485994639,
+            1
+          ]
+        }
+      },
+      "wheel_report": {
+        "path": "build-reference/monte-carlo-joint-ci-evidence/verification-ubuntu-latest-Debug/installed-python-verification/installed-python-validation.json",
+        "sha256": "5ec4fe06ad90b2f9e1b493227cda13b97c93d986f2942032e93fd50a97f6fc9d"
+      },
+      "logs": [
+        {
+          "path": "build-reference/monte-carlo-joint-ci-evidence/verification-ubuntu-latest-Debug/build/Testing/Temporary/LastTest.log",
+          "sha256": "2e44f517b5a3fb32edb439badf8cb701a6b1c6f7e30205f101e2dc479a40d7bd",
+          "passed": 144,
+          "total": 144
+        },
+        {
+          "path": "build-reference/monte-carlo-joint-ci-evidence/verification-ubuntu-latest-Debug/consumer-build/Testing/Temporary/LastTest.log",
+          "sha256": "01b9adb796b9d45e6e655ca3a9921d1128df79fcc154bc6cd82e18aaa691264c",
+          "passed": 2,
+          "total": 2
+        }
+      ]
+    },
+    {
+      "os": "ubuntu-latest",
+      "configuration": "Release",
+      "ctest": 144,
+      "consumers": 2,
+      "wheel": 444,
+      "suites": 28,
+      "correlated_monte_carlo_example": {
+        "samples": 4096,
+        "passed_samples": 2066,
+        "passed_fraction": 0.50439453125,
+        "maximum_physical_errors": [
+          2.7755575615628914e-16,
+          2.7755575615628914e-16,
+          1.1368683772161603e-13
+        ],
+        "population_standard_errors": {
+          "total_resistance_mean": 0.1651102800372499,
+          "total_resistance_variance": -0.3743768139722572,
+          "parameter_covariance": -0.27939532847123927,
+          "pass_fraction": 0.5625
+        },
+        "declared_standard_error_limit": 6,
+        "parameter_joint": {
+          "dimension": 2,
+          "count": 4096,
+          "sample_covariance": [
+            3.9320574154306662,
+            3.1776347322036202,
+            3.1776347322036202,
+            3.9935326030086986
+          ],
+          "sample_correlation": [
+            1,
+            0.8018911699170822,
+            0.8018911699170822,
+            1
+          ]
+        },
+        "metric_joint": {
+          "dimension": 3,
+          "count": 4096,
+          "sample_covariance": [
+            8.979170367532055e-05,
+            -8.949012841523607e-05,
+            -0.03577732520834233,
+            -8.949012841523607e-05,
+            8.92610936249781e-05,
+            0.03569982086496018,
+            -0.03577732520834233,
+            0.03569982086496018,
+            14.280859482846607
+          ],
+          "sample_correlation": [
+            1,
+            -0.999599254678244,
+            -0.9991083527628697,
+            -0.999599254678244,
+            1,
+            0.9999027485994639,
+            -0.9991083527628697,
+            0.9999027485994639,
+            1
+          ]
+        }
+      },
+      "wheel_report": {
+        "path": "build-reference/monte-carlo-joint-ci-evidence/verification-ubuntu-latest-Release/installed-python-verification/installed-python-validation.json",
+        "sha256": "9c13dd069cda6b036c4d2d8ef3477161da5c86e628e2b1dea51c282bc801e626"
+      },
+      "logs": [
+        {
+          "path": "build-reference/monte-carlo-joint-ci-evidence/verification-ubuntu-latest-Release/build/Testing/Temporary/LastTest.log",
+          "sha256": "ad9380762bc69f437c642f00e437c38a5524e0cd861ba96f22f81bdfb53f2823",
+          "passed": 144,
+          "total": 144
+        },
+        {
+          "path": "build-reference/monte-carlo-joint-ci-evidence/verification-ubuntu-latest-Release/consumer-build/Testing/Temporary/LastTest.log",
+          "sha256": "1ef8d0fb5a7fd9bdfd6d0c704cde406e3bdf7ba54f9fe9457fb9d832fa01162a",
+          "passed": 2,
+          "total": 2
+        }
+      ]
+    },
+    {
+      "os": "macos-latest",
+      "configuration": "Debug",
+      "ctest": 144,
+      "consumers": 2,
+      "wheel": 444,
+      "suites": 28,
+      "correlated_monte_carlo_example": {
+        "samples": 4096,
+        "passed_samples": 2066,
+        "passed_fraction": 0.50439453125,
+        "maximum_physical_errors": [
+          3.3306690738754696e-16,
+          3.3306690738754696e-16,
+          1.5631940186722204e-13
+        ],
+        "population_standard_errors": {
+          "total_resistance_mean": 0.1651102800372499,
+          "total_resistance_variance": -0.37437681397224604,
+          "parameter_covariance": -0.27939532847123927,
+          "pass_fraction": 0.5625
+        },
+        "declared_standard_error_limit": 6,
+        "parameter_joint": {
+          "dimension": 2,
+          "count": 4096,
+          "sample_covariance": [
+            3.9320574154306662,
+            3.1776347322036202,
+            3.1776347322036202,
+            3.9935326030086995
+          ],
+          "sample_correlation": [
+            1,
+            0.8018911699170821,
+            0.8018911699170821,
+            1
+          ]
+        },
+        "metric_joint": {
+          "dimension": 3,
+          "count": 4096,
+          "sample_covariance": [
+            8.979170367532055e-05,
+            -8.949012841523607e-05,
+            -0.035777325208342335,
+            -8.949012841523607e-05,
+            8.92610936249781e-05,
+            0.03569982086496017,
+            -0.035777325208342335,
+            0.03569982086496017,
+            14.28085948284661
+          ],
+          "sample_correlation": [
+            1,
+            -0.999599254678244,
+            -0.9991083527628697,
+            -0.999599254678244,
+            1,
+            0.9999027485994639,
+            -0.9991083527628697,
+            0.9999027485994639,
+            1
+          ]
+        }
+      },
+      "wheel_report": {
+        "path": "build-reference/monte-carlo-joint-ci-evidence/verification-macos-latest-Debug/installed-python-verification/installed-python-validation.json",
+        "sha256": "36b0341b14d9e29804de6e6e3e77f7477ac9ee5daa36076cfeeeb8460f2c3d05"
+      },
+      "logs": [
+        {
+          "path": "build-reference/monte-carlo-joint-ci-evidence/verification-macos-latest-Debug/build/Testing/Temporary/LastTest.log",
+          "sha256": "b66392ec0a8eef8f0e814269497d406643464b8885426be62eff5fddadc7225f",
+          "passed": 144,
+          "total": 144
+        },
+        {
+          "path": "build-reference/monte-carlo-joint-ci-evidence/verification-macos-latest-Debug/consumer-build/Testing/Temporary/LastTest.log",
+          "sha256": "065a78524b137c48726f46de9124d538ba5f9b172c3d398471a33169ada0a86d",
+          "passed": 2,
+          "total": 2
+        }
+      ]
+    },
+    {
+      "os": "macos-latest",
+      "configuration": "Release",
+      "ctest": 144,
+      "consumers": 2,
+      "wheel": 444,
+      "suites": 28,
+      "correlated_monte_carlo_example": {
+        "samples": 4096,
+        "passed_samples": 2066,
+        "passed_fraction": 0.50439453125,
+        "maximum_physical_errors": [
+          3.3306690738754696e-16,
+          3.3306690738754696e-16,
+          1.5631940186722204e-13
+        ],
+        "population_standard_errors": {
+          "total_resistance_mean": 0.1651102800372499,
+          "total_resistance_variance": -0.37437681397224604,
+          "parameter_covariance": -0.27939532847123927,
+          "pass_fraction": 0.5625
+        },
+        "declared_standard_error_limit": 6,
+        "parameter_joint": {
+          "dimension": 2,
+          "count": 4096,
+          "sample_covariance": [
+            3.9320574154306662,
+            3.1776347322036202,
+            3.1776347322036202,
+            3.9935326030086995
+          ],
+          "sample_correlation": [
+            1,
+            0.8018911699170821,
+            0.8018911699170821,
+            1
+          ]
+        },
+        "metric_joint": {
+          "dimension": 3,
+          "count": 4096,
+          "sample_covariance": [
+            8.979170367532055e-05,
+            -8.949012841523607e-05,
+            -0.035777325208342335,
+            -8.949012841523607e-05,
+            8.92610936249781e-05,
+            0.03569982086496017,
+            -0.035777325208342335,
+            0.03569982086496017,
+            14.28085948284661
+          ],
+          "sample_correlation": [
+            1,
+            -0.999599254678244,
+            -0.9991083527628697,
+            -0.999599254678244,
+            1,
+            0.9999027485994639,
+            -0.9991083527628697,
+            0.9999027485994639,
+            1
+          ]
+        }
+      },
+      "wheel_report": {
+        "path": "build-reference/monte-carlo-joint-ci-evidence/verification-macos-latest-Release/installed-python-verification/installed-python-validation.json",
+        "sha256": "4d5ec07bb2009c4c7d29ffe3eb12f7928dedefbe7b4b6b3d7cd8e2e2d37a702b"
+      },
+      "logs": [
+        {
+          "path": "build-reference/monte-carlo-joint-ci-evidence/verification-macos-latest-Release/build/Testing/Temporary/LastTest.log",
+          "sha256": "576e6397d5c4ac11b21bce43d5b6283fdc9733e5c1cca0ba258bba1bccf6b2b2",
+          "passed": 144,
+          "total": 144
+        },
+        {
+          "path": "build-reference/monte-carlo-joint-ci-evidence/verification-macos-latest-Release/consumer-build/Testing/Temporary/LastTest.log",
+          "sha256": "d2ab18cf3481253a2c7a654e395894b2eeb963588605a75a14f77bacff9bf980",
+          "passed": 2,
+          "total": 2
+        }
+      ]
+    }
+  ]
+}

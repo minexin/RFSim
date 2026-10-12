@@ -119,3 +119,6 @@ Library.compress_coherent_fundamentals 提供多个相干组的共同基波压�
 ## 内部混合参考网络
 
 `Network.add_power_waves(scattering, reference_impedances_ohms)` 添加已经按每端口局部复参考表示的 S 矩阵；`Network.reference_impedances_ohms` 查询全局端口顺序的实际参考。原生 C ABI 执行物理接线、求解和相关噪声传播，Python 不复制求解算法。旧 `add` 的公共实参考行为不变；新 wheel 须加载含新增符号的原生库。局部信号/噪声坐标、线性 JSON 及不支持的频谱入口见 [功率波参考说明](power-wave-references.md)。
+
+
+Monte Carlo 保留原 19 字段结果，新增 `Library.run_monte_carlo_extended` 返回含原 result 的独立扩展快照，并由 JSON v2 开放潜在相关矩阵与参数/指标联合统计；详见 [相关采样及任务格式](monte-carlo.md)。
