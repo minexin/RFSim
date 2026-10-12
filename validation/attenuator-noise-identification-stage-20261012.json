@@ -1,0 +1,251 @@
+{
+  "schema_version": 1,
+  "started_utc": "2026-10-12T04:26:49+00:00",
+  "verification_finished_utc": "2026-10-12T04:39:32.006064+00:00",
+  "base_commit": "51a83504720118af82cba52516702b7fbeed2f1a",
+  "bounded_stage_complete": true,
+  "diagnostic_passed": true,
+  "vendor_compatibility_passed": false,
+  "new_analysis_calls": 2,
+  "recovery_analysis_calls": 0,
+  "durations_seconds": {
+    "stage_elapsed": 763.006064,
+    "successful_capture_restore_helpers": 10.187999999999999,
+    "interrupted_helper": 3.422,
+    "interruption_to_restoration_wall": 26.016276,
+    "interrupt_to_recovery_start_wait": 21.142219,
+    "observed_300K_RunScript_interval": 0.2191743,
+    "unobserved_350K_RunScript_interval": null,
+    "remaining_documentation_analysis_verification_and_overhead": 728.2538450000001
+  },
+  "duration_notes": [
+    "Interruption-to-restoration overlaps recovery helper; do not add that diagnostic interval to the other buckets.",
+    "Remaining elapsed is wall time, not CPU time; includes tool scheduling, documentation, offline reasoning and verification.",
+    "A brief connection notification occurred; duration is unknown. A real read-only shell call succeeded at 04:38:49 UTC."
+  ],
+  "checks": [
+    {
+      "name": "identification_tests",
+      "exit_code": 0,
+      "seconds": 0.125,
+      "log": "build-reference/noise-identification-20261012/identification_tests.log"
+    },
+    {
+      "name": "original_comparator_tests",
+      "exit_code": 0,
+      "seconds": 0.125,
+      "log": "build-reference/noise-identification-20261012/original_comparator_tests.log"
+    },
+    {
+      "name": "replay",
+      "exit_code": 0,
+      "seconds": 0.10900000017136335,
+      "log": "build-reference/noise-identification-20261012/replay.log"
+    }
+  ],
+  "preserved_files": [
+    {
+      "path": "scripts/reference/archive-cascade-reference.py",
+      "sha256": "a482db6bd6ae64c050d74e6df321749ec84a7098fb7aa49733079183149806dc",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/reference/capture-cascade-reference.ps1",
+      "sha256": "fb42165db2ad10c6213a415c2080e1eeb6e5ec0bcd1dc119bb1d1707c5283f3e",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/reference/compare-cascade-amplifier.py",
+      "sha256": "af1260adb093946954d0fb7e4bb2059669706a291418aac19ba193fed7554d9d",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/reference/run-systemvue-reference.py",
+      "sha256": "5df486d061ce09c28b396bf62e7fcba473dc6e9086d52861fdc7be6c85864f4e",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/reference/test_compare_cascade_amplifier.py",
+      "sha256": "190ea23b0ce0733846db8052ead9bb4d5ba41ff30e007c1f06e1a1753bc3fcf1",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/reference/test_run_systemvue_reference.py",
+      "sha256": "7eeeb2f890e59b986fec7eb9af58313f129b73ffccfd924f2f273ff52c396eb5",
+      "unchanged": true
+    },
+    {
+      "path": "measurements_test.obj",
+      "sha256": "4935bda18e7d8471560016c7303f3b7136842ab2ec429975440c7d617de3d97f",
+      "unchanged": true
+    },
+    {
+      "path": "verify-measurements.cmd",
+      "sha256": "c629d73c222dad5768c3c33c88a66eea99daf012dc79885f6cd7a7f0cebf7f7f",
+      "unchanged": true
+    }
+  ],
+  "source_workspace_sha256": "89784b61cb3ec533b70618f8bb4b32a0ae883cc61d90e6f9445fab2cec8e1616",
+  "post_disconnect_verification": {
+    "utc": "2026-10-12T04:38:49.2411609Z",
+    "shell_exit_code": 0,
+    "head": "51a83504720118af82cba52516702b7fbeed2f1a",
+    "systemvue_pid": 21556,
+    "responding": true,
+    "restoration_evidence": "build-reference/attenuator-device-recovered-350K-20261012T043225Z-43af6179/restored.json",
+    "restoration_observed_utc": "2026-10-12T04:32:30.1101324Z",
+    "scope": "post-disconnect process queried live; parameters verified from prior completed restoration snapshot, not a new COM read"
+  },
+  "raw_artifacts": [
+    {
+      "path": "build-reference/noise-identification-20261012/capture-device-temperature.ps1",
+      "sha256": "90c2ed104189d4383a9368019d16c7120814d953400cbbd02fc34acaed3b795f",
+      "size_bytes": 4602
+    },
+    {
+      "path": "build-reference/noise-identification-20261012/final-replay.json",
+      "sha256": "e1a51f3009e23b62056c026f3b8789eecff57185ec844e9a83f6f948522b1135",
+      "size_bytes": 29197
+    },
+    {
+      "path": "build-reference/noise-identification-20261012/identification_tests.log",
+      "sha256": "9fffdea0efcd3158e0ccb98821834c20fd1bae324487987a4e66293ade84ab8b",
+      "size_bytes": 109
+    },
+    {
+      "path": "build-reference/noise-identification-20261012/official-help-search.json",
+      "sha256": "7c836aa94180ef6589b76dbffa2d03559bd993db2c67e2d3b5b40e71d02da4c8",
+      "size_bytes": 22623
+    },
+    {
+      "path": "build-reference/noise-identification-20261012/original_comparator_tests.log",
+      "sha256": "9762eaf1298ee1e66a5fdf1633cf446dc583d4fa0155cecfc6715a87fa46d5e4",
+      "size_bytes": 112
+    },
+    {
+      "path": "build-reference/noise-identification-20261012/preregistered-predictions.json",
+      "sha256": "a613879542c8aa44427378e39542b1042ffca4ef1e670a8b3e290299b886d4c2",
+      "size_bytes": 1524
+    },
+    {
+      "path": "build-reference/noise-identification-20261012/recover-device-temperature.ps1",
+      "sha256": "3c7b4444055829657fb7636c1c578bf53d17e32f2c6165d5bd3ef3f5b608889f",
+      "size_bytes": 3794
+    },
+    {
+      "path": "build-reference/noise-identification-20261012/replay.log",
+      "sha256": "2cfbab4e45daa2e5617686b6add4508286828e9b2b7cff5eda2d231c513ef311",
+      "size_bytes": 165
+    },
+    {
+      "path": "build-reference/noise-identification-20261012/run-device-temperature.py",
+      "sha256": "51246305b9f9119223e016de26a171f0b020e53a6b4ae6437172628144efa1ae",
+      "size_bytes": 3935
+    },
+    {
+      "path": "build-reference/noise-identification-20261012/run-recover-device-temperature.py",
+      "sha256": "4aeadf5d17659e04e41f7aaef8678f9d3ef533293826a8ef67c017e3cb08e9cb",
+      "size_bytes": 3945
+    },
+    {
+      "path": "build-reference/noise-identification-20261012/verification-steps.json",
+      "sha256": "f2e91609a9caa5bf4a7a1937cbb87327b29a3ba6ae93238b5bdf3ecfac44defd",
+      "size_bytes": 532
+    },
+    {
+      "path": "build-reference/attenuator-device-300K-20261012T043144Z-73922845/before.json",
+      "sha256": "5a79a13189aaf4283407512a08433fedebf168440f2cf82beba36512b4812966",
+      "size_bytes": 661881
+    },
+    {
+      "path": "build-reference/attenuator-device-300K-20261012T043144Z-73922845/capture.json",
+      "sha256": "bc2011854031311c0f0d5e0135c1bb33d04be5651581c285b4509deb146fc5fd",
+      "size_bytes": 662298
+    },
+    {
+      "path": "build-reference/attenuator-device-300K-20261012T043144Z-73922845/configured.json",
+      "sha256": "94939e907df0f629ce2a5874d6e10593f09c9ca46896f1e67c7449924a86f826",
+      "size_bytes": 661860
+    },
+    {
+      "path": "build-reference/attenuator-device-300K-20261012T043144Z-73922845/restored.json",
+      "sha256": "7c1040621e77cd471c356221376dd64b408f9adde7c0e7ffe7be55d42bdfec07",
+      "size_bytes": 662262
+    },
+    {
+      "path": "build-reference/attenuator-device-300K-20261012T043144Z-73922845/status.json",
+      "sha256": "0eeafe6fad302e584fde38fcaf6e8a92a20e3dbcde7c03283af5aa24f5c1a899",
+      "size_bytes": 1118
+    },
+    {
+      "path": "build-reference/attenuator-device-300K-20261012T043144Z-73922845/stderr.log",
+      "sha256": "5a60c97889c03bd39ce68a65e49549ec762ca69ada5105841d8814a947724a87",
+      "size_bytes": 515
+    },
+    {
+      "path": "build-reference/attenuator-device-300K-20261012T043144Z-73922845/stdout.log",
+      "sha256": "0a2c81f70f7b9e06919a125565bee6b89e7aea5da55982ea1be31108b5fef9e1",
+      "size_bytes": 507
+    },
+    {
+      "path": "build-reference/attenuator-device-350K-20261012T043200Z-8f31b8a0/before.json",
+      "sha256": "1cab19d2de85ca0a69374737086de992e872feab29ee095a48772240e4d82b93",
+      "size_bytes": 662027
+    },
+    {
+      "path": "build-reference/attenuator-device-350K-20261012T043200Z-8f31b8a0/configured.json",
+      "sha256": "171e5f705137058c574a129cafaf14a9e4e7c0c3e6e4a199398aeac5e8c6e341",
+      "size_bytes": 662063
+    },
+    {
+      "path": "build-reference/attenuator-device-350K-20261012T043200Z-8f31b8a0/status.json",
+      "sha256": "c95d9d8160dec70180f1068a70565e35a55db7eee19cbbc36613851d26b3b4b5",
+      "size_bytes": 1254
+    },
+    {
+      "path": "build-reference/attenuator-device-350K-20261012T043200Z-8f31b8a0/stderr.log",
+      "sha256": "997b010959cf3bd329548d8f5a5ded59a07c8f16a0f3cdcc6f8e614efbc5f41a",
+      "size_bytes": 344
+    },
+    {
+      "path": "build-reference/attenuator-device-350K-20261012T043200Z-8f31b8a0/stdout.log",
+      "sha256": "45755903ca8a2d3ac4fa7be9b7b2db71cd1c64f165d11e06c96248c89c512482",
+      "size_bytes": 217
+    },
+    {
+      "path": "build-reference/attenuator-device-recovered-350K-20261012T043225Z-43af6179/before.json",
+      "sha256": "865412a661fa28ea3af6d1c6f74bc2f35e2e1e5c2e967cceaa020ec88b267de4",
+      "size_bytes": 662042
+    },
+    {
+      "path": "build-reference/attenuator-device-recovered-350K-20261012T043225Z-43af6179/capture.json",
+      "sha256": "865412a661fa28ea3af6d1c6f74bc2f35e2e1e5c2e967cceaa020ec88b267de4",
+      "size_bytes": 662042
+    },
+    {
+      "path": "build-reference/attenuator-device-recovered-350K-20261012T043225Z-43af6179/restored.json",
+      "sha256": "8fcae894c29f0e6779e9d0110a63107f666a1e73bbafefa7b9c036cfe05c1c7f",
+      "size_bytes": 662006
+    },
+    {
+      "path": "build-reference/attenuator-device-recovered-350K-20261012T043225Z-43af6179/status.json",
+      "sha256": "c56878aa4e3ec1920e54ec4f4722f70ff80a08e0acba65361d7bf923fea292c8",
+      "size_bytes": 1138
+    },
+    {
+      "path": "build-reference/attenuator-device-recovered-350K-20261012T043225Z-43af6179/stderr.log",
+      "sha256": "62257b1c71c08bb85558bb0d5fabb13d443ab149ebe35675d5f95e3ebf3c68c1",
+      "size_bytes": 294
+    },
+    {
+      "path": "build-reference/attenuator-device-recovered-350K-20261012T043225Z-43af6179/stdout.log",
+      "sha256": "f4bd2835650888bc898848b404ac7e0b0253213e5388d04ec8fc2b0fcb434235",
+      "size_bytes": 281
+    }
+  ],
+  "core_changes": false,
+  "policy_changes": false,
+  "systemvue_terminated": false,
+  "workspace_saved": false,
+  "pushed": false
+}

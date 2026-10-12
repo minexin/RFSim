@@ -1,0 +1,792 @@
+{
+  "schema_version": 1,
+  "diagnostic_only": true,
+  "core_constant_changed": false,
+  "vendor_tolerance": 1e-07,
+  "identification_tolerance": 1e-12,
+  "diagnostic_passed": true,
+  "vendor_noise_subset_passed": false,
+  "independent_device_slope_coefficient": "1.3806503999998441474937207593093913885862113642494E-23",
+  "slope_candidates": {
+    "1.380649E-23": {
+      "actual": "1.3806503999998441474937207593093913885862113642494E-23",
+      "expected": "1.380649E-23",
+      "relative_error": 1.014015759362078e-06,
+      "relative_tolerance": 1e-12,
+      "passed": false
+    },
+    "1.3806503E-23": {
+      "actual": "1.3806503999998441474937207593093913885862113642494E-23",
+      "expected": "1.3806503E-23",
+      "relative_error": 7.242952407825045e-08,
+      "relative_tolerance": 1e-12,
+      "passed": false
+    },
+    "1.3806504E-23": {
+      "actual": "1.3806503999998441474937207593093913885862113642494E-23",
+      "expected": "1.3806504E-23",
+      "relative_error": 1.1288339631759111e-13,
+      "relative_tolerance": 1e-12,
+      "passed": true
+    }
+  },
+  "cases": [
+    {
+      "device_temperature_k": 290,
+      "checks": {
+        "source_invariant": {
+          "actual": "3.1803997459997897E-21",
+          "expected": "3.1803997459997897E-21",
+          "relative_error": 0.0,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "source_legacy_prediction": {
+          "actual": "3.1803997459997897E-21",
+          "expected": "3.1803997459997864843211885686960386791944727501718E-21",
+          "relative_error": 1.0110926513171466e-15,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "device_legacy_prediction": {
+          "actual": "8.234863344902218E-22",
+          "expected": "8.2348633449021787793425837966042081231604755772938E-22",
+          "relative_error": 4.762757531426806e-15,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "spectrum_component_sum": {
+          "actual": "4.003886080490012E-21",
+          "expected": "4.0038860804900115E-21",
+          "relative_error": 1.2487867785159561e-16,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "path_normalization": {
+          "actual": "4.003886060470589E-21",
+          "expected": "4.003886060470581597549940E-21",
+          "relative_error": 1.848816361954611e-15,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "spectrum_voltage_power_0": {
+          "actual": "4.003886079922277E-21",
+          "expected": "4.0038860799222772133066415163228908742849924358516E-21",
+          "relative_error": 5.3274902746599515e-17,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "spectrum_voltage_power_1": {
+          "actual": "4.003886079922277E-21",
+          "expected": "4.0038860799222772133066415163228908742849924358516E-21",
+          "relative_error": 5.3274902746599515e-17,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "spectrum_voltage_power_2": {
+          "actual": "3.1803997459997897E-21",
+          "expected": "3.1803997459997899928691530692137781815933663231661E-21",
+          "relative_error": 9.208564220191996e-17,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "spectrum_voltage_power_3": {
+          "actual": "3.1803997459997897E-21",
+          "expected": "3.1803997459997899928691530692137781815933663231661E-21",
+          "relative_error": 9.208564220191996e-17,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "spectrum_voltage_power_4": {
+          "actual": "8.234863344902218E-22",
+          "expected": "8.234863344902218541103505335108152689231160251481E-22",
+          "relative_error": 6.570886275484797e-17,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "spectrum_voltage_power_5": {
+          "actual": "8.234863344902218E-22",
+          "expected": "8.234863344902218541103505335108152689231160251481E-22",
+          "relative_error": 6.570886275484797e-17,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "spectrum_voltage_power_6": {
+          "actual": "4.003886080490012E-21",
+          "expected": "4.0038860804900123289845474342446449990378433548282E-21",
+          "relative_error": 8.216631063438801e-17,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "spectrum_voltage_power_7": {
+          "actual": "4.003886080490012E-21",
+          "expected": "4.0038860804900123289845474342446449990378433548282E-21",
+          "relative_error": 8.216631063438801e-17,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        }
+      },
+      "device_constant_candidates": {
+        "1.380649E-23": {
+          "actual": "8.234863344902218E-22",
+          "expected": "8.2348549946285085851715676728864912805105386890954E-22",
+          "relative_error": 1.0140158770083512e-06,
+          "relative_tolerance": 1e-12,
+          "passed": false
+        },
+        "1.3806503E-23": {
+          "actual": "8.234863344902218E-22",
+          "expected": "8.2348627484540594797589397877672283486854800852796E-22",
+          "relative_error": 7.242964172441283e-08,
+          "relative_tolerance": 1e-12,
+          "passed": false
+        },
+        "1.3806504E-23": {
+          "actual": "8.234863344902218E-22",
+          "expected": "8.2348633449021787793425837966042081231604755772938E-22",
+          "relative_error": 4.762757531426806e-15,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        }
+      },
+      "inferred_device_coefficient": "1.3806504000000065757030908674329901029428866795820E-23",
+      "path_to_raw_total": "0.99999999500000184881635271052911709606088649593272",
+      "si_output_noise_comparison": {
+        "actual": "4.0038821000000000000000000000000000000000000000000E-21",
+        "expected": "4.003886060470589E-21",
+        "relative_error": 9.891566665946816e-07,
+        "relative_tolerance": 1e-07,
+        "passed": false
+      },
+      "source_corrected_only_comparison": {
+        "actual": "4.0038852254432143312039539747028652916078082286542E-21",
+        "expected": "4.003886060470589E-21",
+        "relative_error": 2.0855423007982718e-07,
+        "relative_tolerance": 1e-07,
+        "passed": false
+      }
+    },
+    {
+      "device_temperature_k": 300,
+      "checks": {
+        "source_invariant": {
+          "actual": "3.1803997459997897E-21",
+          "expected": "3.1803997459997897E-21",
+          "relative_error": 0.0,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "source_legacy_prediction": {
+          "actual": "3.1803997459997897E-21",
+          "expected": "3.1803997459997864843211885686960386791944727501718E-21",
+          "relative_error": 1.0110926513171466e-15,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "device_legacy_prediction": {
+          "actual": "8.51882414989893E-22",
+          "expected": "8.5188241498988056338026728930388359894763540454763E-22",
+          "relative_error": 1.45989863317679e-14,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "spectrum_component_sum": {
+          "actual": "4.032282160989683E-21",
+          "expected": "4.0322821609896827E-21",
+          "relative_error": 7.43995553938041e-17,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "path_normalization": {
+          "actual": "4.03228214082828E-21",
+          "expected": "4.032282140828272195051585E-21",
+          "relative_error": 1.9356156495033313e-15,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "spectrum_voltage_power_0": {
+          "actual": "4.003886079922277E-21",
+          "expected": "4.0038860799222772133066415163228908742849924358516E-21",
+          "relative_error": 5.3274902746599515e-17,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "spectrum_voltage_power_1": {
+          "actual": "4.003886079922277E-21",
+          "expected": "4.0038860799222772133066415163228908742849924358516E-21",
+          "relative_error": 5.3274902746599515e-17,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "spectrum_voltage_power_2": {
+          "actual": "3.1803997459997897E-21",
+          "expected": "3.1803997459997899928691530692137781815933663231661E-21",
+          "relative_error": 9.208564220191996e-17,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "spectrum_voltage_power_3": {
+          "actual": "3.1803997459997897E-21",
+          "expected": "3.1803997459997899928691530692137781815933663231661E-21",
+          "relative_error": 9.208564220191996e-17,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "spectrum_voltage_power_4": {
+          "actual": "8.51882414989893E-22",
+          "expected": "8.5188241498989320187317383658134181119380320955375E-22",
+          "relative_error": 2.3697304966551797e-16,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "spectrum_voltage_power_5": {
+          "actual": "8.51882414989893E-22",
+          "expected": "8.5188241498989320187317383658134181119380320955375E-22",
+          "relative_error": 2.3697304966551797e-16,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "spectrum_voltage_power_6": {
+          "actual": "4.032282160989683E-21",
+          "expected": "4.0322821609896838959139560991771678507648607349222E-21",
+          "relative_error": 2.221853333496096e-16,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "spectrum_voltage_power_7": {
+          "actual": "4.032282160989683E-21",
+          "expected": "4.0322821609896838959139560991771678507648607349222E-21",
+          "relative_error": 2.221853333496096e-16,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "preregistered_raw_source_out": {
+          "actual": "3.1803997459997897E-21",
+          "expected": "3.1803997459997864843211885686960386791944727501718E-21",
+          "relative_error": 1.0110926513171466e-15,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "preregistered_raw_device_out": {
+          "actual": "8.51882414989893E-22",
+          "expected": "8.5188241498988056338026728930388359894763540454763E-22",
+          "relative_error": 1.45989863317679e-14,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "preregistered_path_cnd": {
+          "actual": "4.03228214082828E-21",
+          "expected": "4.0322821408282562427531206194926429881424967640089E-21",
+          "relative_error": 5.891762046814665e-15,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        }
+      },
+      "device_constant_candidates": {
+        "1.380649E-23": {
+          "actual": "8.51882414989893E-22",
+          "expected": "8.5188155116846640536257596616067151177695227818228E-22",
+          "relative_error": 1.01401588684459e-06,
+          "relative_tolerance": 1e-12,
+          "passed": false
+        },
+        "1.3806503E-23": {
+          "actual": "8.51882414989893E-22",
+          "expected": "8.5188235328835098066471790907936844986401518123582E-22",
+          "relative_error": 7.242965156064234e-08,
+          "relative_tolerance": 1e-12,
+          "passed": false
+        },
+        "1.3806504E-23": {
+          "actual": "8.51882414989893E-22",
+          "expected": "8.5188241498988056338026728930388359894763540454763E-22",
+          "relative_error": 1.45989863317679e-14,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        }
+      },
+      "inferred_device_coefficient": "1.3806504000000201560963185498834561391349703919498E-23",
+      "path_to_raw_total": "0.99999999500000193561563982525322750003782226591010",
+      "si_output_noise_comparison": {
+        "actual": "4.0322781517056155468454191988720223837258984092728E-21",
+        "expected": "4.03228214082828E-21",
+        "relative_error": 9.892965137686868e-07,
+        "relative_tolerance": 1e-07,
+        "passed": false
+      },
+      "source_corrected_only_comparison": {
+        "actual": "4.0322812770068496195212954393477916809735947192975E-21",
+        "expected": "4.03228214082828E-21",
+        "relative_error": 2.1422643560429013e-07,
+        "relative_tolerance": 1e-07,
+        "passed": false
+      }
+    },
+    {
+      "device_temperature_k": 350,
+      "checks": {
+        "source_invariant": {
+          "actual": "3.1803997459997897E-21",
+          "expected": "3.1803997459997897E-21",
+          "relative_error": 0.0,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "source_legacy_prediction": {
+          "actual": "3.1803997459997897E-21",
+          "expected": "3.1803997459997864843211885686960386791944727501718E-21",
+          "relative_error": 1.0110926513171466e-15,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "device_legacy_prediction": {
+          "actual": "9.938628174881904E-22",
+          "expected": "9.9386281748819399061031183752119753210557463863890E-22",
+          "relative_error": 3.61278261814053e-15,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "spectrum_component_sum": {
+          "actual": "4.17426256348798E-21",
+          "expected": "4.1742625634879801E-21",
+          "relative_error": 2.395632725039721e-17,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "path_normalization": {
+          "actual": "4.174262542616675E-21",
+          "expected": "4.17426254261666718256010E-21",
+          "relative_error": 1.8727714944109816e-15,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "spectrum_voltage_power_0": {
+          "actual": "4.003886079922277E-21",
+          "expected": "4.0038860799222772133066415163228908742849924358516E-21",
+          "relative_error": 5.3274902746599515e-17,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "spectrum_voltage_power_1": {
+          "actual": "4.003886079922277E-21",
+          "expected": "4.0038860799222772133066415163228908742849924358516E-21",
+          "relative_error": 5.3274902746599515e-17,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "spectrum_voltage_power_2": {
+          "actual": "3.1803997459997897E-21",
+          "expected": "3.1803997459997899928691530692137781815933663231661E-21",
+          "relative_error": 9.208564220191996e-17,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "spectrum_voltage_power_3": {
+          "actual": "3.1803997459997897E-21",
+          "expected": "3.1803997459997899928691530692137781815933663231661E-21",
+          "relative_error": 9.208564220191996e-17,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "spectrum_voltage_power_4": {
+          "actual": "9.938628174881904E-22",
+          "expected": "9.938628174881904018905766665965599299447997759161E-22",
+          "relative_error": 1.9022511289582726e-18,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "spectrum_voltage_power_5": {
+          "actual": "9.938628174881904E-22",
+          "expected": "9.938628174881904018905766665965599299447997759161E-22",
+          "relative_error": 1.9022511289582726e-18,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "spectrum_voltage_power_6": {
+          "actual": "4.17426256348798E-21",
+          "expected": "4.1742625634879804442697181442166910355907955879101E-21",
+          "relative_error": 1.0643070755304584e-16,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "spectrum_voltage_power_7": {
+          "actual": "4.17426256348798E-21",
+          "expected": "4.1742625634879804442697181442166910355907955879101E-21",
+          "relative_error": 1.0643070755304584e-16,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "preregistered_raw_source_out": {
+          "actual": "3.1803997459997897E-21",
+          "expected": "3.1803997459997864843211885686960386791944727501718E-21",
+          "relative_error": 1.0110926513171466e-15,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "preregistered_raw_device_out": {
+          "actual": "9.938628174881904E-22",
+          "expected": "9.9386281748819399061031183752119753210557463863890E-22",
+          "relative_error": 3.61278261814053e-15,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "preregistered_path_cnd": {
+          "actual": "4.174262542616675E-21",
+          "expected": "4.1742625426166676574915980315597341802138663323105E-21",
+          "relative_error": 1.7589953499584466e-15,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        }
+      },
+      "device_constant_candidates": {
+        "1.380649E-23": {
+          "actual": "9.938628174881904E-22",
+          "expected": "9.9386180969654413958967196052078343040644432454600E-22",
+          "relative_error": 1.0140158686328026e-06,
+          "relative_tolerance": 1e-12,
+          "passed": false
+        },
+        "1.3806503E-23": {
+          "actual": "9.938628174881904E-22",
+          "expected": "9.9386274550307614410883756059259652484135104477512E-22",
+          "relative_error": 7.242963334887208e-08,
+          "relative_tolerance": 1e-12,
+          "passed": false
+        },
+        "1.3806504E-23": {
+          "actual": "9.938628174881904E-22",
+          "expected": "9.9386281748819399061031183752119753210557463863890E-22",
+          "relative_error": 3.61278261814053e-15,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        }
+      },
+      "inferred_device_coefficient": "1.3806503999999950120102331512300183176280048165640E-23",
+      "path_to_raw_total": "0.99999999500000187277148504712423158770626606360677",
+      "si_output_noise_comparison": {
+        "actual": "4.1742584102336932810725151932321343023553904556364E-21",
+        "expected": "4.174262542616675E-21",
+        "relative_error": 9.899671952901422e-07,
+        "relative_tolerance": 1e-07,
+        "passed": false
+      },
+      "source_corrected_only_comparison": {
+        "actual": "4.1742615348250260611080027625724236278025271725138E-21",
+        "expected": "4.174262542616675E-21",
+        "relative_error": 2.4142986662912404e-07,
+        "relative_tolerance": 1e-07,
+        "passed": false
+      }
+    }
+  ],
+  "conclusion": "Effective device coefficient and pre-registered decomposition reproduced; literal Spectrasys internal constant and numerical regularization mechanism remain unproved.",
+  "evidence_sha256": "1c1dd39d998b2bd19fb519764e41a6d9bc7ebf83ecf5a99fefcd27c2c7d24b6a",
+  "historical_crosschecks": [
+    {
+      "source": "systemvue-2023-attenuator-temperature.json",
+      "parameters": {
+        "frequency_hz": 100000000,
+        "loss_db": 1,
+        "temperature_k": 250.0,
+        "reference_ohms": 50,
+        "source_available_w": 1e-19
+      },
+      "check": {
+        "actual": "3.451625914198781E-21",
+        "expected": "3.4516259141987706550046768423096765083863990089213E-21",
+        "relative_error": 2.997136879927234e-15,
+        "relative_tolerance": 1e-12,
+        "passed": true
+      }
+    },
+    {
+      "source": "systemvue-2023-attenuator-temperature.json",
+      "parameters": {
+        "frequency_hz": 100000000,
+        "loss_db": 1,
+        "temperature_k": 300.0,
+        "reference_ohms": 50,
+        "source_available_w": 1e-19
+      },
+      "check": {
+        "actual": "4.141951097038548E-21",
+        "expected": "4.1419510970385247860056122107716118100636788107056E-21",
+        "relative_error": 5.6046036865058894e-15,
+        "relative_tolerance": 1e-12,
+        "passed": true
+      }
+    },
+    {
+      "source": "systemvue-2023-attenuator-temperature.json",
+      "parameters": {
+        "frequency_hz": 100000000,
+        "loss_db": 1,
+        "temperature_k": 350.0,
+        "reference_ohms": 50,
+        "source_available_w": 1e-19
+      },
+      "check": {
+        "actual": "4.8322762798782895E-21",
+        "expected": "4.8322762798782789170065475792335471117409586124898E-21",
+        "relative_error": 2.1900638207481265e-15,
+        "relative_tolerance": 1e-12,
+        "passed": true
+      }
+    },
+    {
+      "source": "systemvue-2023-attenuator-temperature.json",
+      "parameters": {
+        "frequency_hz": 100000000,
+        "loss_db": 1,
+        "temperature_k": 290.0,
+        "reference_ohms": 50,
+        "source_available_w": 1e-19
+      },
+      "check": {
+        "actual": "4.003886060470589E-21",
+        "expected": "4.0038860604705739598054251370792247497282228503487E-21",
+        "relative_error": 3.756399245061249e-15,
+        "relative_tolerance": 1e-12,
+        "passed": true
+      }
+    },
+    {
+      "source": "systemvue-2023-attenuator-loss-scan.json",
+      "parameters": {
+        "frequency_hz": 100000000,
+        "loss_db": 0,
+        "temperature_k": 290,
+        "reference_ohms": 50,
+        "source_available_w": 1e-19
+      },
+      "check": {
+        "actual": "4.00388603838358E-21",
+        "expected": "4.003886039883415700485770000E-21",
+        "relative_error": 3.7459500234163555e-10,
+        "relative_tolerance": 1e-12,
+        "passed": false
+      }
+    },
+    {
+      "source": "systemvue-2023-attenuator-loss-scan.json",
+      "parameters": {
+        "frequency_hz": 100000000,
+        "loss_db": 1,
+        "temperature_k": 290,
+        "reference_ohms": 50,
+        "source_available_w": 1e-19
+      },
+      "check": {
+        "actual": "4.003886060470589E-21",
+        "expected": "4.0038860604705739598054251370792247497282228503487E-21",
+        "relative_error": 3.756399245061249e-15,
+        "relative_tolerance": 1e-12,
+        "passed": true
+      }
+    },
+    {
+      "source": "systemvue-2023-attenuator-loss-scan.json",
+      "parameters": {
+        "frequency_hz": 100000000,
+        "loss_db": 3,
+        "temperature_k": 290,
+        "reference_ohms": 50,
+        "source_available_w": 1e-19
+      },
+      "check": {
+        "actual": "4.003886089813152E-21",
+        "expected": "4.0038860898131537436140260243828028746951015926386E-21",
+        "relative_error": 4.354804274928188e-16,
+        "relative_tolerance": 1e-12,
+        "passed": true
+      }
+    },
+    {
+      "source": "systemvue-2023-attenuator-loss-scan.json",
+      "parameters": {
+        "frequency_hz": 100000000,
+        "loss_db": 10,
+        "temperature_k": 290,
+        "reference_ohms": 50,
+        "source_available_w": 1e-19
+      },
+      "check": {
+        "actual": "4.003886129970854E-21",
+        "expected": "4.0038861299708538500485770000E-21",
+        "relative_error": 3.7451470429577766e-17,
+        "relative_tolerance": 1e-12,
+        "passed": true
+      }
+    },
+    {
+      "source": "systemvue-2023-attenuator-near-zero.json",
+      "parameters": {
+        "frequency_hz": 100000000,
+        "loss_db": 0.0,
+        "temperature_k": 290,
+        "reference_ohms": 50,
+        "source_available_w": 1e-19
+      },
+      "check": {
+        "actual": "4.00388603838358E-21",
+        "expected": "4.003886039883415700485770000E-21",
+        "relative_error": 3.7459500234163555e-10,
+        "relative_tolerance": 1e-12,
+        "passed": false
+      }
+    },
+    {
+      "source": "systemvue-2023-attenuator-near-zero.json",
+      "parameters": {
+        "frequency_hz": 100000000,
+        "loss_db": 1e-08,
+        "temperature_k": 290,
+        "reference_ohms": 50,
+        "source_available_w": 1e-19
+      },
+      "check": {
+        "actual": "4.003884767346462E-21",
+        "expected": "4.0038860398834159309679832337657843605328745609606E-21",
+        "relative_error": 3.178254678717133e-07,
+        "relative_tolerance": 1e-12,
+        "passed": false
+      }
+    },
+    {
+      "source": "systemvue-2023-attenuator-near-zero.json",
+      "parameters": {
+        "frequency_hz": 100000000,
+        "loss_db": 1e-06,
+        "temperature_k": 290,
+        "reference_ohms": 50,
+        "source_available_w": 1e-19
+      },
+      "check": {
+        "actual": "4.003886052731823E-21",
+        "expected": "4.0038860398834387487044663874825146741127676523493E-21",
+        "relative_error": 3.208978508206886e-09,
+        "relative_tolerance": 1e-12,
+        "passed": false
+      }
+    },
+    {
+      "source": "systemvue-2023-attenuator-near-zero.json",
+      "parameters": {
+        "frequency_hz": 100000000,
+        "loss_db": 0.0001,
+        "temperature_k": 290,
+        "reference_ohms": 50,
+        "source_available_w": 1e-19
+      },
+      "check": {
+        "actual": "4.003886039857277E-21",
+        "expected": "4.0038860398857204960857193965825396344796539380184E-21",
+        "relative_error": 7.103972441366297e-12,
+        "relative_tolerance": 1e-12,
+        "passed": false
+      }
+    },
+    {
+      "source": "systemvue-2023-attenuator-near-zero.json",
+      "parameters": {
+        "frequency_hz": 100000000,
+        "loss_db": 0.01,
+        "temperature_k": 290,
+        "reference_ohms": 50,
+        "source_available_w": 1e-19
+      },
+      "check": {
+        "actual": "4.003886040113508E-21",
+        "expected": "4.0038860401136327650787366068588391672922602953301E-21",
+        "relative_error": 3.116099646359214e-14,
+        "relative_tolerance": 1e-12,
+        "passed": true
+      }
+    },
+    {
+      "source": "systemvue-2023-attenuator-near-zero.json",
+      "parameters": {
+        "frequency_hz": 100000000,
+        "loss_db": 1.0,
+        "temperature_k": 290,
+        "reference_ohms": 50,
+        "source_available_w": 1e-19
+      },
+      "check": {
+        "actual": "4.003886060470589E-21",
+        "expected": "4.0038860604705739598054251370792247497282228503487E-21",
+        "relative_error": 3.756399245061249e-15,
+        "relative_tolerance": 1e-12,
+        "passed": true
+      }
+    },
+    {
+      "source": "systemvue-2023-attenuator-power.json",
+      "parameters": {
+        "frequency_hz": 100000000,
+        "loss_db": 1,
+        "temperature_k": 290,
+        "reference_ohms": 50,
+        "source_available_w": 1e-15
+      },
+      "check": {
+        "actual": "4.003886060470589E-21",
+        "expected": "4.0038860604705739598054251370792247497282228503487E-21",
+        "relative_error": 3.756399245061249e-15,
+        "relative_tolerance": 1e-12,
+        "passed": true
+      }
+    },
+    {
+      "source": "systemvue-2023-attenuator-power.json",
+      "parameters": {
+        "frequency_hz": 100000000,
+        "loss_db": 1,
+        "temperature_k": 290,
+        "reference_ohms": 50,
+        "source_available_w": 1e-09
+      },
+      "check": {
+        "actual": "4.003886060470589E-21",
+        "expected": "4.0038860604705739598054251370792247497282228503487E-21",
+        "relative_error": 3.756399245061249e-15,
+        "relative_tolerance": 1e-12,
+        "passed": true
+      }
+    },
+    {
+      "source": "systemvue-2023-attenuator-power.json",
+      "parameters": {
+        "frequency_hz": 100000000,
+        "loss_db": 1,
+        "temperature_k": 290,
+        "reference_ohms": 50,
+        "source_available_w": 0.001
+      },
+      "check": {
+        "actual": "4.003886060470589E-21",
+        "expected": "4.0038860604705739598054251370792247497282228503487E-21",
+        "relative_error": 3.756399245061249e-15,
+        "relative_tolerance": 1e-12,
+        "passed": true
+      }
+    },
+    {
+      "source": "systemvue-2023-attenuator-power.json",
+      "parameters": {
+        "frequency_hz": 100000000,
+        "loss_db": 1,
+        "temperature_k": 290,
+        "reference_ohms": 50,
+        "source_available_w": 1e-19
+      },
+      "check": {
+        "actual": "4.003886060470589E-21",
+        "expected": "4.0038860604705739598054251370792247497282228503487E-21",
+        "relative_error": 3.756399245061249e-15,
+        "relative_tolerance": 1e-12,
+        "passed": true
+      }
+    }
+  ]
+}

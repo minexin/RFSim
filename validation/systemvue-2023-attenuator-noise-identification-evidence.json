@@ -1,0 +1,1110 @@
+{
+  "schema_version": 1,
+  "kind": "bounded_nonisothermal_noise_identification",
+  "preregistered_predictions": {
+    "registered_utc": "2026-10-12T04:31:36.754387+00:00",
+    "candidates": [
+      "SI 1.380649e-23",
+      "sample/RF ADC help 1.3806503e-23",
+      "Algorithm help 1.3806504e-23"
+    ],
+    "diagnostic_constants_not_core_changes": true,
+    "source_factor": "1 - 2.5e-8 observed on old signal/source noise",
+    "path_factor": "1 - 5e-9 observed on old spectrum/path",
+    "hypotheses": [
+      "source-only offset leaves device SI",
+      "common k with distinct source and path factors",
+      "local Ta ignored/inherited",
+      "both source and device follow local Ta"
+    ],
+    "prediction_tolerance_relative": 1e-12,
+    "original_compatibility_tolerance": 1e-07,
+    "held_out_case_k": 350,
+    "cases": [
+      {
+        "device_temperature_k": 300,
+        "source_temperature_k": 290,
+        "raw_source_out": "3.1803997459997864843211885686960386791944727501718E-21",
+        "raw_device_out": "8.5188241498988056338026728930388359894763540454763E-22",
+        "path_cnd": "4.0322821408282562427531206194926429881424967640089E-21",
+        "si_cnd": "4.0322781517056155468454191988720223837258984092728E-21"
+      },
+      {
+        "device_temperature_k": 350,
+        "source_temperature_k": 290,
+        "raw_source_out": "3.1803997459997864843211885686960386791944727501718E-21",
+        "raw_device_out": "9.9386281748819399061031183752119753210557463863890E-22",
+        "path_cnd": "4.1742625426166676574915980315597341802138663323105E-21",
+        "si_cnd": "4.1742584102336932810725151932321343023553904556364E-21"
+      }
+    ]
+  },
+  "preregistration_sha256": "a613879542c8aa44427378e39542b1042ffca4ef1e670a8b3e290299b886d4c2",
+  "cases": [
+    {
+      "capture_path": "build-reference/attenuator-recovered-20261012T042153Z-3c12d5bd/capture.json",
+      "capture_sha256": "6ff0e8ba86674ddb42c602d149bccedd29c8fd63e96875d15c506b194730f1fb",
+      "device_temperature_k": 290,
+      "run_started_utc": "2026-10-12T04:14:25.9734265Z",
+      "run_returned_utc": null,
+      "manager_errors": "",
+      "dataset_timestamp": "1791778466",
+      "spectrum_timestamp": "1791778466",
+      "runtime": {
+        "System1/RoomTemp": {
+          "data": 16.850000000000023,
+          "data_entry": "16.850000000000023",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Attn/ParamSet/L": {
+          "data": 1.2589254117941673,
+          "data_entry": "1",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Attn/ParamSet/Ta": {
+          "data": "",
+          "data_entry": "",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Attn/ParamSet/Zref": {
+          "data": "",
+          "data_entry": "",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Attn/ParamSet/ZIN": {
+          "data": "",
+          "data_entry": "",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Attn/ParamSet/ZOUT": {
+          "data": "",
+          "data_entry": "",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Source/ParamSet/Freq": {
+          "data": 100000000,
+          "data_entry": "100",
+          "data_source": "GetValue method",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Source/ParamSet/Pwr": {
+          "data": 1e-19,
+          "data_entry": "-160",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Source/ParamSet/R": {
+          "data": "",
+          "data_entry": "",
+          "data_source": "GetValue method",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Source/ParamSet/Ta": {
+          "data": "",
+          "data_entry": "",
+          "data_source": "GetValue method",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Port_2/ParamSet/ZO": {
+          "data": "",
+          "data_entry": "",
+          "data_source": "GetValue method",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Port_2/ParamSet/Ta": {
+          "data": "",
+          "data_entry": "",
+          "data_source": "GetValue method",
+          "evaluation_error": null
+        }
+      },
+      "analysis_settings": {
+        "RFModel_AttenuatorNoise/Designs/System1": {
+          "CalcHarmonics": 1,
+          "CalcIntermods": 1,
+          "CalcNoise": 1,
+          "NeedRun": 0,
+          "ShowTotals": 1,
+          "UseSourcePts": 0
+        }
+      },
+      "effective_device_temperature_c": [
+        16.850000000000023
+      ],
+      "temperature_names": [
+        "Attn"
+      ],
+      "measurements": {
+        "CF": [
+          100000000,
+          100000000
+        ],
+        "CGAIN": [
+          1,
+          0.7943282307526429
+        ],
+        "CNF": [
+          1,
+          1.2589254117941686
+        ],
+        "CND": [
+          4.003886059902843e-21,
+          4.003886060470589e-21
+        ],
+        "DCP": [
+          9.999999749999992e-20,
+          7.943282108944365e-20
+        ],
+        "ZIN": [
+          49.999999801418014,
+          0,
+          50,
+          0
+        ],
+        "ZOUT": [
+          50,
+          0,
+          49.99999980141789,
+          0
+        ]
+      },
+      "spectral_terms": [
+        {
+          "port": 1,
+          "identity": "{4}[Source_Noise:0],Source",
+          "frequency_hz": 99999999.5,
+          "power_field": 4.003886079922277e-21,
+          "voltage_peak": [
+            6.327626762065577e-10,
+            0
+          ],
+          "impedance_ohms": [
+            49.999999551417964,
+            0
+          ]
+        },
+        {
+          "port": 1,
+          "identity": "{4}[Source_Noise:0],Source",
+          "frequency_hz": 100000000.5,
+          "power_field": 4.003886079922277e-21,
+          "voltage_peak": [
+            6.327626762065577e-10,
+            0
+          ],
+          "impedance_ohms": [
+            49.999999551417964,
+            0
+          ]
+        },
+        {
+          "port": 2,
+          "identity": "{4}[Source_Noise:0],Source,Attn",
+          "frequency_hz": 99999999.5,
+          "power_field": 3.1803997459997897e-21,
+          "voltage_peak": [
+            5.63950328495143e-10,
+            0
+          ],
+          "impedance_ohms": [
+            49.99999975000009,
+            0
+          ]
+        },
+        {
+          "port": 2,
+          "identity": "{4}[Source_Noise:0],Source,Attn",
+          "frequency_hz": 100000000.5,
+          "power_field": 3.1803997459997897e-21,
+          "voltage_peak": [
+            5.63950328495143e-10,
+            0
+          ],
+          "impedance_ohms": [
+            49.99999975000009,
+            0
+          ]
+        },
+        {
+          "port": 2,
+          "identity": "{3}[Attn_Noise:1],Attn",
+          "frequency_hz": 99999999.5,
+          "power_field": 8.234863344902218e-22,
+          "voltage_peak": [
+            2.869645152928828e-10,
+            0
+          ],
+          "impedance_ohms": [
+            49.99999975000009,
+            0
+          ]
+        },
+        {
+          "port": 2,
+          "identity": "{3}[Attn_Noise:1],Attn",
+          "frequency_hz": 100000000.5,
+          "power_field": 8.234863344902218e-22,
+          "voltage_peak": [
+            2.869645152928828e-10,
+            0
+          ],
+          "impedance_ohms": [
+            49.99999975000009,
+            0
+          ]
+        },
+        {
+          "port": 2,
+          "identity": "Node Noise from 'Attn'",
+          "frequency_hz": 99999999.5,
+          "power_field": 4.003886080490012e-21,
+          "voltage_peak": [
+            6.327626775079729e-10,
+            0
+          ],
+          "impedance_ohms": [
+            49.99999975000009,
+            0
+          ]
+        },
+        {
+          "port": 2,
+          "identity": "Node Noise from 'Attn'",
+          "frequency_hz": 100000000.5,
+          "power_field": 4.003886080490012e-21,
+          "voltage_peak": [
+            6.327626775079729e-10,
+            0
+          ],
+          "impedance_ohms": [
+            49.99999975000009,
+            0
+          ]
+        }
+      ],
+      "collection_status": {
+        "command": [
+          "C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe",
+          "-NoProfile",
+          "-NonInteractive",
+          "-File",
+          "D:\\project\\RFModel\\build-reference\\workspace-e2e-plan-20261012\\read-existing-result.ps1",
+          "-OutputDirectory",
+          "D:\\project\\RFModel\\build-reference\\attenuator-recovered-20261012T042153Z-3c12d5bd"
+        ],
+        "started_utc": "2026-10-12T04:21:53.294841+00:00",
+        "systemvue": {
+          "Id": 21556,
+          "Responding": true,
+          "MainWindowHandle": 133156,
+          "MainWindowTitle": "SystemVue 2023"
+        },
+        "limit_seconds": 120,
+        "process_policy_override": false,
+        "new_analysis_calls": 0,
+        "script_sha256": "d42c47d111de8766bcb69cb4318fa8458cc83a1335b7a82fc74f9b4aeaca053f",
+        "output_directory": "D:\\project\\RFModel\\build-reference\\attenuator-recovered-20261012T042153Z-3c12d5bd",
+        "helper_pid": 21056,
+        "elapsed_seconds": 2.25,
+        "exit_code": 0,
+        "status": "passed",
+        "dialog_evidence": [],
+        "finished_utc": "2026-10-12T04:21:55.548296+00:00"
+      },
+      "completion_observed_utc": "2026-10-12T04:21:54.1097353Z"
+    },
+    {
+      "capture_path": "build-reference/attenuator-device-300K-20261012T043144Z-73922845/capture.json",
+      "capture_sha256": "bc2011854031311c0f0d5e0135c1bb33d04be5651581c285b4509deb146fc5fd",
+      "device_temperature_k": 300,
+      "run_started_utc": "2026-10-12T04:31:47.7178341Z",
+      "run_returned_utc": "2026-10-12T04:31:47.9370084Z",
+      "manager_errors": "",
+      "dataset_timestamp": "1791779507",
+      "spectrum_timestamp": "1791779507",
+      "runtime": {
+        "System1/RoomTemp": {
+          "data": 16.850000000000023,
+          "data_entry": "16.850000000000023",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Attn/ParamSet/L": {
+          "data": 1.2589254117941673,
+          "data_entry": "1",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Attn/ParamSet/Ta": {
+          "data": 26.850000000000023,
+          "data_entry": "26.850000000000023",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Attn/ParamSet/Zref": {
+          "data": "",
+          "data_entry": "",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Attn/ParamSet/ZIN": {
+          "data": "",
+          "data_entry": "",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Attn/ParamSet/ZOUT": {
+          "data": "",
+          "data_entry": "",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Source/ParamSet/Freq": {
+          "data": 100000000,
+          "data_entry": "100",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Source/ParamSet/Pwr": {
+          "data": 1e-19,
+          "data_entry": "-160",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Source/ParamSet/R": {
+          "data": "",
+          "data_entry": "",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Source/ParamSet/Ta": {
+          "data": "",
+          "data_entry": "",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Port_2/ParamSet/ZO": {
+          "data": "",
+          "data_entry": "",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Port_2/ParamSet/Ta": {
+          "data": "",
+          "data_entry": "",
+          "data_source": "Data property",
+          "evaluation_error": null
+        }
+      },
+      "analysis_settings": {
+        "RFModel_AttenuatorNoise/Designs/System1": {
+          "CalcHarmonics": 1,
+          "CalcIntermods": 1,
+          "CalcNoise": 1,
+          "NeedRun": 0,
+          "ShowTotals": 1,
+          "UseSourcePts": 0
+        }
+      },
+      "effective_device_temperature_c": [
+        26.850000000000023
+      ],
+      "temperature_names": [
+        "Attn"
+      ],
+      "measurements": {
+        "CF": [
+          100000000,
+          100000000
+        ],
+        "CGAIN": [
+          1,
+          0.7943282307526429
+        ],
+        "CNF": [
+          1,
+          1.2678538742698304
+        ],
+        "CND": [
+          4.003886059902843e-21,
+          4.03228214082828e-21
+        ],
+        "DCP": [
+          9.999999749999992e-20,
+          7.943282108944365e-20
+        ],
+        "ZIN": [
+          49.999999801418014,
+          0,
+          50,
+          0
+        ],
+        "ZOUT": [
+          50,
+          0,
+          49.99999980141789,
+          0
+        ]
+      },
+      "spectral_terms": [
+        {
+          "port": 1,
+          "identity": "{4}[Source_Noise:0],Source",
+          "frequency_hz": 99999999.5,
+          "power_field": 4.003886079922277e-21,
+          "voltage_peak": [
+            6.327626762065577e-10,
+            0
+          ],
+          "impedance_ohms": [
+            49.999999551417964,
+            0
+          ]
+        },
+        {
+          "port": 1,
+          "identity": "{4}[Source_Noise:0],Source",
+          "frequency_hz": 100000000.5,
+          "power_field": 4.003886079922277e-21,
+          "voltage_peak": [
+            6.327626762065577e-10,
+            0
+          ],
+          "impedance_ohms": [
+            49.999999551417964,
+            0
+          ]
+        },
+        {
+          "port": 2,
+          "identity": "{4}[Source_Noise:0],Source,Attn",
+          "frequency_hz": 99999999.5,
+          "power_field": 3.1803997459997897e-21,
+          "voltage_peak": [
+            5.63950328495143e-10,
+            0
+          ],
+          "impedance_ohms": [
+            49.99999975000009,
+            0
+          ]
+        },
+        {
+          "port": 2,
+          "identity": "{4}[Source_Noise:0],Source,Attn",
+          "frequency_hz": 100000000.5,
+          "power_field": 3.1803997459997897e-21,
+          "voltage_peak": [
+            5.63950328495143e-10,
+            0
+          ],
+          "impedance_ohms": [
+            49.99999975000009,
+            0
+          ]
+        },
+        {
+          "port": 2,
+          "identity": "{3}[Attn_Noise:1],Attn",
+          "frequency_hz": 99999999.5,
+          "power_field": 8.51882414989893e-22,
+          "voltage_peak": [
+            2.9187024698151106e-10,
+            0
+          ],
+          "impedance_ohms": [
+            49.99999975000009,
+            0
+          ]
+        },
+        {
+          "port": 2,
+          "identity": "{3}[Attn_Noise:1],Attn",
+          "frequency_hz": 100000000.5,
+          "power_field": 8.51882414989893e-22,
+          "voltage_peak": [
+            2.9187024698151106e-10,
+            0
+          ],
+          "impedance_ohms": [
+            49.99999975000009,
+            0
+          ]
+        },
+        {
+          "port": 2,
+          "identity": "Node Noise from 'Attn'",
+          "frequency_hz": 99999999.5,
+          "power_field": 4.032282160989683e-21,
+          "voltage_peak": [
+            6.350025307688372e-10,
+            0
+          ],
+          "impedance_ohms": [
+            49.99999975000009,
+            0
+          ]
+        },
+        {
+          "port": 2,
+          "identity": "Node Noise from 'Attn'",
+          "frequency_hz": 100000000.5,
+          "power_field": 4.032282160989683e-21,
+          "voltage_peak": [
+            6.350025307688372e-10,
+            0
+          ],
+          "impedance_ohms": [
+            49.99999975000009,
+            0
+          ]
+        }
+      ],
+      "collection_status": {
+        "command": [
+          "C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe",
+          "-NoProfile",
+          "-NonInteractive",
+          "-File",
+          "D:\\project\\RFModel\\build-reference\\noise-identification-20261012\\capture-device-temperature.ps1",
+          "-OutputDirectory",
+          "D:\\project\\RFModel\\build-reference\\attenuator-device-300K-20261012T043144Z-73922845",
+          "-DeviceTemperatureK",
+          "300"
+        ],
+        "started_utc": "2026-10-12T04:31:44.559994+00:00",
+        "systemvue": {
+          "Id": 21556,
+          "Responding": true,
+          "MainWindowHandle": 133156,
+          "MainWindowTitle": "SystemVue 2023"
+        },
+        "limit_seconds": 120,
+        "process_policy_override": false,
+        "planned_analysis_calls": 1,
+        "device_temperature_k": 300,
+        "script_sha256": "90c2ed104189d4383a9368019d16c7120814d953400cbbd02fc34acaed3b795f",
+        "output_directory": "D:\\project\\RFModel\\build-reference\\attenuator-device-300K-20261012T043144Z-73922845",
+        "helper_pid": 21244,
+        "elapsed_seconds": 5.313,
+        "exit_code": 0,
+        "status": "passed",
+        "dialog_evidence": [],
+        "finished_utc": "2026-10-12T04:31:49.875918+00:00"
+      },
+      "restored_parameters": {
+        "System1/RoomTemp": {
+          "data": 16.850000000000023,
+          "data_entry": "16.850000000000023",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Attn/ParamSet/L": {
+          "data": 1.2589254117941673,
+          "data_entry": "1",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Attn/ParamSet/Ta": {
+          "data": "",
+          "data_entry": "",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Attn/ParamSet/Zref": {
+          "data": "",
+          "data_entry": "",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Attn/ParamSet/ZIN": {
+          "data": "",
+          "data_entry": "",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Attn/ParamSet/ZOUT": {
+          "data": "",
+          "data_entry": "",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Source/ParamSet/Freq": {
+          "data": 100000000,
+          "data_entry": "100",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Source/ParamSet/Pwr": {
+          "data": 1e-19,
+          "data_entry": "-160",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Source/ParamSet/R": {
+          "data": "",
+          "data_entry": "",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Source/ParamSet/Ta": {
+          "data": "",
+          "data_entry": "",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Port_2/ParamSet/ZO": {
+          "data": "",
+          "data_entry": "",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Port_2/ParamSet/Ta": {
+          "data": "",
+          "data_entry": "",
+          "data_source": "Data property",
+          "evaluation_error": null
+        }
+      },
+      "restoration_sha256": "7c1040621e77cd471c356221376dd64b408f9adde7c0e7ffe7be55d42bdfec07"
+    },
+    {
+      "capture_path": "build-reference/attenuator-device-recovered-350K-20261012T043225Z-43af6179/capture.json",
+      "capture_sha256": "865412a661fa28ea3af6d1c6f74bc2f35e2e1e5c2e967cceaa020ec88b267de4",
+      "device_temperature_k": 350,
+      "run_started_utc": "2026-10-12T04:32:03.9372198Z",
+      "run_returned_utc": null,
+      "manager_errors": "",
+      "dataset_timestamp": "1791779524",
+      "spectrum_timestamp": "1791779524",
+      "runtime": {
+        "System1/RoomTemp": {
+          "data": 16.850000000000023,
+          "data_entry": "16.850000000000023",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Attn/ParamSet/L": {
+          "data": 1.2589254117941673,
+          "data_entry": "1",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Attn/ParamSet/Ta": {
+          "data": 76.85000000000002,
+          "data_entry": "76.850000000000023",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Attn/ParamSet/Zref": {
+          "data": "",
+          "data_entry": "",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Attn/ParamSet/ZIN": {
+          "data": "",
+          "data_entry": "",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Attn/ParamSet/ZOUT": {
+          "data": "",
+          "data_entry": "",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Source/ParamSet/Freq": {
+          "data": 100000000,
+          "data_entry": "100",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Source/ParamSet/Pwr": {
+          "data": 1e-19,
+          "data_entry": "-160",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Source/ParamSet/R": {
+          "data": "",
+          "data_entry": "",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Source/ParamSet/Ta": {
+          "data": "",
+          "data_entry": "",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Port_2/ParamSet/ZO": {
+          "data": "",
+          "data_entry": "",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Port_2/ParamSet/Ta": {
+          "data": "",
+          "data_entry": "",
+          "data_source": "Data property",
+          "evaluation_error": null
+        }
+      },
+      "analysis_settings": {
+        "RFModel_AttenuatorNoise/Designs/System1": {
+          "CalcHarmonics": 1,
+          "CalcIntermods": 1,
+          "CalcNoise": 1,
+          "NeedRun": 0,
+          "ShowTotals": 1,
+          "UseSourcePts": 0
+        }
+      },
+      "effective_device_temperature_c": [
+        76.85000000000002
+      ],
+      "temperature_names": [
+        "Attn"
+      ],
+      "measurements": {
+        "CF": [
+          100000000,
+          100000000
+        ],
+        "CGAIN": [
+          1,
+          0.7943282307526429
+        ],
+        "CNF": [
+          1,
+          1.3124961866481182
+        ],
+        "CND": [
+          4.003886059902843e-21,
+          4.174262542616675e-21
+        ],
+        "DCP": [
+          9.999999749999992e-20,
+          7.943282108944365e-20
+        ],
+        "ZIN": [
+          49.999999801418014,
+          0,
+          50,
+          0
+        ],
+        "ZOUT": [
+          50,
+          0,
+          49.99999980141789,
+          0
+        ]
+      },
+      "spectral_terms": [
+        {
+          "port": 1,
+          "identity": "{4}[Source_Noise:0],Source",
+          "frequency_hz": 99999999.5,
+          "power_field": 4.003886079922277e-21,
+          "voltage_peak": [
+            6.327626762065577e-10,
+            0
+          ],
+          "impedance_ohms": [
+            49.999999551417964,
+            0
+          ]
+        },
+        {
+          "port": 1,
+          "identity": "{4}[Source_Noise:0],Source",
+          "frequency_hz": 100000000.5,
+          "power_field": 4.003886079922277e-21,
+          "voltage_peak": [
+            6.327626762065577e-10,
+            0
+          ],
+          "impedance_ohms": [
+            49.999999551417964,
+            0
+          ]
+        },
+        {
+          "port": 2,
+          "identity": "{4}[Source_Noise:0],Source,Attn",
+          "frequency_hz": 99999999.5,
+          "power_field": 3.1803997459997897e-21,
+          "voltage_peak": [
+            5.63950328495143e-10,
+            0
+          ],
+          "impedance_ohms": [
+            49.99999975000009,
+            0
+          ]
+        },
+        {
+          "port": 2,
+          "identity": "{4}[Source_Noise:0],Source,Attn",
+          "frequency_hz": 100000000.5,
+          "power_field": 3.1803997459997897e-21,
+          "voltage_peak": [
+            5.63950328495143e-10,
+            0
+          ],
+          "impedance_ohms": [
+            49.99999975000009,
+            0
+          ]
+        },
+        {
+          "port": 2,
+          "identity": "{3}[Attn_Noise:1],Attn",
+          "frequency_hz": 99999999.5,
+          "power_field": 9.938628174881904e-22,
+          "voltage_peak": [
+            3.152558980445692e-10,
+            0
+          ],
+          "impedance_ohms": [
+            49.99999975000009,
+            0
+          ]
+        },
+        {
+          "port": 2,
+          "identity": "{3}[Attn_Noise:1],Attn",
+          "frequency_hz": 100000000.5,
+          "power_field": 9.938628174881904e-22,
+          "voltage_peak": [
+            3.152558980445692e-10,
+            0
+          ],
+          "impedance_ohms": [
+            49.99999975000009,
+            0
+          ]
+        },
+        {
+          "port": 2,
+          "identity": "Node Noise from 'Attn'",
+          "frequency_hz": 99999999.5,
+          "power_field": 4.17426256348798e-21,
+          "voltage_peak": [
+            6.460853304801677e-10,
+            0
+          ],
+          "impedance_ohms": [
+            49.99999975000009,
+            0
+          ]
+        },
+        {
+          "port": 2,
+          "identity": "Node Noise from 'Attn'",
+          "frequency_hz": 100000000.5,
+          "power_field": 4.17426256348798e-21,
+          "voltage_peak": [
+            6.460853304801677e-10,
+            0
+          ],
+          "impedance_ohms": [
+            49.99999975000009,
+            0
+          ]
+        }
+      ],
+      "collection_status": {
+        "command": [
+          "C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe",
+          "-NoProfile",
+          "-NonInteractive",
+          "-File",
+          "D:\\project\\RFModel\\build-reference\\noise-identification-20261012\\recover-device-temperature.ps1",
+          "-OutputDirectory",
+          "D:\\project\\RFModel\\build-reference\\attenuator-device-recovered-350K-20261012T043225Z-43af6179",
+          "-DeviceTemperatureK",
+          "350"
+        ],
+        "started_utc": "2026-10-12T04:32:25.257087+00:00",
+        "systemvue": {
+          "Id": 21556,
+          "Responding": true,
+          "MainWindowHandle": 133156,
+          "MainWindowTitle": "SystemVue 2023"
+        },
+        "limit_seconds": 120,
+        "process_policy_override": false,
+        "planned_analysis_calls": 0,
+        "device_temperature_k": 350,
+        "script_sha256": "3c7b4444055829657fb7636c1c578bf53d17e32f2c6165d5bd3ef3f5b608889f",
+        "output_directory": "D:\\project\\RFModel\\build-reference\\attenuator-device-recovered-350K-20261012T043225Z-43af6179",
+        "helper_pid": 11844,
+        "elapsed_seconds": 4.875,
+        "exit_code": 0,
+        "status": "passed",
+        "dialog_evidence": [],
+        "finished_utc": "2026-10-12T04:32:30.131144+00:00"
+      },
+      "completion_observed_utc": "2026-10-12T04:32:28.7808355Z",
+      "completion_evidence": "IsAnalysisDone=1 and empty Manager.GetErrors, stdout.log; original return not captured",
+      "restored_parameters": {
+        "System1/RoomTemp": {
+          "data": 16.850000000000023,
+          "data_entry": "16.850000000000023",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Attn/ParamSet/L": {
+          "data": 1.2589254117941673,
+          "data_entry": "1",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Attn/ParamSet/Ta": {
+          "data": "",
+          "data_entry": "",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Attn/ParamSet/Zref": {
+          "data": "",
+          "data_entry": "",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Attn/ParamSet/ZIN": {
+          "data": "",
+          "data_entry": "",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Attn/ParamSet/ZOUT": {
+          "data": "",
+          "data_entry": "",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Source/ParamSet/Freq": {
+          "data": 100000000,
+          "data_entry": "100",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Source/ParamSet/Pwr": {
+          "data": 1e-19,
+          "data_entry": "-160",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Source/ParamSet/R": {
+          "data": "",
+          "data_entry": "",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Source/ParamSet/Ta": {
+          "data": "",
+          "data_entry": "",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Port_2/ParamSet/ZO": {
+          "data": "",
+          "data_entry": "",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Port_2/ParamSet/Ta": {
+          "data": "",
+          "data_entry": "",
+          "data_source": "Data property",
+          "evaluation_error": null
+        }
+      },
+      "restoration_sha256": "8fcae894c29f0e6779e9d0110a63107f666a1e73bbafefa7b9c036cfe05c1c7f"
+    }
+  ],
+  "help_sources": [
+    {
+      "page": "algorithm/AddNDensity.html",
+      "sha256": "f116bf0950d8dae651a76a22119a006ab12f82fdb45179451fe9f327a3a0840e"
+    },
+    {
+      "page": "algorithm/Amplifier.html",
+      "sha256": "f3ea150d52c6c6a22674c494da7bbfd4c88cb577a4954d0ea56ec5fae905bf6e"
+    },
+    {
+      "page": "algorithm/AmplifierBB.html",
+      "sha256": "25d9207fbd8f94cb37c73d8c696ff3ced1ff691439f48b86305390054876f5b8"
+    },
+    {
+      "page": "algorithm/GaussianNoiseGen.html",
+      "sha256": "85d6e401667f0bc3d8f3270160de22c66aa11de7fd1d8b30a7a474334cf65f70"
+    },
+    {
+      "page": "algorithm/Oscillator.html",
+      "sha256": "3c612bdde86862f9c2381a9cef8247e0cee178a4b7c8db1f3e3327a9ebdbc66b"
+    },
+    {
+      "page": "rfdesign/ADC_BASIC.html",
+      "sha256": "614133e9f20641c63472c1bbfa9029e5a7aeebea4c95666bec79fad26b1b43f1"
+    },
+    {
+      "page": "rfdesign/ATTN_Linear.html",
+      "sha256": "b181c390a6313e766c2a6b125615c6ed9192d0578f3b19e11bd73cb737f42b67"
+    }
+  ],
+  "source_workspace_sha256": "89784b61cb3ec533b70618f8bb4b32a0ae883cc61d90e6f9445fab2cec8e1616",
+  "interrupted_attempt": {
+    "command": [
+      "C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-File",
+      "D:\\project\\RFModel\\build-reference\\noise-identification-20261012\\capture-device-temperature.ps1",
+      "-OutputDirectory",
+      "D:\\project\\RFModel\\build-reference\\attenuator-device-350K-20261012T043200Z-8f31b8a0",
+      "-DeviceTemperatureK",
+      "350"
+    ],
+    "started_utc": "2026-10-12T04:32:00.695904+00:00",
+    "systemvue": {
+      "Id": 21556,
+      "Responding": true,
+      "MainWindowHandle": 133156,
+      "MainWindowTitle": "SystemVue 2023"
+    },
+    "limit_seconds": 120,
+    "process_policy_override": false,
+    "planned_analysis_calls": 1,
+    "device_temperature_k": 350,
+    "script_sha256": "90c2ed104189d4383a9368019d16c7120814d953400cbbd02fc34acaed3b795f",
+    "output_directory": "D:\\project\\RFModel\\build-reference\\attenuator-device-350K-20261012T043200Z-8f31b8a0",
+    "helper_pid": 13544,
+    "elapsed_seconds": 3.422,
+    "exit_code": 1,
+    "status": "dialog_or_window_unavailable",
+    "dialog_evidence": [
+      {
+        "handle": 2229746,
+        "class": "#32770",
+        "title": "System1 Simulation Status"
+      }
+    ],
+    "finished_utc": "2026-10-12T04:32:04.114868+00:00"
+  },
+  "limits": [
+    "Algorithm help constant does not prove Spectrasys internals",
+    "Recovered 350K original RunScript return absent",
+    "Dataset after restoration remains 350K and must not be called fresh baseline",
+    "Default empty parameter values are not resolved runtime impedances"
+  ]
+}
