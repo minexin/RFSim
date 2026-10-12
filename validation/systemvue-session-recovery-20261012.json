@@ -1,0 +1,27 @@
+{
+  "format": "rfmodel.systemvue-session-diagnostic",
+  "version": 1,
+  "observed_utc": "2026-10-12T01:29:53.4026501Z",
+  "workspace": "build-reference/RFModel_CascadeIntermods.wsv",
+  "workspace_sha256": "21e4b28eadd10919537434bc2e706d17fcf41e8691cc9406dea36ca69464487f",
+  "matches_last_successful_baseline": true,
+  "prior_success": "build-reference/order11-restore-baseline-001/capture.json",
+  "application_pid": 16008,
+  "application_alive": true,
+  "application_responding": false,
+  "application_title": "SystemVue 2023",
+  "application_started_utc": "2026-10-12T01:26:15.3778706Z",
+  "initial_workspace_count": 0,
+  "script_open_result": "COMException: internal application error",
+  "direct_check_state": "not_returned",
+  "collectors": [
+    {
+      "pid": 4792,
+      "created_utc": "2026-10-12T01:28:15.3485950Z"
+    }
+  ],
+  "direct_check_log_bytes": 0,
+  "new_dataset_captured": false,
+  "eligible_for_compatibility": false,
+  "reason": "No fresh dataset or successful workspace load was observed. Active COM check must be revalidated before another operation."
+}
