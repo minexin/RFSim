@@ -1,3 +1,4 @@
+#include "rfmodel/am_pm_linearization.hpp"
 #include "rfmodel/highorder_linearization.hpp"
 #include "rfmodel/polynomial_linearization.hpp"
 #include "rfmodel/amplifier_linearization.hpp"
@@ -43,6 +44,22 @@
 #include <rfmodel/term_propagation.hpp>
 
 int main() {
+    {
+        const rfmodel::LegacyPointDerivativeAmPm phase(-5., 10.);
+        const auto original = rfmodel::linearize_saturating_amplifier(
+            1.,
+            {{0, 1}, {1, 1}},
+            {.01, 0.},
+            rfmodel::SaturatingFundamentalCompression(20., 20., 23.));
+        const auto point = rfmodel::apply_output_am_pm(original, phase, {1});
+        if (std::abs(point.outgoing[1] - phase.transmit(original.outgoing[1])) > 1e-12 ||
+            std::abs(phase.response(.01).radial_phase_slope * std::log(10.) / 20. * 180. /
+                         std::acos(-1.) +
+                     5.) > 1e-12) {
+            return 109;
+        }
+    }
+
     {
         const rfmodel::CoherentHighOrderAmplifier amplifier(20., 20., 23., {0., .1});
         const auto local = rfmodel::linearize_highorder_amplifier(

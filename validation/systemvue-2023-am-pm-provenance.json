@@ -1,0 +1,25 @@
+{
+  "source": "Installed Keysight SystemVue 2023 official help",
+  "reference_version": "2023.0.0.11903",
+  "qch_path": "C:\\Program Files\\Keysight\\SystemVue2023\\Help\\systemvue.qch",
+  "qch_sha256": "eacdae962108181a917525b8e233d5b33d97f683674d1c79007c1c2b7a24bd83",
+  "page": "sim/AM_to_PM_-_Legacy.html",
+  "uncompressed_html_sha256": "be7cf57c758c726d1369ff3534df2b8bdd9b391285b5f9b1d77ad84e3588edc1",
+  "extraction": "Read-only SQLite and Qt zlib decoding; vendor HTML is not distributed.",
+  "paraphrased_constraints": [
+    "Phase tends to zero at low output power and to a constant at high output power.",
+    "An amplitude-domain cubic has zero slope at zero and at its upper constant extension.",
+    "After scaling to dBm, the signed peak derivative equals AMtoPM at PwrAMtoPM.",
+    "The documented -5 degrees/dB at 10 dBm example approaches about -48.85 degrees.",
+    "The described phase response applies to the fundamental; arbitrary multitone or harmonic selection is not specified by this adapter."
+  ],
+  "derived_model": {
+    "normalized_radius": "u=sqrt(Pout/Pref)",
+    "phase_degrees": "k/ln(10) * (30*u^2 - (40/3)*u^3), 0<=u<1.5; 22.5*k/ln(10), u>=1.5",
+    "db_slope": "k*u^2*(3-2*u), 0<=u<1.5; 0 otherwise"
+  },
+  "validation": {
+    "systemvue_comparison": "not_executed",
+    "scope": "Documentation-derived mathematical model and C++ chain-rule adapter; not vendor simulation acceptance"
+  }
+}

@@ -103,3 +103,5 @@ Windows 本机可运行 `scripts/build-msvc.ps1` 自动定位已有 VS 工具链
 [高阶多项式工作点导数](docs/polynomial-linearization.md)提供零至十一阶 C++/C/Python/JSON 接口、完整频点规划、DC/谐波/互调 A/B 与混合网络反馈噪声。
 
 [共同限幅高阶工作点](docs/highorder-linearization.md)提供既有高阶放大器的 C++/C/Python/JSON 链式导数与工作点接口、生成频点选择、混合器件反馈和收敛噪声；厂商模型语义仍待实测验收。
+
+[旧式峰值导数 AM-PM](docs/am-pm.md)提供文档约束推导的 C++ 相位曲线及工作点链式导数；跨语言接口与厂商实测仍待完成。
