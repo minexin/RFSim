@@ -15,7 +15,7 @@
 | LogNormal | 对数均值 / 对数标准差 | 对数标准差不小于 0；实际值为 exp(Normal) |
 | DiscreteUniform | 整数下界 / 整数上界 | 两端包含，精确整数绝对值不超过 2^53-1 |
 
-不同参数使用独立边缘分布。固定值、相等上下界、零标准差不消耗随机字；常量 LogNormal 的结果必须为可表示的有限正数。
+默认参数使用独立边缘分布；原生 C++ 的显式高斯 copula 模式见文末。固定值、相等上下界、零标准差不消耗随机字；常量 LogNormal 的结果必须为可表示的有限正数。
 
 随机算法标识为 `mt19937_64-box-muller52-v1`。引擎为 C++ 标准 `std::mt19937_64`，直接以 seed 初始化。Uniform 每次取一个 64 位字的高 53 位乘 2^-53。Normal 使用两个字，各取高 52 位加 0.5 后乘 2^-52，形成严格位于 (0,1) 的数 u、v，再计算 `sqrt(-2*log(u))*cos(2*pi*v)`；不缓存正弦配对值。LogNormal 复用这一正态生成器。离散整数采用 64 位拒绝映射：宽度 w，上界前缀门槛 `(uint64(0)-w)%w`，拒绝小于门槛的字，再取模 w。random_words 包含拒绝消耗。
 
@@ -163,3 +163,55 @@ Touchstone 文件在运行前后核对 SHA-256，变化则拒绝整份任务结�
 测试覆盖全部九类分析的固定任务、六种分布的原生随机流、多处共享绑定、整数频点、全部复数投影、失败和取消、无额外分析、输入冻结以及 CLI/Touchstone 保护。共享路径/测量工具已抽取给优化与 Monte Carlo 共用，原有优化任务回归仍须通过。任意相关随机输入/协方差、自动置信区间和 SystemVue 容差/优化算法对照仍未完成，A09 保持开放。
 
 [本阶段机读验证](../validation/monte-carlo-task-validation-20261012.json)记录各平台的构建、完整 CTest、安装消费端、隔离 wheel、原生文件未变指纹和独立数值核对。[电阻任务完整结果](../validation/monte-carlo-task-resistor-tolerance-example-20261012.json)与[相位任务完整结果](../validation/monte-carlo-task-image-phase-tolerance-example-20261012.json)保存输入、种子、绑定、判据、统计和全部样本。报告中的发布状态是生成时快照，远程 CI 随随后提交推送核对。
+
+
+## 原生相关输入与联合统计
+
+C++ `MonteCarloOptions` 新增 `latent_correlation` 和 `joint_statistics=false`。相关矩阵为空时保持原有独立随机算法及消耗顺序；只打开联合统计也不改变随机流、回调次数或任何边缘统计。C ABI、Python 和 JSON 任务当前仍使用独立模式，尚未开放这两个新字段；它们的既有结构布局未改变。C++ 头文件使用者需重新编译，不能混用新旧 C++ 类型布局。
+
+```cpp
+rfmodel::MonteCarloOptions options;
+options.seed = 20261012;
+options.samples = 4096;
+options.latent_correlation = {1., .8, .8, 1.};
+options.joint_statistics = true;
+auto result = rfmodel::run_monte_carlo(
+    {{rfmodel::MonteCarloDistribution::Normal, 50., 2.},
+     {rfmodel::MonteCarloDistribution::Normal, 50., 2.}},
+    2, [](const auto& values) { return values; }, options);
+// result.parameter_joint.sample_covariance[1] estimates 3.2 ohm^2.
+```
+
+### 相关矩阵和数值分解
+
+`latent_correlation` 是按参数声明顺序排列的 N×N 行优先实矩阵，包括常量参数对应的潜在坐标。元素必须有限、位于 [-1,1]、精确对称，主对角必须精确为 1；尺寸和半正定性在任何求值或取消回调前检查。常量实际参数没有定义 Pearson 相关，但其潜在坐标仍参与矩阵检查及随机字预算。
+
+分解采用确定性的对角主元 Cholesky，相等最大对角选择当前顺序中第一个。每一步对剩余矩阵作对称置换，最终把因子行恢复为参数声明顺序。允许半正定奇异矩阵，因此支持完全相关、完全反相关和低秩共同偏差。
+
+数值阈值固定为 `t=64*N*epsilon(double)`。当最大剩余对角不超过 t 时，仅当整个剩余块各项绝对值都不超过 t 才丢弃该块；否则拒绝。因子每行归一化以保持单位潜在方差，重建值与输入各项之差必须不超过 4t。结果公开 `latent_rank` 与 `effective_latent_correlation`，记录实际因子的 Gram 矩阵。接近机器精度的残差可能被截断，这不是接受任意非半正定矩阵的最近相关矩阵拟合器；极接近奇异边界的秩可能受浮点环境影响。
+
+### 分布、随机流与重放
+
+相关模式的 `result.algorithm` 为 `mt19937_64-box-muller52-gaussian-copula-pivoted-v1`。每次尝试先按潜在列顺序生成 N 个原有 Box–Muller 正态值，即固定消耗 2N 个随机字，再乘上述因子。即使矩阵秩小于 N 或含常量参数，也完整消耗此预算。取消发生在本次生成之前；某个边缘变换失败仍生成完整向量，不重抽或裁剪无界分布。
+
+Normal 直接使用 `mean + standard_deviation*z`，LogNormal 再取指数；其他连续分布先计算 `u=Phi(z)=0.5*erfc(-z/sqrt(2))`，再作对应均匀或对数均匀逆变换。DiscreteUniform 使用 `lower + min(floor(u*width), width-1)` 的整数结果；相等上下界直接返回常量。Fixed 不受 z 影响。正态 CDF 变换可参考 [NIST 相关均匀随机数说明](https://www.itl.nist.gov/div898/software/dataplot/refman2/auxillar/mvuran.htm)，erfc 表达式见 [Boost 正态分布实现说明](https://www.boost.org/doc/libs/1_49_0/libs/math/doc/sf_and_dist/html/math_toolkit/dist/dist_ref/dists/normal_dist.html)。实现无需依赖 Boost。
+
+输入描述的是潜在正态相关；除非边缘为非退化 Normal，不能把它解释为输出 Pearson 相关。非正态关联由高斯 copula 决定，并不覆盖任意联合分布或尾部依赖，也不反求给定物理 Pearson 相关的潜在矩阵。CDF 和逆变换使用 binary64：尾部可能舍入到 0/1，离散宽度很大时分箱精度受限；此模式不提供独立整数模式中原始 64 位拒绝映射的精确等概率保证。所有整数仍在声明的安全整数支撑内。显式单位矩阵也选择新的 copula 随机流，不能要求它与旧 Uniform/DiscreteUniform 逐点相同；非退化 Normal 的单位矩阵则保持原正态流。跨平台超越函数末位不承诺一致。
+
+### 联合统计与有效样本
+
+`joint_statistics=true` 返回 `parameter_joint` 和 `metric_joint`，各含 dimension、count、行优先 `sample_covariance` 与 `sample_correlation`。二者严格使用同一批有效求值样本；参数统计同样排除采样/求值失败行，因此 Reject 下可能是条件分布统计。未启用时 dimension/count 为 0，两个数组为空；启用但无有效样本时维度仍保留，各元素不可用。
+
+协方差分母为 n-1；n<2 时所有元素为 nullopt。常量列的协方差为 0，但与它相关的 Pearson 系数不可用。对非退化列，相关系数主对角为 1；矩阵上下三角逐位相同。某个协方差溢出时仅该项不可用，相关系数仍可能可用；方差或协方差下溢到零也不自动使其数学上非退化的相关系数不可用。
+
+计算沿用极值中点中心化、尺度归一化和补偿累加，跨尺度恢复使用二进制指数分解，避免先乘两个大尺度导致不必要溢出。所有联合矩在分位数排序前计算，保留行配对。开启后额外保留 O(samples*parameter_count) 参数数据，矩阵计算代价 O(samples*(parameter_count²+metric_count²))；没有参数与指标之间的交叉矩阵，也不自动提供置信区间。
+
+### 相关电阻网络验收
+
+新增目标 `rfmodel_correlated_tolerance`：两只串联电阻分别为 Normal(50,2) 欧姆，潜在相关 0.8，50 欧姆参考、1 GHz、seed=20261012、4096 次。每次调用网络求解器，记录传输/反射功率和由实际 S21 反推的总电阻。独立电路参考逐点为 `(100/(100+R1+R2))²`、`((R1+R2)/(100+R1+R2))²` 和 `R1+R2`。
+
+总体总电阻均值为 100、方差为 14.4，两个电阻协方差为 3.2；传输≥0.25 且反射≤0.25 对应总电阻≤100，未排除极端无效电阻的总电阻正态模型给出解析通过概率 0.5。正态存在无界负尾，器件拒绝负电阻时仍按既有失败策略处理，不能把未观察到极端失败当作分布截断。预先设定均值、方差、协方差和通过比例各六倍总体标准误的一致性门槛；另独立重算全部轨迹的样本矩与分位数。
+
+[本阶段机器验证](../validation/monte-carlo-joint-validation-20261012.json)和[相关电阻完整轨迹](../validation/monte-carlo-correlated-resistors-example-20261012.json)记录实际结果。前一任务层提交的六配置结果见 [9dc33fa CI 记录](../validation/monte-carlo-task-ci-validation-20261012.json)。本阶段不增加 SystemVue 厂商验收项；C/Python/JSON 扩展及厂商 Monte Carlo/优化对照继续开放。
+
+本地 Windows/Linux Debug/Release 均完成 clean-first 构建，各通过 144/144 CTest、2/2 安装消费者、444/444 安装 wheel 回归。四组相关电阻示例各 4096 样本，2066 个通过；功率逐点误差不超过 2.78e-16，总电阻误差不超过 1.14e-13 欧姆。四项总体一致性偏差最大 0.5625 个标准误，同环境完整输出重放逐字节相同。报告中的发布状态为生成时快照，当前提交的远端结果在推送后独立核查。

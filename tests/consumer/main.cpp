@@ -49,6 +49,25 @@
 int main() {
     {
         rfmodel::MonteCarloOptions options;
+        options.samples = 32;
+        options.latent_correlation = {1., -1., -1., 1.};
+        options.joint_statistics = true;
+        const auto result = rfmodel::run_monte_carlo(
+            {{rfmodel::MonteCarloDistribution::Normal, 0., 1.},
+             {rfmodel::MonteCarloDistribution::Normal, 0., 1.}},
+            2,
+            [](const auto &x) {
+                return x;
+            },
+            options);
+        if (result.latent_rank != 1 || result.random_words != 128 ||
+            result.metric_joint.count != 32 ||
+            std::abs(*result.metric_joint.sample_correlation[1] + 1.) > 1e-12) {
+            return 115;
+        }
+    }
+    {
+        rfmodel::MonteCarloOptions options;
         options.samples = 2;
         const auto result = rfmodel::run_monte_carlo(
             {{rfmodel::MonteCarloDistribution::Fixed, 3., 0.}},

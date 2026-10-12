@@ -495,3 +495,11 @@ add_test(NAME monte_carlo_test COMMAND monte_carlo_test)
 add_executable(rfmodel_tolerance_analysis examples/monte_carlo_resistor.cpp)
 target_link_libraries(rfmodel_tolerance_analysis PRIVATE rfmodel)
 add_test(NAME monte_carlo_resistor COMMAND rfmodel_tolerance_analysis)
+
+add_executable(monte_carlo_joint_test tests/monte_carlo_joint_test.cpp)
+target_link_libraries(monte_carlo_joint_test PRIVATE rfmodel)
+add_test(NAME monte_carlo_joint_test COMMAND monte_carlo_joint_test)
+
+add_executable(rfmodel_correlated_tolerance examples/monte_carlo_correlated_resistors.cpp)
+target_link_libraries(rfmodel_correlated_tolerance PRIVATE rfmodel)
+add_test(NAME monte_carlo_correlated_resistors COMMAND rfmodel_correlated_tolerance)

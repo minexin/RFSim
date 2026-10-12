@@ -56,6 +56,10 @@ struct MonteCarloOptions {
     bool record_history{true};
     std::vector<double> quantile_levels{.05, .5, .95};
     std::vector<MonteCarloLimits> criteria;
+    // Empty retains the original independent stream; otherwise row-major latent
+    // Gaussian correlation in parameter order, including constant marginals.
+    std::vector<double> latent_correlation;
+    bool joint_statistics{false};
 };
 
 struct MonteCarloStatistics {
@@ -75,7 +79,18 @@ struct MonteCarloSample {
     bool passed{};
 };
 
+struct MonteCarloJointStatistics {
+    std::size_t dimension{}, count{};
+    // Row-major; unavailable entries (n < 2, overflow, zero-variance correlation)
+    // are nullopt. All columns use the same accepted sample rows.
+    std::vector<std::optional<double>> sample_covariance, sample_correlation;
+};
+
 struct MonteCarloResult {
+    std::string algorithm{"mt19937_64-box-muller52-v1"};
+    std::size_t latent_rank{};
+    std::vector<double> effective_latent_correlation;
+    MonteCarloJointStatistics parameter_joint, metric_joint;
     std::uint64_t seed{}, random_words{};
     std::size_t requested_samples{}, samples_attempted{}, evaluations{}, accepted_samples{},
         rejected_samples{};
@@ -91,6 +106,9 @@ struct MonteCarloResult {
 };
 
 inline constexpr const char *monte_carlo_random_algorithm = "mt19937_64-box-muller52-v1";
+
+inline constexpr const char *monte_carlo_copula_algorithm =
+    "mt19937_64-box-muller52-gaussian-copula-pivoted-v1";
 
 inline const char *monte_carlo_stop_name(MonteCarloStop stop) {
     switch (stop) {
@@ -190,6 +208,134 @@ inline void validate(const std::vector<MonteCarloParameter> &parameters,
     }
 }
 
+// Pivoted PSD Cholesky in a deterministic order (first maximum wins).
+// A roundoff-size final residual may be discarded; the normalized factor's
+// actual correlation is returned so this numerical adjustment is observable.
+struct Copula {
+    std::size_t dimension{}, rank{};
+    std::vector<double> factor, effective;
+
+    explicit Copula(const std::vector<double> &matrix, std::size_t n) {
+        if (matrix.empty()) {
+            return;
+        }
+        if (matrix.size() != n * n) {
+            throw std::invalid_argument("latent correlation dimension mismatch");
+        }
+        dimension = n;
+        for (std::size_t i = 0; i < n; ++i) {
+            for (std::size_t j = 0; j < n; ++j) {
+                const auto x = matrix[i * n + j];
+                if (!std::isfinite(x) || std::abs(x) > 1. || x != matrix[j * n + i] ||
+                    (i == j && x != 1.)) {
+                    throw std::invalid_argument("latent correlation must be finite, symmetric, "
+                                                "unit diagonal and in [-1,1]");
+                }
+            }
+        }
+        auto work = matrix;
+        std::vector<double> lower(n * n);
+        std::vector<std::size_t> order(n);
+        for (std::size_t i = 0; i < n; ++i) {
+            order[i] = i;
+        }
+        const double tolerance =
+            64. * static_cast<double>(n) * std::numeric_limits<double>::epsilon();
+        for (std::size_t k = 0; k < n; ++k) {
+            std::size_t pivot = k;
+            for (std::size_t i = k + 1; i < n; ++i) {
+                if (work[i * n + i] > work[pivot * n + pivot]) {
+                    pivot = i;
+                }
+            }
+            if (work[pivot * n + pivot] <= tolerance) {
+                for (std::size_t i = k; i < n; ++i) {
+                    for (std::size_t j = k; j < n; ++j) {
+                        if (std::abs(work[i * n + j]) > tolerance) {
+                            throw std::invalid_argument(
+                                "latent correlation is not positive semidefinite");
+                        }
+                    }
+                }
+                break;
+            }
+            for (std::size_t j = 0; j < n; ++j) {
+                std::swap(work[k * n + j], work[pivot * n + j]);
+            }
+            for (std::size_t i = 0; i < n; ++i) {
+                std::swap(work[i * n + k], work[i * n + pivot]);
+            }
+            for (std::size_t j = 0; j < k; ++j) {
+                std::swap(lower[k * n + j], lower[pivot * n + j]);
+            }
+            std::swap(order[k], order[pivot]);
+            lower[k * n + k] = std::sqrt(work[k * n + k]);
+            for (std::size_t i = k + 1; i < n; ++i) {
+                lower[i * n + k] = work[i * n + k] / lower[k * n + k];
+            }
+            for (std::size_t i = k + 1; i < n; ++i) {
+                for (std::size_t j = k + 1; j < n; ++j) {
+                    work[i * n + j] -= lower[i * n + k] * lower[j * n + k];
+                }
+            }
+            ++rank;
+        }
+        factor.resize(n * n);
+        for (std::size_t i = 0; i < n; ++i) {
+            double norm = 0.;
+            for (std::size_t k = 0; k < rank; ++k) {
+                norm = std::hypot(norm, lower[i * n + k]);
+            }
+            if (!(norm > 0.) || !std::isfinite(norm)) {
+                throw std::invalid_argument("latent correlation factor is invalid");
+            }
+            for (std::size_t k = 0; k < rank; ++k) {
+                factor[order[i] * n + k] = lower[i * n + k] / norm;
+            }
+        }
+        effective.resize(n * n);
+        for (std::size_t i = 0; i < n; ++i) {
+            for (std::size_t j = 0; j < n; ++j) {
+                double value = 0.;
+                for (std::size_t k = 0; k < rank; ++k) {
+                    value += factor[i * n + k] * factor[j * n + k];
+                }
+                effective[i * n + j] = value;
+                if (std::abs(value - matrix[i * n + j]) > 4. * tolerance) {
+                    throw std::invalid_argument("latent correlation reconstruction is inaccurate");
+                }
+            }
+        }
+    }
+};
+
+inline double copula_marginal(const MonteCarloParameter &p, double z) {
+    if (p.distribution == MonteCarloDistribution::Fixed) {
+        return p.first;
+    }
+    if (p.distribution == MonteCarloDistribution::Normal ||
+        p.distribution == MonteCarloDistribution::LogNormal) {
+        const double value = std::fma(p.second, z, p.first);
+        return p.distribution == MonteCarloDistribution::Normal ? value : std::exp(value);
+    }
+    if (p.first == p.second) {
+        return p.first;
+    }
+    const double u = .5 * std::erfc(-z / std::sqrt(2.));
+    if (p.distribution == MonteCarloDistribution::Uniform) {
+        return interpolate(p.first, p.second, u);
+    }
+    if (p.distribution == MonteCarloDistribution::LogUniform) {
+        return std::clamp(
+            std::exp(interpolate(std::log(p.first), std::log(p.second), u)), p.first, p.second);
+    }
+    const auto low = static_cast<std::int64_t>(p.first);
+    const auto width = static_cast<std::uint64_t>(static_cast<std::int64_t>(p.second) - low) + 1;
+    const auto bin =
+        std::min(static_cast<std::uint64_t>(u * static_cast<double>(width)), width - 1);
+    return static_cast<double>(low + static_cast<std::int64_t>(bin));
+}
+
 struct Random {
     std::mt19937_64 engine;
     std::uint64_t words{};
@@ -266,6 +412,71 @@ inline std::optional<double> representable(double value) {
     return std::isfinite(value) ? std::optional<double>{value} : std::nullopt;
 }
 
+// Rescale a normalized covariance without overflowing intermediate products.
+inline double scaled_product(double x, double a, double b) {
+    if (x == 0. || a == 0. || b == 0.) {
+        return 0.;
+    }
+    int ex = 0, ea = 0, eb = 0;
+    const double mx = std::frexp(x, &ex), ma = std::frexp(a, &ea), mb = std::frexp(b, &eb);
+    return std::ldexp(mx * ma * mb, ex + ea + eb);
+}
+
+inline MonteCarloJointStatistics summarize_joint(const std::vector<std::vector<double>> &columns) {
+    MonteCarloJointStatistics out;
+    out.dimension = columns.size();
+    out.count = columns.empty() ? 0 : columns[0].size();
+    const auto n = out.dimension;
+    out.sample_covariance.resize(n * n);
+    out.sample_correlation.resize(n * n);
+    if (out.count < 2) {
+        return out;
+    }
+    std::vector<double> centers(n), scales(n), means(n), deviations(n);
+    for (std::size_t j = 0; j < n; ++j) {
+        const auto bounds = std::minmax_element(columns[j].begin(), columns[j].end());
+        centers[j] = interpolate(*bounds.first, *bounds.second, .5);
+        scales[j] =
+            std::max(std::abs(*bounds.first - centers[j]), std::abs(*bounds.second - centers[j]));
+        if (scales[j] == 0.) {
+            continue;
+        }
+        Sum sum;
+        for (double value : columns[j]) {
+            sum.add((value - centers[j]) / scales[j]);
+        }
+        means[j] = sum.value / static_cast<double>(out.count);
+        Sum squares;
+        for (double value : columns[j]) {
+            const double d = (value - centers[j]) / scales[j] - means[j];
+            squares.add(d * d);
+        }
+        deviations[j] = std::sqrt(squares.value / static_cast<double>(out.count - 1));
+    }
+    for (std::size_t i = 0; i < n; ++i) {
+        for (std::size_t j = i; j < n; ++j) {
+            Sum products;
+            if (scales[i] != 0. && scales[j] != 0.) {
+                for (std::size_t k = 0; k < out.count; ++k) {
+                    products.add(((columns[i][k] - centers[i]) / scales[i] - means[i]) *
+                                 ((columns[j][k] - centers[j]) / scales[j] - means[j]));
+                }
+            }
+            const double normalized = products.value / static_cast<double>(out.count - 1);
+            const double sd = scales[i] * deviations[i];
+            const auto cov =
+                representable(i == j ? sd * sd : scaled_product(normalized, scales[i], scales[j]));
+            out.sample_covariance[i * n + j] = out.sample_covariance[j * n + i] = cov;
+            if (deviations[i] > 0. && deviations[j] > 0.) {
+                const double corr =
+                    i == j ? 1. : std::clamp(normalized / deviations[i] / deviations[j], -1., 1.);
+                out.sample_correlation[i * n + j] = out.sample_correlation[j * n + i] = corr;
+            }
+        }
+    }
+    return out;
+}
+
 inline MonteCarloStatistics summarize(std::vector<double> &values,
                                       const std::vector<double> &levels) {
     MonteCarloStatistics result;
@@ -327,13 +538,24 @@ run_monte_carlo(std::vector<MonteCarloParameter> parameters,
     if (!evaluate) {
         throw std::invalid_argument("Monte Carlo evaluator is empty");
     }
+    const monte_carlo_detail::Copula copula(options.latent_correlation, parameters.size());
     MonteCarloResult result;
+    if (copula.dimension) {
+        result.algorithm = monte_carlo_copula_algorithm;
+        result.latent_rank = copula.rank;
+        result.effective_latent_correlation = copula.effective;
+    }
     result.seed = options.seed;
     result.requested_samples = options.samples;
     result.criteria_enabled = !options.criteria.empty();
     result.quantile_levels = options.quantile_levels;
     monte_carlo_detail::Random random(options.seed);
     std::vector<std::vector<double>> columns(metric_count);
+    std::vector<std::vector<double>> parameter_columns(options.joint_statistics ? parameters.size()
+                                                                                : 0);
+    for (auto &column : parameter_columns) {
+        column.reserve(options.samples);
+    }
     for (auto &column : columns) {
         column.reserve(options.samples);
     }
@@ -348,8 +570,18 @@ run_monte_carlo(std::vector<MonteCarloParameter> parameters,
         MonteCarloSample sample;
         sample.index = index;
         sample.parameters.reserve(parameters.size());
+        std::vector<double> latent(copula.dimension);
+        for (auto &value : latent) {
+            value = random.normal();
+        }
         for (std::size_t j = 0; j < parameters.size(); ++j) {
-            const double value = random.sample(parameters[j]);
+            double z = 0.;
+            for (std::size_t k = 0; k < copula.rank; ++k) {
+                z += copula.factor[j * copula.dimension + k] * latent[k];
+            }
+            const double value = copula.dimension
+                                     ? monte_carlo_detail::copula_marginal(parameters[j], z)
+                                     : random.sample(parameters[j]);
             sample.parameters.push_back(value);
             if ((!std::isfinite(value) ||
                  (parameters[j].distribution == MonteCarloDistribution::LogNormal &&
@@ -392,6 +624,9 @@ run_monte_carlo(std::vector<MonteCarloParameter> parameters,
         const bool accepted = sample.status == MonteCarloSampleStatus::Accepted;
         if (accepted) {
             ++result.accepted_samples;
+            for (std::size_t j = 0; j < parameter_columns.size(); ++j) {
+                parameter_columns[j].push_back(sample.parameters[j]);
+            }
             sample.passed = result.criteria_enabled;
             for (std::size_t j = 0; j < metric_count; ++j) {
                 columns[j].push_back(sample.values[j]);
@@ -425,6 +660,11 @@ run_monte_carlo(std::vector<MonteCarloParameter> parameters,
     }
     result.random_words = random.words;
     result.has_statistics = result.accepted_samples != 0;
+    // Compute joint moments before marginal quantiles sort the columns.
+    if (options.joint_statistics) {
+        result.parameter_joint = monte_carlo_detail::summarize_joint(parameter_columns);
+        result.metric_joint = monte_carlo_detail::summarize_joint(columns);
+    }
     for (auto &column : columns) {
         result.statistics.push_back(monte_carlo_detail::summarize(column, options.quantile_levels));
     }
