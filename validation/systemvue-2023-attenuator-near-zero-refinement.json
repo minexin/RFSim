@@ -1,0 +1,144 @@
+{
+  "schema_version": 1,
+  "samples": [
+    {
+      "run_started_utc": "2026-10-12T05:26:24.2549662Z",
+      "run_returned_utc": "2026-10-12T05:26:24.4862113Z",
+      "manager_errors": "",
+      "dataset_timestamp": "1791782784",
+      "parameters": {
+        "frequency_hz": 100000000,
+        "loss_db": 3e-06,
+        "temperature_k": 290,
+        "reference_ohms": 50,
+        "source_available_w": 1e-19
+      },
+      "observed_loss_factor": 1.0000006907757666,
+      "observed_room_temperature_c": 16.850000000000023,
+      "measurements": [
+        {
+          "path": "RFModel_AttenuatorNoise/Designs/System1_Data_Folder/System1_Sch1_Data_Path1/Eqns/VarBlock/CF",
+          "data": [
+            100000000,
+            100000000
+          ],
+          "dimensions": [
+            2
+          ]
+        },
+        {
+          "path": "RFModel_AttenuatorNoise/Designs/System1_Data_Folder/System1_Sch1_Data_Path1/Eqns/VarBlock/CGAIN",
+          "data": [
+            1,
+            1
+          ],
+          "dimensions": [
+            2
+          ]
+        },
+        {
+          "path": "RFModel_AttenuatorNoise/Designs/System1_Data_Folder/System1_Sch1_Data_Path1/Eqns/VarBlock/CNF",
+          "data": [
+            1,
+            1
+          ],
+          "dimensions": [
+            2
+          ]
+        },
+        {
+          "path": "RFModel_AttenuatorNoise/Designs/System1_Data_Folder/System1_Sch1_Data_Path1/Eqns/VarBlock/CND",
+          "data": [
+            4.003886059442406e-21,
+            4.003886036649883e-21
+          ],
+          "dimensions": [
+            2
+          ]
+        },
+        {
+          "path": "RFModel_AttenuatorNoise/Designs/System1_Data_Folder/System1_Sch1_Data_Path1/Eqns/VarBlock/DCP",
+          "data": [
+            9.999999748850021e-20,
+            9.999992781904965e-20
+          ],
+          "dimensions": [
+            2
+          ]
+        }
+      ],
+      "observed_source_available_w": 1e-19,
+      "capture_sha256": "766b0093324db266b2eaa4bcc3b02726d9f80fc8f6c580bf4406dbdacdf717fb"
+    },
+    {
+      "run_started_utc": "2026-10-12T05:26:37.7016146Z",
+      "run_returned_utc": "2026-10-12T05:26:37.9165173Z",
+      "manager_errors": "",
+      "dataset_timestamp": "1791782797",
+      "parameters": {
+        "frequency_hz": 100000000,
+        "loss_db": 6e-06,
+        "temperature_k": 290,
+        "reference_ohms": 50,
+        "source_available_w": 1e-19
+      },
+      "observed_loss_factor": 1.0000013815520101,
+      "observed_room_temperature_c": 16.850000000000023,
+      "measurements": [
+        {
+          "path": "RFModel_AttenuatorNoise/Designs/System1_Data_Folder/System1_Sch1_Data_Path1/Eqns/VarBlock/CF",
+          "data": [
+            100000000,
+            100000000
+          ],
+          "dimensions": [
+            2
+          ]
+        },
+        {
+          "path": "RFModel_AttenuatorNoise/Designs/System1_Data_Folder/System1_Sch1_Data_Path1/Eqns/VarBlock/CGAIN",
+          "data": [
+            1,
+            1
+          ],
+          "dimensions": [
+            2
+          ]
+        },
+        {
+          "path": "RFModel_AttenuatorNoise/Designs/System1_Data_Folder/System1_Sch1_Data_Path1/Eqns/VarBlock/CNF",
+          "data": [
+            1,
+            1
+          ],
+          "dimensions": [
+            2
+          ]
+        },
+        {
+          "path": "RFModel_AttenuatorNoise/Designs/System1_Data_Folder/System1_Sch1_Data_Path1/Eqns/VarBlock/CND",
+          "data": [
+            4.003886059966785e-21,
+            4.003886039641689e-21
+          ],
+          "dimensions": [
+            2
+          ]
+        },
+        {
+          "path": "RFModel_AttenuatorNoise/Designs/System1_Data_Folder/System1_Sch1_Data_Path1/Eqns/VarBlock/DCP",
+          "data": [
+            9.999999750159695e-20,
+            9.999985886923877e-20
+          ],
+          "dimensions": [
+            2
+          ]
+        }
+      ],
+      "observed_source_available_w": 1e-19,
+      "capture_sha256": "fa73703a42fdb0aa238a442f3501679737470485a891bc1d42363a406805d393"
+    }
+  ],
+  "scope": "Two added near-zero loss points; independent 120-second helpers; original comparison unchanged"
+}

@@ -1,0 +1,1292 @@
+{
+  "schema_version": 1,
+  "diagnostic_only": true,
+  "preregistered_hypotheses_consistent_with_two_new_unity_patterns": {
+    "hypothesis_round_to_unity_below_1e_6": false,
+    "hypothesis_no_threshold": false,
+    "hypothesis_db_threshold_1e_5": true
+  },
+  "reconstruction_passed": true,
+  "original_vendor_tolerance": 1e-07,
+  "core_modified": false,
+  "new_analysis_count": 2,
+  "cases": [
+    {
+      "loss_db": "0",
+      "new_case": false,
+      "checks": {
+        "99999999.5_source_in_P_V_Z": {
+          "actual": "4.003886079922277e-21",
+          "expected": "4.0038860799222768157117383584886584266964130944237E-21",
+          "signed_relative_error": 4.6027348921248214e-17,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "99999999.5_source_out_P_V_Z": {
+          "actual": "4.003882055440487e-21",
+          "expected": "4.0038820554404869749350764678514645905526229019806E-21",
+          "signed_relative_error": 6.260155315536891e-18,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "99999999.5_device_out_P_V_Z": {
+          "actual": "4.003626886860134e-27",
+          "expected": "4.0036268868601342196204021923296803733412272651185E-27",
+          "signed_relative_error": -5.4855362000170836e-17,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "99999999.5_total_out_P_V_Z": {
+          "actual": "4.003886059067374e-21",
+          "expected": "4.0038860590673744663445065960362836907603997993531E-21",
+          "signed_relative_error": -1.1647297143731956e-16,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "99999999.5_raw_sum": {
+          "actual": "4.003886059067374e-21",
+          "expected": "4.003886059067373860134E-21",
+          "signed_relative_error": 3.493256249968787e-17,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "99999999.5_CND_voltage_50ohm": {
+          "actual": "4.00388603838358e-21",
+          "expected": "4.0038860383835801580037966325881E-21",
+          "signed_relative_error": -3.946261085302424e-17,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "99999999.5_source_signal_transport": {
+          "actual": "4.0038820347567133490498126775225E-21",
+          "expected": "4.0038820347567135339480960E-21",
+          "signed_relative_error": -4.617975297908906e-17,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "99999999.5_budget_reconstruction": {
+          "actual": "4.00388603838358e-21",
+          "expected": "4.0038860383835797116268727084063951929E-21",
+          "signed_relative_error": 7.202331048563349e-17,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "100000000.5_source_in_P_V_Z": {
+          "actual": "4.003886079922277e-21",
+          "expected": "4.0038860799222768157117383584886584266964130944237E-21",
+          "signed_relative_error": 4.6027348921248214e-17,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "100000000.5_source_out_P_V_Z": {
+          "actual": "4.003882055440487e-21",
+          "expected": "4.0038820554404869749350764678514645905526229019806E-21",
+          "signed_relative_error": 6.260155315536891e-18,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "100000000.5_device_out_P_V_Z": {
+          "actual": "4.003626886860134e-27",
+          "expected": "4.0036268868601342196204021923296803733412272651185E-27",
+          "signed_relative_error": -5.4855362000170836e-17,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "100000000.5_total_out_P_V_Z": {
+          "actual": "4.003886059067374e-21",
+          "expected": "4.0038860590673744663445065960362836907603997993531E-21",
+          "signed_relative_error": -1.1647297143731956e-16,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "100000000.5_raw_sum": {
+          "actual": "4.003886059067374e-21",
+          "expected": "4.003886059067373860134E-21",
+          "signed_relative_error": 3.493256249968787e-17,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "100000000.5_CND_voltage_50ohm": {
+          "actual": "4.00388603838358e-21",
+          "expected": "4.0038860383835801580037966325881E-21",
+          "signed_relative_error": -3.946261085302424e-17,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "100000000.5_source_signal_transport": {
+          "actual": "4.0038820347567133490498126775225E-21",
+          "expected": "4.0038820347567135339480960E-21",
+          "signed_relative_error": -4.617975297908906e-17,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "100000000.5_budget_reconstruction": {
+          "actual": "4.00388603838358e-21",
+          "expected": "4.0038860383835797116268727084063951929E-21",
+          "signed_relative_error": 7.202331048563349e-17,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "source_input_signal_noise_scale": {
+          "actual": "4.0038860601707116e-21",
+          "expected": "4.0038860601707123903218560E-21",
+          "signed_relative_error": -1.973886979107251e-16,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        }
+      },
+      "endpoints": [
+        {
+          "frequency_hz": 99999999.5,
+          "path_to_raw_ratio": "0.99999999483407027701036018646521229409367984886948",
+          "impedance_derived_ratio": "0.9999999948340702",
+          "device_exported": true,
+          "device_noise_raw": "4.003626886860134E-27",
+          "device_noise_fraction_kT": "9.9993524462746812961335544065518586072886747609228E-7",
+          "ideal_device_noise_legacy": "0E-30",
+          "device_ideal_relative_residual": null
+        },
+        {
+          "frequency_hz": 100000000.5,
+          "path_to_raw_ratio": "0.99999999483407027701036018646521229409367984886948",
+          "impedance_derived_ratio": "0.9999999948340702",
+          "device_exported": true,
+          "device_noise_raw": "4.003626886860134E-27",
+          "device_noise_fraction_kT": "9.9993524462746812961335544065518586072886747609228E-7",
+          "ideal_device_noise_legacy": "0E-30",
+          "device_ideal_relative_residual": null
+        }
+      ],
+      "reported_gain": 1,
+      "reported_nf": 1,
+      "signal_transfer": "0.99999899462323893284228723926773941772689084774327",
+      "signal_transfer_vs_ideal": -1.0053767610671577e-06,
+      "reported_gain_vs_transfer": 1.0053777718506056e-06,
+      "binary64_gain_vs_50digit": 0.0,
+      "ideal_gain": "1",
+      "ideal_nf": "1"
+    },
+    {
+      "loss_db": "1E-8",
+      "new_case": false,
+      "checks": {
+        "99999999.5_source_in_P_V_Z": {
+          "actual": "4.003886079922277e-21",
+          "expected": "4.0038860799222775203243792660799000849827648855541E-21",
+          "signed_relative_error": -1.2995484109182753e-16,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "99999999.5_source_out_P_V_Z": {
+          "actual": "4.003885155152911e-21",
+          "expected": "4.0038851551529109289394721462232679631863539905232E-21",
+          "signed_relative_error": 1.7747893633343458e-17,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "99999999.5_total_out_P_V_Z": {
+          "actual": "4.003885155152911e-21",
+          "expected": "4.0038851551529109289394721462232679631863539905232E-21",
+          "signed_relative_error": 1.7747893633343458e-17,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "99999999.5_raw_sum": {
+          "actual": "4.003885155152911e-21",
+          "expected": "4.003885155152911E-21",
+          "signed_relative_error": 0.0,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "99999999.5_CND_voltage_50ohm": {
+          "actual": "4.003884767346462e-21",
+          "expected": "4.0038847673464616550940659906064E-21",
+          "signed_relative_error": 8.614282229655098e-17,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "99999999.5_source_signal_transport": {
+          "actual": "4.0038847673464616550940659906064E-21",
+          "expected": "4.0038847673464618173614880E-21",
+          "signed_relative_error": -4.052749552953165e-17,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "99999999.5_budget_reconstruction": {
+          "actual": "4.003884767346462e-21",
+          "expected": "4.0038847673464618173614880E-21",
+          "signed_relative_error": 4.5615326767019326e-17,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "100000000.5_source_in_P_V_Z": {
+          "actual": "4.003886079922277e-21",
+          "expected": "4.0038860799222775203243792660799000849827648855541E-21",
+          "signed_relative_error": -1.2995484109182753e-16,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "100000000.5_source_out_P_V_Z": {
+          "actual": "4.003885155152911e-21",
+          "expected": "4.0038851551529109289394721462232679631863539905232E-21",
+          "signed_relative_error": 1.7747893633343458e-17,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "100000000.5_total_out_P_V_Z": {
+          "actual": "4.003885155152911e-21",
+          "expected": "4.0038851551529109289394721462232679631863539905232E-21",
+          "signed_relative_error": 1.7747893633343458e-17,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "100000000.5_raw_sum": {
+          "actual": "4.003885155152911e-21",
+          "expected": "4.003885155152911E-21",
+          "signed_relative_error": 0.0,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "100000000.5_CND_voltage_50ohm": {
+          "actual": "4.003884767346462e-21",
+          "expected": "4.0038847673464616550940659906064E-21",
+          "signed_relative_error": 8.614282229655098e-17,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "100000000.5_source_signal_transport": {
+          "actual": "4.0038847673464616550940659906064E-21",
+          "expected": "4.0038847673464618173614880E-21",
+          "signed_relative_error": -4.052749552953165e-17,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "100000000.5_budget_reconstruction": {
+          "actual": "4.003884767346462e-21",
+          "expected": "4.0038847673464618173614880E-21",
+          "signed_relative_error": 4.5615326767019326e-17,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "source_input_signal_noise_scale": {
+          "actual": "4.00388616941611e-21",
+          "expected": "4.0038861694161100484110320E-21",
+          "signed_relative_error": -1.2091011070641855e-17,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        }
+      },
+      "endpoints": [
+        {
+          "frequency_hz": 99999999.5,
+          "path_to_raw_ratio": "0.99999990314246438839492203864327474101814446675261",
+          "impedance_derived_ratio": "0.99999990314246432",
+          "device_exported": false,
+          "device_noise_raw": null,
+          "device_noise_fraction_kT": null,
+          "ideal_device_noise_legacy": "9.2192885754470742516566862407218578036811377911520E-30",
+          "device_ideal_relative_residual": null
+        },
+        {
+          "frequency_hz": 100000000.5,
+          "path_to_raw_ratio": "0.99999990314246438839492203864327474101814446675261",
+          "impedance_derived_ratio": "0.99999990314246432",
+          "device_exported": false,
+          "device_noise_raw": null,
+          "device_noise_fraction_kT": null,
+          "ideal_device_noise_legacy": "9.2192885754470742516566862407218578036811377911520E-30",
+          "device_ideal_relative_residual": null
+        }
+      ],
+      "reported_gain": 1,
+      "reported_nf": 1,
+      "signal_transfer": "0.99999964982279992352667398628558619747297254487218",
+      "signal_transfer_vs_ideal": -3.478746157871411e-07,
+      "reported_gain_vs_transfer": 3.5017732270058773e-07,
+      "binary64_gain_vs_50digit": -9.65690339142237e-18,
+      "ideal_gain": "0.99999999769741490965690336918652895947424793823780",
+      "ideal_nf": "1.0000000023025850956449947412918690534299287481808"
+    },
+    {
+      "loss_db": "0.000001",
+      "new_case": false,
+      "checks": {
+        "99999999.5_source_in_P_V_Z": {
+          "actual": "4.003886079922278e-21",
+          "expected": "4.0038860799222782955180638490341720281778816406115E-21",
+          "signed_relative_error": -7.380781019992723e-17,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "99999999.5_source_out_P_V_Z": {
+          "actual": "4.003885147228905e-21",
+          "expected": "4.0038851472289050392934127991781239937142743441465E-21",
+          "signed_relative_error": -9.813821164768713e-18,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "99999999.5_device_out_P_V_Z": {
+          "actual": "9.208846698565681e-28",
+          "expected": "9.2088466985656811311490004617516995083140898106075E-28",
+          "signed_relative_error": -1.42416314175562e-17,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "99999999.5_total_out_P_V_Z": {
+          "actual": "4.003886068113574e-21",
+          "expected": "4.0038860681135746584082106433138099143982661054794E-21",
+          "signed_relative_error": -1.644422941718524e-16,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "99999999.5_raw_sum": {
+          "actual": "4.003886068113574e-21",
+          "expected": "4.0038860681135748565681E-21",
+          "signed_relative_error": -2.1393418429699994e-16,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "99999999.5_CND_voltage_50ohm": {
+          "actual": "4.003886052731823e-21",
+          "expected": "4.0038860527318231287743094420889E-21",
+          "signed_relative_error": -3.2162331231736003e-17,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "99999999.5_source_signal_transport": {
+          "actual": "4.0038851318471570474273038278564E-21",
+          "expected": "4.0038851318471551063028880E-21",
+          "signed_relative_error": 4.848102160544093e-16,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "99999999.5_budget_reconstruction": {
+          "actual": "4.003886052731823e-21",
+          "expected": "4.003886052731821425103207972771129240225E-21",
+          "signed_relative_error": 3.9334206100912603e-16,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "100000000.5_source_in_P_V_Z": {
+          "actual": "4.003886079922278e-21",
+          "expected": "4.0038860799222782955180638490341720281778816406115E-21",
+          "signed_relative_error": -7.380781019992723e-17,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "100000000.5_source_out_P_V_Z": {
+          "actual": "4.003885147228905e-21",
+          "expected": "4.0038851472289050392934127991781239937142743441465E-21",
+          "signed_relative_error": -9.813821164768713e-18,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "100000000.5_device_out_P_V_Z": {
+          "actual": "9.208846698565681e-28",
+          "expected": "9.2088466985656811311490004617516995083140898106075E-28",
+          "signed_relative_error": -1.42416314175562e-17,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "100000000.5_total_out_P_V_Z": {
+          "actual": "4.003886068113574e-21",
+          "expected": "4.0038860681135746584082106433138099143982661054794E-21",
+          "signed_relative_error": -1.644422941718524e-16,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "100000000.5_raw_sum": {
+          "actual": "4.003886068113574e-21",
+          "expected": "4.0038860681135748565681E-21",
+          "signed_relative_error": -2.1393418429699994e-16,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "100000000.5_CND_voltage_50ohm": {
+          "actual": "4.003886052731823e-21",
+          "expected": "4.0038860527318231287743094420889E-21",
+          "signed_relative_error": -3.2162331231736003e-17,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "100000000.5_source_signal_transport": {
+          "actual": "4.0038851318471570474273038278564E-21",
+          "expected": "4.0038851318471551063028880E-21",
+          "signed_relative_error": 4.848102160544093e-16,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "100000000.5_budget_reconstruction": {
+          "actual": "4.003886052731823e-21",
+          "expected": "4.003886052731821425103207972771129240225E-21",
+          "signed_relative_error": 3.9334206100912603e-16,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "source_input_signal_noise_scale": {
+          "actual": "4.003886071998345e-21",
+          "expected": "4.0038860719983450554131680E-21",
+          "signed_relative_error": -1.3839846340169017e-17,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        }
+      },
+      "endpoints": [
+        {
+          "frequency_hz": 99999999.5,
+          "path_to_raw_ratio": "0.99999999615829453227996243193572198986840209728033",
+          "impedance_derived_ratio": "0.9999999961582944",
+          "device_exported": true,
+          "device_noise_raw": "9.208846698565681E-28",
+          "device_noise_fraction_kT": "2.2999771548364104837586091608558620957395052410781E-7",
+          "ideal_device_noise_legacy": "9.2192875246514306291267982526949310496685404584419E-28",
+          "device_ideal_relative_residual": -0.0011324981521437453
+        },
+        {
+          "frequency_hz": 100000000.5,
+          "path_to_raw_ratio": "0.99999999615829453227996243193572198986840209728033",
+          "impedance_derived_ratio": "0.9999999961582944",
+          "device_exported": true,
+          "device_noise_raw": "9.208846698565681E-28",
+          "device_noise_fraction_kT": "2.2999771548364104837586091608558620957395052410781E-7",
+          "ideal_device_noise_legacy": "9.2192875246514306291267982526949310496685404584419E-28",
+          "device_ideal_relative_residual": -0.0011324981521437453
+        }
+      ],
+      "reported_gain": 1,
+      "reported_nf": 1,
+      "signal_transfer": "0.99999976519032433910400310669209834297265234451617",
+      "signal_transfer_vs_ideal": -4.5511939189309526e-09,
+      "reported_gain_vs_transfer": 2.3480973079649274e-07,
+      "binary64_gain_vs_50digit": -1.0083951633631143e-17,
+      "ideal_gain": "0.99999976974151721008394931171573937319608883014445",
+      "ideal_nf": "1.0000002302585358088971554724986172732502509166598"
+    },
+    {
+      "loss_db": "0.0001",
+      "new_case": false,
+      "checks": {
+        "99999999.5_source_in_P_V_Z": {
+          "actual": "4.003886079922277e-21",
+          "expected": "4.0038860799222768239315431056780516352979213802396E-21",
+          "signed_relative_error": 4.397439222290255e-17,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "99999999.5_source_out_P_V_Z": {
+          "actual": "4.003793868065291e-21",
+          "expected": "4.0037938680652916549125261565338023419022752305546E-21",
+          "signed_relative_error": -1.6357298795529646e-16,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "99999999.5_device_out_P_V_Z": {
+          "actual": "9.219183942650432e-26",
+          "expected": "9.2191839426504328939621870617712265808841658742125E-26",
+          "signed_relative_error": -9.69676050095997e-17,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "99999999.5_total_out_P_V_Z": {
+          "actual": "4.003886059904718e-21",
+          "expected": "4.0038860599047171220714560617506555939244670309607E-21",
+          "signed_relative_error": 2.1926911275770468e-16,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "99999999.5_raw_sum": {
+          "actual": "4.003886059904718e-21",
+          "expected": "4.00388605990471750432E-21",
+          "signed_relative_error": 1.237997267114529e-16,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "99999999.5_CND_voltage_50ohm": {
+          "actual": "4.003886039857277e-21",
+          "expected": "4.0038860398572768368385950218225E-21",
+          "signed_relative_error": 4.075076147371906e-17,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "99999999.5_source_signal_transport": {
+          "actual": "4.0037938480183129738232435211409E-21",
+          "expected": "4.0037938480183134956625360E-21",
+          "signed_relative_error": -1.3033620418222695e-16,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "99999999.5_budget_reconstruction": {
+          "actual": "4.003886039857277e-21",
+          "expected": "4.00388603985727839584789202422958564E-21",
+          "signed_relative_error": -3.486232820137872e-16,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "100000000.5_source_in_P_V_Z": {
+          "actual": "4.003886079922277e-21",
+          "expected": "4.0038860799222768239315431056780516352979213802396E-21",
+          "signed_relative_error": 4.397439222290255e-17,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "100000000.5_source_out_P_V_Z": {
+          "actual": "4.003793868065291e-21",
+          "expected": "4.0037938680652916549125261565338023419022752305546E-21",
+          "signed_relative_error": -1.6357298795529646e-16,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "100000000.5_device_out_P_V_Z": {
+          "actual": "9.219183942650432e-26",
+          "expected": "9.2191839426504328939621870617712265808841658742125E-26",
+          "signed_relative_error": -9.69676050095997e-17,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "100000000.5_total_out_P_V_Z": {
+          "actual": "4.003886059904718e-21",
+          "expected": "4.0038860599047171220714560617506555939244670309607E-21",
+          "signed_relative_error": 2.1926911275770468e-16,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "100000000.5_raw_sum": {
+          "actual": "4.003886059904718e-21",
+          "expected": "4.00388605990471750432E-21",
+          "signed_relative_error": 1.237997267114529e-16,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "100000000.5_CND_voltage_50ohm": {
+          "actual": "4.003886039857277e-21",
+          "expected": "4.0038860398572768368385950218225E-21",
+          "signed_relative_error": 4.075076147371906e-17,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "100000000.5_source_signal_transport": {
+          "actual": "4.0037938480183129738232435211409E-21",
+          "expected": "4.0037938480183134956625360E-21",
+          "signed_relative_error": -1.3033620418222695e-16,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "100000000.5_budget_reconstruction": {
+          "actual": "4.003886039857277e-21",
+          "expected": "4.00388603985727839584789202422958564E-21",
+          "signed_relative_error": -3.486232820137872e-16,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "source_input_signal_noise_scale": {
+          "actual": "4.003886059874837e-21",
+          "expected": "4.0038860598748376151449520E-21",
+          "signed_relative_error": -1.5363697737673123e-16,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        }
+      },
+      "endpoints": [
+        {
+          "frequency_hz": 99999999.5,
+          "path_to_raw_ratio": "0.99999999499300412148164960985503531989274626744749",
+          "impedance_derived_ratio": "0.9999999949930043",
+          "device_exported": true,
+          "device_noise_raw": "9.219183942650432E-26",
+          "device_noise_fraction_kT": "0.000023025589575330063829786808923658309006467856218969",
+          "ideal_device_noise_legacy": "9.2191824458934985596260307167459056570820425176624E-26",
+          "device_ideal_relative_residual": 1.623524582819244e-07
+        },
+        {
+          "frequency_hz": 100000000.5,
+          "path_to_raw_ratio": "0.99999999499300412148164960985503531989274626744749",
+          "impedance_derived_ratio": "0.9999999949930043",
+          "device_exported": true,
+          "device_noise_raw": "9.219183942650432E-26",
+          "device_noise_fraction_kT": "0.000023025589575330063829786808923658309006467856218969",
+          "ideal_device_noise_legacy": "9.2191824458934985596260307167459056570820425176624E-26",
+          "device_ideal_relative_residual": 1.623524582819244e-07
+        }
+      ],
+      "reported_gain": 0.9999769694104316,
+      "reported_nf": 1.0000230261197647,
+      "signal_transfer": "0.99997696941043147415490364516374692656268712294256",
+      "signal_transfer_vs_ideal": -5.003846672746375e-09,
+      "reported_gain_vs_transfer": 1.258479947083504e-16,
+      "binary64_gain_vs_50digit": -3.040089992321908e-17,
+      "ideal_gain": "0.99997697441416293040019992468837639003787989306240",
+      "ideal_nf": "1.0000230261160268806710649793464495797824846841503"
+    },
+    {
+      "loss_db": "0.01",
+      "new_case": false,
+      "checks": {
+        "99999999.5_source_in_P_V_Z": {
+          "actual": "4.003886079922278e-21",
+          "expected": "4.0038860799222775308888536751559801044765072369026E-21",
+          "signed_relative_error": 1.171639594535992e-16,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "99999999.5_source_out_P_V_Z": {
+          "actual": "3.994677377501801e-21",
+          "expected": "3.9946773775018014195237814511703393548683692466647E-21",
+          "signed_relative_error": -1.0502069173694645e-16,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "99999999.5_device_out_P_V_Z": {
+          "actual": "9.208682630599236e-24",
+          "expected": "9.208682630599235195632814373410739690239037365633E-24",
+          "signed_relative_error": 8.734877917866161e-17,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "99999999.5_total_out_P_V_Z": {
+          "actual": "4.0038860601324e-21",
+          "expected": "4.0038860601323991324114946172367504990082724284242E-21",
+          "signed_relative_error": 2.16686612044618e-16,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "99999999.5_raw_sum": {
+          "actual": "4.0038860601324e-21",
+          "expected": "4.003886060132400236E-21",
+          "signed_relative_error": -5.89427362456453e-17,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "99999999.5_CND_voltage_50ohm": {
+          "actual": "4.003886040113508e-21",
+          "expected": "4.0038860401135077548131927761025E-21",
+          "signed_relative_error": 6.12372092430849e-17,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "99999999.5_source_signal_transport": {
+          "actual": "3.9946773575289522155897860960225E-21",
+          "expected": "3.9946773575289518579329920E-21",
+          "signed_relative_error": 8.953333700954104e-17,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "99999999.5_budget_reconstruction": {
+          "actual": "4.003886040113508e-21",
+          "expected": "4.003886040113508919464310717052304E-21",
+          "signed_relative_error": -2.2964297722394363e-16,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "100000000.5_source_in_P_V_Z": {
+          "actual": "4.003886079922278e-21",
+          "expected": "4.0038860799222775308888536751559801044765072369026E-21",
+          "signed_relative_error": 1.171639594535992e-16,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "100000000.5_source_out_P_V_Z": {
+          "actual": "3.994677377501801e-21",
+          "expected": "3.9946773775018014195237814511703393548683692466647E-21",
+          "signed_relative_error": -1.0502069173694645e-16,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "100000000.5_device_out_P_V_Z": {
+          "actual": "9.208682630599236e-24",
+          "expected": "9.208682630599235195632814373410739690239037365633E-24",
+          "signed_relative_error": 8.734877917866161e-17,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "100000000.5_total_out_P_V_Z": {
+          "actual": "4.0038860601324e-21",
+          "expected": "4.0038860601323991324114946172367504990082724284242E-21",
+          "signed_relative_error": 2.16686612044618e-16,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "100000000.5_raw_sum": {
+          "actual": "4.0038860601324e-21",
+          "expected": "4.003886060132400236E-21",
+          "signed_relative_error": -5.89427362456453e-17,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "100000000.5_CND_voltage_50ohm": {
+          "actual": "4.003886040113508e-21",
+          "expected": "4.0038860401135077548131927761025E-21",
+          "signed_relative_error": 6.12372092430849e-17,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "100000000.5_source_signal_transport": {
+          "actual": "3.9946773575289522155897860960225E-21",
+          "expected": "3.9946773575289518579329920E-21",
+          "signed_relative_error": 8.953333700954104e-17,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "100000000.5_budget_reconstruction": {
+          "actual": "4.003886040113508e-21",
+          "expected": "4.003886040113508919464310717052304E-21",
+          "signed_relative_error": -2.2964297722394363e-16,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "source_input_signal_noise_scale": {
+          "actual": "4.0038860599033865e-21",
+          "expected": "4.0038860599033857238543680E-21",
+          "signed_relative_error": 1.9384808168560333e-16,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        }
+      },
+      "endpoints": [
+        {
+          "frequency_hz": 99999999.5,
+          "path_to_raw_ratio": "0.99999999500013444455059797569301980287077504350858",
+          "impedance_derived_ratio": "0.9999999950001346",
+          "device_exported": true,
+          "device_noise_raw": "9.208682630599236E-24",
+          "device_noise_fraction_kT": "0.0022999361776557693138807922550924874447479295964798",
+          "ideal_device_noise_legacy": "9.2086826297620774231639538075101808507503229443087E-24",
+          "device_ideal_relative_residual": 9.090970017040056e-11
+        },
+        {
+          "frequency_hz": 100000000.5,
+          "path_to_raw_ratio": "0.99999999500013444455059797569301980287077504350858",
+          "impedance_derived_ratio": "0.9999999950001346",
+          "device_exported": true,
+          "device_noise_raw": "9.208682630599236E-24",
+          "device_noise_fraction_kT": "0.0022999361776557693138807922550924874447479295964798",
+          "ideal_device_noise_legacy": "9.2086826297620774231639538075101808507503229443087E-24",
+          "device_ideal_relative_residual": 9.090970017040056e-11
+        }
+      ],
+      "reported_gain": 0.9977000588336782,
+      "reported_nf": 1.0023052380781103,
+      "signal_transfer": "0.99770005883367818087402374203181173239486742165016",
+      "signal_transfer_vs_ideal": -5.000375681250531e-09,
+      "reported_gain_vs_transfer": 1.9170066282572596e-17,
+      "binary64_gain_vs_50digit": -1.72340591790439e-17,
+      "ideal_gain": "0.99770006382255331719442194285376231055211861394573",
+      "ideal_nf": "1.0023052380778996719154048893281105540536684535422"
+    },
+    {
+      "loss_db": "1",
+      "new_case": false,
+      "checks": {
+        "99999999.5_source_in_P_V_Z": {
+          "actual": "4.003886079922277e-21",
+          "expected": "4.0038860799222772133066415163228908742849924358517E-21",
+          "signed_relative_error": -5.3274902746599515e-17,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "99999999.5_source_out_P_V_Z": {
+          "actual": "3.1803997459997897e-21",
+          "expected": "3.1803997459997899928691530692137781815933663231662E-21",
+          "signed_relative_error": -9.208564220191996e-17,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "99999999.5_device_out_P_V_Z": {
+          "actual": "8.234863344902218e-22",
+          "expected": "8.234863344902218541103505335108152689231160251481E-22",
+          "signed_relative_error": -6.570886275484797e-17,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "99999999.5_total_out_P_V_Z": {
+          "actual": "4.003886080490012e-21",
+          "expected": "4.0038860804900123289845474342446449990378433548282E-21",
+          "signed_relative_error": -8.216631063438801e-17,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "99999999.5_raw_sum": {
+          "actual": "4.003886080490012e-21",
+          "expected": "4.0038860804900115E-21",
+          "signed_relative_error": 1.2487867785159561e-16,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "99999999.5_CND_voltage_50ohm": {
+          "actual": "4.003886060470589e-21",
+          "expected": "4.0038860604705891335294306713441E-21",
+          "signed_relative_error": -3.3349957679777225e-17,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "99999999.5_source_signal_transport": {
+          "actual": "3.18039973009779698758974590449E-21",
+          "expected": "3.1803997300977955233488400E-21",
+          "signed_relative_error": 4.603952427890143e-16,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "99999999.5_budget_reconstruction": {
+          "actual": "4.003886060470589e-21",
+          "expected": "4.0038860604705871872834833453584E-21",
+          "signed_relative_error": 4.527392861028589e-16,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "100000000.5_source_in_P_V_Z": {
+          "actual": "4.003886079922277e-21",
+          "expected": "4.0038860799222772133066415163228908742849924358517E-21",
+          "signed_relative_error": -5.3274902746599515e-17,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "100000000.5_source_out_P_V_Z": {
+          "actual": "3.1803997459997897e-21",
+          "expected": "3.1803997459997899928691530692137781815933663231662E-21",
+          "signed_relative_error": -9.208564220191996e-17,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "100000000.5_device_out_P_V_Z": {
+          "actual": "8.234863344902218e-22",
+          "expected": "8.234863344902218541103505335108152689231160251481E-22",
+          "signed_relative_error": -6.570886275484797e-17,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "100000000.5_total_out_P_V_Z": {
+          "actual": "4.003886080490012e-21",
+          "expected": "4.0038860804900123289845474342446449990378433548282E-21",
+          "signed_relative_error": -8.216631063438801e-17,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "100000000.5_raw_sum": {
+          "actual": "4.003886080490012e-21",
+          "expected": "4.0038860804900115E-21",
+          "signed_relative_error": 1.2487867785159561e-16,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "100000000.5_CND_voltage_50ohm": {
+          "actual": "4.003886060470589e-21",
+          "expected": "4.0038860604705891335294306713441E-21",
+          "signed_relative_error": -3.3349957679777225e-17,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "100000000.5_source_signal_transport": {
+          "actual": "3.18039973009779698758974590449E-21",
+          "expected": "3.1803997300977955233488400E-21",
+          "signed_relative_error": 4.603952427890143e-16,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "100000000.5_budget_reconstruction": {
+          "actual": "4.003886060470589e-21",
+          "expected": "4.0038860604705871872834833453584E-21",
+          "signed_relative_error": 4.527392861028589e-16,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "source_input_signal_noise_scale": {
+          "actual": "4.003886059902843e-21",
+          "expected": "4.0038860599028427968910720E-21",
+          "signed_relative_error": 5.072794903782267e-17,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        }
+      },
+      "endpoints": [
+        {
+          "frequency_hz": 99999999.5,
+          "path_to_raw_ratio": "0.99999999500000184881635271052911709606088649593272",
+          "impedance_derived_ratio": "0.9999999950000018",
+          "device_exported": true,
+          "device_noise_raw": "8.234863344902218E-22",
+          "device_noise_fraction_kT": "0.20567176527571947749883078593822957244119048579543",
+          "ideal_device_noise_legacy": "8.2348633449021787793425837966042081231604755772938E-22",
+          "device_ideal_relative_residual": 4.762757531426806e-15
+        },
+        {
+          "frequency_hz": 100000000.5,
+          "path_to_raw_ratio": "0.99999999500000184881635271052911709606088649593272",
+          "impedance_derived_ratio": "0.9999999950000018",
+          "device_exported": true,
+          "device_noise_raw": "8.234863344902218E-22",
+          "device_noise_fraction_kT": "0.20567176527571947749883078593822957244119048579543",
+          "ideal_device_noise_legacy": "8.2348633449021787793425837966042081231604755772938E-22",
+          "device_ideal_relative_residual": 4.762757531426806e-15
+        }
+      ],
+      "reported_gain": 0.7943282307526429,
+      "reported_nf": 1.2589254117941686,
+      "signal_transfer": "0.79432823075264290427865720908075364994460851321813",
+      "signal_transfer_vs_ideal": -4.9999967572169365e-09,
+      "reported_gain_vs_transfer": -5.386510315800604e-18,
+      "binary64_gain_vs_50digit": -2.6008370249528985e-18,
+      "ideal_gain": "0.79432823472428150206591828283638793258896063175548",
+      "ideal_nf": "1.2589254117941672104239541063958006060936174094669"
+    },
+    {
+      "loss_db": "0.000003",
+      "new_case": true,
+      "checks": {
+        "99999999.5_source_in_P_V_Z": {
+          "actual": "4.0038860799222764e-21",
+          "expected": "4.0038860799222758752543887963916714204093723424365E-21",
+          "signed_relative_error": 1.3105907628965177e-16,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "99999999.5_source_out_P_V_Z": {
+          "actual": "4.003883290436772e-21",
+          "expected": "4.0038832904367723595774950815386401025789973551394E-21",
+          "signed_relative_error": -8.980718692285192e-17,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "99999999.5_device_out_P_V_Z": {
+          "actual": "2.766692980942762e-27",
+          "expected": "2.7666929809427616281548799040413800303878315809498E-27",
+          "signed_relative_error": 1.344005723285028e-16,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "99999999.5_total_out_P_V_Z": {
+          "actual": "4.003886057129753e-21",
+          "expected": "4.0038860571297525367705212194970498507892148920972E-21",
+          "signed_relative_error": 1.156949703789963e-16,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "99999999.5_raw_sum": {
+          "actual": "4.003886057129753e-21",
+          "expected": "4.003886057129752942762E-21",
+          "signed_relative_error": 1.4295611609145525e-17,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "99999999.5_CND_voltage_50ohm": {
+          "actual": "4.003886036649883e-21",
+          "expected": "4.0038860366498825615467398274704E-21",
+          "signed_relative_error": 1.095069280591689e-16,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "99999999.5_source_signal_transport": {
+          "actual": "4.00388326995691653598332724849E-21",
+          "expected": "4.0038832699569187798784400E-21",
+          "signed_relative_error": -5.604297032304975e-16,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "99999999.5_budget_reconstruction": {
+          "actual": "4.003886036649883e-21",
+          "expected": "4.0038860366498855710104506800198730001E-21",
+          "signed_relative_error": -6.421287786780327e-16,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "100000000.5_source_in_P_V_Z": {
+          "actual": "4.0038860799222764e-21",
+          "expected": "4.0038860799222758752543887963916714204093723424365E-21",
+          "signed_relative_error": 1.3105907628965177e-16,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "100000000.5_source_out_P_V_Z": {
+          "actual": "4.003883290436772e-21",
+          "expected": "4.0038832904367723595774950815386401025789973551394E-21",
+          "signed_relative_error": -8.980718692285192e-17,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "100000000.5_device_out_P_V_Z": {
+          "actual": "2.766692980942762e-27",
+          "expected": "2.7666929809427616281548799040413800303878315809498E-27",
+          "signed_relative_error": 1.344005723285028e-16,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "100000000.5_total_out_P_V_Z": {
+          "actual": "4.003886057129753e-21",
+          "expected": "4.0038860571297525367705212194970498507892148920972E-21",
+          "signed_relative_error": 1.156949703789963e-16,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "100000000.5_raw_sum": {
+          "actual": "4.003886057129753e-21",
+          "expected": "4.003886057129752942762E-21",
+          "signed_relative_error": 1.4295611609145525e-17,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "100000000.5_CND_voltage_50ohm": {
+          "actual": "4.003886036649883e-21",
+          "expected": "4.0038860366498825615467398274704E-21",
+          "signed_relative_error": 1.095069280591689e-16,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "100000000.5_source_signal_transport": {
+          "actual": "4.00388326995691653598332724849E-21",
+          "expected": "4.0038832699569187798784400E-21",
+          "signed_relative_error": -5.604297032304975e-16,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "100000000.5_budget_reconstruction": {
+          "actual": "4.003886036649883e-21",
+          "expected": "4.0038860366498855710104506800198730001E-21",
+          "signed_relative_error": -6.421287786780327e-16,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "source_input_signal_noise_scale": {
+          "actual": "4.003886059442406e-21",
+          "expected": "4.0038860594424074997609360E-21",
+          "signed_relative_error": -3.7457632753137358e-16,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        }
+      },
+      "endpoints": [
+        {
+          "frequency_hz": 99999999.5,
+          "path_to_raw_ratio": "0.99999999488500179381195771182444442150058988628633",
+          "impedance_derived_ratio": "0.9999999948850018",
+          "device_exported": true,
+          "device_noise_raw": "2.766692980942762E-27",
+          "device_noise_fraction_kT": "6.9100190924078670608357156687991348884904360018068E-7",
+          "ideal_device_noise_legacy": "2.7657856205497307193781351845895990866497258149001E-27",
+          "device_ideal_relative_residual": 0.0003280660606120776
+        },
+        {
+          "frequency_hz": 100000000.5,
+          "path_to_raw_ratio": "0.99999999488500179381195771182444442150058988628633",
+          "impedance_derived_ratio": "0.9999999948850018",
+          "device_exported": true,
+          "device_noise_raw": "2.766692980942762E-27",
+          "device_noise_fraction_kT": "6.9100190924078670608357156687991348884904360018068E-7",
+          "ideal_device_noise_legacy": "2.7657856205497307193781351845895990866497258149001E-27",
+          "device_ideal_relative_residual": 0.0003280660606120776
+        }
+      ],
+      "reported_gain": 1,
+      "reported_nf": 1,
+      "signal_transfer": "0.99999930330547690251851546525102062089690586668249",
+      "signal_transfer_vs_ideal": -5.919237873491069e-09,
+      "reported_gain_vs_transfer": 6.966950084810781e-07,
+      "binary64_gain_vs_50digit": 1.2853678868995459e-17,
+      "ideal_gain": "0.99999930922471068714633001000828040785278304472927",
+      "ideal_nf": "1.0000006907757664836836130647870035545012170202981",
+      "preregistered_hypothesis_results": {
+        "hypothesis_round_to_unity_below_1e_6": {
+          "expected_unity": true,
+          "observed_unity": true,
+          "unity_pattern_matches": true
+        },
+        "hypothesis_no_threshold": {
+          "expected_unity": false,
+          "observed_unity": true,
+          "unity_pattern_matches": false
+        },
+        "hypothesis_db_threshold_1e_5": {
+          "expected_unity": true,
+          "observed_unity": true,
+          "unity_pattern_matches": true
+        }
+      },
+      "preregistered_noise_prediction_residual": -8.076158544262757e-10
+    },
+    {
+      "loss_db": "0.000006",
+      "new_case": true,
+      "checks": {
+        "99999999.5_source_in_P_V_Z": {
+          "actual": "4.003886079922277e-21",
+          "expected": "4.0038860799222770986073166497351150361012819866064E-21",
+          "signed_relative_error": -2.462790266291724e-17,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "99999999.5_source_out_P_V_Z": {
+          "actual": "4.003880528308219e-21",
+          "expected": "4.0038805283082194809471195600725883568951410245086E-21",
+          "signed_relative_error": -1.2012024738492627e-16,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "99999999.5_device_out_P_V_Z": {
+          "actual": "5.530356733982049e-27",
+          "expected": "5.5303567339820490947824965637232080039606062598445E-27",
+          "signed_relative_error": -1.7138586373880536e-17,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "99999999.5_total_out_P_V_Z": {
+          "actual": "4.003886058664954e-21",
+          "expected": "4.0038860586649542542405369758291006365310552095986E-21",
+          "signed_relative_error": -6.349844457377052e-17,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "99999999.5_raw_sum": {
+          "actual": "4.003886058664954e-21",
+          "expected": "4.003886058664952982049E-21",
+          "signed_relative_error": 2.5424075138127767e-16,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "99999999.5_CND_voltage_50ohm": {
+          "actual": "4.003886039641689e-21",
+          "expected": "4.0038860396416895310680675502961E-21",
+          "signed_relative_error": -1.3263815760296258e-16,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "99999999.5_source_signal_transport": {
+          "actual": "4.0038805092849810336073381035664E-21",
+          "expected": "4.0038805092849836093842320E-21",
+          "signed_relative_error": -6.433201210483721e-16,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "99999999.5_budget_reconstruction": {
+          "actual": "4.003886039641689e-21",
+          "expected": "4.0038860396416913156006425728300303369E-21",
+          "signed_relative_error": -5.783382992539053e-16,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "100000000.5_source_in_P_V_Z": {
+          "actual": "4.003886079922277e-21",
+          "expected": "4.0038860799222770986073166497351150361012819866064E-21",
+          "signed_relative_error": -2.462790266291724e-17,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "100000000.5_source_out_P_V_Z": {
+          "actual": "4.003880528308219e-21",
+          "expected": "4.0038805283082194809471195600725883568951410245086E-21",
+          "signed_relative_error": -1.2012024738492627e-16,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "100000000.5_device_out_P_V_Z": {
+          "actual": "5.530356733982049e-27",
+          "expected": "5.5303567339820490947824965637232080039606062598445E-27",
+          "signed_relative_error": -1.7138586373880536e-17,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "100000000.5_total_out_P_V_Z": {
+          "actual": "4.003886058664954e-21",
+          "expected": "4.0038860586649542542405369758291006365310552095986E-21",
+          "signed_relative_error": -6.349844457377052e-17,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "100000000.5_raw_sum": {
+          "actual": "4.003886058664954e-21",
+          "expected": "4.003886058664952982049E-21",
+          "signed_relative_error": 2.5424075138127767e-16,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "100000000.5_CND_voltage_50ohm": {
+          "actual": "4.003886039641689e-21",
+          "expected": "4.0038860396416895310680675502961E-21",
+          "signed_relative_error": -1.3263815760296258e-16,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "100000000.5_source_signal_transport": {
+          "actual": "4.0038805092849810336073381035664E-21",
+          "expected": "4.0038805092849836093842320E-21",
+          "signed_relative_error": -6.433201210483721e-16,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "100000000.5_budget_reconstruction": {
+          "actual": "4.003886039641689e-21",
+          "expected": "4.0038860396416913156006425728300303369E-21",
+          "signed_relative_error": -5.783382992539053e-16,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        },
+        "source_input_signal_noise_scale": {
+          "actual": "4.003886059966785e-21",
+          "expected": "4.0038860599667860600321200E-21",
+          "signed_relative_error": -2.6475082060871467e-16,
+          "relative_tolerance": 1e-12,
+          "passed": true
+        }
+      },
+      "endpoints": [
+        {
+          "frequency_hz": 99999999.5,
+          "path_to_raw_ratio": "0.99999999524879961086028729930456190798480368270207",
+          "impedance_derived_ratio": "0.99999999524879968",
+          "device_exported": true,
+          "device_noise_raw": "5.530356733982049E-27",
+          "device_noise_fraction_kT": "0.0000013812472465456033345363645403944252001410549594647",
+          "ideal_device_noise_legacy": "5.5315693305630992261855120240400507266299074857278E-27",
+          "device_ideal_relative_residual": -0.00021921384485780042
+        },
+        {
+          "frequency_hz": 100000000.5,
+          "path_to_raw_ratio": "0.99999999524879961086028729930456190798480368270207",
+          "impedance_derived_ratio": "0.99999999524879968",
+          "device_exported": true,
+          "device_noise_raw": "5.530356733982049E-27",
+          "device_noise_fraction_kT": "0.0000013812472465456033345363645403944252001410549594647",
+          "ideal_device_noise_legacy": "5.5315693305630992261855120240400507266299074857278E-27",
+          "device_ideal_relative_residual": -0.00021921384485780042
+        }
+      ],
+      "reported_gain": 1,
+      "reported_nf": 1,
+      "signal_transfer": "0.99999861367638356404848409388603008041343905296681",
+      "signal_transfer_vs_ideal": -4.773521575603718e-09,
+      "reported_gain_vs_transfer": 1.3863255383317854e-06,
+      "binary64_gain_vs_50digit": 5.52070909946559e-17,
+      "ideal_gain": "0.99999861844989854479298527670626278743881004101588",
+      "ideal_nf": "1.0000013815520101385267872501668740105399958577911",
+      "preregistered_hypothesis_results": {
+        "hypothesis_round_to_unity_below_1e_6": {
+          "expected_unity": false,
+          "observed_unity": true,
+          "unity_pattern_matches": false
+        },
+        "hypothesis_no_threshold": {
+          "expected_unity": false,
+          "observed_unity": true,
+          "unity_pattern_matches": false
+        },
+        "hypothesis_db_threshold_1e_5": {
+          "expected_unity": true,
+          "observed_unity": true,
+          "unity_pattern_matches": true
+        }
+      },
+      "preregistered_noise_prediction_residual": -6.040756088187187e-11
+    }
+  ],
+  "interpretation": {
+    "hypothesis_scope": "Unity-pattern checks distinguish candidates without fitting thresholds; consistent does not mean uniquely established.",
+    "conditional_transition_bracket_db": [
+      "0.000006",
+      "0.0001"
+    ],
+    "bracket_condition": "Assumes monotonic single transition; upper bound is historical, not a new run.",
+    "other_unexcluded_hypotheses": [
+      "Amplitude-domain tolerance",
+      "Other reporting floors or numerical branches"
+    ],
+    "normalization": "All archived endpoints reconstruct CND as |Vtotal|^2/(2*50); raw P uses actual spectral Z. This is an algebraic observation, not proof of internal implementation.",
+    "not_bypass": "Nonzero exported device noise and attenuated DCP persist while CGAIN/CNF equal unity.",
+    "still_open": "Origin of near-zero effective transport/device-noise errors and exact reporting transition."
+  }
+}

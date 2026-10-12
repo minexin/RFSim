@@ -1,0 +1,2325 @@
+{
+  "schema_version": 1,
+  "kind": "near_zero_identification_excerpt",
+  "preregistered_predictions": {
+    "registered_utc": "2026-10-12T05:26:11.590851+00:00",
+    "losses_db": [
+      "0.000003",
+      "0.000006"
+    ],
+    "max_new_analysis_calls": 2,
+    "exact_model_scope": "ATTN_Linear 100 MHz 290 K, Ta blank, source -160 dBm",
+    "proposed_threshold_not_established": true,
+    "discriminator": "exact unity vs non-unity numerical exports; independent relative diagnostics retain observed residuals",
+    "noise_component_test": "If report is unity but actual device noise is nonzero and DCP transfer attenuates, report clamp is distinct from physical bypass.",
+    "precision_test": "Compare 50-digit exponent/log formulas and binary64 rounding to measured errors; no fitted corrections.",
+    "original_vendor_tolerance": 1e-07,
+    "cases": [
+      {
+        "loss_db": "0.000003",
+        "gain_ideal": "0.99999930922471068714633001000828040785278304472927",
+        "noise_factor_ideal": "1.0000006907757664836836130647870035545012170202981",
+        "linear_delta": "6.9077528931285366998999171959214721695527073E-7",
+        "hypothesis_round_to_unity_below_1e_6": {
+          "CGAIN": "1",
+          "CNF": "1"
+        },
+        "hypothesis_no_threshold": {
+          "CGAIN": "0.99999930922471068714633001000828040785278304472927",
+          "CNF": "1.0000006907757664836836130647870035545012170202981"
+        },
+        "hypothesis_db_threshold_1e_5": {
+          "CGAIN": "1",
+          "CNF": "1"
+        },
+        "raw_device_ideal_legacy": "2.7657856205497307193781351845895990866497258149001E-27",
+        "routine_path_prediction": "4.0038860398834848451259380200654157370396924730791E-21"
+      },
+      {
+        "loss_db": "0.000006",
+        "gain_ideal": "0.99999861844989854479298527670626278743881004101588",
+        "noise_factor_ideal": "1.0000013815520101385267872501668740105399958577911",
+        "linear_delta": "0.00000138155010145520701472329373721256118995898412",
+        "hypothesis_round_to_unity_below_1e_6": {
+          "CGAIN": "0.99999861844989854479298527670626278743881004101588",
+          "CNF": "1.0000013815520101385267872501668740105399958577911"
+        },
+        "hypothesis_no_threshold": {
+          "CGAIN": "0.99999861844989854479298527670626278743881004101588",
+          "CNF": "1.0000013815520101385267872501668740105399958577911"
+        },
+        "hypothesis_db_threshold_1e_5": {
+          "CGAIN": "1",
+          "CNF": "1"
+        },
+        "raw_device_ideal_legacy": "5.5315693305630992261855120240400507266299074857278E-27",
+        "routine_path_prediction": "4.0038860398835539897183426313143342503973278122650E-21"
+      }
+    ]
+  },
+  "preregistration_sha256": "b5f0c3f7ae836c5202bb4b46ba5590dc12273d3a4e1a2e5798453b0e3abed26a",
+  "cases": [
+    {
+      "loss_db": "0",
+      "new_case": false,
+      "capture_path": "build-reference/near-zero/attenuator-scan-0.json",
+      "capture_sha256": "f31ea6dc9de045bc822714cdae58cbf81e1849e7d29d298624c9c3e526fc787d",
+      "run_started_utc": "2026-09-24T09:56:40.9417043Z",
+      "run_returned_utc": "2026-09-24T09:56:42.6387737Z",
+      "manager_errors": "",
+      "dataset_timestamp": "1790243802",
+      "spectrum_timestamp": "1790243802",
+      "parameters": {
+        "System1/RoomTemp": {
+          "data": 16.85,
+          "data_entry": null,
+          "data_source": null,
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Attn/ParamSet/L": {
+          "data": 1,
+          "data_entry": null,
+          "data_source": null,
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Attn/ParamSet/Ta": {
+          "data": "",
+          "data_entry": null,
+          "data_source": null,
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Attn/ParamSet/Zref": {
+          "data": "",
+          "data_entry": null,
+          "data_source": null,
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Attn/ParamSet/ZIN": {
+          "data": "",
+          "data_entry": null,
+          "data_source": null,
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Attn/ParamSet/ZOUT": {
+          "data": "",
+          "data_entry": null,
+          "data_source": null,
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Source/ParamSet/Freq": {
+          "captured": false
+        },
+        "Sch1/PartList/Source/ParamSet/Pwr": {
+          "captured": false
+        },
+        "Sch1/PartList/Source/ParamSet/R": {
+          "captured": false
+        },
+        "Sch1/PartList/Source/ParamSet/Ta": {
+          "captured": false
+        },
+        "Sch1/PartList/Port_2/ParamSet/ZO": {
+          "captured": false
+        },
+        "Sch1/PartList/Port_2/ParamSet/Ta": {
+          "captured": false
+        }
+      },
+      "effective_device_temperature_c": [
+        16.85
+      ],
+      "measurements": {
+        "CF": [
+          100000000,
+          100000000
+        ],
+        "CGAIN": [
+          1,
+          1
+        ],
+        "CNF": [
+          1,
+          1
+        ],
+        "CND": [
+          4.0038860601707116e-21,
+          4.00388603838358e-21
+        ],
+        "DCP": [
+          9.999999750669016e-20,
+          9.999989696901656e-20
+        ],
+        "ZIN": [
+          49.99999975334505,
+          0,
+          50,
+          0
+        ],
+        "ZOUT": [
+          50,
+          0,
+          49.999999764986576,
+          0
+        ]
+      },
+      "spectral_terms": [
+        {
+          "role": "source_in",
+          "port": 1,
+          "frequency_hz": 99999999.5,
+          "exported": true,
+          "identity": "{4}[Source_Noise:0],Source",
+          "power": 4.003886079922277e-21,
+          "voltage": [
+            6.327626759235365e-10,
+            0
+          ],
+          "impedance": [
+            49.99999950669011,
+            0
+          ]
+        },
+        {
+          "role": "source_in",
+          "port": 1,
+          "frequency_hz": 100000000.5,
+          "exported": true,
+          "identity": "{4}[Source_Noise:0],Source",
+          "power": 4.003886079922277e-21,
+          "voltage": [
+            6.327626759235365e-10,
+            0
+          ],
+          "impedance": [
+            49.99999950669011,
+            0
+          ]
+        },
+        {
+          "role": "source_out",
+          "port": 2,
+          "frequency_hz": 99999999.5,
+          "exported": true,
+          "identity": "{4}[Source_Noise:0],Source,Attn",
+          "power": 4.003882055440487e-21,
+          "voltage": [
+            6.327623594017515e-10,
+            0
+          ],
+          "impedance": [
+            49.99999974170351,
+            0
+          ]
+        },
+        {
+          "role": "source_out",
+          "port": 2,
+          "frequency_hz": 100000000.5,
+          "exported": true,
+          "identity": "{4}[Source_Noise:0],Source,Attn",
+          "power": 4.003882055440487e-21,
+          "voltage": [
+            6.327623594017515e-10,
+            0
+          ],
+          "impedance": [
+            49.99999974170351,
+            0
+          ]
+        },
+        {
+          "role": "device_out",
+          "port": 2,
+          "frequency_hz": 99999999.5,
+          "exported": true,
+          "identity": "{3}[Attn_Noise:1],Attn",
+          "power": 4.003626886860134e-27,
+          "voltage": [
+            6.327421960149077e-13,
+            0
+          ],
+          "impedance": [
+            49.99999974170351,
+            0
+          ]
+        },
+        {
+          "role": "device_out",
+          "port": 2,
+          "frequency_hz": 100000000.5,
+          "exported": true,
+          "identity": "{3}[Attn_Noise:1],Attn",
+          "power": 4.003626886860134e-27,
+          "voltage": [
+            6.327421960149077e-13,
+            0
+          ],
+          "impedance": [
+            49.99999974170351,
+            0
+          ]
+        },
+        {
+          "role": "total_out",
+          "port": 2,
+          "frequency_hz": 99999999.5,
+          "exported": true,
+          "identity": "Node Noise from 'Attn'",
+          "power": 4.003886059067374e-21,
+          "voltage": [
+            6.327626757626891e-10,
+            0
+          ],
+          "impedance": [
+            49.99999974170351,
+            0
+          ]
+        },
+        {
+          "role": "total_out",
+          "port": 2,
+          "frequency_hz": 100000000.5,
+          "exported": true,
+          "identity": "Node Noise from 'Attn'",
+          "power": 4.003886059067374e-21,
+          "voltage": [
+            6.327626757626891e-10,
+            0
+          ],
+          "impedance": [
+            49.99999974170351,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "loss_db": "0.00000001",
+      "new_case": false,
+      "capture_path": "build-reference/near-zero/attenuator-scan-0.00000001.json",
+      "capture_sha256": "5a913660d00cf8872542544160c1c96b3db5e72612e2cef0f4271308495de5c3",
+      "run_started_utc": "2026-09-24T09:56:56.0023809Z",
+      "run_returned_utc": "2026-09-24T09:56:56.3242857Z",
+      "manager_errors": "",
+      "dataset_timestamp": "1790243816",
+      "spectrum_timestamp": "1790243816",
+      "parameters": {
+        "System1/RoomTemp": {
+          "data": 16.85,
+          "data_entry": null,
+          "data_source": null,
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Attn/ParamSet/L": {
+          "data": 1.000000002302585,
+          "data_entry": null,
+          "data_source": null,
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Attn/ParamSet/Ta": {
+          "data": "",
+          "data_entry": null,
+          "data_source": null,
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Attn/ParamSet/Zref": {
+          "data": "",
+          "data_entry": null,
+          "data_source": null,
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Attn/ParamSet/ZIN": {
+          "data": "",
+          "data_entry": null,
+          "data_source": null,
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Attn/ParamSet/ZOUT": {
+          "data": "",
+          "data_entry": null,
+          "data_source": null,
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Source/ParamSet/Freq": {
+          "captured": false
+        },
+        "Sch1/PartList/Source/ParamSet/Pwr": {
+          "captured": false
+        },
+        "Sch1/PartList/Source/ParamSet/R": {
+          "captured": false
+        },
+        "Sch1/PartList/Source/ParamSet/Ta": {
+          "captured": false
+        },
+        "Sch1/PartList/Port_2/ParamSet/ZO": {
+          "captured": false
+        },
+        "Sch1/PartList/Port_2/ParamSet/Ta": {
+          "captured": false
+        }
+      },
+      "effective_device_temperature_c": [
+        16.85
+      ],
+      "measurements": {
+        "CF": [
+          100000000,
+          100000000
+        ],
+        "CGAIN": [
+          1,
+          1
+        ],
+        "CNF": [
+          1,
+          1
+        ],
+        "CND": [
+          4.00388616941611e-21,
+          4.003884767346462e-21
+        ],
+        "DCP": [
+          1.0000000023517427e-19,
+          9.999996521745418e-20
+        ],
+        "ZIN": [
+          50.00000111758712,
+          0,
+          49.99999999999999,
+          0
+        ],
+        "ZOUT": [
+          49.99999999999999,
+          0,
+          50.00000707805244,
+          0
+        ]
+      },
+      "spectral_terms": [
+        {
+          "role": "source_in",
+          "port": 1,
+          "frequency_hz": 99999999.5,
+          "exported": true,
+          "identity": "{4}[Source_Noise:0],Source",
+          "power": 4.003886079922277e-21,
+          "voltage": [
+            6.32762693188366e-10,
+            0
+          ],
+          "impedance": [
+            50.00000223517429,
+            0
+          ]
+        },
+        {
+          "role": "source_in",
+          "port": 1,
+          "frequency_hz": 100000000.5,
+          "exported": true,
+          "identity": "{4}[Source_Noise:0],Source",
+          "power": 4.003886079922277e-21,
+          "voltage": [
+            6.32762693188366e-10,
+            0
+          ],
+          "impedance": [
+            50.00000223517429,
+            0
+          ]
+        },
+        {
+          "role": "source_out",
+          "port": 2,
+          "frequency_hz": 99999999.5,
+          "exported": true,
+          "identity": "{4}[Source_Noise:0],Source,Attn",
+          "power": 4.003885155152911e-21,
+          "voltage": [
+            6.327625753271492e-10,
+            0
+          ],
+          "impedance": [
+            49.999995157123216,
+            0
+          ]
+        },
+        {
+          "role": "source_out",
+          "port": 2,
+          "frequency_hz": 100000000.5,
+          "exported": true,
+          "identity": "{4}[Source_Noise:0],Source,Attn",
+          "power": 4.003885155152911e-21,
+          "voltage": [
+            6.327625753271492e-10,
+            0
+          ],
+          "impedance": [
+            49.999995157123216,
+            0
+          ]
+        },
+        {
+          "role": "device_out",
+          "frequency_hz": 99999999.5,
+          "exported": false
+        },
+        {
+          "role": "device_out",
+          "frequency_hz": 100000000.5,
+          "exported": false
+        },
+        {
+          "role": "total_out",
+          "port": 2,
+          "frequency_hz": 99999999.5,
+          "exported": true,
+          "identity": "Node Noise from 'Attn'",
+          "power": 4.003885155152911e-21,
+          "voltage": [
+            6.327625753271492e-10,
+            0
+          ],
+          "impedance": [
+            49.999995157123216,
+            0
+          ]
+        },
+        {
+          "role": "total_out",
+          "port": 2,
+          "frequency_hz": 100000000.5,
+          "exported": true,
+          "identity": "Node Noise from 'Attn'",
+          "power": 4.003885155152911e-21,
+          "voltage": [
+            6.327625753271492e-10,
+            0
+          ],
+          "impedance": [
+            49.999995157123216,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "loss_db": "0.000001",
+      "new_case": false,
+      "capture_path": "build-reference/near-zero/attenuator-scan-0.000001.json",
+      "capture_sha256": "ae4a4af46d12166171b3a7f2a7de67ba4044ff908383186858ccc6a45b880789",
+      "run_started_utc": "2026-09-24T09:57:02.0708978Z",
+      "run_returned_utc": "2026-09-24T09:57:02.3051638Z",
+      "manager_errors": "",
+      "dataset_timestamp": "1790243822",
+      "spectrum_timestamp": "1790243822",
+      "parameters": {
+        "System1/RoomTemp": {
+          "data": 16.85,
+          "data_entry": null,
+          "data_source": null,
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Attn/ParamSet/L": {
+          "data": 1.0000002302585358,
+          "data_entry": null,
+          "data_source": null,
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Attn/ParamSet/Ta": {
+          "data": "",
+          "data_entry": null,
+          "data_source": null,
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Attn/ParamSet/Zref": {
+          "data": "",
+          "data_entry": null,
+          "data_source": null,
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Attn/ParamSet/ZIN": {
+          "data": "",
+          "data_entry": null,
+          "data_source": null,
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Attn/ParamSet/ZOUT": {
+          "data": "",
+          "data_entry": null,
+          "data_source": null,
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Source/ParamSet/Freq": {
+          "captured": false
+        },
+        "Sch1/PartList/Source/ParamSet/Pwr": {
+          "captured": false
+        },
+        "Sch1/PartList/Source/ParamSet/R": {
+          "captured": false
+        },
+        "Sch1/PartList/Source/ParamSet/Ta": {
+          "captured": false
+        },
+        "Sch1/PartList/Port_2/ParamSet/ZO": {
+          "captured": false
+        },
+        "Sch1/PartList/Port_2/ParamSet/Ta": {
+          "captured": false
+        }
+      },
+      "effective_device_temperature_c": [
+        16.85
+      ],
+      "measurements": {
+        "CF": [
+          100000000,
+          100000000
+        ],
+        "CGAIN": [
+          1,
+          1
+        ],
+        "CNF": [
+          1,
+          1
+        ],
+        "CND": [
+          4.003886071998345e-21,
+          4.003886052731823e-21
+        ],
+        "DCP": [
+          9.999999780209398e-20,
+          9.999997432112693e-20
+        ],
+        "ZIN": [
+          49.99999971478247,
+          0,
+          50,
+          0
+        ],
+        "ZOUT": [
+          50,
+          0,
+          49.99999980791472,
+          0
+        ]
+      },
+      "spectral_terms": [
+        {
+          "role": "source_in",
+          "port": 1,
+          "frequency_hz": 99999999.5,
+          "exported": true,
+          "identity": "{4}[Source_Noise:0],Source",
+          "power": 4.003886079922278e-21,
+          "voltage": [
+            6.327626766141296e-10,
+            0
+          ],
+          "impedance": [
+            49.999999615829445,
+            0
+          ]
+        },
+        {
+          "role": "source_in",
+          "port": 1,
+          "frequency_hz": 100000000.5,
+          "exported": true,
+          "identity": "{4}[Source_Noise:0],Source",
+          "power": 4.003886079922278e-21,
+          "voltage": [
+            6.327626766141296e-10,
+            0
+          ],
+          "impedance": [
+            49.999999615829445,
+            0
+          ]
+        },
+        {
+          "role": "source_out",
+          "port": 2,
+          "frequency_hz": 99999999.5,
+          "exported": true,
+          "identity": "{4}[Source_Noise:0],Source,Attn",
+          "power": 4.003885147228905e-21,
+          "voltage": [
+            6.327626041294758e-10,
+            0
+          ],
+          "impedance": [
+            49.99999980791472,
+            0
+          ]
+        },
+        {
+          "role": "source_out",
+          "port": 2,
+          "frequency_hz": 100000000.5,
+          "exported": true,
+          "identity": "{4}[Source_Noise:0],Source,Attn",
+          "power": 4.003885147228905e-21,
+          "voltage": [
+            6.327626041294758e-10,
+            0
+          ],
+          "impedance": [
+            49.99999980791472,
+            0
+          ]
+        },
+        {
+          "role": "device_out",
+          "port": 2,
+          "frequency_hz": 99999999.5,
+          "exported": true,
+          "identity": "{3}[Attn_Noise:1],Attn",
+          "power": 9.208846698565681e-28,
+          "voltage": [
+            3.0346081564491985e-13,
+            0
+          ],
+          "impedance": [
+            49.99999980791472,
+            0
+          ]
+        },
+        {
+          "role": "device_out",
+          "port": 2,
+          "frequency_hz": 100000000.5,
+          "exported": true,
+          "identity": "{3}[Attn_Noise:1],Attn",
+          "power": 9.208846698565681e-28,
+          "voltage": [
+            3.0346081564491985e-13,
+            0
+          ],
+          "impedance": [
+            49.99999980791472,
+            0
+          ]
+        },
+        {
+          "role": "total_out",
+          "port": 2,
+          "frequency_hz": 99999999.5,
+          "exported": true,
+          "identity": "Node Noise from 'Attn'",
+          "power": 4.003886068113574e-21,
+          "voltage": [
+            6.327626768964667e-10,
+            0
+          ],
+          "impedance": [
+            49.99999980791472,
+            0
+          ]
+        },
+        {
+          "role": "total_out",
+          "port": 2,
+          "frequency_hz": 100000000.5,
+          "exported": true,
+          "identity": "Node Noise from 'Attn'",
+          "power": 4.003886068113574e-21,
+          "voltage": [
+            6.327626768964667e-10,
+            0
+          ],
+          "impedance": [
+            49.99999980791472,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "loss_db": "0.0001",
+      "new_case": false,
+      "capture_path": "build-reference/near-zero/attenuator-scan-0.0001.json",
+      "capture_sha256": "c2b57d41f3476d562314dc73670dbe182b28518820bf1e082443062a0071d60c",
+      "run_started_utc": "2026-09-24T09:57:08.2872989Z",
+      "run_returned_utc": "2026-09-24T09:57:08.5188459Z",
+      "manager_errors": "",
+      "dataset_timestamp": "1790243828",
+      "spectrum_timestamp": "1790243828",
+      "parameters": {
+        "System1/RoomTemp": {
+          "data": 16.85,
+          "data_entry": null,
+          "data_source": null,
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Attn/ParamSet/L": {
+          "data": 1.0000230261160268,
+          "data_entry": null,
+          "data_source": null,
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Attn/ParamSet/Ta": {
+          "data": "",
+          "data_entry": null,
+          "data_source": null,
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Attn/ParamSet/Zref": {
+          "data": "",
+          "data_entry": null,
+          "data_source": null,
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Attn/ParamSet/ZIN": {
+          "data": "",
+          "data_entry": null,
+          "data_source": null,
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Attn/ParamSet/ZOUT": {
+          "data": "",
+          "data_entry": null,
+          "data_source": null,
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Source/ParamSet/Freq": {
+          "captured": false
+        },
+        "Sch1/PartList/Source/ParamSet/Pwr": {
+          "captured": false
+        },
+        "Sch1/PartList/Source/ParamSet/R": {
+          "captured": false
+        },
+        "Sch1/PartList/Source/ParamSet/Ta": {
+          "captured": false
+        },
+        "Sch1/PartList/Port_2/ParamSet/ZO": {
+          "captured": false
+        },
+        "Sch1/PartList/Port_2/ParamSet/Ta": {
+          "captured": false
+        }
+      },
+      "effective_device_temperature_c": [
+        16.85
+      ],
+      "measurements": {
+        "CF": [
+          100000000,
+          100000000
+        ],
+        "CGAIN": [
+          1,
+          0.9999769694104316
+        ],
+        "CNF": [
+          1,
+          1.0000230261197647
+        ],
+        "CND": [
+          4.003886059874837e-21,
+          4.003886039857277e-21
+        ],
+        "DCP": [
+          9.999999749930047e-20,
+          9.999769444040121e-20
+        ],
+        "ZIN": [
+          49.99999974965021,
+          0,
+          50,
+          0
+        ],
+        "ZOUT": [
+          50,
+          0,
+          49.999999749650215,
+          0
+        ]
+      },
+      "spectral_terms": [
+        {
+          "role": "source_in",
+          "port": 1,
+          "frequency_hz": 99999999.5,
+          "exported": true,
+          "identity": "{4}[Source_Noise:0],Source",
+          "power": 4.003886079922277e-21,
+          "voltage": [
+            6.327626758767773e-10,
+            0
+          ],
+          "impedance": [
+            49.99999949930042,
+            0
+          ]
+        },
+        {
+          "role": "source_in",
+          "port": 1,
+          "frequency_hz": 100000000.5,
+          "exported": true,
+          "identity": "{4}[Source_Noise:0],Source",
+          "power": 4.003886079922277e-21,
+          "voltage": [
+            6.327626758767773e-10,
+            0
+          ],
+          "impedance": [
+            49.99999949930042,
+            0
+          ]
+        },
+        {
+          "role": "source_out",
+          "port": 2,
+          "frequency_hz": 99999999.5,
+          "exported": true,
+          "identity": "{4}[Source_Noise:0],Source,Attn",
+          "power": 4.003793868065291e-21,
+          "voltage": [
+            6.327553909701847e-10,
+            0
+          ],
+          "impedance": [
+            49.999999749650215,
+            0
+          ]
+        },
+        {
+          "role": "source_out",
+          "port": 2,
+          "frequency_hz": 100000000.5,
+          "exported": true,
+          "identity": "{4}[Source_Noise:0],Source,Attn",
+          "power": 4.003793868065291e-21,
+          "voltage": [
+            6.327553909701847e-10,
+            0
+          ],
+          "impedance": [
+            49.999999749650215,
+            0
+          ]
+        },
+        {
+          "role": "device_out",
+          "port": 2,
+          "frequency_hz": 99999999.5,
+          "exported": true,
+          "identity": "{3}[Attn_Noise:1],Attn",
+          "power": 9.219183942650432e-26,
+          "voltage": [
+            3.036310902475242e-12,
+            0
+          ],
+          "impedance": [
+            49.999999749650215,
+            0
+          ]
+        },
+        {
+          "role": "device_out",
+          "port": 2,
+          "frequency_hz": 100000000.5,
+          "exported": true,
+          "identity": "{3}[Attn_Noise:1],Attn",
+          "power": 9.219183942650432e-26,
+          "voltage": [
+            3.036310902475242e-12,
+            0
+          ],
+          "impedance": [
+            49.999999749650215,
+            0
+          ]
+        },
+        {
+          "role": "total_out",
+          "port": 2,
+          "frequency_hz": 99999999.5,
+          "exported": true,
+          "identity": "Node Noise from 'Attn'",
+          "power": 4.003886059904718e-21,
+          "voltage": [
+            6.327626758791385e-10,
+            0
+          ],
+          "impedance": [
+            49.999999749650215,
+            0
+          ]
+        },
+        {
+          "role": "total_out",
+          "port": 2,
+          "frequency_hz": 100000000.5,
+          "exported": true,
+          "identity": "Node Noise from 'Attn'",
+          "power": 4.003886059904718e-21,
+          "voltage": [
+            6.327626758791385e-10,
+            0
+          ],
+          "impedance": [
+            49.999999749650215,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "loss_db": "0.01",
+      "new_case": false,
+      "capture_path": "build-reference/near-zero/attenuator-scan-0.01.json",
+      "capture_sha256": "040eeb1252539eae21d5a3be345c2994cb7b01e73f872474d56c725eb1d91921",
+      "run_started_utc": "2026-09-24T09:57:13.4359360Z",
+      "run_returned_utc": "2026-09-24T09:57:14.8277204Z",
+      "manager_errors": "",
+      "dataset_timestamp": "1790243834",
+      "spectrum_timestamp": "1790243834",
+      "parameters": {
+        "System1/RoomTemp": {
+          "data": 16.85,
+          "data_entry": null,
+          "data_source": null,
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Attn/ParamSet/L": {
+          "data": 1.0023052380778996,
+          "data_entry": null,
+          "data_source": null,
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Attn/ParamSet/Ta": {
+          "data": "",
+          "data_entry": null,
+          "data_source": null,
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Attn/ParamSet/Zref": {
+          "data": "",
+          "data_entry": null,
+          "data_source": null,
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Attn/ParamSet/ZIN": {
+          "data": "",
+          "data_entry": null,
+          "data_source": null,
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Attn/ParamSet/ZOUT": {
+          "data": "",
+          "data_entry": null,
+          "data_source": null,
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Source/ParamSet/Freq": {
+          "captured": false
+        },
+        "Sch1/PartList/Source/ParamSet/Pwr": {
+          "captured": false
+        },
+        "Sch1/PartList/Source/ParamSet/R": {
+          "captured": false
+        },
+        "Sch1/PartList/Source/ParamSet/Ta": {
+          "captured": false
+        },
+        "Sch1/PartList/Port_2/ParamSet/ZO": {
+          "captured": false
+        },
+        "Sch1/PartList/Port_2/ParamSet/Ta": {
+          "captured": false
+        }
+      },
+      "effective_device_temperature_c": [
+        16.85
+      ],
+      "measurements": {
+        "CF": [
+          100000000,
+          100000000
+        ],
+        "CGAIN": [
+          1,
+          0.9977000588336782
+        ],
+        "CNF": [
+          1,
+          1.0023052380781103
+        ],
+        "CND": [
+          4.0038860599033865e-21,
+          4.003886040113508e-21
+        ],
+        "DCP": [
+          9.999999750001348e-20,
+          9.977000338913112e-20
+        ],
+        "ZIN": [
+          49.999999750563795,
+          0,
+          50,
+          0
+        ],
+        "ZOUT": [
+          50,
+          0,
+          49.999999750563795,
+          0
+        ]
+      },
+      "spectral_terms": [
+        {
+          "role": "source_in",
+          "port": 1,
+          "frequency_hz": 99999999.5,
+          "exported": true,
+          "identity": "{4}[Source_Noise:0],Source",
+          "power": 4.003886079922278e-21,
+          "voltage": [
+            6.327626758848141e-10,
+            0
+          ],
+          "impedance": [
+            49.999999500570524,
+            0
+          ]
+        },
+        {
+          "role": "source_in",
+          "port": 1,
+          "frequency_hz": 100000000.5,
+          "exported": true,
+          "identity": "{4}[Source_Noise:0],Source",
+          "power": 4.003886079922278e-21,
+          "voltage": [
+            6.327626758848141e-10,
+            0
+          ],
+          "impedance": [
+            49.999999500570524,
+            0
+          ]
+        },
+        {
+          "role": "source_out",
+          "port": 2,
+          "frequency_hz": 99999999.5,
+          "exported": true,
+          "identity": "{4}[Source_Noise:0],Source,Attn",
+          "power": 3.994677377501801e-21,
+          "voltage": [
+            6.320346001232015e-10,
+            0
+          ],
+          "impedance": [
+            49.99999975000673,
+            0
+          ]
+        },
+        {
+          "role": "source_out",
+          "port": 2,
+          "frequency_hz": 100000000.5,
+          "exported": true,
+          "identity": "{4}[Source_Noise:0],Source,Attn",
+          "power": 3.994677377501801e-21,
+          "voltage": [
+            6.320346001232015e-10,
+            0
+          ],
+          "impedance": [
+            49.99999975000673,
+            0
+          ]
+        },
+        {
+          "role": "device_out",
+          "port": 2,
+          "frequency_hz": 99999999.5,
+          "exported": true,
+          "identity": "{3}[Attn_Noise:1],Attn",
+          "power": 9.208682630599236e-24,
+          "voltage": [
+            3.034581121762452e-11,
+            0
+          ],
+          "impedance": [
+            49.99999975000673,
+            0
+          ]
+        },
+        {
+          "role": "device_out",
+          "port": 2,
+          "frequency_hz": 100000000.5,
+          "exported": true,
+          "identity": "{3}[Attn_Noise:1],Attn",
+          "power": 9.208682630599236e-24,
+          "voltage": [
+            3.034581121762452e-11,
+            0
+          ],
+          "impedance": [
+            49.99999975000673,
+            0
+          ]
+        },
+        {
+          "role": "total_out",
+          "port": 2,
+          "frequency_hz": 99999999.5,
+          "exported": true,
+          "identity": "Node Noise from 'Attn'",
+          "power": 4.0038860601324e-21,
+          "voltage": [
+            6.327626758993855e-10,
+            0
+          ],
+          "impedance": [
+            49.99999975000673,
+            0
+          ]
+        },
+        {
+          "role": "total_out",
+          "port": 2,
+          "frequency_hz": 100000000.5,
+          "exported": true,
+          "identity": "Node Noise from 'Attn'",
+          "power": 4.0038860601324e-21,
+          "voltage": [
+            6.327626758993855e-10,
+            0
+          ],
+          "impedance": [
+            49.99999975000673,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "loss_db": "1",
+      "new_case": false,
+      "capture_path": "build-reference/near-zero/attenuator-scan-1.json",
+      "capture_sha256": "abc0762f7cfeb8c46e032d8f30581cba608666f0d39931c56eefbedd74c46ab4",
+      "run_started_utc": "2026-09-24T09:57:19.2118294Z",
+      "run_returned_utc": "2026-09-24T09:57:19.4413763Z",
+      "manager_errors": "",
+      "dataset_timestamp": "1790243839",
+      "spectrum_timestamp": "1790243839",
+      "parameters": {
+        "System1/RoomTemp": {
+          "data": 16.85,
+          "data_entry": null,
+          "data_source": null,
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Attn/ParamSet/L": {
+          "data": 1.2589254117941673,
+          "data_entry": null,
+          "data_source": null,
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Attn/ParamSet/Ta": {
+          "data": "",
+          "data_entry": null,
+          "data_source": null,
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Attn/ParamSet/Zref": {
+          "data": "",
+          "data_entry": null,
+          "data_source": null,
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Attn/ParamSet/ZIN": {
+          "data": "",
+          "data_entry": null,
+          "data_source": null,
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Attn/ParamSet/ZOUT": {
+          "data": "",
+          "data_entry": null,
+          "data_source": null,
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Source/ParamSet/Freq": {
+          "captured": false
+        },
+        "Sch1/PartList/Source/ParamSet/Pwr": {
+          "captured": false
+        },
+        "Sch1/PartList/Source/ParamSet/R": {
+          "captured": false
+        },
+        "Sch1/PartList/Source/ParamSet/Ta": {
+          "captured": false
+        },
+        "Sch1/PartList/Port_2/ParamSet/ZO": {
+          "captured": false
+        },
+        "Sch1/PartList/Port_2/ParamSet/Ta": {
+          "captured": false
+        }
+      },
+      "effective_device_temperature_c": [
+        16.85
+      ],
+      "measurements": {
+        "CF": [
+          100000000,
+          100000000
+        ],
+        "CGAIN": [
+          1,
+          0.7943282307526429
+        ],
+        "CNF": [
+          1,
+          1.2589254117941686
+        ],
+        "CND": [
+          4.003886059902843e-21,
+          4.003886060470589e-21
+        ],
+        "DCP": [
+          9.999999749999992e-20,
+          7.943282108944365e-20
+        ],
+        "ZIN": [
+          49.999999801418014,
+          0,
+          50,
+          0
+        ],
+        "ZOUT": [
+          50,
+          0,
+          49.99999980141789,
+          0
+        ]
+      },
+      "spectral_terms": [
+        {
+          "role": "source_in",
+          "port": 1,
+          "frequency_hz": 99999999.5,
+          "exported": true,
+          "identity": "{4}[Source_Noise:0],Source",
+          "power": 4.003886079922277e-21,
+          "voltage": [
+            6.327626762065577e-10,
+            0
+          ],
+          "impedance": [
+            49.999999551417964,
+            0
+          ]
+        },
+        {
+          "role": "source_in",
+          "port": 1,
+          "frequency_hz": 100000000.5,
+          "exported": true,
+          "identity": "{4}[Source_Noise:0],Source",
+          "power": 4.003886079922277e-21,
+          "voltage": [
+            6.327626762065577e-10,
+            0
+          ],
+          "impedance": [
+            49.999999551417964,
+            0
+          ]
+        },
+        {
+          "role": "source_out",
+          "port": 2,
+          "frequency_hz": 99999999.5,
+          "exported": true,
+          "identity": "{4}[Source_Noise:0],Source,Attn",
+          "power": 3.1803997459997897e-21,
+          "voltage": [
+            5.63950328495143e-10,
+            0
+          ],
+          "impedance": [
+            49.99999975000009,
+            0
+          ]
+        },
+        {
+          "role": "source_out",
+          "port": 2,
+          "frequency_hz": 100000000.5,
+          "exported": true,
+          "identity": "{4}[Source_Noise:0],Source,Attn",
+          "power": 3.1803997459997897e-21,
+          "voltage": [
+            5.63950328495143e-10,
+            0
+          ],
+          "impedance": [
+            49.99999975000009,
+            0
+          ]
+        },
+        {
+          "role": "device_out",
+          "port": 2,
+          "frequency_hz": 99999999.5,
+          "exported": true,
+          "identity": "{3}[Attn_Noise:1],Attn",
+          "power": 8.234863344902218e-22,
+          "voltage": [
+            2.869645152928828e-10,
+            0
+          ],
+          "impedance": [
+            49.99999975000009,
+            0
+          ]
+        },
+        {
+          "role": "device_out",
+          "port": 2,
+          "frequency_hz": 100000000.5,
+          "exported": true,
+          "identity": "{3}[Attn_Noise:1],Attn",
+          "power": 8.234863344902218e-22,
+          "voltage": [
+            2.869645152928828e-10,
+            0
+          ],
+          "impedance": [
+            49.99999975000009,
+            0
+          ]
+        },
+        {
+          "role": "total_out",
+          "port": 2,
+          "frequency_hz": 99999999.5,
+          "exported": true,
+          "identity": "Node Noise from 'Attn'",
+          "power": 4.003886080490012e-21,
+          "voltage": [
+            6.327626775079729e-10,
+            0
+          ],
+          "impedance": [
+            49.99999975000009,
+            0
+          ]
+        },
+        {
+          "role": "total_out",
+          "port": 2,
+          "frequency_hz": 100000000.5,
+          "exported": true,
+          "identity": "Node Noise from 'Attn'",
+          "power": 4.003886080490012e-21,
+          "voltage": [
+            6.327626775079729e-10,
+            0
+          ],
+          "impedance": [
+            49.99999975000009,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "loss_db": "0.000003",
+      "new_case": true,
+      "capture_path": "build-reference/attenuator-near-zero-3e-06dB-20261012T052620Z-0bc58366/capture.json",
+      "capture_sha256": "766b0093324db266b2eaa4bcc3b02726d9f80fc8f6c580bf4406dbdacdf717fb",
+      "run_started_utc": "2026-10-12T05:26:24.2549662Z",
+      "run_returned_utc": "2026-10-12T05:26:24.4862113Z",
+      "manager_errors": "",
+      "dataset_timestamp": "1791782784",
+      "spectrum_timestamp": "1791782784",
+      "parameters": {
+        "System1/RoomTemp": {
+          "data": 16.850000000000023,
+          "data_entry": "16.850000000000023",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Attn/ParamSet/L": {
+          "data": 1.0000006907757666,
+          "data_entry": "3E-06",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Attn/ParamSet/Ta": {
+          "data": "",
+          "data_entry": "",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Attn/ParamSet/Zref": {
+          "data": "",
+          "data_entry": "",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Attn/ParamSet/ZIN": {
+          "data": "",
+          "data_entry": "",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Attn/ParamSet/ZOUT": {
+          "data": "",
+          "data_entry": "",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Source/ParamSet/Freq": {
+          "data": 100000000,
+          "data_entry": "100",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Source/ParamSet/Pwr": {
+          "data": 1e-19,
+          "data_entry": "-160",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Source/ParamSet/R": {
+          "data": "",
+          "data_entry": "",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Source/ParamSet/Ta": {
+          "data": "",
+          "data_entry": "",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Port_2/ParamSet/ZO": {
+          "data": "",
+          "data_entry": "",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Port_2/ParamSet/Ta": {
+          "data": "",
+          "data_entry": "",
+          "data_source": "Data property",
+          "evaluation_error": null
+        }
+      },
+      "effective_device_temperature_c": [
+        16.850000000000023
+      ],
+      "measurements": {
+        "CF": [
+          100000000,
+          100000000
+        ],
+        "CGAIN": [
+          1,
+          1
+        ],
+        "CNF": [
+          1,
+          1
+        ],
+        "CND": [
+          4.003886059442406e-21,
+          4.003886036649883e-21
+        ],
+        "DCP": [
+          9.999999748850021e-20,
+          9.999992781904965e-20
+        ],
+        "ZIN": [
+          49.9999997442501,
+          0,
+          50,
+          0
+        ],
+        "ZOUT": [
+          50,
+          0,
+          49.99999974425009,
+          0
+        ]
+      },
+      "spectral_terms": [
+        {
+          "role": "source_in",
+          "port": 1,
+          "frequency_hz": 99999999.5,
+          "exported": true,
+          "identity": "{4}[Source_Noise:0],Source",
+          "power": 4.0038860799222764e-21,
+          "voltage": [
+            6.327626758084374e-10,
+            0
+          ],
+          "impedance": [
+            49.99999948850019,
+            0
+          ]
+        },
+        {
+          "role": "source_in",
+          "port": 1,
+          "frequency_hz": 100000000.5,
+          "exported": true,
+          "identity": "{4}[Source_Noise:0],Source",
+          "power": 4.0038860799222764e-21,
+          "voltage": [
+            6.327626758084374e-10,
+            0
+          ],
+          "impedance": [
+            49.99999948850019,
+            0
+          ]
+        },
+        {
+          "role": "source_out",
+          "port": 2,
+          "frequency_hz": 99999999.5,
+          "exported": true,
+          "identity": "{4}[Source_Noise:0],Source,Attn",
+          "power": 4.003883290436772e-21,
+          "voltage": [
+            6.32762457005543e-10,
+            0
+          ],
+          "impedance": [
+            49.99999974425009,
+            0
+          ]
+        },
+        {
+          "role": "source_out",
+          "port": 2,
+          "frequency_hz": 100000000.5,
+          "exported": true,
+          "identity": "{4}[Source_Noise:0],Source,Attn",
+          "power": 4.003883290436772e-21,
+          "voltage": [
+            6.32762457005543e-10,
+            0
+          ],
+          "impedance": [
+            49.99999974425009,
+            0
+          ]
+        },
+        {
+          "role": "device_out",
+          "port": 2,
+          "frequency_hz": 99999999.5,
+          "exported": true,
+          "identity": "{3}[Attn_Noise:1],Attn",
+          "power": 2.766692980942762e-27,
+          "voltage": [
+            5.259936279833751e-13,
+            0
+          ],
+          "impedance": [
+            49.99999974425009,
+            0
+          ]
+        },
+        {
+          "role": "device_out",
+          "port": 2,
+          "frequency_hz": 100000000.5,
+          "exported": true,
+          "identity": "{3}[Attn_Noise:1],Attn",
+          "power": 2.766692980942762e-27,
+          "voltage": [
+            5.259936279833751e-13,
+            0
+          ],
+          "impedance": [
+            49.99999974425009,
+            0
+          ]
+        },
+        {
+          "role": "total_out",
+          "port": 2,
+          "frequency_hz": 99999999.5,
+          "exported": true,
+          "identity": "Node Noise from 'Attn'",
+          "power": 4.003886057129753e-21,
+          "voltage": [
+            6.327626756256948e-10,
+            0
+          ],
+          "impedance": [
+            49.99999974425009,
+            0
+          ]
+        },
+        {
+          "role": "total_out",
+          "port": 2,
+          "frequency_hz": 100000000.5,
+          "exported": true,
+          "identity": "Node Noise from 'Attn'",
+          "power": 4.003886057129753e-21,
+          "voltage": [
+            6.327626756256948e-10,
+            0
+          ],
+          "impedance": [
+            49.99999974425009,
+            0
+          ]
+        }
+      ],
+      "before": {
+        "System1/RoomTemp": {
+          "data": 16.850000000000023,
+          "data_entry": "16.850000000000023",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Attn/ParamSet/L": {
+          "data": 1.2589254117941673,
+          "data_entry": "1",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Attn/ParamSet/Ta": {
+          "data": "",
+          "data_entry": "",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Attn/ParamSet/Zref": {
+          "data": "",
+          "data_entry": "",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Attn/ParamSet/ZIN": {
+          "data": "",
+          "data_entry": "",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Attn/ParamSet/ZOUT": {
+          "data": "",
+          "data_entry": "",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Source/ParamSet/Freq": {
+          "data": 100000000,
+          "data_entry": "100",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Source/ParamSet/Pwr": {
+          "data": 1e-19,
+          "data_entry": "-160",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Source/ParamSet/R": {
+          "data": "",
+          "data_entry": "",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Source/ParamSet/Ta": {
+          "data": "",
+          "data_entry": "",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Port_2/ParamSet/ZO": {
+          "data": "",
+          "data_entry": "",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Port_2/ParamSet/Ta": {
+          "data": "",
+          "data_entry": "",
+          "data_source": "Data property",
+          "evaluation_error": null
+        }
+      },
+      "restored": {
+        "System1/RoomTemp": {
+          "data": 16.850000000000023,
+          "data_entry": "16.850000000000023",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Attn/ParamSet/L": {
+          "data": 1.2589254117941673,
+          "data_entry": "1",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Attn/ParamSet/Ta": {
+          "data": "",
+          "data_entry": "",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Attn/ParamSet/Zref": {
+          "data": "",
+          "data_entry": "",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Attn/ParamSet/ZIN": {
+          "data": "",
+          "data_entry": "",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Attn/ParamSet/ZOUT": {
+          "data": "",
+          "data_entry": "",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Source/ParamSet/Freq": {
+          "data": 100000000,
+          "data_entry": "100",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Source/ParamSet/Pwr": {
+          "data": 1e-19,
+          "data_entry": "-160",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Source/ParamSet/R": {
+          "data": "",
+          "data_entry": "",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Source/ParamSet/Ta": {
+          "data": "",
+          "data_entry": "",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Port_2/ParamSet/ZO": {
+          "data": "",
+          "data_entry": "",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Port_2/ParamSet/Ta": {
+          "data": "",
+          "data_entry": "",
+          "data_source": "Data property",
+          "evaluation_error": null
+        }
+      },
+      "restored_sha256": "fdf64649c196efcb9915b9f490da71e211e084e8aab7177419e415610d8a8d0e",
+      "collection_status": {
+        "command": [
+          "C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe",
+          "-NoProfile",
+          "-NonInteractive",
+          "-File",
+          "D:\\project\\RFModel\\build-reference\\near-zero-identification-20261012\\capture-near-zero.ps1",
+          "-OutputDirectory",
+          "D:\\project\\RFModel\\build-reference\\attenuator-near-zero-3e-06dB-20261012T052620Z-0bc58366",
+          "-LossDb",
+          "3e-06"
+        ],
+        "started_utc": "2026-10-12T05:26:20.845571+00:00",
+        "systemvue": {
+          "Id": 21556,
+          "Responding": true,
+          "MainWindowHandle": 133156,
+          "MainWindowTitle": "SystemVue 2023"
+        },
+        "limit_seconds": 120,
+        "process_policy_override": false,
+        "planned_analysis_calls": 1,
+        "loss_db": 3e-06,
+        "script_sha256": "809bea2a70747f9189c11feea2aae8e31d95017ac6d68ff17aa87f882e2e8231",
+        "output_directory": "D:\\project\\RFModel\\build-reference\\attenuator-near-zero-3e-06dB-20261012T052620Z-0bc58366",
+        "helper_pid": 14508,
+        "elapsed_seconds": 5.75,
+        "exit_code": 0,
+        "status": "passed",
+        "dialog_evidence": [],
+        "progress_window_observations": [],
+        "finished_utc": "2026-10-12T05:26:26.594648+00:00"
+      }
+    },
+    {
+      "loss_db": "0.000006",
+      "new_case": true,
+      "capture_path": "build-reference/attenuator-near-zero-6e-06dB-20261012T052634Z-9207ba1c/capture.json",
+      "capture_sha256": "fa73703a42fdb0aa238a442f3501679737470485a891bc1d42363a406805d393",
+      "run_started_utc": "2026-10-12T05:26:37.7016146Z",
+      "run_returned_utc": "2026-10-12T05:26:37.9165173Z",
+      "manager_errors": "",
+      "dataset_timestamp": "1791782797",
+      "spectrum_timestamp": "1791782797",
+      "parameters": {
+        "System1/RoomTemp": {
+          "data": 16.850000000000023,
+          "data_entry": "16.850000000000023",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Attn/ParamSet/L": {
+          "data": 1.0000013815520101,
+          "data_entry": "6E-06",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Attn/ParamSet/Ta": {
+          "data": "",
+          "data_entry": "",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Attn/ParamSet/Zref": {
+          "data": "",
+          "data_entry": "",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Attn/ParamSet/ZIN": {
+          "data": "",
+          "data_entry": "",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Attn/ParamSet/ZOUT": {
+          "data": "",
+          "data_entry": "",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Source/ParamSet/Freq": {
+          "data": 100000000,
+          "data_entry": "100",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Source/ParamSet/Pwr": {
+          "data": 1e-19,
+          "data_entry": "-160",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Source/ParamSet/R": {
+          "data": "",
+          "data_entry": "",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Source/ParamSet/Ta": {
+          "data": "",
+          "data_entry": "",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Port_2/ParamSet/ZO": {
+          "data": "",
+          "data_entry": "",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Port_2/ParamSet/Ta": {
+          "data": "",
+          "data_entry": "",
+          "data_source": "Data property",
+          "evaluation_error": null
+        }
+      },
+      "effective_device_temperature_c": [
+        16.850000000000023
+      ],
+      "measurements": {
+        "CF": [
+          100000000,
+          100000000
+        ],
+        "CGAIN": [
+          1,
+          1
+        ],
+        "CNF": [
+          1,
+          1
+        ],
+        "CND": [
+          4.003886059966785e-21,
+          4.003886039641689e-21
+        ],
+        "DCP": [
+          9.999999750159695e-20,
+          9.999985886923877e-20
+        ],
+        "ZIN": [
+          49.99999977408152,
+          0,
+          50,
+          0
+        ],
+        "ZOUT": [
+          50,
+          0,
+          49.999999762439984,
+          0
+        ]
+      },
+      "spectral_terms": [
+        {
+          "role": "source_in",
+          "port": 1,
+          "frequency_hz": 99999999.5,
+          "exported": true,
+          "identity": "{4}[Source_Noise:0],Source",
+          "power": 4.003886079922277e-21,
+          "voltage": [
+            6.327626760386352e-10,
+            0
+          ],
+          "impedance": [
+            49.999999524879975,
+            0
+          ]
+        },
+        {
+          "role": "source_in",
+          "port": 1,
+          "frequency_hz": 100000000.5,
+          "exported": true,
+          "identity": "{4}[Source_Noise:0],Source",
+          "power": 4.003886079922277e-21,
+          "voltage": [
+            6.327626760386352e-10,
+            0
+          ],
+          "impedance": [
+            49.999999524879975,
+            0
+          ]
+        },
+        {
+          "role": "source_out",
+          "port": 2,
+          "frequency_hz": 99999999.5,
+          "exported": true,
+          "identity": "{4}[Source_Noise:0],Source,Attn",
+          "power": 4.003880528308219e-21,
+          "voltage": [
+            6.327622388610892e-10,
+            0
+          ],
+          "impedance": [
+            49.999999762439984,
+            0
+          ]
+        },
+        {
+          "role": "source_out",
+          "port": 2,
+          "frequency_hz": 100000000.5,
+          "exported": true,
+          "identity": "{4}[Source_Noise:0],Source,Attn",
+          "power": 4.003880528308219e-21,
+          "voltage": [
+            6.327622388610892e-10,
+            0
+          ],
+          "impedance": [
+            49.999999762439984,
+            0
+          ]
+        },
+        {
+          "role": "device_out",
+          "port": 2,
+          "frequency_hz": 99999999.5,
+          "exported": true,
+          "identity": "{3}[Attn_Noise:1],Attn",
+          "power": 5.530356733982049e-27,
+          "voltage": [
+            7.436636812233213e-13,
+            0
+          ],
+          "impedance": [
+            49.999999762439984,
+            0
+          ]
+        },
+        {
+          "role": "device_out",
+          "port": 2,
+          "frequency_hz": 100000000.5,
+          "exported": true,
+          "identity": "{3}[Attn_Noise:1],Attn",
+          "power": 5.530356733982049e-27,
+          "voltage": [
+            7.436636812233213e-13,
+            0
+          ],
+          "impedance": [
+            49.999999762439984,
+            0
+          ]
+        },
+        {
+          "role": "total_out",
+          "port": 2,
+          "frequency_hz": 99999999.5,
+          "exported": true,
+          "identity": "Node Noise from 'Attn'",
+          "power": 4.003886058664954e-21,
+          "voltage": [
+            6.327626758621031e-10,
+            0
+          ],
+          "impedance": [
+            49.999999762439984,
+            0
+          ]
+        },
+        {
+          "role": "total_out",
+          "port": 2,
+          "frequency_hz": 100000000.5,
+          "exported": true,
+          "identity": "Node Noise from 'Attn'",
+          "power": 4.003886058664954e-21,
+          "voltage": [
+            6.327626758621031e-10,
+            0
+          ],
+          "impedance": [
+            49.999999762439984,
+            0
+          ]
+        }
+      ],
+      "before": {
+        "System1/RoomTemp": {
+          "data": 16.850000000000023,
+          "data_entry": "16.850000000000023",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Attn/ParamSet/L": {
+          "data": 1.2589254117941673,
+          "data_entry": "1",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Attn/ParamSet/Ta": {
+          "data": "",
+          "data_entry": "",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Attn/ParamSet/Zref": {
+          "data": "",
+          "data_entry": "",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Attn/ParamSet/ZIN": {
+          "data": "",
+          "data_entry": "",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Attn/ParamSet/ZOUT": {
+          "data": "",
+          "data_entry": "",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Source/ParamSet/Freq": {
+          "data": 100000000,
+          "data_entry": "100",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Source/ParamSet/Pwr": {
+          "data": 1e-19,
+          "data_entry": "-160",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Source/ParamSet/R": {
+          "data": "",
+          "data_entry": "",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Source/ParamSet/Ta": {
+          "data": "",
+          "data_entry": "",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Port_2/ParamSet/ZO": {
+          "data": "",
+          "data_entry": "",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Port_2/ParamSet/Ta": {
+          "data": "",
+          "data_entry": "",
+          "data_source": "Data property",
+          "evaluation_error": null
+        }
+      },
+      "restored": {
+        "System1/RoomTemp": {
+          "data": 16.850000000000023,
+          "data_entry": "16.850000000000023",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Attn/ParamSet/L": {
+          "data": 1.2589254117941673,
+          "data_entry": "1",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Attn/ParamSet/Ta": {
+          "data": "",
+          "data_entry": "",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Attn/ParamSet/Zref": {
+          "data": "",
+          "data_entry": "",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Attn/ParamSet/ZIN": {
+          "data": "",
+          "data_entry": "",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Attn/ParamSet/ZOUT": {
+          "data": "",
+          "data_entry": "",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Source/ParamSet/Freq": {
+          "data": 100000000,
+          "data_entry": "100",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Source/ParamSet/Pwr": {
+          "data": 1e-19,
+          "data_entry": "-160",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Source/ParamSet/R": {
+          "data": "",
+          "data_entry": "",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Source/ParamSet/Ta": {
+          "data": "",
+          "data_entry": "",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Port_2/ParamSet/ZO": {
+          "data": "",
+          "data_entry": "",
+          "data_source": "Data property",
+          "evaluation_error": null
+        },
+        "Sch1/PartList/Port_2/ParamSet/Ta": {
+          "data": "",
+          "data_entry": "",
+          "data_source": "Data property",
+          "evaluation_error": null
+        }
+      },
+      "restored_sha256": "feb8d40e27229bfce00558a2b27e6f48a6abfdd1b158be702580157a664d215e",
+      "collection_status": {
+        "command": [
+          "C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe",
+          "-NoProfile",
+          "-NonInteractive",
+          "-File",
+          "D:\\project\\RFModel\\build-reference\\near-zero-identification-20261012\\capture-near-zero.ps1",
+          "-OutputDirectory",
+          "D:\\project\\RFModel\\build-reference\\attenuator-near-zero-6e-06dB-20261012T052634Z-9207ba1c",
+          "-LossDb",
+          "6e-06"
+        ],
+        "started_utc": "2026-10-12T05:26:34.258634+00:00",
+        "systemvue": {
+          "Id": 21556,
+          "Responding": true,
+          "MainWindowHandle": 133156,
+          "MainWindowTitle": "SystemVue 2023"
+        },
+        "limit_seconds": 120,
+        "process_policy_override": false,
+        "planned_analysis_calls": 1,
+        "loss_db": 6e-06,
+        "script_sha256": "809bea2a70747f9189c11feea2aae8e31d95017ac6d68ff17aa87f882e2e8231",
+        "output_directory": "D:\\project\\RFModel\\build-reference\\attenuator-near-zero-6e-06dB-20261012T052634Z-9207ba1c",
+        "helper_pid": 20796,
+        "elapsed_seconds": 5.578,
+        "exit_code": 0,
+        "status": "passed",
+        "dialog_evidence": [],
+        "progress_window_observations": [
+          {
+            "handle": 1313294,
+            "class": "#32770",
+            "title": "System1 Simulation Status"
+          }
+        ],
+        "finished_utc": "2026-10-12T05:26:39.835603+00:00"
+      }
+    }
+  ],
+  "limits": [
+    "Two fresh runs only; six historical cases were read without rerun.",
+    "Reconstruction based on measured spectra is not an independent prediction.",
+    "Missing exported device spectrum does not establish physically zero noise.",
+    "Empty default impedance parameters do not establish resolved model defaults."
+  ]
+}

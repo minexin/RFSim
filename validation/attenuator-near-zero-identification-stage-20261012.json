@@ -1,0 +1,323 @@
+{
+  "schema_version": 1,
+  "stage_recorded_start_utc": "2026-10-12T05:25:30.947021+00:00",
+  "verification_finished_utc": "2026-10-12T05:34:13.225209+00:00",
+  "start_note": "Starts after preliminary read-only review; not the entire user waiting interval.",
+  "base_commit": "6d2133bdf14cf8ec6a3746c5226bb166fca0465b",
+  "new_systemvue_analysis_limit": 2,
+  "new_systemvue_analysis_calls": 2,
+  "per_helper_hard_timeout_seconds": 120,
+  "durations_seconds": {
+    "recorded_stage": 522.278188,
+    "helper_collection_and_restoration": 11.328,
+    "RunScript_intervals": [
+      0.231245,
+      0.214903
+    ],
+    "interruption": 0,
+    "offline_analysis_documentation_verification_and_overhead": 510.950188
+  },
+  "duration_note": "RunScript intervals are included in helper durations; do not sum them twice. Offline time is elapsed wall time, not CPU time.",
+  "automation_complete": true,
+  "simulation_complete": true,
+  "vendor_numeric_passed": false,
+  "vendor_checks": {
+    "passed": 2,
+    "total": 8,
+    "relative_tolerance": 1e-07,
+    "comparison_expected_exit_code": 1
+  },
+  "parameter_restoration_verified": true,
+  "restored_loss_db": 1,
+  "restored_global_temperature_k": 290,
+  "restored_source_power_dbm": -160,
+  "restored_device_Ta_expression": "",
+  "remaining_dataset_loss_db": 6e-06,
+  "baseline_rerun": false,
+  "tests": [
+    {
+      "name": "near_zero_tests",
+      "seconds": 0.15699999989010394,
+      "exit_code": 0,
+      "log": "build-reference\\near-zero-identification-20261012\\near_zero_tests.log"
+    },
+    {
+      "name": "previous_noise_tests",
+      "seconds": 0.125,
+      "exit_code": 0,
+      "log": "build-reference\\near-zero-identification-20261012\\previous_noise_tests.log"
+    },
+    {
+      "name": "original_comparator_tests",
+      "seconds": 0.125,
+      "exit_code": 0,
+      "log": "build-reference\\near-zero-identification-20261012\\original_comparator_tests.log"
+    },
+    {
+      "name": "near_zero_replay",
+      "seconds": 0.10899999993853271,
+      "exit_code": 0,
+      "log": "build-reference\\near-zero-identification-20261012\\near_zero_replay.log"
+    }
+  ],
+  "independent_probe_math": {
+    "probe": "D:\\project\\RFModel\\build-reference\\quality-51a8350-20261012\\build-Release\\Release\\reference_attenuator.exe",
+    "probe_sha256": "6949f1691fe6d3b5b552556e3d5098aa6ac5aee2025f04bce47c3c470ed5e8c8",
+    "cases": [
+      {
+        "loss_db": "0.000003",
+        "probe_actual": {
+          "gain": 0.9999993092247108,
+          "noise_factor": 1.0000006907757666,
+          "output_noise_w_per_hz": 4.0038821e-21,
+          "signal_output_w": 9.999993092247108e-20
+        },
+        "checks": [
+          {
+            "metric": "gain",
+            "expected_50digit": "0.99999930922471068714633001000828040785278304472927",
+            "relative_error": 1.128537479465721e-16,
+            "relative_tolerance": 1e-13,
+            "passed": true
+          },
+          {
+            "metric": "noise_factor",
+            "expected_50digit": "1.0000006907757664836836130647870035545012170202981",
+            "relative_error": 1.1631630658672716e-16,
+            "relative_tolerance": 1e-13,
+            "passed": true
+          },
+          {
+            "metric": "output_noise_w_per_hz",
+            "expected_50digit": "4.00388210E-21",
+            "relative_error": 0.0,
+            "relative_tolerance": 1e-13,
+            "passed": true
+          },
+          {
+            "metric": "signal_output_w",
+            "expected_50digit": "9.9999930922471068714633001000828040785278304472927E-20",
+            "relative_error": 1.128537479465721e-16,
+            "relative_tolerance": 1e-13,
+            "passed": true
+          }
+        ]
+      },
+      {
+        "loss_db": "0.000006",
+        "probe_actual": {
+          "gain": 0.9999986184498987,
+          "noise_factor": 1.0000013815520101,
+          "output_noise_w_per_hz": 4.0038821e-21,
+          "signal_output_w": 9.999986184498986e-20
+        },
+        "checks": [
+          {
+            "metric": "gain",
+            "expected_50digit": "0.99999861844989854479298527670626278743881004101588",
+            "relative_error": 1.5520722914985692e-16,
+            "relative_tolerance": 1e-13,
+            "passed": true
+          },
+          {
+            "metric": "noise_factor",
+            "expected_50digit": "1.0000013815520101385267872501668740105399958577911",
+            "relative_error": 3.852673402348004e-17,
+            "relative_tolerance": 1e-13,
+            "passed": true
+          },
+          {
+            "metric": "output_noise_w_per_hz",
+            "expected_50digit": "4.00388210E-21",
+            "relative_error": 0.0,
+            "relative_tolerance": 1e-13,
+            "passed": true
+          },
+          {
+            "metric": "signal_output_w",
+            "expected_50digit": "9.9999861844989854479298527670626278743881004101588E-20",
+            "relative_error": 5.52070909946559e-17,
+            "relative_tolerance": 1e-13,
+            "passed": true
+          }
+        ]
+      }
+    ]
+  },
+  "preserved_files": [
+    {
+      "path": "scripts/reference/archive-cascade-reference.py",
+      "sha256": "a482db6bd6ae64c050d74e6df321749ec84a7098fb7aa49733079183149806dc",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/reference/capture-cascade-reference.ps1",
+      "sha256": "fb42165db2ad10c6213a415c2080e1eeb6e5ec0bcd1dc119bb1d1707c5283f3e",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/reference/compare-cascade-amplifier.py",
+      "sha256": "af1260adb093946954d0fb7e4bb2059669706a291418aac19ba193fed7554d9d",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/reference/run-systemvue-reference.py",
+      "sha256": "5df486d061ce09c28b396bf62e7fcba473dc6e9086d52861fdc7be6c85864f4e",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/reference/test_compare_cascade_amplifier.py",
+      "sha256": "190ea23b0ce0733846db8052ead9bb4d5ba41ff30e007c1f06e1a1753bc3fcf1",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/reference/test_run_systemvue_reference.py",
+      "sha256": "7eeeb2f890e59b986fec7eb9af58313f129b73ffccfd924f2f273ff52c396eb5",
+      "unchanged": true
+    },
+    {
+      "path": "measurements_test.obj",
+      "sha256": "4935bda18e7d8471560016c7303f3b7136842ab2ec429975440c7d617de3d97f",
+      "unchanged": true
+    },
+    {
+      "path": "verify-measurements.cmd",
+      "sha256": "c629d73c222dad5768c3c33c88a66eea99daf012dc79885f6cd7a7f0cebf7f7f",
+      "unchanged": true
+    }
+  ],
+  "source_workspace_sha256": "89784b61cb3ec533b70618f8bb4b32a0ae883cc61d90e6f9445fab2cec8e1616",
+  "raw_artifacts": [
+    {
+      "path": "build-reference/near-zero-identification-20261012/capture-near-zero.ps1",
+      "sha256": "809bea2a70747f9189c11feea2aae8e31d95017ac6d68ff17aa87f882e2e8231",
+      "size_bytes": 4676
+    },
+    {
+      "path": "build-reference/near-zero-identification-20261012/independent-probe-check.json",
+      "sha256": "4e5e3011b613a6c5505782be2fb345da255fba97894dd1f54f48b8f7ca331cbb",
+      "size_bytes": 2837
+    },
+    {
+      "path": "build-reference/near-zero-identification-20261012/near_zero_replay.log",
+      "sha256": "4af25900f20cf6f3a4ff128feaf830b4d85a0a29d281d0b3e7f6104ba8de5ceb",
+      "size_bytes": 114
+    },
+    {
+      "path": "build-reference/near-zero-identification-20261012/near_zero_tests.log",
+      "sha256": "791771017f2a92cafb6c4febc9941092e9609cbedf06aa4700233bfedeb93c9f",
+      "size_bytes": 111
+    },
+    {
+      "path": "build-reference/near-zero-identification-20261012/original_comparator_tests.log",
+      "sha256": "9762eaf1298ee1e66a5fdf1633cf446dc583d4fa0155cecfc6715a87fa46d5e4",
+      "size_bytes": 112
+    },
+    {
+      "path": "build-reference/near-zero-identification-20261012/preregistered-predictions.json",
+      "sha256": "b5f0c3f7ae836c5202bb4b46ba5590dc12273d3a4e1a2e5798453b0e3abed26a",
+      "size_bytes": 2559
+    },
+    {
+      "path": "build-reference/near-zero-identification-20261012/previous_noise_tests.log",
+      "sha256": "ef8b6be13eafed5769f5b4675184f06f6051ede8eae5340b294b1d2938fb3569",
+      "size_bytes": 109
+    },
+    {
+      "path": "build-reference/near-zero-identification-20261012/run-near-zero.py",
+      "sha256": "89743d4436108ec8f46c6933311cd9291b888fa8c9fac90806962ae9c5f267d9",
+      "size_bytes": 4239
+    },
+    {
+      "path": "build-reference/near-zero-identification-20261012/stage-start.json",
+      "sha256": "7aa18bbcce69117143c967264871cc12d313663bbd12d4536a8c3d157630675f",
+      "size_bytes": 1469
+    },
+    {
+      "path": "build-reference/near-zero-identification-20261012/verification-steps.json",
+      "sha256": "3ed6d614d90abe9a046acf3f0e017c4c820b7bc719bb9b20610ef79d75105747",
+      "size_bytes": 757
+    },
+    {
+      "path": "build-reference/near-zero-identification-20261012/verified-replay.json",
+      "sha256": "0578c87447cc522d3e89f309ad696ea87806bbe21dd35a308a78ce89b9adbd57",
+      "size_bytes": 56051
+    },
+    {
+      "path": "build-reference/attenuator-near-zero-3e-06dB-20261012T052620Z-0bc58366/before.json",
+      "sha256": "8fcae894c29f0e6779e9d0110a63107f666a1e73bbafefa7b9c036cfe05c1c7f",
+      "size_bytes": 662006
+    },
+    {
+      "path": "build-reference/attenuator-near-zero-3e-06dB-20261012T052620Z-0bc58366/capture.json",
+      "sha256": "766b0093324db266b2eaa4bcc3b02726d9f80fc8f6c580bf4406dbdacdf717fb",
+      "size_bytes": 661870
+    },
+    {
+      "path": "build-reference/attenuator-near-zero-3e-06dB-20261012T052620Z-0bc58366/configured.json",
+      "sha256": "a28f1b5063f0408c8a39ef7969c345e67dd2e8611d323501d10eba2efd9214eb",
+      "size_bytes": 662010
+    },
+    {
+      "path": "build-reference/attenuator-near-zero-3e-06dB-20261012T052620Z-0bc58366/restored.json",
+      "sha256": "fdf64649c196efcb9915b9f490da71e211e084e8aab7177419e415610d8a8d0e",
+      "size_bytes": 661866
+    },
+    {
+      "path": "build-reference/attenuator-near-zero-3e-06dB-20261012T052620Z-0bc58366/status.json",
+      "sha256": "a6b515d26d5e6d3843d05ea4d519223b507fefcc0d23404772468048a9573337",
+      "size_bytes": 1142
+    },
+    {
+      "path": "build-reference/attenuator-near-zero-3e-06dB-20261012T052620Z-0bc58366/stderr.log",
+      "sha256": "70d949d75fd63db4cdf9c88c484675ed7f13c3df15115a4c2e7e95f88f2cb966",
+      "size_bytes": 515
+    },
+    {
+      "path": "build-reference/attenuator-near-zero-3e-06dB-20261012T052620Z-0bc58366/stdout.log",
+      "sha256": "44c6aa41ada35ff65be607f71c5a34bcb4fe2d0c694ce4b67e6110cc970f8cad",
+      "size_bytes": 481
+    },
+    {
+      "path": "build-reference/attenuator-near-zero-6e-06dB-20261012T052634Z-9207ba1c/before.json",
+      "sha256": "74ad5c5eacc35ecc1acc1af6e75f106e0567be9ff7a03e705aff8ad103242125",
+      "size_bytes": 661631
+    },
+    {
+      "path": "build-reference/attenuator-near-zero-6e-06dB-20261012T052634Z-9207ba1c/capture.json",
+      "sha256": "fa73703a42fdb0aa238a442f3501679737470485a891bc1d42363a406805d393",
+      "size_bytes": 662035
+    },
+    {
+      "path": "build-reference/attenuator-near-zero-6e-06dB-20261012T052634Z-9207ba1c/configured.json",
+      "sha256": "135b9451311c0b137669814429e721b63e355e557332b13eb07b0949cbc5a660",
+      "size_bytes": 661635
+    },
+    {
+      "path": "build-reference/attenuator-near-zero-6e-06dB-20261012T052634Z-9207ba1c/restored.json",
+      "sha256": "feb8d40e27229bfce00558a2b27e6f48a6abfdd1b158be702580157a664d215e",
+      "size_bytes": 662031
+    },
+    {
+      "path": "build-reference/attenuator-near-zero-6e-06dB-20261012T052634Z-9207ba1c/status.json",
+      "sha256": "011adbc2b1f1010e81f0924d1ce7f9ffd9e64c95149bcf403b57a78328ed37c4",
+      "size_bytes": 1257
+    },
+    {
+      "path": "build-reference/attenuator-near-zero-6e-06dB-20261012T052634Z-9207ba1c/stderr.log",
+      "sha256": "ee5aa3d99ebb2dfd72267466bf6ad3c7a02ce7260fe81adc13b519c082586729",
+      "size_bytes": 515
+    },
+    {
+      "path": "build-reference/attenuator-near-zero-6e-06dB-20261012T052634Z-9207ba1c/stdout.log",
+      "sha256": "7d19fbfc81319a48cf3feb4ddc949c6210c61cd7fc61f58be66696baf659bab9",
+      "size_bytes": 481
+    }
+  ],
+  "core_changes": false,
+  "security_changes": false,
+  "workspace_saved": false,
+  "systemvue_terminated": false,
+  "pushed": false,
+  "conclusion": "Near-zero CGAIN/CNF unity persists to 6e-6 dB, rejecting preregistered 1e-6 linear-delta threshold. Actual spectral impedance accounts for raw-power/path normalization; internal report transition and raw spectrum generation remain open."
+}
