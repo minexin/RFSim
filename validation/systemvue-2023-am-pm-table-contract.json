@@ -1,0 +1,85 @@
+{
+  "schema_version": 1,
+  "status": "decision_pending_implementation_paused",
+  "started_utc": "2026-10-12T02:59:20+00:00",
+  "recorded_utc": "2026-10-12T03:05:28.574292+00:00",
+  "elapsed_seconds": 368.574292,
+  "sources": [
+    {
+      "page": "sim/AM_to_AM_and_AM_to_PM.html",
+      "sha256": "c2ac604e0324249320c573208c8551b724eb80f4cfce67f5ca63ab2f859e4d35"
+    },
+    {
+      "page": "sim/AM_to_AM_or_PM.html",
+      "sha256": "d867c17ff6983ff8d97e2e2220d6d339f8e4d2c17c4642765dc4357304cd9fc7"
+    },
+    {
+      "page": "sim/AM_to_PM_-_Legacy.html",
+      "sha256": "be7cf57c758c726d1369ff3534df2b8bdd9b391285b5f9b1d77ad84e3588edc1"
+    },
+    {
+      "page": "sim/Compression_Curve.html",
+      "sha256": "37f42d2f3c581879d590bfd660050571dfbac62b09fb5737055e09ccadf21251"
+    },
+    {
+      "page": "rfdesign/RFAMP.html",
+      "sha256": "84b3b35eba9f3015924368d2e3a4004030e7357f3de1218b6dc837c22a6705ca"
+    }
+  ],
+  "qch_sha256": "eacdae962108181a917525b8e233d5b33d97f683674d1c79007c1c2b7a24bd83",
+  "example": {
+    "path": "C:\\Program Files\\Keysight\\SystemVue2023\\Examples\\RF Architecture Design\\RF Design Kit\\AM to AM PM\\AM to PM Basics.wsv",
+    "sha256": "ead90a212c786eff0cfa782dab47dbfe14c421b3f43b32c573bb990cb8348877",
+    "observed": "Saved RFAMP Mode=2; equation extracts output node 2 DCP/DCPH; no interpolation rule found"
+  },
+  "confirmed": {
+    "legacy_datapoints": "equal-length output dBm / fundamental output phase degrees; monotonically increasing power",
+    "compression_curve": "input power axis, absolute phase, zero phase default, constant phase extrapolation below/above data"
+  },
+  "unresolved": [
+    "interpolation variable and algorithm",
+    "phase unwrapping across +/-180 degrees",
+    "derivative at table knots"
+  ],
+  "additional_boundary": "input-vs-output power axis and absolute-vs-incremental phase composition must not be silently conflated",
+  "options": [
+    {
+      "id": "A",
+      "name": "RFModel custom piecewise-linear dBm phase curve",
+      "recommended": true,
+      "rules": "No automatic unwrap, constant extension, explicit nondifferentiability at slope jumps; scalar curve only",
+      "vendor_compatibility": false
+    },
+    {
+      "id": "B",
+      "name": "RFModel custom smooth curve",
+      "rules": "Select interpolation family and endpoint derivative contract before implementation",
+      "vendor_compatibility": false
+    },
+    {
+      "id": "C",
+      "name": "Wait for vendor contract or discriminating reference",
+      "rules": "No table implementation yet"
+    }
+  ],
+  "discriminating_case": {
+    "power_dbm": [
+      0,
+      10,
+      20
+    ],
+    "phase_degrees": [
+      0,
+      20,
+      0
+    ],
+    "sample_dbm": 5,
+    "dbm_linear_phase_deg": 10,
+    "watt_linear_phase_deg": 4.805061467040844,
+    "amplitude_linear_phase_deg": 7.198700003942298,
+    "classification": "mathematical candidates only, not vendor observations"
+  },
+  "implementation": "not_started",
+  "build_ctest": "not_run_no_core_changes",
+  "new_systemvue_com_or_capture": false
+}
