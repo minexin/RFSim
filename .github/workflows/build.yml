@@ -28,6 +28,8 @@ jobs:
         run: python scripts/test_verify_installed_python.py
       - name: Test reference inventory tools
         run: python scripts/reference/test_extract_rf_models.py
+      - name: Test reference parameter metadata
+        run: python scripts/reference/test_extract_rf_parameters.py
       - name: Test reference result validation
         run: python scripts/reference/test_compare_attenuator.py
       - name: Test background reference runner

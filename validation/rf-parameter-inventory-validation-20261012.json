@@ -1,0 +1,133 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-12",
+  "stage": "A07 complete model parameter table inventory",
+  "base_commit": "d6ac1d9ee644d55ccc07ebfe09b7464fa2470423",
+  "source_qch_sha256": "eacdae962108181a917525b8e233d5b33d97f683674d1c79007c1c2b7a24bd83",
+  "counts": {
+    "part_count": 243,
+    "model_count": 281,
+    "part_model_link_count": 401,
+    "parameter_count": 3404,
+    "explicit_port_record_count": 13
+  },
+  "explicit_port_model_count": 5,
+  "models_needing_manual_review": [
+    "rfdesign/ArrayXParam.html",
+    "rfdesign/GND.html",
+    "rfdesign/MultiSource.html"
+  ],
+  "independent_dom_verification": {
+    "status": "passed",
+    "method": "independent lxml DOM row/column extraction",
+    "model_pages_checked": 281,
+    "parameter_records_checked": 3404,
+    "explicit_port_records_checked": 13,
+    "metadata_sha256": "8ddc5795fcab3573bff866c3e59748613c266eb6900727a8e0f24f8b0f8a0010",
+    "scope": "Parameter names, defaults, units, types, tunability, ranges, table/row positions and model HTML hashes; explicit port tables; not prose, diagram port conventions or compatibility."
+  },
+  "independent_checker_rejects_modified_default": true,
+  "same_source_byte_replay": true,
+  "local_regressions": [
+    {
+      "platform": "Windows",
+      "tests": [
+        {
+          "command": "python scripts/reference/test_extract_rf_parameters.py",
+          "passed": 15,
+          "failed": 0
+        },
+        {
+          "command": "python scripts/reference/test_extract_rf_models.py",
+          "passed": 2,
+          "failed": 0
+        }
+      ]
+    },
+    {
+      "platform": "Linux/WSL",
+      "tests": [
+        {
+          "command": "python scripts/reference/test_extract_rf_parameters.py",
+          "passed": 15,
+          "failed": 0
+        },
+        {
+          "command": "python scripts/reference/test_extract_rf_models.py",
+          "passed": 2,
+          "failed": 0
+        }
+      ]
+    }
+  ],
+  "local_native_rebuild": "not repeated: no native source, ABI or Python binding changes; previous same-core six-configuration CI archived separately; current commit full CI follows push",
+  "unchanged_evidence": {
+    "validation/systemvue-2023-rf-catalog.json": "a4e34849f35604c348fb4538a1b7f134be0eaa55e21a6d46749afda9bcb46353",
+    "validation/systemvue-2023-rf-models.json": "6884b3921dba96e1175bc9b9092908a7d31c864d66ccbce39431f1e5edf22e69",
+    "validation/systemvue-2023-attn-linear-assessment.json": "1ae000b487417a5c1a678ada7299c034fa2b56d9d16319a967270841af82ce0a"
+  },
+  "prior_uncommitted_files": [
+    {
+      "path": "scripts/reference/archive-cascade-reference.py",
+      "sha256": "a482db6bd6ae64c050d74e6df321749ec84a7098fb7aa49733079183149806dc",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/reference/capture-cascade-reference.ps1",
+      "sha256": "fb42165db2ad10c6213a415c2080e1eeb6e5ec0bcd1dc119bb1d1707c5283f3e",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/reference/compare-cascade-amplifier.py",
+      "sha256": "af1260adb093946954d0fb7e4bb2059669706a291418aac19ba193fed7554d9d",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/reference/run-systemvue-reference.py",
+      "sha256": "5df486d061ce09c28b396bf62e7fcba473dc6e9086d52861fdc7be6c85864f4e",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/reference/test_compare_cascade_amplifier.py",
+      "sha256": "190ea23b0ce0733846db8052ead9bb4d5ba41ff30e007c1f06e1a1753bc3fcf1",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/reference/test_run_systemvue_reference.py",
+      "sha256": "7eeeb2f890e59b986fec7eb9af58313f129b73ffccfd924f2f273ff52c396eb5",
+      "unchanged": true
+    },
+    {
+      "path": "measurements_test.obj",
+      "sha256": "4935bda18e7d8471560016c7303f3b7136842ab2ec429975440c7d617de3d97f",
+      "unchanged": true
+    },
+    {
+      "path": "verify-measurements.cmd",
+      "sha256": "c629d73c222dad5768c3c33c88a66eea99daf012dc79885f6cd7a7f0cebf7f7f",
+      "unchanged": true
+    }
+  ],
+  "source_files": {
+    "scripts/reference/extract-rf-parameters.py": "64dd3f82e48c77212891b18e39228ebb68d7e25a61e07ac210eb7f0e318ef0a6",
+    "scripts/reference/verify-rf-parameters.py": "10389558d05af3661a94daef74b647089de9e6b37e91e10fd525cbe823863120",
+    "scripts/reference/test_extract_rf_parameters.py": "772e714c65b6ffd4bc25170c5cec36e52e2f00168954dc1062a11557860b9444",
+    "scripts/reference/extract-rf-catalog.py": "fa514db9cfcb79f3067e9d556e996943b90d100fda9c22fe261d585c59980210",
+    ".github/workflows/build.yml": "b6a1a88f3656d0d05c5204476e51c7e9c17b9778f548b60cc4c9fc8718ec2199",
+    "docs/rf-design-catalog.md": "25a69553887585b9752100c8193a6919d31cffc6a4107187c354981277fb4677",
+    "docs/acceptance-audit-20261012.md": "e76be90f67bed04284b634a03eee420566a46d8546bd5f865e4154cb7f3bba82",
+    "README.md": "3b1bfbaa5e1720732d1ced52303f170df0f9155a87a9442e62fcad221174e193",
+    "validation/systemvue-2023-rf-parameters.json": "8ddc5795fcab3573bff866c3e59748613c266eb6900727a8e0f24f8b0f8a0010",
+    "validation/monte-carlo-joint-api-ci-validation-20261012.json": "8ddd88986a6cf33d87417e244d91dff679dcae01fc9cb91a98b1bde47463db93"
+  },
+  "new_systemvue_analysis_calls": 0,
+  "full_A07_closed": false,
+  "current_commit_remote_ci": "pending push at report creation",
+  "limitations": [
+    "Metadata is not implementation or compatibility evidence.",
+    "Prose constraints/enumerations, diagram ports, reference conventions, applicable analyses and API mappings remain per-model work.",
+    "Three model pages retain manual review items; duplicate source parameter rows are not merged.",
+    "Independent DOM checker requires lxml; extractor and regression tests require only Python standard library."
+  ],
+  "input_inventory_hash_convention": "UTF-8 bytes with CRLF normalized to LF; verified in local regression"
+}

@@ -5,6 +5,7 @@ import json
 import posixpath
 import sqlite3
 import zlib
+from contextlib import closing
 from html.parser import HTMLParser
 from pathlib import Path
 from urllib.parse import unquote, urlsplit
@@ -34,7 +35,7 @@ class PartLinks(HTMLParser):
 
 def extract(qch_path):
     page = "rfdesign/RF_Design_Kit_Library.html"
-    with sqlite3.connect(qch_path.resolve().as_uri() + "?mode=ro", uri=True) as database:
+    with closing(sqlite3.connect(qch_path.resolve().as_uri() + "?mode=ro", uri=True)) as database:
         rows = database.execute(
             "SELECT d.Data FROM FileNameTable f JOIN FileDataTable d "
             "ON f.FileId=d.Id WHERE f.Name=?", (page,)

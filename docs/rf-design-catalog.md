@@ -46,3 +46,34 @@ python scripts/reference/test_extract_rf_models.py
 新增[理想无损 Butterworth 原型](butterworth-filter.md)，四类频率变换已贯通接口。该实现尚无滤波器实测证据，未升级 LPF_BUTTER/HPF_BUTTER/BPF_BUTTER/BSF_BUTTER 的兼容评定。
 
 新增[理想无损 Chebyshev I](chebyshev-filter.md) 四类参数化响应及接口，含独立纹波和带边衰减。仅完成解析/工程回归，LPF_CHEBY/HPF_CHEBY/BPF_CHEBY/BSF_CHEBY 的厂商行为评定仍待实测。
+
+## 全部模型的参数表元数据（2026-10-12）
+
+[参数清单](../validation/systemvue-2023-rf-parameters.json)逐页读取既有 281 个模型，保留全部 243 个器件和 401 条关联。共提取 **3,404 条参数记录**及 **13 条显式端口表记录**；参数记录包含不同表中的重复项，并非 3,404 个独立功能。默认值、单位、类型、运行时可调标记和 Range 列均保留为未经求值的文本。空单元格为 `""`，不存在的列为 `null`；`None`、`none`、枚举值及数组表达式不会自动转换成 Python 值。没有 Range 列不代表参数无限制，正文可能另有约束。
+
+每条参数用帮助页、表序号和行序号定位，保存页面与规范化表内容的 SHA-256。输入目录 JSON 指纹将 CRLF 统一为 LF，避免 Git 跨平台检出行尾导致误报；QCH 与解压页面仍按原始字节取指纹。清单不复制参数描述正文；描述只留摘要指纹。原目录、模型关系、已有兼容报告保持原状态，新记录统一标为 `metadata_only` / `not_assessed_here`，不会把已有厂商失败改成“未执行”。
+
+| 需人工复核的页面 | 保留的问题 |
+|---|---|
+| `rfdesign/ArrayXParam.html` | 主参数表已提取；补充参数说明表含嵌套表，正文契约仍需人工核对 |
+| `rfdesign/GND.html` | 未发现参数记录；不据此推断它没有参数或已经兼容 |
+| `rfdesign/MultiSource.html` | 主表和参数选项表都列出 PORT/R，保留两份原文及位置，不自动合并或决定优先级 |
+
+算法库与硬件库引用仍在范围内。只有五个模型页提供本提取器识别的显式端口表；其余页面的 `not_found_in_explicit_tables` 表示端口图/正文尚未解释，不能用于猜测端口数。每个模型仍需补充参数枚举、正文范围、参考面、适用分析、API 映射和数值证据，A07 仍开放。
+
+```powershell
+python scripts/reference/extract-rf-parameters.py `
+  'C:/Program Files/Keysight/SystemVue2023/Help/systemvue.qch' `
+  validation/systemvue-2023-rf-catalog.json `
+  validation/systemvue-2023-rf-models.json `
+  build-reference/rf-parameters-replay.json
+python scripts/reference/test_extract_rf_parameters.py
+# 独立 DOM 交叉核对需要 lxml；提取器和上述测试仅用标准库。
+python scripts/reference/verify-rf-parameters.py `
+  'C:/Program Files/Keysight/SystemVue2023/Help/systemvue.qch' `
+  validation/systemvue-2023-rf-parameters.json
+```
+
+提取前重新验证目录和全部模型关联，核对页面指纹及提取前后 QCH 指纹；复杂、缺列、重复及未识别表格显式列入复核。CLI 拒绝覆盖输入或其硬链接，失败保留旧输出，成功后原子替换。目录提取器同时修复 SQLite 连接退出时未显式关闭的问题。
+
+[本阶段验证](../validation/rf-parameter-inventory-validation-20261012.json)记录 Windows/Linux 的 15 项新测试及 2 项既有测试、全量独立 DOM 核对、原目录和用户草稿保护。测试加入三平台六配置 CI；当前提交远程状态另行核验。没有改动原生求解器、ABI、wheel 或新增 SystemVue 分析调用。
