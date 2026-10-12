@@ -52,6 +52,9 @@ if(RFMODEL_BUILD_C_API)
     endif()
     add_test(NAME c_api_test COMMAND c_api_test "${CMAKE_CURRENT_SOURCE_DIR}/tests/sweep.s2p"
         "${CMAKE_CURRENT_SOURCE_DIR}/examples/noisy-amplifier.s2p")
+    add_executable(c_api_frequency_plan_test tests/c_api_frequency_plan_test.c)
+    target_link_libraries(c_api_frequency_plan_test PRIVATE RFModel::c_api)
+    add_test(NAME c_api_frequency_plan_test COMMAND c_api_frequency_plan_test)
     option(RFMODEL_REQUIRE_PYTHON_TESTS "Require Python binding tests during configuration" OFF)
     if(RFMODEL_REQUIRE_PYTHON_TESTS)
         find_package(Python3 3.9 COMPONENTS Interpreter REQUIRED)
@@ -65,6 +68,8 @@ if(RFMODEL_BUILD_C_API)
             ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_linear_noise_analysis.py $<TARGET_FILE:rfmodel_c>)
         add_test(NAME am_pm_datapoints_hypotheses_test COMMAND ${Python3_EXECUTABLE}
             ${CMAKE_CURRENT_SOURCE_DIR}/scripts/reference/test_analyze_am_pm_datapoints.py)
+        add_test(NAME conversion_frequency_plan_file_test COMMAND ${Python3_EXECUTABLE}
+            ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_conversion_frequency_plan.py $<TARGET_FILE:rfmodel_c>)
         add_test(NAME am_pm_existing_reference_diagnostic_test COMMAND ${Python3_EXECUTABLE}
             ${CMAKE_CURRENT_SOURCE_DIR}/scripts/reference/test_diagnose_am_pm_reference.py $<TARGET_FILE:rfmodel_c>)
         add_test(NAME offline_attenuator_diagnostic_test COMMAND ${Python3_EXECUTABLE}

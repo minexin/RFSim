@@ -1,0 +1,345 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-12",
+  "stage": "Native conversion-frequency C ABI Python and JSON integration",
+  "base_commit": "6a150cd63c000bf21f8fbdb9fa8848cbd85a5598",
+  "new_c_symbols": [
+    "rfmodel_plan_conversion_frequencies"
+  ],
+  "abi_version": 1,
+  "previous_c_structure_layouts_changed": false,
+  "msvc": {
+    "clean_first": true,
+    "debug_ctest": "126/126",
+    "release_ctest": "126/126",
+    "debug_installed_consumers": "2/2",
+    "release_installed_consumers": "2/2"
+  },
+  "python": {
+    "source_ctest_runtime": "3.10",
+    "wheel_runtime": "3.12.14",
+    "imported_from_wheel": true,
+    "installed_module_bytes_match_sources": true,
+    "test_count": 122,
+    "suites": [
+      {
+        "name": "conversion_frequency_plan",
+        "test_count": 10,
+        "path": "build-reference/frequency-plan-api-wheel-conversion_frequency_plan.log",
+        "sha256": "3caf3b3a85dd0abd55b0910466808e385e1ee25e6d9a86dab1e4f31c9fc3c9d1",
+        "exit_code": 0
+      },
+      {
+        "name": "conversion_network",
+        "test_count": 13,
+        "path": "build-reference/frequency-plan-api-wheel-conversion_network.log",
+        "sha256": "701408330f662f7bb1ca0457a7b601553f94752e2fcd94cd3eab522529bd861a",
+        "exit_code": 0
+      },
+      {
+        "name": "am_pm_operating_point",
+        "test_count": 14,
+        "path": "build-reference/frequency-plan-api-wheel-am_pm_operating_point.log",
+        "sha256": "ff22e4ece9abe29bb3330ce0d9aef6a13f48ba8e7b70afee67fd734a8f94db97",
+        "exit_code": 0
+      },
+      {
+        "name": "python_api",
+        "test_count": 85,
+        "path": "build-reference/frequency-plan-api-wheel-python_api.log",
+        "sha256": "fa3a4b2a9710b496e1de517204821fbf7ef0633310c4044e3d0b3fc7a57e5d3c",
+        "exit_code": 0
+      }
+    ],
+    "wheel": {
+      "path": "build-reference/frequency-plan-api-dist/rfmodel-0.1.0-py3-none-any.whl",
+      "sha256": "1c20c26eb20f49d4a9b6c0ee1426fbf10366590db0165d4b4baa15e2d066e93a"
+    },
+    "native_library": {
+      "path": "build-reference/frequency-plan-api-install-Release/bin/rfmodel_c.dll",
+      "sha256": "63d8937a1f0e2fd9aebb65cf51b4faf8be83e78c1db766da1b2e7274f0add457"
+    }
+  },
+  "example": {
+    "input_path": "examples/auto-frequency-mixer-polynomial.json",
+    "output_path": "build-reference/frequency-plan-api-example-result.json",
+    "sha256": "53333f1f009bfb504921b0a2a04d78d94e326bed41997cd2d38d739a9999b90c",
+    "frequency_plan": {
+      "method": "native_structural_closure",
+      "total_channels": 24,
+      "generated_channels": 19,
+      "iterations": 4,
+      "transitions": 140,
+      "limits": {
+        "max_total_channels": 512,
+        "max_bin": 16,
+        "max_transitions": 10000000
+      },
+      "devices": [
+        {
+          "id": "line",
+          "seed_channel_indices": [
+            0,
+            2,
+            1,
+            3
+          ]
+        },
+        {
+          "id": "mixer",
+          "seed_channel_indices": [
+            2
+          ]
+        },
+        {
+          "id": "polynomial",
+          "seed_channel_indices": []
+        }
+      ],
+      "generated_boundary_channels": [
+        [
+          "polynomial",
+          1,
+          0
+        ],
+        [
+          "polynomial",
+          1,
+          1
+        ],
+        [
+          "polynomial",
+          1,
+          2
+        ],
+        [
+          "polynomial",
+          1,
+          3
+        ],
+        [
+          "polynomial",
+          1,
+          4
+        ],
+        [
+          "polynomial",
+          1,
+          5
+        ],
+        [
+          "polynomial",
+          1,
+          6
+        ],
+        [
+          "polynomial",
+          1,
+          7
+        ],
+        [
+          "polynomial",
+          1,
+          8
+        ]
+      ]
+    },
+    "operating_point": {
+      "method": "damped_newton",
+      "iterations": 1,
+      "backtracks": 0,
+      "scaled_residual": 8.2465219686227e-08,
+      "relative_tolerance": 1e-09,
+      "absolute_tolerance_sqrt_w": 1e-12
+    }
+  },
+  "coverage": [
+    "C query/fill, capacities including unused tails, nested-input/output alias rejection and no writes on failure",
+    "Native fixed-point planning including a constant-feedback loop with no seeds",
+    "JSON automatic 24-channel chain versus explicit grid and independent time-domain Fourier projection",
+    "Source/intrinsic/additional C/P, complex cross terms, output offsets, initial waves and AM-PM seed-index remapping",
+    "Original linear bin-major data remapped to canonical port/bin order",
+    "Explicit generated boundaries, seed-boundary omissions, parameterized-model port-count mismatch",
+    "Nonclosure limits, invalid fields, CLI failure preserves old result and input document remains unchanged"
+  ],
+  "logs": [
+    {
+      "path": "build-reference/frequency-plan-api-build-Debug.log",
+      "sha256": "fc6d0f1d14cde89bfdd601315df06ef2a15ff07678ef54ff4feee262ceba9787",
+      "exit_code": 0
+    },
+    {
+      "path": "build-reference/frequency-plan-api-ctest-Debug.log",
+      "sha256": "7122aa8833d221da915ec9c2eecd57603791e82dfaf3774390e21297a215f22e",
+      "exit_code": 0
+    },
+    {
+      "path": "build-reference/frequency-plan-api-install-Debug.log",
+      "sha256": "290af5a067c78c4109450c989d28be2b42d1367085662d57e15e23ca85c2147f",
+      "exit_code": 0
+    },
+    {
+      "path": "build-reference/frequency-plan-api-consumer-configure-Debug.log",
+      "sha256": "58bf0f91cd9ecc9b298a02e4f43b5f93ba713ab410f8621446a31a4486ebb53f",
+      "exit_code": 0
+    },
+    {
+      "path": "build-reference/frequency-plan-api-consumer-build-Debug.log",
+      "sha256": "e90ec4218859630d40048915a12942e50e319632482dcc52deb144253c747ff3",
+      "exit_code": 0
+    },
+    {
+      "path": "build-reference/frequency-plan-api-consumer-ctest-Debug.log",
+      "sha256": "0ecb56d452e04b8a3d122422256a45760b843e90f35cf6927dcf0ede12bf3fb5",
+      "exit_code": 0
+    },
+    {
+      "path": "build-reference/frequency-plan-api-build-Release.log",
+      "sha256": "d54e968bfe3f0ee7b95d7475b8d8174e4ce07a894d0d6c7e8a2fe855ce4c0f4c",
+      "exit_code": 0
+    },
+    {
+      "path": "build-reference/frequency-plan-api-ctest-Release.log",
+      "sha256": "ccd51ff85b85c9ce1cb72d146ccaa4fb6a3fcfb6e68dcb651eb3cf245c78b0cb",
+      "exit_code": 0
+    },
+    {
+      "path": "build-reference/frequency-plan-api-install-Release.log",
+      "sha256": "b1fc61b1a685384d7d1f13ab826318ae194aee8413905724b83313bb4aadb4e7",
+      "exit_code": 0
+    },
+    {
+      "path": "build-reference/frequency-plan-api-consumer-configure-Release.log",
+      "sha256": "099e7b062f249c1625f177cdd9d1c35532f9f465a5ef19abd667cab240db0faa",
+      "exit_code": 0
+    },
+    {
+      "path": "build-reference/frequency-plan-api-consumer-build-Release.log",
+      "sha256": "71c2d316a1b4367a2a4ec9af700125bfb33175474e09f884b8f0c06c683462b9",
+      "exit_code": 0
+    },
+    {
+      "path": "build-reference/frequency-plan-api-consumer-ctest-Release.log",
+      "sha256": "c810158f4f4988eed28d840d6e2296bac5aab64468703759345ca05881b90c68",
+      "exit_code": 0
+    },
+    {
+      "path": "build-reference/frequency-plan-api-format.log",
+      "sha256": "fda05b42469cd0df1268393f7bb62183cbb3bbfe3b7e82122eb307d7f9397da2",
+      "exit_code": 0
+    },
+    {
+      "path": "build-reference/frequency-plan-api-wheel-build.log",
+      "sha256": "e13d604f63a3444f0fe16f87f47d5bf335b212e085c5270bdd698b663b21bcdb",
+      "exit_code": 0
+    },
+    {
+      "path": "build-reference/frequency-plan-api-wheel-install.log",
+      "sha256": "b843f868e4d47af600e6f80617f7220128ca37a0de060fe8c0118928a10b598f",
+      "exit_code": 0
+    },
+    {
+      "path": "build-reference/frequency-plan-api-wheel-import.log",
+      "sha256": "b88d5ddfcf0eb3de7eba2498677b4093d6d91286444229633ef4562e61681aae",
+      "exit_code": 0
+    }
+  ],
+  "source_files": [
+    {
+      "path": "include/rfmodel/c_api.h",
+      "sha256": "bab9c37861d4dd2567496efd4615271b0f4dc1e75b2580540e2fd1cb5bafe304"
+    },
+    {
+      "path": "src/c_api.cpp",
+      "sha256": "ff6f3155639c7d265baa617061f500f2c5eef15f85867d951af18e9bd6095f7f"
+    },
+    {
+      "path": "python/rfmodel/__init__.py",
+      "sha256": "b9e7adfbab2899d9e043d7c08f4e3fab504d81654d6c8e92995e481366b2f971"
+    },
+    {
+      "path": "python/rfmodel/frequency_plan.py",
+      "sha256": "470c434076b0639a0ff19e6eeca81eb073df333cdd101620433f9dd7ec182bae"
+    },
+    {
+      "path": "python/rfmodel/frequency_plan_file.py",
+      "sha256": "2f1fc392604e39160c30a1ab34a883b32f5d88adbec1b3de9e654acc7230f7f8"
+    },
+    {
+      "path": "python/rfmodel/conversion_network_file.py",
+      "sha256": "f8eecfd1704200a0eab2790a6d9bcf0b8e93c5aa9f158eca60a59647ece7ce4b"
+    },
+    {
+      "path": "tests/c_api_frequency_plan_test.c",
+      "sha256": "5b9d44194cd3d6e1ed0fa0b312450abd5d57663b28b85360a45c36f2db8871e3"
+    },
+    {
+      "path": "tests/test_conversion_frequency_plan.py",
+      "sha256": "bbd855c84a7c7e68282e80164ae77ad3d3da51f0fefd22a29f6c64b614ce7a29"
+    },
+    {
+      "path": "tests/consumer/c_main.c",
+      "sha256": "179cfdbd58e2aaebe02817aeb3195d76e965c00bc1abcd0b96a0942773e0aecd"
+    },
+    {
+      "path": "examples/auto-frequency-mixer-polynomial.json",
+      "sha256": "c409e6b6085987ba7f7df68a4df54bdb370106e43e94354613aff740085bd0b5"
+    },
+    {
+      "path": "CMakeLists.txt",
+      "sha256": "e67274154ea2e54ff22a8caca349abd7f5d12ddf23e52d478f1f3077c4ab9c3e"
+    }
+  ],
+  "prior_uncommitted_files": [
+    {
+      "path": "scripts/reference/archive-cascade-reference.py",
+      "sha256": "a482db6bd6ae64c050d74e6df321749ec84a7098fb7aa49733079183149806dc",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/reference/capture-cascade-reference.ps1",
+      "sha256": "fb42165db2ad10c6213a415c2080e1eeb6e5ec0bcd1dc119bb1d1707c5283f3e",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/reference/compare-cascade-amplifier.py",
+      "sha256": "af1260adb093946954d0fb7e4bb2059669706a291418aac19ba193fed7554d9d",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/reference/run-systemvue-reference.py",
+      "sha256": "5df486d061ce09c28b396bf62e7fcba473dc6e9086d52861fdc7be6c85864f4e",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/reference/test_compare_cascade_amplifier.py",
+      "sha256": "190ea23b0ce0733846db8052ead9bb4d5ba41ff30e007c1f06e1a1753bc3fcf1",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/reference/test_run_systemvue_reference.py",
+      "sha256": "7eeeb2f890e59b986fec7eb9af58313f129b73ffccfd924f2f273ff52c396eb5",
+      "unchanged": true
+    },
+    {
+      "path": "measurements_test.obj",
+      "sha256": "4935bda18e7d8471560016c7303f3b7136842ab2ec429975440c7d617de3d97f",
+      "unchanged": true
+    },
+    {
+      "path": "verify-measurements.cmd",
+      "sha256": "c629d73c222dad5768c3c33c88a66eea99daf012dc79885f6cd7a7f0cebf7f7f",
+      "unchanged": true
+    }
+  ],
+  "new_systemvue_analysis_calls": 0,
+  "pushed": false,
+  "vendor_compatibility_proven": false,
+  "limitations": [
+    "No new non-Windows or remote CI verification",
+    "Full CTest used current workspace with preserved prior reference-script drafts, not clean checkout",
+    "JSON auto rules cover linear, bilinear_real_mixer, polynomial_amplifier and saturating_amplifier only",
+    "No vendor frequency-selection/spectrum-reduction, noncommensurate grids or controlled truncation",
+    "Generated matrix positions are explicitly zero extensions of seed-supported statistics, not inferred physical wideband noise"
+  ]
+}

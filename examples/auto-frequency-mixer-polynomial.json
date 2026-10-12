@@ -1,0 +1,37 @@
+{
+  "format": "rfmodel.conversion-network",
+  "version": 1,
+  "spacing_hz": 1000000,
+  "frequency_plan": {
+    "max_bin": 16,
+    "new_channel_boundary": {"reflection": 0, "noise_temperature_k": 290}
+  },
+  "operating_point": {},
+  "loaded_noise": true,
+  "devices": [
+    {
+      "id": "line",
+      "bins": [2, 3],
+      "model": {"type": "linear", "s": [[0, 0.8], [0.8, 0]]},
+      "noise": {"noiseless": true}
+    },
+    {
+      "id": "mixer",
+      "channels": [{"port": 1, "bin": 1}],
+      "model": {"type": "bilinear_real_mixer", "lo_reference_amplitude": 1},
+      "noise": {"noiseless": true}
+    },
+    {
+      "id": "polynomial",
+      "channels": [],
+      "model": {"type": "polynomial_amplifier", "voltage_coefficients": [0.2, 1, 0.1]},
+      "noise": {"noiseless": true}
+    }
+  ],
+  "connections": [[["line", 1], ["mixer", 0]], [["mixer", 2], ["polynomial", 0]]],
+  "boundaries": [
+    {"channel": ["line", 0, 2], "source": [0.01, 0.002], "noise_w_per_hz": 1e-12},
+    {"channel": ["line", 0, 3], "source": [0.02, -0.003]},
+    {"channel": ["mixer", 1, 1], "source": [0.1, 0.02]}
+  ]
+}

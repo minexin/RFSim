@@ -111,6 +111,7 @@ def analyze_conversion_network(library, document, base_directory=None):
             "phase_noise_groups",
             "additional_source_noise",
             "operating_point",
+            "frequency_plan",
         ),
     )
     if (
@@ -126,6 +127,11 @@ def analyze_conversion_network(library, document, base_directory=None):
     entries = document["devices"]
     if not isinstance(entries, list) or not 1 <= len(entries) <= 512:
         raise ValueError("Expected 1..512 conversion devices")
+    planned_channels = planning_report = None
+    if "frequency_plan" in document:
+        from .frequency_plan_file import prepare_frequency_plan
+        document, planned_channels, planning_report = prepare_frequency_plan(library, document)
+        entries = document["devices"]
     devices, names, labels, lookup = [], {}, [], {}
     output_offsets, operating_points = [], []
     use_affine = False
@@ -221,6 +227,9 @@ def analyze_conversion_network(library, document, base_directory=None):
                 "intrinsic_covariance": c,
                 "intrinsic_complementary": p,
             }
+        if planned_channels is not None:
+            from .frequency_plan_file import reorder_native_channels
+            reorder_native_channels(native, planned_channels[len(devices)])
         count = len(native["channels"])
         if len(labels) + count > 512:
             raise ValueError("Conversion network exceeds 512 channels")
@@ -419,6 +428,8 @@ def analyze_conversion_network(library, document, base_directory=None):
         "noise_complementary_w_per_hz": _encode(result.noise_complementary),
         "relative_residual": result.relative_residual,
     }
+    if planning_report is not None:
+        output["frequency_plan"] = planning_report
     if use_affine:
         output["wave_relation"] = "affine"
         output["output_offset"] = [[v.real, v.imag] for v in output_offsets]

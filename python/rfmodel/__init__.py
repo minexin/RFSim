@@ -7,6 +7,9 @@ from pathlib import Path
 from threading import RLock
 from typing import NamedTuple, Optional
 import weakref
+from .frequency_plan import (
+    ConversionFrequencyPlan, _FrequencyRequest, _FrequencyOutput, _FrequencyDiagnostics,
+)
 
 
 class RFModelError(RuntimeError):
@@ -1412,6 +1415,11 @@ class Library:
                     ct.POINTER(_ConversionOperatingDiagnostics),
                 ],
             ),
+            "rfmodel_plan_conversion_frequencies": (
+                ct.c_int,
+                [ct.POINTER(_FrequencyRequest), ct.POINTER(_FrequencyOutput),
+                 ct.POINTER(_FrequencyDiagnostics)],
+            ),
             "rfmodel_evaluate_am_pm": (
                 ct.c_int,
                 [ct.c_double, ct.c_double, ct.c_double, ct.POINTER(_AmPmResponse)],
@@ -2554,6 +2562,14 @@ class Library:
             *(getattr(output, name) for name in ConversionNoiseAnalysis._fields)
         )
 
+    def plan_conversion_frequencies(self, spacing_hz, devices, connections=(), *,
+                                    max_total_channels=512, max_bin=2147483647,
+                                    max_transitions=10000000):
+        """Native structural closure; limits fail instead of truncating channels."""
+        from .frequency_plan import plan
+        return plan(self, spacing_hz, devices, connections,
+                    max_total_channels=max_total_channels, max_bin=max_bin,
+                    max_transitions=max_transitions)
     def polynomial_output_bins(self, input_bins, voltage_coefficients):
         """Sorted complete output support, including products of unoccupied channels."""
         bins = tuple(input_bins)

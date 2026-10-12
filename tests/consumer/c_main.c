@@ -3,6 +3,22 @@
 
 int main(int argc, char **argv) {
     {
+        const size_t ports[3] = {0, 1, 2};
+        const rfmodel_frequency_channel seeds[2] = {{0, 5}, {1, 3}};
+        const rfmodel_frequency_rule rule = {RFMODEL_FREQUENCY_MIXER, 0, 1, 2, NULL, 0};
+        const rfmodel_frequency_device device = {ports, 3, seeds, 2, &rule, 1};
+        const rfmodel_frequency_plan_request request = {1e6, &device, 1, NULL, 0, NULL};
+        rfmodel_frequency_plan_diagnostics diagnostics;
+        rfmodel_frequency_channel channels[4];
+        size_t offsets[2], mapping[2];
+        const rfmodel_frequency_plan_output output = {channels, 4, offsets, 2, mapping, 2};
+        if (rfmodel_plan_conversion_frequencies(&request, &output, &diagnostics) != RFMODEL_OK ||
+            diagnostics.channel_count != 4 || channels[2].bin != 2 || channels[3].bin != 8 ||
+            offsets[1] != 4 || mapping[1] != 1) {
+            return 1;
+        }
+    }
+    {
         rfmodel_am_pm_response response;
         if (rfmodel_evaluate_am_pm(-5., 10., .01, &response) != RFMODEL_OK ||
             fabs(response.radial_phase_slope * log(10.) / 20. * 180. / acos(-1.) + 5.) > 1e-12) {

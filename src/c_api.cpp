@@ -1,3 +1,4 @@
+#include "rfmodel/conversion_frequency_plan.hpp"
 #include "rfmodel/polynomial_linearization.hpp"
 #include "rfmodel/amplifier_linearization.hpp"
 #include "rfmodel/conversion_operating_point.hpp"
@@ -2319,6 +2320,130 @@ int rfmodel_linearize_polynomial_amplifier(const rfmodel_polynomial_amplifier_re
                                              r.reference_ohms);
                                      },
                                      {range});
+    });
+}
+
+int rfmodel_plan_conversion_frequencies(const rfmodel_frequency_plan_request *request,
+                                        const rfmodel_frequency_plan_output *output,
+                                        rfmodel_frequency_plan_diagnostics *diagnostics) {
+    return guarded([&] {
+        require(request && diagnostics);
+        const auto &r = *request;
+        require(r.devices && r.device_count > 0 && r.device_count <= 512);
+        require(r.connection_count <= 256 && (r.connections || r.connection_count == 0));
+        using Range = std::pair<const void *, size_t>;
+        std::vector<Range> inputs{{request, sizeof(*request)},
+                                  {r.devices, r.device_count * sizeof(*r.devices)},
+                                  {r.connections, r.connection_count * sizeof(*r.connections)}};
+        rfmodel::ConversionFrequencyOptions options;
+        if (r.options) {
+            inputs.emplace_back(r.options, sizeof(*r.options));
+            options = {
+                r.options->max_total_channels, r.options->max_bin, r.options->max_transitions};
+        }
+        std::vector<rfmodel::ConversionFrequencyDevice> devices;
+        size_t seed_count = 0, port_count = 0, rule_count = 0;
+        for (size_t d = 0; d < r.device_count; ++d) {
+            const auto &entry = r.devices[d];
+            require(entry.ports && entry.port_count > 0 && entry.port_count <= 512 - port_count);
+            require(entry.seed_count <= 512 - seed_count && (entry.seeds || entry.seed_count == 0));
+            require(entry.rule_count <= 4096 - rule_count &&
+                    (entry.rules || entry.rule_count == 0));
+            port_count += entry.port_count;
+            seed_count += entry.seed_count;
+            rule_count += entry.rule_count;
+            inputs.emplace_back(entry.ports, entry.port_count * sizeof(size_t));
+            inputs.emplace_back(entry.seeds, entry.seed_count * sizeof(*entry.seeds));
+            inputs.emplace_back(entry.rules, entry.rule_count * sizeof(*entry.rules));
+            rfmodel::ConversionFrequencyDevice device;
+            device.ports.assign(entry.ports, entry.ports + entry.port_count);
+            for (size_t i = 0; i < entry.seed_count; ++i) {
+                device.seeds.push_back({entry.seeds[i].port, entry.seeds[i].bin});
+            }
+            for (size_t i = 0; i < entry.rule_count; ++i) {
+                const auto &rule = entry.rules[i];
+                if (rule.kind == RFMODEL_FREQUENCY_POLYNOMIAL) {
+                    require(rule.second_input_port == 0 && rule.voltage_coefficients &&
+                            rule.coefficient_count > 0 && rule.coefficient_count <= 12);
+                    inputs.emplace_back(rule.voltage_coefficients,
+                                        rule.coefficient_count * sizeof(double));
+                    device.rules.emplace_back(rfmodel::FrequencyPolynomialRule{
+                        rule.input_port,
+                        rule.output_port,
+                        rfmodel::MemorylessPolynomial(std::vector<double>(
+                            rule.voltage_coefficients,
+                            rule.voltage_coefficients + rule.coefficient_count))});
+                } else {
+                    require(!rule.voltage_coefficients && rule.coefficient_count == 0);
+                    if (rule.kind == RFMODEL_FREQUENCY_COPY) {
+                        require(rule.second_input_port == 0);
+                        device.rules.emplace_back(
+                            rfmodel::FrequencyCopyRule{rule.input_port, rule.output_port});
+                    } else {
+                        require(rule.kind == RFMODEL_FREQUENCY_MIXER);
+                        device.rules.emplace_back(rfmodel::FrequencyMixerRule{
+                            rule.input_port, rule.second_input_port, rule.output_port});
+                    }
+                }
+            }
+            devices.push_back(std::move(device));
+        }
+        std::vector<rfmodel::ConversionPortConnection> wires;
+        for (size_t i = 0; i < r.connection_count; ++i) {
+            const auto &wire = r.connections[i];
+            wires.push_back(
+                {wire.first_device, wire.first_port, wire.second_device, wire.second_port});
+        }
+        std::vector<Range> outputs{{diagnostics, sizeof(*diagnostics)}};
+        if (output) {
+            inputs.emplace_back(output, sizeof(*output));
+            require(output->channels && output->device_offsets);
+            require((output->seed_channel_indices || output->seed_capacity == 0) &&
+                    (output->seed_channel_indices || seed_count == 0));
+            require(output->channel_capacity <=
+                    std::numeric_limits<size_t>::max() / sizeof(rfmodel_frequency_channel));
+            require(output->device_offset_capacity <=
+                    std::numeric_limits<size_t>::max() / sizeof(size_t));
+            require(output->seed_capacity <= std::numeric_limits<size_t>::max() / sizeof(size_t));
+            outputs.emplace_back(output->channels,
+                                 output->channel_capacity * sizeof(rfmodel_frequency_channel));
+            outputs.emplace_back(output->device_offsets,
+                                 output->device_offset_capacity * sizeof(size_t));
+            outputs.emplace_back(output->seed_channel_indices,
+                                 output->seed_capacity * sizeof(size_t));
+        }
+        for (size_t i = 0; i < outputs.size(); ++i) {
+            for (const auto &input : inputs) {
+                disjoint(outputs[i].first, outputs[i].second, input.first, input.second);
+            }
+            for (size_t j = 0; j < i; ++j) {
+                disjoint(outputs[i].first, outputs[i].second, outputs[j].first, outputs[j].second);
+            }
+        }
+        const auto plan =
+            rfmodel::plan_conversion_frequencies(r.spacing_hz, devices, wires, options);
+        if (output) {
+            require(output->channel_capacity >= plan.total_channels &&
+                    output->device_offset_capacity >= r.device_count + 1 &&
+                    output->seed_capacity >= seed_count);
+            size_t channel_index = 0, seed_index = 0;
+            for (size_t d = 0; d < r.device_count; ++d) {
+                output->device_offsets[d] = channel_index;
+                for (auto channel : plan.channels[d]) {
+                    output->channels[channel_index++] = {channel.port, channel.bin};
+                }
+                for (auto local_index : plan.seed_channel_indices[d]) {
+                    output->seed_channel_indices[seed_index++] = local_index;
+                }
+            }
+            output->device_offsets[r.device_count] = channel_index;
+        }
+        *diagnostics = {r.device_count,
+                        seed_count,
+                        plan.total_channels,
+                        plan.generated_channels,
+                        plan.iterations,
+                        plan.transitions};
     });
 }
 

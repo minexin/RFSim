@@ -147,6 +147,75 @@ typedef struct rfmodel_conversion_connection {
     size_t first_device, first_port, second_device, second_port;
 } rfmodel_conversion_connection;
 
+typedef struct rfmodel_frequency_channel {
+    size_t port;
+    int bin;
+} rfmodel_frequency_channel;
+
+typedef enum rfmodel_frequency_rule_kind {
+    RFMODEL_FREQUENCY_COPY = 0,
+    RFMODEL_FREQUENCY_POLYNOMIAL = 1,
+    RFMODEL_FREQUENCY_MIXER = 2
+} rfmodel_frequency_rule_kind;
+
+typedef struct rfmodel_frequency_rule {
+    rfmodel_frequency_rule_kind kind;
+    size_t input_port, second_input_port, output_port;
+    const double *voltage_coefficients;
+    size_t coefficient_count;
+} rfmodel_frequency_rule;
+
+typedef struct rfmodel_frequency_device {
+    const size_t *ports;
+    size_t port_count;
+    const rfmodel_frequency_channel *seeds;
+    size_t seed_count;
+    const rfmodel_frequency_rule *rules;
+    size_t rule_count;
+} rfmodel_frequency_device;
+
+typedef struct rfmodel_frequency_plan_options {
+    size_t max_total_channels; /* 1..512. */
+    int max_bin;               /* Nonnegative; failure bound, not truncation. */
+    size_t max_transitions;    /* 1..10000000. */
+} rfmodel_frequency_plan_options;
+
+typedef struct rfmodel_frequency_plan_request {
+    double spacing_hz;
+    const rfmodel_frequency_device *devices;
+    size_t device_count;
+    const rfmodel_conversion_connection *connections;
+    size_t connection_count;
+    const rfmodel_frequency_plan_options *options; /* NULL uses C++ defaults. */
+} rfmodel_frequency_plan_request;
+
+typedef struct rfmodel_frequency_plan_output {
+    rfmodel_frequency_channel *channels;
+    size_t channel_capacity;
+    size_t *device_offsets; /* device_count+1 prefix offsets into channels. */
+    size_t device_offset_capacity;
+    size_t *seed_channel_indices; /* Concatenated original seeds -> LOCAL indices. */
+    size_t seed_capacity;
+} rfmodel_frequency_plan_output;
+
+typedef struct rfmodel_frequency_plan_diagnostics {
+    size_t device_count, seed_count, channel_count;
+    size_t generated_channels, iterations, transitions;
+} rfmodel_frequency_plan_diagnostics;
+
+/* COPY/POLYNOMIAL require second_input_port=0. COPY/MIXER require NULL
+ * coefficients and count=0; POLYNOMIAL requires 1..12 finite coefficients.
+ * MIXER interprets input/second_input/output as RF/LO/IF. Port numbers <1024.
+ * NULL output queries sizes; diagnostics is always required. Otherwise channels,
+ * offsets and (when seed_count>0) seed indices must have sufficient capacity.
+ * Every declared output range must be disjoint from all inputs, nested arrays,
+ * both descriptors, diagnostics and other outputs. Inputs may alias each other.
+ * Every output including diagnostics is unchanged on failure. */
+RFMODEL_API int
+rfmodel_plan_conversion_frequencies(const rfmodel_frequency_plan_request *request,
+                                    const rfmodel_frequency_plan_output *output,
+                                    rfmodel_frequency_plan_diagnostics *diagnostics);
+
 /* Assemble independent conversion devices, then connect every bin of each port.
  * Device order followed by local channel order defines all output indices.
  * Connected ports must have identical bin sets and no boundary source/noise or
