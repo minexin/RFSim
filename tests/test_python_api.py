@@ -781,7 +781,7 @@ class PythonApiTests(unittest.TestCase):
                 analyze_coherence(self.library, dict(document, **change))
         with tempfile.TemporaryDirectory() as directory:
             output = Path(directory) / "result.json"
-            env = dict(os.environ, PYTHONPATH=str(root / "python"))
+            env = dict(os.environ, PYTHONPATH=str(Path(rfmodel.__file__).resolve().parents[1]))
             run = subprocess.run([sys.executable, "-m", "rfmodel", str(model),
                                   "--library", str(self.library.path), "--output", str(output)],
                                  capture_output=True, text=True, env=env)

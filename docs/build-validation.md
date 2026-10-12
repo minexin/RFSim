@@ -1,5 +1,9 @@
 # 构建与当前验证状态
 
+## 2026-10-12 安装 wheel 与本地 Linux 验证
+
+新增 [隔离安装验证器](installed-python-validation.md)，补齐 CI 中 wheel 仅构建、不验证安装后导入和原生库加载的问题。当前阶段在 Windows/MSVC 和已有 Ubuntu WSL/GCC 上验证，原生套件为 129 项、绑定套件为 23 组 379 项；具体配置结果与日志哈希见 [A10 验证记录](../validation/installed-python-a10-validation-20261012.json)。本次尚未推送，不能引用下面的历史 CI 为当前 macOS 或远程执行证据。
+
 ## 2026-09-30 CI 链接修复
 
 提交 `f7d3d8e` 的 [CI 36657646147](https://github.com/minexin/RFSim/actions/runs/36657646147)

@@ -15,7 +15,7 @@
 | 参数优化/Monte Carlo | 未实现 | 参数契约与任务执行 |
 | GUI | 后置 | 核心接口稳定后推进 |
 
-[线性分析输出细表](linear-analysis-compatibility.md) 保留官方本机帮助来源。跨平台验证已经完成现有测试范围，详见 [构建记录](build-validation.md)。已从本机 RF Design 索引建立 [243 项目录基线](rf-design-catalog.md)，逐项参数和行为验收仍待完成。
+[线性分析输出细表](linear-analysis-compatibility.md) 保留官方本机帮助来源。历史六配置 CI 与当前本地 Windows/Linux 验收分别记录，详见 [构建记录](build-validation.md)；当前阶段 macOS 和远程运行尚未验证。已从本机 RF Design 索引建立 [243 项目录基线](rf-design-catalog.md)，逐项参数和行为验收仍待完成。
 
 基波压缩/饱和的七点参考、原生接口与边界见 [饱和基波模型](saturating-fundamental.md)。
 谐波小信号及压缩区差异见 [截点模型](intercept-amplifier.md)，不能以基波吻合替代
@@ -107,3 +107,5 @@ passed=false，完整相干合并功率不能列为已验收。
 [转换网络结构频率规划](conversion-frequency-plan.md)已在C++17中实现同频传播、双线性混频、十一阶多项式与物理接线的联合闭合，含扩张反馈失败和完整网络数值回归。后续C/Python/JSON已接入相同原生规划器，含种子矩阵映射和显式新增边界；厂商选频、频谱削减仍待完成。
 
 C++ 结构规划新增 `FrequencyHighOrderRule`：全部 RF 输入直接传播，仅显式 generating_bins 生成二至十一阶产物，并与物理反馈联合闭合。8 通道反馈复波及完整输出 C/P 通过手工网格对照，独立标量根与时域 Fourier 投影核验信号；内部 DC 资源上限也被检查。高阶自动规划现已接入 C/Python/JSON，包含种子 C/P、初值、固定偏置及 AM-PM 选择映射；未新增厂商选频或频谱削减验收。
+
+[A10 安装验证](installed-python-validation.md)新增隔离 wheel 导入和已安装原生库加载检查，覆盖全部 Python 绑定套件并接入六配置 CI；本地 MSVC 与 WSL/GCC 结果不能替代当前 macOS、远程执行或厂商兼容验收。

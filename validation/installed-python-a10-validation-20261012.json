@@ -1,0 +1,496 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-12",
+  "stage": "A10 isolated installed-wheel verification and local Windows/Linux native SDK validation",
+  "base_commit": "9222360f21eed08aec5d0c5b3a9451d47af8ee76",
+  "implementation_scope": [
+    "Portable installed-wheel verifier with current-source/wheel/installed-module byte identity",
+    "Isolated interpreter and neutral cwd for all 23 binding suites; package and native ABI/library checks",
+    "Actual unittest accounting, module origin hashes, CLI installed-path guard and nonzero failure reports",
+    "Fixed coherence CLI test leaking back to source tree in installed mode",
+    "Six-configuration CI adds Python 3.12, explicit CMake interpreter, isolated wheel runtime and evidence artifact upload"
+  ],
+  "configurations": [
+    {
+      "platform": "Windows",
+      "configuration": "Debug",
+      "compiler": "MSVC 19.44.35228.0",
+      "build_mode": "Incremental all-target; no native source changes",
+      "ctest": {
+        "passed": 129,
+        "total": 129,
+        "seconds": 72.13
+      },
+      "installed_consumers": {
+        "passed": 2,
+        "total": 2,
+        "seconds": 0.16
+      },
+      "wheel_report": {
+        "path": "build-reference/a10-windows-final-wheel-Debug/installed-python-validation.json",
+        "sha256": "2802d3840d243b328eefee8da14e5e9201c8403b6235453320cc22d689e6225b"
+      },
+      "wheel_tests": 379,
+      "wheel_suites": 23,
+      "skipped_tests": 0,
+      "guarded_cli_invocations": 64,
+      "python": "3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)]",
+      "native_library": {
+        "path": "D:\\project\\RFModel\\build-reference\\a10-windows-install-Debug\\bin\\rfmodel_cd.dll",
+        "sha256": "6508a44a4244d1b678e6b7a16412140ec3f27df7e1a1ed3527b8101382188afc"
+      },
+      "package_root": "D:\\project\\RFModel\\build-reference\\a10-windows-final-wheel-Debug\\site",
+      "suite_counts": {
+        "test_affine_conversion.py": 11,
+        "test_am_pm_operating_point.py": 14,
+        "test_amplifier_operating_point.py": 14,
+        "test_butterworth_filter.py": 8,
+        "test_channel_noise.py": 11,
+        "test_chebyshev_filter.py": 10,
+        "test_coherent_network_file.py": 9,
+        "test_coherent_system_file.py": 51,
+        "test_conversion_frequency_plan.py": 10,
+        "test_conversion_loaded_noise.py": 9,
+        "test_conversion_network.py": 13,
+        "test_conversion_noise.py": 12,
+        "test_frequency_conversion.py": 11,
+        "test_highorder_frequency_plan.py": 8,
+        "test_highorder_operating_point.py": 15,
+        "test_linear_noise_analysis.py": 9,
+        "test_mixer_linearization.py": 13,
+        "test_operating_point.py": 13,
+        "test_passive_model_file.py": 12,
+        "test_phase_noise.py": 13,
+        "test_polynomial_operating_point.py": 15,
+        "test_python_api.py": 85,
+        "test_shared_phase_noise.py": 13
+      }
+    },
+    {
+      "platform": "Windows",
+      "configuration": "Release",
+      "compiler": "MSVC 19.44.35228.0",
+      "build_mode": "Incremental all-target; no native source changes",
+      "ctest": {
+        "passed": 129,
+        "total": 129,
+        "seconds": 68.06
+      },
+      "installed_consumers": {
+        "passed": 2,
+        "total": 2,
+        "seconds": 0.16
+      },
+      "wheel_report": {
+        "path": "build-reference/a10-windows-final-wheel-Release/installed-python-validation.json",
+        "sha256": "a614fddbbf2af69e4498a8c4a593832dc12a04d95f7ad9819f4850d2e56f9a3c"
+      },
+      "wheel_tests": 379,
+      "wheel_suites": 23,
+      "skipped_tests": 0,
+      "guarded_cli_invocations": 64,
+      "python": "3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)]",
+      "native_library": {
+        "path": "D:\\project\\RFModel\\build-reference\\a10-windows-install-Release\\bin\\rfmodel_c.dll",
+        "sha256": "5df0377b9b0ab042a9506d02ff76b148a8c310dfc9e4a80677d853d6fc1a343e"
+      },
+      "package_root": "D:\\project\\RFModel\\build-reference\\a10-windows-final-wheel-Release\\site",
+      "suite_counts": {
+        "test_affine_conversion.py": 11,
+        "test_am_pm_operating_point.py": 14,
+        "test_amplifier_operating_point.py": 14,
+        "test_butterworth_filter.py": 8,
+        "test_channel_noise.py": 11,
+        "test_chebyshev_filter.py": 10,
+        "test_coherent_network_file.py": 9,
+        "test_coherent_system_file.py": 51,
+        "test_conversion_frequency_plan.py": 10,
+        "test_conversion_loaded_noise.py": 9,
+        "test_conversion_network.py": 13,
+        "test_conversion_noise.py": 12,
+        "test_frequency_conversion.py": 11,
+        "test_highorder_frequency_plan.py": 8,
+        "test_highorder_operating_point.py": 15,
+        "test_linear_noise_analysis.py": 9,
+        "test_mixer_linearization.py": 13,
+        "test_operating_point.py": 13,
+        "test_passive_model_file.py": 12,
+        "test_phase_noise.py": 13,
+        "test_polynomial_operating_point.py": 15,
+        "test_python_api.py": 85,
+        "test_shared_phase_noise.py": 13
+      }
+    },
+    {
+      "platform": "Ubuntu WSL2",
+      "configuration": "Debug",
+      "compiler": "GCC 13.3.0",
+      "build_mode": "Fresh configure/build in native Linux /tmp filesystem",
+      "ctest": {
+        "passed": 129,
+        "total": 129,
+        "seconds": 54.36
+      },
+      "installed_consumers": {
+        "passed": 2,
+        "total": 2,
+        "seconds": 0.05
+      },
+      "wheel_report": {
+        "path": "build-reference/a10-linux-native-wheel-Debug/installed-python-validation.json",
+        "sha256": "2f931d97f41a186a6d1a069c9a7a1b30cc38ed533407fffe4efeda7cc5dc657a"
+      },
+      "wheel_tests": 379,
+      "wheel_suites": 23,
+      "skipped_tests": 0,
+      "guarded_cli_invocations": 64,
+      "python": "3.12.3 (main, Nov  6 2024, 18:32:19) [GCC 13.2.0]",
+      "native_library": {
+        "path": "/mnt/d/project/RFModel/build-reference/a10-linux-native-install-Debug/lib/librfmodel_cd.so",
+        "sha256": "4bfd7b28fb83885c4a8cfd0f55096421bd5b9802fc4d472be923e9fc05c59865"
+      },
+      "package_root": "/mnt/d/project/RFModel/build-reference/a10-linux-python/lib/python3.12/site-packages",
+      "suite_counts": {
+        "test_affine_conversion.py": 11,
+        "test_am_pm_operating_point.py": 14,
+        "test_amplifier_operating_point.py": 14,
+        "test_butterworth_filter.py": 8,
+        "test_channel_noise.py": 11,
+        "test_chebyshev_filter.py": 10,
+        "test_coherent_network_file.py": 9,
+        "test_coherent_system_file.py": 51,
+        "test_conversion_frequency_plan.py": 10,
+        "test_conversion_loaded_noise.py": 9,
+        "test_conversion_network.py": 13,
+        "test_conversion_noise.py": 12,
+        "test_frequency_conversion.py": 11,
+        "test_highorder_frequency_plan.py": 8,
+        "test_highorder_operating_point.py": 15,
+        "test_linear_noise_analysis.py": 9,
+        "test_mixer_linearization.py": 13,
+        "test_operating_point.py": 13,
+        "test_passive_model_file.py": 12,
+        "test_phase_noise.py": 13,
+        "test_polynomial_operating_point.py": 15,
+        "test_python_api.py": 85,
+        "test_shared_phase_noise.py": 13
+      }
+    },
+    {
+      "platform": "Ubuntu WSL2",
+      "configuration": "Release",
+      "compiler": "GCC 13.3.0",
+      "build_mode": "Fresh configure/build in native Linux /tmp filesystem",
+      "ctest": {
+        "passed": 129,
+        "total": 129,
+        "seconds": 25.73
+      },
+      "installed_consumers": {
+        "passed": 2,
+        "total": 2,
+        "seconds": 0.02
+      },
+      "wheel_report": {
+        "path": "build-reference/a10-linux-native-wheel-Release/installed-python-validation.json",
+        "sha256": "b845a15cc172cc8ec93be120a72ff4a593a96d29435a2bb3e7b9f665ca25ef32"
+      },
+      "wheel_tests": 379,
+      "wheel_suites": 23,
+      "skipped_tests": 0,
+      "guarded_cli_invocations": 64,
+      "python": "3.12.3 (main, Nov  6 2024, 18:32:19) [GCC 13.2.0]",
+      "native_library": {
+        "path": "/mnt/d/project/RFModel/build-reference/a10-linux-native-install-Release/lib/librfmodel_c.so",
+        "sha256": "d554d2fccad26e205266bfcd737df637b31e8d9387be5d70472fa7226eb2e5f4"
+      },
+      "package_root": "/mnt/d/project/RFModel/build-reference/a10-linux-python/lib/python3.12/site-packages",
+      "suite_counts": {
+        "test_affine_conversion.py": 11,
+        "test_am_pm_operating_point.py": 14,
+        "test_amplifier_operating_point.py": 14,
+        "test_butterworth_filter.py": 8,
+        "test_channel_noise.py": 11,
+        "test_chebyshev_filter.py": 10,
+        "test_coherent_network_file.py": 9,
+        "test_coherent_system_file.py": 51,
+        "test_conversion_frequency_plan.py": 10,
+        "test_conversion_loaded_noise.py": 9,
+        "test_conversion_network.py": 13,
+        "test_conversion_noise.py": 12,
+        "test_frequency_conversion.py": 11,
+        "test_highorder_frequency_plan.py": 8,
+        "test_highorder_operating_point.py": 15,
+        "test_linear_noise_analysis.py": 9,
+        "test_mixer_linearization.py": 13,
+        "test_operating_point.py": 13,
+        "test_passive_model_file.py": 12,
+        "test_phase_noise.py": 13,
+        "test_polynomial_operating_point.py": 15,
+        "test_python_api.py": 85,
+        "test_shared_phase_noise.py": 13
+      }
+    }
+  ],
+  "verifier_selftests": {
+    "Windows": 10,
+    "Linux": 10
+  },
+  "workflow_structure": {
+    "yaml_parsed": true,
+    "platform_count": 3,
+    "configuration_count": 2,
+    "python_version": "3.12",
+    "explicit_cmake_interpreter": true,
+    "installed_wheel_step": true,
+    "always_upload_reports": true,
+    "remote_workflow_executed": false
+  },
+  "native_source_inventory_sha256": "d9db5e86707c9eb9c8c204d7c57d922fe42d10f49d99ab96cff7eed2b335883f",
+  "native_source_inventory_count": 156,
+  "native_sources_changed": false,
+  "wheel": {
+    "path": "build-reference/highorder-plan-api-dist/rfmodel-0.1.0-py3-none-any.whl",
+    "sha256": "7cdc383a09887934da0b780a97a26d828bfcaa455498aa8c069d01e09e4c82b4",
+    "built_with": "Windows Python 3.12.14 in preceding stage; unchanged Python package sources",
+    "portable_tag": "py3-none-any",
+    "same_artifact_tested_on_both_platforms": true,
+    "linux_installation": "Fresh project-local venv without pip; reused existing bundled pip source via Linux Python to install wheel offline; system Python unchanged"
+  },
+  "shared_filesystem_warning": {
+    "initial": "GNU Make reported generated files 0.019 seconds (and dependency files up to 0.1 seconds) in the future on /mnt/d",
+    "recovery": "Repeated both complete Linux builds, CTest, consumers and installed-wheel suites in new native /tmp build directories; final logs have no clock-skew warning",
+    "initial_logs": [
+      {
+        "path": "build-reference/a10-linux-build-Debug.log",
+        "sha256": "e3c835f1c6f514b8977b3056a140a111783a734347157c093cea72c2e699e1c6"
+      },
+      {
+        "path": "build-reference/a10-linux-confirm-build-Debug.log",
+        "sha256": "f66cf071fe47acbf1222bf3205229e296f5c0991502729cf05829c48fdf79f9c"
+      }
+    ],
+    "native_build_root": "/tmp/rfmodel-a10-XzuCbW"
+  },
+  "logs": [
+    {
+      "path": "build-reference/a10-windows-build-Debug.log",
+      "sha256": "3a8a32026f64adecd018e2cf3203dd95c86ac2bd500622b4d58836a46482df5a",
+      "exit_code": 0
+    },
+    {
+      "path": "build-reference/a10-windows-ctest-Debug.log",
+      "sha256": "e355a5fd098aeb3da5b68a9f01f78ad648a09369975f0222dc7d7fb886c5436f",
+      "exit_code": 0
+    },
+    {
+      "path": "build-reference/a10-windows-install-Debug.log",
+      "sha256": "3c30d8583ef465745feb6eabcc9d3d0937341006fc2ae048b170cab4d5f6adc9",
+      "exit_code": 0
+    },
+    {
+      "path": "build-reference/a10-windows-consumer-configure-Debug.log",
+      "sha256": "df4fe7e3e0066ed850e9aa9e098b87aeaa6783421a5a533aa67b16a2c2e9cab8",
+      "exit_code": 0
+    },
+    {
+      "path": "build-reference/a10-windows-consumer-build-Debug.log",
+      "sha256": "b422f2a1b52fc6122fbb21c6ac9dac5ec28096d09cc94be66afded84cddde163",
+      "exit_code": 0
+    },
+    {
+      "path": "build-reference/a10-windows-consumer-ctest-Debug.log",
+      "sha256": "0861225145fecc22e0d3066363a15d2d8031afc44326da97a6f8cd6ccc277369",
+      "exit_code": 0
+    },
+    {
+      "path": "build-reference/a10-windows-build-Release.log",
+      "sha256": "01ab6b90f9d1808beb48992c54229cae7e63c46cd9926f95c52a7dd2fb366843",
+      "exit_code": 0
+    },
+    {
+      "path": "build-reference/a10-windows-ctest-Release.log",
+      "sha256": "0bb3ae492dd2b59f5e6c34b136470cc611e0c56f5382c14c7f3685bed4ba36d0",
+      "exit_code": 0
+    },
+    {
+      "path": "build-reference/a10-windows-install-Release.log",
+      "sha256": "e592af97475558b5952d4f51b36550a29bfc1febec09f5abee20d3daf280f304",
+      "exit_code": 0
+    },
+    {
+      "path": "build-reference/a10-windows-consumer-configure-Release.log",
+      "sha256": "4d12bdee0764b5a2d4e4f0cf42d8ea2b2def38f7c05d1019f7e1461836fd53fd",
+      "exit_code": 0
+    },
+    {
+      "path": "build-reference/a10-windows-consumer-build-Release.log",
+      "sha256": "46209c377449726b4fdc5a7a783fd3a693cf89ca96cb0eec15a155d0230a7587",
+      "exit_code": 0
+    },
+    {
+      "path": "build-reference/a10-windows-consumer-ctest-Release.log",
+      "sha256": "f554c1fb2b7ec2c30ec02e6f3ad8e7218f788c952af1c2a2a791c8bb13c6eff8",
+      "exit_code": 0
+    },
+    {
+      "path": "build-reference/a10-linux-native-configure-Debug.log",
+      "sha256": "414c92ea3b88b700a2688a7455fd4dd747c63732aa3b98ded52a7cb842f62316",
+      "exit_code": 0
+    },
+    {
+      "path": "build-reference/a10-linux-native-build-Debug.log",
+      "sha256": "8def7cdb617ad5d6f47f0546f3f2bd4f9ee8ec0135e70b0406ef564138ba929c",
+      "exit_code": 0
+    },
+    {
+      "path": "build-reference/a10-linux-native-ctest-Debug.log",
+      "sha256": "d8e478e32872b0331ef514fff95852ab44c7a66742eca025aeb7fc19336aea73",
+      "exit_code": 0
+    },
+    {
+      "path": "build-reference/a10-linux-native-install-Debug.log",
+      "sha256": "e52d6bf39a5f16ac664c89edad8a9acb6cf5d0c2b1c8eb810ae1521346a9ebe6",
+      "exit_code": 0
+    },
+    {
+      "path": "build-reference/a10-linux-native-consumer-configure-Debug.log",
+      "sha256": "b9c5fe4399bc9a53e29fe45b07c046c2d139155635cebdbb0f433904f38c936f",
+      "exit_code": 0
+    },
+    {
+      "path": "build-reference/a10-linux-native-consumer-build-Debug.log",
+      "sha256": "753cc2365a9aa59499bedec5a3eb62bd5f8cfd15ea7bded6753dbadf0c9f85e7",
+      "exit_code": 0
+    },
+    {
+      "path": "build-reference/a10-linux-native-consumer-ctest-Debug.log",
+      "sha256": "a36360715fd7ce6e3f930a6abd304cadbfdcb3af38025ced9796f9e899539a07",
+      "exit_code": 0
+    },
+    {
+      "path": "build-reference/a10-linux-native-configure-Release.log",
+      "sha256": "357ca8155e624da4a972acfdd24b835148399a1bcf271dbf4504de59469f60d3",
+      "exit_code": 0
+    },
+    {
+      "path": "build-reference/a10-linux-native-build-Release.log",
+      "sha256": "49dd6c71b8b703eb2bb5cc6417e93b7f1c6b56b1a8077c3d2a0dd06678567cea",
+      "exit_code": 0
+    },
+    {
+      "path": "build-reference/a10-linux-native-ctest-Release.log",
+      "sha256": "4ee0cacd43d93c1e47a78cbb911b4b45d4e3c20502dfc2b14894d5a6cebe712a",
+      "exit_code": 0
+    },
+    {
+      "path": "build-reference/a10-linux-native-install-Release.log",
+      "sha256": "c90dd52df9e898d5ef0149e523eb9af5ff015f8dce1dd32fedc37c17526f79a5",
+      "exit_code": 0
+    },
+    {
+      "path": "build-reference/a10-linux-native-consumer-configure-Release.log",
+      "sha256": "1ccc1d531a6106bfc5889edd71dd94af460465df26fc1abbab31df494fe9972b",
+      "exit_code": 0
+    },
+    {
+      "path": "build-reference/a10-linux-native-consumer-build-Release.log",
+      "sha256": "753cc2365a9aa59499bedec5a3eb62bd5f8cfd15ea7bded6753dbadf0c9f85e7",
+      "exit_code": 0
+    },
+    {
+      "path": "build-reference/a10-linux-native-consumer-ctest-Release.log",
+      "sha256": "cbf2876346e99fc231990da4e8c94a1b5e23675e6941c2789e014cbfdd05eb3e",
+      "exit_code": 0
+    },
+    {
+      "path": "build-reference/a10-windows-verifier-tests.log",
+      "sha256": "929910f008316696f55c9308d26b5a808d29e029501095754093634b70f21c4b",
+      "exit_code": 0
+    },
+    {
+      "path": "build-reference/a10-linux-verifier-tests.log",
+      "sha256": "2d6603fa9f5000144e76e400c77dd7540642ffd9e3ba07e69618a92fee4d406c",
+      "exit_code": 0
+    },
+    {
+      "path": "build-reference/a10-linux-wheel-install.log",
+      "sha256": "d426ab25abfdc1766918e761f478ada01a749b2388a396cb58d22e877f7f7376",
+      "exit_code": 0
+    }
+  ],
+  "source_files": [
+    {
+      "path": ".github/workflows/build.yml",
+      "sha256": "d982f0f4a9995173253e0a4f443a1e55d6b31f0ba702da625037fbba64cc4eb8"
+    },
+    {
+      "path": "scripts/verify-installed-python.py",
+      "sha256": "7909989faf8649b708b5e79844774b9b28fcbaf760c22ce2b89866ed5f0a0f44"
+    },
+    {
+      "path": "scripts/test_verify_installed_python.py",
+      "sha256": "de31fc67a4b2a91aa85c9cbff8f2e07b0e81ee48519d6c1c741da2b5f72badeb"
+    },
+    {
+      "path": "tests/test_python_api.py",
+      "sha256": "e082f1dd21c14d160f57e8f7a2c3ab548223ff977d662fc194df4b8cf9f2337f"
+    }
+  ],
+  "prior_uncommitted_files": [
+    {
+      "path": "scripts/reference/archive-cascade-reference.py",
+      "sha256": "a482db6bd6ae64c050d74e6df321749ec84a7098fb7aa49733079183149806dc",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/reference/capture-cascade-reference.ps1",
+      "sha256": "fb42165db2ad10c6213a415c2080e1eeb6e5ec0bcd1dc119bb1d1707c5283f3e",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/reference/compare-cascade-amplifier.py",
+      "sha256": "af1260adb093946954d0fb7e4bb2059669706a291418aac19ba193fed7554d9d",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/reference/run-systemvue-reference.py",
+      "sha256": "5df486d061ce09c28b396bf62e7fcba473dc6e9086d52861fdc7be6c85864f4e",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/reference/test_compare_cascade_amplifier.py",
+      "sha256": "190ea23b0ce0733846db8052ead9bb4d5ba41ff30e007c1f06e1a1753bc3fcf1",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/reference/test_run_systemvue_reference.py",
+      "sha256": "7eeeb2f890e59b986fec7eb9af58313f129b73ffccfd924f2f273ff52c396eb5",
+      "unchanged": true
+    },
+    {
+      "path": "measurements_test.obj",
+      "sha256": "4935bda18e7d8471560016c7303f3b7136842ab2ec429975440c7d617de3d97f",
+      "unchanged": true
+    },
+    {
+      "path": "verify-measurements.cmd",
+      "sha256": "c629d73c222dad5768c3c33c88a66eea99daf012dc79885f6cd7a7f0cebf7f7f",
+      "unchanged": true
+    }
+  ],
+  "new_systemvue_analysis_calls": 0,
+  "pushed": false,
+  "remote_ci_executed": false,
+  "macos_verified": false,
+  "full_A10_closed": false,
+  "limitations": [
+    "Local Linux is Ubuntu 24.04.1 on WSL2, not a GitHub Ubuntu runner or macOS result",
+    "Current six-configuration workflow is configured and YAML-checked but not remotely executed",
+    "Windows all-target builds were incremental, Linux builds were fresh; native C/C++ sources were unchanged in this stage",
+    "Full CTest used workspace containing six preserved reference-script drafts, not a clean checkout",
+    "Wheel was built on Windows and the same universal artifact was installed on Linux; no separate Linux wheel build in this stage",
+    "Historical installed python_api reports did not prove the coherence CLI subcase used installed Python code; this stage fixes and guards that path",
+    "No vendor compatibility status upgraded; no push, merge or release"
+  ]
+}
