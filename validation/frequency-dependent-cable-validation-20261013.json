@@ -1,0 +1,181 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-13",
+  "stage": "RFModel-defined frequency-dependent coaxial cable C++17 API",
+  "base_commit": "4112238df83cf17bf5181fde9de3d2389553b7dc",
+  "scope": "Native loss and full complex S functions, RFDeviceModel wrapper, swept CSV example, independent tests, relocated installed consumers and documentation. No C/Python/JSON additions, vendor mappings or presets.",
+  "toolchain": {
+    "platform": "Linux x86_64",
+    "compiler": "GCC 14.2.0",
+    "cmake": "3.31.10",
+    "clang_format": "19.1.7"
+  },
+  "passed": true,
+  "native_matrix": {
+    "Debug": 103,
+    "Release": 103,
+    "options": [
+      "RFMODEL_BUILD_C_API=OFF",
+      "RFMODEL_BUILD_CLI=OFF",
+      "RFMODEL_BUILD_PYTHON_TESTS=OFF",
+      "RFMODEL_BUILD_EXAMPLES=ON"
+    ],
+    "flags": "-Wall -Wextra -Wpedantic",
+    "note": "Entire native matrix passed against final production header. Final test-only double-range oracle arithmetic edits subsequently passed all 3 affected cable tests in both configurations."
+  },
+  "installed_relocated_consumers": {
+    "Debug": 6,
+    "Release": 6,
+    "flags": "-Wall -Wextra -Wpedantic -Werror",
+    "original_prefix_absent": true,
+    "installed_header_sha256": "427fdcbb7fe10607d9c544773593ae8cec933221280f92624bcc804a855ae536"
+  },
+  "strict_new_test": {
+    "release_NDEBUG": true,
+    "debug_UBSan": true,
+    "note": "Strict -Werror plus undefined-behavior sanitizer passed before final test-only oracle arithmetic ordering. Final strict Release and affected Debug/Release rerun passed; no production changes."
+  },
+  "independent_oracles": [
+    "Full complex ABCD and physical V/I",
+    "Quarter/half/full-wave, phase and analytic group delay",
+    "Both loss laws independently and jointly, nondefault references",
+    "Two half sections versus full: loaded signal and correlated thermal noise",
+    "Complex external references, passive covariance PSD and equilibrium",
+    "Numerical ratio/product extremes, zero terms, opaque attenuation, unrepresentable cycles, tiny-loss/phase high-contrast and subnormal sum",
+    "Independent 90-digit V/I review probes",
+    "Example six-row complex ABCD and thermal-noise CSV oracle"
+  ],
+  "mutations": {
+    "header_sha256": "427fdcbb7fe10607d9c544773593ae8cec933221280f92624bcc804a855ae536",
+    "test_sha256": "5e5bd575fe33c84be0a6896e9caf585150d8424dff2635beb243ace5edefc654",
+    "mutations": [
+      {
+        "name": "sqrt_loss_law",
+        "compiled": true,
+        "detected": true,
+        "exit_code": 1,
+        "output": "frequency-dependent cable: independent loss law\n"
+      },
+      {
+        "name": "omit_linear_loss",
+        "compiled": true,
+        "detected": true,
+        "exit_code": 1,
+        "output": "frequency-dependent cable: independent loss law\n"
+      },
+      {
+        "name": "db_power_instead_of_amplitude",
+        "compiled": true,
+        "detected": true,
+        "exit_code": 1,
+        "output": "frequency-dependent cable: matched amplitude and phase\n"
+      },
+      {
+        "name": "halve_delay",
+        "compiled": true,
+        "detected": true,
+        "exit_code": 1,
+        "output": "frequency-dependent cable: matched amplitude and phase\n"
+      },
+      {
+        "name": "reverse_phase",
+        "compiled": true,
+        "detected": true,
+        "exit_code": 1,
+        "output": "frequency-dependent cable: matched amplitude and phase\n"
+      },
+      {
+        "name": "erase_mismatch",
+        "compiled": true,
+        "detected": true,
+        "exit_code": 1,
+        "output": "frequency-dependent cable: 100-ohm quarter-wave physical oracle\n"
+      },
+      {
+        "name": "omit_thermal_noise",
+        "compiled": true,
+        "detected": true,
+        "exit_code": 1,
+        "output": "frequency-dependent cable: thermal covariance from independent ABCD\n"
+      },
+      {
+        "name": "lose_exact_halfwave",
+        "compiled": true,
+        "detected": true,
+        "exit_code": 1,
+        "output": "frequency-dependent cable: exact quarter-wave transmission quadrature\n"
+      },
+      {
+        "name": "rounded_reflection_coupling",
+        "compiled": true,
+        "detected": true,
+        "exit_code": 1,
+        "output": "frequency-dependent cable: high-contrast electrically short ABCD oracle\n"
+      }
+    ],
+    "all_detected": true
+  },
+  "review": {
+    "status": "approved final production header",
+    "header_sha256": "427fdcbb7fe10607d9c544773593ae8cec933221280f92624bcc804a855ae536",
+    "no_cable_specific_blocker": true
+  },
+  "limitations": [
+    "RFModel-defined finite-frequency approximation only; no SystemVue 2023 compatibility or kdb unit mapping/RG presets.",
+    "No causal broadband dispersion guarantee, physical DC conductor resistance, material calibration, geometry extraction or temperature law.",
+    "Existing near-rank-one noise reference transformations can reject numerically delicate covariance. Reproduced with unchanged baseline noise code; no tolerance changes.",
+    "Global -Werror hits an existing unrelated multitone_amplifier_test.cpp range-loop copy warning. Full native matrix used warnings; all new focused code and installed consumers used -Werror.",
+    "Windows/MSVC and macOS/AppleClang were not run locally; remote CI remains required."
+  ],
+  "source_files_sha256": {
+    "CMakeLists.txt": "bc6cac3ac158f8fba0c22f9561dea10edcd48332cf004376b8c1f9daf855a406",
+    "README.md": "a4f00eeab0d626db366c9046dde0f153abc9bdc17a8e15a0e61945d9684e7273",
+    "docs/cpp-sdk.md": "f57a85a841ca4557c501cedda4e2d07a8afd3e5ea6f5975e214722e2fd89a53e",
+    "docs/frequency-dependent-cable.md": "e86a6c8d4255ed1305625a983005a4d5157736c6683fd64148a3d3499ac5ee1f",
+    "examples/frequency_dependent_cable.cpp": "49d093f9bc5a0d058448c319ec4de56e8638d52595b3113a7f5e5d40647108b4",
+    "include/rfmodel/frequency_dependent_cable.hpp": "427fdcbb7fe10607d9c544773593ae8cec933221280f92624bcc804a855ae536",
+    "tests/check_sdk_configuration.cmake": "58c1b131bfa7911e778fb561a41c01f42fcb35d38c8575e3ff884b943418a726",
+    "tests/consumer/CMakeLists.txt": "4b86d0746bf88f93b23b10b3325350ca62e656b9cc94d074f447d917681e7130",
+    "tests/consumer/frequency_dependent_cable.cpp": "f40c0e0785e6b23bf11bdb3773e0ff08051fd25a866c33a0f526084066d3b7ee",
+    "tests/consumer/frequency_dependent_cable_probe.cpp": "8af2a270c63a7df8227ce90cacaf74ebf7fa8f37ce39d0d2441ae792c4120a39",
+    "tests/frequency_dependent_cable_test.cpp": "5e5bd575fe33c84be0a6896e9caf585150d8424dff2635beb243ace5edefc654"
+  },
+  "evidence_files": [
+    {
+      "path": "/workspace/scratch/13ffac99a6e4/cable-ctest-Debug-final.log",
+      "sha256": "8013cdd60646460af88f4aa934666dc9dc6f30c726ff034778619424ebca63ec"
+    },
+    {
+      "path": "/workspace/scratch/13ffac99a6e4/cable-ctest-Release-final.log",
+      "sha256": "e1ce4a45ad6b3f410dff604dd3d179aad860549616a5f63a58e36687dbc5a9e8"
+    },
+    {
+      "path": "/workspace/scratch/13ffac99a6e4/cable-focused-ctest-Debug.log",
+      "sha256": "20aaa0e8d91deb1cb27a9893aeab1402607e3998ce1ebb8a4019895324a7aadb"
+    },
+    {
+      "path": "/workspace/scratch/13ffac99a6e4/cable-focused-ctest-Release.log",
+      "sha256": "268babd28af9c39f5781ece08de4c79df6780ae66f11773b8f31fcfe88dcf0bd"
+    },
+    {
+      "path": "/workspace/scratch/13ffac99a6e4/cable-consumer-ctest-Debug-final.log",
+      "sha256": "90717e0a862c450df084c227f0605ae8a77983b202f9044b63750c2f8d48c432"
+    },
+    {
+      "path": "/workspace/scratch/13ffac99a6e4/cable-consumer-ctest-Release.log",
+      "sha256": "9249632996d273d6063bbb6a682d5d0ae30a4defa324bf7dc6439c9e4b52cac3"
+    },
+    {
+      "path": "/workspace/scratch/13ffac99a6e4/cable-mutation-checks/results.json",
+      "sha256": "0711a7b374c4d58698009a9140c40aaa65640a146bd988e15079d0e1a1caca89"
+    },
+    {
+      "path": "/workspace/scratch/13ffac99a6e4/cable-doc-check/check-example-csv-final.log",
+      "sha256": "52a227e1fbaebabf840c197599c19611b8826d32246c0a418bde0ab15498dec4"
+    },
+    {
+      "path": "/workspace/scratch/13ffac99a6e4/cable-physics-review/results.txt",
+      "sha256": "d581a4f909a3e69053351c55223836825953e2b3fbafee68f8e39cccc7a2d332"
+    }
+  ]
+}

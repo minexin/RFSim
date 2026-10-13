@@ -263,6 +263,9 @@ add_test(NAME cli_export COMMAND ${CMAKE_COMMAND}
     -DCLI=$<TARGET_FILE:rfmodel_cli> -DFIXTURES=${CMAKE_CURRENT_SOURCE_DIR}/tests
     -P ${CMAKE_CURRENT_SOURCE_DIR}/tests/check_cli.cmake)
 endif()
+add_executable(frequency_dependent_cable_test tests/frequency_dependent_cable_test.cpp)
+target_link_libraries(frequency_dependent_cable_test PRIVATE RFModel::rfmodel)
+add_test(NAME frequency_dependent_cable_test COMMAND frequency_dependent_cable_test)
 add_executable(rfmodel_smoke tests/smoke.cpp)
 target_link_libraries(rfmodel_smoke PRIVATE rfmodel)
 add_executable(linear_solver_smoke tests/linear_solver_smoke.cpp)
@@ -617,6 +620,12 @@ add_test(NAME sdk_configuration_test COMMAND ${CMAKE_COMMAND}
 endif() # BUILD_TESTING
 
 if(RFMODEL_BUILD_EXAMPLES)
+    add_executable(frequency_dependent_cable_example examples/frequency_dependent_cable.cpp)
+    target_link_libraries(frequency_dependent_cable_example PRIVATE RFModel::rfmodel)
+    if(BUILD_TESTING)
+        add_test(NAME frequency_dependent_cable_example COMMAND frequency_dependent_cable_example)
+        add_test(NAME frequency_dependent_cable_noise_example COMMAND frequency_dependent_cable_example --noise)
+    endif()
     add_executable(coherent_pipeline_example examples/coherent_pipeline.cpp)
     target_link_libraries(coherent_pipeline_example PRIVATE RFModel::rfmodel)
     if(BUILD_TESTING)

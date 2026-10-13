@@ -74,13 +74,14 @@ ctest --test-dir build-native -C Debug --output-on-failure
 ```
 
 - `BUILD_TESTING=OFF` 不再留下未受控的原生测试可执行文件。
-- `RFMODEL_BUILD_EXAMPLES` 独立控制五个 C++ 示例，默认 ON；测试关闭时仍可单独构建示例。
+- `RFMODEL_BUILD_EXAMPLES` 独立控制六个 C++ 示例，默认 ON；测试关闭时仍可单独构建示例。
 - `RFMODEL_BUILD_PYTHON_TESTS=OFF` 明确禁止查找 Python/注册脚本测试，即使保留 C ABI。旧 `RFMODEL_REQUIRE_PYTHON_TESTS=OFF` 只表示“不强制存在”，并不等于关闭。
 - `RFMODEL_REQUIRE_PYTHON_TESTS=ON` 与关闭测试/C ABI/Python 测试互斥；配置直接报错，不静默跳过要求。
 
 ## 常用入口与调用责任
 
 - `coherent_pipeline.hpp`：`CoherentPipeline` 的不可变有类型相干流、混频/线性/多项式/共同驱动压缩，以及[限幅/高阶放大器与失真传播](coherent-pipeline-amplifiers.md)；[调用、历史与固定边界](coherent-pipeline.md)。
+- `frequency_dependent_cable.hpp`：显式参数的[频率相关同轴电缆](frequency-dependent-cable.md)，提供传播损耗与完整复 S 函数、器件包装和扫描示例；仅为 RFModel 定义的有限频率近似。
 - `network.hpp`：`LinearNetwork`，连接及等效 S；`frequency_conversion.hpp` / `conversion_network.hpp`：`FrequencyConversionModel`、`FrequencyConversionNetwork` 和完整 C/P 结果。
 - `conversion_power_wave.hpp`：模型、仿射偏置、内生噪声和源/负载边界的功率波参考变换。仅声明新参考不会自动保留旧物理边界。
 - `conversion_operating_point.hpp`：`solve_conversion_operating_point` 保留公共实参考契约；[solve_conversion_operating_point_power_waves](conversion-operating-point-power-wave.md) 支持逐通道复参考。两者均返回收敛点的波、原坐标 Jacobian、偏置和噪声。

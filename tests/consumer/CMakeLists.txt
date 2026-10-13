@@ -49,3 +49,7 @@ if(TARGET RFModel::c_api)
     endif()
     add_test(NAME installed_touchstone_two_c_consumer COMMAND touchstone_two_c_consumer)
 endif()
+
+add_executable(frequency_dependent_cable_consumer frequency_dependent_cable.cpp frequency_dependent_cable_probe.cpp)
+target_link_libraries(frequency_dependent_cable_consumer PRIVATE RFModel::rfmodel)
+add_test(NAME installed_frequency_dependent_cable_consumer COMMAND frequency_dependent_cable_consumer)
