@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "recorded_utc": "2026-10-13T14:19:06.031708+00:00",
+  "plan_sha256": "0ee1496412224c03daebb746db559435a2e4244b446180d913b67e2c8cd62af0",
+  "classification": "pre_analysis_postprocessing_repair_no_vendor_call",
+  "failed_park_directory": "build-reference\\ampm-datapoints-zero-study-20261013\\park-20261013T141636Z-0077e72a",
+  "initial_failure": "Duplicate baseline parameter",
+  "completed_helper_exit_code": 0,
+  "workspace_count_after_park": 0,
+  "analysis_calls_before_repair": 0,
+  "additional_analysis_calls": 0,
+  "explanation": "SystemVue exposes two distinct ordered DigNumAvg entries with the same item path. Preserve all occurrences, expressions, values, dimensions and metadata; compare the full ordered lists during restoration. Do not overwrite either occurrence or rerun the successful park.",
+  "duplicates": {
+    "RFModel_AMPM_A01/DataPoints/System2/Path1/DigNumAvg": [
+      {
+        "data": 10,
+        "data_entry": null,
+        "dimensions": null,
+        "evaluation_error": null,
+        "variables": [
+          "Data:Long",
+          "Unit:Long"
+        ],
+        "methods": "^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^"
+      },
+      {
+        "data": 0,
+        "data_entry": null,
+        "dimensions": null,
+        "evaluation_error": null,
+        "variables": [
+          "Data:Long",
+          "Unit:Long"
+        ],
+        "methods": "^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^"
+      }
+    ],
+    "RFModel_AMPM_A01/PointDerivative/System1/Path1/DigNumAvg": [
+      {
+        "data": 10,
+        "data_entry": null,
+        "dimensions": null,
+        "evaluation_error": null,
+        "variables": [
+          "Data:Long",
+          "Unit:Long"
+        ],
+        "methods": "^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^"
+      },
+      {
+        "data": 0,
+        "data_entry": null,
+        "dimensions": null,
+        "evaluation_error": null,
+        "variables": [
+          "Data:Long",
+          "Unit:Long"
+        ],
+        "methods": "^BSTR = Get()^BSTR = GetData()^Set(BSTR)^Variant* = GetValue()^SetValue(Variant*)^----------^Object* = GetItemByName(BSTR)^Long = GetItemCount()^Object* = GetItemByIndex(Long)^Long = GetVarCount()^BSTR* = GetVarName(Long)^BSTR* = GetVarXMLName(Long)^Variant* = GetVarValue(Long)^BSTR* = GetVarType(Long)^Object* = GetParentOfItem(Object)^BSTR* = GetMethodList()^DeleteProperty(BSTR)^BSTR* = GetPropertyType(BSTR)^SetProperty(BSTR,Variant*)^AddProperty(Object)^CreateProperty(BSTR,Variant*)^ExportXML(BSTR)^BSTR* = GetType()^HasProperty(BSTR)^GetPropertyList(Variant*)^GetPropertyAsArray(BSTR,Variant*)^----------^Object = Application()^BSTR = ToXML()^FromXML(BSTR)^BSTR = ToString()^BSTR = GetName()^SetName(BSTR)^----------^"
+      }
+    ]
+  },
+  "parameter_paths": 245,
+  "parameter_occurrences": 247,
+  "source_hashes": {
+    "build-reference\\ampm-datapoints-zero-study-20261013\\run.py": "b5111449cdd601efe5ac81258e6abc3ca7e96140b0892c50fd8be8f69af20c5c",
+    "build-reference\\ampm-datapoints-zero-study-20261013\\validate-park-recovery.py": "9ecf30199c420bc38093a9cc8f0a46fa4543706d9f96d58a048814cda03365fc",
+    "build-reference\\ampm-datapoints-zero-study-20261013\\park-20261013T141636Z-0077e72a\\before.json": "11055133fb9773865929cc75c6c0a75071dea9c536e2d36ef9e6b2770a52293a",
+    "build-reference\\ampm-datapoints-zero-study-20261013\\park-20261013T141636Z-0077e72a\\status.json": "4785d0b0b18f9f5e5e9a590bd91775ec694e61b2f68379f80bf961f013677bc9",
+    "build-reference\\ampm-datapoints-zero-study-20261013\\park-20261013T141636Z-0077e72a\\closed.json": "27337195ba59931ef60eeb424802b5e22251807584a8320eba9cb2f773c35bb3"
+  },
+  "frozen_plan_and_tolerances_changed": false,
+  "original_failed_status_retained": true
+}
