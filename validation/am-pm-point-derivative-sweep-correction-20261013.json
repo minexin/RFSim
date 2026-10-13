@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "created_utc": "2026-10-13T11:55:15.543482+00:00",
+  "plan_sha256": "8ab865ee8e8300e9201e3f111d0bfb674da98f51a6988de60920b4bbdddd5650",
+  "reason": "First profile analysis completed with blank Quick Sweep frequency warning and only three points. Original SweepType=0 is an adaptive Compression Curve, not the fixed-step amplitude sweep required by the registered design.",
+  "diagnostic_run": "prepared-20261013T115209Z-b0574e08",
+  "diagnostic_capture_sha256": "3caa67c6d64145c8ee290e9d0866c3e1414f85efcd9c2d098e32cdb4f6d1d2dd",
+  "diagnostic_disposition": "Retained as excluded setup diagnostic; not a registered 73-point profile. No hypotheses were refit.",
+  "correction": {
+    "QCFreq_MHz": 100,
+    "QCSwpType": 3,
+    "QCSwpType_meaning": "Amplitude Sweep",
+    "changed_field_count_total": 16,
+    "runtime_check_count": 17
+  },
+  "primary_sources": [
+    {
+      "file": "C:/Program Files/Keysight/SystemVue2023/Help/systemvue.qch",
+      "pages": [
+        "sim/Compression_Curve.html",
+        "sim/Amplitude_Sweep.html",
+        "sim/Quick_Sweeps.html"
+      ]
+    },
+    {
+      "file": "C:/Program Files/Keysight/SystemVue2023/Examples/RF Architecture Design/RF Design Kit/Sweeps/Quick Sweep of Dual Amp w Filter.wsv",
+      "evidence": "Path4 has QCSwpType=3 and description Quick Sweep (Amplitude Sweep), Manual, Power."
+    }
+  ],
+  "budget_accounting": {
+    "baseline_used": 1,
+    "failed_setup_analysis_used": 1,
+    "remaining_registered_profiles": 6,
+    "maximum_analysis_calls": 8,
+    "recovery_reserved_for_first_profile_retry": true
+  },
+  "unchanged": "All six parameter profiles, 73 registered powers each, four frozen hypotheses, phase tolerance, power axes and total analysis budget.",
+  "prepared_manifest_sha256": "eafa78507c11489214808441161eab67e735e2344be3f2273797da2a58f54144",
+  "prepare_helper_sha256": "0dbf59c4f958cc587badfe613ce67d914e066150e3288840256b0ab3e5695a20",
+  "capture_helper_sha256": "9887689d8a527b2475e40c40af72a461b4b52aeb789fd134d0a9ae40189b0b6f",
+  "supervisor_sha256": "88818d5af4a0eb5d1a1bb2bc9e5c42bf52f9a60f0fd3f872a2354e92a09311d1"
+}
