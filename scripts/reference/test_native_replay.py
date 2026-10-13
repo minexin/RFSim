@@ -5,6 +5,7 @@ Both executables are developer-only targets linked to the header-only SDK.
 """
 
 import hashlib
+import io
 import json
 import math
 import os
@@ -13,6 +14,7 @@ import shutil
 import subprocess
 import sys
 import tempfile
+import threading
 import unittest
 from unittest import mock
 
@@ -468,11 +470,143 @@ class AdapterTests(unittest.TestCase):
                                         manifest_path=Path(str(PROBE) + ".manifest.json"))
                 with self.assertRaises(NativeReplayError) as caught:
                     provider.polynomial_coefficients_from_intercepts(10., [])
-                self.assertEqual(caught.exception.status, status)
+                self.assertEqual(caught.exception.status, status, str(caught.exception))
                 self.assertEqual(provider.exchanges, [])
         with mock.patch("native_replay.subprocess.Popen", side_effect=OSError("test spawn fault")):
             with self.assertRaises(NativeReplayError):
                 self.native.polynomial_coefficients_from_intercepts(10., [])
+
+    def test_open_pipe_detects_excess_without_waiting_for_eof(self):
+        # Deterministically model a writer that has produced its payload but
+        # keeps the pipe open. Buffered read() asks for another raw read before
+        # returning a short block; read1() must expose the excess immediately.
+        class HeldPipe(io.RawIOBase):
+            def __init__(self, process, payload):
+                self.process, self.payload = process, bytearray(payload)
+
+            def readable(self):
+                return True
+
+            def readinto(self, destination):
+                if self.payload:
+                    count = min(len(destination), len(self.payload))
+                    destination[:count] = self.payload[:count]
+                    del self.payload[:count]
+                    return count
+                self.process.needs_eof = True
+                self.process.progress.set()
+                if not self.process.killed.wait(2):
+                    raise OSError("test did not terminate held pipe")
+                return 0
+
+        class HeldProcess:
+            def __init__(self, stream, count):
+                self.progress, self.killed = threading.Event(), threading.Event()
+                self.needs_eof, self.deadline_reached = False, False
+                held = io.BufferedReader(HeldPipe(self, b"x" * count))
+                self.stdout = held if stream == "stdout" else io.BytesIO()
+                self.stderr = held if stream == "stderr" else io.BytesIO()
+                self.returncode = -9
+
+            def kill(self):
+                self.killed.set()
+                self.progress.set()
+
+            def wait(self, timeout=None):
+                if timeout is not None:
+                    if not self.progress.wait(2):
+                        raise AssertionError("reader did not reach either overflow or held EOF")
+                    if not self.killed.is_set():
+                        self.deadline_reached = True
+                        raise subprocess.TimeoutExpired("held test process", timeout)
+                return self.returncode
+
+        # Small injected budgets keep scheduling tests independent of throughput;
+        # the real process test above still exercises the unchanged 16MiB/64KiB.
+        for stream in ("stdout", "stderr"):
+            for count, expected in ((64, "timeout"), (65, "resource_limit")):
+                process = HeldProcess(stream, count)
+                with self.subTest(stream=stream, count=count), mock.patch(
+                        "native_replay.MAX_RESPONSE_BYTES", 64), mock.patch(
+                        "native_replay.MAX_REQUEST_BYTES", 64), mock.patch(
+                        "native_replay.subprocess.Popen", return_value=process):
+                    with self.assertRaises(NativeReplayError) as caught:
+                        self.native._run(b"")
+                    self.assertEqual(caught.exception.status, expected)
+                    self.assertEqual(process.deadline_reached, count == 64)
+                    self.assertTrue(process.killed.is_set())
+                    self.assertTrue(process.stdout.closed and process.stderr.closed)
+                    self.assertEqual(self.native.exchanges, [])
+
+    def test_observed_overflow_wins_simultaneous_process_deadline(self):
+        # Force both schedules: excess observed before the racing wait result,
+        # and excess drained only after timeout cleanup unblocks the pipe.
+        class DelayedPipe(io.BytesIO):
+            def __init__(self, process):
+                super().__init__(b"x" * 65)
+                self.process = process
+
+            def read1(self, count):
+                if self.process.after_deadline and not self.process.killed.wait(2):
+                    raise OSError("test cleanup did not unblock reader")
+                return super().read1(count)
+
+        class RacedProcess:
+            def __init__(self, after_deadline):
+                self.after_deadline = after_deadline
+                self.killed = threading.Event()
+                self.stdout = DelayedPipe(self)
+                self.stderr = io.BytesIO()
+                self.returncode = -9
+
+            def kill(self):
+                self.killed.set()
+
+            def wait(self, timeout=None):
+                if timeout is not None:
+                    if not self.after_deadline and not self.killed.wait(2):
+                        raise AssertionError("reader must observe overflow before deadline")
+                    raise subprocess.TimeoutExpired("raced test process", timeout)
+                return self.returncode
+
+        for after_deadline in (False, True):
+            process = RacedProcess(after_deadline)
+            with self.subTest(after_deadline=after_deadline), mock.patch(
+                    "native_replay.MAX_RESPONSE_BYTES", 64), mock.patch(
+                    "native_replay.subprocess.Popen", return_value=process):
+                with self.assertRaises(NativeReplayError) as caught:
+                    self.native._run(b"")
+                self.assertEqual(caught.exception.status, "resource_limit")
+                self.assertTrue(process.stdout.closed and process.stderr.closed)
+                self.assertEqual(self.native.exchanges, [])
+
+    def test_pipe_io_failure_is_not_claimed_as_observed_excess(self):
+        class BrokenPipe(io.BytesIO):
+            def read1(self, count):
+                raise OSError("controlled pipe read fault")
+
+        class BrokenProcess:
+            def __init__(self, timed_out):
+                self.stdout, self.stderr = BrokenPipe(), io.BytesIO()
+                self.returncode, self.timed_out = 0, timed_out
+
+            def kill(self):
+                self.returncode = -9
+
+            def wait(self, timeout=None):
+                if timeout is not None and self.timed_out:
+                    raise subprocess.TimeoutExpired("broken test process", timeout)
+                return self.returncode
+
+        for timed_out, expected in ((False, "execution_failure"), (True, "timeout")):
+            process = BrokenProcess(timed_out)
+            with self.subTest(timed_out=timed_out), mock.patch(
+                    "native_replay.subprocess.Popen", return_value=process):
+                with self.assertRaises(NativeReplayError) as caught:
+                    self.native._run(b"")
+                self.assertEqual(caught.exception.status, expected)
+                self.assertTrue(process.stdout.closed and process.stderr.closed)
+                self.assertEqual(self.native.exchanges, [])
 
     def test_sidecar_identity_required_and_checked(self):
         with tempfile.TemporaryDirectory() as tmp:

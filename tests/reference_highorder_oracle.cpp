@@ -6,6 +6,7 @@
 #include "rfmodel/polynomial_intercepts.hpp"
 #include <chrono>
 #include <cstdlib>
+#include <cstdio>
 #include <iomanip>
 #include <iostream>
 #include <limits>
@@ -134,14 +135,19 @@ int main() {
                 return 0;
             }
             if (mode == "stdout_limit" || mode == "stderr_limit") {
-                auto &stream = mode == "stdout_limit" ? std::cout : std::cerr;
-                const int blocks = mode == "stdout_limit" ? 4097 : 17;
-                const std::string block(4096, 'x');
-                for (int i = 0; i < blocks; ++i) {
-                    stream << block;
+                auto *stream = mode == "stdout_limit" ? stdout : stderr;
+                // Preserve the exact old payload sizes while avoiding thousands
+                // of formatted insertions in this byte-limit fixture.
+                std::size_t remaining = (mode == "stdout_limit" ? 16 * 1024 * 1024 : 65536) + 4096;
+                const std::string block(65536, 'x');
+                while (remaining != 0) {
+                    const auto count = std::min(remaining, block.size());
+                    if (std::fwrite(block.data(), 1, count, stream) != count) {
+                        return 8;
+                    }
+                    remaining -= count;
                 }
-                stream.flush();
-                return 0;
+                return std::fflush(stream) == 0 ? 0 : 8;
             }
             if (mode == "nonzero") {
                 return 7;

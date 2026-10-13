@@ -260,16 +260,20 @@ class NativeReplay:
             def read(pipe, output, limit):
                 try:
                     while True:
-                        block = pipe.read(65536)
+                        # read() can wait to fill its request even when the
+                        # first excess byte is already available. read1() makes
+                        # at most one raw read, bounded by the remaining budget
+                        # plus the single byte needed to detect overflow.
+                        block = pipe.read1(min(65536, limit - len(output) + 1))
                         if not block:
                             return
                         if len(output) + len(block) > limit:
-                            failures.append("Probe output exceeds byte limit")
+                            failures.append(("resource_limit", "Probe output exceeds byte limit"))
                             process.kill()
                             return
                         output.extend(block)
                 except OSError:
-                    failures.append("Cannot read native probe output")
+                    failures.append(("execution_failure", "Cannot read native probe output"))
                 finally:
                     pipe.close()
             readers = [threading.Thread(target=read, args=(pipe, output, limit), daemon=True)
@@ -277,19 +281,29 @@ class NativeReplay:
                                                   (process.stderr, chunks[1], MAX_REQUEST_BYTES))]
             for reader in readers:
                 reader.start()
+            timed_out = None
             try:
                 process.wait(timeout=self.timeout)
             except subprocess.TimeoutExpired as exc:
+                timed_out = exc
                 process.kill()
                 process.wait()
-                raise NativeReplayError("Native probe timed out", status="timeout") from exc
             finally:
                 for reader in readers:
                     reader.join(timeout=self.timeout)
+            # A deadline may race with the reader's observed overflow/kill.
+            # Classify real excess bytes after cleanup rather than masking that
+            # evidence with TimeoutExpired. An unexceeded budget stays timeout.
+            overflow = next((message for status, message in failures if status == "resource_limit"), None)
+            if overflow is not None:
+                raise NativeReplayError(overflow, status="resource_limit")
+            if timed_out is not None:
+                raise NativeReplayError("Native probe timed out", status="timeout") from timed_out
             if any(reader.is_alive() for reader in readers):
                 raise NativeReplayError("Native probe output did not close", status="timeout")
             if failures:
-                raise NativeReplayError(failures[0], status="resource_limit")
+                status, message = failures[0]
+                raise NativeReplayError(message, status=status)
             return process.returncode, bytes(chunks[0]), bytes(chunks[1])
 
     def _invoke(self, operation, tokens):
