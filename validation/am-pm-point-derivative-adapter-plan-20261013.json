@@ -1,0 +1,122 @@
+{
+  "schema_version": 1,
+  "created_utc": "2026-10-13T12:34:12.138940+00:00",
+  "classification": "preregistered_cross_frequency_and_compression_transfer_before_cpp_adapter",
+  "prior_evidence": "validation/am-pm-parameter-study-observations-20261013.json",
+  "prior_evidence_sha256": "4cf701b1197bd3e0602ce9e42065c34d73e306e89ea7fb68e9868026e4be31f5",
+  "phase_absolute_tolerance_degrees": 1e-05,
+  "analysis_budget": {
+    "profiles": 4,
+    "reserved_recovery": 1,
+    "total_maximum": 5
+  },
+  "hypotheses": [
+    {
+      "name": "native_analytic",
+      "peak_scale": 1,
+      "reference_shift_db": 0,
+      "origin": "Existing C++ documented amplitude cubic with exact dB-peak normalization."
+    },
+    {
+      "name": "rounded_shift_only",
+      "peak_scale": 1,
+      "reference_shift_db": -0.0012252678340014533,
+      "origin": "Hypothesis: use 2.5 dB instead of exact 20*log10(4/3). Not documented vendor implementation."
+    },
+    {
+      "name": "rounded_shift_frozen_scale",
+      "peak_scale": 1.0000010001140027,
+      "reference_shift_db": -0.0012252678340014533,
+      "origin": "Same rounded-shift hypothesis with scale frozen from earlier retrospective fit; new runs are transfer tests, not a derivation of a vendor constant."
+    },
+    {
+      "name": "frozen_retrospective_mapping",
+      "peak_scale": 1.0000010001140027,
+      "reference_shift_db": -0.001225288713598571,
+      "origin": "Both parameters frozen from earlier 37-point fit. No refitting or tolerance changes during this study."
+    }
+  ],
+  "selected_adapter_candidate": "rounded_shift_frozen_scale",
+  "primary_power_axis": "Each sweep actual DCP output W; ordinary DCP and raw spectral V/Z/P are scored separately.",
+  "profiles": [
+    {
+      "name": "915MHz-compressed",
+      "peak_degrees_per_db": -3.5,
+      "reference_dbm": 5.5,
+      "frequency_hz": 915000000.0,
+      "gain_db": 13,
+      "output_p1db_dbm": 8.5,
+      "output_saturation_dbm": 11.5,
+      "output_ip2_dbm": 140,
+      "output_ip3_dbm": 130,
+      "source_phase_deg": 37,
+      "ordinary_output_target_dbm": 6.5,
+      "ordinary_target_semantics": "nominal gain-based target; evaluate on actual measured output power",
+      "sweep_input_start_dbm": -17.5,
+      "sweep_input_stop_dbm": 0.5,
+      "sweep_step_db": 0.5,
+      "expected_points": 37
+    },
+    {
+      "name": "2450MHz-compressed",
+      "peak_degrees_per_db": 4.25,
+      "reference_dbm": -12.5,
+      "frequency_hz": 2450000000.0,
+      "gain_db": 7,
+      "output_p1db_dbm": -9.5,
+      "output_saturation_dbm": -6.5,
+      "output_ip2_dbm": 140,
+      "output_ip3_dbm": 130,
+      "source_phase_deg": -45,
+      "ordinary_output_target_dbm": -11.5,
+      "ordinary_target_semantics": "nominal gain-based target; evaluate on actual measured output power",
+      "sweep_input_start_dbm": -29.5,
+      "sweep_input_stop_dbm": -11.5,
+      "sweep_step_db": 0.5,
+      "expected_points": 37
+    },
+    {
+      "name": "10GHz-saturation",
+      "peak_degrees_per_db": -8,
+      "reference_dbm": 15,
+      "frequency_hz": 10000000000.0,
+      "gain_db": 31,
+      "output_p1db_dbm": 15,
+      "output_saturation_dbm": 18,
+      "output_ip2_dbm": 140,
+      "output_ip3_dbm": 130,
+      "source_phase_deg": -120,
+      "ordinary_output_target_dbm": 16,
+      "ordinary_target_semantics": "nominal gain-based target; evaluate on actual measured output power",
+      "sweep_input_start_dbm": -26,
+      "sweep_input_stop_dbm": -8,
+      "sweep_step_db": 0.5,
+      "expected_points": 37
+    },
+    {
+      "name": "30MHz-loss-zero-phase",
+      "peak_degrees_per_db": 0,
+      "reference_dbm": -4.5,
+      "frequency_hz": 30000000.0,
+      "gain_db": -3,
+      "output_p1db_dbm": -1.5,
+      "output_saturation_dbm": 1.5,
+      "output_ip2_dbm": 140,
+      "output_ip3_dbm": 130,
+      "source_phase_deg": 123,
+      "ordinary_output_target_dbm": -3.5,
+      "ordinary_target_semantics": "nominal gain-based target; evaluate on actual measured output power",
+      "sweep_input_start_dbm": -11.5,
+      "sweep_input_stop_dbm": 6.5,
+      "sweep_step_db": 0.5,
+      "expected_points": 37
+    }
+  ],
+  "rules": [
+    "No refitting of either mapping constant or tolerance. All points and disagreements must be retained.",
+    "Prepare copies by replacing only exact XML field byte spans; never reserialize the vendor workspace. Verify SI readbacks and dataset freshness before accepting capture.",
+    "Stop on errors, warnings, timeout or unexpected workspace. No blind rerun; reserve may only be used after a specific diagnosed setup repair.",
+    "Save results to unique new files, close each dedicated copy, reopen pristine baseline without analysis. Do not exit the user-owned SystemVue instance.",
+    "A successful bounded transfer allows a separately named opt-in calibrated C++ model. Preserve LegacyPointDerivativeAmPm and its original meaning. No inference of multitone, frequency-dependent phase or vendor internal constant derivation."
+  ]
+}
