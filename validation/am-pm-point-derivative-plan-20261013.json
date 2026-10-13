@@ -1,0 +1,4072 @@
+{
+  "schema_version": 1,
+  "created_utc": "2026-10-13T11:27:27.622248+00:00",
+  "classification": "preregistered_parameter_mapping_study_not_full_model_compatibility",
+  "prior_evidence": "validation/am-pm-native-replay-Debug-20261013.json",
+  "prior_evidence_sha256": "914105ef5a57f4d7bbeb119e5783fe277ea9dbed533585d131a214927a38c033",
+  "official_workspace_sha256": "ead90a212c786eff0cfa782dab47dbfe14c421b3f43b32c573bb990cb8348877",
+  "dedicated_workspace": "build-reference\\ampm-parameter-study-20261013\\RFModel_AMPM_A01.wsv",
+  "analysis_budget": {
+    "baseline": 1,
+    "profiles": 6,
+    "reserved_recovery": 1,
+    "total_maximum": 8
+  },
+  "phase_absolute_tolerance_degrees": 1e-05,
+  "source_frequency_hz": 100000000.0,
+  "amplifier": {
+    "mode": 1,
+    "gain_db": 20,
+    "output_p1db_dbm": 100,
+    "output_saturation_dbm": 103,
+    "output_ip2_dbm": 140,
+    "output_ip3_dbm": 130
+  },
+  "sweep": {
+    "output_offset_start_db": -10,
+    "output_offset_stop_db": 8,
+    "step_db": 0.25,
+    "expected_points": 73,
+    "auto_limits": false,
+    "source_phase_ownership": "Read every Quick Sweep input DCPH, independently of ordinary source phase."
+  },
+  "ordinary_source_phase_deg": 30,
+  "primary_power_axis": "Quick Sweep DCP output W; ordinary DCP and raw spectral V/Z/P are scored separately.",
+  "hypotheses": [
+    {
+      "name": "native_analytic",
+      "peak_scale": 1,
+      "reference_shift_db": 0,
+      "origin": "Existing C++ documented amplitude cubic with exact dB-peak normalization."
+    },
+    {
+      "name": "rounded_shift_only",
+      "peak_scale": 1,
+      "reference_shift_db": -0.0012252678340014533,
+      "origin": "Hypothesis: use 2.5 dB instead of exact 20*log10(4/3). Not documented vendor implementation."
+    },
+    {
+      "name": "rounded_shift_frozen_scale",
+      "peak_scale": 1.0000010001140027,
+      "reference_shift_db": -0.0012252678340014533,
+      "origin": "Same rounded-shift hypothesis with scale frozen from earlier retrospective fit; new runs are transfer tests, not a derivation of a vendor constant."
+    },
+    {
+      "name": "frozen_retrospective_mapping",
+      "peak_scale": 1.0000010001140027,
+      "reference_shift_db": -0.001225288713598571,
+      "origin": "Both parameters frozen from earlier 37-point fit. No refitting or tolerance changes during this study."
+    }
+  ],
+  "profiles": [
+    {
+      "name": "negative-reference-10",
+      "peak_degrees_per_db": -5.0,
+      "reference_dbm": 10.0,
+      "ordinary_output_target_dbm": 10.0,
+      "sweep_input_start_dbm": -20.0,
+      "sweep_input_stop_dbm": -2.0,
+      "predictions": [
+        {
+          "nominal_output_dbm": 0.0,
+          "phase_deg": {
+            "native_analytic": -5.598844069844075,
+            "rounded_shift_only": -5.600294685174193,
+            "rounded_shift_frozen_scale": -5.600300286107327,
+            "frozen_retrospective_mapping": -5.600300310830082
+          }
+        },
+        {
+          "nominal_output_dbm": 0.25,
+          "phase_deg": {
+            "native_analytic": -5.902277057435469,
+            "rounded_shift_only": -5.903801640041639,
+            "rounded_shift_frozen_scale": -5.903807544516329,
+            "frozen_retrospective_mapping": -5.903807570499686
+          }
+        },
+        {
+          "nominal_output_dbm": 0.5,
+          "phase_deg": {
+            "native_analytic": -6.221135610952293,
+            "rounded_shift_only": -6.222737462621893,
+            "rounded_shift_frozen_scale": -6.222743686068765,
+            "frozen_retrospective_mapping": -6.222743713368991
+          }
+        },
+        {
+          "nominal_output_dbm": 0.75,
+          "phase_deg": {
+            "native_analytic": -6.556103424246987,
+            "rounded_shift_only": -6.557785944916713,
+            "rounded_shift_frozen_scale": -6.557792503450264,
+            "frozen_retrospective_mapping": -6.557792532125305
+          }
+        },
+        {
+          "nominal_output_dbm": 1.0,
+          "phase_deg": {
+            "native_analytic": -6.907883930530546,
+            "rounded_shift_only": -6.909650615309696,
+            "rounded_shift_frozen_scale": -6.90965752574803,
+            "frozen_retrospective_mapping": -6.909657555857448
+          }
+        },
+        {
+          "nominal_output_dbm": 1.25,
+          "phase_deg": {
+            "native_analytic": -7.277199598686349,
+            "rounded_shift_only": -7.27905403391077,
+            "rounded_shift_frozen_scale": -7.279061313794636,
+            "frozen_retrospective_mapping": -7.2790613453995485
+          }
+        },
+        {
+          "nominal_output_dbm": 1.5,
+          "phase_deg": {
+            "native_analytic": -7.6647910189438395,
+            "rounded_shift_only": -7.666736877131618,
+            "rounded_shift_frozen_scale": -7.666744544742524,
+            "frozen_retrospective_mapping": -7.666744577905518
+          }
+        },
+        {
+          "nominal_output_dbm": 1.75,
+          "phase_deg": {
+            "native_analytic": -8.07141575019471,
+            "rounded_shift_only": -8.073456783760548,
+            "rounded_shift_frozen_scale": -8.07346485813773,
+            "frozen_retrospective_mapping": -8.073464892922749
+          }
+        },
+        {
+          "nominal_output_dbm": 2.0,
+          "phase_deg": {
+            "native_analytic": -8.497846898217833,
+            "rounded_shift_only": -8.499986931787559,
+            "rounded_shift_frozen_scale": -8.499995432743514,
+            "frozen_retrospective_mapping": -8.499995469215742
+          }
+        },
+        {
+          "nominal_output_dbm": 2.25,
+          "phase_deg": {
+            "native_analytic": -8.944871390760053,
+            "rounded_shift_only": -8.947114311909715,
+            "rounded_shift_frozen_scale": -8.947123260044023,
+            "frozen_retrospective_mapping": -8.947123298269709
+          }
+        },
+        {
+          "nominal_output_dbm": 2.5,
+          "phase_deg": {
+            "native_analytic": -9.413287911769194,
+            "rounded_shift_only": -9.415637659994307,
+            "rounded_shift_frozen_scale": -9.415647076705374,
+            "frozen_retrospective_mapping": -9.415647116751652
+          }
+        },
+        {
+          "nominal_output_dbm": 2.75,
+          "phase_deg": {
+            "native_analytic": -9.903904453061172,
+            "rounded_shift_only": -9.906365006761169,
+            "rounded_shift_frozen_scale": -9.90637491425553,
+            "frozen_retrospective_mapping": -9.906374956190193
+          }
+        },
+        {
+          "nominal_output_dbm": 3.0,
+          "phase_deg": {
+            "native_analytic": -10.417535437290171,
+            "rounded_shift_only": -10.420110798530391,
+            "rounded_shift_frozen_scale": -10.420121219829111,
+            "frozen_retrospective_mapping": -10.42012126372036
+          }
+        },
+        {
+          "nominal_output_dbm": 3.25,
+          "phase_deg": {
+            "native_analytic": -10.954998361241548,
+            "rounded_shift_only": -10.95769253803019,
+            "rounded_shift_frozen_scale": -10.957703496971936,
+            "frozen_retrospective_mapping": -10.95770354288807
+          }
+        },
+        {
+          "nominal_output_dbm": 3.5,
+          "phase_deg": {
+            "native_analytic": -11.517109903139524,
+            "rounded_shift_only": -11.519926888929628,
+            "rounded_shift_frozen_scale": -11.519938410169821,
+            "frozen_retrospective_mapping": -11.519938458178894
+          }
+        },
+        {
+          "nominal_output_dbm": 3.75,
+          "phase_deg": {
+            "native_analytic": -12.104681431810395,
+            "rounded_shift_only": -12.107625181906883,
+            "rounded_shift_frozen_scale": -12.107637290912368,
+            "frozen_retrospective_mapping": -12.107637341081778
+          }
+        },
+        {
+          "nominal_output_dbm": 4.0,
+          "phase_deg": {
+            "native_analytic": -12.718513849117342,
+            "rounded_shift_only": -12.72158825363615,
+            "rounded_shift_frozen_scale": -12.7216009766747,
+            "frozen_retrospective_mapping": -12.721601029070735
+          }
+        },
+        {
+          "nominal_output_dbm": 4.25,
+          "phase_deg": {
+            "native_analytic": -13.359391690030053,
+            "rounded_shift_only": -13.36260054302017,
+            "rounded_shift_frozen_scale": -13.362613907144086,
+            "frozen_retrospective_mapping": -13.362613961831387
+          }
+        },
+        {
+          "nominal_output_dbm": 4.5,
+          "phase_deg": {
+            "native_analytic": -14.028076396952265,
+            "rounded_shift_only": -14.031423361251795,
+            "rounded_shift_frozen_scale": -14.031437394274779,
+            "frozen_retrospective_mapping": -14.031437451315771
+          }
+        },
+        {
+          "nominal_output_dbm": 4.75,
+          "phase_deg": {
+            "native_analytic": -14.725298676437728,
+            "rounded_shift_only": -14.728787243791446,
+            "rounded_shift_frozen_scale": -14.728801974257813,
+            "frozen_retrospective_mapping": -14.728802033711986
+          }
+        },
+        {
+          "nominal_output_dbm": 5.0,
+          "phase_deg": {
+            "native_analytic": -15.451749837108641,
+            "rounded_shift_only": -15.455383283026778,
+            "rounded_shift_frozen_scale": -15.455398740172019,
+            "frozen_retrospective_mapping": -15.455398802095173
+          }
+        },
+        {
+          "nominal_output_dbm": 5.25,
+          "phase_deg": {
+            "native_analytic": -16.20807199737334,
+            "rounded_shift_only": -16.211853330158778,
+            "rounded_shift_frozen_scale": -16.211869543860306,
+            "frozen_retrospective_mapping": -16.211869608303697
+          }
+        },
+        {
+          "nominal_output_dbm": 5.5,
+          "phase_deg": {
+            "native_analytic": -16.994847040336154,
+            "rounded_shift_only": -16.998778943649874,
+            "rounded_shift_frozen_scale": -16.998795944366726,
+            "frozen_retrospective_mapping": -16.998796011376083
+          }
+        },
+        {
+          "nominal_output_dbm": 5.75,
+          "phase_deg": {
+            "native_analytic": -17.81258418100963,
+            "rounded_shift_only": -17.816668949281173,
+            "rounded_shift_frozen_scale": -17.81668676798127,
+            "frozen_retrospective_mapping": -17.816686837595654
+          }
+        },
+        {
+          "nominal_output_dbm": 6.0,
+          "phase_deg": {
+            "native_analytic": -18.661705997476684,
+            "rounded_shift_only": -18.665945463397197,
+            "rounded_shift_frozen_scale": -18.66596413147063,
+            "frozen_retrospective_mapping": -18.66596420372127
+          }
+        },
+        {
+          "nominal_output_dbm": 6.25,
+          "phase_deg": {
+            "native_analytic": -19.542532762895792,
+            "rounded_shift_only": -19.546928216155788,
+            "rounded_shift_frozen_scale": -19.546947765312407,
+            "frozen_retrospective_mapping": -19.546947840221243
+          }
+        },
+        {
+          "nominal_output_dbm": 6.5,
+          "phase_deg": {
+            "native_analytic": -20.455264899076575,
+            "rounded_shift_only": -20.459816995427403,
+            "rounded_shift_frozen_scale": -20.459837457576874,
+            "frozen_retrospective_mapping": -20.459837535155064
+          }
+        },
+        {
+          "nominal_output_dbm": 6.75,
+          "phase_deg": {
+            "native_analytic": -21.399963354642644,
+            "rounded_shift_only": -21.404672014269966,
+            "rounded_shift_frozen_scale": -21.404693421382174,
+            "frozen_retrospective_mapping": -21.40469350162831
+          }
+        },
+        {
+          "nominal_output_dbm": 7.0,
+          "phase_deg": {
+            "native_analytic": -22.376527691399865,
+            "rounded_shift_only": -22.381391985497807,
+            "rounded_shift_frozen_scale": -22.381414369441334,
+            "frozen_retrospective_mapping": -22.381414452339552
+          }
+        },
+        {
+          "nominal_output_dbm": 7.25,
+          "phase_deg": {
+            "native_analytic": -23.384671641282676,
+            "rounded_shift_only": -23.389689665608593,
+            "rounded_shift_frozen_scale": -23.389713057964748,
+            "frozen_retrospective_mapping": -23.389713143482563
+          }
+        },
+        {
+          "nominal_output_dbm": 7.5,
+          "phase_deg": {
+            "native_analytic": -24.42389587298767,
+            "rounded_shift_only": -24.42906460705791,
+            "rounded_shift_frozen_scale": -24.4290890389075,
+            "frozen_retrospective_mapping": -24.429089126993386
+          }
+        },
+        {
+          "nominal_output_dbm": 7.75,
+          "phase_deg": {
+            "native_analytic": -25.493457681932973,
+            "rounded_shift_only": -25.498772832389676,
+            "rounded_shift_frozen_scale": -25.498798334069438,
+            "frozen_retrospective_mapping": -25.498798424650182
+          }
+        },
+        {
+          "nominal_output_dbm": 8.0,
+          "phase_deg": {
+            "native_analytic": -26.592337289299543,
+            "rounded_shift_only": -26.597793115835298,
+            "rounded_shift_frozen_scale": -26.597819716660634,
+            "frozen_retrospective_mapping": -26.59781980963835
+          }
+        },
+        {
+          "nominal_output_dbm": 8.25,
+          "phase_deg": {
+            "native_analytic": -27.719200405391327,
+            "rounded_shift_only": -27.724789527462356,
+            "rounded_shift_frozen_scale": -27.724817255412585,
+            "frozen_retrospective_mapping": -27.724817350661425
+          }
+        },
+        {
+          "nominal_output_dbm": 8.5,
+          "phase_deg": {
+            "native_analytic": -28.87235667915093,
+            "rounded_shift_only": -28.87806986153794,
+            "rounded_shift_frozen_scale": -28.878098742899986,
+            "frozen_retrospective_mapping": -28.87809884026248
+          }
+        },
+        {
+          "nominal_output_dbm": 8.75,
+          "phase_deg": {
+            "native_analytic": -30.049713619117856,
+            "rounded_shift_only": -30.055539534206567,
+            "rounded_shift_frozen_scale": -30.055569593172514,
+            "frozen_retrospective_mapping": -30.05556969245556
+          }
+        },
+        {
+          "nominal_output_dbm": 9.0,
+          "phase_deg": {
+            "native_analytic": -31.248725531125935,
+            "rounded_shift_only": -31.254650495574097,
+            "rounded_shift_frozen_scale": -31.25468175378771,
+            "frozen_retrospective_mapping": -31.254681854758026
+          }
+        },
+        {
+          "nominal_output_dbm": 9.25,
+          "phase_deg": {
+            "native_analytic": -32.466336974285745,
+            "rounded_shift_only": -32.47234465751955,
+            "rounded_shift_frozen_scale": -32.47237713356614,
+            "frozen_retrospective_mapping": -32.47237723594531
+          }
+        },
+        {
+          "nominal_output_dbm": 9.5,
+          "phase_deg": {
+            "native_analytic": -33.698920188939766,
+            "rounded_shift_only": -33.70499129067688,
+            "rounded_shift_frozen_scale": -33.705024999510634,
+            "frozen_retrospective_mapping": -33.705025102969614
+          }
+        },
+        {
+          "nominal_output_dbm": 9.75,
+          "phase_deg": {
+            "native_analytic": -34.9422058979304,
+            "rounded_shift_only": -34.94831779165872,
+            "rounded_shift_frozen_scale": -34.94835274396072,
+            "frozen_retrospective_mapping": -34.94835284811382
+          }
+        },
+        {
+          "nominal_output_dbm": 10.0,
+          "phase_deg": {
+            "native_analytic": -36.191206825270974,
+            "rounded_shift_only": -36.197333164319055,
+            "rounded_shift_frozen_scale": -36.19736936577882,
+            "frozen_retrospective_mapping": -36.1973694701769
+          }
+        },
+        {
+          "nominal_output_dbm": 10.25,
+          "phase_deg": {
+            "native_analytic": -37.440133213703454,
+            "rounded_shift_only": -37.44624349621735,
+            "rounded_shift_frozen_scale": -37.44628094672982,
+            "frozen_retrospective_mapping": -37.446281050852896
+          }
+        },
+        {
+          "nominal_output_dbm": 10.5,
+          "phase_deg": {
+            "native_analytic": -38.68229955416907,
+            "rounded_shift_only": -38.68835864295974,
+            "rounded_shift_frozen_scale": -38.688397335728965,
+            "frozen_retrospective_mapping": -38.68839743897811
+          }
+        },
+        {
+          "nominal_output_dbm": 10.75,
+          "phase_deg": {
+            "native_analytic": -39.91002166537048,
+            "rounded_shift_only": -39.91598925821231,
+            "rounded_shift_frozen_scale": -39.916029178752105,
+            "frozen_retrospective_mapping": -39.916029280440284
+          }
+        },
+        {
+          "nominal_output_dbm": 11.0,
+          "phase_deg": {
+            "native_analytic": -41.114503179775824,
+            "rounded_shift_only": -41.12033322531783,
+            "rounded_shift_frozen_scale": -41.12037435033889,
+            "frozen_retrospective_mapping": -41.12037444968109
+          }
+        },
+        {
+          "nominal_output_dbm": 11.25,
+          "phase_deg": {
+            "native_analytic": -42.285710402965876,
+            "rounded_shift_only": -42.29135045695827,
+            "rounded_shift_frozen_scale": -42.291392753130054,
+            "frozen_retrospective_mapping": -42.29139284923231
+          }
+        },
+        {
+          "nominal_output_dbm": 11.5,
+          "phase_deg": {
+            "native_analytic": -43.41223441544892,
+            "rounded_shift_only": -43.41762493148748,
+            "rounded_shift_frozen_scale": -43.417668354062144,
+            "frozen_retrospective_mapping": -43.4176684459094
+          }
+        },
+        {
+          "nominal_output_dbm": 11.75,
+          "phase_deg": {
+            "native_analytic": -44.481139179203744,
+            "rounded_shift_only": -44.4862127276463,
+            "rounded_shift_frozen_scale": -44.48625721893058,
+            "frozen_retrospective_mapping": -44.48625730537344
+          }
+        },
+        {
+          "nominal_output_dbm": 12.0,
+          "phase_deg": {
+            "native_analytic": -45.477794294417336,
+            "rounded_shift_only": -45.482474702528926,
+            "rounded_shift_frozen_scale": -45.48252019018876,
+            "frozen_retrospective_mapping": -45.48252026992879
+          }
+        },
+        {
+          "nominal_output_dbm": 12.25,
+          "phase_deg": {
+            "native_analytic": -46.385690924253744,
+            "rounded_shift_only": -46.389892329982644,
+            "rounded_shift_frozen_scale": -46.38993872516355,
+            "frozen_retrospective_mapping": -46.38993879673718
+          }
+        },
+        {
+          "nominal_output_dbm": 12.5,
+          "phase_deg": {
+            "native_analytic": -47.186239266022945,
+            "rounded_shift_only": -47.189865077095895,
+            "rounded_shift_frozen_scale": -47.18991227234075,
+            "frozen_retrospective_mapping": -47.189912334101464
+          }
+        },
+        {
+          "nominal_output_dbm": 12.75,
+          "phase_deg": {
+            "native_analytic": -47.85854579473255,
+            "rounded_shift_only": -47.861487543976295,
+            "rounded_shift_frozen_scale": -47.861535410920176,
+            "frozen_retrospective_mapping": -47.8615354610191
+          }
+        },
+        {
+          "nominal_output_dbm": 13.0,
+          "phase_deg": {
+            "native_analytic": -48.37916833850957,
+            "rounded_shift_only": -48.38130442545364,
+            "rounded_shift_frozen_scale": -48.38135281227367,
+            "frozen_retrospective_mapping": -48.38135284863806
+          }
+        },
+        {
+          "nominal_output_dbm": 13.25,
+          "phase_deg": {
+            "native_analytic": -48.72184686348557,
+            "rounded_shift_only": -48.723041171369026,
+            "rounded_shift_frozen_scale": -48.723089899964755,
+            "frozen_retrospective_mapping": -48.72308992027439
+          }
+        },
+        {
+          "nominal_output_dbm": 13.5,
+          "phase_deg": {
+            "native_analytic": -48.85720764702994,
+            "rounded_shift_only": -48.85730802331743,
+            "rounded_shift_frozen_scale": -48.85735688619532,
+            "frozen_retrospective_mapping": -48.857356887856724
+          }
+        },
+        {
+          "nominal_output_dbm": 13.75,
+          "phase_deg": {
+            "native_analytic": -48.85812921411582,
+            "rounded_shift_only": -48.85812921411582,
+            "rounded_shift_frozen_scale": -48.858178077815,
+            "frozen_retrospective_mapping": -48.858178077815
+          }
+        },
+        {
+          "nominal_output_dbm": 14.0,
+          "phase_deg": {
+            "native_analytic": -48.85812921411582,
+            "rounded_shift_only": -48.85812921411582,
+            "rounded_shift_frozen_scale": -48.858178077815,
+            "frozen_retrospective_mapping": -48.858178077815
+          }
+        },
+        {
+          "nominal_output_dbm": 14.25,
+          "phase_deg": {
+            "native_analytic": -48.85812921411582,
+            "rounded_shift_only": -48.85812921411582,
+            "rounded_shift_frozen_scale": -48.858178077815,
+            "frozen_retrospective_mapping": -48.858178077815
+          }
+        },
+        {
+          "nominal_output_dbm": 14.5,
+          "phase_deg": {
+            "native_analytic": -48.85812921411582,
+            "rounded_shift_only": -48.85812921411582,
+            "rounded_shift_frozen_scale": -48.858178077815,
+            "frozen_retrospective_mapping": -48.858178077815
+          }
+        },
+        {
+          "nominal_output_dbm": 14.75,
+          "phase_deg": {
+            "native_analytic": -48.85812921411582,
+            "rounded_shift_only": -48.85812921411582,
+            "rounded_shift_frozen_scale": -48.858178077815,
+            "frozen_retrospective_mapping": -48.858178077815
+          }
+        },
+        {
+          "nominal_output_dbm": 15.0,
+          "phase_deg": {
+            "native_analytic": -48.85812921411582,
+            "rounded_shift_only": -48.85812921411582,
+            "rounded_shift_frozen_scale": -48.858178077815,
+            "frozen_retrospective_mapping": -48.858178077815
+          }
+        },
+        {
+          "nominal_output_dbm": 15.25,
+          "phase_deg": {
+            "native_analytic": -48.85812921411582,
+            "rounded_shift_only": -48.85812921411582,
+            "rounded_shift_frozen_scale": -48.858178077815,
+            "frozen_retrospective_mapping": -48.858178077815
+          }
+        },
+        {
+          "nominal_output_dbm": 15.5,
+          "phase_deg": {
+            "native_analytic": -48.85812921411582,
+            "rounded_shift_only": -48.85812921411582,
+            "rounded_shift_frozen_scale": -48.858178077815,
+            "frozen_retrospective_mapping": -48.858178077815
+          }
+        },
+        {
+          "nominal_output_dbm": 15.75,
+          "phase_deg": {
+            "native_analytic": -48.85812921411582,
+            "rounded_shift_only": -48.85812921411582,
+            "rounded_shift_frozen_scale": -48.858178077815,
+            "frozen_retrospective_mapping": -48.858178077815
+          }
+        },
+        {
+          "nominal_output_dbm": 16.0,
+          "phase_deg": {
+            "native_analytic": -48.85812921411582,
+            "rounded_shift_only": -48.85812921411582,
+            "rounded_shift_frozen_scale": -48.858178077815,
+            "frozen_retrospective_mapping": -48.858178077815
+          }
+        },
+        {
+          "nominal_output_dbm": 16.25,
+          "phase_deg": {
+            "native_analytic": -48.85812921411582,
+            "rounded_shift_only": -48.85812921411582,
+            "rounded_shift_frozen_scale": -48.858178077815,
+            "frozen_retrospective_mapping": -48.858178077815
+          }
+        },
+        {
+          "nominal_output_dbm": 16.5,
+          "phase_deg": {
+            "native_analytic": -48.85812921411582,
+            "rounded_shift_only": -48.85812921411582,
+            "rounded_shift_frozen_scale": -48.858178077815,
+            "frozen_retrospective_mapping": -48.858178077815
+          }
+        },
+        {
+          "nominal_output_dbm": 16.75,
+          "phase_deg": {
+            "native_analytic": -48.85812921411582,
+            "rounded_shift_only": -48.85812921411582,
+            "rounded_shift_frozen_scale": -48.858178077815,
+            "frozen_retrospective_mapping": -48.858178077815
+          }
+        },
+        {
+          "nominal_output_dbm": 17.0,
+          "phase_deg": {
+            "native_analytic": -48.85812921411582,
+            "rounded_shift_only": -48.85812921411582,
+            "rounded_shift_frozen_scale": -48.858178077815,
+            "frozen_retrospective_mapping": -48.858178077815
+          }
+        },
+        {
+          "nominal_output_dbm": 17.25,
+          "phase_deg": {
+            "native_analytic": -48.85812921411582,
+            "rounded_shift_only": -48.85812921411582,
+            "rounded_shift_frozen_scale": -48.858178077815,
+            "frozen_retrospective_mapping": -48.858178077815
+          }
+        },
+        {
+          "nominal_output_dbm": 17.5,
+          "phase_deg": {
+            "native_analytic": -48.85812921411582,
+            "rounded_shift_only": -48.85812921411582,
+            "rounded_shift_frozen_scale": -48.858178077815,
+            "frozen_retrospective_mapping": -48.858178077815
+          }
+        },
+        {
+          "nominal_output_dbm": 17.75,
+          "phase_deg": {
+            "native_analytic": -48.85812921411582,
+            "rounded_shift_only": -48.85812921411582,
+            "rounded_shift_frozen_scale": -48.858178077815,
+            "frozen_retrospective_mapping": -48.858178077815
+          }
+        },
+        {
+          "nominal_output_dbm": 18.0,
+          "phase_deg": {
+            "native_analytic": -48.85812921411582,
+            "rounded_shift_only": -48.85812921411582,
+            "rounded_shift_frozen_scale": -48.858178077815,
+            "frozen_retrospective_mapping": -48.858178077815
+          }
+        }
+      ]
+    },
+    {
+      "name": "positive-reference-10",
+      "peak_degrees_per_db": 7.0,
+      "reference_dbm": 10.0,
+      "ordinary_output_target_dbm": 14.0,
+      "sweep_input_start_dbm": -20.0,
+      "sweep_input_stop_dbm": -2.0,
+      "predictions": [
+        {
+          "nominal_output_dbm": 0.0,
+          "phase_deg": {
+            "native_analytic": 7.838381697781706,
+            "rounded_shift_only": 7.8404125592438705,
+            "rounded_shift_frozen_scale": 7.840420400550258,
+            "frozen_retrospective_mapping": 7.840420435162115
+          }
+        },
+        {
+          "nominal_output_dbm": 0.25,
+          "phase_deg": {
+            "native_analytic": 8.263187880409657,
+            "rounded_shift_only": 8.265322296058295,
+            "rounded_shift_frozen_scale": 8.26533056232286,
+            "frozen_retrospective_mapping": 8.265330598699562
+          }
+        },
+        {
+          "nominal_output_dbm": 0.5,
+          "phase_deg": {
+            "native_analytic": 8.70958985533321,
+            "rounded_shift_only": 8.711832447670652,
+            "rounded_shift_frozen_scale": 8.711841160496272,
+            "frozen_retrospective_mapping": 8.711841198716588
+          }
+        },
+        {
+          "nominal_output_dbm": 0.75,
+          "phase_deg": {
+            "native_analytic": 9.178544793945782,
+            "rounded_shift_only": 9.1809003228834,
+            "rounded_shift_frozen_scale": 9.18090950483037,
+            "frozen_retrospective_mapping": 9.180909544975426
+          }
+        },
+        {
+          "nominal_output_dbm": 1.0,
+          "phase_deg": {
+            "native_analytic": 9.671037502742765,
+            "rounded_shift_only": 9.673510861433575,
+            "rounded_shift_frozen_scale": 9.673520536047242,
+            "frozen_retrospective_mapping": 9.673520578200428
+          }
+        },
+        {
+          "nominal_output_dbm": 1.25,
+          "phase_deg": {
+            "native_analytic": 10.188079438160889,
+            "rounded_shift_only": 10.190675647475079,
+            "rounded_shift_frozen_scale": 10.190685839312492,
+            "frozen_retrospective_mapping": 10.190685883559368
+          }
+        },
+        {
+          "nominal_output_dbm": 1.5,
+          "phase_deg": {
+            "native_analytic": 10.730707426521377,
+            "rounded_shift_only": 10.733431627984267,
+            "rounded_shift_frozen_scale": 10.733442362639535,
+            "frozen_retrospective_mapping": 10.733442409067726
+          }
+        },
+        {
+          "nominal_output_dbm": 1.75,
+          "phase_deg": {
+            "native_analytic": 11.299982050272595,
+            "rounded_shift_only": 11.30283949726477,
+            "rounded_shift_frozen_scale": 11.302850801392822,
+            "frozen_retrospective_mapping": 11.302850850091847
+          }
+        },
+        {
+          "nominal_output_dbm": 2.0,
+          "phase_deg": {
+            "native_analytic": 11.896985657504969,
+            "rounded_shift_only": 11.899981704502585,
+            "rounded_shift_frozen_scale": 11.899993605840919,
+            "frozen_retrospective_mapping": 11.89999365690204
+          }
+        },
+        {
+          "nominal_output_dbm": 2.25,
+          "phase_deg": {
+            "native_analytic": 12.522819947064075,
+            "rounded_shift_only": 12.525960036673602,
+            "rounded_shift_frozen_scale": 12.525972564061632,
+            "frozen_retrospective_mapping": 12.525972617577592
+          }
+        },
+        {
+          "nominal_output_dbm": 2.5,
+          "phase_deg": {
+            "native_analytic": 13.178603076476874,
+            "rounded_shift_only": 13.18189272399203,
+            "rounded_shift_frozen_scale": 13.181905907387526,
+            "frozen_retrospective_mapping": 13.181905963452312
+          }
+        },
+        {
+          "nominal_output_dbm": 2.75,
+          "phase_deg": {
+            "native_analytic": 13.865466234285641,
+            "rounded_shift_only": 13.868911009465638,
+            "rounded_shift_frozen_scale": 13.868924879957742,
+            "frozen_retrospective_mapping": 13.868924938666272
+          }
+        },
+        {
+          "nominal_output_dbm": 3.0,
+          "phase_deg": {
+            "native_analytic": 14.584549612206242,
+            "rounded_shift_only": 14.58815511794255,
+            "rounded_shift_frozen_scale": 14.588169707760757,
+            "frozen_retrospective_mapping": 14.588169769208504
+          }
+        },
+        {
+          "nominal_output_dbm": 3.25,
+          "phase_deg": {
+            "native_analytic": 15.33699770573817,
+            "rounded_shift_only": 15.340769553242268,
+            "rounded_shift_frozen_scale": 15.340784895760711,
+            "frozen_retrospective_mapping": 15.340784960043298
+          }
+        },
+        {
+          "nominal_output_dbm": 3.5,
+          "phase_deg": {
+            "native_analytic": 16.123953864395332,
+            "rounded_shift_only": 16.12789764450148,
+            "rounded_shift_frozen_scale": 16.12791377423775,
+            "frozen_retrospective_mapping": 16.12791384145045
+          }
+        },
+        {
+          "nominal_output_dbm": 3.75,
+          "phase_deg": {
+            "native_analytic": 16.946554004534555,
+            "rounded_shift_only": 16.950675254669637,
+            "rounded_shift_frozen_scale": 16.950692207277314,
+            "frozen_retrospective_mapping": 16.95069227751449
+          }
+        },
+        {
+          "nominal_output_dbm": 4.0,
+          "phase_deg": {
+            "native_analytic": 17.80591938876428,
+            "rounded_shift_only": 17.810223555090612,
+            "rounded_shift_frozen_scale": 17.81024136734458,
+            "frozen_retrospective_mapping": 17.810241440699027
+          }
+        },
+        {
+          "nominal_output_dbm": 4.25,
+          "phase_deg": {
+            "native_analytic": 18.703148366042075,
+            "rounded_shift_only": 18.70764076022824,
+            "rounded_shift_frozen_scale": 18.707659470001722,
+            "frozen_retrospective_mapping": 18.707659546563942
+          }
+        },
+        {
+          "nominal_output_dbm": 4.5,
+          "phase_deg": {
+            "native_analytic": 19.639306955733176,
+            "rounded_shift_only": 19.643992705752517,
+            "rounded_shift_frozen_scale": 19.64401235198469,
+            "frozen_retrospective_mapping": 19.64401243184208
+          }
+        },
+        {
+          "nominal_output_dbm": 4.75,
+          "phase_deg": {
+            "native_analytic": 20.61541814701282,
+            "rounded_shift_only": 20.620302141308027,
+            "rounded_shift_frozen_scale": 20.62032276396094,
+            "frozen_retrospective_mapping": 20.620322847196782
+          }
+        },
+        {
+          "nominal_output_dbm": 5.0,
+          "phase_deg": {
+            "native_analytic": 21.6324497719521,
+            "rounded_shift_only": 21.637536596237492,
+            "rounded_shift_frozen_scale": 21.637558236240828,
+            "frozen_retrospective_mapping": 21.63755832293324
+          }
+        },
+        {
+          "nominal_output_dbm": 5.25,
+          "phase_deg": {
+            "native_analytic": 22.691300796322682,
+            "rounded_shift_only": 22.696594662222292,
+            "rounded_shift_frozen_scale": 22.696617361404428,
+            "frozen_retrospective_mapping": 22.696617451625176
+          }
+        },
+        {
+          "nominal_output_dbm": 5.5,
+          "phase_deg": {
+            "native_analytic": 23.79278585647062,
+            "rounded_shift_only": 23.798290521109827,
+            "rounded_shift_frozen_scale": 23.79831432211342,
+            "frozen_retrospective_mapping": 23.798314415926516
+          }
+        },
+        {
+          "nominal_output_dbm": 5.75,
+          "phase_deg": {
+            "native_analytic": 24.937617853413485,
+            "rounded_shift_only": 24.943336528993644,
+            "rounded_shift_frozen_scale": 24.94336147517378,
+            "frozen_retrospective_mapping": 24.94336157263392
+          }
+        },
+        {
+          "nominal_output_dbm": 6.0,
+          "phase_deg": {
+            "native_analytic": 26.12638839646736,
+            "rounded_shift_only": 26.13232364875608,
+            "rounded_shift_frozen_scale": 26.132349784058885,
+            "frozen_retrospective_mapping": 26.132349885209777
+          }
+        },
+        {
+          "nominal_output_dbm": 6.25,
+          "phase_deg": {
+            "native_analytic": 27.35954586805411,
+            "rounded_shift_only": 27.365699502618106,
+            "rounded_shift_frozen_scale": 27.36572687143737,
+            "frozen_retrospective_mapping": 27.36572697630974
+          }
+        },
+        {
+          "nominal_output_dbm": 6.5,
+          "phase_deg": {
+            "native_analytic": 28.637370858707207,
+            "rounded_shift_only": 28.643743793598365,
+            "rounded_shift_frozen_scale": 28.643772440607624,
+            "frozen_retrospective_mapping": 28.64377254921709
+          }
+        },
+        {
+          "nominal_output_dbm": 6.75,
+          "phase_deg": {
+            "native_analytic": 29.959948696499705,
+            "rounded_shift_only": 29.966540819977958,
+            "rounded_shift_frozen_scale": 29.966570789935044,
+            "frozen_retrospective_mapping": 29.966570902279635
+          }
+        },
+        {
+          "nominal_output_dbm": 7.0,
+          "phase_deg": {
+            "native_analytic": 31.327138767959813,
+            "rounded_shift_only": 31.333948779696932,
+            "rounded_shift_frozen_scale": 31.333980117217866,
+            "frozen_retrospective_mapping": 31.333980233275373
+          }
+        },
+        {
+          "nominal_output_dbm": 7.25,
+          "phase_deg": {
+            "native_analytic": 32.73854029779575,
+            "rounded_shift_only": 32.74556553185203,
+            "rounded_shift_frozen_scale": 32.74559828115065,
+            "frozen_retrospective_mapping": 32.74559840087559
+          }
+        },
+        {
+          "nominal_output_dbm": 7.5,
+          "phase_deg": {
+            "native_analytic": 34.193454222182744,
+            "rounded_shift_only": 34.20069044988108,
+            "rounded_shift_frozen_scale": 34.2007246544705,
+            "frozen_retrospective_mapping": 34.20072477779074
+          }
+        },
+        {
+          "nominal_output_dbm": 7.75,
+          "phase_deg": {
+            "native_analytic": 35.690840754706166,
+            "rounded_shift_only": 35.69828196534555,
+            "rounded_shift_frozen_scale": 35.69831766769722,
+            "frozen_retrospective_mapping": 35.69831779451025
+          }
+        },
+        {
+          "nominal_output_dbm": 8.0,
+          "phase_deg": {
+            "native_analytic": 37.22927220501937,
+            "rounded_shift_only": 37.23691036216942,
+            "rounded_shift_frozen_scale": 37.23694760332489,
+            "frozen_retrospective_mapping": 37.236947733493686
+          }
+        },
+        {
+          "nominal_output_dbm": 8.25,
+          "phase_deg": {
+            "native_analytic": 38.806880567547864,
+            "rounded_shift_only": 38.814705338447304,
+            "rounded_shift_frozen_scale": 38.81474415757762,
+            "frozen_retrospective_mapping": 38.814744290926
+          }
+        },
+        {
+          "nominal_output_dbm": 8.5,
+          "phase_deg": {
+            "native_analytic": 40.4212993508113,
+            "rounded_shift_only": 40.42929780615312,
+            "rounded_shift_frozen_scale": 40.42933824005998,
+            "frozen_retrospective_mapping": 40.429338376367475
+          }
+        },
+        {
+          "nominal_output_dbm": 8.75,
+          "phase_deg": {
+            "native_analytic": 42.069599066765,
+            "rounded_shift_only": 42.077755347889195,
+            "rounded_shift_frozen_scale": 42.07779743044152,
+            "frozen_retrospective_mapping": 42.077797569437784
+          }
+        },
+        {
+          "nominal_output_dbm": 9.0,
+          "phase_deg": {
+            "native_analytic": 43.74821574357632,
+            "rounded_shift_only": 43.75651069380374,
+            "rounded_shift_frozen_scale": 43.7565544553028,
+            "frozen_retrospective_mapping": 43.75655459666123
+          }
+        },
+        {
+          "nominal_output_dbm": 9.25,
+          "phase_deg": {
+            "native_analytic": 45.452871764000044,
+            "rounded_shift_only": 45.46128252052737,
+            "rounded_shift_frozen_scale": 45.4613279869926,
+            "frozen_retrospective_mapping": 45.46132813032343
+          }
+        },
+        {
+          "nominal_output_dbm": 9.5,
+          "phase_deg": {
+            "native_analytic": 47.178488264515686,
+            "rounded_shift_only": 47.186987806947634,
+            "rounded_shift_frozen_scale": 47.18703499931488,
+            "frozen_retrospective_mapping": 47.18703514415746
+          }
+        },
+        {
+          "nominal_output_dbm": 9.75,
+          "phase_deg": {
+            "native_analytic": 48.919088257102565,
+            "rounded_shift_only": 48.927644908322215,
+            "rounded_shift_frozen_scale": 48.92769384154501,
+            "frozen_retrospective_mapping": 48.92769398735935
+          }
+        },
+        {
+          "nominal_output_dbm": 10.0,
+          "phase_deg": {
+            "native_analytic": 50.66768955537937,
+            "rounded_shift_only": 50.67626643004669,
+            "rounded_shift_frozen_scale": 50.676317112090345,
+            "frozen_retrospective_mapping": 50.67631725824766
+          }
+        },
+        {
+          "nominal_output_dbm": 10.25,
+          "phase_deg": {
+            "native_analytic": 52.416186499184846,
+            "rounded_shift_only": 52.42474089470429,
+            "rounded_shift_frozen_scale": 52.42479332542175,
+            "frozen_retrospective_mapping": 52.42479347119406
+          }
+        },
+        {
+          "nominal_output_dbm": 10.5,
+          "phase_deg": {
+            "native_analytic": 54.15521937583671,
+            "rounded_shift_only": 54.163702100143645,
+            "rounded_shift_frozen_scale": 54.16375627002055,
+            "frozen_retrospective_mapping": 54.16375641456935
+          }
+        },
+        {
+          "nominal_output_dbm": 10.75,
+          "phase_deg": {
+            "native_analytic": 55.874030331518675,
+            "rounded_shift_only": 55.882384961497245,
+            "rounded_shift_frozen_scale": 55.88244085025295,
+            "frozen_retrospective_mapping": 55.882440992616395
+          }
+        },
+        {
+          "nominal_output_dbm": 11.0,
+          "phase_deg": {
+            "native_analytic": 57.560304451686164,
+            "rounded_shift_only": 57.56846651544497,
+            "rounded_shift_frozen_scale": 57.56852409047445,
+            "frozen_retrospective_mapping": 57.568524229553525
+          }
+        },
+        {
+          "nominal_output_dbm": 11.25,
+          "phase_deg": {
+            "native_analytic": 59.19999456415223,
+            "rounded_shift_only": 59.20789063974158,
+            "rounded_shift_frozen_scale": 59.20794985438208,
+            "frozen_retrospective_mapping": 59.207949988925236
+          }
+        },
+        {
+          "nominal_output_dbm": 11.5,
+          "phase_deg": {
+            "native_analytic": 60.7771281816285,
+            "rounded_shift_only": 60.78467490408248,
+            "rounded_shift_frozen_scale": 60.784735695687004,
+            "frozen_retrospective_mapping": 60.784735824273156
+          }
+        },
+        {
+          "nominal_output_dbm": 11.75,
+          "phase_deg": {
+            "native_analytic": 62.27359485088525,
+            "rounded_shift_only": 62.28069781870483,
+            "rounded_shift_frozen_scale": 62.28076010650281,
+            "frozen_retrospective_mapping": 62.280760227522826
+          }
+        },
+        {
+          "nominal_output_dbm": 12.0,
+          "phase_deg": {
+            "native_analytic": 63.66891201218428,
+            "rounded_shift_only": 63.6754645835405,
+            "rounded_shift_frozen_scale": 63.67552826626426,
+            "frozen_retrospective_mapping": 63.67552837790031
+          }
+        },
+        {
+          "nominal_output_dbm": 12.25,
+          "phase_deg": {
+            "native_analytic": 64.93996729395525,
+            "rounded_shift_only": 64.94584926197571,
+            "rounded_shift_frozen_scale": 64.94591421522897,
+            "frozen_retrospective_mapping": 64.94591431543205
+          }
+        },
+        {
+          "nominal_output_dbm": 12.5,
+          "phase_deg": {
+            "native_analytic": 66.06073497243213,
+            "rounded_shift_only": 66.06581110793427,
+            "rounded_shift_frozen_scale": 66.06587718127705,
+            "frozen_retrospective_mapping": 66.06587726774205
+          }
+        },
+        {
+          "nominal_output_dbm": 12.75,
+          "phase_deg": {
+            "native_analytic": 67.00196411262557,
+            "rounded_shift_only": 67.00608256156681,
+            "rounded_shift_frozen_scale": 67.00614957528825,
+            "frozen_retrospective_mapping": 67.00614964542675
+          }
+        },
+        {
+          "nominal_output_dbm": 13.0,
+          "phase_deg": {
+            "native_analytic": 67.7308356739134,
+            "rounded_shift_only": 67.7338261956351,
+            "rounded_shift_frozen_scale": 67.73389393718314,
+            "frozen_retrospective_mapping": 67.73389398809329
+          }
+        },
+        {
+          "nominal_output_dbm": 13.25,
+          "phase_deg": {
+            "native_analytic": 68.2105856088798,
+            "rounded_shift_only": 68.21225763991664,
+            "rounded_shift_frozen_scale": 68.21232585995067,
+            "frozen_retrospective_mapping": 68.21232588838416
+          }
+        },
+        {
+          "nominal_output_dbm": 13.5,
+          "phase_deg": {
+            "native_analytic": 68.40009070584192,
+            "rounded_shift_only": 68.4002312326444,
+            "rounded_shift_frozen_scale": 68.40029964067345,
+            "frozen_retrospective_mapping": 68.40029964299941
+          }
+        },
+        {
+          "nominal_output_dbm": 13.75,
+          "phase_deg": {
+            "native_analytic": 68.40138089976216,
+            "rounded_shift_only": 68.40138089976216,
+            "rounded_shift_frozen_scale": 68.401449308941,
+            "frozen_retrospective_mapping": 68.401449308941
+          }
+        },
+        {
+          "nominal_output_dbm": 14.0,
+          "phase_deg": {
+            "native_analytic": 68.40138089976216,
+            "rounded_shift_only": 68.40138089976216,
+            "rounded_shift_frozen_scale": 68.401449308941,
+            "frozen_retrospective_mapping": 68.401449308941
+          }
+        },
+        {
+          "nominal_output_dbm": 14.25,
+          "phase_deg": {
+            "native_analytic": 68.40138089976216,
+            "rounded_shift_only": 68.40138089976216,
+            "rounded_shift_frozen_scale": 68.401449308941,
+            "frozen_retrospective_mapping": 68.401449308941
+          }
+        },
+        {
+          "nominal_output_dbm": 14.5,
+          "phase_deg": {
+            "native_analytic": 68.40138089976216,
+            "rounded_shift_only": 68.40138089976216,
+            "rounded_shift_frozen_scale": 68.401449308941,
+            "frozen_retrospective_mapping": 68.401449308941
+          }
+        },
+        {
+          "nominal_output_dbm": 14.75,
+          "phase_deg": {
+            "native_analytic": 68.40138089976216,
+            "rounded_shift_only": 68.40138089976216,
+            "rounded_shift_frozen_scale": 68.401449308941,
+            "frozen_retrospective_mapping": 68.401449308941
+          }
+        },
+        {
+          "nominal_output_dbm": 15.0,
+          "phase_deg": {
+            "native_analytic": 68.40138089976216,
+            "rounded_shift_only": 68.40138089976216,
+            "rounded_shift_frozen_scale": 68.401449308941,
+            "frozen_retrospective_mapping": 68.401449308941
+          }
+        },
+        {
+          "nominal_output_dbm": 15.25,
+          "phase_deg": {
+            "native_analytic": 68.40138089976216,
+            "rounded_shift_only": 68.40138089976216,
+            "rounded_shift_frozen_scale": 68.401449308941,
+            "frozen_retrospective_mapping": 68.401449308941
+          }
+        },
+        {
+          "nominal_output_dbm": 15.5,
+          "phase_deg": {
+            "native_analytic": 68.40138089976216,
+            "rounded_shift_only": 68.40138089976216,
+            "rounded_shift_frozen_scale": 68.401449308941,
+            "frozen_retrospective_mapping": 68.401449308941
+          }
+        },
+        {
+          "nominal_output_dbm": 15.75,
+          "phase_deg": {
+            "native_analytic": 68.40138089976216,
+            "rounded_shift_only": 68.40138089976216,
+            "rounded_shift_frozen_scale": 68.401449308941,
+            "frozen_retrospective_mapping": 68.401449308941
+          }
+        },
+        {
+          "nominal_output_dbm": 16.0,
+          "phase_deg": {
+            "native_analytic": 68.40138089976216,
+            "rounded_shift_only": 68.40138089976216,
+            "rounded_shift_frozen_scale": 68.401449308941,
+            "frozen_retrospective_mapping": 68.401449308941
+          }
+        },
+        {
+          "nominal_output_dbm": 16.25,
+          "phase_deg": {
+            "native_analytic": 68.40138089976216,
+            "rounded_shift_only": 68.40138089976216,
+            "rounded_shift_frozen_scale": 68.401449308941,
+            "frozen_retrospective_mapping": 68.401449308941
+          }
+        },
+        {
+          "nominal_output_dbm": 16.5,
+          "phase_deg": {
+            "native_analytic": 68.40138089976216,
+            "rounded_shift_only": 68.40138089976216,
+            "rounded_shift_frozen_scale": 68.401449308941,
+            "frozen_retrospective_mapping": 68.401449308941
+          }
+        },
+        {
+          "nominal_output_dbm": 16.75,
+          "phase_deg": {
+            "native_analytic": 68.40138089976216,
+            "rounded_shift_only": 68.40138089976216,
+            "rounded_shift_frozen_scale": 68.401449308941,
+            "frozen_retrospective_mapping": 68.401449308941
+          }
+        },
+        {
+          "nominal_output_dbm": 17.0,
+          "phase_deg": {
+            "native_analytic": 68.40138089976216,
+            "rounded_shift_only": 68.40138089976216,
+            "rounded_shift_frozen_scale": 68.401449308941,
+            "frozen_retrospective_mapping": 68.401449308941
+          }
+        },
+        {
+          "nominal_output_dbm": 17.25,
+          "phase_deg": {
+            "native_analytic": 68.40138089976216,
+            "rounded_shift_only": 68.40138089976216,
+            "rounded_shift_frozen_scale": 68.401449308941,
+            "frozen_retrospective_mapping": 68.401449308941
+          }
+        },
+        {
+          "nominal_output_dbm": 17.5,
+          "phase_deg": {
+            "native_analytic": 68.40138089976216,
+            "rounded_shift_only": 68.40138089976216,
+            "rounded_shift_frozen_scale": 68.401449308941,
+            "frozen_retrospective_mapping": 68.401449308941
+          }
+        },
+        {
+          "nominal_output_dbm": 17.75,
+          "phase_deg": {
+            "native_analytic": 68.40138089976216,
+            "rounded_shift_only": 68.40138089976216,
+            "rounded_shift_frozen_scale": 68.401449308941,
+            "frozen_retrospective_mapping": 68.401449308941
+          }
+        },
+        {
+          "nominal_output_dbm": 18.0,
+          "phase_deg": {
+            "native_analytic": 68.40138089976216,
+            "rounded_shift_only": 68.40138089976216,
+            "rounded_shift_frozen_scale": 68.401449308941,
+            "frozen_retrospective_mapping": 68.401449308941
+          }
+        }
+      ]
+    },
+    {
+      "name": "negative-reference-minus10",
+      "peak_degrees_per_db": -5.0,
+      "reference_dbm": -10.0,
+      "ordinary_output_target_dbm": -6.0,
+      "sweep_input_start_dbm": -40.0,
+      "sweep_input_stop_dbm": -22.0,
+      "predictions": [
+        {
+          "nominal_output_dbm": -20.0,
+          "phase_deg": {
+            "native_analytic": -5.598844069844075,
+            "rounded_shift_only": -5.600294685174193,
+            "rounded_shift_frozen_scale": -5.600300286107327,
+            "frozen_retrospective_mapping": -5.600300310830082
+          }
+        },
+        {
+          "nominal_output_dbm": -19.75,
+          "phase_deg": {
+            "native_analytic": -5.902277057435469,
+            "rounded_shift_only": -5.903801640041639,
+            "rounded_shift_frozen_scale": -5.903807544516329,
+            "frozen_retrospective_mapping": -5.903807570499686
+          }
+        },
+        {
+          "nominal_output_dbm": -19.5,
+          "phase_deg": {
+            "native_analytic": -6.221135610952293,
+            "rounded_shift_only": -6.222737462621893,
+            "rounded_shift_frozen_scale": -6.222743686068765,
+            "frozen_retrospective_mapping": -6.222743713368991
+          }
+        },
+        {
+          "nominal_output_dbm": -19.25,
+          "phase_deg": {
+            "native_analytic": -6.556103424246987,
+            "rounded_shift_only": -6.557785944916713,
+            "rounded_shift_frozen_scale": -6.557792503450264,
+            "frozen_retrospective_mapping": -6.557792532125305
+          }
+        },
+        {
+          "nominal_output_dbm": -19.0,
+          "phase_deg": {
+            "native_analytic": -6.907883930530546,
+            "rounded_shift_only": -6.909650615309696,
+            "rounded_shift_frozen_scale": -6.90965752574803,
+            "frozen_retrospective_mapping": -6.909657555857448
+          }
+        },
+        {
+          "nominal_output_dbm": -18.75,
+          "phase_deg": {
+            "native_analytic": -7.277199598686349,
+            "rounded_shift_only": -7.27905403391077,
+            "rounded_shift_frozen_scale": -7.279061313794636,
+            "frozen_retrospective_mapping": -7.2790613453995485
+          }
+        },
+        {
+          "nominal_output_dbm": -18.5,
+          "phase_deg": {
+            "native_analytic": -7.6647910189438395,
+            "rounded_shift_only": -7.666736877131618,
+            "rounded_shift_frozen_scale": -7.666744544742524,
+            "frozen_retrospective_mapping": -7.666744577905518
+          }
+        },
+        {
+          "nominal_output_dbm": -18.25,
+          "phase_deg": {
+            "native_analytic": -8.07141575019471,
+            "rounded_shift_only": -8.073456783760548,
+            "rounded_shift_frozen_scale": -8.07346485813773,
+            "frozen_retrospective_mapping": -8.073464892922749
+          }
+        },
+        {
+          "nominal_output_dbm": -18.0,
+          "phase_deg": {
+            "native_analytic": -8.497846898217833,
+            "rounded_shift_only": -8.499986931787559,
+            "rounded_shift_frozen_scale": -8.499995432743514,
+            "frozen_retrospective_mapping": -8.499995469215742
+          }
+        },
+        {
+          "nominal_output_dbm": -17.75,
+          "phase_deg": {
+            "native_analytic": -8.944871390760053,
+            "rounded_shift_only": -8.947114311909715,
+            "rounded_shift_frozen_scale": -8.947123260044023,
+            "frozen_retrospective_mapping": -8.947123298269709
+          }
+        },
+        {
+          "nominal_output_dbm": -17.5,
+          "phase_deg": {
+            "native_analytic": -9.413287911769194,
+            "rounded_shift_only": -9.415637659994307,
+            "rounded_shift_frozen_scale": -9.415647076705374,
+            "frozen_retrospective_mapping": -9.415647116751652
+          }
+        },
+        {
+          "nominal_output_dbm": -17.25,
+          "phase_deg": {
+            "native_analytic": -9.903904453061172,
+            "rounded_shift_only": -9.906365006761169,
+            "rounded_shift_frozen_scale": -9.90637491425553,
+            "frozen_retrospective_mapping": -9.906374956190193
+          }
+        },
+        {
+          "nominal_output_dbm": -17.0,
+          "phase_deg": {
+            "native_analytic": -10.417535437290171,
+            "rounded_shift_only": -10.420110798530391,
+            "rounded_shift_frozen_scale": -10.420121219829111,
+            "frozen_retrospective_mapping": -10.42012126372036
+          }
+        },
+        {
+          "nominal_output_dbm": -16.75,
+          "phase_deg": {
+            "native_analytic": -10.954998361241548,
+            "rounded_shift_only": -10.95769253803019,
+            "rounded_shift_frozen_scale": -10.957703496971936,
+            "frozen_retrospective_mapping": -10.95770354288807
+          }
+        },
+        {
+          "nominal_output_dbm": -16.5,
+          "phase_deg": {
+            "native_analytic": -11.517109903139524,
+            "rounded_shift_only": -11.519926888929628,
+            "rounded_shift_frozen_scale": -11.519938410169821,
+            "frozen_retrospective_mapping": -11.519938458178894
+          }
+        },
+        {
+          "nominal_output_dbm": -16.25,
+          "phase_deg": {
+            "native_analytic": -12.104681431810395,
+            "rounded_shift_only": -12.107625181906883,
+            "rounded_shift_frozen_scale": -12.107637290912368,
+            "frozen_retrospective_mapping": -12.107637341081778
+          }
+        },
+        {
+          "nominal_output_dbm": -16.0,
+          "phase_deg": {
+            "native_analytic": -12.718513849117342,
+            "rounded_shift_only": -12.72158825363615,
+            "rounded_shift_frozen_scale": -12.7216009766747,
+            "frozen_retrospective_mapping": -12.721601029070735
+          }
+        },
+        {
+          "nominal_output_dbm": -15.75,
+          "phase_deg": {
+            "native_analytic": -13.359391690030053,
+            "rounded_shift_only": -13.36260054302017,
+            "rounded_shift_frozen_scale": -13.362613907144086,
+            "frozen_retrospective_mapping": -13.362613961831387
+          }
+        },
+        {
+          "nominal_output_dbm": -15.5,
+          "phase_deg": {
+            "native_analytic": -14.028076396952265,
+            "rounded_shift_only": -14.031423361251795,
+            "rounded_shift_frozen_scale": -14.031437394274779,
+            "frozen_retrospective_mapping": -14.031437451315771
+          }
+        },
+        {
+          "nominal_output_dbm": -15.25,
+          "phase_deg": {
+            "native_analytic": -14.725298676437728,
+            "rounded_shift_only": -14.728787243791446,
+            "rounded_shift_frozen_scale": -14.728801974257813,
+            "frozen_retrospective_mapping": -14.728802033711986
+          }
+        },
+        {
+          "nominal_output_dbm": -15.0,
+          "phase_deg": {
+            "native_analytic": -15.451749837108641,
+            "rounded_shift_only": -15.455383283026778,
+            "rounded_shift_frozen_scale": -15.455398740172019,
+            "frozen_retrospective_mapping": -15.455398802095173
+          }
+        },
+        {
+          "nominal_output_dbm": -14.75,
+          "phase_deg": {
+            "native_analytic": -16.20807199737334,
+            "rounded_shift_only": -16.211853330158778,
+            "rounded_shift_frozen_scale": -16.211869543860306,
+            "frozen_retrospective_mapping": -16.211869608303697
+          }
+        },
+        {
+          "nominal_output_dbm": -14.5,
+          "phase_deg": {
+            "native_analytic": -16.994847040336154,
+            "rounded_shift_only": -16.998778943649874,
+            "rounded_shift_frozen_scale": -16.998795944366726,
+            "frozen_retrospective_mapping": -16.998796011376083
+          }
+        },
+        {
+          "nominal_output_dbm": -14.25,
+          "phase_deg": {
+            "native_analytic": -17.81258418100963,
+            "rounded_shift_only": -17.816668949281173,
+            "rounded_shift_frozen_scale": -17.81668676798127,
+            "frozen_retrospective_mapping": -17.816686837595654
+          }
+        },
+        {
+          "nominal_output_dbm": -14.0,
+          "phase_deg": {
+            "native_analytic": -18.661705997476684,
+            "rounded_shift_only": -18.665945463397197,
+            "rounded_shift_frozen_scale": -18.66596413147063,
+            "frozen_retrospective_mapping": -18.66596420372127
+          }
+        },
+        {
+          "nominal_output_dbm": -13.75,
+          "phase_deg": {
+            "native_analytic": -19.542532762895792,
+            "rounded_shift_only": -19.546928216155788,
+            "rounded_shift_frozen_scale": -19.546947765312407,
+            "frozen_retrospective_mapping": -19.546947840221243
+          }
+        },
+        {
+          "nominal_output_dbm": -13.5,
+          "phase_deg": {
+            "native_analytic": -20.455264899076575,
+            "rounded_shift_only": -20.459816995427403,
+            "rounded_shift_frozen_scale": -20.459837457576874,
+            "frozen_retrospective_mapping": -20.459837535155064
+          }
+        },
+        {
+          "nominal_output_dbm": -13.25,
+          "phase_deg": {
+            "native_analytic": -21.399963354642644,
+            "rounded_shift_only": -21.404672014269966,
+            "rounded_shift_frozen_scale": -21.404693421382174,
+            "frozen_retrospective_mapping": -21.40469350162831
+          }
+        },
+        {
+          "nominal_output_dbm": -13.0,
+          "phase_deg": {
+            "native_analytic": -22.376527691399865,
+            "rounded_shift_only": -22.381391985497807,
+            "rounded_shift_frozen_scale": -22.381414369441334,
+            "frozen_retrospective_mapping": -22.381414452339552
+          }
+        },
+        {
+          "nominal_output_dbm": -12.75,
+          "phase_deg": {
+            "native_analytic": -23.384671641282676,
+            "rounded_shift_only": -23.389689665608593,
+            "rounded_shift_frozen_scale": -23.389713057964748,
+            "frozen_retrospective_mapping": -23.389713143482563
+          }
+        },
+        {
+          "nominal_output_dbm": -12.5,
+          "phase_deg": {
+            "native_analytic": -24.42389587298767,
+            "rounded_shift_only": -24.42906460705791,
+            "rounded_shift_frozen_scale": -24.4290890389075,
+            "frozen_retrospective_mapping": -24.429089126993386
+          }
+        },
+        {
+          "nominal_output_dbm": -12.25,
+          "phase_deg": {
+            "native_analytic": -25.493457681932973,
+            "rounded_shift_only": -25.498772832389676,
+            "rounded_shift_frozen_scale": -25.498798334069438,
+            "frozen_retrospective_mapping": -25.498798424650182
+          }
+        },
+        {
+          "nominal_output_dbm": -12.0,
+          "phase_deg": {
+            "native_analytic": -26.592337289299543,
+            "rounded_shift_only": -26.597793115835298,
+            "rounded_shift_frozen_scale": -26.597819716660634,
+            "frozen_retrospective_mapping": -26.59781980963835
+          }
+        },
+        {
+          "nominal_output_dbm": -11.75,
+          "phase_deg": {
+            "native_analytic": -27.719200405391327,
+            "rounded_shift_only": -27.724789527462356,
+            "rounded_shift_frozen_scale": -27.724817255412585,
+            "frozen_retrospective_mapping": -27.724817350661425
+          }
+        },
+        {
+          "nominal_output_dbm": -11.5,
+          "phase_deg": {
+            "native_analytic": -28.87235667915093,
+            "rounded_shift_only": -28.87806986153794,
+            "rounded_shift_frozen_scale": -28.878098742899986,
+            "frozen_retrospective_mapping": -28.87809884026248
+          }
+        },
+        {
+          "nominal_output_dbm": -11.25,
+          "phase_deg": {
+            "native_analytic": -30.049713619117856,
+            "rounded_shift_only": -30.055539534206567,
+            "rounded_shift_frozen_scale": -30.055569593172514,
+            "frozen_retrospective_mapping": -30.05556969245556
+          }
+        },
+        {
+          "nominal_output_dbm": -11.0,
+          "phase_deg": {
+            "native_analytic": -31.248725531125935,
+            "rounded_shift_only": -31.254650495574097,
+            "rounded_shift_frozen_scale": -31.25468175378771,
+            "frozen_retrospective_mapping": -31.254681854758026
+          }
+        },
+        {
+          "nominal_output_dbm": -10.75,
+          "phase_deg": {
+            "native_analytic": -32.466336974285745,
+            "rounded_shift_only": -32.47234465751955,
+            "rounded_shift_frozen_scale": -32.47237713356614,
+            "frozen_retrospective_mapping": -32.47237723594531
+          }
+        },
+        {
+          "nominal_output_dbm": -10.5,
+          "phase_deg": {
+            "native_analytic": -33.698920188939766,
+            "rounded_shift_only": -33.70499129067688,
+            "rounded_shift_frozen_scale": -33.705024999510634,
+            "frozen_retrospective_mapping": -33.705025102969614
+          }
+        },
+        {
+          "nominal_output_dbm": -10.25,
+          "phase_deg": {
+            "native_analytic": -34.9422058979304,
+            "rounded_shift_only": -34.94831779165872,
+            "rounded_shift_frozen_scale": -34.94835274396072,
+            "frozen_retrospective_mapping": -34.94835284811382
+          }
+        },
+        {
+          "nominal_output_dbm": -10.0,
+          "phase_deg": {
+            "native_analytic": -36.191206825270974,
+            "rounded_shift_only": -36.197333164319055,
+            "rounded_shift_frozen_scale": -36.19736936577882,
+            "frozen_retrospective_mapping": -36.1973694701769
+          }
+        },
+        {
+          "nominal_output_dbm": -9.75,
+          "phase_deg": {
+            "native_analytic": -37.440133213703454,
+            "rounded_shift_only": -37.44624349621735,
+            "rounded_shift_frozen_scale": -37.44628094672982,
+            "frozen_retrospective_mapping": -37.446281050852896
+          }
+        },
+        {
+          "nominal_output_dbm": -9.5,
+          "phase_deg": {
+            "native_analytic": -38.68229955416907,
+            "rounded_shift_only": -38.68835864295974,
+            "rounded_shift_frozen_scale": -38.688397335728965,
+            "frozen_retrospective_mapping": -38.68839743897811
+          }
+        },
+        {
+          "nominal_output_dbm": -9.25,
+          "phase_deg": {
+            "native_analytic": -39.91002166537048,
+            "rounded_shift_only": -39.91598925821231,
+            "rounded_shift_frozen_scale": -39.916029178752105,
+            "frozen_retrospective_mapping": -39.916029280440284
+          }
+        },
+        {
+          "nominal_output_dbm": -9.0,
+          "phase_deg": {
+            "native_analytic": -41.114503179775824,
+            "rounded_shift_only": -41.12033322531783,
+            "rounded_shift_frozen_scale": -41.12037435033889,
+            "frozen_retrospective_mapping": -41.12037444968109
+          }
+        },
+        {
+          "nominal_output_dbm": -8.75,
+          "phase_deg": {
+            "native_analytic": -42.285710402965876,
+            "rounded_shift_only": -42.29135045695827,
+            "rounded_shift_frozen_scale": -42.291392753130054,
+            "frozen_retrospective_mapping": -42.29139284923231
+          }
+        },
+        {
+          "nominal_output_dbm": -8.5,
+          "phase_deg": {
+            "native_analytic": -43.41223441544892,
+            "rounded_shift_only": -43.41762493148748,
+            "rounded_shift_frozen_scale": -43.417668354062144,
+            "frozen_retrospective_mapping": -43.4176684459094
+          }
+        },
+        {
+          "nominal_output_dbm": -8.25,
+          "phase_deg": {
+            "native_analytic": -44.481139179203744,
+            "rounded_shift_only": -44.4862127276463,
+            "rounded_shift_frozen_scale": -44.48625721893058,
+            "frozen_retrospective_mapping": -44.48625730537344
+          }
+        },
+        {
+          "nominal_output_dbm": -8.0,
+          "phase_deg": {
+            "native_analytic": -45.477794294417336,
+            "rounded_shift_only": -45.482474702528926,
+            "rounded_shift_frozen_scale": -45.48252019018876,
+            "frozen_retrospective_mapping": -45.48252026992879
+          }
+        },
+        {
+          "nominal_output_dbm": -7.75,
+          "phase_deg": {
+            "native_analytic": -46.385690924253744,
+            "rounded_shift_only": -46.389892329982644,
+            "rounded_shift_frozen_scale": -46.38993872516355,
+            "frozen_retrospective_mapping": -46.38993879673718
+          }
+        },
+        {
+          "nominal_output_dbm": -7.5,
+          "phase_deg": {
+            "native_analytic": -47.186239266022945,
+            "rounded_shift_only": -47.189865077095895,
+            "rounded_shift_frozen_scale": -47.18991227234075,
+            "frozen_retrospective_mapping": -47.189912334101464
+          }
+        },
+        {
+          "nominal_output_dbm": -7.25,
+          "phase_deg": {
+            "native_analytic": -47.85854579473255,
+            "rounded_shift_only": -47.861487543976295,
+            "rounded_shift_frozen_scale": -47.861535410920176,
+            "frozen_retrospective_mapping": -47.8615354610191
+          }
+        },
+        {
+          "nominal_output_dbm": -7.0,
+          "phase_deg": {
+            "native_analytic": -48.37916833850957,
+            "rounded_shift_only": -48.38130442545364,
+            "rounded_shift_frozen_scale": -48.38135281227367,
+            "frozen_retrospective_mapping": -48.38135284863806
+          }
+        },
+        {
+          "nominal_output_dbm": -6.75,
+          "phase_deg": {
+            "native_analytic": -48.72184686348557,
+            "rounded_shift_only": -48.723041171369026,
+            "rounded_shift_frozen_scale": -48.723089899964755,
+            "frozen_retrospective_mapping": -48.72308992027439
+          }
+        },
+        {
+          "nominal_output_dbm": -6.5,
+          "phase_deg": {
+            "native_analytic": -48.85720764702994,
+            "rounded_shift_only": -48.85730802331743,
+            "rounded_shift_frozen_scale": -48.85735688619532,
+            "frozen_retrospective_mapping": -48.857356887856724
+          }
+        },
+        {
+          "nominal_output_dbm": -6.25,
+          "phase_deg": {
+            "native_analytic": -48.85812921411582,
+            "rounded_shift_only": -48.85812921411582,
+            "rounded_shift_frozen_scale": -48.858178077815,
+            "frozen_retrospective_mapping": -48.858178077815
+          }
+        },
+        {
+          "nominal_output_dbm": -6.0,
+          "phase_deg": {
+            "native_analytic": -48.85812921411582,
+            "rounded_shift_only": -48.85812921411582,
+            "rounded_shift_frozen_scale": -48.858178077815,
+            "frozen_retrospective_mapping": -48.858178077815
+          }
+        },
+        {
+          "nominal_output_dbm": -5.75,
+          "phase_deg": {
+            "native_analytic": -48.85812921411582,
+            "rounded_shift_only": -48.85812921411582,
+            "rounded_shift_frozen_scale": -48.858178077815,
+            "frozen_retrospective_mapping": -48.858178077815
+          }
+        },
+        {
+          "nominal_output_dbm": -5.5,
+          "phase_deg": {
+            "native_analytic": -48.85812921411582,
+            "rounded_shift_only": -48.85812921411582,
+            "rounded_shift_frozen_scale": -48.858178077815,
+            "frozen_retrospective_mapping": -48.858178077815
+          }
+        },
+        {
+          "nominal_output_dbm": -5.25,
+          "phase_deg": {
+            "native_analytic": -48.85812921411582,
+            "rounded_shift_only": -48.85812921411582,
+            "rounded_shift_frozen_scale": -48.858178077815,
+            "frozen_retrospective_mapping": -48.858178077815
+          }
+        },
+        {
+          "nominal_output_dbm": -5.0,
+          "phase_deg": {
+            "native_analytic": -48.85812921411582,
+            "rounded_shift_only": -48.85812921411582,
+            "rounded_shift_frozen_scale": -48.858178077815,
+            "frozen_retrospective_mapping": -48.858178077815
+          }
+        },
+        {
+          "nominal_output_dbm": -4.75,
+          "phase_deg": {
+            "native_analytic": -48.85812921411582,
+            "rounded_shift_only": -48.85812921411582,
+            "rounded_shift_frozen_scale": -48.858178077815,
+            "frozen_retrospective_mapping": -48.858178077815
+          }
+        },
+        {
+          "nominal_output_dbm": -4.5,
+          "phase_deg": {
+            "native_analytic": -48.85812921411582,
+            "rounded_shift_only": -48.85812921411582,
+            "rounded_shift_frozen_scale": -48.858178077815,
+            "frozen_retrospective_mapping": -48.858178077815
+          }
+        },
+        {
+          "nominal_output_dbm": -4.25,
+          "phase_deg": {
+            "native_analytic": -48.85812921411582,
+            "rounded_shift_only": -48.85812921411582,
+            "rounded_shift_frozen_scale": -48.858178077815,
+            "frozen_retrospective_mapping": -48.858178077815
+          }
+        },
+        {
+          "nominal_output_dbm": -4.0,
+          "phase_deg": {
+            "native_analytic": -48.85812921411582,
+            "rounded_shift_only": -48.85812921411582,
+            "rounded_shift_frozen_scale": -48.858178077815,
+            "frozen_retrospective_mapping": -48.858178077815
+          }
+        },
+        {
+          "nominal_output_dbm": -3.75,
+          "phase_deg": {
+            "native_analytic": -48.85812921411582,
+            "rounded_shift_only": -48.85812921411582,
+            "rounded_shift_frozen_scale": -48.858178077815,
+            "frozen_retrospective_mapping": -48.858178077815
+          }
+        },
+        {
+          "nominal_output_dbm": -3.5,
+          "phase_deg": {
+            "native_analytic": -48.85812921411582,
+            "rounded_shift_only": -48.85812921411582,
+            "rounded_shift_frozen_scale": -48.858178077815,
+            "frozen_retrospective_mapping": -48.858178077815
+          }
+        },
+        {
+          "nominal_output_dbm": -3.25,
+          "phase_deg": {
+            "native_analytic": -48.85812921411582,
+            "rounded_shift_only": -48.85812921411582,
+            "rounded_shift_frozen_scale": -48.858178077815,
+            "frozen_retrospective_mapping": -48.858178077815
+          }
+        },
+        {
+          "nominal_output_dbm": -3.0,
+          "phase_deg": {
+            "native_analytic": -48.85812921411582,
+            "rounded_shift_only": -48.85812921411582,
+            "rounded_shift_frozen_scale": -48.858178077815,
+            "frozen_retrospective_mapping": -48.858178077815
+          }
+        },
+        {
+          "nominal_output_dbm": -2.75,
+          "phase_deg": {
+            "native_analytic": -48.85812921411582,
+            "rounded_shift_only": -48.85812921411582,
+            "rounded_shift_frozen_scale": -48.858178077815,
+            "frozen_retrospective_mapping": -48.858178077815
+          }
+        },
+        {
+          "nominal_output_dbm": -2.5,
+          "phase_deg": {
+            "native_analytic": -48.85812921411582,
+            "rounded_shift_only": -48.85812921411582,
+            "rounded_shift_frozen_scale": -48.858178077815,
+            "frozen_retrospective_mapping": -48.858178077815
+          }
+        },
+        {
+          "nominal_output_dbm": -2.25,
+          "phase_deg": {
+            "native_analytic": -48.85812921411582,
+            "rounded_shift_only": -48.85812921411582,
+            "rounded_shift_frozen_scale": -48.858178077815,
+            "frozen_retrospective_mapping": -48.858178077815
+          }
+        },
+        {
+          "nominal_output_dbm": -2.0,
+          "phase_deg": {
+            "native_analytic": -48.85812921411582,
+            "rounded_shift_only": -48.85812921411582,
+            "rounded_shift_frozen_scale": -48.858178077815,
+            "frozen_retrospective_mapping": -48.858178077815
+          }
+        }
+      ]
+    },
+    {
+      "name": "positive-reference-30",
+      "peak_degrees_per_db": 7.0,
+      "reference_dbm": 30.0,
+      "ordinary_output_target_dbm": 30.0,
+      "sweep_input_start_dbm": 0.0,
+      "sweep_input_stop_dbm": 18.0,
+      "predictions": [
+        {
+          "nominal_output_dbm": 20.0,
+          "phase_deg": {
+            "native_analytic": 7.838381697781706,
+            "rounded_shift_only": 7.8404125592438705,
+            "rounded_shift_frozen_scale": 7.840420400550258,
+            "frozen_retrospective_mapping": 7.840420435162115
+          }
+        },
+        {
+          "nominal_output_dbm": 20.25,
+          "phase_deg": {
+            "native_analytic": 8.263187880409657,
+            "rounded_shift_only": 8.265322296058295,
+            "rounded_shift_frozen_scale": 8.26533056232286,
+            "frozen_retrospective_mapping": 8.265330598699562
+          }
+        },
+        {
+          "nominal_output_dbm": 20.5,
+          "phase_deg": {
+            "native_analytic": 8.70958985533321,
+            "rounded_shift_only": 8.711832447670652,
+            "rounded_shift_frozen_scale": 8.711841160496272,
+            "frozen_retrospective_mapping": 8.711841198716588
+          }
+        },
+        {
+          "nominal_output_dbm": 20.75,
+          "phase_deg": {
+            "native_analytic": 9.178544793945782,
+            "rounded_shift_only": 9.1809003228834,
+            "rounded_shift_frozen_scale": 9.18090950483037,
+            "frozen_retrospective_mapping": 9.180909544975426
+          }
+        },
+        {
+          "nominal_output_dbm": 21.0,
+          "phase_deg": {
+            "native_analytic": 9.671037502742765,
+            "rounded_shift_only": 9.673510861433575,
+            "rounded_shift_frozen_scale": 9.673520536047242,
+            "frozen_retrospective_mapping": 9.673520578200428
+          }
+        },
+        {
+          "nominal_output_dbm": 21.25,
+          "phase_deg": {
+            "native_analytic": 10.188079438160889,
+            "rounded_shift_only": 10.190675647475079,
+            "rounded_shift_frozen_scale": 10.190685839312492,
+            "frozen_retrospective_mapping": 10.190685883559368
+          }
+        },
+        {
+          "nominal_output_dbm": 21.5,
+          "phase_deg": {
+            "native_analytic": 10.730707426521377,
+            "rounded_shift_only": 10.733431627984267,
+            "rounded_shift_frozen_scale": 10.733442362639535,
+            "frozen_retrospective_mapping": 10.733442409067726
+          }
+        },
+        {
+          "nominal_output_dbm": 21.75,
+          "phase_deg": {
+            "native_analytic": 11.299982050272595,
+            "rounded_shift_only": 11.30283949726477,
+            "rounded_shift_frozen_scale": 11.302850801392822,
+            "frozen_retrospective_mapping": 11.302850850091847
+          }
+        },
+        {
+          "nominal_output_dbm": 22.0,
+          "phase_deg": {
+            "native_analytic": 11.896985657504969,
+            "rounded_shift_only": 11.899981704502585,
+            "rounded_shift_frozen_scale": 11.899993605840919,
+            "frozen_retrospective_mapping": 11.89999365690204
+          }
+        },
+        {
+          "nominal_output_dbm": 22.25,
+          "phase_deg": {
+            "native_analytic": 12.522819947064075,
+            "rounded_shift_only": 12.525960036673602,
+            "rounded_shift_frozen_scale": 12.525972564061632,
+            "frozen_retrospective_mapping": 12.525972617577592
+          }
+        },
+        {
+          "nominal_output_dbm": 22.5,
+          "phase_deg": {
+            "native_analytic": 13.178603076476874,
+            "rounded_shift_only": 13.18189272399203,
+            "rounded_shift_frozen_scale": 13.181905907387526,
+            "frozen_retrospective_mapping": 13.181905963452312
+          }
+        },
+        {
+          "nominal_output_dbm": 22.75,
+          "phase_deg": {
+            "native_analytic": 13.865466234285641,
+            "rounded_shift_only": 13.868911009465638,
+            "rounded_shift_frozen_scale": 13.868924879957742,
+            "frozen_retrospective_mapping": 13.868924938666272
+          }
+        },
+        {
+          "nominal_output_dbm": 23.0,
+          "phase_deg": {
+            "native_analytic": 14.584549612206242,
+            "rounded_shift_only": 14.58815511794255,
+            "rounded_shift_frozen_scale": 14.588169707760757,
+            "frozen_retrospective_mapping": 14.588169769208504
+          }
+        },
+        {
+          "nominal_output_dbm": 23.25,
+          "phase_deg": {
+            "native_analytic": 15.33699770573817,
+            "rounded_shift_only": 15.340769553242268,
+            "rounded_shift_frozen_scale": 15.340784895760711,
+            "frozen_retrospective_mapping": 15.340784960043298
+          }
+        },
+        {
+          "nominal_output_dbm": 23.5,
+          "phase_deg": {
+            "native_analytic": 16.123953864395332,
+            "rounded_shift_only": 16.12789764450148,
+            "rounded_shift_frozen_scale": 16.12791377423775,
+            "frozen_retrospective_mapping": 16.12791384145045
+          }
+        },
+        {
+          "nominal_output_dbm": 23.75,
+          "phase_deg": {
+            "native_analytic": 16.946554004534555,
+            "rounded_shift_only": 16.950675254669637,
+            "rounded_shift_frozen_scale": 16.950692207277314,
+            "frozen_retrospective_mapping": 16.95069227751449
+          }
+        },
+        {
+          "nominal_output_dbm": 24.0,
+          "phase_deg": {
+            "native_analytic": 17.80591938876428,
+            "rounded_shift_only": 17.810223555090612,
+            "rounded_shift_frozen_scale": 17.81024136734458,
+            "frozen_retrospective_mapping": 17.810241440699027
+          }
+        },
+        {
+          "nominal_output_dbm": 24.25,
+          "phase_deg": {
+            "native_analytic": 18.703148366042075,
+            "rounded_shift_only": 18.70764076022824,
+            "rounded_shift_frozen_scale": 18.707659470001722,
+            "frozen_retrospective_mapping": 18.707659546563942
+          }
+        },
+        {
+          "nominal_output_dbm": 24.5,
+          "phase_deg": {
+            "native_analytic": 19.639306955733176,
+            "rounded_shift_only": 19.643992705752517,
+            "rounded_shift_frozen_scale": 19.64401235198469,
+            "frozen_retrospective_mapping": 19.64401243184208
+          }
+        },
+        {
+          "nominal_output_dbm": 24.75,
+          "phase_deg": {
+            "native_analytic": 20.61541814701282,
+            "rounded_shift_only": 20.620302141308027,
+            "rounded_shift_frozen_scale": 20.62032276396094,
+            "frozen_retrospective_mapping": 20.620322847196782
+          }
+        },
+        {
+          "nominal_output_dbm": 25.0,
+          "phase_deg": {
+            "native_analytic": 21.6324497719521,
+            "rounded_shift_only": 21.637536596237492,
+            "rounded_shift_frozen_scale": 21.637558236240828,
+            "frozen_retrospective_mapping": 21.63755832293324
+          }
+        },
+        {
+          "nominal_output_dbm": 25.25,
+          "phase_deg": {
+            "native_analytic": 22.691300796322682,
+            "rounded_shift_only": 22.696594662222292,
+            "rounded_shift_frozen_scale": 22.696617361404428,
+            "frozen_retrospective_mapping": 22.696617451625176
+          }
+        },
+        {
+          "nominal_output_dbm": 25.5,
+          "phase_deg": {
+            "native_analytic": 23.79278585647062,
+            "rounded_shift_only": 23.798290521109827,
+            "rounded_shift_frozen_scale": 23.79831432211342,
+            "frozen_retrospective_mapping": 23.798314415926516
+          }
+        },
+        {
+          "nominal_output_dbm": 25.75,
+          "phase_deg": {
+            "native_analytic": 24.937617853413485,
+            "rounded_shift_only": 24.943336528993644,
+            "rounded_shift_frozen_scale": 24.94336147517378,
+            "frozen_retrospective_mapping": 24.94336157263392
+          }
+        },
+        {
+          "nominal_output_dbm": 26.0,
+          "phase_deg": {
+            "native_analytic": 26.12638839646736,
+            "rounded_shift_only": 26.13232364875608,
+            "rounded_shift_frozen_scale": 26.132349784058885,
+            "frozen_retrospective_mapping": 26.132349885209777
+          }
+        },
+        {
+          "nominal_output_dbm": 26.25,
+          "phase_deg": {
+            "native_analytic": 27.35954586805411,
+            "rounded_shift_only": 27.365699502618106,
+            "rounded_shift_frozen_scale": 27.36572687143737,
+            "frozen_retrospective_mapping": 27.36572697630974
+          }
+        },
+        {
+          "nominal_output_dbm": 26.5,
+          "phase_deg": {
+            "native_analytic": 28.637370858707207,
+            "rounded_shift_only": 28.643743793598365,
+            "rounded_shift_frozen_scale": 28.643772440607624,
+            "frozen_retrospective_mapping": 28.64377254921709
+          }
+        },
+        {
+          "nominal_output_dbm": 26.75,
+          "phase_deg": {
+            "native_analytic": 29.959948696499705,
+            "rounded_shift_only": 29.966540819977958,
+            "rounded_shift_frozen_scale": 29.966570789935044,
+            "frozen_retrospective_mapping": 29.966570902279635
+          }
+        },
+        {
+          "nominal_output_dbm": 27.0,
+          "phase_deg": {
+            "native_analytic": 31.327138767959813,
+            "rounded_shift_only": 31.333948779696932,
+            "rounded_shift_frozen_scale": 31.333980117217866,
+            "frozen_retrospective_mapping": 31.333980233275373
+          }
+        },
+        {
+          "nominal_output_dbm": 27.25,
+          "phase_deg": {
+            "native_analytic": 32.73854029779575,
+            "rounded_shift_only": 32.74556553185203,
+            "rounded_shift_frozen_scale": 32.74559828115065,
+            "frozen_retrospective_mapping": 32.74559840087559
+          }
+        },
+        {
+          "nominal_output_dbm": 27.5,
+          "phase_deg": {
+            "native_analytic": 34.193454222182744,
+            "rounded_shift_only": 34.20069044988108,
+            "rounded_shift_frozen_scale": 34.2007246544705,
+            "frozen_retrospective_mapping": 34.20072477779074
+          }
+        },
+        {
+          "nominal_output_dbm": 27.75,
+          "phase_deg": {
+            "native_analytic": 35.690840754706166,
+            "rounded_shift_only": 35.69828196534555,
+            "rounded_shift_frozen_scale": 35.69831766769722,
+            "frozen_retrospective_mapping": 35.69831779451025
+          }
+        },
+        {
+          "nominal_output_dbm": 28.0,
+          "phase_deg": {
+            "native_analytic": 37.22927220501937,
+            "rounded_shift_only": 37.23691036216942,
+            "rounded_shift_frozen_scale": 37.23694760332489,
+            "frozen_retrospective_mapping": 37.236947733493686
+          }
+        },
+        {
+          "nominal_output_dbm": 28.25,
+          "phase_deg": {
+            "native_analytic": 38.806880567547864,
+            "rounded_shift_only": 38.814705338447304,
+            "rounded_shift_frozen_scale": 38.81474415757762,
+            "frozen_retrospective_mapping": 38.814744290926
+          }
+        },
+        {
+          "nominal_output_dbm": 28.5,
+          "phase_deg": {
+            "native_analytic": 40.4212993508113,
+            "rounded_shift_only": 40.42929780615312,
+            "rounded_shift_frozen_scale": 40.42933824005998,
+            "frozen_retrospective_mapping": 40.429338376367475
+          }
+        },
+        {
+          "nominal_output_dbm": 28.75,
+          "phase_deg": {
+            "native_analytic": 42.069599066765,
+            "rounded_shift_only": 42.077755347889195,
+            "rounded_shift_frozen_scale": 42.07779743044152,
+            "frozen_retrospective_mapping": 42.077797569437784
+          }
+        },
+        {
+          "nominal_output_dbm": 29.0,
+          "phase_deg": {
+            "native_analytic": 43.74821574357632,
+            "rounded_shift_only": 43.75651069380374,
+            "rounded_shift_frozen_scale": 43.7565544553028,
+            "frozen_retrospective_mapping": 43.75655459666123
+          }
+        },
+        {
+          "nominal_output_dbm": 29.25,
+          "phase_deg": {
+            "native_analytic": 45.452871764000044,
+            "rounded_shift_only": 45.46128252052737,
+            "rounded_shift_frozen_scale": 45.4613279869926,
+            "frozen_retrospective_mapping": 45.46132813032343
+          }
+        },
+        {
+          "nominal_output_dbm": 29.5,
+          "phase_deg": {
+            "native_analytic": 47.178488264515686,
+            "rounded_shift_only": 47.186987806947634,
+            "rounded_shift_frozen_scale": 47.18703499931488,
+            "frozen_retrospective_mapping": 47.18703514415746
+          }
+        },
+        {
+          "nominal_output_dbm": 29.75,
+          "phase_deg": {
+            "native_analytic": 48.919088257102565,
+            "rounded_shift_only": 48.927644908322215,
+            "rounded_shift_frozen_scale": 48.92769384154501,
+            "frozen_retrospective_mapping": 48.92769398735935
+          }
+        },
+        {
+          "nominal_output_dbm": 30.0,
+          "phase_deg": {
+            "native_analytic": 50.66768955537937,
+            "rounded_shift_only": 50.67626643004669,
+            "rounded_shift_frozen_scale": 50.676317112090345,
+            "frozen_retrospective_mapping": 50.67631725824766
+          }
+        },
+        {
+          "nominal_output_dbm": 30.25,
+          "phase_deg": {
+            "native_analytic": 52.416186499184846,
+            "rounded_shift_only": 52.42474089470429,
+            "rounded_shift_frozen_scale": 52.42479332542175,
+            "frozen_retrospective_mapping": 52.42479347119406
+          }
+        },
+        {
+          "nominal_output_dbm": 30.5,
+          "phase_deg": {
+            "native_analytic": 54.15521937583671,
+            "rounded_shift_only": 54.163702100143645,
+            "rounded_shift_frozen_scale": 54.16375627002055,
+            "frozen_retrospective_mapping": 54.16375641456935
+          }
+        },
+        {
+          "nominal_output_dbm": 30.75,
+          "phase_deg": {
+            "native_analytic": 55.874030331518675,
+            "rounded_shift_only": 55.882384961497245,
+            "rounded_shift_frozen_scale": 55.88244085025295,
+            "frozen_retrospective_mapping": 55.882440992616395
+          }
+        },
+        {
+          "nominal_output_dbm": 31.0,
+          "phase_deg": {
+            "native_analytic": 57.560304451686164,
+            "rounded_shift_only": 57.56846651544497,
+            "rounded_shift_frozen_scale": 57.56852409047445,
+            "frozen_retrospective_mapping": 57.568524229553525
+          }
+        },
+        {
+          "nominal_output_dbm": 31.25,
+          "phase_deg": {
+            "native_analytic": 59.19999456415223,
+            "rounded_shift_only": 59.20789063974158,
+            "rounded_shift_frozen_scale": 59.20794985438208,
+            "frozen_retrospective_mapping": 59.207949988925236
+          }
+        },
+        {
+          "nominal_output_dbm": 31.5,
+          "phase_deg": {
+            "native_analytic": 60.7771281816285,
+            "rounded_shift_only": 60.78467490408248,
+            "rounded_shift_frozen_scale": 60.784735695687004,
+            "frozen_retrospective_mapping": 60.784735824273156
+          }
+        },
+        {
+          "nominal_output_dbm": 31.75,
+          "phase_deg": {
+            "native_analytic": 62.27359485088525,
+            "rounded_shift_only": 62.28069781870483,
+            "rounded_shift_frozen_scale": 62.28076010650281,
+            "frozen_retrospective_mapping": 62.280760227522826
+          }
+        },
+        {
+          "nominal_output_dbm": 32.0,
+          "phase_deg": {
+            "native_analytic": 63.66891201218428,
+            "rounded_shift_only": 63.6754645835405,
+            "rounded_shift_frozen_scale": 63.67552826626426,
+            "frozen_retrospective_mapping": 63.67552837790031
+          }
+        },
+        {
+          "nominal_output_dbm": 32.25,
+          "phase_deg": {
+            "native_analytic": 64.93996729395525,
+            "rounded_shift_only": 64.94584926197571,
+            "rounded_shift_frozen_scale": 64.94591421522897,
+            "frozen_retrospective_mapping": 64.94591431543205
+          }
+        },
+        {
+          "nominal_output_dbm": 32.5,
+          "phase_deg": {
+            "native_analytic": 66.06073497243213,
+            "rounded_shift_only": 66.06581110793427,
+            "rounded_shift_frozen_scale": 66.06587718127705,
+            "frozen_retrospective_mapping": 66.06587726774205
+          }
+        },
+        {
+          "nominal_output_dbm": 32.75,
+          "phase_deg": {
+            "native_analytic": 67.00196411262557,
+            "rounded_shift_only": 67.00608256156681,
+            "rounded_shift_frozen_scale": 67.00614957528825,
+            "frozen_retrospective_mapping": 67.00614964542675
+          }
+        },
+        {
+          "nominal_output_dbm": 33.0,
+          "phase_deg": {
+            "native_analytic": 67.7308356739134,
+            "rounded_shift_only": 67.7338261956351,
+            "rounded_shift_frozen_scale": 67.73389393718314,
+            "frozen_retrospective_mapping": 67.73389398809329
+          }
+        },
+        {
+          "nominal_output_dbm": 33.25,
+          "phase_deg": {
+            "native_analytic": 68.2105856088798,
+            "rounded_shift_only": 68.21225763991664,
+            "rounded_shift_frozen_scale": 68.21232585995067,
+            "frozen_retrospective_mapping": 68.21232588838416
+          }
+        },
+        {
+          "nominal_output_dbm": 33.5,
+          "phase_deg": {
+            "native_analytic": 68.40009070584192,
+            "rounded_shift_only": 68.4002312326444,
+            "rounded_shift_frozen_scale": 68.40029964067345,
+            "frozen_retrospective_mapping": 68.40029964299941
+          }
+        },
+        {
+          "nominal_output_dbm": 33.75,
+          "phase_deg": {
+            "native_analytic": 68.40138089976216,
+            "rounded_shift_only": 68.40138089976216,
+            "rounded_shift_frozen_scale": 68.401449308941,
+            "frozen_retrospective_mapping": 68.401449308941
+          }
+        },
+        {
+          "nominal_output_dbm": 34.0,
+          "phase_deg": {
+            "native_analytic": 68.40138089976216,
+            "rounded_shift_only": 68.40138089976216,
+            "rounded_shift_frozen_scale": 68.401449308941,
+            "frozen_retrospective_mapping": 68.401449308941
+          }
+        },
+        {
+          "nominal_output_dbm": 34.25,
+          "phase_deg": {
+            "native_analytic": 68.40138089976216,
+            "rounded_shift_only": 68.40138089976216,
+            "rounded_shift_frozen_scale": 68.401449308941,
+            "frozen_retrospective_mapping": 68.401449308941
+          }
+        },
+        {
+          "nominal_output_dbm": 34.5,
+          "phase_deg": {
+            "native_analytic": 68.40138089976216,
+            "rounded_shift_only": 68.40138089976216,
+            "rounded_shift_frozen_scale": 68.401449308941,
+            "frozen_retrospective_mapping": 68.401449308941
+          }
+        },
+        {
+          "nominal_output_dbm": 34.75,
+          "phase_deg": {
+            "native_analytic": 68.40138089976216,
+            "rounded_shift_only": 68.40138089976216,
+            "rounded_shift_frozen_scale": 68.401449308941,
+            "frozen_retrospective_mapping": 68.401449308941
+          }
+        },
+        {
+          "nominal_output_dbm": 35.0,
+          "phase_deg": {
+            "native_analytic": 68.40138089976216,
+            "rounded_shift_only": 68.40138089976216,
+            "rounded_shift_frozen_scale": 68.401449308941,
+            "frozen_retrospective_mapping": 68.401449308941
+          }
+        },
+        {
+          "nominal_output_dbm": 35.25,
+          "phase_deg": {
+            "native_analytic": 68.40138089976216,
+            "rounded_shift_only": 68.40138089976216,
+            "rounded_shift_frozen_scale": 68.401449308941,
+            "frozen_retrospective_mapping": 68.401449308941
+          }
+        },
+        {
+          "nominal_output_dbm": 35.5,
+          "phase_deg": {
+            "native_analytic": 68.40138089976216,
+            "rounded_shift_only": 68.40138089976216,
+            "rounded_shift_frozen_scale": 68.401449308941,
+            "frozen_retrospective_mapping": 68.401449308941
+          }
+        },
+        {
+          "nominal_output_dbm": 35.75,
+          "phase_deg": {
+            "native_analytic": 68.40138089976216,
+            "rounded_shift_only": 68.40138089976216,
+            "rounded_shift_frozen_scale": 68.401449308941,
+            "frozen_retrospective_mapping": 68.401449308941
+          }
+        },
+        {
+          "nominal_output_dbm": 36.0,
+          "phase_deg": {
+            "native_analytic": 68.40138089976216,
+            "rounded_shift_only": 68.40138089976216,
+            "rounded_shift_frozen_scale": 68.401449308941,
+            "frozen_retrospective_mapping": 68.401449308941
+          }
+        },
+        {
+          "nominal_output_dbm": 36.25,
+          "phase_deg": {
+            "native_analytic": 68.40138089976216,
+            "rounded_shift_only": 68.40138089976216,
+            "rounded_shift_frozen_scale": 68.401449308941,
+            "frozen_retrospective_mapping": 68.401449308941
+          }
+        },
+        {
+          "nominal_output_dbm": 36.5,
+          "phase_deg": {
+            "native_analytic": 68.40138089976216,
+            "rounded_shift_only": 68.40138089976216,
+            "rounded_shift_frozen_scale": 68.401449308941,
+            "frozen_retrospective_mapping": 68.401449308941
+          }
+        },
+        {
+          "nominal_output_dbm": 36.75,
+          "phase_deg": {
+            "native_analytic": 68.40138089976216,
+            "rounded_shift_only": 68.40138089976216,
+            "rounded_shift_frozen_scale": 68.401449308941,
+            "frozen_retrospective_mapping": 68.401449308941
+          }
+        },
+        {
+          "nominal_output_dbm": 37.0,
+          "phase_deg": {
+            "native_analytic": 68.40138089976216,
+            "rounded_shift_only": 68.40138089976216,
+            "rounded_shift_frozen_scale": 68.401449308941,
+            "frozen_retrospective_mapping": 68.401449308941
+          }
+        },
+        {
+          "nominal_output_dbm": 37.25,
+          "phase_deg": {
+            "native_analytic": 68.40138089976216,
+            "rounded_shift_only": 68.40138089976216,
+            "rounded_shift_frozen_scale": 68.401449308941,
+            "frozen_retrospective_mapping": 68.401449308941
+          }
+        },
+        {
+          "nominal_output_dbm": 37.5,
+          "phase_deg": {
+            "native_analytic": 68.40138089976216,
+            "rounded_shift_only": 68.40138089976216,
+            "rounded_shift_frozen_scale": 68.401449308941,
+            "frozen_retrospective_mapping": 68.401449308941
+          }
+        },
+        {
+          "nominal_output_dbm": 37.75,
+          "phase_deg": {
+            "native_analytic": 68.40138089976216,
+            "rounded_shift_only": 68.40138089976216,
+            "rounded_shift_frozen_scale": 68.401449308941,
+            "frozen_retrospective_mapping": 68.401449308941
+          }
+        },
+        {
+          "nominal_output_dbm": 38.0,
+          "phase_deg": {
+            "native_analytic": 68.40138089976216,
+            "rounded_shift_only": 68.40138089976216,
+            "rounded_shift_frozen_scale": 68.401449308941,
+            "frozen_retrospective_mapping": 68.401449308941
+          }
+        }
+      ]
+    },
+    {
+      "name": "zero-phase",
+      "peak_degrees_per_db": 0.0,
+      "reference_dbm": 10.0,
+      "ordinary_output_target_dbm": 10.0,
+      "sweep_input_start_dbm": -20.0,
+      "sweep_input_stop_dbm": -2.0,
+      "predictions": [
+        {
+          "nominal_output_dbm": 0.0,
+          "phase_deg": {
+            "native_analytic": 0.0,
+            "rounded_shift_only": 0.0,
+            "rounded_shift_frozen_scale": 0.0,
+            "frozen_retrospective_mapping": 0.0
+          }
+        },
+        {
+          "nominal_output_dbm": 0.25,
+          "phase_deg": {
+            "native_analytic": 0.0,
+            "rounded_shift_only": 0.0,
+            "rounded_shift_frozen_scale": 0.0,
+            "frozen_retrospective_mapping": 0.0
+          }
+        },
+        {
+          "nominal_output_dbm": 0.5,
+          "phase_deg": {
+            "native_analytic": 0.0,
+            "rounded_shift_only": 0.0,
+            "rounded_shift_frozen_scale": 0.0,
+            "frozen_retrospective_mapping": 0.0
+          }
+        },
+        {
+          "nominal_output_dbm": 0.75,
+          "phase_deg": {
+            "native_analytic": 0.0,
+            "rounded_shift_only": 0.0,
+            "rounded_shift_frozen_scale": 0.0,
+            "frozen_retrospective_mapping": 0.0
+          }
+        },
+        {
+          "nominal_output_dbm": 1.0,
+          "phase_deg": {
+            "native_analytic": 0.0,
+            "rounded_shift_only": 0.0,
+            "rounded_shift_frozen_scale": 0.0,
+            "frozen_retrospective_mapping": 0.0
+          }
+        },
+        {
+          "nominal_output_dbm": 1.25,
+          "phase_deg": {
+            "native_analytic": 0.0,
+            "rounded_shift_only": 0.0,
+            "rounded_shift_frozen_scale": 0.0,
+            "frozen_retrospective_mapping": 0.0
+          }
+        },
+        {
+          "nominal_output_dbm": 1.5,
+          "phase_deg": {
+            "native_analytic": 0.0,
+            "rounded_shift_only": 0.0,
+            "rounded_shift_frozen_scale": 0.0,
+            "frozen_retrospective_mapping": 0.0
+          }
+        },
+        {
+          "nominal_output_dbm": 1.75,
+          "phase_deg": {
+            "native_analytic": 0.0,
+            "rounded_shift_only": 0.0,
+            "rounded_shift_frozen_scale": 0.0,
+            "frozen_retrospective_mapping": 0.0
+          }
+        },
+        {
+          "nominal_output_dbm": 2.0,
+          "phase_deg": {
+            "native_analytic": 0.0,
+            "rounded_shift_only": 0.0,
+            "rounded_shift_frozen_scale": 0.0,
+            "frozen_retrospective_mapping": 0.0
+          }
+        },
+        {
+          "nominal_output_dbm": 2.25,
+          "phase_deg": {
+            "native_analytic": 0.0,
+            "rounded_shift_only": 0.0,
+            "rounded_shift_frozen_scale": 0.0,
+            "frozen_retrospective_mapping": 0.0
+          }
+        },
+        {
+          "nominal_output_dbm": 2.5,
+          "phase_deg": {
+            "native_analytic": 0.0,
+            "rounded_shift_only": 0.0,
+            "rounded_shift_frozen_scale": 0.0,
+            "frozen_retrospective_mapping": 0.0
+          }
+        },
+        {
+          "nominal_output_dbm": 2.75,
+          "phase_deg": {
+            "native_analytic": 0.0,
+            "rounded_shift_only": 0.0,
+            "rounded_shift_frozen_scale": 0.0,
+            "frozen_retrospective_mapping": 0.0
+          }
+        },
+        {
+          "nominal_output_dbm": 3.0,
+          "phase_deg": {
+            "native_analytic": 0.0,
+            "rounded_shift_only": 0.0,
+            "rounded_shift_frozen_scale": 0.0,
+            "frozen_retrospective_mapping": 0.0
+          }
+        },
+        {
+          "nominal_output_dbm": 3.25,
+          "phase_deg": {
+            "native_analytic": 0.0,
+            "rounded_shift_only": 0.0,
+            "rounded_shift_frozen_scale": 0.0,
+            "frozen_retrospective_mapping": 0.0
+          }
+        },
+        {
+          "nominal_output_dbm": 3.5,
+          "phase_deg": {
+            "native_analytic": 0.0,
+            "rounded_shift_only": 0.0,
+            "rounded_shift_frozen_scale": 0.0,
+            "frozen_retrospective_mapping": 0.0
+          }
+        },
+        {
+          "nominal_output_dbm": 3.75,
+          "phase_deg": {
+            "native_analytic": 0.0,
+            "rounded_shift_only": 0.0,
+            "rounded_shift_frozen_scale": 0.0,
+            "frozen_retrospective_mapping": 0.0
+          }
+        },
+        {
+          "nominal_output_dbm": 4.0,
+          "phase_deg": {
+            "native_analytic": 0.0,
+            "rounded_shift_only": 0.0,
+            "rounded_shift_frozen_scale": 0.0,
+            "frozen_retrospective_mapping": 0.0
+          }
+        },
+        {
+          "nominal_output_dbm": 4.25,
+          "phase_deg": {
+            "native_analytic": 0.0,
+            "rounded_shift_only": 0.0,
+            "rounded_shift_frozen_scale": 0.0,
+            "frozen_retrospective_mapping": 0.0
+          }
+        },
+        {
+          "nominal_output_dbm": 4.5,
+          "phase_deg": {
+            "native_analytic": 0.0,
+            "rounded_shift_only": 0.0,
+            "rounded_shift_frozen_scale": 0.0,
+            "frozen_retrospective_mapping": 0.0
+          }
+        },
+        {
+          "nominal_output_dbm": 4.75,
+          "phase_deg": {
+            "native_analytic": 0.0,
+            "rounded_shift_only": 0.0,
+            "rounded_shift_frozen_scale": 0.0,
+            "frozen_retrospective_mapping": 0.0
+          }
+        },
+        {
+          "nominal_output_dbm": 5.0,
+          "phase_deg": {
+            "native_analytic": 0.0,
+            "rounded_shift_only": 0.0,
+            "rounded_shift_frozen_scale": 0.0,
+            "frozen_retrospective_mapping": 0.0
+          }
+        },
+        {
+          "nominal_output_dbm": 5.25,
+          "phase_deg": {
+            "native_analytic": 0.0,
+            "rounded_shift_only": 0.0,
+            "rounded_shift_frozen_scale": 0.0,
+            "frozen_retrospective_mapping": 0.0
+          }
+        },
+        {
+          "nominal_output_dbm": 5.5,
+          "phase_deg": {
+            "native_analytic": 0.0,
+            "rounded_shift_only": 0.0,
+            "rounded_shift_frozen_scale": 0.0,
+            "frozen_retrospective_mapping": 0.0
+          }
+        },
+        {
+          "nominal_output_dbm": 5.75,
+          "phase_deg": {
+            "native_analytic": 0.0,
+            "rounded_shift_only": 0.0,
+            "rounded_shift_frozen_scale": 0.0,
+            "frozen_retrospective_mapping": 0.0
+          }
+        },
+        {
+          "nominal_output_dbm": 6.0,
+          "phase_deg": {
+            "native_analytic": 0.0,
+            "rounded_shift_only": 0.0,
+            "rounded_shift_frozen_scale": 0.0,
+            "frozen_retrospective_mapping": 0.0
+          }
+        },
+        {
+          "nominal_output_dbm": 6.25,
+          "phase_deg": {
+            "native_analytic": 0.0,
+            "rounded_shift_only": 0.0,
+            "rounded_shift_frozen_scale": 0.0,
+            "frozen_retrospective_mapping": 0.0
+          }
+        },
+        {
+          "nominal_output_dbm": 6.5,
+          "phase_deg": {
+            "native_analytic": 0.0,
+            "rounded_shift_only": 0.0,
+            "rounded_shift_frozen_scale": 0.0,
+            "frozen_retrospective_mapping": 0.0
+          }
+        },
+        {
+          "nominal_output_dbm": 6.75,
+          "phase_deg": {
+            "native_analytic": 0.0,
+            "rounded_shift_only": 0.0,
+            "rounded_shift_frozen_scale": 0.0,
+            "frozen_retrospective_mapping": 0.0
+          }
+        },
+        {
+          "nominal_output_dbm": 7.0,
+          "phase_deg": {
+            "native_analytic": 0.0,
+            "rounded_shift_only": 0.0,
+            "rounded_shift_frozen_scale": 0.0,
+            "frozen_retrospective_mapping": 0.0
+          }
+        },
+        {
+          "nominal_output_dbm": 7.25,
+          "phase_deg": {
+            "native_analytic": 0.0,
+            "rounded_shift_only": 0.0,
+            "rounded_shift_frozen_scale": 0.0,
+            "frozen_retrospective_mapping": 0.0
+          }
+        },
+        {
+          "nominal_output_dbm": 7.5,
+          "phase_deg": {
+            "native_analytic": 0.0,
+            "rounded_shift_only": 0.0,
+            "rounded_shift_frozen_scale": 0.0,
+            "frozen_retrospective_mapping": 0.0
+          }
+        },
+        {
+          "nominal_output_dbm": 7.75,
+          "phase_deg": {
+            "native_analytic": 0.0,
+            "rounded_shift_only": 0.0,
+            "rounded_shift_frozen_scale": 0.0,
+            "frozen_retrospective_mapping": 0.0
+          }
+        },
+        {
+          "nominal_output_dbm": 8.0,
+          "phase_deg": {
+            "native_analytic": 0.0,
+            "rounded_shift_only": 0.0,
+            "rounded_shift_frozen_scale": 0.0,
+            "frozen_retrospective_mapping": 0.0
+          }
+        },
+        {
+          "nominal_output_dbm": 8.25,
+          "phase_deg": {
+            "native_analytic": 0.0,
+            "rounded_shift_only": 0.0,
+            "rounded_shift_frozen_scale": 0.0,
+            "frozen_retrospective_mapping": 0.0
+          }
+        },
+        {
+          "nominal_output_dbm": 8.5,
+          "phase_deg": {
+            "native_analytic": 0.0,
+            "rounded_shift_only": 0.0,
+            "rounded_shift_frozen_scale": 0.0,
+            "frozen_retrospective_mapping": 0.0
+          }
+        },
+        {
+          "nominal_output_dbm": 8.75,
+          "phase_deg": {
+            "native_analytic": 0.0,
+            "rounded_shift_only": 0.0,
+            "rounded_shift_frozen_scale": 0.0,
+            "frozen_retrospective_mapping": 0.0
+          }
+        },
+        {
+          "nominal_output_dbm": 9.0,
+          "phase_deg": {
+            "native_analytic": 0.0,
+            "rounded_shift_only": 0.0,
+            "rounded_shift_frozen_scale": 0.0,
+            "frozen_retrospective_mapping": 0.0
+          }
+        },
+        {
+          "nominal_output_dbm": 9.25,
+          "phase_deg": {
+            "native_analytic": 0.0,
+            "rounded_shift_only": 0.0,
+            "rounded_shift_frozen_scale": 0.0,
+            "frozen_retrospective_mapping": 0.0
+          }
+        },
+        {
+          "nominal_output_dbm": 9.5,
+          "phase_deg": {
+            "native_analytic": 0.0,
+            "rounded_shift_only": 0.0,
+            "rounded_shift_frozen_scale": 0.0,
+            "frozen_retrospective_mapping": 0.0
+          }
+        },
+        {
+          "nominal_output_dbm": 9.75,
+          "phase_deg": {
+            "native_analytic": 0.0,
+            "rounded_shift_only": 0.0,
+            "rounded_shift_frozen_scale": 0.0,
+            "frozen_retrospective_mapping": 0.0
+          }
+        },
+        {
+          "nominal_output_dbm": 10.0,
+          "phase_deg": {
+            "native_analytic": 0.0,
+            "rounded_shift_only": 0.0,
+            "rounded_shift_frozen_scale": 0.0,
+            "frozen_retrospective_mapping": 0.0
+          }
+        },
+        {
+          "nominal_output_dbm": 10.25,
+          "phase_deg": {
+            "native_analytic": 0.0,
+            "rounded_shift_only": 0.0,
+            "rounded_shift_frozen_scale": 0.0,
+            "frozen_retrospective_mapping": 0.0
+          }
+        },
+        {
+          "nominal_output_dbm": 10.5,
+          "phase_deg": {
+            "native_analytic": 0.0,
+            "rounded_shift_only": 0.0,
+            "rounded_shift_frozen_scale": 0.0,
+            "frozen_retrospective_mapping": 0.0
+          }
+        },
+        {
+          "nominal_output_dbm": 10.75,
+          "phase_deg": {
+            "native_analytic": 0.0,
+            "rounded_shift_only": 0.0,
+            "rounded_shift_frozen_scale": 0.0,
+            "frozen_retrospective_mapping": 0.0
+          }
+        },
+        {
+          "nominal_output_dbm": 11.0,
+          "phase_deg": {
+            "native_analytic": 0.0,
+            "rounded_shift_only": 0.0,
+            "rounded_shift_frozen_scale": 0.0,
+            "frozen_retrospective_mapping": 0.0
+          }
+        },
+        {
+          "nominal_output_dbm": 11.25,
+          "phase_deg": {
+            "native_analytic": 0.0,
+            "rounded_shift_only": 0.0,
+            "rounded_shift_frozen_scale": 0.0,
+            "frozen_retrospective_mapping": 0.0
+          }
+        },
+        {
+          "nominal_output_dbm": 11.5,
+          "phase_deg": {
+            "native_analytic": 0.0,
+            "rounded_shift_only": 0.0,
+            "rounded_shift_frozen_scale": 0.0,
+            "frozen_retrospective_mapping": 0.0
+          }
+        },
+        {
+          "nominal_output_dbm": 11.75,
+          "phase_deg": {
+            "native_analytic": 0.0,
+            "rounded_shift_only": 0.0,
+            "rounded_shift_frozen_scale": 0.0,
+            "frozen_retrospective_mapping": 0.0
+          }
+        },
+        {
+          "nominal_output_dbm": 12.0,
+          "phase_deg": {
+            "native_analytic": 0.0,
+            "rounded_shift_only": 0.0,
+            "rounded_shift_frozen_scale": 0.0,
+            "frozen_retrospective_mapping": 0.0
+          }
+        },
+        {
+          "nominal_output_dbm": 12.25,
+          "phase_deg": {
+            "native_analytic": 0.0,
+            "rounded_shift_only": 0.0,
+            "rounded_shift_frozen_scale": 0.0,
+            "frozen_retrospective_mapping": 0.0
+          }
+        },
+        {
+          "nominal_output_dbm": 12.5,
+          "phase_deg": {
+            "native_analytic": 0.0,
+            "rounded_shift_only": 0.0,
+            "rounded_shift_frozen_scale": 0.0,
+            "frozen_retrospective_mapping": 0.0
+          }
+        },
+        {
+          "nominal_output_dbm": 12.75,
+          "phase_deg": {
+            "native_analytic": 0.0,
+            "rounded_shift_only": 0.0,
+            "rounded_shift_frozen_scale": 0.0,
+            "frozen_retrospective_mapping": 0.0
+          }
+        },
+        {
+          "nominal_output_dbm": 13.0,
+          "phase_deg": {
+            "native_analytic": 0.0,
+            "rounded_shift_only": 0.0,
+            "rounded_shift_frozen_scale": 0.0,
+            "frozen_retrospective_mapping": 0.0
+          }
+        },
+        {
+          "nominal_output_dbm": 13.25,
+          "phase_deg": {
+            "native_analytic": 0.0,
+            "rounded_shift_only": 0.0,
+            "rounded_shift_frozen_scale": 0.0,
+            "frozen_retrospective_mapping": 0.0
+          }
+        },
+        {
+          "nominal_output_dbm": 13.5,
+          "phase_deg": {
+            "native_analytic": 0.0,
+            "rounded_shift_only": 0.0,
+            "rounded_shift_frozen_scale": 0.0,
+            "frozen_retrospective_mapping": 0.0
+          }
+        },
+        {
+          "nominal_output_dbm": 13.75,
+          "phase_deg": {
+            "native_analytic": 0.0,
+            "rounded_shift_only": 0.0,
+            "rounded_shift_frozen_scale": 0.0,
+            "frozen_retrospective_mapping": 0.0
+          }
+        },
+        {
+          "nominal_output_dbm": 14.0,
+          "phase_deg": {
+            "native_analytic": 0.0,
+            "rounded_shift_only": 0.0,
+            "rounded_shift_frozen_scale": 0.0,
+            "frozen_retrospective_mapping": 0.0
+          }
+        },
+        {
+          "nominal_output_dbm": 14.25,
+          "phase_deg": {
+            "native_analytic": 0.0,
+            "rounded_shift_only": 0.0,
+            "rounded_shift_frozen_scale": 0.0,
+            "frozen_retrospective_mapping": 0.0
+          }
+        },
+        {
+          "nominal_output_dbm": 14.5,
+          "phase_deg": {
+            "native_analytic": 0.0,
+            "rounded_shift_only": 0.0,
+            "rounded_shift_frozen_scale": 0.0,
+            "frozen_retrospective_mapping": 0.0
+          }
+        },
+        {
+          "nominal_output_dbm": 14.75,
+          "phase_deg": {
+            "native_analytic": 0.0,
+            "rounded_shift_only": 0.0,
+            "rounded_shift_frozen_scale": 0.0,
+            "frozen_retrospective_mapping": 0.0
+          }
+        },
+        {
+          "nominal_output_dbm": 15.0,
+          "phase_deg": {
+            "native_analytic": 0.0,
+            "rounded_shift_only": 0.0,
+            "rounded_shift_frozen_scale": 0.0,
+            "frozen_retrospective_mapping": 0.0
+          }
+        },
+        {
+          "nominal_output_dbm": 15.25,
+          "phase_deg": {
+            "native_analytic": 0.0,
+            "rounded_shift_only": 0.0,
+            "rounded_shift_frozen_scale": 0.0,
+            "frozen_retrospective_mapping": 0.0
+          }
+        },
+        {
+          "nominal_output_dbm": 15.5,
+          "phase_deg": {
+            "native_analytic": 0.0,
+            "rounded_shift_only": 0.0,
+            "rounded_shift_frozen_scale": 0.0,
+            "frozen_retrospective_mapping": 0.0
+          }
+        },
+        {
+          "nominal_output_dbm": 15.75,
+          "phase_deg": {
+            "native_analytic": 0.0,
+            "rounded_shift_only": 0.0,
+            "rounded_shift_frozen_scale": 0.0,
+            "frozen_retrospective_mapping": 0.0
+          }
+        },
+        {
+          "nominal_output_dbm": 16.0,
+          "phase_deg": {
+            "native_analytic": 0.0,
+            "rounded_shift_only": 0.0,
+            "rounded_shift_frozen_scale": 0.0,
+            "frozen_retrospective_mapping": 0.0
+          }
+        },
+        {
+          "nominal_output_dbm": 16.25,
+          "phase_deg": {
+            "native_analytic": 0.0,
+            "rounded_shift_only": 0.0,
+            "rounded_shift_frozen_scale": 0.0,
+            "frozen_retrospective_mapping": 0.0
+          }
+        },
+        {
+          "nominal_output_dbm": 16.5,
+          "phase_deg": {
+            "native_analytic": 0.0,
+            "rounded_shift_only": 0.0,
+            "rounded_shift_frozen_scale": 0.0,
+            "frozen_retrospective_mapping": 0.0
+          }
+        },
+        {
+          "nominal_output_dbm": 16.75,
+          "phase_deg": {
+            "native_analytic": 0.0,
+            "rounded_shift_only": 0.0,
+            "rounded_shift_frozen_scale": 0.0,
+            "frozen_retrospective_mapping": 0.0
+          }
+        },
+        {
+          "nominal_output_dbm": 17.0,
+          "phase_deg": {
+            "native_analytic": 0.0,
+            "rounded_shift_only": 0.0,
+            "rounded_shift_frozen_scale": 0.0,
+            "frozen_retrospective_mapping": 0.0
+          }
+        },
+        {
+          "nominal_output_dbm": 17.25,
+          "phase_deg": {
+            "native_analytic": 0.0,
+            "rounded_shift_only": 0.0,
+            "rounded_shift_frozen_scale": 0.0,
+            "frozen_retrospective_mapping": 0.0
+          }
+        },
+        {
+          "nominal_output_dbm": 17.5,
+          "phase_deg": {
+            "native_analytic": 0.0,
+            "rounded_shift_only": 0.0,
+            "rounded_shift_frozen_scale": 0.0,
+            "frozen_retrospective_mapping": 0.0
+          }
+        },
+        {
+          "nominal_output_dbm": 17.75,
+          "phase_deg": {
+            "native_analytic": 0.0,
+            "rounded_shift_only": 0.0,
+            "rounded_shift_frozen_scale": 0.0,
+            "frozen_retrospective_mapping": 0.0
+          }
+        },
+        {
+          "nominal_output_dbm": 18.0,
+          "phase_deg": {
+            "native_analytic": 0.0,
+            "rounded_shift_only": 0.0,
+            "rounded_shift_frozen_scale": 0.0,
+            "frozen_retrospective_mapping": 0.0
+          }
+        }
+      ]
+    },
+    {
+      "name": "fractional-parameters",
+      "peak_degrees_per_db": -2.75,
+      "reference_dbm": 3.25,
+      "ordinary_output_target_dbm": 7.25,
+      "sweep_input_start_dbm": -26.75,
+      "sweep_input_stop_dbm": -8.75,
+      "predictions": [
+        {
+          "nominal_output_dbm": -6.75,
+          "phase_deg": {
+            "native_analytic": -3.0793642384142412,
+            "rounded_shift_only": -3.0801620768458062,
+            "rounded_shift_frozen_scale": -3.08016515735903,
+            "frozen_retrospective_mapping": -3.0801651709565454
+          }
+        },
+        {
+          "nominal_output_dbm": -6.5,
+          "phase_deg": {
+            "native_analytic": -3.2462523815895077,
+            "rounded_shift_only": -3.2470909020229017,
+            "rounded_shift_frozen_scale": -3.2470941494839813,
+            "frozen_retrospective_mapping": -3.2470941637748276
+          }
+        },
+        {
+          "nominal_output_dbm": -6.25,
+          "phase_deg": {
+            "native_analytic": -3.421624586023761,
+            "rounded_shift_only": -3.4225056044420414,
+            "rounded_shift_frozen_scale": -3.4225090273378207,
+            "frozen_retrospective_mapping": -3.422509042352945
+          }
+        },
+        {
+          "nominal_output_dbm": -6.0,
+          "phase_deg": {
+            "native_analytic": -3.605856883335843,
+            "rounded_shift_only": -3.6067822697041922,
+            "rounded_shift_frozen_scale": -3.6067858768976455,
+            "frozen_retrospective_mapping": -3.606785892668918
+          }
+        },
+        {
+          "nominal_output_dbm": -5.75,
+          "phase_deg": {
+            "native_analytic": -3.7993361617918002,
+            "rounded_shift_only": -3.800307838420333,
+            "rounded_shift_frozen_scale": -3.800311639161417,
+            "frozen_retrospective_mapping": -3.800311655721597
+          }
+        },
+        {
+          "nominal_output_dbm": -5.5,
+          "phase_deg": {
+            "native_analytic": -4.002459779277491,
+            "rounded_shift_only": -4.003479718650924,
+            "rounded_shift_frozen_scale": -4.00348372258705,
+            "frozen_retrospective_mapping": -4.003483739969752
+          }
+        },
+        {
+          "nominal_output_dbm": -5.25,
+          "phase_deg": {
+            "native_analytic": -4.215635060419112,
+            "rounded_shift_only": -4.21670528242239,
+            "rounded_shift_frozen_scale": -4.216709499608388,
+            "frozen_retrospective_mapping": -4.216709517848035
+          }
+        },
+        {
+          "nominal_output_dbm": -5.0,
+          "phase_deg": {
+            "native_analytic": -4.439278662607091,
+            "rounded_shift_only": -4.440401231068302,
+            "rounded_shift_frozen_scale": -4.440405671975752,
+            "frozen_retrospective_mapping": -4.440405691107512
+          }
+        },
+        {
+          "nominal_output_dbm": -4.75,
+          "phase_deg": {
+            "native_analytic": -4.673815794019809,
+            "rounded_shift_only": -4.674992812483158,
+            "rounded_shift_frozen_scale": -4.674997488008933,
+            "frozen_retrospective_mapping": -4.6749975080686585
+          }
+        },
+        {
+          "nominal_output_dbm": -4.5,
+          "phase_deg": {
+            "native_analytic": -4.919679264918029,
+            "rounded_shift_only": -4.920912871550343,
+            "rounded_shift_frozen_scale": -4.920917793024213,
+            "frozen_retrospective_mapping": -4.92091781404834
+          }
+        },
+        {
+          "nominal_output_dbm": -4.25,
+          "phase_deg": {
+            "native_analytic": -5.177308351473057,
+            "rounded_shift_only": -5.178600712996868,
+            "rounded_shift_frozen_scale": -5.1786058921879565,
+            "frozen_retrospective_mapping": -5.178605914213408
+          }
+        },
+        {
+          "nominal_output_dbm": -4.0,
+          "phase_deg": {
+            "native_analytic": -5.447147449183644,
+            "rounded_shift_only": -5.448500753718643,
+            "rounded_shift_frozen_scale": -5.448506202840542,
+            "frozen_retrospective_mapping": -5.448506225904607
+          }
+        },
+        {
+          "nominal_output_dbm": -3.75,
+          "phase_deg": {
+            "native_analytic": -5.729644490509594,
+            "rounded_shift_only": -5.731060939191716,
+            "rounded_shift_frozen_scale": -5.731066670906012,
+            "frozen_retrospective_mapping": -5.731066695046199
+          }
+        },
+        {
+          "nominal_output_dbm": -3.5,
+          "phase_deg": {
+            "native_analytic": -6.025249098682853,
+            "rounded_shift_only": -6.026730895916605,
+            "rounded_shift_frozen_scale": -6.026736923334565,
+            "frozen_retrospective_mapping": -6.026736948588439
+          }
+        },
+        {
+          "nominal_output_dbm": -3.25,
+          "phase_deg": {
+            "native_analytic": -6.3344104467267375,
+            "rounded_shift_only": -6.335959788911296,
+            "rounded_shift_frozen_scale": -6.335966125593402,
+            "frozen_retrospective_mapping": -6.335966151998392
+          }
+        },
+        {
+          "nominal_output_dbm": -3.0,
+          "phase_deg": {
+            "native_analytic": -6.657574787495718,
+            "rounded_shift_only": -6.659193850048786,
+            "rounded_shift_frozen_scale": -6.659200510001803,
+            "frozen_retrospective_mapping": -6.6592005375949785
+          }
+        },
+        {
+          "nominal_output_dbm": -2.75,
+          "phase_deg": {
+            "native_analytic": -6.995182617014538,
+            "rounded_shift_only": -6.996873539499883,
+            "rounded_shift_frozen_scale": -6.996880537171086,
+            "frozen_retrospective_mapping": -6.996880565988904
+          }
+        },
+        {
+          "nominal_output_dbm": -2.5,
+          "phase_deg": {
+            "native_analytic": -7.347665429516529,
+            "rounded_shift_only": -7.349430298661094,
+            "rounded_shift_frozen_scale": -7.349437648929248,
+            "frozen_retrospective_mapping": -7.349437679007263
+          }
+        },
+        {
+          "nominal_output_dbm": -2.25,
+          "phase_deg": {
+            "native_analytic": -7.715442018323746,
+            "rounded_shift_only": -7.7172828486884875,
+            "rounded_shift_frozen_scale": -7.717290566851128,
+            "frozen_retrospective_mapping": -7.717290598223674
+          }
+        },
+        {
+          "nominal_output_dbm": -2.0,
+          "phase_deg": {
+            "native_analytic": -8.098914272040751,
+            "rounded_shift_only": -8.100832984085296,
+            "rounded_shift_frozen_scale": -8.100841085841797,
+            "frozen_retrospective_mapping": -8.100841118541593
+          }
+        },
+        {
+          "nominal_output_dbm": -1.75,
+          "phase_deg": {
+            "native_analytic": -8.498462410409752,
+            "rounded_shift_only": -8.500460805664728,
+            "rounded_shift_frozen_scale": -8.50046930709461,
+            "frozen_retrospective_mapping": -8.500469341152346
+          }
+        },
+        {
+          "nominal_output_dbm": -1.5,
+          "phase_deg": {
+            "native_analytic": -8.914439598555338,
+            "rounded_shift_only": -8.91651933158733,
+            "rounded_shift_frozen_scale": -8.916528249123168,
+            "frozen_retrospective_mapping": -8.916528284567034
+          }
+        },
+        {
+          "nominal_output_dbm": -1.25,
+          "phase_deg": {
+            "native_analytic": -9.347165872184885,
+            "rounded_shift_only": -9.349328419007431,
+            "rounded_shift_frozen_scale": -9.3493377694017,
+            "frozen_retrospective_mapping": -9.349337806256845
+          }
+        },
+        {
+          "nominal_output_dbm": -1.0,
+          "phase_deg": {
+            "native_analytic": -9.796921299555297,
+            "rounded_shift_only": -9.799167922104646,
+            "rounded_shift_frozen_scale": -9.7991777223897,
+            "frozen_retrospective_mapping": -9.79917776067761
+          }
+        },
+        {
+          "nominal_output_dbm": -0.75,
+          "phase_deg": {
+            "native_analytic": -10.263938298612176,
+            "rounded_shift_only": -10.26627000486846,
+            "rounded_shift_frozen_scale": -10.266280272308848,
+            "frozen_retrospective_mapping": -10.266280312046698
+          }
+        },
+        {
+          "nominal_output_dbm": -0.5,
+          "phase_deg": {
+            "native_analytic": -10.748393019592685,
+            "rounded_shift_only": -10.750810518885684,
+            "rounded_shift_frozen_scale": -10.750821270921826,
+            "frozen_retrospective_mapping": -10.750821312121685
+          }
+        },
+        {
+          "nominal_output_dbm": -0.25,
+          "phase_deg": {
+            "native_analytic": -11.250395694492116,
+            "rounded_shift_only": -11.252899347485071,
+            "rounded_shift_frozen_scale": -11.252910601667281,
+            "frozen_retrospective_mapping": -11.252910644335286
+          }
+        },
+        {
+          "nominal_output_dbm": 0.0,
+          "phase_deg": {
+            "native_analytic": -11.769979845053454,
+            "rounded_shift_only": -11.772569607848483,
+            "rounded_shift_frozen_scale": -11.772581381760197,
+            "frozen_retrospective_mapping": -11.77258142589557
+          }
+        },
+        {
+          "nominal_output_dbm": 0.25,
+          "phase_deg": {
+            "native_analytic": -12.307090230269925,
+            "rounded_shift_only": -12.309765592023794,
+            "rounded_shift_frozen_scale": -12.309777903192733,
+            "frozen_retrospective_mapping": -12.309777948786754
+          }
+        },
+        {
+          "nominal_output_dbm": 0.5,
+          "phase_deg": {
+            "native_analytic": -12.861569402705474,
+            "rounded_shift_only": -12.864329316084726,
+            "rounded_shift_frozen_scale": -12.86434218188061,
+            "frozen_retrospective_mapping": -12.864342228915412
+          }
+        },
+        {
+          "nominal_output_dbm": 0.75,
+          "phase_deg": {
+            "native_analytic": -13.433142730143219,
+            "rounded_shift_only": -13.435985533881851,
+            "rounded_shift_frozen_scale": -13.435998971399126,
+            "frozen_retrospective_mapping": -13.435999019846363
+          }
+        },
+        {
+          "nominal_output_dbm": 1.0,
+          "phase_deg": {
+            "native_analytic": -14.021401725063138,
+            "rounded_shift_only": -14.024325057814321,
+            "rounded_shift_frozen_scale": -14.024339083738193,
+            "frozen_retrospective_mapping": -14.0243391335576
+          }
+        },
+        {
+          "nominal_output_dbm": 1.25,
+          "phase_deg": {
+            "native_analytic": -14.62578550911475,
+            "rounded_shift_only": -14.628786213709414,
+            "rounded_shift_frozen_scale": -14.62880084416335,
+            "frozen_retrospective_mapping": -14.628800895301092
+          }
+        },
+        {
+          "nominal_output_dbm": 1.5,
+          "phase_deg": {
+            "native_analytic": -15.24556022296523,
+            "rounded_shift_only": -15.248634240104296,
+            "rounded_shift_frozen_scale": -15.248649490476923,
+            "frozen_retrospective_mapping": -15.248649542863786
+          }
+        },
+        {
+          "nominal_output_dbm": 1.75,
+          "phase_deg": {
+            "native_analytic": -15.87979617353301,
+            "rounded_shift_only": -15.88293842384587,
+            "rounded_shift_frozen_scale": -15.882954308594993,
+            "frozen_retrospective_mapping": -15.882954362144366
+          }
+        },
+        {
+          "nominal_output_dbm": 2.0,
+          "phase_deg": {
+            "native_analytic": -16.527342490514823,
+            "rounded_shift_only": -16.530546743813613,
+            "rounded_shift_frozen_scale": -16.530563276244884,
+            "frozen_retrospective_mapping": -16.53056333085056
+          }
+        },
+        {
+          "nominal_output_dbm": 2.25,
+          "phase_deg": {
+            "native_analytic": -17.186799042119265,
+            "rounded_shift_only": -17.190057772565755,
+            "rounded_shift_frozen_scale": -17.190074964583243,
+            "frozen_retrospective_mapping": -17.190075020116915
+          }
+        },
+        {
+          "nominal_output_dbm": 2.5,
+          "phase_deg": {
+            "native_analytic": -17.85648533585716,
+            "rounded_shift_only": -17.85978956163575,
+            "rounded_shift_frozen_scale": -17.85980742346138,
+            "frozen_retrospective_mapping": -17.85980747976992
+          }
+        },
+        {
+          "nominal_output_dbm": 2.75,
+          "phase_deg": {
+            "native_analytic": -18.534406103916872,
+            "rounded_shift_only": -18.537745209872284,
+            "rounded_shift_frozen_scale": -18.53776374973085,
+            "frozen_retrospective_mapping": -18.53776380663329
+          }
+        },
+        {
+          "nominal_output_dbm": 3.0,
+          "phase_deg": {
+            "native_analytic": -19.218213243861722,
+            "rounded_shift_only": -19.221574785412297,
+            "rounded_shift_frozen_scale": -19.221594009178396,
+            "frozen_retrospective_mapping": -19.2215940664626
+          }
+        },
+        {
+          "nominal_output_dbm": 3.25,
+          "phase_deg": {
+            "native_analytic": -19.905163753899036,
+            "rounded_shift_only": -19.908533240375483,
+            "rounded_shift_frozen_scale": -19.908553151178353,
+            "frozen_retrospective_mapping": -19.908553208597294
+          }
+        },
+        {
+          "nominal_output_dbm": 3.5,
+          "phase_deg": {
+            "native_analytic": -20.5920732675369,
+            "rounded_shift_only": -20.595433922919543,
+            "rounded_shift_frozen_scale": -20.595454520701402,
+            "frozen_retrospective_mapping": -20.595454577969097
+          }
+        },
+        {
+          "nominal_output_dbm": 3.75,
+          "phase_deg": {
+            "native_analytic": -21.27526475479299,
+            "rounded_shift_only": -21.278597253627858,
+            "rounded_shift_frozen_scale": -21.27861853465093,
+            "frozen_retrospective_mapping": -21.278618591437958
+          }
+        },
+        {
+          "nominal_output_dbm": 4.0,
+          "phase_deg": {
+            "native_analytic": -21.950511915953765,
+            "rounded_shift_only": -21.95379409201677,
+            "rounded_shift_frozen_scale": -21.95381604831366,
+            "frozen_retrospective_mapping": -21.953816104242158
+          }
+        },
+        {
+          "nominal_output_dbm": 4.25,
+          "phase_deg": {
+            "native_analytic": -22.612976748876704,
+            "rounded_shift_only": -22.616183273924808,
+            "rounded_shift_frozen_scale": -22.61620589268639,
+            "frozen_retrospective_mapping": -22.616205947324598
+          }
+        },
+        {
+          "nominal_output_dbm": 4.5,
+          "phase_deg": {
+            "native_analytic": -23.25714072163123,
+            "rounded_shift_only": -23.26024275132705,
+            "rounded_shift_frozen_scale": -23.260266014221532,
+            "frozen_retrospective_mapping": -23.260266067077772
+          }
+        },
+        {
+          "nominal_output_dbm": 4.75,
+          "phase_deg": {
+            "native_analytic": -23.87672892849691,
+            "rounded_shift_only": -23.879693712318115,
+            "rounded_shift_frozen_scale": -23.87971759473418,
+            "frozen_retrospective_mapping": -23.87971764525017
+          }
+        },
+        {
+          "nominal_output_dbm": 5.0,
+          "phase_deg": {
+            "native_analytic": -24.464626548562062,
+            "rounded_shift_only": -24.467417000205465,
+            "rounded_shift_frozen_scale": -24.46744147041182,
+            "frozen_retrospective_mapping": -24.467441517955397
+          }
+        },
+        {
+          "nominal_output_dbm": 5.25,
+          "phase_deg": {
+            "native_analytic": -25.012786861929538,
+            "rounded_shift_only": -25.01536108639091,
+            "rounded_shift_frozen_scale": -25.015386104603817,
+            "frozen_retrospective_mapping": -25.015386148460834
+          }
+        },
+        {
+          "nominal_output_dbm": 5.5,
+          "phase_deg": {
+            "native_analytic": -25.512130008339557,
+            "rounded_shift_only": -25.514440781490453,
+            "rounded_shift_frozen_scale": -25.514466298839952,
+            "frozen_retrospective_mapping": -25.514466338205448
+          }
+        },
+        {
+          "nominal_output_dbm": 5.75,
+          "phase_deg": {
+            "native_analytic": -25.95243159631262,
+            "rounded_shift_only": -25.954425792402745,
+            "rounded_shift_frozen_scale": -25.954451749787413,
+            "frozen_retrospective_mapping": -25.954451783755808
+          }
+        },
+        {
+          "nominal_output_dbm": 6.0,
+          "phase_deg": {
+            "native_analytic": -26.3222001871029,
+            "rounded_shift_only": -26.323818149186963,
+            "rounded_shift_frozen_scale": -26.3238444760061,
+            "frozen_retrospective_mapping": -26.323844503560508
+          }
+        },
+        {
+          "nominal_output_dbm": 6.25,
+          "phase_deg": {
+            "native_analytic": -26.608542586180267,
+            "rounded_shift_only": -26.609717433999503,
+            "rounded_shift_frozen_scale": -26.60974404675052,
+            "frozen_retrospective_mapping": -26.609744066750935
+          }
+        },
+        {
+          "nominal_output_dbm": 6.5,
+          "phase_deg": {
+            "native_analytic": -26.79701577491706,
+            "rounded_shift_only": -26.797672644252962,
+            "rounded_shift_frozen_scale": -26.79769944498062,
+            "frozen_retrospective_mapping": -26.797699456150916
+          }
+        },
+        {
+          "nominal_output_dbm": 6.75,
+          "phase_deg": {
+            "native_analytic": -26.871464205866467,
+            "rounded_shift_only": -26.871519412824586,
+            "rounded_shift_frozen_scale": -26.871546287407426,
+            "frozen_retrospective_mapping": -26.871546288321202
+          }
+        },
+        {
+          "nominal_output_dbm": 7.0,
+          "phase_deg": {
+            "native_analytic": -26.871971067763702,
+            "rounded_shift_only": -26.871971067763702,
+            "rounded_shift_frozen_scale": -26.871997942798252,
+            "frozen_retrospective_mapping": -26.871997942798252
+          }
+        },
+        {
+          "nominal_output_dbm": 7.25,
+          "phase_deg": {
+            "native_analytic": -26.871971067763702,
+            "rounded_shift_only": -26.871971067763702,
+            "rounded_shift_frozen_scale": -26.871997942798252,
+            "frozen_retrospective_mapping": -26.871997942798252
+          }
+        },
+        {
+          "nominal_output_dbm": 7.5,
+          "phase_deg": {
+            "native_analytic": -26.871971067763702,
+            "rounded_shift_only": -26.871971067763702,
+            "rounded_shift_frozen_scale": -26.871997942798252,
+            "frozen_retrospective_mapping": -26.871997942798252
+          }
+        },
+        {
+          "nominal_output_dbm": 7.75,
+          "phase_deg": {
+            "native_analytic": -26.871971067763702,
+            "rounded_shift_only": -26.871971067763702,
+            "rounded_shift_frozen_scale": -26.871997942798252,
+            "frozen_retrospective_mapping": -26.871997942798252
+          }
+        },
+        {
+          "nominal_output_dbm": 8.0,
+          "phase_deg": {
+            "native_analytic": -26.871971067763702,
+            "rounded_shift_only": -26.871971067763702,
+            "rounded_shift_frozen_scale": -26.871997942798252,
+            "frozen_retrospective_mapping": -26.871997942798252
+          }
+        },
+        {
+          "nominal_output_dbm": 8.25,
+          "phase_deg": {
+            "native_analytic": -26.871971067763702,
+            "rounded_shift_only": -26.871971067763702,
+            "rounded_shift_frozen_scale": -26.871997942798252,
+            "frozen_retrospective_mapping": -26.871997942798252
+          }
+        },
+        {
+          "nominal_output_dbm": 8.5,
+          "phase_deg": {
+            "native_analytic": -26.871971067763702,
+            "rounded_shift_only": -26.871971067763702,
+            "rounded_shift_frozen_scale": -26.871997942798252,
+            "frozen_retrospective_mapping": -26.871997942798252
+          }
+        },
+        {
+          "nominal_output_dbm": 8.75,
+          "phase_deg": {
+            "native_analytic": -26.871971067763702,
+            "rounded_shift_only": -26.871971067763702,
+            "rounded_shift_frozen_scale": -26.871997942798252,
+            "frozen_retrospective_mapping": -26.871997942798252
+          }
+        },
+        {
+          "nominal_output_dbm": 9.0,
+          "phase_deg": {
+            "native_analytic": -26.871971067763702,
+            "rounded_shift_only": -26.871971067763702,
+            "rounded_shift_frozen_scale": -26.871997942798252,
+            "frozen_retrospective_mapping": -26.871997942798252
+          }
+        },
+        {
+          "nominal_output_dbm": 9.25,
+          "phase_deg": {
+            "native_analytic": -26.871971067763702,
+            "rounded_shift_only": -26.871971067763702,
+            "rounded_shift_frozen_scale": -26.871997942798252,
+            "frozen_retrospective_mapping": -26.871997942798252
+          }
+        },
+        {
+          "nominal_output_dbm": 9.5,
+          "phase_deg": {
+            "native_analytic": -26.871971067763702,
+            "rounded_shift_only": -26.871971067763702,
+            "rounded_shift_frozen_scale": -26.871997942798252,
+            "frozen_retrospective_mapping": -26.871997942798252
+          }
+        },
+        {
+          "nominal_output_dbm": 9.75,
+          "phase_deg": {
+            "native_analytic": -26.871971067763702,
+            "rounded_shift_only": -26.871971067763702,
+            "rounded_shift_frozen_scale": -26.871997942798252,
+            "frozen_retrospective_mapping": -26.871997942798252
+          }
+        },
+        {
+          "nominal_output_dbm": 10.0,
+          "phase_deg": {
+            "native_analytic": -26.871971067763702,
+            "rounded_shift_only": -26.871971067763702,
+            "rounded_shift_frozen_scale": -26.871997942798252,
+            "frozen_retrospective_mapping": -26.871997942798252
+          }
+        },
+        {
+          "nominal_output_dbm": 10.25,
+          "phase_deg": {
+            "native_analytic": -26.871971067763702,
+            "rounded_shift_only": -26.871971067763702,
+            "rounded_shift_frozen_scale": -26.871997942798252,
+            "frozen_retrospective_mapping": -26.871997942798252
+          }
+        },
+        {
+          "nominal_output_dbm": 10.5,
+          "phase_deg": {
+            "native_analytic": -26.871971067763702,
+            "rounded_shift_only": -26.871971067763702,
+            "rounded_shift_frozen_scale": -26.871997942798252,
+            "frozen_retrospective_mapping": -26.871997942798252
+          }
+        },
+        {
+          "nominal_output_dbm": 10.75,
+          "phase_deg": {
+            "native_analytic": -26.871971067763702,
+            "rounded_shift_only": -26.871971067763702,
+            "rounded_shift_frozen_scale": -26.871997942798252,
+            "frozen_retrospective_mapping": -26.871997942798252
+          }
+        },
+        {
+          "nominal_output_dbm": 11.0,
+          "phase_deg": {
+            "native_analytic": -26.871971067763702,
+            "rounded_shift_only": -26.871971067763702,
+            "rounded_shift_frozen_scale": -26.871997942798252,
+            "frozen_retrospective_mapping": -26.871997942798252
+          }
+        },
+        {
+          "nominal_output_dbm": 11.25,
+          "phase_deg": {
+            "native_analytic": -26.871971067763702,
+            "rounded_shift_only": -26.871971067763702,
+            "rounded_shift_frozen_scale": -26.871997942798252,
+            "frozen_retrospective_mapping": -26.871997942798252
+          }
+        }
+      ]
+    }
+  ],
+  "rules": [
+    "Save all points, including zero-dBm and clamp-region disagreements.",
+    "Validate runtime parameter SI values, source power/phase, sweep shape, node identities, frequency and dataset freshness.",
+    "Stop on unexpected warnings/errors, incomplete analysis or timeout; no blind rerun or application kill.",
+    "Restore every modified expression and sweep flag; do not save changed workspace or recompute after restoration.",
+    "No kernel formula changes are authorized by a fit alone; assess held-out transfer and source semantics first."
+  ]
+}
