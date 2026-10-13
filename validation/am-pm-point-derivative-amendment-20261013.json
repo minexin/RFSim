@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "created_utc": "2026-10-13T11:49:41.194537+00:00",
+  "plan": "validation/am-pm-point-derivative-plan-20261013.json",
+  "plan_sha256": "8ab865ee8e8300e9201e3f111d0bfb674da98f51a6988de60920b4bbdddd5650",
+  "reason": "Runtime parameter setter attempt produced a script-language warning and incorrect readbacks before analysis. Two direct restoration attempts failed with DISP_E_TYPEMISMATCH. The task copy was archived to a new forensic file, closed, and reopened from pristine input; all 110 parameter values/expressions matched the earlier state. Root cause remains unproven.",
+  "analyses_completed_before_amendment": {
+    "baseline": 1,
+    "profiles": 0
+  },
+  "changes": [
+    "Prepare six independent XML workspace copies with only the 14 registered parameter/flag changes; verify semantic roundtrip and full-tree identity after undoing those changes.",
+    "Verify loaded workspace directory, hash, and 15 SI readbacks before direct IDispatch RunAnalysis. No runtime parameter setters.",
+    "Archive each completed workspace to a unique new result file, then close it. This replaces expression restoration and the original no-save rule; pristine and prepared inputs are never overwritten. Reopen the pristine task copy after the study without analysis."
+  ],
+  "unchanged": [
+    "All six profiles, four frozen hypotheses, predictions, tolerance, axes, and maximum analysis budget remain unchanged.",
+    "No fit or product formula change based solely on this study."
+  ],
+  "preflight_capture_sha256": "e9070386f44b7e7a4d28c9163b2ec14e0456966d549b53072d038e3ba97969ed",
+  "prepared_manifest_sha256": "21390ec32072e90266bfbeab8ef3284b2af62779d3817daeba345b32cc8dffee",
+  "capture_helper_sha256": "b2e3c4fe1bc64f44410b23d7c68907ffa41bbce524dc1f6ad77417d299aea562",
+  "preparation_helper_sha256": "0617482bcc94de4f7fcc4ad0d487ed4e5f20024a6ff9f77ec11ff5b7e36c1de8",
+  "supervisor_sha256": "5f1616acd60df20c2ab7aa4d673d6d5e9ccdfe854a1958e9a25445d3b5510efb"
+}
