@@ -60,3 +60,5 @@ cmake/
 ## 本轮验证
 
 本机 MSVC / C++17：Debug、Release 完整回归各 **126/126**；重定位 C++ SDK 消费者各 **8/8**，覆盖所有旧头文件路径与模块路径混用；C ABI 安装调用另验 **2/2**。211 个 C/C++ 文件格式检查通过。根 CMake 从 **516 行**缩减为 **65 行**；数值源文件排除 include、空白与明确路径更新后，与基线一致。三平台 CI 以本轮提交的工作流结论为准。
+
+提交 `003bdd7` 的[三平台 CI](https://github.com/minexin/RFSim/actions/runs/38386549185) 已完成：Windows、Ubuntu、macOS 的 Debug/Release，核心构建、纯 C++ SDK 和原生归档重放合计 **18/18** 个作业成功。此后补交的文件仅记录该结果，未改变已验证代码。

@@ -292,7 +292,104 @@
     "log": "build-reference/module-layout-format-check.log"
   },
   "remote_ci": {
-    "status": "pending_after_commit"
+    "status": "completed",
+    "conclusion": "success",
+    "run_id": 38386549185,
+    "url": "https://github.com/minexin/RFSim/actions/runs/38386549185",
+    "head_sha": "003bdd7acffbd63f37d0b3c2e7884aca44e98a30",
+    "jobs": [
+      {
+        "name": "build (macos-latest, Debug)",
+        "conclusion": "success",
+        "database_id": 115259651812
+      },
+      {
+        "name": "build (ubuntu-latest, Release)",
+        "conclusion": "success",
+        "database_id": 115259651936
+      },
+      {
+        "name": "C++ SDK / windows-latest / Debug",
+        "conclusion": "success",
+        "database_id": 115259651957
+      },
+      {
+        "name": "C++ SDK / ubuntu-latest / Release",
+        "conclusion": "success",
+        "database_id": 115259651962
+      },
+      {
+        "name": "build (macos-latest, Release)",
+        "conclusion": "success",
+        "database_id": 115259651965
+      },
+      {
+        "name": "Native archived replay / windows-latest / Debug",
+        "conclusion": "success",
+        "database_id": 115259651976
+      },
+      {
+        "name": "Native archived replay / ubuntu-latest / Debug",
+        "conclusion": "success",
+        "database_id": 115259651989
+      },
+      {
+        "name": "Native archived replay / macos-latest / Release",
+        "conclusion": "success",
+        "database_id": 115259652064
+      },
+      {
+        "name": "Native archived replay / macos-latest / Debug",
+        "conclusion": "success",
+        "database_id": 115259652070
+      },
+      {
+        "name": "C++ SDK / macos-latest / Debug",
+        "conclusion": "success",
+        "database_id": 115259652087
+      },
+      {
+        "name": "C++ SDK / ubuntu-latest / Debug",
+        "conclusion": "success",
+        "database_id": 115259652092
+      },
+      {
+        "name": "C++ SDK / windows-latest / Release",
+        "conclusion": "success",
+        "database_id": 115259652117
+      },
+      {
+        "name": "build (ubuntu-latest, Debug)",
+        "conclusion": "success",
+        "database_id": 115259652121
+      },
+      {
+        "name": "Native archived replay / ubuntu-latest / Release",
+        "conclusion": "success",
+        "database_id": 115259652241
+      },
+      {
+        "name": "Native archived replay / windows-latest / Release",
+        "conclusion": "success",
+        "database_id": 115259652272
+      },
+      {
+        "name": "C++ SDK / macos-latest / Release",
+        "conclusion": "success",
+        "database_id": 115259652324
+      },
+      {
+        "name": "build (windows-latest, Release)",
+        "conclusion": "success",
+        "database_id": 115259652377
+      },
+      {
+        "name": "build (windows-latest, Debug)",
+        "conclusion": "success",
+        "database_id": 115259652393
+      }
+    ]
   },
-  "vendor_validation": "No new SystemVue run and no vendor-compatibility change."
+  "vendor_validation": "No new SystemVue run and no vendor-compatibility change.",
+  "implementation_commit": "003bdd7acffbd63f37d0b3c2e7884aca44e98a30"
 }
