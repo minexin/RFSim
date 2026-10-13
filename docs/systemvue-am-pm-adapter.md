@@ -90,7 +90,9 @@ python -I -S scripts/reference/diagnose-systemvue-am-pm-adapter.py \
 
 [Debug 正式重放](../validation/am-pm-adapter-Debug-20261013.json)和[Release 正式重放](../validation/am-pm-adapter-Release-20261013.json)各执行 1,220 次原生交换，均重新验证本地原始来源，全部数值记录完全一致。构建命令、日志哈希、证据字节复核及失败构建尝试见[本地验证记录](../validation/am-pm-adapter-validation-20261013.json)。初次构建曾因重复 `Path/PATH` 环境项失败，规范化子进程环境后又遇到沙箱内 MSBuild FileTracker 拒绝访问；使用获准的标准 MSVC 构建后通过，没有用这两次失败结果冒充完成验证。
 
-本阶段推送尚未成功：首次遇到 TLS 握手失败，自动审批随后拒绝向既有 GitHub 目的地推送。当前提交的 Linux/macOS/Windows 远程 CI **尚未运行**；既有 CI 通过记录不作为本次改动的证据。该发布状态将在完成授权后的实际推送和 CI 中更新。
+用户确认授权后，本阶段五个提交已推送至 GitHub `main`，受测提交为 `741d695`。[本次跨平台 CI](https://github.com/minexin/RFSim/actions/runs/38407094754) 的 **18/18 项任务全部通过**，覆盖 Windows、Linux、macOS 的 Debug/Release。每个配置的核心/CLI 为 **119/119**、安装后的 C++/C 消费者为 **10/10**；独立纯 C++ API 为 **106/106**、移动后的纯头文件 SDK 消费者为 **8/8**；归档重放 CTest 为 **10/10**。
+
+六个重放任务均报告校准模型 586/586、原解析模型 110/586，最大校准误差均为 `2.3151960348855027e-7°`。其中 37 个 10 GHz 告警点仍为诊断数据。任务状态、18 份日志摘要和上传产物元数据见[本次 CI 验证记录](../validation/am-pm-adapter-ci-20261013.json)。CI 使用已提交观测，不运行 SystemVue，也不声称复核本地专有工作区和完整 COM 捕获。此前本地验证文件保留当时未推送的历史状态；本记录更新发布结果，不更改受测实现。
 
 ## 未完成的兼容范围
 

@@ -1,0 +1,537 @@
+{
+  "schema_version": 1,
+  "recorded_utc": "2026-10-13T13:49:45.794Z",
+  "repository": "https://github.com/minexin/RFSim",
+  "run_id": 38407094754,
+  "run_url": "https://github.com/minexin/RFSim/actions/runs/38407094754",
+  "tested_commit": "741d695b7081162f9dc50e84616f4d8dcd236681",
+  "status": "completed",
+  "conclusion": "success",
+  "updated_at": "2026-10-13T13:47:27Z",
+  "job_count": 18,
+  "successful_job_count": 18,
+  "verification_scope": "The connected GitHub API confirmed main at the tested commit, the workflow conclusion, all 18 jobs, all 18 decoded job logs and the 18 uploaded artifact metadata records. No new SystemVue analysis was performed. CI replays committed observations; the local proprietary workspace and original COM captures are unavailable on CI.",
+  "test_counts_per_platform_configuration": {
+    "core_and_cli": {
+      "passed": 119,
+      "total": 119
+    },
+    "installed_cpp_and_c_consumers": {
+      "passed": 10,
+      "total": 10
+    },
+    "native_cpp_api_without_c_abi": {
+      "passed": 106,
+      "total": 106
+    },
+    "relocated_header_only_sdk_consumers": {
+      "passed": 8,
+      "total": 8
+    },
+    "archived_replay_ctest": {
+      "passed": 10,
+      "total": 10
+    }
+  },
+  "phase_replay_scope": "All six replay logs report 586/586 calibrated and 110/586 legacy planned observations at unchanged 1e-5 degree tolerance. The calibrated maximum is 2.3151960348855027e-7 degrees. The 586 includes 37 warning-bearing 10 GHz diagnostic observations; it is not 586 warning-free acceptance points. The independent suite and CLI gate also exercise ordinary DCP, ordinary raw and extra-point axes.",
+  "full_model_compatibility_accepted": false,
+  "supersedes_publication_status_in": "validation/am-pm-adapter-validation-20261013.json; that immutable record accurately describes the earlier local-only state.",
+  "post_test_changes": "This CI completion record and the publication-status documentation update do not change the implementation tested at 741d695. The separate, uncommitted DataPoints zero-dBm study plan is outside this publication.",
+  "artifacts_inspection": "Metadata and digests were read from GitHub; ZIP payloads were not downloaded or independently rehashed in this step.",
+  "artifacts": [
+    {
+      "id": 11819971189,
+      "name": "cpp-sdk-windows-latest-Debug",
+      "size_in_bytes": 5358,
+      "expired": false,
+      "digest": "sha256:629160dbf7453b11cb808e99a7ef947cb7528a7f7fed8dc1c6c18db45365a052"
+    },
+    {
+      "id": 11819910448,
+      "name": "verification-ubuntu-latest-Release",
+      "size_in_bytes": 359207,
+      "expired": false,
+      "digest": "sha256:978e614bbe1ba29a1240f35ac0f3b6443422a1aa3f9720af6ecdfaaa406da708"
+    },
+    {
+      "id": 11819855439,
+      "name": "cpp-sdk-ubuntu-latest-Release",
+      "size_in_bytes": 5263,
+      "expired": false,
+      "digest": "sha256:b075ab04d2d30e699fa336eb09ff5d9096d6c2ba0601d1e904c2b568fc0bf215"
+    },
+    {
+      "id": 11819670989,
+      "name": "cpp-sdk-windows-latest-Release",
+      "size_in_bytes": 5357,
+      "expired": false,
+      "digest": "sha256:47a5a445066ac5903605c6874cd9d4ff278645170ee8d048ce08f46d32d6132b"
+    },
+    {
+      "id": 11819610631,
+      "name": "verification-ubuntu-latest-Debug",
+      "size_in_bytes": 359313,
+      "expired": false,
+      "digest": "sha256:ee47f1a90f6b01d131418b7f7bc80fca0eff3882b64c1ae1ae4db927d478d5ef"
+    },
+    {
+      "id": 11819545975,
+      "name": "verification-windows-latest-Release",
+      "size_in_bytes": 359495,
+      "expired": false,
+      "digest": "sha256:5fa01ff3d7016c227dbeef9ae9a9eee3bda626811fa14a08b7be21f950bab6b9"
+    },
+    {
+      "id": 11819313864,
+      "name": "native-reference-windows-latest-Release",
+      "size_in_bytes": 445086,
+      "expired": false,
+      "digest": "sha256:46f0c42113ebbbade203725119b48985024cf7f79d330fd099485aa32b52cb17"
+    },
+    {
+      "id": 11819243894,
+      "name": "cpp-sdk-ubuntu-latest-Debug",
+      "size_in_bytes": 5273,
+      "expired": false,
+      "digest": "sha256:4e6c83c5a210725a1c5b78fc263c9cd832b95c2416540b86a20b12fd3760e374"
+    },
+    {
+      "id": 11819149460,
+      "name": "native-reference-macos-latest-Debug",
+      "size_in_bytes": 395250,
+      "expired": false,
+      "digest": "sha256:671086d10190be4bf0689407fa8dfc6ee489c92fe38fdf9d4b3cedd91b65b23e"
+    },
+    {
+      "id": 11818984432,
+      "name": "cpp-sdk-macos-latest-Debug",
+      "size_in_bytes": 5287,
+      "expired": false,
+      "digest": "sha256:ff74ab5da96cd5c16b273387808ca039ee36fbf2c07c32cb8f02bf19bcf45246"
+    },
+    {
+      "id": 11818813955,
+      "name": "native-reference-macos-latest-Release",
+      "size_in_bytes": 395453,
+      "expired": false,
+      "digest": "sha256:502b8a4fe4df75182d949d907dad6df18485edb4aff123536d5c21dba6bfe7db"
+    },
+    {
+      "id": 11818714268,
+      "name": "native-reference-ubuntu-latest-Debug",
+      "size_in_bytes": 395140,
+      "expired": false,
+      "digest": "sha256:7c9af0f088b1305a16808117ae3abe58268da74a0754a25e4a9feda40dc6b45d"
+    },
+    {
+      "id": 11818638899,
+      "name": "native-reference-ubuntu-latest-Release",
+      "size_in_bytes": 395144,
+      "expired": false,
+      "digest": "sha256:fedf3517f0472158f95a4ba9421a3d33f09f52ae7bb749e1d989fab71451f446"
+    },
+    {
+      "id": 11818629554,
+      "name": "verification-macos-latest-Debug",
+      "size_in_bytes": 359303,
+      "expired": false,
+      "digest": "sha256:c97959b458707bc6a0d7702921827528db5fcb53ac1ba52bf58dd204cd5b6181"
+    },
+    {
+      "id": 11818599193,
+      "name": "verification-macos-latest-Release",
+      "size_in_bytes": 359244,
+      "expired": false,
+      "digest": "sha256:b701a1b3e0c2fc250e87399858d5f50a64b45243f307716719321a9cca1f97d4"
+    },
+    {
+      "id": 11818489920,
+      "name": "cpp-sdk-macos-latest-Release",
+      "size_in_bytes": 5280,
+      "expired": false,
+      "digest": "sha256:fa2e0957e6b7b2f6fd7a3be7b79590fd862cb084c44cdf78294d5cc308fb9b31"
+    },
+    {
+      "id": 11818429905,
+      "name": "verification-windows-latest-Debug",
+      "size_in_bytes": 359605,
+      "expired": false,
+      "digest": "sha256:dab379ecc2fe0056838f3015fcb46a138dae86de4784e949557c0592f0b4ce26"
+    },
+    {
+      "id": 11818354695,
+      "name": "native-reference-windows-latest-Debug",
+      "size_in_bytes": 445162,
+      "expired": false,
+      "digest": "sha256:c6c4ed3fc1d26024c5e5aacf5008cdedf427cae0c2a275e2aa3ea28afb2f52d6"
+    }
+  ],
+  "jobs": [
+    {
+      "id": 115329442507,
+      "name": "build (windows-latest, Debug)",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 38407094754,
+      "ctest_totals": [
+        119,
+        10
+      ],
+      "log_url": "https://api.github.com/repos/minexin/RFSim/actions/jobs/115329442507/logs",
+      "matching_log_lines": [
+        "2026-10-13T13:45:03.8548299Z 100% tests passed out of 119",
+        "2026-10-13T13:45:29.2666079Z 100% tests passed out of 10"
+      ]
+    },
+    {
+      "id": 115329442850,
+      "name": "C++ SDK / ubuntu-latest / Debug",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 38407094754,
+      "ctest_totals": [
+        106,
+        8
+      ],
+      "log_url": "https://api.github.com/repos/minexin/RFSim/actions/jobs/115329442850/logs",
+      "matching_log_lines": [
+        "2026-10-13T13:43:40.2515189Z 100% tests passed, 0 tests failed out of 106",
+        "2026-10-13T13:43:58.5427770Z 100% tests passed, 0 tests failed out of 8"
+      ]
+    },
+    {
+      "id": 115329442917,
+      "name": "build (windows-latest, Release)",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 38407094754,
+      "ctest_totals": [
+        119,
+        10
+      ],
+      "log_url": "https://api.github.com/repos/minexin/RFSim/actions/jobs/115329442917/logs",
+      "matching_log_lines": [
+        "2026-10-13T13:45:25.8331650Z 100% tests passed out of 119",
+        "2026-10-13T13:46:04.5689143Z 100% tests passed out of 10"
+      ]
+    },
+    {
+      "id": 115329442953,
+      "name": "C++ SDK / macos-latest / Debug",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 38407094754,
+      "ctest_totals": [
+        106,
+        8
+      ],
+      "log_url": "https://api.github.com/repos/minexin/RFSim/actions/jobs/115329442953/logs",
+      "matching_log_lines": [
+        "2026-10-13T13:44:32.2409570Z 100% tests passed out of 106",
+        "2026-10-13T13:45:01.3058410Z 100% tests passed out of 8"
+      ]
+    },
+    {
+      "id": 115329442979,
+      "name": "build (macos-latest, Release)",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 38407094754,
+      "ctest_totals": [
+        119,
+        10
+      ],
+      "log_url": "https://api.github.com/repos/minexin/RFSim/actions/jobs/115329442979/logs",
+      "matching_log_lines": [
+        "2026-10-13T13:44:48.1422240Z 100% tests passed out of 119",
+        "2026-10-13T13:45:19.6382850Z 100% tests passed out of 10"
+      ]
+    },
+    {
+      "id": 115329442985,
+      "name": "C++ SDK / macos-latest / Release",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 38407094754,
+      "ctest_totals": [
+        106,
+        8
+      ],
+      "log_url": "https://api.github.com/repos/minexin/RFSim/actions/jobs/115329442985/logs",
+      "matching_log_lines": [
+        "2026-10-13T13:45:03.2874710Z 100% tests passed out of 106",
+        "2026-10-13T13:45:46.8207210Z 100% tests passed out of 8"
+      ]
+    },
+    {
+      "id": 115329443027,
+      "name": "Native archived replay / macos-latest / Release",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 38407094754,
+      "ctest_totals": [
+        10
+      ],
+      "log_url": "https://api.github.com/repos/minexin/RFSim/actions/jobs/115329443027/logs",
+      "matching_log_lines": [
+        "2026-10-13T13:43:52.0679470Z  9/10 Test #12: native_systemvue_am_pm_adapter ..........   Passed   10.85 sec",
+        "2026-10-13T13:44:36.0824760Z 10/10 Test #13: native_replay_installed_sdk .............   Passed   43.99 sec",
+        "2026-10-13T13:44:36.1028540Z 100% tests passed out of 10",
+        "2026-10-13T13:44:49.1640340Z {'legacy_analytic': {'point_count': 586, 'numeric_passed_count': 110, 'max_circular_error_deg': 0.009860234894027542}, 'systemvue2023_calibrated': {'point_count': 586, 'numeric_passed_count': 586, 'max_circular_error_deg': 2.3151960348855027e-07}}"
+      ],
+      "phase_replay_summary": {
+        "legacy_analytic": {
+          "point_count": 586,
+          "numeric_passed_count": 110,
+          "max_circular_error_deg": 0.009860234894027542
+        },
+        "systemvue2023_calibrated": {
+          "point_count": 586,
+          "numeric_passed_count": 586,
+          "max_circular_error_deg": 2.3151960348855027e-7
+        }
+      }
+    },
+    {
+      "id": 115329443031,
+      "name": "Native archived replay / ubuntu-latest / Release",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 38407094754,
+      "ctest_totals": [
+        10
+      ],
+      "log_url": "https://api.github.com/repos/minexin/RFSim/actions/jobs/115329443031/logs",
+      "matching_log_lines": [
+        "2026-10-13T13:42:40.4394087Z  9/10 Test #12: native_systemvue_am_pm_adapter ..........   Passed    2.13 sec",
+        "2026-10-13T13:42:53.7477085Z 10/10 Test #13: native_replay_installed_sdk .............   Passed   13.31 sec",
+        "2026-10-13T13:42:53.7479882Z 100% tests passed, 0 tests failed out of 10",
+        "2026-10-13T13:42:56.7757521Z {'legacy_analytic': {'point_count': 586, 'numeric_passed_count': 110, 'max_circular_error_deg': 0.009860234894027542}, 'systemvue2023_calibrated': {'point_count': 586, 'numeric_passed_count': 586, 'max_circular_error_deg': 2.3151960348855027e-07}}"
+      ],
+      "phase_replay_summary": {
+        "legacy_analytic": {
+          "point_count": 586,
+          "numeric_passed_count": 110,
+          "max_circular_error_deg": 0.009860234894027542
+        },
+        "systemvue2023_calibrated": {
+          "point_count": 586,
+          "numeric_passed_count": 586,
+          "max_circular_error_deg": 2.3151960348855027e-7
+        }
+      }
+    },
+    {
+      "id": 115329443036,
+      "name": "C++ SDK / ubuntu-latest / Release",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 38407094754,
+      "ctest_totals": [
+        106,
+        8
+      ],
+      "log_url": "https://api.github.com/repos/minexin/RFSim/actions/jobs/115329443036/logs",
+      "matching_log_lines": [
+        "2026-10-13T13:43:47.5927635Z 100% tests passed, 0 tests failed out of 106",
+        "2026-10-13T13:44:12.1450311Z 100% tests passed, 0 tests failed out of 8"
+      ]
+    },
+    {
+      "id": 115329443096,
+      "name": "Native archived replay / windows-latest / Release",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 38407094754,
+      "ctest_totals": [
+        10
+      ],
+      "log_url": "https://api.github.com/repos/minexin/RFSim/actions/jobs/115329443096/logs",
+      "matching_log_lines": [
+        "2026-10-13T13:43:53.4808639Z  9/10 Test #12: native_systemvue_am_pm_adapter ..........   Passed    8.45 sec",
+        "2026-10-13T13:44:36.8046029Z 10/10 Test #13: native_replay_installed_sdk .............   Passed   43.32 sec",
+        "2026-10-13T13:44:36.8055838Z 100% tests passed out of 10",
+        "2026-10-13T13:44:47.0418060Z {'legacy_analytic': {'point_count': 586, 'numeric_passed_count': 110, 'max_circular_error_deg': 0.009860234894027542}, 'systemvue2023_calibrated': {'point_count': 586, 'numeric_passed_count': 586, 'max_circular_error_deg': 2.3151960348855027e-07}}"
+      ],
+      "phase_replay_summary": {
+        "legacy_analytic": {
+          "point_count": 586,
+          "numeric_passed_count": 110,
+          "max_circular_error_deg": 0.009860234894027542
+        },
+        "systemvue2023_calibrated": {
+          "point_count": 586,
+          "numeric_passed_count": 586,
+          "max_circular_error_deg": 2.3151960348855027e-7
+        }
+      }
+    },
+    {
+      "id": 115329443127,
+      "name": "build (ubuntu-latest, Release)",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 38407094754,
+      "ctest_totals": [
+        119,
+        10
+      ],
+      "log_url": "https://api.github.com/repos/minexin/RFSim/actions/jobs/115329443127/logs",
+      "matching_log_lines": [
+        "2026-10-13T13:44:57.3385090Z 100% tests passed, 0 tests failed out of 119",
+        "2026-10-13T13:45:34.5138078Z 100% tests passed, 0 tests failed out of 10"
+      ]
+    },
+    {
+      "id": 115329443131,
+      "name": "build (ubuntu-latest, Debug)",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 38407094754,
+      "ctest_totals": [
+        119,
+        10
+      ],
+      "log_url": "https://api.github.com/repos/minexin/RFSim/actions/jobs/115329443131/logs",
+      "matching_log_lines": [
+        "2026-10-13T13:44:12.3209423Z 100% tests passed, 0 tests failed out of 119",
+        "2026-10-13T13:44:36.2445023Z 100% tests passed, 0 tests failed out of 10"
+      ]
+    },
+    {
+      "id": 115329443193,
+      "name": "C++ SDK / windows-latest / Release",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 38407094754,
+      "ctest_totals": [
+        106,
+        8
+      ],
+      "log_url": "https://api.github.com/repos/minexin/RFSim/actions/jobs/115329443193/logs",
+      "matching_log_lines": [
+        "2026-10-13T13:45:54.2450258Z 100% tests passed out of 106",
+        "2026-10-13T13:46:47.1243070Z 100% tests passed out of 8"
+      ]
+    },
+    {
+      "id": 115329443202,
+      "name": "Native archived replay / windows-latest / Debug",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 38407094754,
+      "ctest_totals": [
+        10
+      ],
+      "log_url": "https://api.github.com/repos/minexin/RFSim/actions/jobs/115329443202/logs",
+      "matching_log_lines": [
+        "2026-10-13T13:44:04.3310289Z  9/10 Test #12: native_systemvue_am_pm_adapter ..........   Passed   11.03 sec",
+        "2026-10-13T13:44:56.0859833Z 10/10 Test #13: native_replay_installed_sdk .............   Passed   51.75 sec",
+        "2026-10-13T13:44:56.0869038Z 100% tests passed out of 10",
+        "2026-10-13T13:45:09.5908731Z {'legacy_analytic': {'point_count': 586, 'numeric_passed_count': 110, 'max_circular_error_deg': 0.009860234894027542}, 'systemvue2023_calibrated': {'point_count': 586, 'numeric_passed_count': 586, 'max_circular_error_deg': 2.3151960348855027e-07}}"
+      ],
+      "phase_replay_summary": {
+        "legacy_analytic": {
+          "point_count": 586,
+          "numeric_passed_count": 110,
+          "max_circular_error_deg": 0.009860234894027542
+        },
+        "systemvue2023_calibrated": {
+          "point_count": 586,
+          "numeric_passed_count": 586,
+          "max_circular_error_deg": 2.3151960348855027e-7
+        }
+      }
+    },
+    {
+      "id": 115329443227,
+      "name": "build (macos-latest, Debug)",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 38407094754,
+      "ctest_totals": [
+        119,
+        10
+      ],
+      "log_url": "https://api.github.com/repos/minexin/RFSim/actions/jobs/115329443227/logs",
+      "matching_log_lines": [
+        "2026-10-13T13:44:11.6937160Z 100% tests passed out of 119",
+        "2026-10-13T13:44:32.8528950Z 100% tests passed out of 10"
+      ]
+    },
+    {
+      "id": 115329443273,
+      "name": "Native archived replay / macos-latest / Debug",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 38407094754,
+      "ctest_totals": [
+        10
+      ],
+      "log_url": "https://api.github.com/repos/minexin/RFSim/actions/jobs/115329443273/logs",
+      "matching_log_lines": [
+        "2026-10-13T13:46:22.8363080Z  9/10 Test #12: native_systemvue_am_pm_adapter ..........   Passed   11.09 sec",
+        "2026-10-13T13:47:06.5755390Z 10/10 Test #13: native_replay_installed_sdk .............   Passed   43.74 sec",
+        "2026-10-13T13:47:06.5905490Z 100% tests passed out of 10",
+        "2026-10-13T13:47:19.2328310Z {'legacy_analytic': {'point_count': 586, 'numeric_passed_count': 110, 'max_circular_error_deg': 0.009860234894027542}, 'systemvue2023_calibrated': {'point_count': 586, 'numeric_passed_count': 586, 'max_circular_error_deg': 2.3151960348855027e-07}}"
+      ],
+      "phase_replay_summary": {
+        "legacy_analytic": {
+          "point_count": 586,
+          "numeric_passed_count": 110,
+          "max_circular_error_deg": 0.009860234894027542
+        },
+        "systemvue2023_calibrated": {
+          "point_count": 586,
+          "numeric_passed_count": 586,
+          "max_circular_error_deg": 2.3151960348855027e-7
+        }
+      }
+    },
+    {
+      "id": 115329443390,
+      "name": "C++ SDK / windows-latest / Debug",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 38407094754,
+      "ctest_totals": [
+        106,
+        8
+      ],
+      "log_url": "https://api.github.com/repos/minexin/RFSim/actions/jobs/115329443390/logs",
+      "matching_log_lines": [
+        "2026-10-13T13:45:36.8607472Z 100% tests passed out of 106",
+        "2026-10-13T13:46:03.7625995Z 100% tests passed out of 8"
+      ]
+    },
+    {
+      "id": 115329443592,
+      "name": "Native archived replay / ubuntu-latest / Debug",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 38407094754,
+      "ctest_totals": [
+        10
+      ],
+      "log_url": "https://api.github.com/repos/minexin/RFSim/actions/jobs/115329443592/logs",
+      "matching_log_lines": [
+        "2026-10-13T13:42:47.5183895Z  9/10 Test #12: native_systemvue_am_pm_adapter ..........   Passed    3.32 sec",
+        "2026-10-13T13:43:04.9049777Z 10/10 Test #13: native_replay_installed_sdk .............   Passed   17.39 sec",
+        "2026-10-13T13:43:04.9052964Z 100% tests passed, 0 tests failed out of 10",
+        "2026-10-13T13:43:09.5148085Z {'legacy_analytic': {'point_count': 586, 'numeric_passed_count': 110, 'max_circular_error_deg': 0.009860234894027542}, 'systemvue2023_calibrated': {'point_count': 586, 'numeric_passed_count': 586, 'max_circular_error_deg': 2.3151960348855027e-07}}"
+      ],
+      "phase_replay_summary": {
+        "legacy_analytic": {
+          "point_count": 586,
+          "numeric_passed_count": 110,
+          "max_circular_error_deg": 0.009860234894027542
+        },
+        "systemvue2023_calibrated": {
+          "point_count": 586,
+          "numeric_passed_count": 586,
+          "max_circular_error_deg": 2.3151960348855027e-7
+        }
+      }
+    }
+  ]
+}
