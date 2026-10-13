@@ -1,0 +1,661 @@
+{
+  "schema_version": 1,
+  "plan_sha256": "8ab865ee8e8300e9201e3f111d0bfb674da98f51a6988de60920b4bbdddd5650",
+  "total_actual_analysis_calls": 8,
+  "baseline_analysis_calls": 1,
+  "excluded_setup_analysis_calls": 1,
+  "registered_profile_analysis_calls": 6,
+  "captures": [
+    {
+      "profile": "negative-reference-10",
+      "path": "build-reference/ampm-parameter-study-20261013/prepared-20261013T115520Z-dd9f1e63/capture.json",
+      "sha256": "0cf0e86c273d0acc0833af6d67a48b8a35b75d266c34701aa2ae2809a386a7b9",
+      "status_sha256": "dce3f0e25d73f64f404edacafd784e37103d8069424e7e0ea0979868d3ace650",
+      "before_sha256": "b921c00af32cde32132b537b9079b8de0cb1abd30cab7ded34b3a14bb181893e",
+      "result_workspace_sha256": "adfcddb4afcc50affb2796f09b7e3d0eb4af838a65c58ccb85d02af3ef8a1870",
+      "closed_sha256": "77a7fed2b7bed0ff84179b0a49a4d989557a365316f448ab174c4d7896616594"
+    },
+    {
+      "profile": "positive-reference-10",
+      "path": "build-reference/ampm-parameter-study-20261013/prepared-20261013T115546Z-6120da70/capture.json",
+      "sha256": "85a0822532cbfd0da4c13b36366f5ee946758e0c794837e35c915e641c0300d9",
+      "status_sha256": "a6da093fa673c596dd633dbc4d89b2070ca8a9ee03af87933b92d65a07a99a15",
+      "before_sha256": "70025fac75bc7501bdc500db8fc3cff4155fcf14bb9ad9a2f1001cf725e27051",
+      "result_workspace_sha256": "3f29eef08ee78a00931cdcb45d82e757e7b6b441589d122c716f43427d4efef0",
+      "closed_sha256": "7542f1f4beafe5c3e7f532d0a370331c995e4ad4e44302764d33ececfbb7d963"
+    },
+    {
+      "profile": "negative-reference-minus10",
+      "path": "build-reference/ampm-parameter-study-20261013/prepared-20261013T115608Z-1951f8ab/capture.json",
+      "sha256": "e15396ba19ecb111b80847158b7c1258263bfc36a3aab8c199f2d6a478ee49eb",
+      "status_sha256": "8a849fab94a4f593be30f8b821a313b20d4e8bd5c173ef2feaae3bf76fbaed41",
+      "before_sha256": "2f0e162aa89b69aafcb9830c6b92c00894c6417f7ab12b34ab8c14fdaa2363c2",
+      "result_workspace_sha256": "b2a0120f5a42325f10a41355aee6f620729c04e06f8286271a71453914d0e415",
+      "closed_sha256": "e13884c316b03168ff2cbbf1b241dec0cb84b39637fd60afdb80ae03e5c36d11"
+    },
+    {
+      "profile": "positive-reference-30",
+      "path": "build-reference/ampm-parameter-study-20261013/prepared-20261013T115614Z-1ebfdfb1/capture.json",
+      "sha256": "047d5ab62fc86a8e5ea0c3c564da7a135122ddc96af7526adb4acec15d431b2e",
+      "status_sha256": "b2c3be1320a10dbaea1ac27006c48c96bdd49f69e32dfb111d87ed53efad2865",
+      "before_sha256": "acd10f185cb45c50dade0f0c7c56af1e0f44f6aa379ed05700977dfb5d561721",
+      "result_workspace_sha256": "15546a4531998c99726ba3e9d0c94655105cdd0f413d60af88db4e8eebdfc834",
+      "closed_sha256": "1475a8aebd951def5630f299dc31d11e060614403738ea7dbbbc823943bcf634"
+    },
+    {
+      "profile": "zero-phase",
+      "path": "build-reference/ampm-parameter-study-20261013/prepared-20261013T115619Z-e0b34ad0/capture.json",
+      "sha256": "ae68e39cd152a394d15cf3ca9ca4458620a010b6949e55d899fac56679ea3e0d",
+      "status_sha256": "106636d33d4134b265b0b37329cee985a9ea4d4870e04ff75469b92f08da5579",
+      "before_sha256": "f86ec6b669bc6bff2e07e445b7c9bb63c40ccb98c4323ea30ff2a3001deddb76",
+      "result_workspace_sha256": "7e5776638b53d325580c5a796d0e8638399a32a907ee716bef2328a1ba303135",
+      "closed_sha256": "a6846e8cb6828a47dbc661ada3921cdef7b0383778420399e4fb24727d940ed2"
+    },
+    {
+      "profile": "fractional-parameters",
+      "path": "build-reference/ampm-parameter-study-20261013/prepared-20261013T115625Z-9949d1dc/capture.json",
+      "sha256": "bbce33e14ea3c8463952d6f761d096be884d99ebefc2d05712765bcdf9a1681e",
+      "status_sha256": "40d449e81c9ab448bd520fa068394b7b2964553e61faa9083e206b34b5221967",
+      "before_sha256": "3720d2ced2ec7a9214efc8a9f51eda2e22812e59210ef2469b55dc1e86dd1eb3",
+      "result_workspace_sha256": "e1aef9571034d7b0e446ee5d4d2731da2ef0afe6088462182808c021eff48831",
+      "closed_sha256": "cdaea008220b25461e7da97f6ad8183a992edb2793248a8b70bcec78f68f7b4d"
+    }
+  ],
+  "prepared_workspaces": {
+    "schema_version": 1,
+    "prepared_utc": "2026-10-13T11:54:47.699934+00:00",
+    "plan_sha256": "8ab865ee8e8300e9201e3f111d0bfb674da98f51a6988de60920b4bbdddd5650",
+    "source_sha256": "ead90a212c786eff0cfa782dab47dbfe14c421b3f43b32c573bb990cb8348877",
+    "profiles": [
+      {
+        "name": "negative-reference-10",
+        "workspace_path": "build-reference\\ampm-parameter-study-20261013\\profiles-v4\\negative-reference-10\\RFModel_AMPM_A01.wsv",
+        "workspace_sha256": "88bb6e4c5b623c6e8d9bcbab28a4449d6ae60cd19c50a3f6276bc3bbfa815f80",
+        "changes": [
+          {
+            "path": "PointDerivative/Sch1/PartList/RFAmp/ParamSet/AMtoPM_Mode/DataEntry",
+            "before": "1",
+            "after": "1"
+          },
+          {
+            "path": "PointDerivative/Sch1/PartList/RFAmp/ParamSet/G/DataEntry",
+            "before": "20",
+            "after": "20"
+          },
+          {
+            "path": "PointDerivative/Sch1/PartList/RFAmp/ParamSet/OP1dB/DataEntry",
+            "before": "10",
+            "after": "100"
+          },
+          {
+            "path": "PointDerivative/Sch1/PartList/RFAmp/ParamSet/OPSAT/DataEntry",
+            "before": "13",
+            "after": "103"
+          },
+          {
+            "path": "PointDerivative/Sch1/PartList/RFAmp/ParamSet/OIP2/DataEntry",
+            "before": "30",
+            "after": "140"
+          },
+          {
+            "path": "PointDerivative/Sch1/PartList/RFAmp/ParamSet/OIP3/DataEntry",
+            "before": "20",
+            "after": "130"
+          },
+          {
+            "path": "PointDerivative/Sch1/PartList/RFAmp/ParamSet/AMtoPM/DataEntry",
+            "before": "-5",
+            "after": "-5.0"
+          },
+          {
+            "path": "PointDerivative/Sch1/PartList/RFAmp/ParamSet/PwrAMtoPM/DataEntry",
+            "before": "10",
+            "after": "10.0"
+          },
+          {
+            "path": "PointDerivative/Sch1/PartList/Source/ParamSet/Pwr/DataEntry",
+            "before": "Pin",
+            "after": "-10.0"
+          },
+          {
+            "path": "PointDerivative/Sch1/PartList/Source/ParamSet/Phase/DataEntry",
+            "before": "0",
+            "after": "30"
+          },
+          {
+            "path": "PointDerivative/System1/Path1/QCStartPwr/DataEntry",
+            "before": "-150",
+            "after": "-20.0"
+          },
+          {
+            "path": "PointDerivative/System1/Path1/QCStopPwr/DataEntry",
+            "before": "50",
+            "after": "-2.0"
+          },
+          {
+            "path": "PointDerivative/System1/Path1/QCStepPwr/DataEntry",
+            "before": "10",
+            "after": "0.25"
+          },
+          {
+            "path": "PointDerivative/System1/Path1/QCAutoLimits/Data/D",
+            "before": "1",
+            "after": "0"
+          },
+          {
+            "path": "PointDerivative/System1/Path1/QCFreq/DataEntry",
+            "before": null,
+            "after": "100"
+          },
+          {
+            "path": "PointDerivative/System1/Path1/QCSwpType/Data/D",
+            "before": "0",
+            "after": "3"
+          }
+        ]
+      },
+      {
+        "name": "positive-reference-10",
+        "workspace_path": "build-reference\\ampm-parameter-study-20261013\\profiles-v4\\positive-reference-10\\RFModel_AMPM_A01.wsv",
+        "workspace_sha256": "8ef456c326123f07a565141dcc8276be8bedd1270689cfcf0ec1d6d55f72c20d",
+        "changes": [
+          {
+            "path": "PointDerivative/Sch1/PartList/RFAmp/ParamSet/AMtoPM_Mode/DataEntry",
+            "before": "1",
+            "after": "1"
+          },
+          {
+            "path": "PointDerivative/Sch1/PartList/RFAmp/ParamSet/G/DataEntry",
+            "before": "20",
+            "after": "20"
+          },
+          {
+            "path": "PointDerivative/Sch1/PartList/RFAmp/ParamSet/OP1dB/DataEntry",
+            "before": "10",
+            "after": "100"
+          },
+          {
+            "path": "PointDerivative/Sch1/PartList/RFAmp/ParamSet/OPSAT/DataEntry",
+            "before": "13",
+            "after": "103"
+          },
+          {
+            "path": "PointDerivative/Sch1/PartList/RFAmp/ParamSet/OIP2/DataEntry",
+            "before": "30",
+            "after": "140"
+          },
+          {
+            "path": "PointDerivative/Sch1/PartList/RFAmp/ParamSet/OIP3/DataEntry",
+            "before": "20",
+            "after": "130"
+          },
+          {
+            "path": "PointDerivative/Sch1/PartList/RFAmp/ParamSet/AMtoPM/DataEntry",
+            "before": "-5",
+            "after": "7.0"
+          },
+          {
+            "path": "PointDerivative/Sch1/PartList/RFAmp/ParamSet/PwrAMtoPM/DataEntry",
+            "before": "10",
+            "after": "10.0"
+          },
+          {
+            "path": "PointDerivative/Sch1/PartList/Source/ParamSet/Pwr/DataEntry",
+            "before": "Pin",
+            "after": "-6.0"
+          },
+          {
+            "path": "PointDerivative/Sch1/PartList/Source/ParamSet/Phase/DataEntry",
+            "before": "0",
+            "after": "30"
+          },
+          {
+            "path": "PointDerivative/System1/Path1/QCStartPwr/DataEntry",
+            "before": "-150",
+            "after": "-20.0"
+          },
+          {
+            "path": "PointDerivative/System1/Path1/QCStopPwr/DataEntry",
+            "before": "50",
+            "after": "-2.0"
+          },
+          {
+            "path": "PointDerivative/System1/Path1/QCStepPwr/DataEntry",
+            "before": "10",
+            "after": "0.25"
+          },
+          {
+            "path": "PointDerivative/System1/Path1/QCAutoLimits/Data/D",
+            "before": "1",
+            "after": "0"
+          },
+          {
+            "path": "PointDerivative/System1/Path1/QCFreq/DataEntry",
+            "before": null,
+            "after": "100"
+          },
+          {
+            "path": "PointDerivative/System1/Path1/QCSwpType/Data/D",
+            "before": "0",
+            "after": "3"
+          }
+        ]
+      },
+      {
+        "name": "negative-reference-minus10",
+        "workspace_path": "build-reference\\ampm-parameter-study-20261013\\profiles-v4\\negative-reference-minus10\\RFModel_AMPM_A01.wsv",
+        "workspace_sha256": "c89a50b6888a4de50dc1ab7667a9a69e74c5d08a2b0130fe85b27ccb6621be21",
+        "changes": [
+          {
+            "path": "PointDerivative/Sch1/PartList/RFAmp/ParamSet/AMtoPM_Mode/DataEntry",
+            "before": "1",
+            "after": "1"
+          },
+          {
+            "path": "PointDerivative/Sch1/PartList/RFAmp/ParamSet/G/DataEntry",
+            "before": "20",
+            "after": "20"
+          },
+          {
+            "path": "PointDerivative/Sch1/PartList/RFAmp/ParamSet/OP1dB/DataEntry",
+            "before": "10",
+            "after": "100"
+          },
+          {
+            "path": "PointDerivative/Sch1/PartList/RFAmp/ParamSet/OPSAT/DataEntry",
+            "before": "13",
+            "after": "103"
+          },
+          {
+            "path": "PointDerivative/Sch1/PartList/RFAmp/ParamSet/OIP2/DataEntry",
+            "before": "30",
+            "after": "140"
+          },
+          {
+            "path": "PointDerivative/Sch1/PartList/RFAmp/ParamSet/OIP3/DataEntry",
+            "before": "20",
+            "after": "130"
+          },
+          {
+            "path": "PointDerivative/Sch1/PartList/RFAmp/ParamSet/AMtoPM/DataEntry",
+            "before": "-5",
+            "after": "-5.0"
+          },
+          {
+            "path": "PointDerivative/Sch1/PartList/RFAmp/ParamSet/PwrAMtoPM/DataEntry",
+            "before": "10",
+            "after": "-10.0"
+          },
+          {
+            "path": "PointDerivative/Sch1/PartList/Source/ParamSet/Pwr/DataEntry",
+            "before": "Pin",
+            "after": "-26.0"
+          },
+          {
+            "path": "PointDerivative/Sch1/PartList/Source/ParamSet/Phase/DataEntry",
+            "before": "0",
+            "after": "30"
+          },
+          {
+            "path": "PointDerivative/System1/Path1/QCStartPwr/DataEntry",
+            "before": "-150",
+            "after": "-40.0"
+          },
+          {
+            "path": "PointDerivative/System1/Path1/QCStopPwr/DataEntry",
+            "before": "50",
+            "after": "-22.0"
+          },
+          {
+            "path": "PointDerivative/System1/Path1/QCStepPwr/DataEntry",
+            "before": "10",
+            "after": "0.25"
+          },
+          {
+            "path": "PointDerivative/System1/Path1/QCAutoLimits/Data/D",
+            "before": "1",
+            "after": "0"
+          },
+          {
+            "path": "PointDerivative/System1/Path1/QCFreq/DataEntry",
+            "before": null,
+            "after": "100"
+          },
+          {
+            "path": "PointDerivative/System1/Path1/QCSwpType/Data/D",
+            "before": "0",
+            "after": "3"
+          }
+        ]
+      },
+      {
+        "name": "positive-reference-30",
+        "workspace_path": "build-reference\\ampm-parameter-study-20261013\\profiles-v4\\positive-reference-30\\RFModel_AMPM_A01.wsv",
+        "workspace_sha256": "cd6d4b7d64c85c76d8a3f4f8530b9f7c76d48ba28a9f722fc4de9daa9cd3a72a",
+        "changes": [
+          {
+            "path": "PointDerivative/Sch1/PartList/RFAmp/ParamSet/AMtoPM_Mode/DataEntry",
+            "before": "1",
+            "after": "1"
+          },
+          {
+            "path": "PointDerivative/Sch1/PartList/RFAmp/ParamSet/G/DataEntry",
+            "before": "20",
+            "after": "20"
+          },
+          {
+            "path": "PointDerivative/Sch1/PartList/RFAmp/ParamSet/OP1dB/DataEntry",
+            "before": "10",
+            "after": "100"
+          },
+          {
+            "path": "PointDerivative/Sch1/PartList/RFAmp/ParamSet/OPSAT/DataEntry",
+            "before": "13",
+            "after": "103"
+          },
+          {
+            "path": "PointDerivative/Sch1/PartList/RFAmp/ParamSet/OIP2/DataEntry",
+            "before": "30",
+            "after": "140"
+          },
+          {
+            "path": "PointDerivative/Sch1/PartList/RFAmp/ParamSet/OIP3/DataEntry",
+            "before": "20",
+            "after": "130"
+          },
+          {
+            "path": "PointDerivative/Sch1/PartList/RFAmp/ParamSet/AMtoPM/DataEntry",
+            "before": "-5",
+            "after": "7.0"
+          },
+          {
+            "path": "PointDerivative/Sch1/PartList/RFAmp/ParamSet/PwrAMtoPM/DataEntry",
+            "before": "10",
+            "after": "30.0"
+          },
+          {
+            "path": "PointDerivative/Sch1/PartList/Source/ParamSet/Pwr/DataEntry",
+            "before": "Pin",
+            "after": "10.0"
+          },
+          {
+            "path": "PointDerivative/Sch1/PartList/Source/ParamSet/Phase/DataEntry",
+            "before": "0",
+            "after": "30"
+          },
+          {
+            "path": "PointDerivative/System1/Path1/QCStartPwr/DataEntry",
+            "before": "-150",
+            "after": "0.0"
+          },
+          {
+            "path": "PointDerivative/System1/Path1/QCStopPwr/DataEntry",
+            "before": "50",
+            "after": "18.0"
+          },
+          {
+            "path": "PointDerivative/System1/Path1/QCStepPwr/DataEntry",
+            "before": "10",
+            "after": "0.25"
+          },
+          {
+            "path": "PointDerivative/System1/Path1/QCAutoLimits/Data/D",
+            "before": "1",
+            "after": "0"
+          },
+          {
+            "path": "PointDerivative/System1/Path1/QCFreq/DataEntry",
+            "before": null,
+            "after": "100"
+          },
+          {
+            "path": "PointDerivative/System1/Path1/QCSwpType/Data/D",
+            "before": "0",
+            "after": "3"
+          }
+        ]
+      },
+      {
+        "name": "zero-phase",
+        "workspace_path": "build-reference\\ampm-parameter-study-20261013\\profiles-v4\\zero-phase\\RFModel_AMPM_A01.wsv",
+        "workspace_sha256": "628669bbbd2d60c78c60bdcaaafac82fda4f5296879e7903abf0fb8fe45d4934",
+        "changes": [
+          {
+            "path": "PointDerivative/Sch1/PartList/RFAmp/ParamSet/AMtoPM_Mode/DataEntry",
+            "before": "1",
+            "after": "1"
+          },
+          {
+            "path": "PointDerivative/Sch1/PartList/RFAmp/ParamSet/G/DataEntry",
+            "before": "20",
+            "after": "20"
+          },
+          {
+            "path": "PointDerivative/Sch1/PartList/RFAmp/ParamSet/OP1dB/DataEntry",
+            "before": "10",
+            "after": "100"
+          },
+          {
+            "path": "PointDerivative/Sch1/PartList/RFAmp/ParamSet/OPSAT/DataEntry",
+            "before": "13",
+            "after": "103"
+          },
+          {
+            "path": "PointDerivative/Sch1/PartList/RFAmp/ParamSet/OIP2/DataEntry",
+            "before": "30",
+            "after": "140"
+          },
+          {
+            "path": "PointDerivative/Sch1/PartList/RFAmp/ParamSet/OIP3/DataEntry",
+            "before": "20",
+            "after": "130"
+          },
+          {
+            "path": "PointDerivative/Sch1/PartList/RFAmp/ParamSet/AMtoPM/DataEntry",
+            "before": "-5",
+            "after": "0.0"
+          },
+          {
+            "path": "PointDerivative/Sch1/PartList/RFAmp/ParamSet/PwrAMtoPM/DataEntry",
+            "before": "10",
+            "after": "10.0"
+          },
+          {
+            "path": "PointDerivative/Sch1/PartList/Source/ParamSet/Pwr/DataEntry",
+            "before": "Pin",
+            "after": "-10.0"
+          },
+          {
+            "path": "PointDerivative/Sch1/PartList/Source/ParamSet/Phase/DataEntry",
+            "before": "0",
+            "after": "30"
+          },
+          {
+            "path": "PointDerivative/System1/Path1/QCStartPwr/DataEntry",
+            "before": "-150",
+            "after": "-20.0"
+          },
+          {
+            "path": "PointDerivative/System1/Path1/QCStopPwr/DataEntry",
+            "before": "50",
+            "after": "-2.0"
+          },
+          {
+            "path": "PointDerivative/System1/Path1/QCStepPwr/DataEntry",
+            "before": "10",
+            "after": "0.25"
+          },
+          {
+            "path": "PointDerivative/System1/Path1/QCAutoLimits/Data/D",
+            "before": "1",
+            "after": "0"
+          },
+          {
+            "path": "PointDerivative/System1/Path1/QCFreq/DataEntry",
+            "before": null,
+            "after": "100"
+          },
+          {
+            "path": "PointDerivative/System1/Path1/QCSwpType/Data/D",
+            "before": "0",
+            "after": "3"
+          }
+        ]
+      },
+      {
+        "name": "fractional-parameters",
+        "workspace_path": "build-reference\\ampm-parameter-study-20261013\\profiles-v4\\fractional-parameters\\RFModel_AMPM_A01.wsv",
+        "workspace_sha256": "ca726139bf8bd0d8f2a0897edc742c2018e360c61f937c3986ff9efb739e3e1f",
+        "changes": [
+          {
+            "path": "PointDerivative/Sch1/PartList/RFAmp/ParamSet/AMtoPM_Mode/DataEntry",
+            "before": "1",
+            "after": "1"
+          },
+          {
+            "path": "PointDerivative/Sch1/PartList/RFAmp/ParamSet/G/DataEntry",
+            "before": "20",
+            "after": "20"
+          },
+          {
+            "path": "PointDerivative/Sch1/PartList/RFAmp/ParamSet/OP1dB/DataEntry",
+            "before": "10",
+            "after": "100"
+          },
+          {
+            "path": "PointDerivative/Sch1/PartList/RFAmp/ParamSet/OPSAT/DataEntry",
+            "before": "13",
+            "after": "103"
+          },
+          {
+            "path": "PointDerivative/Sch1/PartList/RFAmp/ParamSet/OIP2/DataEntry",
+            "before": "30",
+            "after": "140"
+          },
+          {
+            "path": "PointDerivative/Sch1/PartList/RFAmp/ParamSet/OIP3/DataEntry",
+            "before": "20",
+            "after": "130"
+          },
+          {
+            "path": "PointDerivative/Sch1/PartList/RFAmp/ParamSet/AMtoPM/DataEntry",
+            "before": "-5",
+            "after": "-2.75"
+          },
+          {
+            "path": "PointDerivative/Sch1/PartList/RFAmp/ParamSet/PwrAMtoPM/DataEntry",
+            "before": "10",
+            "after": "3.25"
+          },
+          {
+            "path": "PointDerivative/Sch1/PartList/Source/ParamSet/Pwr/DataEntry",
+            "before": "Pin",
+            "after": "-12.75"
+          },
+          {
+            "path": "PointDerivative/Sch1/PartList/Source/ParamSet/Phase/DataEntry",
+            "before": "0",
+            "after": "30"
+          },
+          {
+            "path": "PointDerivative/System1/Path1/QCStartPwr/DataEntry",
+            "before": "-150",
+            "after": "-26.75"
+          },
+          {
+            "path": "PointDerivative/System1/Path1/QCStopPwr/DataEntry",
+            "before": "50",
+            "after": "-8.75"
+          },
+          {
+            "path": "PointDerivative/System1/Path1/QCStepPwr/DataEntry",
+            "before": "10",
+            "after": "0.25"
+          },
+          {
+            "path": "PointDerivative/System1/Path1/QCAutoLimits/Data/D",
+            "before": "1",
+            "after": "0"
+          },
+          {
+            "path": "PointDerivative/System1/Path1/QCFreq/DataEntry",
+            "before": null,
+            "after": "100"
+          },
+          {
+            "path": "PointDerivative/System1/Path1/QCSwpType/Data/D",
+            "before": "0",
+            "after": "3"
+          }
+        ]
+      }
+    ]
+  },
+  "restoration": {
+    "checked_parameter_count": 109,
+    "all_expressions_and_values_equal": true,
+    "capture_path": "build-reference/ampm-parameter-study-20261013/open-20261013T115651Z-cdd7fb83/before.json",
+    "capture_sha256": "d2d202e518636a49fa74dd668c6319daa42ba69b0fc9479e597f26ad8394f453",
+    "pristine_workspace_sha256": "ead90a212c786eff0cfa782dab47dbfe14c421b3f43b32c573bb990cb8348877",
+    "official_workspace_sha256": "ead90a212c786eff0cfa782dab47dbfe14c421b3f43b32c573bb990cb8348877"
+  },
+  "capture_sources_archive_sha256": "25c3f77a0e191f3c2243ace39ba471f8dd90816a51523cb97354b6f381f16007",
+  "actual_analysis_ledger": [
+    {
+      "directory": "build-reference/ampm-parameter-study-20261013/baseline-pd-20261013T112850Z-458f1c19",
+      "classification": "baseline",
+      "status_sha256": "16dcffcd015516c6e686cd8b3e8647500ffdd5b43d674054d34de6db04301c13",
+      "stdout_sha256": "cefa4f90eed7c2b14415b3ec09b7f1355da8c7bf4cb7a83c35b8c693f35463a8",
+      "call_count": 1
+    },
+    {
+      "directory": "build-reference/ampm-parameter-study-20261013/prepared-20261013T115209Z-b0574e08",
+      "classification": "excluded_setup_diagnostic",
+      "status_sha256": "d5149befaff4cc511f66345482083e0bb1f4334e95490a45a6cf00d1f7160620",
+      "stdout_sha256": "d57c338f5a94b26ab20fd7cd43f1b97200e52b1d7d5ede9357b958a1b7c78e89",
+      "call_count": 1
+    },
+    {
+      "directory": "build-reference/ampm-parameter-study-20261013/prepared-20261013T115520Z-dd9f1e63",
+      "classification": "registered_profile",
+      "status_sha256": "dce3f0e25d73f64f404edacafd784e37103d8069424e7e0ea0979868d3ace650",
+      "stdout_sha256": "89f262bed67ab03348d5b2e2b94cc69986adcf8ea7e28996b464f588c201edb3",
+      "call_count": 1
+    },
+    {
+      "directory": "build-reference/ampm-parameter-study-20261013/prepared-20261013T115546Z-6120da70",
+      "classification": "registered_profile",
+      "status_sha256": "a6da093fa673c596dd633dbc4d89b2070ca8a9ee03af87933b92d65a07a99a15",
+      "stdout_sha256": "9c4f349fadf93b8fc003beac58fe98c7cff74bdcecbf8c349c444598eb71f655",
+      "call_count": 1
+    },
+    {
+      "directory": "build-reference/ampm-parameter-study-20261013/prepared-20261013T115608Z-1951f8ab",
+      "classification": "registered_profile",
+      "status_sha256": "8a849fab94a4f593be30f8b821a313b20d4e8bd5c173ef2feaae3bf76fbaed41",
+      "stdout_sha256": "f10c9f7e8c9a1525f76f4db5cc4ecc418fbd503c7091558598ca7c016c744d9c",
+      "call_count": 1
+    },
+    {
+      "directory": "build-reference/ampm-parameter-study-20261013/prepared-20261013T115614Z-1ebfdfb1",
+      "classification": "registered_profile",
+      "status_sha256": "b2c3be1320a10dbaea1ac27006c48c96bdd49f69e32dfb111d87ed53efad2865",
+      "stdout_sha256": "86a2aadd626893e5dbfbed525a83858fc75e542ba8c6d1ca80c524b9ced9e564",
+      "call_count": 1
+    },
+    {
+      "directory": "build-reference/ampm-parameter-study-20261013/prepared-20261013T115619Z-e0b34ad0",
+      "classification": "registered_profile",
+      "status_sha256": "106636d33d4134b265b0b37329cee985a9ea4d4870e04ff75469b92f08da5579",
+      "stdout_sha256": "9612165fc397014f8404ed95e6ecfbcddff432da97089baa911840b067bfdd12",
+      "call_count": 1
+    },
+    {
+      "directory": "build-reference/ampm-parameter-study-20261013/prepared-20261013T115625Z-9949d1dc",
+      "classification": "registered_profile",
+      "status_sha256": "40d449e81c9ab448bd520fa068394b7b2964553e61faa9083e206b34b5221967",
+      "stdout_sha256": "e29ef33c0e6f26041ef1445d66a97f46d3319e0a75ad57661587d868132a6b2d",
+      "call_count": 1
+    }
+  ]
+}

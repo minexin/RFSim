@@ -53,6 +53,8 @@ ConversionNonlinearDevice device{0, [=](const std::vector<Complex>& a) {
 
 ## 回归和未完成项
 
+2026-10-13 新增[六组参数映射迁移实验](systemvue-am-pm-parameter-study.md)：原始参数映射通过 73/438 扫描点，全部通过点来自零相位对照；两种先前冻结的修正映射均通过 438/438 点。本轮没有改变本页公式或核心实现，尚未唯一辨识厂商内部常数。
+
 `am_pm_test` 独立积分 dB 域导数并核对闭式曲线，覆盖正负/零峰值、零功率、低/高驱动、峰值锚点与恒相位边界。高阶双音响应组合用独立积分后的真实响应做实/虚中心差分，检查 A/B 及通道选择。反馈案例在非零 AM-PM 斜率区，以独立复数不动点迭代检查根，再用实 2×2 闭环矩阵检验 C/P 及非零幅相相关。安装 C++ consumer 直接包含新增头文件。
 
 当前不是完整 AM-PM 兼容验收。Point Derivative 已有单组厂商实测且对比失败；旧式 DataPoints 已取得有界辨识数据，但零dBm反例尚未解释。Compression Curve 的 AM-AM/AM-PM 表格输入、多音/来源选择、频变/记忆效应与自动高阶标定仍待实现或核验。SystemVue 会话问题见 [恢复记录](systemvue-session-recovery.md)。
