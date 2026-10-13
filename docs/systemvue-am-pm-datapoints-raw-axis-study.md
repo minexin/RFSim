@@ -57,7 +57,9 @@ python -I -S scripts/reference/report-am-pm-datapoints-raw-axis-study.py validat
 
 报告成功表示采集链与控制校验成功；全部假设失败仍如实记录。[本地验证记录](../validation/am-pm-datapoints-raw-axis-validation-20261013.json)绑定源码提交 `906cdcb`：Windows/MSVC Debug、Release 全目标构建均通过，各自 CTest 为 136/136，包含各自 33/33 项隔离安装 SDK 协议回放。新增的制备、评分、归档、报告四组测试分别为 6/6、16/16、39/39、5/5；实际 Ubuntu 离线执行也通过全部 66 项。此次未改动 C++ 头文件或 ABI，使用增量构建，没有声称执行 clean-first 重建。
 
-验证记录在授权推送前生成；远程跨平台 CI 结果需在本批次发布后另行记录。本机 Ubuntu 四组离线测试不代表完整 Linux 构建或 macOS 验证。
+本阶段七个提交已推送至 GitHub `main`，受测提交为 `f324fa7`。[跨平台 CI](https://github.com/minexin/RFSim/actions/runs/38431251413) 的 **18/18 项任务全部通过**，覆盖 Windows、Linux、macOS 的 Debug/Release。每个配置的核心/CLI 为 **119/119**、安装后 C++/C 消费者为 **10/10**；独立纯 C++ API 为 **106/106**、移动后的头文件 SDK 消费者为 **8/8**；包含本轮四组测试和前轮零点实验的归档回放 CTest 为 **17/17**。
+
+六个回放任务的实际报告均保留十个新点的 **5/9/9/5** 通过数、两个零增量配置及全部通过的基线/重复控制。各任务日志逐条通过记录、18 份产物元数据及哈希见[跨平台验证记录](../validation/am-pm-datapoints-raw-axis-ci-20261013.json)。CI 校验提交的观测和归档文档，不运行 SystemVue，也不能复核仅本地保存的原始工作区与完整捕获。此前本地验证文件保留生成时尚未推送的历史状态；后续提交仅增加本 CI 记录和发布状态说明，不改变受测实现。
 
 ## 适用范围
 

@@ -1,0 +1,1358 @@
+{
+  "schema_version": 1,
+  "recorded_utc": "2026-10-13T16:40:41.691075+00:00",
+  "repository": "https://github.com/minexin/RFSim",
+  "run_id": 38431251413,
+  "run_url": "https://github.com/minexin/RFSim/actions/runs/38431251413",
+  "tested_commit": "f324fa772180c27c8c681f147c7a5a89ecc6c753",
+  "status": "completed",
+  "conclusion": "success",
+  "job_count": 18,
+  "successful_job_count": 18,
+  "artifact_count": 18,
+  "test_counts_per_platform_configuration": {
+    "core_and_cli": 119,
+    "installed_cpp_and_c_consumers": 10,
+    "native_cpp_api_without_c_abi": 106,
+    "relocated_header_only_sdk_consumers": 8,
+    "archived_replay_ctest": 17
+  },
+  "ctest_instances_across_six_configurations": 1560,
+  "count_scope": "Counts are CTest entries, including nested protocol and Python suites; repeated platform/configuration executions are not independent scientific observations.",
+  "verification_scope": "All 18 successful job statuses, their required testing/report steps, all 18 downloaded job logs, individually logged CTest Passed rows, and metadata for all 18 uploaded artifacts were inspected. The remote main SHA matched the tested commit before creating this record.",
+  "datapoints_scope": {
+    "new_ordinary_prediction_targets": 10,
+    "new_prediction_passed_counts": {
+      "dcp_continuous": 5,
+      "raw_continuous": 9,
+      "raw_nominal_zero_bypass": 9,
+      "raw_report_zero_bypass": 5
+    },
+    "all_four_complete_set_hypotheses_failed": true,
+    "report_outputs_inspected": 6,
+    "observed_zero_increment_profiles": [
+      "control-zero",
+      "negative-0p000001"
+    ],
+    "baseline_and_repeated_controls_passed_in_all_six_reports": true,
+    "raw_sources_verified_in_ci": false,
+    "product_formula_changed": false,
+    "full_vendor_compatibility_accepted": false
+  },
+  "run_snapshot": {
+    "path": "build-reference/ampm-datapoints-raw-axis-study-20261013/ci-38431251413/run.json",
+    "sha256": "c5d6de40a8facb35e9e345a909645b938ad24e07993f2bc2cc3c322a171eb4b9",
+    "bytes": 47778
+  },
+  "artifact_metadata": {
+    "path": "build-reference/ampm-datapoints-raw-axis-study-20261013/ci-38431251413/artifacts.json",
+    "sha256": "58ea784c33ab285908cedd3d0690a7440ff25dea377a2881809619e7cc074dbe",
+    "bytes": 12398
+  },
+  "collection_summary": {
+    "path": "build-reference/ampm-datapoints-raw-axis-study-20261013/ci-collected.json",
+    "sha256": "405b4466f51c01255bbe6890441998a3038b3469b05b5aeb78f95153caa20e6a"
+  },
+  "collection_script": {
+    "path": "build-reference/ampm-datapoints-raw-axis-study-20261013/collect-ci.py",
+    "sha256": "cfe0b03b7097777ff447d9c64f77b400ae6426cda1debd5283198de9684827dc"
+  },
+  "artifacts_inspection": "Metadata and server-reported digests were inspected; artifact ZIP payloads were not downloaded or independently hashed. Job-log bytes were downloaded and hashed locally.",
+  "collection_notes": [
+    "An initial gh run view --log attempt failed while reading its ZIP cache. Collection switched to the per-job read-only logs API without rerunning CI.",
+    "The parser was adapted to the successful CTest summary format that omits the zero-failures clause. Individual Passed rows and expected counts remained required."
+  ],
+  "supersedes_publication_status_in": [
+    "validation/am-pm-datapoints-zero-validation-20261013.json",
+    "validation/am-pm-datapoints-raw-axis-validation-20261013.json"
+  ],
+  "historical_record_policy": "Earlier local verification records retain their accurate pre-publication state. This record adds later publication and remote CI evidence.",
+  "post_test_changes": "The follow-up commit contains only this CI record and publication-status documentation; no implementation or frozen acquisition evidence is changed.",
+  "limitations": [
+    "CI replays committed observations and archived execution documents. It does not run SystemVue or inspect proprietary workspaces and complete local raw captures.",
+    "Finite near-zero samples do not establish a continuous bypass interval, a symmetric window, or an exact internal threshold.",
+    "The complete RFModel engineering objective and full SystemVue compatibility remain unfinished."
+  ],
+  "artifacts": [
+    {
+      "id": 11832165236,
+      "name": "verification-ubuntu-latest-Release",
+      "size_in_bytes": 359206,
+      "expired": false,
+      "digest": "sha256:8caa5baa26ef9cf4d0aa77e5340234dce18fb2c38cc98224243e8d6e3753ac9e",
+      "workflow_run": {
+        "id": 38431251413,
+        "repository_id": 1368235888,
+        "head_repository_id": 1368235888,
+        "head_branch": "main",
+        "head_sha": "f324fa772180c27c8c681f147c7a5a89ecc6c753"
+      }
+    },
+    {
+      "id": 11832130275,
+      "name": "native-reference-macos-latest-Release",
+      "size_in_bytes": 483340,
+      "expired": false,
+      "digest": "sha256:73db1f1eef57ab728fb0bb8aa8729b24e2b5c16fc20ee3bfdabd2e999a14c35b",
+      "workflow_run": {
+        "id": 38431251413,
+        "repository_id": 1368235888,
+        "head_repository_id": 1368235888,
+        "head_branch": "main",
+        "head_sha": "f324fa772180c27c8c681f147c7a5a89ecc6c753"
+      }
+    },
+    {
+      "id": 11832115047,
+      "name": "native-reference-ubuntu-latest-Debug",
+      "size_in_bytes": 483014,
+      "expired": false,
+      "digest": "sha256:3d90d54b7d7364340582c79bd9d2f9e2e456ec1a1b25a73fd5e6504ad49d3c8a",
+      "workflow_run": {
+        "id": 38431251413,
+        "repository_id": 1368235888,
+        "head_repository_id": 1368235888,
+        "head_branch": "main",
+        "head_sha": "f324fa772180c27c8c681f147c7a5a89ecc6c753"
+      }
+    },
+    {
+      "id": 11832040232,
+      "name": "cpp-sdk-macos-latest-Debug",
+      "size_in_bytes": 5287,
+      "expired": false,
+      "digest": "sha256:7f9bcde4723c19927a083a81d11d2ac17106f9767821c976da699589a1694c25",
+      "workflow_run": {
+        "id": 38431251413,
+        "repository_id": 1368235888,
+        "head_repository_id": 1368235888,
+        "head_branch": "main",
+        "head_sha": "f324fa772180c27c8c681f147c7a5a89ecc6c753"
+      }
+    },
+    {
+      "id": 11831791027,
+      "name": "cpp-sdk-windows-latest-Release",
+      "size_in_bytes": 5352,
+      "expired": false,
+      "digest": "sha256:1706782afb51e1eba31fe97d17add4212755c78b3b02e65aa10ba90d769e3686",
+      "workflow_run": {
+        "id": 38431251413,
+        "repository_id": 1368235888,
+        "head_repository_id": 1368235888,
+        "head_branch": "main",
+        "head_sha": "f324fa772180c27c8c681f147c7a5a89ecc6c753"
+      }
+    },
+    {
+      "id": 11831590802,
+      "name": "cpp-sdk-ubuntu-latest-Release",
+      "size_in_bytes": 5269,
+      "expired": false,
+      "digest": "sha256:b1d4c431616cba321dd358cfbda4681c33bb9ea03d9c761a92c831754f512a24",
+      "workflow_run": {
+        "id": 38431251413,
+        "repository_id": 1368235888,
+        "head_repository_id": 1368235888,
+        "head_branch": "main",
+        "head_sha": "f324fa772180c27c8c681f147c7a5a89ecc6c753"
+      }
+    },
+    {
+      "id": 11831570847,
+      "name": "native-reference-windows-latest-Debug",
+      "size_in_bytes": 535703,
+      "expired": false,
+      "digest": "sha256:08847646e9252aeb92a92c431ac5fdee036a99010383090d4698de8908900c2d",
+      "workflow_run": {
+        "id": 38431251413,
+        "repository_id": 1368235888,
+        "head_repository_id": 1368235888,
+        "head_branch": "main",
+        "head_sha": "f324fa772180c27c8c681f147c7a5a89ecc6c753"
+      }
+    },
+    {
+      "id": 11831565927,
+      "name": "cpp-sdk-macos-latest-Release",
+      "size_in_bytes": 5282,
+      "expired": false,
+      "digest": "sha256:b9d9c04c17436dd740c9cdb53b98e554a7027803e741ed434dd5bcb6713b04dc",
+      "workflow_run": {
+        "id": 38431251413,
+        "repository_id": 1368235888,
+        "head_repository_id": 1368235888,
+        "head_branch": "main",
+        "head_sha": "f324fa772180c27c8c681f147c7a5a89ecc6c753"
+      }
+    },
+    {
+      "id": 11831560904,
+      "name": "verification-windows-latest-Debug",
+      "size_in_bytes": 359639,
+      "expired": false,
+      "digest": "sha256:2a92b33fafb055945b70a30bd640d7e41b9e7e855512de839210f1ca99eece6c",
+      "workflow_run": {
+        "id": 38431251413,
+        "repository_id": 1368235888,
+        "head_repository_id": 1368235888,
+        "head_branch": "main",
+        "head_sha": "f324fa772180c27c8c681f147c7a5a89ecc6c753"
+      }
+    },
+    {
+      "id": 11831446194,
+      "name": "native-reference-macos-latest-Debug",
+      "size_in_bytes": 483194,
+      "expired": false,
+      "digest": "sha256:a1bb116c165e68cca9e5a250936dd51279afd1cadc071f536763b7bd931a3c3d",
+      "workflow_run": {
+        "id": 38431251413,
+        "repository_id": 1368235888,
+        "head_repository_id": 1368235888,
+        "head_branch": "main",
+        "head_sha": "f324fa772180c27c8c681f147c7a5a89ecc6c753"
+      }
+    },
+    {
+      "id": 11831395872,
+      "name": "verification-ubuntu-latest-Debug",
+      "size_in_bytes": 359279,
+      "expired": false,
+      "digest": "sha256:04a381981a051cc08459055f0dd851d1ece964f2311eb0d4eaede9f97aebee1d",
+      "workflow_run": {
+        "id": 38431251413,
+        "repository_id": 1368235888,
+        "head_repository_id": 1368235888,
+        "head_branch": "main",
+        "head_sha": "f324fa772180c27c8c681f147c7a5a89ecc6c753"
+      }
+    },
+    {
+      "id": 11831386481,
+      "name": "verification-windows-latest-Release",
+      "size_in_bytes": 359520,
+      "expired": false,
+      "digest": "sha256:fdd465dd812992f7db8d7a0a2a3be9ec14a043ca595c0a1d23aa1672bf73ad62",
+      "workflow_run": {
+        "id": 38431251413,
+        "repository_id": 1368235888,
+        "head_repository_id": 1368235888,
+        "head_branch": "main",
+        "head_sha": "f324fa772180c27c8c681f147c7a5a89ecc6c753"
+      }
+    },
+    {
+      "id": 11831351590,
+      "name": "verification-macos-latest-Release",
+      "size_in_bytes": 359214,
+      "expired": false,
+      "digest": "sha256:6b4b8cb417b1ca817cc5884b995bd77b947c7ed63bd2c8ca1f834e8863644261",
+      "workflow_run": {
+        "id": 38431251413,
+        "repository_id": 1368235888,
+        "head_repository_id": 1368235888,
+        "head_branch": "main",
+        "head_sha": "f324fa772180c27c8c681f147c7a5a89ecc6c753"
+      }
+    },
+    {
+      "id": 11831031744,
+      "name": "cpp-sdk-windows-latest-Debug",
+      "size_in_bytes": 5359,
+      "expired": false,
+      "digest": "sha256:7c981be5c6bc91c81a2d6c50026806972004c8d5193d0b5ee09e0cd077a176cc",
+      "workflow_run": {
+        "id": 38431251413,
+        "repository_id": 1368235888,
+        "head_repository_id": 1368235888,
+        "head_branch": "main",
+        "head_sha": "f324fa772180c27c8c681f147c7a5a89ecc6c753"
+      }
+    },
+    {
+      "id": 11830871961,
+      "name": "cpp-sdk-ubuntu-latest-Debug",
+      "size_in_bytes": 5269,
+      "expired": false,
+      "digest": "sha256:34638f444ecaf48b70640a658475d674f67c4fec726de99593b79908486c72b8",
+      "workflow_run": {
+        "id": 38431251413,
+        "repository_id": 1368235888,
+        "head_repository_id": 1368235888,
+        "head_branch": "main",
+        "head_sha": "f324fa772180c27c8c681f147c7a5a89ecc6c753"
+      }
+    },
+    {
+      "id": 11830662844,
+      "name": "verification-macos-latest-Debug",
+      "size_in_bytes": 359289,
+      "expired": false,
+      "digest": "sha256:0c97662f87ceff8ab487b2f2ba4f5ac6293dd9ba1eacba12990583ee2af8d1c6",
+      "workflow_run": {
+        "id": 38431251413,
+        "repository_id": 1368235888,
+        "head_repository_id": 1368235888,
+        "head_branch": "main",
+        "head_sha": "f324fa772180c27c8c681f147c7a5a89ecc6c753"
+      }
+    },
+    {
+      "id": 11830562999,
+      "name": "native-reference-ubuntu-latest-Release",
+      "size_in_bytes": 483071,
+      "expired": false,
+      "digest": "sha256:d243cc1a488d03a56e80e2aacc30e981c2af0d7398012d81b56d8137d86505a6",
+      "workflow_run": {
+        "id": 38431251413,
+        "repository_id": 1368235888,
+        "head_repository_id": 1368235888,
+        "head_branch": "main",
+        "head_sha": "f324fa772180c27c8c681f147c7a5a89ecc6c753"
+      }
+    },
+    {
+      "id": 11830504821,
+      "name": "native-reference-windows-latest-Release",
+      "size_in_bytes": 535637,
+      "expired": false,
+      "digest": "sha256:50426b32b49ef43a56705af9eeb71107eaf3c6f3ed81158e09f2264da9e7e428",
+      "workflow_run": {
+        "id": 38431251413,
+        "repository_id": 1368235888,
+        "head_repository_id": 1368235888,
+        "head_branch": "main",
+        "head_sha": "f324fa772180c27c8c681f147c7a5a89ecc6c753"
+      }
+    }
+  ],
+  "jobs": [
+    {
+      "database_id": 115413691207,
+      "name": "C++ SDK / macos-latest / Debug",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38431251413/job/115413691207",
+      "group": "cpp-sdk",
+      "os": "macos-latest",
+      "configuration": "Debug",
+      "started_at": "2026-10-13T16:31:54Z",
+      "completed_at": "2026-10-13T16:33:53Z",
+      "status": "completed",
+      "conclusion": "success",
+      "log": {
+        "path": "build-reference/ampm-datapoints-raw-axis-study-20261013/ci-38431251413/job-115413691207.log",
+        "sha256": "386e035e2224c7765e3a9df0c046c8782ddd96184f21b1f93520a2b6964b2106",
+        "bytes": 95837
+      },
+      "ctest": [
+        {
+          "line": 662,
+          "project": "/Users/runner/work/RFSim/RFSim/build-native",
+          "tests": 106,
+          "failed": 0,
+          "percent_passed": 100
+        },
+        {
+          "line": 914,
+          "project": "/Users/runner/work/RFSim/RFSim/consumer-cpp",
+          "tests": 8,
+          "failed": 0,
+          "percent_passed": 100
+        }
+      ],
+      "individual_ctest_pass_rows_verified": 114,
+      "new_python_suites": {},
+      "raw_axis_report": null
+    },
+    {
+      "database_id": 115413691275,
+      "name": "C++ SDK / macos-latest / Release",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38431251413/job/115413691275",
+      "group": "cpp-sdk",
+      "os": "macos-latest",
+      "configuration": "Release",
+      "started_at": "2026-10-13T16:31:57Z",
+      "completed_at": "2026-10-13T16:35:25Z",
+      "status": "completed",
+      "conclusion": "success",
+      "log": {
+        "path": "build-reference/ampm-datapoints-raw-axis-study-20261013/ci-38431251413/job-115413691275.log",
+        "sha256": "f90b6540f3a0126cdc8d01f52656724705e53d271f08d501e8becacf3fdc543d",
+        "bytes": 95875
+      },
+      "ctest": [
+        {
+          "line": 662,
+          "project": "/Users/runner/work/RFSim/RFSim/build-native",
+          "tests": 106,
+          "failed": 0,
+          "percent_passed": 100
+        },
+        {
+          "line": 914,
+          "project": "/Users/runner/work/RFSim/RFSim/consumer-cpp",
+          "tests": 8,
+          "failed": 0,
+          "percent_passed": 100
+        }
+      ],
+      "individual_ctest_pass_rows_verified": 114,
+      "new_python_suites": {},
+      "raw_axis_report": null
+    },
+    {
+      "database_id": 115413691182,
+      "name": "C++ SDK / ubuntu-latest / Debug",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38431251413/job/115413691182",
+      "group": "cpp-sdk",
+      "os": "ubuntu-latest",
+      "configuration": "Debug",
+      "started_at": "2026-10-13T16:31:50Z",
+      "completed_at": "2026-10-13T16:33:29Z",
+      "status": "completed",
+      "conclusion": "success",
+      "log": {
+        "path": "build-reference/ampm-datapoints-raw-axis-study-20261013/ci-38431251413/job-115413691182.log",
+        "sha256": "2f0504f6afe237659faa2118cd8cc855f5b2b324011dff85c38290a9db51c1c6",
+        "bytes": 95332
+      },
+      "ctest": [
+        {
+          "line": 663,
+          "project": "/home/runner/work/RFSim/RFSim/build-native",
+          "tests": 106,
+          "failed": 0,
+          "percent_passed": 100
+        },
+        {
+          "line": 916,
+          "project": "/home/runner/work/RFSim/RFSim/consumer-cpp",
+          "tests": 8,
+          "failed": 0,
+          "percent_passed": 100
+        }
+      ],
+      "individual_ctest_pass_rows_verified": 114,
+      "new_python_suites": {},
+      "raw_axis_report": null
+    },
+    {
+      "database_id": 115413691394,
+      "name": "C++ SDK / ubuntu-latest / Release",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38431251413/job/115413691394",
+      "group": "cpp-sdk",
+      "os": "ubuntu-latest",
+      "configuration": "Release",
+      "started_at": "2026-10-13T16:31:50Z",
+      "completed_at": "2026-10-13T16:35:10Z",
+      "status": "completed",
+      "conclusion": "success",
+      "log": {
+        "path": "build-reference/ampm-datapoints-raw-axis-study-20261013/ci-38431251413/job-115413691394.log",
+        "sha256": "d8f0f647c0cdea214502e1fa598389ec2aa709e90d1cf1c1e5f2132767d37ce6",
+        "bytes": 95362
+      },
+      "ctest": [
+        {
+          "line": 663,
+          "project": "/home/runner/work/RFSim/RFSim/build-native",
+          "tests": 106,
+          "failed": 0,
+          "percent_passed": 100
+        },
+        {
+          "line": 916,
+          "project": "/home/runner/work/RFSim/RFSim/consumer-cpp",
+          "tests": 8,
+          "failed": 0,
+          "percent_passed": 100
+        }
+      ],
+      "individual_ctest_pass_rows_verified": 114,
+      "new_python_suites": {},
+      "raw_axis_report": null
+    },
+    {
+      "database_id": 115413690751,
+      "name": "C++ SDK / windows-latest / Debug",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38431251413/job/115413690751",
+      "group": "cpp-sdk",
+      "os": "windows-latest",
+      "configuration": "Debug",
+      "started_at": "2026-10-13T16:31:50Z",
+      "completed_at": "2026-10-13T16:34:02Z",
+      "status": "completed",
+      "conclusion": "success",
+      "log": {
+        "path": "build-reference/ampm-datapoints-raw-axis-study-20261013/ci-38431251413/job-115413690751.log",
+        "sha256": "a1e21fd5346254af658f7c3e9db4f57b8c402b43fbb5c1af79560d0b43f79a8f",
+        "bytes": 93672
+      },
+      "ctest": [
+        {
+          "line": 660,
+          "project": "D:/a/RFSim/RFSim/build-native",
+          "tests": 106,
+          "failed": 0,
+          "percent_passed": 100
+        },
+        {
+          "line": 940,
+          "project": "D:/a/RFSim/RFSim/consumer-cpp",
+          "tests": 8,
+          "failed": 0,
+          "percent_passed": 100
+        }
+      ],
+      "individual_ctest_pass_rows_verified": 114,
+      "new_python_suites": {},
+      "raw_axis_report": null
+    },
+    {
+      "database_id": 115413691116,
+      "name": "C++ SDK / windows-latest / Release",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38431251413/job/115413691116",
+      "group": "cpp-sdk",
+      "os": "windows-latest",
+      "configuration": "Release",
+      "started_at": "2026-10-13T16:31:50Z",
+      "completed_at": "2026-10-13T16:36:55Z",
+      "status": "completed",
+      "conclusion": "success",
+      "log": {
+        "path": "build-reference/ampm-datapoints-raw-axis-study-20261013/ci-38431251413/job-115413691116.log",
+        "sha256": "cf435c070c0d467c079c39cdc320a49349ffd8bf0d235f68270c79f39e407977",
+        "bytes": 93931
+      },
+      "ctest": [
+        {
+          "line": 660,
+          "project": "D:/a/RFSim/RFSim/build-native",
+          "tests": 106,
+          "failed": 0,
+          "percent_passed": 100
+        },
+        {
+          "line": 940,
+          "project": "D:/a/RFSim/RFSim/consumer-cpp",
+          "tests": 8,
+          "failed": 0,
+          "percent_passed": 100
+        }
+      ],
+      "individual_ctest_pass_rows_verified": 114,
+      "new_python_suites": {},
+      "raw_axis_report": null
+    },
+    {
+      "database_id": 115413691155,
+      "name": "Native archived replay / macos-latest / Debug",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38431251413/job/115413691155",
+      "group": "native-reference",
+      "os": "macos-latest",
+      "configuration": "Debug",
+      "started_at": "2026-10-13T16:31:57Z",
+      "completed_at": "2026-10-13T16:35:27Z",
+      "status": "completed",
+      "conclusion": "success",
+      "log": {
+        "path": "build-reference/ampm-datapoints-raw-axis-study-20261013/ci-38431251413/job-115413691155.log",
+        "sha256": "ba477366f85f6f9536bb19b04472dc0d67005cd70fa631bdf506bdee972b31a5",
+        "bytes": 39545
+      },
+      "ctest": [
+        {
+          "line": 362,
+          "project": "/Users/runner/work/RFSim/RFSim/build-reference",
+          "tests": 17,
+          "failed": 0,
+          "percent_passed": 100
+        }
+      ],
+      "individual_ctest_pass_rows_verified": 17,
+      "new_python_suites": {
+        "native_prepare_am_pm_datapoints_raw_axis_study": {
+          "line": 352,
+          "ordinal": 13,
+          "total": 17,
+          "test_number": 16,
+          "name": "native_prepare_am_pm_datapoints_raw_axis_study",
+          "seconds": 0.19
+        },
+        "native_diagnose_am_pm_datapoints_raw_axis_study": {
+          "line": 354,
+          "ordinal": 14,
+          "total": 17,
+          "test_number": 17,
+          "name": "native_diagnose_am_pm_datapoints_raw_axis_study",
+          "seconds": 0.66
+        },
+        "native_archive_am_pm_datapoints_raw_axis_acquisition": {
+          "line": 356,
+          "ordinal": 15,
+          "total": 17,
+          "test_number": 18,
+          "name": "native_archive_am_pm_datapoints_raw_axis_acquisition",
+          "seconds": 6.35
+        },
+        "native_report_am_pm_datapoints_raw_axis_study": {
+          "line": 358,
+          "ordinal": 16,
+          "total": 17,
+          "test_number": 19,
+          "name": "native_report_am_pm_datapoints_raw_axis_study",
+          "seconds": 1.54
+        }
+      },
+      "raw_axis_report": {
+        "line": 404,
+        "value": {
+          "new_prediction_checks": {
+            "dcp_continuous": {
+              "point_count": 10,
+              "passed_count": 5,
+              "passed": false,
+              "max_circular_error_deg": 33.4375
+            },
+            "raw_continuous": {
+              "point_count": 10,
+              "passed_count": 9,
+              "passed": false,
+              "max_circular_error_deg": 33.43749605043875
+            },
+            "raw_nominal_zero_bypass": {
+              "point_count": 10,
+              "passed_count": 9,
+              "passed": false,
+              "max_circular_error_deg": 33.43749605043875
+            },
+            "raw_report_zero_bypass": {
+              "point_count": 10,
+              "passed_count": 5,
+              "passed": false,
+              "max_circular_error_deg": 33.45174420685109
+            }
+          },
+          "observed_zero_increment_profiles": [
+            "control-zero",
+            "negative-0p000001"
+          ],
+          "baseline_passed": true,
+          "repeated_controls_passed": true,
+          "raw_sources_verified": false
+        }
+      }
+    },
+    {
+      "database_id": 115413691269,
+      "name": "Native archived replay / macos-latest / Release",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38431251413/job/115413691269",
+      "group": "native-reference",
+      "os": "macos-latest",
+      "configuration": "Release",
+      "started_at": "2026-10-13T16:31:55Z",
+      "completed_at": "2026-10-13T16:35:03Z",
+      "status": "completed",
+      "conclusion": "success",
+      "log": {
+        "path": "build-reference/ampm-datapoints-raw-axis-study-20261013/ci-38431251413/job-115413691269.log",
+        "sha256": "1fc89bdaf6f1d2f26b6764091be753e067eb50b2c49c82519b7422429ec1b731",
+        "bytes": 39569
+      },
+      "ctest": [
+        {
+          "line": 362,
+          "project": "/Users/runner/work/RFSim/RFSim/build-reference",
+          "tests": 17,
+          "failed": 0,
+          "percent_passed": 100
+        }
+      ],
+      "individual_ctest_pass_rows_verified": 17,
+      "new_python_suites": {
+        "native_prepare_am_pm_datapoints_raw_axis_study": {
+          "line": 352,
+          "ordinal": 13,
+          "total": 17,
+          "test_number": 16,
+          "name": "native_prepare_am_pm_datapoints_raw_axis_study",
+          "seconds": 0.14
+        },
+        "native_diagnose_am_pm_datapoints_raw_axis_study": {
+          "line": 354,
+          "ordinal": 14,
+          "total": 17,
+          "test_number": 17,
+          "name": "native_diagnose_am_pm_datapoints_raw_axis_study",
+          "seconds": 0.38
+        },
+        "native_archive_am_pm_datapoints_raw_axis_acquisition": {
+          "line": 356,
+          "ordinal": 15,
+          "total": 17,
+          "test_number": 18,
+          "name": "native_archive_am_pm_datapoints_raw_axis_acquisition",
+          "seconds": 4.44
+        },
+        "native_report_am_pm_datapoints_raw_axis_study": {
+          "line": 358,
+          "ordinal": 16,
+          "total": 17,
+          "test_number": 19,
+          "name": "native_report_am_pm_datapoints_raw_axis_study",
+          "seconds": 1.44
+        }
+      },
+      "raw_axis_report": {
+        "line": 404,
+        "value": {
+          "new_prediction_checks": {
+            "dcp_continuous": {
+              "point_count": 10,
+              "passed_count": 5,
+              "passed": false,
+              "max_circular_error_deg": 33.4375
+            },
+            "raw_continuous": {
+              "point_count": 10,
+              "passed_count": 9,
+              "passed": false,
+              "max_circular_error_deg": 33.43749605043875
+            },
+            "raw_nominal_zero_bypass": {
+              "point_count": 10,
+              "passed_count": 9,
+              "passed": false,
+              "max_circular_error_deg": 33.43749605043875
+            },
+            "raw_report_zero_bypass": {
+              "point_count": 10,
+              "passed_count": 5,
+              "passed": false,
+              "max_circular_error_deg": 33.45174420685109
+            }
+          },
+          "observed_zero_increment_profiles": [
+            "control-zero",
+            "negative-0p000001"
+          ],
+          "baseline_passed": true,
+          "repeated_controls_passed": true,
+          "raw_sources_verified": false
+        }
+      }
+    },
+    {
+      "database_id": 115413691309,
+      "name": "Native archived replay / ubuntu-latest / Debug",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38431251413/job/115413691309",
+      "group": "native-reference",
+      "os": "ubuntu-latest",
+      "configuration": "Debug",
+      "started_at": "2026-10-13T16:31:50Z",
+      "completed_at": "2026-10-13T16:33:07Z",
+      "status": "completed",
+      "conclusion": "success",
+      "log": {
+        "path": "build-reference/ampm-datapoints-raw-axis-study-20261013/ci-38431251413/job-115413691309.log",
+        "sha256": "1c6deea540d3e1dbeb35a6c6edf5e4d80b46c19bb95802f1bacfe0d5e2138e82",
+        "bytes": 39702
+      },
+      "ctest": [
+        {
+          "line": 376,
+          "project": "/home/runner/work/RFSim/RFSim/build-reference",
+          "tests": 17,
+          "failed": 0,
+          "percent_passed": 100
+        }
+      ],
+      "individual_ctest_pass_rows_verified": 17,
+      "new_python_suites": {
+        "native_prepare_am_pm_datapoints_raw_axis_study": {
+          "line": 366,
+          "ordinal": 13,
+          "total": 17,
+          "test_number": 16,
+          "name": "native_prepare_am_pm_datapoints_raw_axis_study",
+          "seconds": 0.07
+        },
+        "native_diagnose_am_pm_datapoints_raw_axis_study": {
+          "line": 368,
+          "ordinal": 14,
+          "total": 17,
+          "test_number": 17,
+          "name": "native_diagnose_am_pm_datapoints_raw_axis_study",
+          "seconds": 0.32
+        },
+        "native_archive_am_pm_datapoints_raw_axis_acquisition": {
+          "line": 370,
+          "ordinal": 15,
+          "total": 17,
+          "test_number": 18,
+          "name": "native_archive_am_pm_datapoints_raw_axis_acquisition",
+          "seconds": 3.57
+        },
+        "native_report_am_pm_datapoints_raw_axis_study": {
+          "line": 372,
+          "ordinal": 16,
+          "total": 17,
+          "test_number": 19,
+          "name": "native_report_am_pm_datapoints_raw_axis_study",
+          "seconds": 1.08
+        }
+      },
+      "raw_axis_report": {
+        "line": 419,
+        "value": {
+          "new_prediction_checks": {
+            "dcp_continuous": {
+              "point_count": 10,
+              "passed_count": 5,
+              "passed": false,
+              "max_circular_error_deg": 33.4375
+            },
+            "raw_continuous": {
+              "point_count": 10,
+              "passed_count": 9,
+              "passed": false,
+              "max_circular_error_deg": 33.43749605043874
+            },
+            "raw_nominal_zero_bypass": {
+              "point_count": 10,
+              "passed_count": 9,
+              "passed": false,
+              "max_circular_error_deg": 33.43749605043874
+            },
+            "raw_report_zero_bypass": {
+              "point_count": 10,
+              "passed_count": 5,
+              "passed": false,
+              "max_circular_error_deg": 33.45174420685109
+            }
+          },
+          "observed_zero_increment_profiles": [
+            "control-zero",
+            "negative-0p000001"
+          ],
+          "baseline_passed": true,
+          "repeated_controls_passed": true,
+          "raw_sources_verified": false
+        }
+      }
+    },
+    {
+      "database_id": 115413691259,
+      "name": "Native archived replay / ubuntu-latest / Release",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38431251413/job/115413691259",
+      "group": "native-reference",
+      "os": "ubuntu-latest",
+      "configuration": "Release",
+      "started_at": "2026-10-13T16:31:50Z",
+      "completed_at": "2026-10-13T16:33:20Z",
+      "status": "completed",
+      "conclusion": "success",
+      "log": {
+        "path": "build-reference/ampm-datapoints-raw-axis-study-20261013/ci-38431251413/job-115413691259.log",
+        "sha256": "c3c4594f28d3b8930411d377eeb029d5a270f00fd333ae21fc6ec1bbeab054b9",
+        "bytes": 39726
+      },
+      "ctest": [
+        {
+          "line": 376,
+          "project": "/home/runner/work/RFSim/RFSim/build-reference",
+          "tests": 17,
+          "failed": 0,
+          "percent_passed": 100
+        }
+      ],
+      "individual_ctest_pass_rows_verified": 17,
+      "new_python_suites": {
+        "native_prepare_am_pm_datapoints_raw_axis_study": {
+          "line": 366,
+          "ordinal": 13,
+          "total": 17,
+          "test_number": 16,
+          "name": "native_prepare_am_pm_datapoints_raw_axis_study",
+          "seconds": 0.15
+        },
+        "native_diagnose_am_pm_datapoints_raw_axis_study": {
+          "line": 368,
+          "ordinal": 14,
+          "total": 17,
+          "test_number": 17,
+          "name": "native_diagnose_am_pm_datapoints_raw_axis_study",
+          "seconds": 0.48
+        },
+        "native_archive_am_pm_datapoints_raw_axis_acquisition": {
+          "line": 370,
+          "ordinal": 15,
+          "total": 17,
+          "test_number": 18,
+          "name": "native_archive_am_pm_datapoints_raw_axis_acquisition",
+          "seconds": 5.72
+        },
+        "native_report_am_pm_datapoints_raw_axis_study": {
+          "line": 372,
+          "ordinal": 16,
+          "total": 17,
+          "test_number": 19,
+          "name": "native_report_am_pm_datapoints_raw_axis_study",
+          "seconds": 1.66
+        }
+      },
+      "raw_axis_report": {
+        "line": 419,
+        "value": {
+          "new_prediction_checks": {
+            "dcp_continuous": {
+              "point_count": 10,
+              "passed_count": 5,
+              "passed": false,
+              "max_circular_error_deg": 33.4375
+            },
+            "raw_continuous": {
+              "point_count": 10,
+              "passed_count": 9,
+              "passed": false,
+              "max_circular_error_deg": 33.43749605043874
+            },
+            "raw_nominal_zero_bypass": {
+              "point_count": 10,
+              "passed_count": 9,
+              "passed": false,
+              "max_circular_error_deg": 33.43749605043874
+            },
+            "raw_report_zero_bypass": {
+              "point_count": 10,
+              "passed_count": 5,
+              "passed": false,
+              "max_circular_error_deg": 33.45174420685109
+            }
+          },
+          "observed_zero_increment_profiles": [
+            "control-zero",
+            "negative-0p000001"
+          ],
+          "baseline_passed": true,
+          "repeated_controls_passed": true,
+          "raw_sources_verified": false
+        }
+      }
+    },
+    {
+      "database_id": 115413691453,
+      "name": "Native archived replay / windows-latest / Debug",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38431251413/job/115413691453",
+      "group": "native-reference",
+      "os": "windows-latest",
+      "configuration": "Debug",
+      "started_at": "2026-10-13T16:31:50Z",
+      "completed_at": "2026-10-13T16:34:43Z",
+      "status": "completed",
+      "conclusion": "success",
+      "log": {
+        "path": "build-reference/ampm-datapoints-raw-axis-study-20261013/ci-38431251413/job-115413691453.log",
+        "sha256": "13da59880ffa790d8a34e25291b11e4a975398e1db265807f971c7516cc5fc40",
+        "bytes": 40074
+      },
+      "ctest": [
+        {
+          "line": 362,
+          "project": "D:/a/RFSim/RFSim/build-reference",
+          "tests": 17,
+          "failed": 0,
+          "percent_passed": 100
+        }
+      ],
+      "individual_ctest_pass_rows_verified": 17,
+      "new_python_suites": {
+        "native_prepare_am_pm_datapoints_raw_axis_study": {
+          "line": 352,
+          "ordinal": 13,
+          "total": 17,
+          "test_number": 16,
+          "name": "native_prepare_am_pm_datapoints_raw_axis_study",
+          "seconds": 0.11
+        },
+        "native_diagnose_am_pm_datapoints_raw_axis_study": {
+          "line": 354,
+          "ordinal": 14,
+          "total": 17,
+          "test_number": 17,
+          "name": "native_diagnose_am_pm_datapoints_raw_axis_study",
+          "seconds": 0.41
+        },
+        "native_archive_am_pm_datapoints_raw_axis_acquisition": {
+          "line": 356,
+          "ordinal": 15,
+          "total": 17,
+          "test_number": 18,
+          "name": "native_archive_am_pm_datapoints_raw_axis_acquisition",
+          "seconds": 4.53
+        },
+        "native_report_am_pm_datapoints_raw_axis_study": {
+          "line": 358,
+          "ordinal": 16,
+          "total": 17,
+          "test_number": 19,
+          "name": "native_report_am_pm_datapoints_raw_axis_study",
+          "seconds": 1.23
+        }
+      },
+      "raw_axis_report": {
+        "line": 404,
+        "value": {
+          "new_prediction_checks": {
+            "dcp_continuous": {
+              "point_count": 10,
+              "passed_count": 5,
+              "passed": false,
+              "max_circular_error_deg": 33.4375
+            },
+            "raw_continuous": {
+              "point_count": 10,
+              "passed_count": 9,
+              "passed": false,
+              "max_circular_error_deg": 33.43749605043875
+            },
+            "raw_nominal_zero_bypass": {
+              "point_count": 10,
+              "passed_count": 9,
+              "passed": false,
+              "max_circular_error_deg": 33.43749605043875
+            },
+            "raw_report_zero_bypass": {
+              "point_count": 10,
+              "passed_count": 5,
+              "passed": false,
+              "max_circular_error_deg": 33.45174420685109
+            }
+          },
+          "observed_zero_increment_profiles": [
+            "control-zero",
+            "negative-0p000001"
+          ],
+          "baseline_passed": true,
+          "repeated_controls_passed": true,
+          "raw_sources_verified": false
+        }
+      }
+    },
+    {
+      "database_id": 115413691251,
+      "name": "Native archived replay / windows-latest / Release",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38431251413/job/115413691251",
+      "group": "native-reference",
+      "os": "windows-latest",
+      "configuration": "Release",
+      "started_at": "2026-10-13T16:31:50Z",
+      "completed_at": "2026-10-13T16:35:20Z",
+      "status": "completed",
+      "conclusion": "success",
+      "log": {
+        "path": "build-reference/ampm-datapoints-raw-axis-study-20261013/ci-38431251413/job-115413691251.log",
+        "sha256": "7fd15261399b322743828377705a8fab004cdfaea495d8f9946c9b033e51c15d",
+        "bytes": 40102
+      },
+      "ctest": [
+        {
+          "line": 362,
+          "project": "D:/a/RFSim/RFSim/build-reference",
+          "tests": 17,
+          "failed": 0,
+          "percent_passed": 100
+        }
+      ],
+      "individual_ctest_pass_rows_verified": 17,
+      "new_python_suites": {
+        "native_prepare_am_pm_datapoints_raw_axis_study": {
+          "line": 352,
+          "ordinal": 13,
+          "total": 17,
+          "test_number": 16,
+          "name": "native_prepare_am_pm_datapoints_raw_axis_study",
+          "seconds": 0.14
+        },
+        "native_diagnose_am_pm_datapoints_raw_axis_study": {
+          "line": 354,
+          "ordinal": 14,
+          "total": 17,
+          "test_number": 17,
+          "name": "native_diagnose_am_pm_datapoints_raw_axis_study",
+          "seconds": 0.54
+        },
+        "native_archive_am_pm_datapoints_raw_axis_acquisition": {
+          "line": 356,
+          "ordinal": 15,
+          "total": 17,
+          "test_number": 18,
+          "name": "native_archive_am_pm_datapoints_raw_axis_acquisition",
+          "seconds": 6.1
+        },
+        "native_report_am_pm_datapoints_raw_axis_study": {
+          "line": 358,
+          "ordinal": 16,
+          "total": 17,
+          "test_number": 19,
+          "name": "native_report_am_pm_datapoints_raw_axis_study",
+          "seconds": 1.62
+        }
+      },
+      "raw_axis_report": {
+        "line": 404,
+        "value": {
+          "new_prediction_checks": {
+            "dcp_continuous": {
+              "point_count": 10,
+              "passed_count": 5,
+              "passed": false,
+              "max_circular_error_deg": 33.4375
+            },
+            "raw_continuous": {
+              "point_count": 10,
+              "passed_count": 9,
+              "passed": false,
+              "max_circular_error_deg": 33.43749605043875
+            },
+            "raw_nominal_zero_bypass": {
+              "point_count": 10,
+              "passed_count": 9,
+              "passed": false,
+              "max_circular_error_deg": 33.43749605043875
+            },
+            "raw_report_zero_bypass": {
+              "point_count": 10,
+              "passed_count": 5,
+              "passed": false,
+              "max_circular_error_deg": 33.45174420685109
+            }
+          },
+          "observed_zero_increment_profiles": [
+            "control-zero",
+            "negative-0p000001"
+          ],
+          "baseline_passed": true,
+          "repeated_controls_passed": true,
+          "raw_sources_verified": false
+        }
+      }
+    },
+    {
+      "database_id": 115413691356,
+      "name": "build (macos-latest, Debug)",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38431251413/job/115413691356",
+      "group": "build",
+      "os": "macos-latest",
+      "configuration": "Debug",
+      "started_at": "2026-10-13T16:31:57Z",
+      "completed_at": "2026-10-13T16:34:39Z",
+      "status": "completed",
+      "conclusion": "success",
+      "log": {
+        "path": "build-reference/ampm-datapoints-raw-axis-study-20261013/ci-38431251413/job-115413691356.log",
+        "sha256": "5e301203f37b77f7ac2cc55aecb9a050ad05e913d20ad4fa597c5d213b0d4d46",
+        "bytes": 103050
+      },
+      "ctest": [
+        {
+          "line": 735,
+          "project": "/Users/runner/work/RFSim/RFSim/build",
+          "tests": 119,
+          "failed": 0,
+          "percent_passed": 100
+        },
+        {
+          "line": 1000,
+          "project": "/Users/runner/work/RFSim/RFSim/consumer-build",
+          "tests": 10,
+          "failed": 0,
+          "percent_passed": 100
+        }
+      ],
+      "individual_ctest_pass_rows_verified": 129,
+      "new_python_suites": {},
+      "raw_axis_report": null
+    },
+    {
+      "database_id": 115413691340,
+      "name": "build (macos-latest, Release)",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38431251413/job/115413691340",
+      "group": "build",
+      "os": "macos-latest",
+      "configuration": "Release",
+      "started_at": "2026-10-13T16:34:01Z",
+      "completed_at": "2026-10-13T16:37:07Z",
+      "status": "completed",
+      "conclusion": "success",
+      "log": {
+        "path": "build-reference/ampm-datapoints-raw-axis-study-20261013/ci-38431251413/job-115413691340.log",
+        "sha256": "d8d75bded097d74c88d1776679f129590612508455dacd0285b7181f2ab69282",
+        "bytes": 103088
+      },
+      "ctest": [
+        {
+          "line": 735,
+          "project": "/Users/runner/work/RFSim/RFSim/build",
+          "tests": 119,
+          "failed": 0,
+          "percent_passed": 100
+        },
+        {
+          "line": 1000,
+          "project": "/Users/runner/work/RFSim/RFSim/consumer-build",
+          "tests": 10,
+          "failed": 0,
+          "percent_passed": 100
+        }
+      ],
+      "individual_ctest_pass_rows_verified": 129,
+      "new_python_suites": {},
+      "raw_axis_report": null
+    },
+    {
+      "database_id": 115413691580,
+      "name": "build (ubuntu-latest, Debug)",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38431251413/job/115413691580",
+      "group": "build",
+      "os": "ubuntu-latest",
+      "configuration": "Debug",
+      "started_at": "2026-10-13T16:31:51Z",
+      "completed_at": "2026-10-13T16:34:11Z",
+      "status": "completed",
+      "conclusion": "success",
+      "log": {
+        "path": "build-reference/ampm-datapoints-raw-axis-study-20261013/ci-38431251413/job-115413691580.log",
+        "sha256": "d628bb132e44e76728af5b03a23317eb5d71c62a11ca36fd2c24e56137313018",
+        "bytes": 102520
+      },
+      "ctest": [
+        {
+          "line": 736,
+          "project": "/home/runner/work/RFSim/RFSim/build",
+          "tests": 119,
+          "failed": 0,
+          "percent_passed": 100
+        },
+        {
+          "line": 1002,
+          "project": "/home/runner/work/RFSim/RFSim/consumer-build",
+          "tests": 10,
+          "failed": 0,
+          "percent_passed": 100
+        }
+      ],
+      "individual_ctest_pass_rows_verified": 129,
+      "new_python_suites": {},
+      "raw_axis_report": null
+    },
+    {
+      "database_id": 115413691262,
+      "name": "build (ubuntu-latest, Release)",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38431251413/job/115413691262",
+      "group": "build",
+      "os": "ubuntu-latest",
+      "configuration": "Release",
+      "started_at": "2026-10-13T16:31:50Z",
+      "completed_at": "2026-10-13T16:35:21Z",
+      "status": "completed",
+      "conclusion": "success",
+      "log": {
+        "path": "build-reference/ampm-datapoints-raw-axis-study-20261013/ci-38431251413/job-115413691262.log",
+        "sha256": "5b298f9250d6afba5ee4c033ce3e9d05a3573e67fdce17042ee82ea9a7ac21b6",
+        "bytes": 102558
+      },
+      "ctest": [
+        {
+          "line": 736,
+          "project": "/home/runner/work/RFSim/RFSim/build",
+          "tests": 119,
+          "failed": 0,
+          "percent_passed": 100
+        },
+        {
+          "line": 1002,
+          "project": "/home/runner/work/RFSim/RFSim/consumer-build",
+          "tests": 10,
+          "failed": 0,
+          "percent_passed": 100
+        }
+      ],
+      "individual_ctest_pass_rows_verified": 129,
+      "new_python_suites": {},
+      "raw_axis_report": null
+    },
+    {
+      "database_id": 115413691144,
+      "name": "build (windows-latest, Debug)",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38431251413/job/115413691144",
+      "group": "build",
+      "os": "windows-latest",
+      "configuration": "Debug",
+      "started_at": "2026-10-13T16:31:50Z",
+      "completed_at": "2026-10-13T16:35:27Z",
+      "status": "completed",
+      "conclusion": "success",
+      "log": {
+        "path": "build-reference/ampm-datapoints-raw-axis-study-20261013/ci-38431251413/job-115413691144.log",
+        "sha256": "4a766d886020b8e092b4b260366395c2c275e5b607ce216cc7eb284e0df261e3",
+        "bytes": 99637
+      },
+      "ctest": [
+        {
+          "line": 734,
+          "project": "D:/a/RFSim/RFSim/build",
+          "tests": 119,
+          "failed": 0,
+          "percent_passed": 100
+        },
+        {
+          "line": 1016,
+          "project": "D:/a/RFSim/RFSim/consumer-build",
+          "tests": 10,
+          "failed": 0,
+          "percent_passed": 100
+        }
+      ],
+      "individual_ctest_pass_rows_verified": 129,
+      "new_python_suites": {},
+      "raw_axis_report": null
+    },
+    {
+      "database_id": 115413691134,
+      "name": "build (windows-latest, Release)",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38431251413/job/115413691134",
+      "group": "build",
+      "os": "windows-latest",
+      "configuration": "Release",
+      "started_at": "2026-10-13T16:31:50Z",
+      "completed_at": "2026-10-13T16:36:59Z",
+      "status": "completed",
+      "conclusion": "success",
+      "log": {
+        "path": "build-reference/ampm-datapoints-raw-axis-study-20261013/ci-38431251413/job-115413691134.log",
+        "sha256": "b13a9bf3c657d1a535426a644c8d0543b14e63da74495c8f7cb7be446f85708e",
+        "bytes": 99931
+      },
+      "ctest": [
+        {
+          "line": 734,
+          "project": "D:/a/RFSim/RFSim/build",
+          "tests": 119,
+          "failed": 0,
+          "percent_passed": 100
+        },
+        {
+          "line": 1016,
+          "project": "D:/a/RFSim/RFSim/consumer-build",
+          "tests": 10,
+          "failed": 0,
+          "percent_passed": 100
+        }
+      ],
+      "individual_ctest_pass_rows_verified": 129,
+      "new_python_suites": {},
+      "raw_axis_report": null
+    }
+  ]
+}
