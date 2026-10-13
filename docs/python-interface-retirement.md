@@ -40,9 +40,9 @@
 
 ## 开发工具保留范围
 
-`scripts/reference/native_replay.py --native-probe ...` 与五个原生高阶归档套件继续使用独立 C++ 探针。采集解析、评分与元数据工具的标准库导入在主动禁止 `rfmodel` 导入时检查；独立 DOM 全量审计仍有其既有 lxml 开发依赖。
+`scripts/reference/native_replay.py --probe ... --report ...` 与五个原生高阶归档套件继续使用独立 C++ 探针。后续已增加第六个 AM/PM 诊断套件，比较器接受 `--native-probe`，继续保留厂商不匹配结论，见 [A01 记录](systemvue-am-pm-existing-reference.md)。采集解析、评分与元数据工具的标准库导入在主动禁止 `rfmodel` 导入时检查；独立 DOM 全量审计仍有其既有 lxml 开发依赖。
 
-未迁移的历史数值比较器曾通过 `Library(...)` 或 Python 图执行：例如旧单音/双音压缩、来源级联、AM-PM 诊断。其纯数据评分逻辑及归档保留；数值调用现在由 `retired_binding.py` 明确拒绝，提示使用原生 API/支持的探针或固定基线源。它们不会静默跳过后报告通过。本次未宣称把所有开发比较器迁成新的原生协议。
+未迁移的历史数值比较器曾通过 `Library(...)` 或 Python 图执行：例如旧单音/双音压缩、来源级联。其纯数据评分逻辑及归档保留；数值调用现在由 `retired_binding.py` 明确拒绝，提示使用原生 API/支持的探针或固定基线源。它们不会静默跳过后报告通过。本次未宣称把所有开发比较器迁成新的原生协议。
 
 原始文档和 JSON 示例作为历史模型/采集说明保留，并标明退役入口。SystemVue 名义失败、缺项、校准与 holdout 分离、diagnostic-only 状态均保留。本次未重新执行 SystemVue，也未完成完整厂商兼容。
 

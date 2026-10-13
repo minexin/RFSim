@@ -42,6 +42,11 @@ class AmplifierOperatingPoint(NamedTuple):
     cubic_voltage_coefficient: float
 
 
+class AmPmResponse(NamedTuple):
+    phase_rad: float
+    radial_phase_slope: float
+
+
 class CoherentPolynomialTerm(NamedTuple):
     order: int
     input_indices: tuple

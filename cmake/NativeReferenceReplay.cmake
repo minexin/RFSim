@@ -88,7 +88,8 @@ add_test(NAME native_replay_protocol COMMAND "${Python3_EXECUTABLE}" -I -S
     $<TARGET_FILE:rfmodel_reference_highorder_probe>
     $<TARGET_FILE:rfmodel_reference_highorder_oracle>)
 foreach(suite IN ITEMS highorder_model_reference highorder_input_reference
-        diagnose_eleventh_order diagnose_highorder_amplifier diagnose_spectrum_reduction)
+        diagnose_eleventh_order diagnose_highorder_amplifier diagnose_spectrum_reduction
+        diagnose_am_pm_reference)
     add_test(NAME native_${suite} COMMAND "${Python3_EXECUTABLE}" -I -S
         "${CMAKE_CURRENT_SOURCE_DIR}/scripts/reference/test_${suite}.py"
         --native-probe $<TARGET_FILE:rfmodel_reference_highorder_probe>)

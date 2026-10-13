@@ -9,7 +9,10 @@ import sys
 import tempfile
 import unittest
 
-LIBRARY = Path(sys.argv.pop(1)).resolve()
+if len(sys.argv) < 3 or sys.argv[1] != '--native-probe':
+    raise SystemExit('Usage: test_diagnose_am_pm_reference.py --native-probe PROBE')
+PROBE = Path(sys.argv.pop(2)).resolve()
+sys.argv.pop(1)
 spec = importlib.util.spec_from_file_location('diagnostic', Path(__file__).with_name('diagnose-am-pm-reference.py'))
 diagnostic = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(diagnostic)
@@ -19,7 +22,7 @@ EVIDENCE = diagnostic.ROOT / 'validation/am-pm-existing-reference-evidence-20261
 class ReferenceTests(unittest.TestCase):
     def setUp(self):
         self.evidence = diagnostic.archive.load(EVIDENCE)
-        self.library = diagnostic.Library(LIBRARY)
+        self.library = diagnostic.NativeReplay(PROBE)
 
     def analyze(self):
         return diagnostic.analyze(self.evidence, self.library)
@@ -81,13 +84,18 @@ class ReferenceTests(unittest.TestCase):
     def test_cli_reports_failure_and_preserves_existing_output(self):
         with tempfile.TemporaryDirectory() as folder:
             output = Path(folder) / 'result.json'
-            command = [sys.executable, str(Path(diagnostic.__file__)), str(EVIDENCE), str(LIBRARY), str(output)]
+            command = [sys.executable, '-I', '-S', str(Path(diagnostic.__file__)),
+                       str(EVIDENCE), str(output), '--native-probe', str(PROBE)]
             first = subprocess.run(command, capture_output=True, text=True)
             self.assertEqual(first.returncode, 1, first.stderr)
             saved = output.read_bytes()
             result = json.loads(saved)
             self.assertFalse(result['point_derivative_native']['passed'])
-            self.assertEqual(result['native_library_sha256'], diagnostic.archive.digest(LIBRARY))
+            provenance = result['native_provenance']
+            self.assertEqual(provenance['native_replay_execution']['executable_sha256'],
+                             diagnostic.archive.digest(PROBE))
+            self.assertEqual(len(provenance['exchanges']), 37)
+            self.assertTrue(all(e['operation'] == 'am_pm' for e in provenance['exchanges']))
             second = subprocess.run(command, capture_output=True, text=True)
             self.assertEqual(second.returncode, 2)
             self.assertEqual(output.read_bytes(), saved)

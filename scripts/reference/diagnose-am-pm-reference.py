@@ -1,14 +1,15 @@
-"""Compare existing A01 evidence to the actual C API; never calibrate the kernel."""
+"""Compare existing A01 evidence to the native C++ API; never calibrate the kernel."""
 import argparse
 import importlib.util
-import json
 import math
 from pathlib import Path
 import re
 import sys
 
 ROOT = Path(__file__).resolve().parents[2]
-from retired_binding import Library
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from native_replay import NativeReplay, atomic_write_report, forbid_product_imports
+forbid_product_imports()
 spec = importlib.util.spec_from_file_location('archive', Path(__file__).with_name('archive-am-pm-datapoints.py'))
 archive = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(archive)
@@ -177,21 +178,22 @@ def verify_raw_sources(evidence, root):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('evidence', type=Path)
-    parser.add_argument('library', type=Path)
     parser.add_argument('output', type=Path)
+    parser.add_argument('--native-probe', type=Path, required=True)
     parser.add_argument('--raw-root', type=Path)
     args = parser.parse_args()
     if args.output.exists():
         parser.error('Output already exists; evidence will not be overwritten')
     evidence = archive.load(args.evidence)
     raw_verified = verify_raw_sources(evidence, args.raw_root) if args.raw_root else False
-    result = analyze(evidence, Library(args.library.resolve()))
+    native = NativeReplay(args.native_probe)
+    result = analyze(evidence, native)
     result['raw_sources_verified'] = raw_verified
     result['evidence_sha256'] = archive.digest(args.evidence)
-    result['native_library_sha256'] = archive.digest(args.library)
-    with args.output.open('x', encoding='utf-8') as stream:
-        json.dump(result, stream, indent=2, allow_nan=False)
-        stream.write('\n')
+    result['native_provenance'] = native.manifest(
+        [args.evidence], [Path(__file__), Path(archive.__file__), Path(hyp.__file__)])
+    atomic_write_report(args.output, result, protected_paths=[args.evidence, args.native_probe,
+                                                             native.manifest_path])
     return 0 if result['point_derivative_native']['passed'] else 1
 
 

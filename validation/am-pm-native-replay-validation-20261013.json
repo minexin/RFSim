@@ -1,0 +1,108 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-13",
+  "stage": "A01 native C++ developer replay restoration",
+  "base_revision": "cc419da28916f6a2324db76fb204a87a3709712c",
+  "new_systemvue_analysis_calls": 0,
+  "public_kernel_modified": false,
+  "eligible_for_full_model_compatibility": false,
+  "phase_absolute_tolerance_degrees": 1e-05,
+  "native_operations": [
+    "intercepts",
+    "operating_point",
+    "polynomial",
+    "highorder",
+    "am_pm"
+  ],
+  "direct_cpp_am_pm_transport_cases": 45,
+  "configurations": {
+    "Debug": {
+      "target_builds_passed": [
+        "rfmodel_reference_highorder_probe",
+        "rfmodel_reference_highorder_oracle"
+      ],
+      "ctest": {
+        "filter": "^native_|^am_pm_test$",
+        "passed": 9,
+        "total": 9,
+        "includes_relocated_installed_sdk": true,
+        "log_path": "build-reference\\am-pm-native-tests-Debug-20261013.log",
+        "log_sha256": "2cc05876e22d64bcaa9fe042481e449efeeb371430c47b922c7aa5fb61d3ba3c"
+      },
+      "report_path": "validation\\am-pm-native-replay-Debug-20261013.json",
+      "report_sha256": "914105ef5a57f4d7bbeb119e5783fe277ea9dbed533585d131a214927a38c033",
+      "cli_exit_code": 1,
+      "exit_meaning": "known native mismatch with report saved",
+      "raw_sources_verified": true,
+      "identical_historical_result_sections": {
+        "point_derivative_native": true,
+        "exploratory_cubic_fit": true,
+        "quick_sweep_natural_cubic_candidate": true
+      },
+      "native_matching_points": 7,
+      "native_points": 37,
+      "candidate_matching_points": 144,
+      "candidate_points": 148,
+      "native_max_error_deg": 0.00616264490543017,
+      "execution_identity": {
+        "protocol": 1,
+        "build_id": "68b9e0fec1955b2bc5cd60e494bffaca41db0b45033b2bdf51d6e949fa80e67d",
+        "executable_sha256": "fe8ffe508b6a79c56625a258faed9f40c2c0022f09ee9a2408406a86a7e8587f",
+        "build_manifest_sha256": "0f8ffbff0ea428a2cfb279c7ec6c11e20015fcf66faea0f7b85297e57dcf1a11"
+      }
+    },
+    "Release": {
+      "target_builds_passed": [
+        "rfmodel_reference_highorder_probe",
+        "rfmodel_reference_highorder_oracle"
+      ],
+      "ctest": {
+        "filter": "^native_|^am_pm_test$",
+        "passed": 9,
+        "total": 9,
+        "includes_relocated_installed_sdk": true,
+        "log_path": "build-reference\\am-pm-native-tests-Release-20261013.log",
+        "log_sha256": "045dd15f02edcf893bdb47f35e78cd357143fce15776a7a90af649d19e10c234"
+      },
+      "report_path": "validation\\am-pm-native-replay-Release-20261013.json",
+      "report_sha256": "d40f8a4fc965294ac6ec805f44f5bd39c8d638c6d285ec680f881600c8a2ec3b",
+      "cli_exit_code": 1,
+      "exit_meaning": "known native mismatch with report saved",
+      "raw_sources_verified": true,
+      "identical_historical_result_sections": {
+        "point_derivative_native": true,
+        "exploratory_cubic_fit": true,
+        "quick_sweep_natural_cubic_candidate": true
+      },
+      "native_matching_points": 7,
+      "native_points": 37,
+      "candidate_matching_points": 144,
+      "candidate_points": 148,
+      "native_max_error_deg": 0.00616264490543017,
+      "execution_identity": {
+        "protocol": 1,
+        "build_id": "0fcbce4f4af4b890797df30102c13990c9707342eb5cea6d4999813b2fa94d71",
+        "executable_sha256": "19bb1224599d458d1cfa6283120769f2075bd0ecc26d075bc8e2a8b384e7718e",
+        "build_manifest_sha256": "0860b6ea0811186aa1b7f3367d318b5cab134567e32a5e176d1ec954ee6b4c6c"
+      }
+    }
+  },
+  "format_check": {
+    "files": 211,
+    "passed": true
+  },
+  "python_retirement_import_tests": {
+    "tests": 4,
+    "passed": true
+  },
+  "remote_ci": {
+    "status": "pending"
+  },
+  "limitations": [
+    "Known PointDerivative and DataPoints mismatches remain failures.",
+    "Retrospective fits are not independent holdouts or kernel corrections.",
+    "Local raw captures were reverified; CI only has normalized evidence.",
+    "This stage runs focused local tests, not a new full local build or full CTest.",
+    "Initial sandboxed MSVC build failed with FileTracker E_ACCESSDENIED; approved unsandboxed builds passed."
+  ]
+}

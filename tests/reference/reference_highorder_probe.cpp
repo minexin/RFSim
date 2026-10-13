@@ -4,6 +4,7 @@
 #include <rfmodel/coherent/coherent_highorder_amplifier.hpp>
 #include <rfmodel/coherent/coherent_polynomial.hpp>
 #include <rfmodel/nonlinear/polynomial_intercepts.hpp>
+#include <rfmodel/nonlinear/am_pm.hpp>
 
 #include <charconv>
 #include <cstdint>
@@ -300,6 +301,15 @@ void execute(Request &request, const std::string &operation, std::ostream &out) 
             out << value << ' ';
         }
         out << '\n';
+    } else if (operation == "am_pm") {
+        const auto power = request.real();
+        const auto peak = request.real();
+        const auto reference = request.real();
+        request.finish();
+        const auto result = rfmodel::LegacyPointDerivativeAmPm(peak, reference).response(power);
+        finite(result.phase_rad);
+        finite(result.radial_phase_slope);
+        out << result.phase_rad << ' ' << result.radial_phase_slope << '\n';
     } else if (operation == "operating_point") {
         const auto drive = request.real();
         const auto gain = request.real();

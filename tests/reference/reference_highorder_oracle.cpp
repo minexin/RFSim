@@ -4,6 +4,7 @@
 #include "rfmodel/coherent/coherent_highorder_amplifier.hpp"
 #include "rfmodel/coherent/coherent_polynomial.hpp"
 #include "rfmodel/nonlinear/polynomial_intercepts.hpp"
+#include "rfmodel/nonlinear/am_pm.hpp"
 #include <chrono>
 #include <cstdlib>
 #include <cstdio>
@@ -156,6 +157,20 @@ int main() {
         }
         std::cout.imbue(std::locale::classic());
         std::cout << std::setprecision(std::numeric_limits<double>::max_digits10) << '[';
+        for (double peak : {-5., 0., 7.}) {
+            for (double reference : {-20., 10., 40.}) {
+                const auto power = std::pow(10., (reference - 30.) / 10.);
+                for (double ratio : {0., .01, 1., 2.25, 4.}) {
+                    begin("am-pm-branches", "am_pm");
+                    const auto actual =
+                        LegacyPointDerivativeAmPm(peak, reference).response(power * ratio);
+                    std::cout << "\"power\":" << power * ratio << ",\"peak\":" << peak
+                              << ",\"reference\":" << reference << ",\"expected\":";
+                    numbers({actual.phase_rad, actual.radial_phase_slope});
+                    std::cout << '}';
+                }
+            }
+        }
         const std::vector<TwoToneIntercept> definitions{
             {1, 1, 30., 1, InterceptReference::input},
             {2, -1, 20., -1, InterceptReference::input},

@@ -1,6 +1,6 @@
 # A01 已有捕获的补充离线诊断
 
-> 接口更新（2026-10-13）：Python 产品包、wheel 和 Python/JSON CLI 已退役。本页涉及这些入口的命令与验证属于历史记录；当前 C++ 入口及迁移范围见 [退役记录](python-interface-retirement.md)。保留的物理结论与厂商差异不因退役而改变。
+> 接口更新（2026-10-13）：本页比较器已恢复为原生 C++ 开发回放，使用 `--native-probe`，不依赖已退役的 Python 产品包或 C ABI。下面的 2026-10-12 C API 结果保留为历史记录；新版命令见“可复跑证据与验证”。
 
 2026-10-12：未新增 SystemVue RunAnalysis，使用上一轮 A01 的既有捕获，对真实 RFModel C API 和 Quick Sweep 相位来源做补充核验。**Point Derivative 当前未通过厂商数据对比，DataPoints 样条候选也未通过完整观测集合。** 原始两基线复现只说明 SystemVue 重现历史结果，不代表 RFModel 与其相等。
 
@@ -35,10 +35,11 @@
 - [比较器](../scripts/reference/diagnose-am-pm-reference.py) / [回归测试](../scripts/reference/test_diagnose_am_pm_reference.py)
 
 ```powershell
-# 原生库须先构建；输出文件须不存在。数据不匹配时退出码1，JSON仍保存。
-python scripts/reference/diagnose-am-pm-reference.py validation/am-pm-existing-reference-evidence-20261012.json build-msvc/Release/rfmodel_c.dll build-reference/am-pm-existing-replay.json
+# 启用 RFMODEL_BUILD_REFERENCE_TESTS 并构建 rfmodel_reference_highorder_probe。
+# 输出文件须不存在。数据不匹配时退出码1，JSON仍保存。
+python -I -S scripts/reference/diagnose-am-pm-reference.py validation/am-pm-existing-reference-evidence-20261012.json build-reference/am-pm-existing-replay.json --native-probe build-reference/Release/rfmodel_reference_highorder_probe.exe
 # 若原始 build-reference 捕获仍在，追加 --raw-root . 核对哈希、原始数组与参数。
-python scripts/reference/test_diagnose_am_pm_reference.py build-msvc/Release/rfmodel_c.dll
+python -I -S scripts/reference/test_diagnose_am_pm_reference.py --native-probe build-reference/Release/rfmodel_reference_highorder_probe.exe
 ```
 
 默认只读取随提交保存的归一化数据；可选原始重放校验捕获哈希、时间、分析路径、74元素数组布局、100 MHz、节点顺序、逐点数值和参数。原始全文与帮助页只在本地，哈希不等于提交了这些原始文件。两种配置已执行原始重放，结果 `raw_sources_verified=true`。
@@ -46,3 +47,15 @@ python scripts/reference/test_diagnose_am_pm_reference.py build-msvc/Release/rfm
 MSVC 原生库 Debug/Release 目标构建通过；相关 CTest 各6/6：C API、Python API、AM/PM 数学、AM/PM 工作点、新旧离线诊断。新增诊断包含5项测试，覆盖30个原生反例、四个零dBm点、两种源相位、无效/不完整证据和CLI失败保留结果。首次测试中的30°严格浮点相等断言已改为数值容差；它不改变厂商比较容差。首次无绝对路径的构建命令因工具不在 PATH 中未运行，随后使用缓存内 Visual Studio CMake 路径完成验证。
 
 这些是本阶段的相关回归，不是新一轮全量CTest、clean-first构建、安装验证或远程CI。本地提交、不推送；先前8个未提交文件均核对哈希后保留。
+
+## 2026-10-13：恢复原生 C++ 回放
+
+比较器现调用开发探针中的 `LegacyPointDerivativeAmPm::response`，Python 仅处理输入、协议、独立评分与证据记录。公共头文件和数值公式未变。协议新增 `am_pm` 操作，三个输入分别为输出功率 W、峰值 degree/dB、参考功率 dBm；两个返回字段分别为相位 rad、径向相位导数。旧的四项高阶操作及其报告保持原判定。
+
+新版 [Debug 报告](../validation/am-pm-native-replay-Debug-20261013.json) 与 [Release 报告](../validation/am-pm-native-replay-Release-20261013.json) 均重新验证本机原始捕获，`raw_sources_verified=true`。原生比较、事后拟合和快速扫描候选的全部结果字段与各自 2026-10-12 历史报告相同：仍为 7/37、144/148 匹配，完整集合均失败。没有新厂商分析，没有采用拟合参数修正核心，也没有放宽容差。
+
+每份报告保存 37 次请求/响应摘要、原生可执行文件摘要、编译器及配置、源码文件摘要和构建标识。`source_revision` 是配置时的基线提交，实际源码由 `source_files` 和内容摘要标识，不能将它误读为未修改的基线构建。原始捕获文件只在本机，远程 CI 仅复算已提交的归一化证据，报告不声称原始捕获已验证。
+
+原生协议的直接 C++ 对照增加 45 组正/负/零峰值、不同参考功率、零驱动及两段分支；这是传输字段一致性检查。新增非法输入、非有限/截断/多余返回字段检查；隔离复制回放和重定位 SDK 均包含第六个 AM/PM 套件。验证与 CI 状态见[本轮机读记录](../validation/am-pm-native-replay-validation-20261013.json)。测试通过表示诊断可用且已知失败被保留，不表示 A01 厂商兼容通过。
+
+下一步仍需独立预登记其他峰值/参考功率及恒相位支路的厂商样本，区分参数映射误差与功率报表定义。当前帮助页只支持解析曲线的构造条件，尚不足以把事后拟合的峰值偏移推广为模型常数。DataPoints 的零 dBm 反例也继续开放。

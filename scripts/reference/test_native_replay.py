@@ -34,6 +34,7 @@ SUITES = (
     "test_diagnose_eleventh_order.py",
     "test_diagnose_highorder_amplifier.py",
     "test_diagnose_spectrum_reduction.py",
+    "test_diagnose_am_pm_reference.py",
 )
 # Frozen before stage-3A implementation; these are archival identities, not
 # hashes regenerated from the files under test. Keep the historical bytes.
@@ -129,6 +130,12 @@ class RawProbeTests(unittest.TestCase):
                                      echoed_id="0" * 64)
         self.assert_rejected(b"WRONG 1 intercepts " + REQUEST_ID.encode() + b" 10 50 0\n",
                              echoed_id="0" * 64)
+
+    def test_am_pm_invalid_power_reference_and_payload(self):
+        for payload in ("-1 -5 10", "0.01 -5 99999", "0.01 -5 -99999",
+                        "0.01 -5", "0.01 -5 10 extra"):
+            with self.subTest(payload=payload):
+                self.assert_rejected(request("am_pm", payload))
 
     def test_strict_decimal_tokens(self):
         for value in ("nan", "NaN", "inf", "Infinity", "-inf", "0x1p0", "1e", "1e+",
@@ -263,7 +270,7 @@ class AdapterTests(unittest.TestCase):
         process = subprocess.run([str(ORACLE)], capture_output=True, timeout=30, check=True)
         cases = json.loads(process.stdout)
         self.assertEqual({case["operation"] for case in cases},
-                         {"intercepts", "operating_point", "polynomial", "highorder"})
+                         {"intercepts", "operating_point", "polynomial", "highorder", "am_pm"})
         for case in cases:
             with self.subTest(name=case["name"], drive=case.get("drive")):
                 operation = case["operation"]
@@ -272,6 +279,9 @@ class AdapterTests(unittest.TestCase):
                                    for r in case["definitions"]]
                     actual = list(self.native.polynomial_coefficients_from_intercepts(
                         case["gain"], definitions, reference_ohms=case["z"]))
+                elif operation == "am_pm":
+                    actual = list(self.native.am_pm_response(case["power"],
+                        peak_degrees_per_db=case["peak"], output_reference_dbm=case["reference"]))
                 elif operation == "operating_point":
                     actual = list(self.native.amplifier_operating_point(
                         case["drive"], power_gain_db=10., output_p1db_dbm=20.,
@@ -308,6 +318,15 @@ class AdapterTests(unittest.TestCase):
         with self.assertRaises((ValueError, TypeError)):
             self.native.highorder_amplifier(1e6, self.sources, [], power_gain_db=10.,
                 output_p1db_dbm=20., output_saturation_dbm=23., propagate_distortion=True)
+
+    def test_am_pm_response_shape_and_finite_fields(self):
+        invoke = lambda: self.native.am_pm_response(.01, peak_degrees_per_db=-5,
+                                                    output_reference_dbm=10)
+        for mutation in (lambda b: b + b" extra", lambda b: b.rsplit(None, 1)[0],
+                         lambda b: b.rsplit(None, 1)[0] + b" nan",
+                         lambda b: b.rsplit(None, 1)[0] + b" 1e999"):
+            with self.subTest(mutation=mutation):
+                self.corrupt_response(mutation, method=invoke)
 
     def test_malformed_response_header_number_and_bounds(self):
         def replace(position, value):
@@ -790,7 +809,7 @@ print("ACTIVE_IMPORT_BAN_PASSED", suite.name)
                 shutil.copyfile(source, scripts / source.name)
             data = root / "validation"
             data.mkdir()
-            for name in ARCHIVES:
+            for name in ARCHIVES + ("am-pm-existing-reference-evidence-20261012.json",):
                 shutil.copyfile(ROOT / "validation" / name, data / name)
             probe = root / PROBE.name
             shutil.copy2(PROBE, probe)

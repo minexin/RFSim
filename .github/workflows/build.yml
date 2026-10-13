@@ -149,6 +149,12 @@ jobs:
           configured="build-reference/${{ matrix.configuration }}/rfmodel_reference_highorder_probe$suffix"
           if [ -f "$configured" ]; then probe="$configured"; fi
           python -I -S scripts/reference/native_replay.py --probe "$probe" --report build-reference/native-replay.json
+          # A01 has a known native mismatch. Exit 1 with a saved report is expected;
+          # test suites check all counts, tolerance and failure semantics.
+          python -I -S scripts/reference/diagnose-am-pm-reference.py \
+            validation/am-pm-existing-reference-evidence-20261012.json \
+            build-reference/am-pm-native-replay.json --native-probe "$probe" || test "$?" -eq 1
+          test -f build-reference/am-pm-native-replay.json
       - name: Preserve replay verification evidence
         if: always()
         uses: actions/upload-artifact@v7
@@ -157,6 +163,7 @@ jobs:
           path: |
             build-reference/Testing/Temporary/LastTest.log
             build-reference/native-replay.json
+            build-reference/am-pm-native-replay.json
             build-reference/**/*.manifest.json
             build-reference/reference-installed-sdk/consumer-build/Testing/Temporary/LastTest.log
           if-no-files-found: warn

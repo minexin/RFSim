@@ -1,4 +1,4 @@
-"""Developer-only transport for four archived high-order reference operations.
+"""Developer-only transport for archived high-order and AM/PM reference operations.
 
 No product package, ctypes, RF equations, JSON model dispatch, fallback, or native
 library discovery is provided here. Records are owned by the independent scorer.
@@ -25,7 +25,7 @@ if __name__ == "__main__":
     sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from reference_records import (
-    AmplifierOperatingPoint, CoherentComponent, CoherentHighOrderAmplifierResponse,
+    AmPmResponse, AmplifierOperatingPoint, CoherentComponent, CoherentHighOrderAmplifierResponse,
     CoherentPolynomialResponse, CoherentPolynomialTerm, SpectrumKind,
 )
 
@@ -204,7 +204,7 @@ def _decode_polynomial(reader, spacing, reserved, request_inputs, maximum_order)
 
 
 class NativeReplay:
-    """Exactly four calculation methods, backed only by the developer C++ probe."""
+    """Bounded calculation methods backed only by the developer C++ probe."""
     def __init__(self, probe, *, timeout=10.0, manifest_path=None):
         self.probe = Path(probe).resolve(strict=True)
         if not self.probe.is_file():
@@ -307,7 +307,7 @@ class NativeReplay:
             return process.returncode, bytes(chunks[0]), bytes(chunks[1])
 
     def _invoke(self, operation, tokens):
-        if operation not in ("intercepts", "operating_point", "polynomial", "highorder"):
+        if operation not in ("intercepts", "operating_point", "polynomial", "highorder", "am_pm"):
             raise ValueError("Unknown native replay operation")
         payload = " ".join(str(value) for value in tokens) + "\n"
         request_id = _sha256((operation + "\n" + payload).encode("ascii"))
@@ -339,6 +339,13 @@ class NativeReplay:
         reader.finish()
         self.exchanges.append(exchange)
         return result
+
+    def am_pm_response(self, output_power_w, *, peak_degrees_per_db, output_reference_dbm):
+        tokens = tuple(_number(value) for value in
+                       (output_power_w, peak_degrees_per_db, output_reference_dbm))
+        reader, exchange = self._invoke("am_pm", tokens)
+        response = AmPmResponse(reader.number(), reader.number())
+        return self._complete(reader, exchange, response)
 
     def polynomial_coefficients_from_intercepts(self, power_gain_db, intercepts, *, reference_ohms=50.0):
         rows = _bounded(intercepts, 10)
@@ -446,7 +453,9 @@ class NativeReplay:
             "units": {"wave": "sqrt(W)", "power": "W", "frequency_and_bandwidth": "Hz",
                       "reference_impedance": "ohm", "gain": "dB", "intercept": "dBm",
                       "polynomial_coefficients": "voltage-domain c0..cn",
-                      "highorder_coefficients": "voltage-domain a2..an"},
+                      "highorder_coefficients": "voltage-domain a2..an",
+                      "am_pm_phase": "rad", "am_pm_peak": "degree/dB",
+                      "am_pm_reference": "dBm", "radial_phase_slope": "rad per log amplitude"},
             "exchanges": list(self.exchanges),
             "verification_scope": (
                 "Only listed available bytes were rehashed. Embedded historical raw/workspace "

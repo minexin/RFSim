@@ -1,11 +1,12 @@
-# Developer-only native high-order reference replay (stage 3A)
+# Developer-only native reference replay
 
 > 接口更新（2026-10-13）：Python 产品包、wheel 和 Python/JSON CLI 已退役。本页涉及这些入口的命令与验证属于历史记录；当前 C++ 入口及迁移范围见 [退役记录](python-interface-retirement.md)。保留的物理结论与厂商差异不因退役而改变。
 
 This bounded replay removes the product `rfmodel` import from five existing
-high-order reference suites. Numerical work calls exactly four existing C++
+high-order reference suites. The 2026-10-13 extension also restores the A01
+AM/PM diagnosis through `LegacyPointDerivativeAmPm`. Numerical work calls five existing C++
 kernels: intercept coefficient conversion, `CoherentLimitedAmplifier` operating
-point, `CoherentPolynomial`, and `CoherentHighOrderAmplifier`. There are no new RF
+point, `CoherentPolynomial`, `CoherentHighOrderAmplifier`, and the AM/PM response. There are no new RF
 equations, C ABI changes, JSON model parser, or replacement Python product binding.
 The standard-library Python adapter handles only transport, immutable data
 records, archived JSON, existing independent scoring and provenance.
@@ -32,13 +33,14 @@ base revision using `-DRFMODEL_REFERENCE_SOURCE_REVISION=<revision>`; otherwise 
 manifest says `unavailable`. Actual configured source hashes, not that revision
 label alone, identify changed/exported sources.
 
-Each of the five existing suites accepts `--native-probe <executable>`; its old
-positional shared-library argument is retained for compatibility checks. Native
+Each of the six suites accepts `--native-probe <executable>`; the five historical
+high-order suites retain their old positional argument only to report retirement.
+The AM/PM scorer requires the explicit native probe. Native
 runs use `python -I -S`, install an active import finder that rejects `rfmodel`
 and every submodule before importing scorers, and check no product module entered
 `sys.modules`. The protocol suite also stages the reference scripts and required
-immutable archives without any `python/rfmodel` tree, then runs all five suites
-in fresh isolated processes. The independent C++ oracle calls the four kernels
+immutable archives without any `python/rfmodel` tree, then runs all six suites
+in fresh isolated processes. The independent C++ oracle calls the five kernels
 directly and returns complete records for transport comparisons; archived vendor
 samples and existing independent physics tests remain the numerical oracles.
 
@@ -68,18 +70,25 @@ The original capture/report bytes are never modified. Replay preserves:
   and fitted odd coefficients remain conditional local evidence, not full vendor
   network prediction or automatic RFAMP coefficient equivalence.
 
-Lazy product imports preserve unrelated legacy comparisons. Cascade capture
-validation is importable without the product, but its combined-origin prediction
-still explicitly loads the legacy graph orchestration. The new typed coherent
+Unmigrated numerical comparisons explicitly report that the retired binding
+cannot perform a comparison. Cascade capture validation is importable, but its
+combined-origin scorer has not been migrated. The new typed coherent
 pipeline now has bounded limited/high-order model adapters and explicit distortion
 propagation, but the cascade scorer has not been migrated to these APIs. The
 archived cascade result remains 230 checks with 22 failures, including the known
 0 dB discrepancy; adding adapters alone does not change that evidence. See the
-[adapter contract](coherent-pipeline-amplifiers.md). The four-operation probe and
-existing scoring path remain unchanged.
-This is a limited stage-3 gate, not completion of Python retirement; the product
-package, C ABI, other reference tools and all archives remain. No new SystemVue
-simulation is performed or claimed.
+[adapter contract](coherent-pipeline-amplifiers.md). The four high-order operations
+and their archived scoring path remain unchanged. Python product retirement is
+recorded separately; these developer tools do not replace a product binding.
+No new SystemVue simulation is performed or claimed.
+
+The A01 extension retains 7/37 matching PointDerivative observations and 144/148
+matching retrospective DataPoints candidates at `1e-5 degree`; both full sets fail.
+Its separate report includes 37 native exchanges, build/source/compiler identity,
+executable digest and optional local raw-capture verification. See
+[the A01 replay record](systemvue-am-pm-existing-reference.md). Direct-oracle cases
+cover 45 combinations of peak sign, reference power, zero drive and both branches;
+these test transport, not new vendor compatibility.
 
 ## Protocol 1
 
@@ -97,6 +106,7 @@ bytes. Responses echo it and the embedded 64-hex build-manifest ID.
 | `operating_point` | drive_W gain_dB OP1dB_dBm OPSAT_dBm IIP2_dBm IIP3_dBm Z | five operating-point fields |
 | `polynomial` | spacing_Hz Z reserved_group coefficient_count full `c0..cn` input_count components | input_count reduced inputs, term_count terms |
 | `highorder` | spacing_Hz Z reserved_group gain_dB OP1dB_dBm OPSAT_dBm coefficient_count `a2..an` input_count components | total_input_W, five operating-point fields, polynomial-shaped records |
+| `am_pm` | output_power_W peak_degree_per_dB output_reference_dBm | phase_rad radial_phase_slope |
 
 Component: `positive_int32_bin kind bandwidth_Hz uint64_group real imag`, with
 complex amplitude in sqrt(W). This gate accepts at most two source-kind inputs
