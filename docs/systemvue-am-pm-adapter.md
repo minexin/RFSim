@@ -86,7 +86,11 @@ python -I -S scripts/reference/diagnose-systemvue-am-pm-adapter.py \
 
 `am_pm_test` 对两种相位律检查独立 dB 导数积分、数值微分、功率守恒、恒相位边界、双音工作点导数及含噪声反馈闭环。`native_systemvue_am_pm_adapter` 检查全部归档点、告警与额外点保留、哈希链及错误频率/电压拒绝路径。安装消费者调用新模型；开发用安装/移动 SDK 重放执行全部归档套件，并禁止导入已退役的 `rfmodel` Python 产品包。
 
-本轮完整构建、CTest、安装消费者与远程 CI 的执行结果另行记录；数值表不代替工程验证证据。
+提交 `296952b` 已通过 Windows/MSVC 19.44 的 Debug/Release **全量 clean-first 构建**；完整 CTest 各 **129/129**，安装后的独立 C++/C 消费者各 **10/10**。全量 CTest 包含安装并移动 SDK 后的 33 项协议/归档/导入隔离检查。211 个 C/C++ 文件格式检查通过。
+
+[Debug 正式重放](../validation/am-pm-adapter-Debug-20261013.json)和[Release 正式重放](../validation/am-pm-adapter-Release-20261013.json)各执行 1,220 次原生交换，均重新验证本地原始来源，全部数值记录完全一致。构建命令、日志哈希、证据字节复核及失败构建尝试见[本地验证记录](../validation/am-pm-adapter-validation-20261013.json)。初次构建曾因重复 `Path/PATH` 环境项失败，规范化子进程环境后又遇到沙箱内 MSBuild FileTracker 拒绝访问；使用获准的标准 MSVC 构建后通过，没有用这两次失败结果冒充完成验证。
+
+本阶段推送尚未成功：首次遇到 TLS 握手失败，自动审批随后拒绝向既有 GitHub 目的地推送。当前提交的 Linux/macOS/Windows 远程 CI **尚未运行**；既有 CI 通过记录不作为本次改动的证据。该发布状态将在完成授权后的实际推送和 CI 中更新。
 
 ## 未完成的兼容范围
 
