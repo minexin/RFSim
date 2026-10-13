@@ -13,9 +13,7 @@ inline void validate_s_data(const TouchstoneData &d) {
         d.frequencies_hz.size() != d.matrices.size()) {
         throw std::invalid_argument("inconsistent S parameter dataset");
     }
-    if (!std::isfinite(d.reference_impedance_ohms) || d.reference_impedance_ohms <= 0) {
-        throw std::invalid_argument("invalid reference resistance");
-    }
+    effective_reference_impedances(d);
     for (std::size_t i = 0; i < d.matrices.size(); ++i) {
         const double f = d.frequencies_hz[i];
         if (!std::isfinite(f) || f < 0 || (i && f <= d.frequencies_hz[i - 1])) {

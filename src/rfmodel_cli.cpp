@@ -6,11 +6,12 @@
 
 int main(int argc, char **argv) {
     if (argc < 2) {
-        std::cerr << "Usage: rfmodel_cli model.sNp [frequency_hz ...]\n";
+        std::cerr << "Usage: rfmodel_cli model.sNp|model.ts [frequency_hz ...]\n";
         return 2;
     }
     try {
         const auto data = rfmodel::read_touchstone(argv[1]);
+        const auto reference = rfmodel::common_reference_impedance(data);
         rfmodel::TabulatedSParameterModel model("input", data);
         auto frequencies = data.frequencies_hz;
         if (argc > 2) {
@@ -41,9 +42,8 @@ int main(int argc, char **argv) {
             for (std::size_t r = 0; r < model.port_count(); ++r) {
                 for (std::size_t c = 0; c < model.port_count(); ++c) {
                     const auto s = results[i](r, c);
-                    std::cout << frequencies[i] << ',' << r + 1 << ',' << c + 1 << ','
-                              << data.reference_impedance_ohms << ',' << s.real() << ',' << s.imag()
-                              << '\n';
+                    std::cout << frequencies[i] << ',' << r + 1 << ',' << c + 1 << ',' << reference
+                              << ',' << s.real() << ',' << s.imag() << '\n';
                 }
             }
         }

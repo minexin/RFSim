@@ -1,0 +1,435 @@
+{
+  "schema": "rfmodel.touchstone-two-validation",
+  "version": 1,
+  "date_utc": "2026-10-13",
+  "source_base_commit": "4303efb801873cd5afe4a747bacd4fcdd4e35d30",
+  "source_state": "Uncommitted Touchstone changes atop the published adapter allocation-test portability split 4303efb8; hashes identify the tested integrated snapshot. No Touchstone publication or cross-platform claim.",
+  "toolchain": {
+    "os": "Linux",
+    "compiler": "GCC 14.2.0",
+    "cmake": "3.31.10",
+    "clang_format": "19.1.7",
+    "cxx_standard": 17
+  },
+  "specification": "https://www.ibis.org/touchstone_ver2.0/touchstone_ver2_0.pdf",
+  "support": "Bounded single-ended S-data subset of explicit Touchstone 2.0 plus legacy .sNp; not 2.1 or full/vendor compatibility.",
+  "checks": {
+    "full_debug": {
+      "passed": 174,
+      "total": 174,
+      "python_tests": true,
+      "native_reference_tests": true,
+      "ctest_log_sha256": "bcced40b973659b539b145b38a93146fbca51ebf89803d3a61fd5c75783aa773",
+      "elapsed_seconds": 27.28
+    },
+    "full_release": {
+      "passed": 174,
+      "total": 174,
+      "python_tests": true,
+      "native_reference_tests": true,
+      "ctest_log_sha256": "89e2aef9034e5a140f80d7e81be51a2a6e562d7820d18c372df2d4df7a0ba20b",
+      "elapsed_seconds": 15.91
+    },
+    "installed_debug": {
+      "passed": 6,
+      "total": 6,
+      "ctest_log_sha256": "513c1be1cd28be9a02a510a0605999cb51f61537785f5f861cca36ca0f150db8",
+      "elapsed_seconds": 0.1
+    },
+    "installed_release": {
+      "passed": 6,
+      "total": 6,
+      "ctest_log_sha256": "28a0c8f100a40804c7c86099bb21cb14cccea8103fdc099d1493a792c60c771e",
+      "elapsed_seconds": 0.04
+    },
+    "native_release": {
+      "passed": 107,
+      "total": 107,
+      "c_api": false,
+      "python_binding_tests": false,
+      "native_reference_tests": true,
+      "note": "Archive fixture generation uses Python at configure time; executables themselves are native.",
+      "ctest_log_sha256": "e964626fa54b217a1526660cac00ebcad9d078705f5a30e4ca5ada628ef3ae1a",
+      "elapsed_seconds": 10.78
+    },
+    "minimal_sdk_installed_release": {
+      "passed": 4,
+      "total": 4,
+      "c_api": false,
+      "python_discovery": false,
+      "python_required": false,
+      "native_reference_tests": false,
+      "note": "Only installed SDK include path; -O3 -DNDEBUG -std=c++17.",
+      "ctest_log_sha256": "ee23878f898c1aea53e278d1fa9ea273019b5af903d004fe5aa74d5fc6bba91b",
+      "elapsed_seconds": 0.05
+    },
+    "cpp_contract": {
+      "numerical_checks": 490,
+      "rejected_files": 71,
+      "maximum_scaled_error": 6.0126956048082556e-15,
+      "limit": 3e-12,
+      "release_checks_active": true,
+      "noise_scale": "kT"
+    },
+    "c_contract": {
+      "numerical_checks": 68,
+      "maximum_scaled_error": 1.5031739012020639e-15,
+      "limit": 3e-12,
+      "release_checks_active": true
+    },
+    "independent_sanitizers": {
+      "address": true,
+      "undefined_behavior": true,
+      "passed": true,
+      "optimization": "-O1 -DNDEBUG",
+      "leak_sanitizer": false,
+      "note": "Historical independent run on 55ab9d90, with unchanged Touchstone parser/test blobs; no fresh integrated independent sanitizer run. LeakSanitizer disabled because this execution environment is ptraced.",
+      "source_base_commit": "55ab9d90ac6a44ce2339291297483ce2c3304ade",
+      "historical_only": true
+    },
+    "format": {
+      "passed": true,
+      "scope": "All changed C/C++ implementation and test files"
+    },
+    "git_diff_check": {
+      "passed": true
+    }
+  },
+  "mutations": {
+    "swap_order": {
+      "detected": true,
+      "exit_code": 1,
+      "failure": "Touchstone 2.0 regression: nonreciprocal two-port order: actual=(0.69999999999999996,0.5), expected=(0.29999999999999999,-0.40000000000000002), scaled error=0.98488578017961048",
+      "source_base_commit": "4303efb801873cd5afe4a747bacd4fcdd4e35d30",
+      "result_sha256": "a5c293ecf40f1a4f9639913165ea24a659d8510400d2e5d962f2eaa49a033c33"
+    },
+    "conjugate_triangle": {
+      "detected": true,
+      "exit_code": 1,
+      "failure": "Touchstone 2.0 regression: triangular is complex symmetric, not Hermitian: actual=(0.29999999999999999,0.40000000000000002), expected=(0.29999999999999999,-0.40000000000000002), scaled error=0.80000000000000004",
+      "source_base_commit": "4303efb801873cd5afe4a747bacd4fcdd4e35d30",
+      "result_sha256": "8e37065ecf1e8467a48eef425cbba20342c93a06b3b8cd8007c3b45e813d4bbb"
+    },
+    "rescale_v2_rn": {
+      "detected": true,
+      "exit_code": 1,
+      "failure": "Touchstone 2.0 regression: 2.0 Rn is ohms: actual=(2812.5,0), expected=(37.5,0), scaled error=37",
+      "source_base_commit": "4303efb801873cd5afe4a747bacd4fcdd4e35d30",
+      "result_sha256": "45a4edbc2b74fef29e37945557331d11120b838d598704c0976a7025517c8a98"
+    }
+  },
+  "source_sha256": {
+    "CMakeLists.txt": "04fb9b1718ce1913631a60662fc95963872eb131c3610195a56272e53d582923",
+    "include/rfmodel/touchstone.hpp": "9ac963e22efad17440800656330273289ca3bcbd4f447c96cf31723bb3e21fc9",
+    "include/rfmodel/interpolation.hpp": "d8498edd83effc85f8288e4ed866a541d816f91b6d6ef9b4d291e0aa170416df",
+    "include/rfmodel/tabulated_model.hpp": "8c2b468d1fcd794d171ca5bfcec801becc1fe35c0c71c5ba6e51de076a66b5a9",
+    "include/rfmodel/tabulated_noise_model.hpp": "30474a8c20bcbe2c2ff7c18f5e0bf14574cd7f087261d70b800ae4f28ce00f09",
+    "include/rfmodel/c_api.h": "9fd0097fe5b8f5bcd4a555d32a31b403f908b1ebedb98a49f02b6623c5b0730c",
+    "src/c_api.cpp": "30d22c4dedb2241b9e9748d4d4e9f138772dd6b76afd3612e24141523cee92aa",
+    "src/rfmodel_cli.cpp": "ec855575dede9d0021c775ffba20c0716335a2a504299bc120e09009445f1550",
+    "tests/touchstone_two_test.cpp": "a3aae3b6061c2358dfef4ceb4c05f479cf31fe744eba32633e386928205d71a6",
+    "tests/touchstone_two_c_test.c": "ab531a8a6f82e62150113b4f6b5b5b70c21e7f98b16ea25689775e5f4ef37c82",
+    "tests/touchstone_two_cli.cmake": "344ff9c5fbf8069b0d301d2f1b460654c0762bb279c10e5c49a535f8c5a65a4f",
+    "tests/consumer/CMakeLists.txt": "44ae5c2ff07fa6070cb8546b7546a236bd39ea4180f62ded196061494b6ffd8c"
+  },
+  "not_performed": [
+    "New SystemVue captures",
+    "Windows/MSVC validation for this Touchstone snapshot",
+    "macOS/AppleClang validation for this Touchstone snapshot",
+    "Touchstone commit, push, merge or publication"
+  ],
+  "initial_failures_resolved": [],
+  "historical_runs": [
+    {
+      "schema": "rfmodel.touchstone-two-validation",
+      "version": 1,
+      "date_utc": "2026-10-13",
+      "source_base_commit": "55ab9d90ac6a44ce2339291297483ce2c3304ade",
+      "source_state": "Uncommitted Touchstone changes atop source_base_commit; hashes identify the tested snapshot. No publication or cross-platform claim.",
+      "toolchain": {
+        "os": "Linux",
+        "compiler": "GCC 14.2.0",
+        "cmake": "3.31.10",
+        "clang_format": "19.1.7",
+        "cxx_standard": 17
+      },
+      "specification": "https://www.ibis.org/touchstone_ver2.0/touchstone_ver2_0.pdf",
+      "support": "Bounded single-ended S-data subset of explicit Touchstone 2.0 plus legacy .sNp; not 2.1 or full/vendor compatibility.",
+      "checks": {
+        "full_debug": {
+          "passed": 173,
+          "total": 173,
+          "python_tests": true,
+          "native_reference_tests": true
+        },
+        "full_release": {
+          "passed": 173,
+          "total": 173,
+          "python_tests": true,
+          "native_reference_tests": true
+        },
+        "installed_debug": {
+          "passed": 6,
+          "total": 6
+        },
+        "installed_release": {
+          "passed": 6,
+          "total": 6
+        },
+        "native_release": {
+          "passed": 106,
+          "total": 106,
+          "c_api": false,
+          "python_binding_tests": false,
+          "native_reference_tests": true,
+          "note": "Archive fixture generation uses Python at configure time; executables themselves are native."
+        },
+        "minimal_sdk_installed_release": {
+          "passed": 4,
+          "total": 4,
+          "c_api": false,
+          "python_discovery": false,
+          "python_required": false,
+          "native_reference_tests": false,
+          "note": "Only installed SDK include path; -O3 -DNDEBUG -std=c++17."
+        },
+        "cpp_contract": {
+          "numerical_checks": 490,
+          "rejected_files": 71,
+          "maximum_scaled_error": 6.0126956048082556e-15,
+          "limit": 3e-12,
+          "release_checks_active": true,
+          "noise_scale": "kT"
+        },
+        "c_contract": {
+          "numerical_checks": 68,
+          "maximum_scaled_error": 1.5031739012020639e-15,
+          "limit": 3e-12,
+          "release_checks_active": true
+        },
+        "independent_sanitizers": {
+          "address": true,
+          "undefined_behavior": true,
+          "passed": true,
+          "optimization": "-O1 -DNDEBUG",
+          "leak_sanitizer": false,
+          "note": "LeakSanitizer disabled because this execution environment is ptraced."
+        },
+        "format": {
+          "passed": true,
+          "scope": "All changed C/C++ implementation and test files"
+        },
+        "git_diff_check": {
+          "passed": true
+        }
+      },
+      "mutations": {
+        "swap_order": {
+          "detected": true,
+          "exit_code": 1,
+          "failure": "Touchstone 2.0 regression: nonreciprocal two-port order: actual=(0.69999999999999996,0.5), expected=(0.29999999999999999,-0.40000000000000002), scaled error=0.98488578017961048"
+        },
+        "conjugate_triangle": {
+          "detected": true,
+          "exit_code": 1,
+          "failure": "Touchstone 2.0 regression: triangular is complex symmetric, not Hermitian: actual=(0.29999999999999999,0.40000000000000002), expected=(0.29999999999999999,-0.40000000000000002), scaled error=0.80000000000000004"
+        },
+        "rescale_v2_rn": {
+          "detected": true,
+          "exit_code": 1,
+          "failure": "Touchstone 2.0 regression: 2.0 Rn is ohms: actual=(2812.5,0), expected=(37.5,0), scaled error=37"
+        }
+      },
+      "source_sha256": {
+        "CMakeLists.txt": "2873fd9340935acf1621320bccfcd53f740c0bd2aff1b7bfa7185e0d85920a22",
+        "include/rfmodel/touchstone.hpp": "9ac963e22efad17440800656330273289ca3bcbd4f447c96cf31723bb3e21fc9",
+        "include/rfmodel/interpolation.hpp": "d8498edd83effc85f8288e4ed866a541d816f91b6d6ef9b4d291e0aa170416df",
+        "include/rfmodel/tabulated_model.hpp": "8c2b468d1fcd794d171ca5bfcec801becc1fe35c0c71c5ba6e51de076a66b5a9",
+        "include/rfmodel/tabulated_noise_model.hpp": "30474a8c20bcbe2c2ff7c18f5e0bf14574cd7f087261d70b800ae4f28ce00f09",
+        "include/rfmodel/c_api.h": "9fd0097fe5b8f5bcd4a555d32a31b403f908b1ebedb98a49f02b6623c5b0730c",
+        "src/c_api.cpp": "30d22c4dedb2241b9e9748d4d4e9f138772dd6b76afd3612e24141523cee92aa",
+        "src/rfmodel_cli.cpp": "ec855575dede9d0021c775ffba20c0716335a2a504299bc120e09009445f1550",
+        "tests/touchstone_two_test.cpp": "a3aae3b6061c2358dfef4ceb4c05f479cf31fe744eba32633e386928205d71a6",
+        "tests/touchstone_two_c_test.c": "ab531a8a6f82e62150113b4f6b5b5b70c21e7f98b16ea25689775e5f4ef37c82",
+        "tests/touchstone_two_cli.cmake": "344ff9c5fbf8069b0d301d2f1b460654c0762bb279c10e5c49a535f8c5a65a4f",
+        "tests/consumer/CMakeLists.txt": "44ae5c2ff07fa6070cb8546b7546a236bd39ea4180f62ded196061494b6ffd8c"
+      },
+      "not_performed": [
+        "New SystemVue captures",
+        "Windows/MSVC validation for this snapshot",
+        "macOS/AppleClang validation for this snapshot",
+        "Commit, push, merge or publication"
+      ],
+      "initial_failures_resolved": [
+        "Moved only this validation build out of full /tmp tmpfs to scratch storage and set compiler TMPDIR before successful rebuild.",
+        "Independent reviewer found a vertical-tab/form-feed numeric-row crash; rejected unsupported controls and guarded empty numeric rows, then passed sanitizer regressions.",
+        "A draft C test incorrectly required rejection of SIZE_MAX capacity; corrected the test to zero capacity without changing the established ABI contract."
+      ]
+    },
+    {
+      "schema": "rfmodel.touchstone-two-validation",
+      "version": 1,
+      "date_utc": "2026-10-13",
+      "source_base_commit": "bf5a5560e097eb48551316bc065180c1a2ecbb2c",
+      "source_state": "Uncommitted Touchstone changes atop published adapter-atomicity fix bf5a5560; hashes identify the tested integrated snapshot. No Touchstone publication or cross-platform claim.",
+      "toolchain": {
+        "os": "Linux",
+        "compiler": "GCC 14.2.0",
+        "cmake": "3.31.10",
+        "clang_format": "19.1.7",
+        "cxx_standard": 17
+      },
+      "specification": "https://www.ibis.org/touchstone_ver2.0/touchstone_ver2_0.pdf",
+      "support": "Bounded single-ended S-data subset of explicit Touchstone 2.0 plus legacy .sNp; not 2.1 or full/vendor compatibility.",
+      "checks": {
+        "full_debug": {
+          "passed": 173,
+          "total": 173,
+          "python_tests": true,
+          "native_reference_tests": true,
+          "ctest_log_sha256": "baa1f4b2f3ca3ba177663b5309356be88601e72b7a271733691b71ede5c1c4d1",
+          "elapsed_seconds": 27.73
+        },
+        "full_release": {
+          "passed": 173,
+          "total": 173,
+          "python_tests": true,
+          "native_reference_tests": true,
+          "ctest_log_sha256": "42e1eab35e801726658b83801aa83db17840097c768b4217b086f6d2bb48ad75",
+          "elapsed_seconds": 16.59
+        },
+        "installed_debug": {
+          "passed": 6,
+          "total": 6,
+          "ctest_log_sha256": "b3e74506ab0ed67e03977f83cc1f39ab537b5ab2c40098db27a2375564c3877a",
+          "elapsed_seconds": 0.13
+        },
+        "installed_release": {
+          "passed": 6,
+          "total": 6,
+          "ctest_log_sha256": "28a0c8f100a40804c7c86099bb21cb14cccea8103fdc099d1493a792c60c771e",
+          "elapsed_seconds": 0.04
+        },
+        "native_release": {
+          "passed": 106,
+          "total": 106,
+          "c_api": false,
+          "python_binding_tests": false,
+          "native_reference_tests": true,
+          "note": "Archive fixture generation uses Python at configure time; executables themselves are native.",
+          "ctest_log_sha256": "3d94757a71093fb4c1672223356742526640367c524cba95f57b307428dd750b",
+          "elapsed_seconds": 11.02
+        },
+        "minimal_sdk_installed_release": {
+          "passed": 4,
+          "total": 4,
+          "c_api": false,
+          "python_discovery": false,
+          "python_required": false,
+          "native_reference_tests": false,
+          "note": "Only installed SDK include path; -O3 -DNDEBUG -std=c++17.",
+          "ctest_log_sha256": "85b731202a5105f5bfc1e7700462a7db862cfac83b04467a0faac865f483431d",
+          "elapsed_seconds": 0.03
+        },
+        "cpp_contract": {
+          "numerical_checks": 490,
+          "rejected_files": 71,
+          "maximum_scaled_error": 6.0126956048082556e-15,
+          "limit": 3e-12,
+          "release_checks_active": true,
+          "noise_scale": "kT"
+        },
+        "c_contract": {
+          "numerical_checks": 68,
+          "maximum_scaled_error": 1.5031739012020639e-15,
+          "limit": 3e-12,
+          "release_checks_active": true
+        },
+        "independent_sanitizers": {
+          "address": true,
+          "undefined_behavior": true,
+          "passed": true,
+          "optimization": "-O1 -DNDEBUG",
+          "leak_sanitizer": false,
+          "note": "Historical independent run on 55ab9d90, with unchanged Touchstone parser/test blobs; no fresh integrated independent sanitizer run. LeakSanitizer disabled because this execution environment is ptraced.",
+          "source_base_commit": "55ab9d90ac6a44ce2339291297483ce2c3304ade",
+          "historical_only": true
+        },
+        "format": {
+          "passed": true,
+          "scope": "All changed C/C++ implementation and test files"
+        },
+        "git_diff_check": {
+          "passed": true
+        }
+      },
+      "mutations": {
+        "swap_order": {
+          "detected": true,
+          "exit_code": 1,
+          "failure": "Touchstone 2.0 regression: nonreciprocal two-port order: actual=(0.69999999999999996,0.5), expected=(0.29999999999999999,-0.40000000000000002), scaled error=0.98488578017961048",
+          "source_base_commit": "bf5a5560e097eb48551316bc065180c1a2ecbb2c",
+          "result_sha256": "a5c293ecf40f1a4f9639913165ea24a659d8510400d2e5d962f2eaa49a033c33"
+        },
+        "conjugate_triangle": {
+          "detected": true,
+          "exit_code": 1,
+          "failure": "Touchstone 2.0 regression: triangular is complex symmetric, not Hermitian: actual=(0.29999999999999999,0.40000000000000002), expected=(0.29999999999999999,-0.40000000000000002), scaled error=0.80000000000000004",
+          "source_base_commit": "bf5a5560e097eb48551316bc065180c1a2ecbb2c",
+          "result_sha256": "8e37065ecf1e8467a48eef425cbba20342c93a06b3b8cd8007c3b45e813d4bbb"
+        },
+        "rescale_v2_rn": {
+          "detected": true,
+          "exit_code": 1,
+          "failure": "Touchstone 2.0 regression: 2.0 Rn is ohms: actual=(2812.5,0), expected=(37.5,0), scaled error=37",
+          "source_base_commit": "bf5a5560e097eb48551316bc065180c1a2ecbb2c",
+          "result_sha256": "45a4edbc2b74fef29e37945557331d11120b838d598704c0976a7025517c8a98"
+        }
+      },
+      "source_sha256": {
+        "CMakeLists.txt": "fe781ef83ae792a7ddce13eedc2611fdb89dfa6710f26a3ef3c6c84ad99edf4c",
+        "include/rfmodel/touchstone.hpp": "9ac963e22efad17440800656330273289ca3bcbd4f447c96cf31723bb3e21fc9",
+        "include/rfmodel/interpolation.hpp": "d8498edd83effc85f8288e4ed866a541d816f91b6d6ef9b4d291e0aa170416df",
+        "include/rfmodel/tabulated_model.hpp": "8c2b468d1fcd794d171ca5bfcec801becc1fe35c0c71c5ba6e51de076a66b5a9",
+        "include/rfmodel/tabulated_noise_model.hpp": "30474a8c20bcbe2c2ff7c18f5e0bf14574cd7f087261d70b800ae4f28ce00f09",
+        "include/rfmodel/c_api.h": "9fd0097fe5b8f5bcd4a555d32a31b403f908b1ebedb98a49f02b6623c5b0730c",
+        "src/c_api.cpp": "30d22c4dedb2241b9e9748d4d4e9f138772dd6b76afd3612e24141523cee92aa",
+        "src/rfmodel_cli.cpp": "ec855575dede9d0021c775ffba20c0716335a2a504299bc120e09009445f1550",
+        "tests/touchstone_two_test.cpp": "a3aae3b6061c2358dfef4ceb4c05f479cf31fe744eba32633e386928205d71a6",
+        "tests/touchstone_two_c_test.c": "ab531a8a6f82e62150113b4f6b5b5b70c21e7f98b16ea25689775e5f4ef37c82",
+        "tests/touchstone_two_cli.cmake": "344ff9c5fbf8069b0d301d2f1b460654c0762bb279c10e5c49a535f8c5a65a4f",
+        "tests/consumer/CMakeLists.txt": "44ae5c2ff07fa6070cb8546b7546a236bd39ea4180f62ded196061494b6ffd8c"
+      },
+      "not_performed": [
+        "New SystemVue captures",
+        "Windows/MSVC validation for this Touchstone snapshot",
+        "macOS/AppleClang validation for this Touchstone snapshot",
+        "Touchstone commit, push, merge or publication"
+      ],
+      "initial_failures_resolved": [],
+      "integrated_baseline_guards": {
+        "preserved": true,
+        "files_equal_to_base": {
+          "include/rfmodel/coherent_pipeline.hpp": "5711a1f08879ed015e685b00cbaf36fa009dc041c3c1e782897f3bd72594dd53",
+          "tests/coherent_pipeline_amplifier_limits_test.cpp": "e445ee7c97a556e473fd526563085dcf258cfb4da8da38acfeb007415e1fdc23"
+        },
+        "coherent_pipeline_amplifier_limits_timeout_seconds": 300
+      },
+      "publication_status": "Touchstone publication remains held while a separate Windows pipeline allocation-sweep failure is investigated. Local Touchstone passes do not certify that regression."
+    }
+  ],
+  "integrated_baseline_guards": {
+    "preserved": true,
+    "files_equal_to_base": {
+      "include/rfmodel/coherent_pipeline.hpp": "5711a1f08879ed015e685b00cbaf36fa009dc041c3c1e782897f3bd72594dd53",
+      "tests/coherent_pipeline_amplifier_limits_test.cpp": "b02211f213f8bb4291713e7d36712136282c121a09201b4f46fa91c1ec29214d",
+      "tests/coherent_pipeline_allocation_test.cpp": "e75188d8fd471eb8f7d8532de3a376a8a75510077e8999a5cffdc82d02e0e31f"
+    },
+    "ctest_timeouts_seconds": {
+      "coherent_pipeline_amplifier_limits_test": 300.0,
+      "coherent_pipeline_allocation_test": 300.0
+    },
+    "msvc_iterator_debug_override_scope": "Existing base setting remains private to coherent_pipeline_allocation_test; no default MSVC Debug setting changed by Touchstone work."
+  },
+  "publication_status": "Touchstone publication remains held pending exact-commit remote validation of the separate adapter portability change. Local Touchstone passes do not certify Windows behavior."
+}

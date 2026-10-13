@@ -28,3 +28,21 @@ if(TARGET RFModel::c_api)
     endif()
     add_test(NAME installed_c_consumer COMMAND c_consumer "${CMAKE_CURRENT_SOURCE_DIR}/matched.s1p")
 endif()
+
+# Compile the complete import contract against installed headers, not source includes.
+add_executable(touchstone_two_consumer ../touchstone_two_test.cpp)
+target_link_libraries(touchstone_two_consumer PRIVATE RFModel::rfmodel)
+add_test(NAME installed_touchstone_two_consumer COMMAND touchstone_two_consumer)
+if(TARGET RFModel::c_api)
+    add_executable(touchstone_two_c_consumer ../touchstone_two_c_test.c)
+    target_link_libraries(touchstone_two_c_consumer PRIVATE RFModel::c_api)
+    if(UNIX)
+        target_link_libraries(touchstone_two_c_consumer PRIVATE m)
+    endif()
+    if(WIN32)
+        add_custom_command(TARGET touchstone_two_c_consumer POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            $<TARGET_FILE:RFModel::c_api> $<TARGET_FILE_DIR:touchstone_two_c_consumer>)
+    endif()
+    add_test(NAME installed_touchstone_two_c_consumer COMMAND touchstone_two_c_consumer)
+endif()

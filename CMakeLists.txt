@@ -273,6 +273,23 @@ add_executable(touchstone_smoke tests/touchstone_smoke.cpp)
 target_link_libraries(touchstone_smoke PRIVATE rfmodel)
 add_test(NAME touchstone_smoke COMMAND touchstone_smoke "${CMAKE_CURRENT_SOURCE_DIR}/tests")
 
+# Bounded native Touchstone 2.0 import and scalar-interface safeguards.
+add_executable(touchstone_two_test tests/touchstone_two_test.cpp)
+target_link_libraries(touchstone_two_test PRIVATE rfmodel)
+add_test(NAME touchstone_two_test COMMAND touchstone_two_test)
+if(RFMODEL_BUILD_C_API)
+    add_executable(touchstone_two_c_test tests/touchstone_two_c_test.c)
+    target_link_libraries(touchstone_two_c_test PRIVATE RFModel::c_api)
+    if(UNIX)
+        target_link_libraries(touchstone_two_c_test PRIVATE m)
+    endif()
+    add_test(NAME touchstone_two_c_test COMMAND touchstone_two_c_test)
+endif()
+if(RFMODEL_BUILD_CLI)
+    add_test(NAME touchstone_two_cli_test COMMAND ${CMAKE_COMMAND}
+        -DCLI=$<TARGET_FILE:rfmodel_cli> -P "${CMAKE_CURRENT_SOURCE_DIR}/tests/touchstone_two_cli.cmake")
+endif()
+
 add_executable(touchstone_validation tests/touchstone_validation.cpp)
 target_link_libraries(touchstone_validation PRIVATE rfmodel)
 add_test(NAME touchstone_validation COMMAND touchstone_validation "${CMAKE_CURRENT_SOURCE_DIR}/tests")

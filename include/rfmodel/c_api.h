@@ -1389,7 +1389,10 @@ RFMODEL_API int rfmodel_get_amplifier_operating_point(double total_incident_powe
                                                       double reference_ohms,
                                                       rfmodel_amplifier_operating_point *output);
 
-/* Snapshot a legacy .sNp file at a UTF-8 path. out_of_band: 0 reject, 1 clamp.
+/* Snapshot legacy .sNp or bounded single-ended Touchstone 2.0 .ts/.sNp input.
+ * UTF-8 path; out_of_band: 0 reject, 1 clamp. Unequal per-port references
+ * are rejected at open; use the native C++ importer for those datasets.
+ * A common [Reference] override is the actual S reference reported by info.
  * A failed open sets *out to NULL. close(NULL) is valid.
  * info reports embedded noise presence; s does not implicitly evaluate noise.
  * s interpolates real/imaginary components at the original reference, then

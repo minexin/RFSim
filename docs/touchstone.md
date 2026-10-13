@@ -1,14 +1,16 @@
 # Touchstone 数据接入
 
-读取 legacy `.sNp` 全矩阵 S 参数，RI/MA/DB 转换，Hz/kHz/MHz/GHz，行内注释、前导空白、矩阵续行及尾部缺省选项。统一参考电阻保存在 `reference_impedance_ohms`，不隐式重归一化。
+当前 C++17 已新增[有界 Touchstone 2.0 单端 S 导入](touchstone-two.md)，包括逐端口正实参考阻抗和独立噪声参考语义。下文保留 legacy 接口说明及历史验证记录；完整格式支持边界以新文档为准。
+
+读取 legacy `.sNp` 全矩阵 S 参数，RI/MA/DB 转换，Hz/kHz/MHz/GHz，行内注释、前导空白、矩阵续行及缺省选项类别（单独的 R 必须带正实数值）。统一参考电阻保存在 `reference_impedance_ohms`，不隐式重归一化。
 
 依据 [IBIS Touchstone 规范](https://www.ibis.org/touchstone_ver2.1/touchstone_ver2_1.pdf) 对旧版数据约定的说明，二端口 S11/S21/S12/S22 转为内部行优先存储，其余端口数使用行优先。
 
-输入必须有选项行、有限数值、正参考电阻和非负严格递增频率。不支持的参数类型/单位、重复头、残缺记录、非法扩展名及版本 2 关键字明确报错。读取器资源上限为 1024 端口，并非格式标准上限。
+输入必须有选项行、有限数值、正参考电阻和非负严格递增频率。不支持的参数类型/单位、重复头、残缺记录、非法扩展名及未声明 2.0 版本的关键字明确报错。读取器资源上限为 1024 端口，并非格式标准上限。
 
 测试包含非互易二端口传输方向、三端口续行顺序、75 欧姆参考、缺省 GHz/MA，以及 14 类非法输入；MSVC Debug/Release CTest 各 4/4 通过。
 
-尚未支持：Touchstone 2 元数据、逐端口参考阻抗。尚未执行 SystemVue 导出数据的差异验证；不宣称完整 Touchstone 兼容。
+现已支持有界 2.0 元数据和逐端口正实参考阻抗；混合模、非 S 数据及完整 Touchstone 支持仍不在范围内。尚未执行 SystemVue 导出数据的差异验证；不宣称完整 Touchstone 兼容。
 
 ## Legacy 二端口噪声段
 
@@ -42,7 +44,7 @@ Python 句柄支持 with、显式 close 及回收释放，关闭后访问报错�
 核心文件读取现在以 UTF-8 路径构造 C++17 filesystem 路径，支持 Windows 中文路径。
 
 s_parameters 仅返回 S 参数，内嵌噪声需显式调用下面的噪声接口。
-Touchstone 2、逐端口参考阻抗等原有边界仍然存在。
+C/Python 标量接口可读取共同参考的有界 2.0 文件；不等逐端口参考在 open 时明确拒绝，需使用原生 C++ 接口。
 
 2026-09-29 接口验证：MSVC Debug/Release 全套各 43/43，安装后的独立 C/C++ 消费者
 各 2/2；Python 36 项测试在安装后的 Release 动态库上通过。新增用例覆盖中文路径、

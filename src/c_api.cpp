@@ -2122,7 +2122,9 @@ int rfmodel_touchstone_open(const char *path_utf8, int out_of_band, rfmodel_touc
         require(path_utf8 && path_utf8[0] && (out_of_band == 0 || out_of_band == 1));
         const auto policy =
             out_of_band == 0 ? rfmodel::OutOfBand::Reject : rfmodel::OutOfBand::Clamp;
-        *out = new rfmodel_touchstone(rfmodel::read_touchstone(path_utf8), policy);
+        auto data = rfmodel::read_touchstone(path_utf8);
+        rfmodel::common_reference_impedance(data);
+        *out = new rfmodel_touchstone(std::move(data), policy);
     });
 }
 

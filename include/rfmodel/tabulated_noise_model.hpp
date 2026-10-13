@@ -2,6 +2,7 @@
 #include "tabulated_model.hpp"
 #include "noise_matrix.hpp"
 #include "noise_figure.hpp"
+#include "power_wave_reference.hpp"
 
 namespace rfmodel {
 struct NoiseTable {
@@ -58,6 +59,9 @@ public:
         if (data.noise_samples.empty()) {
             throw std::invalid_argument("Touchstone file contains no noise data");
         }
+        validate_s_data(data);
+        const auto references = effective_reference_impedances(data);
+        const std::vector<Complex> noise_references(data.ports, data.reference_impedance_ohms);
         NoiseTable noise;
         for (const auto &sample : data.noise_samples) {
             const auto scattering = interpolate_s(data, sample.frequency_hz, policy);
@@ -65,8 +69,20 @@ public:
                                                     sample.optimum_source_reflection,
                                                     sample.noise_resistance_ohms};
             noise.frequencies_hz.push_back(sample.frequency_hz);
-            noise.samples.push_back(noise_from_parameters(
-                scattering, parameters, data.reference_impedance_ohms, reference_temperature_k));
+            // Noise parameters retain the option-line reference, independent of [Reference].
+            // Build the covariance in those coordinates, then return it in the S table basis.
+            const auto noise_scattering =
+                references == noise_references
+                    ? scattering
+                    : renormalize_power_waves(scattering, references, noise_references).scattering;
+            const auto intrinsic = noise_from_parameters(noise_scattering,
+                                                         parameters,
+                                                         data.reference_impedance_ohms,
+                                                         reference_temperature_k);
+            noise.samples.push_back(
+                references == noise_references
+                    ? intrinsic
+                    : renormalize_noise(noise_scattering, intrinsic, noise_references, references));
         }
         return TabulatedNoiseModel(std::move(name), std::move(data), std::move(noise), policy);
     }

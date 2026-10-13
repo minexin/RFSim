@@ -16,6 +16,9 @@ public:
         if (name_.empty()) {
             throw std::invalid_argument("empty model name");
         }
+        if (policy != OutOfBand::Reject && policy != OutOfBand::Clamp) {
+            throw std::invalid_argument("invalid table range policy");
+        }
         validate_s_data(data_);
     }
 
@@ -37,7 +40,11 @@ public:
         if (index >= data_.ports) {
             throw std::out_of_range("model port index");
         }
-        return {index, "Port" + std::to_string(index + 1), {data_.reference_impedance_ohms, 0}};
+        return {index,
+                "Port" + std::to_string(index + 1),
+                {data_.reference_impedances_ohms.empty() ? data_.reference_impedance_ohms
+                                                         : data_.reference_impedances_ohms[index],
+                 0}};
     }
 
     SMatrix s_parameters(double frequency_hz) const override {
