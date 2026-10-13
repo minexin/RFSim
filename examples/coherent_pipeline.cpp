@@ -30,8 +30,8 @@ int main() {
 
         // One requested output. This ideal IF-only filter is constructed at
         // the actual incident frequencies (including bins with a zero wave).
-        const auto filtered =
-            pipeline.linear_network({{mixed, 0}}, {0, 1}, 1, [](double frequency_hz) {
+        const auto filtered = pipeline.linear_network(
+            {{mixed, 0}}, {0, 1}, 1, [spacing_hz = spacing_hz](double frequency_hz) {
                 const double transfer = frequency_hz == 2 * spacing_hz ? 1. : 0.;
                 LinearNetwork network(50.);
                 network.add({2, {0., transfer, transfer, 0.}});
