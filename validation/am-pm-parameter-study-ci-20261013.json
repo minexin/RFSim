@@ -1,0 +1,218 @@
+{
+  "schema_version": 1,
+  "run_id": 38396322394,
+  "run_url": "https://github.com/minexin/RFSim/actions/runs/38396322394",
+  "tested_commit": "a3ba6629ff4789da7b6cac31e7c2fe54a8b61acd",
+  "conclusion": "success",
+  "updated_at": "2026-10-13T12:23:55Z",
+  "job_count": 18,
+  "successful_job_count": 18,
+  "native_replay_ctest_per_job": "9/9 on each of the six platform/configuration jobs",
+  "native_replay_log_excerpts": [
+    {
+      "job_id": 115292345374,
+      "job_name": "Native archived replay / ubuntu-latest / Release",
+      "matching_log_lines": [
+        "2026-10-13T12:18:46.4743488Z     Start 11: native_diagnose_am_pm_parameter_study",
+        "2026-10-13T12:18:49.3639583Z 8/9 Test #11: native_diagnose_am_pm_parameter_study ...   Passed    2.89 sec",
+        "2026-10-13T12:18:55.6150536Z 100% tests passed, 0 tests failed out of 9"
+      ]
+    },
+    {
+      "job_id": 115292345407,
+      "job_name": "Native archived replay / macos-latest / Debug",
+      "matching_log_lines": [
+        "2026-10-13T12:19:19.3187040Z     Start 11: native_diagnose_am_pm_parameter_study",
+        "2026-10-13T12:19:38.9211420Z 8/9 Test #11: native_diagnose_am_pm_parameter_study ...   Passed   19.60 sec",
+        "2026-10-13T12:20:02.3868480Z 100% tests passed out of 9"
+      ]
+    },
+    {
+      "job_id": 115292345466,
+      "job_name": "Native archived replay / windows-latest / Debug",
+      "matching_log_lines": [
+        "2026-10-13T12:19:26.4030134Z     Start 11: native_diagnose_am_pm_parameter_study",
+        "2026-10-13T12:19:39.0872139Z 8/9 Test #11: native_diagnose_am_pm_parameter_study ...   Passed   12.68 sec",
+        "2026-10-13T12:20:01.0788240Z 100% tests passed out of 9"
+      ]
+    },
+    {
+      "job_id": 115292345660,
+      "job_name": "Native archived replay / macos-latest / Release",
+      "matching_log_lines": [
+        "2026-10-13T12:19:15.9375130Z     Start 11: native_diagnose_am_pm_parameter_study",
+        "2026-10-13T12:19:32.1899820Z 8/9 Test #11: native_diagnose_am_pm_parameter_study ...   Passed   16.25 sec",
+        "2026-10-13T12:19:52.2690350Z 100% tests passed out of 9"
+      ]
+    },
+    {
+      "job_id": 115292345680,
+      "job_name": "Native archived replay / windows-latest / Release",
+      "matching_log_lines": [
+        "2026-10-13T12:19:26.1876933Z     Start 11: native_diagnose_am_pm_parameter_study",
+        "2026-10-13T12:19:39.1551447Z 8/9 Test #11: native_diagnose_am_pm_parameter_study ...   Passed   12.97 sec",
+        "2026-10-13T12:20:00.9391286Z 100% tests passed out of 9"
+      ]
+    },
+    {
+      "job_id": 115292345993,
+      "job_name": "Native archived replay / ubuntu-latest / Debug",
+      "matching_log_lines": [
+        "2026-10-13T12:18:58.5885499Z     Start 11: native_diagnose_am_pm_parameter_study",
+        "2026-10-13T12:19:03.5294398Z 8/9 Test #11: native_diagnose_am_pm_parameter_study ...   Passed    4.94 sec",
+        "2026-10-13T12:19:12.5669092Z 100% tests passed, 0 tests failed out of 9"
+      ]
+    }
+  ],
+  "verification_scope": "GitHub run and all 18 job statuses were fetched through the connected GitHub API. No new SystemVue analyses were performed in CI. Remote replay uses committed normalized observations; local original capture files are not available on CI.",
+  "post_test_changes": "44b2dd5 only adds CRLF-aware whitespace checking for frozen evidence; this completion record and documentation do not change the tested implementation.",
+  "jobs": [
+    {
+      "id": 115292345258,
+      "name": "C++ SDK / macos-latest / Debug",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 38396322394
+    },
+    {
+      "id": 115292345305,
+      "name": "C++ SDK / windows-latest / Debug",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 38396322394
+    },
+    {
+      "id": 115292345374,
+      "name": "Native archived replay / ubuntu-latest / Release",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 38396322394
+    },
+    {
+      "id": 115292345388,
+      "name": "C++ SDK / ubuntu-latest / Release",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 38396322394
+    },
+    {
+      "id": 115292345407,
+      "name": "Native archived replay / macos-latest / Debug",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 38396322394
+    },
+    {
+      "id": 115292345410,
+      "name": "build (macos-latest, Debug)",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 38396322394
+    },
+    {
+      "id": 115292345411,
+      "name": "C++ SDK / windows-latest / Release",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 38396322394
+    },
+    {
+      "id": 115292345440,
+      "name": "C++ SDK / macos-latest / Release",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 38396322394
+    },
+    {
+      "id": 115292345455,
+      "name": "build (ubuntu-latest, Debug)",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 38396322394
+    },
+    {
+      "id": 115292345466,
+      "name": "Native archived replay / windows-latest / Debug",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 38396322394
+    },
+    {
+      "id": 115292345471,
+      "name": "build (windows-latest, Debug)",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 38396322394
+    },
+    {
+      "id": 115292345492,
+      "name": "build (ubuntu-latest, Release)",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 38396322394
+    },
+    {
+      "id": 115292345523,
+      "name": "C++ SDK / ubuntu-latest / Debug",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 38396322394
+    },
+    {
+      "id": 115292345660,
+      "name": "Native archived replay / macos-latest / Release",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 38396322394
+    },
+    {
+      "id": 115292345680,
+      "name": "Native archived replay / windows-latest / Release",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 38396322394
+    },
+    {
+      "id": 115292345808,
+      "name": "build (windows-latest, Release)",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 38396322394
+    },
+    {
+      "id": 115292345911,
+      "name": "build (macos-latest, Release)",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 38396322394
+    },
+    {
+      "id": 115292345993,
+      "name": "Native archived replay / ubuntu-latest / Debug",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 38396322394
+    }
+  ],
+  "local_post_byte_guard_verification": {
+    "Debug": {
+      "source_revision": "44b2dd5b4616c7f50145bcfa65d6afde8ec9a43d",
+      "build_id": "6e26b411409bf414c6a528e436660d3c7d0c0177bf954cd8358e42d6ddb23b5d",
+      "ctest_passed": 2,
+      "ctest_total": 2,
+      "parameter_study_unittests": 7,
+      "ctest_log_sha256": "b0f4830dd9c3a24a30b6859966b0720dff9e36a04ebde5fa83fcb194641051b5",
+      "build_log_sha256": "320e82476855f716339bcb19bca66506a4fda52a06660b99c27dddd0cb715fb4"
+    },
+    "Release": {
+      "source_revision": "44b2dd5b4616c7f50145bcfa65d6afde8ec9a43d",
+      "build_id": "3c399130ea76b36212a3b1a26aafcc6008b83fa651b0041104a975a045393154",
+      "ctest_passed": 2,
+      "ctest_total": 2,
+      "parameter_study_unittests": 7,
+      "ctest_log_sha256": "e04e9821fca4ce5db254b45c2e27096a11c2de4b89667d37d6877877d5f3464b",
+      "build_log_sha256": "cb460879f0714936a472d06c87f3c5f6b8f68cf90cc342a2275342d31fe362ba"
+    }
+  },
+  "final_git_local_hash_chain_verified": true
+}
