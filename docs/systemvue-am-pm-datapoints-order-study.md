@@ -55,4 +55,6 @@
 
 报告命令为 `python -I -S scripts/reference/report-am-pm-datapoints-order-study.py validation/am-pm-datapoints-order-plan-20261014.json validation/am-pm-datapoints-order-observations-20261014.json <新的输出路径> --capture-manifest validation/am-pm-datapoints-order-captures-20261014.json`；本地原始证据完整时添加 `--raw-root .`。成功退出表示采集链及两组零点基线、重复扫描门控通过；预测失败和普通配对差异完整保留为描述结果，不作为兼容通过依据。
 
-完整工程验证结果在完成后另行记录。两种固定次序只能检查这些离散目标在本次单进程条件下的一致性，不能独立区分顺序、时间漂移与内部状态，也不能证明连续或对称的零相位区间、精确阈值、多节点任意表、强压缩、多音或其他频率行为。本轮不改变产品公式或兼容验收状态。
+[本地工程验证](../validation/am-pm-datapoints-order-validation-20261014.json)绑定提交 `083d64b`：Windows/MSVC Debug、Release 全目标构建通过，各自 CTest **140/140**，其中安装后 SDK 隔离协议回放各 **33/33**。本轮制备、评分、归档、报告四组测试分别为 **10/10、16/16、49/49、7/7**，实际 Ubuntu 离线执行也通过全部 **82 项**。本轮没有改动 C++ 头文件或 ABI，使用增量构建；没有声称 clean-first 重建或已完成远程 CI。证据 JSON 已设置 Git 字节保护，避免平台换行转换改变冻结哈希。
+
+两种固定次序只能检查这些离散目标在本次单进程条件下的一致性，不能独立区分顺序、时间漂移与内部状态，也不能证明连续或对称的零相位区间、精确阈值、多节点任意表、强压缩、多音或其他频率行为。本轮不改变产品公式或兼容验收状态。
