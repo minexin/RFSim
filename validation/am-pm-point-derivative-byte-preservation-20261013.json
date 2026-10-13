@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "created_utc": "2026-10-13T11:52:06.022921+00:00",
+  "prior_amendment": "validation/am-pm-point-derivative-amendment-20261013.json",
+  "prior_amendment_sha256": "a45498fb465173f9272535bd7d2021635afacd63574f2ecc178f56f671b326d6",
+  "reason": "The XML-reserialized copy produced a delayed Unexpected MATLAB operator diagnostic in its existing DiffPhase equation after loading. No profile RunAnalysis was reached. Preserve original byte representation outside the 14 field values instead of using a generic XML serializer. This is a capture-procedure change, not a scientific hypothesis change.",
+  "analysis_calls_to_date": {
+    "baseline": 1,
+    "profiles": 0
+  },
+  "v2_failed_preanalysis_status_sha256": "254aea701d918009a668681a49f39feea26993e285f94503b4d0668787e30852",
+  "v3_manifest_sha256": "b8d7f3557cb3a4bc6d4be713c63f75d1c8fa5b78b194c1968da62f90052e5309",
+  "v3_prepare_helper_sha256": "0a984d8f30f9342d8cdf410d149e0ee59120410ff93f11c591cf0d16d902f876",
+  "v3_capture_helper_sha256": "4a5e1ff6cee5722a7edd49d55a9a44ba21bc87054943b9fac3cc0f41f2bec017",
+  "supervisor_sha256": "52398d5e31b3e8238ee2dfd0790aada7b3eeaca7031f9492b1ec519d6387199b",
+  "unchanged": "All registered parameters, predictions, scoring rules, tolerance, hypotheses, and analysis budget."
+}
