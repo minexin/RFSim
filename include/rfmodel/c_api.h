@@ -603,6 +603,88 @@ RFMODEL_API int rfmodel_conversion_network_analyze_affine(
     const rfmodel_conversion_output *output,
     const rfmodel_conversion_loaded_output *loaded);
 
+/* Explicit fixed-pump power-wave coordinates. One descriptor per device, each
+ * with count equal to that device's channel count. Values are finite with
+ * positive real part; DC references must be real. No NULL/scalar fallback.
+ * These entries ignore request.reference_ohms; A/B, sources, offsets and all C/P
+ * are already in the supplied local coordinates. They do not solve an LO or
+ * nonlinear operating point. Existing scalar-reference entry points are unchanged. */
+typedef struct rfmodel_conversion_references {
+    size_t count;
+    const rfmodel_complex *values;
+} rfmodel_conversion_references;
+
+/* Offset, additional source C/P and loaded statistics are independently optional.
+ * Network output order is device order then local channel order. Physical wires
+ * preserve voltage/current across unequal references. All declared output ranges
+ * must be disjoint from each other and every input/descriptor, including every
+ * reference vector. Failure preserves every output; successful writes leave tails. */
+RFMODEL_API int rfmodel_conversion_network_analyze_power_waves(
+    const rfmodel_conversion_request *devices,
+    size_t device_count,
+    const rfmodel_conversion_connection *connections,
+    size_t connection_count,
+    const rfmodel_conversion_references *references,
+    const rfmodel_conversion_affine_offset *offset,
+    const rfmodel_conversion_source_noise *additional_source_noise,
+    const rfmodel_conversion_output *output,
+    const rfmodel_conversion_loaded_output *loaded);
+
+RFMODEL_API int rfmodel_conversion_analyze_power_waves(
+    const rfmodel_conversion_request *request,
+    const rfmodel_conversion_references *references,
+    const rfmodel_conversion_affine_offset *offset,
+    const rfmodel_conversion_source_noise *additional_source_noise,
+    const rfmodel_conversion_output *output,
+    const rfmodel_conversion_loaded_output *loaded);
+
+/* Renormalized model, offset and intrinsic noise. All pointers are required;
+ * matrices require count*count capacity, offset requires count capacity.
+ * noise_direct/noise_conjugate map old emitted waves c to U*c+V*conj(c).
+ * Source/load boundary data is unchanged by this function; transform it separately
+ * with rfmodel_conversion_renormalize_boundary_power_waves. NULL offset means zero.
+ * The same failure-atomic/full-capacity non-overlap rules apply to both helpers. */
+typedef struct rfmodel_conversion_renormalization_output {
+    rfmodel_complex *direct;
+    rfmodel_complex *conjugate;
+    rfmodel_complex *noise_direct;
+    rfmodel_complex *noise_conjugate;
+    rfmodel_complex *offset;
+    rfmodel_complex *intrinsic_covariance;
+    rfmodel_complex *intrinsic_complementary;
+    size_t wave_capacity;
+    size_t matrix_capacity;
+} rfmodel_conversion_renormalization_output;
+
+RFMODEL_API int
+rfmodel_conversion_renormalize_power_waves(const rfmodel_conversion_request *request,
+                                           const rfmodel_conversion_references *old_references,
+                                           const rfmodel_conversion_references *new_references,
+                                           const rfmodel_conversion_affine_offset *offset,
+                                           const rfmodel_conversion_renormalization_output *output);
+
+typedef struct rfmodel_conversion_boundary_output {
+    rfmodel_complex *source;
+    rfmodel_complex *reflection;
+    rfmodel_complex *source_covariance;
+    rfmodel_complex *source_complementary;
+    size_t wave_capacity;
+    size_t matrix_capacity;
+} rfmodel_conversion_boundary_output;
+
+/* External channels are unique local indices; NULL is accepted only with count=0.
+ * Unselected boundary source/reflection and C/P rows/columns must be exactly zero
+ * and remain zero. Preserves full selected-channel C/P correlations. Additional
+ * cross-device source C/P must also be transformed in global coordinates by the
+ * caller; this helper never discards or transforms a separate global noise block. */
+RFMODEL_API int rfmodel_conversion_renormalize_boundary_power_waves(
+    const rfmodel_conversion_request *request,
+    const rfmodel_conversion_references *old_references,
+    const rfmodel_conversion_references *new_references,
+    const size_t *external_channels,
+    size_t external_count,
+    const rfmodel_conversion_boundary_output *output);
+
 /* Fixed-coefficient bilinear mixer: k=10^(gain_db/20)/lo_reference_amplitude.
  * The LO reference is positive in sqrt(W); actual LO waves may be zero/multitone/DC. */
 typedef struct rfmodel_bilinear_mixer_parameters {
@@ -776,6 +858,17 @@ rfmodel_conversion_network_noise_analysis(const rfmodel_conversion_request *devi
                                           size_t connection_count,
                                           const rfmodel_conversion_noise_request *request,
                                           rfmodel_conversion_noise_result *output);
+
+/* Explicit-vector equivalent of the same fixed-pump reference-temperature
+ * experiment, with one mandatory reference descriptor per device. */
+RFMODEL_API int rfmodel_conversion_network_noise_analysis_power_waves(
+    const rfmodel_conversion_request *devices,
+    size_t device_count,
+    const rfmodel_conversion_connection *connections,
+    size_t connection_count,
+    const rfmodel_conversion_references *references,
+    const rfmodel_conversion_noise_request *request,
+    rfmodel_conversion_noise_result *output);
 
 /* Real mixer y=2*g*x*cos(LO*t+phase). Every generated IF bin must be present.
  * A/B output capacities are N*N complex elements. Outputs must be disjoint from

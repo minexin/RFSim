@@ -1,0 +1,205 @@
+{
+  "format": "rfmodel.conversion-network",
+  "version": 1,
+  "spacing_hz": 100000000.0,
+  "reference_ohms": 50,
+  "devices": [
+    {
+      "id": "mixer",
+      "channels": [
+        {
+          "port": 0,
+          "bin": 8
+        },
+        {
+          "port": 1,
+          "bin": 2
+        },
+        {
+          "port": 1,
+          "bin": 18
+        }
+      ],
+      "model": {
+        "type": "ideal_real_mixer",
+        "lo_bin": 10,
+        "phase_radians": 0.4
+      },
+      "reference_impedances_ohms": [
+        [
+          31.0,
+          12.0
+        ],
+        [
+          73.0,
+          -21.0
+        ],
+        [
+          19.0,
+          8.0
+        ]
+      ],
+      "noise": {
+        "noiseless": true
+      },
+      "source_noise": {
+        "covariance": [
+          [
+            [
+              9.24683072334079e-21,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ]
+          ],
+          [
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ]
+          ],
+          [
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "id": "resistor",
+      "bins": [
+        2,
+        18
+      ],
+      "model": {
+        "type": "linear",
+        "device": {
+          "type": "resistor",
+          "connection": "series",
+          "resistance_ohms": 25
+        }
+      },
+      "reference_impedances_ohms": [
+        [
+          110.0,
+          31.0
+        ],
+        [
+          43.0,
+          -12.0
+        ],
+        [
+          22.0,
+          7.0
+        ],
+        [
+          91.0,
+          -18.0
+        ]
+      ],
+      "noise": {
+        "temperature_k": 290
+      }
+    }
+  ],
+  "connections": [
+    [
+      [
+        "mixer",
+        1
+      ],
+      [
+        "resistor",
+        0
+      ]
+    ]
+  ],
+  "boundaries": [
+    {
+      "channel": [
+        "mixer",
+        0,
+        8
+      ],
+      "source": [
+        0.00880761507160158,
+        0.006165330550121105
+      ],
+      "reflection": [
+        0.251006711409396,
+        -0.11096196868008949
+      ]
+    },
+    {
+      "channel": [
+        "resistor",
+        1,
+        2
+      ],
+      "reflection": [
+        0.09041282838621631,
+        0.11736608665984306
+      ]
+    },
+    {
+      "channel": [
+        "resistor",
+        1,
+        18
+      ],
+      "reflection": [
+        -0.27008166295471414,
+        0.16213808463251672
+      ]
+    }
+  ],
+  "loaded_noise": true,
+  "noise_analyses": [
+    {
+      "name": "lower_sideband",
+      "reference_channels": [
+        [
+          "mixer",
+          0,
+          8
+        ]
+      ],
+      "thermal_channels": [
+        [
+          "mixer",
+          0,
+          8
+        ]
+      ],
+      "output_channel": [
+        "resistor",
+        1,
+        2
+      ]
+    }
+  ]
+}

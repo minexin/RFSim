@@ -222,13 +222,24 @@ renormalize_conversion_boundary(const FrequencyConversionModel &model,
         }
         const auto coordinates =
             power_wave_detail::coordinates(model.reference_impedances_ohms()[i], new_references[i]);
-        const auto denominator =
-            coordinates.outgoing_from_incident * reflection[i] + coordinates.outgoing_from_outgoing;
-        if (denominator == Complex{}) {
-            throw std::domain_error("singular conversion boundary reference change");
-        }
+        const auto reflected = coordinates.outgoing_from_incident * reflection[i];
+        const auto outgoing = coordinates.outgoing_from_outgoing;
+        const auto denominator = reflected + outgoing;
         if (!conversion_detail::finite(denominator)) {
             throw std::overflow_error("conversion boundary reference denominator overflow");
+        }
+        // Reject cancellation relative to the two terms, not an absolute floor:
+        // exact physical poles can leave a nonzero rounding residual. Scale
+        // components before taking norms so this check cannot overflow.
+        const double term_scale = std::max({std::abs(reflected.real()),
+                                            std::abs(reflected.imag()),
+                                            std::abs(outgoing.real()),
+                                            std::abs(outgoing.imag())});
+        if (term_scale == 0. ||
+            std::abs(denominator / term_scale) <=
+                64. * std::numeric_limits<double>::epsilon() *
+                    (std::abs(reflected / term_scale) + std::abs(outgoing / term_scale))) {
+            throw std::domain_error("singular conversion boundary reference change");
         }
         result.reflection[i] = (coordinates.incident_from_incident * reflection[i] +
                                 coordinates.incident_from_outgoing) /

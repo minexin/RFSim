@@ -304,6 +304,60 @@ class ConversionNoiseAnalysis(NamedTuple):
     equivalent_input_temperature_k: float
 
 
+class ConversionPowerWaveResult(NamedTuple):
+    """Fixed-pump result with actual references in device/channel order."""
+
+    incident: tuple
+    outgoing: tuple
+    noise_covariance: tuple
+    noise_complementary: tuple
+    relative_residual: float
+    reference_impedances_ohms: tuple
+
+
+class ConversionPowerWaveLoadedResult(NamedTuple):
+    incident: tuple
+    outgoing: tuple
+    noise_covariance: tuple
+    noise_complementary: tuple
+    relative_residual: float
+    incident_noise_covariance: tuple
+    incident_noise_complementary: tuple
+    incident_outgoing_noise_covariance: tuple
+    incident_outgoing_noise_complementary: tuple
+    net_noise_into_device_w_per_hz: tuple
+    reference_impedances_ohms: tuple
+
+
+class ConversionPowerWaveNoiseAnalysis(NamedTuple):
+    reference_gain: float
+    reference_output_noise_w_per_hz: float
+    output_noise_w_per_hz: float
+    noise_factor: float
+    noise_figure_db: float
+    equivalent_input_temperature_k: float
+    reference_impedances_ohms: tuple
+
+
+class ConversionPowerWaveRenormalization(NamedTuple):
+    direct: tuple
+    conjugate: tuple
+    noise_direct: tuple
+    noise_conjugate: tuple
+    output_offset: tuple
+    intrinsic_covariance: tuple
+    intrinsic_complementary: tuple
+    reference_impedances_ohms: tuple
+
+
+class ConversionPowerWaveBoundary(NamedTuple):
+    source: tuple
+    reflection: tuple
+    source_covariance: tuple
+    source_complementary: tuple
+    reference_impedances_ohms: tuple
+
+
 class ConversionOperatingResult(NamedTuple):
     waves: object
     iterations: int
@@ -804,6 +858,33 @@ class _ConversionRequest(ct.Structure):
         ("intrinsic_covariance", ct.POINTER(_Complex)),
         ("intrinsic_complementary", ct.POINTER(_Complex)),
     ]
+
+
+class _ConversionReferences(ct.Structure):
+    _fields_ = [("count", ct.c_size_t), ("values", ct.POINTER(_Complex))]
+
+
+class _ConversionRenormalizationOutput(ct.Structure):
+    _fields_ = [
+        (name, ct.POINTER(_Complex))
+        for name in ("direct", "conjugate", "noise_direct", "noise_conjugate", "offset",
+                     "intrinsic_covariance", "intrinsic_complementary")
+    ] + [("wave_capacity", ct.c_size_t), ("matrix_capacity", ct.c_size_t)]
+
+
+class _ConversionBoundaryOutput(ct.Structure):
+    _fields_ = [
+        (name, ct.POINTER(_Complex))
+        for name in ("source", "reflection", "source_covariance", "source_complementary")
+    ] + [("wave_capacity", ct.c_size_t), ("matrix_capacity", ct.c_size_t)]
+
+
+def _conversion_references(values, count):
+    values = tuple(complex(value) for value in values)
+    if len(values) != count:
+        raise ValueError("One reference impedance is required per conversion channel")
+    native = (_Complex * count)(*(_Complex.from_value(value) for value in values))
+    return _ConversionReferences(count, native), native, values
 
 
 class _ConversionConnection(ct.Structure):
@@ -1322,6 +1403,37 @@ class Library:
                     ct.POINTER(_ConversionNoiseRequest),
                     ct.POINTER(_ConversionNoiseResult),
                 ],
+            ),
+            "rfmodel_conversion_network_noise_analysis_power_waves": (
+                ct.c_int,
+                [ct.POINTER(_ConversionRequest), size, ct.POINTER(_ConversionConnection),
+                 size, ct.POINTER(_ConversionReferences), ct.POINTER(_ConversionNoiseRequest),
+                 ct.POINTER(_ConversionNoiseResult)],
+            ),
+            "rfmodel_conversion_network_analyze_power_waves": (
+                ct.c_int,
+                [ct.POINTER(_ConversionRequest), size, ct.POINTER(_ConversionConnection),
+                 size, ct.POINTER(_ConversionReferences), ct.POINTER(_ConversionAffineOffset),
+                 ct.POINTER(_ConversionSourceNoise), ct.POINTER(_ConversionOutput),
+                 ct.POINTER(_ConversionLoadedOutput)],
+            ),
+            "rfmodel_conversion_analyze_power_waves": (
+                ct.c_int,
+                [ct.POINTER(_ConversionRequest), ct.POINTER(_ConversionReferences),
+                 ct.POINTER(_ConversionAffineOffset), ct.POINTER(_ConversionSourceNoise),
+                 ct.POINTER(_ConversionOutput), ct.POINTER(_ConversionLoadedOutput)],
+            ),
+            "rfmodel_conversion_renormalize_power_waves": (
+                ct.c_int,
+                [ct.POINTER(_ConversionRequest), ct.POINTER(_ConversionReferences),
+                 ct.POINTER(_ConversionReferences), ct.POINTER(_ConversionAffineOffset),
+                 ct.POINTER(_ConversionRenormalizationOutput)],
+            ),
+            "rfmodel_conversion_renormalize_boundary_power_waves": (
+                ct.c_int,
+                [ct.POINTER(_ConversionRequest), ct.POINTER(_ConversionReferences),
+                 ct.POINTER(_ConversionReferences), ct.POINTER(size), size,
+                 ct.POINTER(_ConversionBoundaryOutput)],
             ),
             "rfmodel_conversion_network_analyze_loaded": (
                 ct.c_int,
@@ -2481,7 +2593,8 @@ class Library:
         devices = tuple(devices)
         if not 1 <= len(devices) <= 512:
             raise ValueError("Expected 1..512 conversion devices")
-        requests, keepers = [], []
+        requests, keepers, references, actual_references = [], [], [], []
+        explicit_references = False
         total = 0
         for device in devices:
             required = {"channels", "direct"}
@@ -2493,6 +2606,7 @@ class Library:
                 "source_complementary",
                 "intrinsic_covariance",
                 "intrinsic_complementary",
+                "reference_impedances_ohms",
             }
             if (
                 not isinstance(device, dict)
@@ -2538,7 +2652,14 @@ class Library:
                     count, float(spacing_hz), float(reference_ohms), ports, bins, *arrays
                 )
             )
-            keepers.append((ports, bins, arrays))
+            local_references = device.get("reference_impedances_ohms")
+            explicit_references = explicit_references or local_references is not None
+            reference, native_reference, values = _conversion_references(
+                (reference_ohms,) * count if local_references is None else local_references, count
+            )
+            references.append(reference)
+            actual_references.extend(values)
+            keepers.append((ports, bins, arrays, native_reference))
         pairs = []
         for first, second in connections:
             first_device, first_port = first
@@ -2555,7 +2676,11 @@ class Library:
             raise ValueError("Too many conversion connections")
         native_requests = (_ConversionRequest * len(requests))(*requests)
         native_connections = (_ConversionConnection * len(pairs))(*pairs)
-        return native_requests, native_connections, total, keepers
+        native_references = (
+            (_ConversionReferences * len(references))(*references) if explicit_references else None
+        )
+        return (native_requests, native_connections, total, keepers, native_references,
+                tuple(actual_references))
 
     def conversion_noise_analysis(
         self,
@@ -2574,7 +2699,7 @@ class Library:
         Replaces sources and source noise; retains intrinsic noise and reflections.
         Channel indices follow device/channel order. Output load is noiseless.
         """
-        requests, wires, total, keepers = self._conversion_network_inputs(
+        requests, wires, total, keepers, references, actual = self._conversion_network_inputs(
             spacing_hz, devices, connections, reference_ohms
         )
         reference_channels = tuple(_index(i) for i in reference_channels)
@@ -2592,14 +2717,17 @@ class Library:
             float(reference_temperature_k),
         )
         output = _ConversionNoiseResult()
-        self._check(
-            self._dll.rfmodel_conversion_network_noise_analysis(
-                requests, len(requests), wires, len(wires), ct.byref(request), ct.byref(output)
-            )
-        )
-        return ConversionNoiseAnalysis(
-            *(getattr(output, name) for name in ConversionNoiseAnalysis._fields)
-        )
+        arguments = (requests, len(requests), wires, len(wires))
+        if references is None:
+            analyze = self._dll.rfmodel_conversion_network_noise_analysis
+        else:
+            analyze = self._dll.rfmodel_conversion_network_noise_analysis_power_waves
+            arguments += (references,)
+        self._check(analyze(*arguments, ct.byref(request), ct.byref(output)))
+        values = tuple(getattr(output, name) for name in ConversionNoiseAnalysis._fields)
+        if references is not None:
+            return ConversionPowerWaveNoiseAnalysis(*values, actual)
+        return ConversionNoiseAnalysis(*values)
 
     def plan_conversion_frequencies(self, spacing_hz, devices, connections=(), *,
                                     max_total_channels=512, max_bin=2147483647,
@@ -3081,12 +3209,20 @@ class Library:
         output_offset=None,
         operating_point=None,
     ):
-        """Connect physical ports of conversion devices; output order is device/channel order."""
+        """Connect physical ports; outputs use device/channel order.
+
+        A device's optional reference_impedances_ohms declares its existing local
+        coordinates for A/B, sources and C/P. Omitted references use reference_ohms.
+        Explicit vectors are supported only for fixed-pump analysis.
+        """
         if type(loaded_noise) is not bool:
             raise TypeError("loaded_noise must be bool")
-        native_requests, native_connections, total, keepers = self._conversion_network_inputs(
-            spacing_hz, devices, connections, reference_ohms
-        )
+        (native_requests, native_connections, total, keepers,
+         references, actual_references) = self._conversion_network_inputs(
+             spacing_hz, devices, connections, reference_ohms
+         )
+        if operating_point is not None and references is not None:
+            raise ValueError("Automatic nonlinear operating points require a common real reference")
         incident, outgoing = (_Complex * total)(), (_Complex * total)()
         covariance, complementary = (_Complex * (total * total))(), (_Complex * (total * total))()
         residual = ct.c_double()
@@ -3125,7 +3261,17 @@ class Library:
             native_offset = (_Complex * total)(*(_Complex.from_value(v) for v in output_offset))
             affine = _ConversionAffineOffset(total, native_offset)
         diagnostics = None
-        if operating_point is not None:
+        if references is not None:
+            self._check(
+                self._dll.rfmodel_conversion_network_analyze_power_waves(
+                    native_requests, len(native_requests), native_connections,
+                    len(native_connections), references,
+                    ct.byref(affine) if affine is not None else None,
+                    ct.byref(extra) if extra is not None else None,
+                    ct.byref(output), ct.byref(loaded) if loaded_noise else None,
+                )
+            )
+        elif operating_point is not None:
             options, mixers, initial, models, parameters, phases = _operating_inputs(
                 operating_point, total
             )
@@ -3215,6 +3361,9 @@ class Library:
             ordinary = ConversionLoadedResult(
                 *ordinary, *(_rows(matrix, total) for matrix in matrices), tuple(net)
             )
+        if references is not None:
+            result_type = ConversionPowerWaveLoadedResult if loaded_noise else ConversionPowerWaveResult
+            ordinary = result_type(*ordinary, actual_references)
         if diagnostics is not None:
             return ConversionOperatingResult(
                 ordinary,
@@ -3238,12 +3387,17 @@ class Library:
         intrinsic_covariance=None,
         intrinsic_complementary=None,
         reference_ohms=50.0,
+        reference_impedances_ohms=None,
         output_offset=None,
     ):
-        """Solve b=A*a+B*conj(a)+c and a=Gamma*b+source, including C/P noise."""
+        """Solve b=A*a+B*conj(a)+c and a=Gamma*b+source, including C/P noise.
+
+        Optional per-channel references declare the coordinates of every input;
+        they do not renormalize matrices or preserve an old source/load implicitly.
+        """
         if direct is None:
             raise ValueError("Conversion direct matrix is required")
-        if output_offset is not None:
+        if output_offset is not None or reference_impedances_ohms is not None:
             device = dict(
                 channels=channels,
                 direct=direct,
@@ -3254,6 +3408,7 @@ class Library:
                 source_complementary=source_complementary,
                 intrinsic_covariance=intrinsic_covariance,
                 intrinsic_complementary=intrinsic_complementary,
+                reference_impedances_ohms=reference_impedances_ohms,
             )
             return self.conversion_network(
                 spacing_hz, [device], reference_ohms=reference_ohms, output_offset=output_offset
@@ -3308,6 +3463,89 @@ class Library:
             _rows(covariance, count),
             _rows(complementary, count),
             residual.value,
+        )
+
+    def renormalize_conversion_power_waves(
+        self, spacing_hz, channels, direct, old_references, new_references, conjugate=None,
+        *, output_offset=None, intrinsic_covariance=None, intrinsic_complementary=None,
+    ):
+        """Jointly transform fixed-pump A/B, emitted offset and complete intrinsic C/P.
+
+        Both reference vectors are in channel order. Returned noise_direct and
+        noise_conjugate map an old emitted wave c to U*c+V*conj(c). Sources and
+        loads require the separate renormalize_conversion_boundary helper.
+        """
+        device = dict(
+            channels=channels, direct=direct, conjugate=conjugate,
+            reference_impedances_ohms=old_references,
+            intrinsic_covariance=intrinsic_covariance,
+            intrinsic_complementary=intrinsic_complementary,
+        )
+        requests, wires, count, keepers, old, actual = self._conversion_network_inputs(
+            spacing_hz, [device], (), 50.0
+        )
+        if old is None:
+            raise ValueError("Old reference impedances must be an explicit channel vector")
+        new, new_values, actual_new = _conversion_references(new_references, count)
+        affine = None
+        if output_offset is not None:
+            values = tuple(output_offset)
+            if len(values) != count:
+                raise ValueError("Conversion output offset dimensions differ")
+            native_offset = (_Complex * count)(*(_Complex.from_value(v) for v in values))
+            affine = _ConversionAffineOffset(count, native_offset)
+        matrices = [(_Complex * (count * count))() for _ in range(6)]
+        offset = (_Complex * count)()
+        output = _ConversionRenormalizationOutput(
+            *matrices[:4], offset, *matrices[4:], count, count * count
+        )
+        self._check(self._dll.rfmodel_conversion_renormalize_power_waves(
+            requests, old, ct.byref(new), ct.byref(affine) if affine is not None else None,
+            ct.byref(output),
+        ))
+        return ConversionPowerWaveRenormalization(
+            *(_rows(matrix, count) for matrix in matrices[:4]),
+            tuple(value.value() for value in offset),
+            *(_rows(matrix, count) for matrix in matrices[4:]), actual_new,
+        )
+
+    def renormalize_conversion_boundary(
+        self, spacing_hz, channels, old_references, new_references, *, external_channels,
+        source=None, reflection=None, source_covariance=None, source_complementary=None,
+    ):
+        """Preserve physical source/load boundaries and complete source C/P.
+
+        external_channels contains unique local channel indices. Unselected
+        source/reflection and C/P rows and columns must be zero and remain zero.
+        Transform cross-device additional source noise jointly in global coordinates.
+        """
+        channels = tuple(channels)
+        if not 1 <= len(channels) <= 512:
+            raise ValueError("Conversion requires 1..512 channels")
+        device = dict(
+            channels=channels, direct=[[0] * len(channels) for _ in channels],
+            reference_impedances_ohms=old_references, source=source, reflection=reflection,
+            source_covariance=source_covariance, source_complementary=source_complementary,
+        )
+        requests, wires, count, keepers, old, actual = self._conversion_network_inputs(
+            spacing_hz, [device], (), 50.0
+        )
+        if old is None:
+            raise ValueError("Old reference impedances must be an explicit channel vector")
+        new, new_values, actual_new = _conversion_references(new_references, count)
+        external = tuple(_index(value) for value in external_channels)
+        if len(external) > count:
+            raise ValueError("Too many external conversion channels")
+        native_external = (ct.c_size_t * len(external))(*external)
+        waves = [(_Complex * count)() for _ in range(2)]
+        matrices = [(_Complex * (count * count))() for _ in range(2)]
+        output = _ConversionBoundaryOutput(*waves, *matrices, count, count * count)
+        self._check(self._dll.rfmodel_conversion_renormalize_boundary_power_waves(
+            requests, old, ct.byref(new), native_external, len(native_external), ct.byref(output),
+        ))
+        return ConversionPowerWaveBoundary(
+            *(tuple(value.value() for value in wave) for wave in waves),
+            *(_rows(matrix, count) for matrix in matrices), actual_new,
         )
 
     def butterworth_filter(

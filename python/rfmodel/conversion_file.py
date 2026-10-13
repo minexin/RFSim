@@ -9,6 +9,7 @@ def analyze_conversion(library, document, base_directory=None):
         ("format", "version", "spacing_hz", "channels", "model"),
         (
             "reference_ohms",
+            "reference_impedances_ohms",
             "source",
             "reflection",
             "source_noise",
@@ -33,6 +34,9 @@ def analyze_conversion(library, document, base_directory=None):
         if type(entry["port"]) is not int or type(entry["bin"]) is not int:
             raise ValueError("Conversion channel indices must be integers")
         channels.append((entry["port"], entry["bin"]))
+    if spacing <= 0 or reference <= 0:
+        raise ValueError("Conversion spacing and reference must be positive")
+    references = conversion_references(document, channels)
     direct, conjugate = conversion_matrices(
         library, spacing, channels, document["model"], reference
     )
@@ -50,6 +54,17 @@ def analyze_conversion(library, document, base_directory=None):
             options[prefix + "_covariance"] = _matrix(noise["covariance"])
             if "complementary" in noise:
                 options[prefix + "_complementary"] = _matrix(noise["complementary"])
+    if references is not None:
+        # Static matrices already use local coordinates. Parameter models are
+        # constructed at the common real reference. Explicit intrinsic C/P,
+        # offsets and all source/boundary data always remain local.
+        if document["model"]["type"] != "matrix":
+            changed = library.renormalize_conversion_power_waves(
+                spacing, channels, direct, [reference] * len(channels), references,
+                conjugate,
+            )
+            direct, conjugate = changed.direct, changed.conjugate
+        options["reference_impedances_ohms"] = references
     result = library.frequency_conversion(
         spacing, channels, direct, conjugate, reference_ohms=reference, **options
     )
@@ -66,7 +81,7 @@ def analyze_conversion(library, document, base_directory=None):
                 "outgoing_power_w": abs(b) ** 2,
             }
         )
-    return {
+    output = {
         "format": "rfmodel.frequency-conversion-result",
         "version": 1,
         "spacing_hz": spacing,
@@ -77,6 +92,34 @@ def analyze_conversion(library, document, base_directory=None):
         "noise_complementary_w_per_hz": _encode(result.noise_complementary),
         "relative_residual": result.relative_residual,
     }
+    if references is not None:
+        add_reference_metadata(output, result.reference_impedances_ohms)
+    return output
+
+
+def conversion_references(specification, channels):
+    """Decode explicit local references, in exactly the supplied channel order."""
+    if "reference_impedances_ohms" not in specification:
+        return None
+    values = specification["reference_impedances_ohms"]
+    if not isinstance(values, list) or len(values) != len(channels):
+        raise ValueError("One reference impedance is required per conversion channel")
+    references = [_complex(value) for value in values]
+    for (_, index), reference in zip(channels, references):
+        if reference.real <= 0:
+            raise ValueError("Conversion references require positive real parts")
+        if index == 0 and reference.imag != 0:
+            raise ValueError("DC conversion references must be positive real")
+    return references
+
+
+def add_reference_metadata(output, references):
+    """Expose actual wave coordinates only for the explicit-reference path."""
+    values = [[value.real, value.imag] for value in references]
+    output["construction_reference_ohms"] = output.pop("reference_ohms")
+    output["reference_impedances_ohms"] = values
+    for channel, reference in zip(output["channels"], values):
+        channel["reference_impedance_ohms"] = reference
 
 
 def conversion_matrices(library, spacing, channels, model, reference):

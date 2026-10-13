@@ -33,6 +33,31 @@ static int optimization_objective(
 
 int main(int argc, char **argv) {
     {
+        const size_t port = 0;
+        const int bin = 1;
+        const rfmodel_complex zero = {0., 0.}, source = {1., 0.}, reference = {31., 12.};
+        const rfmodel_conversion_references references = {1, &reference};
+        rfmodel_conversion_request request = {0};
+        rfmodel_complex incident, outgoing, covariance, complementary;
+        double residual;
+        const rfmodel_conversion_output output = {
+            &incident, &outgoing, &covariance, &complementary, 1, 1, &residual};
+        request.count = 1;
+        request.spacing_hz = 1e6;
+        request.reference_ohms = 50.;
+        request.physical_ports = &port;
+        request.bins = &bin;
+        request.direct = &zero;
+        request.conjugate = &zero;
+        request.source = &source;
+        if (rfmodel_conversion_analyze_power_waves(
+                &request, &references, NULL, NULL, &output, NULL) != RFMODEL_OK ||
+            fabs(incident.real - 1.) > 1e-12 || fabs(incident.imag) > 1e-12 ||
+            fabs(outgoing.real) > 1e-12 || fabs(outgoing.imag) > 1e-12 || residual > 1e-12) {
+            return 160;
+        }
+    }
+    {
         rfmodel_network *local = NULL, *snapshot = NULL;
         const size_t ports[2] = {0, 1};
         const rfmodel_complex s[4] = {{0, 0}, {1, 0}, {1, 0}, {0, 0}},

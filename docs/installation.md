@@ -33,3 +33,8 @@ python scripts/verify-installed-python.py --wheel-dir python-dist \
 ```
 
 工作目录必须是新目录。此命令独立安装 wheel、核对模块与库来源并运行全部绑定套件；配置、环境、失败行为和已验证范围见 [安装 wheel 验证](installed-python-validation.md)。验证不执行推送或发布。
+
+
+## C++ 优先的最小安装
+
+仅需要 C++ 函数 API 时，可关闭 C ABI、CLI、示例和 Python 测试，只安装头文件与 CMake 包。精确命令和完整独立消费者见 [C++ SDK 指南](cpp-sdk.md)。`BUILD_TESTING=OFF` 现在覆盖全部测试目标；示例由 `RFMODEL_BUILD_EXAMPLES` 单独控制。

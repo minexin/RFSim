@@ -670,6 +670,31 @@ static void test_linear_lift_and_failures() {
     });
 }
 
+void test_boundary_relative_singularity() {
+    for (const auto scale : {1e-24, 1e-12, 1., 1e12, 1e24}) {
+        FrequencyConversionModel model(1., {{0, 1}}, {1, {0.}}, {1, {0.}}, 50. * scale);
+        const ConversionNoise noise{{1, {2.}}, {1, {Complex(.3, .2)}}};
+        rejects<std::domain_error>([&] {
+            renormalize_conversion_boundary(
+                model, {100. * scale}, {0}, {Complex(.4, .2)}, {3.}, noise);
+        });
+        // A nearby resolvable active boundary remains valid, at every scale.
+        const double gamma = 3. + 1e-8;
+        const auto changed = renormalize_conversion_boundary(
+            model, {100. * scale}, {0}, {Complex(.4, .2)}, {gamma}, noise);
+        const double transfer = 2. * std::sqrt(2.) / (3. - gamma);
+        require(std::abs(changed.source[0] / (Complex(.4, .2) * transfer) - 1.) < 2e-7,
+                "near-pole boundary source");
+        require(std::abs(changed.source_noise.covariance(0, 0).real() / (2. * transfer * transfer) -
+                         1.) < 4e-7,
+                "near-pole boundary covariance");
+        require(std::abs(changed.source_noise.complementary(0, 0) /
+                             (Complex(.3, .2) * transfer * transfer) -
+                         1.) < 4e-7,
+                "near-pole boundary complementary");
+    }
+}
+
 int main() {
     try {
         test_physical_network();
@@ -678,6 +703,7 @@ int main() {
         test_mixer_dc_coordinates();
         test_wide_reference_precision();
         test_linear_lift_and_failures();
+        test_boundary_relative_singularity();
         std::cout << std::setprecision(17) << "{\"passed\":true,\"wave_checks\":" << wave_checks
                   << ",\"noise_checks\":" << noise_checks
                   << ",\"maximum_wave_absolute_error\":" << maximum_wave_error

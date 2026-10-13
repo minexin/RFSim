@@ -9,6 +9,10 @@
 - 匹配衰减/延迟模型、功率与阻抗后处理、标量 Friis 级联噪声。
 - S 数据 CSV 命令行导出与可安装 CMake 包。
 
+## C++ 集成
+
+最终集成以 C++17 函数 API 为主。可只安装 header-only SDK，不需要 Python 或 C ABI；最小调用、无 Python 构建与独立安装示例见 [C++ SDK](docs/cpp-sdk.md)。Python 包后续按[依赖迁移计划](docs/python-retirement-plan.md)逐步退出，当前不删除验证脚本或数据。
+
 ## 构建
 
 ```sh
@@ -119,3 +123,5 @@ Windows 本机可运行 `scripts/build-msvc.ps1` 自动定位已有 VS 工具链
 [RF 线性阶段的混合参考](docs/power-wave-stages.md)支持相干系统、频谱链及失真来源后级中的逐端口复参考接线，并在阶段边界统一波坐标；C++/C/Python 新增独立网络快照，含 RC 谐波传播与物理守恒回归。
 
 - [原生变频网络的复功率波参考](docs/conversion-power-wave.md)
+
+[固定泵变频复参考接口](docs/conversion-power-wave.md)贯通 C/Python/JSON，支持局部坐标物理连线、仿射波及完整 C/P 的原生重归一化；自动非线性混合参考与厂商验收仍未完成。

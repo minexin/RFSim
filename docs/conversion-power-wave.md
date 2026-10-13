@@ -2,7 +2,7 @@
 
 原生 C++17 的固定泵转换模型和多器件网络支持逐通道参考阻抗。直接矩阵 A、共轭矩阵 B、仿射偏置、边界源以及完整 C/P 噪声均保留各自坐标；内部连线按电压连续和电流守恒求解。本页扩展[转换矩阵](frequency-conversion.md)和[多器件网络](conversion-network.md)的原生接口。
 
-这部分尚未开放新的 C/Python/JSON 输入字段。既有跨语言公共实参考接口继续回归；自动非线性工作点求解仍要求公共实参考。固定泵坐标变换不完成实际 LO 工作点、厂商 ZPORT/CS、通用器件 DC 偏置或 SystemVue 路径预算验收。
+C/Python/JSON 已提供显式逐通道参考入口，见下方跨语言契约。既有跨语言公共实参考接口继续回归；自动非线性工作点求解仍要求公共实参考。固定泵坐标变换不完成实际 LO 工作点、厂商 ZPORT/CS、通用器件 DC 偏置或 SystemVue 路径预算验收。
 
 ## 模型与通道坐标
 
@@ -125,4 +125,59 @@ python scripts/verify-conversion-power-wave-example.py --executable build-msvc/R
 
 原生专用回归另外从含直接/共轭跨频率导纳的独立 V/I 方程建立十二通道双器件网络，使用独立实高斯消元器核对波、偏置、完整出射/入射/互噪声和内部功率守恒。覆盖实 DC、双向转换、Norton 内生噪声、跨器件边界相关源、参考往返、被动参考温度实验、奇异 Z 的直通及非法输入。
 
-本阶段 [机读验证](../validation/conversion-power-wave-validation-20261012.json)分别记录原生全量测试、安装消费者、既有 wheel、旧 C 二进制和独立示例证据。C API 声明和实现文件、Python 包均未改变；新 C++ 类型/头文件需一起重新编译。远端验证以对应提交 CI 为准。厂商兼容状态和既有失败报告不因这些数学/工程回归通过而升级。
+原生阶段历史[机读验证](../validation/conversion-power-wave-validation-20261012.json)分别记录原生全量测试、安装消费者、既有 wheel、旧 C 二进制和独立示例证据。该原生阶段的 C API 声明和实现文件、Python 包均未改变；新 C++ 类型/头文件需一起重新编译。远端验证以对应提交 CI 为准。厂商兼容状态和既有失败报告不因这些数学/工程回归通过而升级。
+
+
+## 跨语言显式参考接口（2026-10-13）
+
+新增入口不改变 ABI 1 既有结构布局或旧函数签名；旧标量接口仍执行其公共正实参考检查。新 Python 包需要配套的新原生库，ABI 数字相同不保证旧库含新增符号。
+
+### C
+
+`rfmodel_conversion_references` 为 `{count, values}`，每个器件的向量覆盖其全部局部通道。新增 `rfmodel_conversion_analyze_power_waves` 和 `rfmodel_conversion_network_analyze_power_waves` 接受这些描述符，支持可选仿射偏置、额外全局相关源 C/P 及加载噪声输出。新增 `rfmodel_conversion_network_noise_analysis_power_waves` 执行相同局部坐标中的参考温度实验。
+
+这些显式入口使用向量参考，忽略旧 request 中的 `reference_ohms`；A/B、偏置、所有源和内生 C/P 已位于调用者声明的坐标。网络仍按器件/局部通道顺序排列全部波、噪声和参考。调用者持有输入的实际参考向量，无需从旧标量字段猜测坐标。
+
+`rfmodel_conversion_renormalize_power_waves` 输出新的 A/B、内生噪声 C/P、仿射偏置和直接/共轭噪声传递矩阵；`rfmodel_conversion_renormalize_boundary_power_waves` 输出选定外部通道的新源、反射及边界 C/P。两者是原生坐标变换的薄接口，不改变输入。
+
+所有声明的输出容量范围须彼此独立，并与所有输入数组、参考描述符及其数组、请求和输出描述符不重叠。新结构字段参见公共头文件；失败时所有输出保持不变。参考数量、非有限值、非正实部、复 DC 参考、错误外部通道和不可解变换都会失败。
+
+### Python
+
+```python
+result = library.frequency_conversion(
+    spacing_hz, channels, direct, conjugate,
+    reference_impedances_ohms=[31+12j, 73-21j],
+    source=source, reflection=reflection,
+)
+
+result = library.conversion_network(
+    spacing_hz,
+    [dict(channels=channels, direct=direct, conjugate=conjugate,
+          reference_impedances_ohms=[31+12j, 73-21j])],
+    loaded_noise=True,
+)
+```
+
+显式参考的结果提供 `reference_impedances_ohms` 元数据；未使用此参数时保留既有结果元组和默认行为。`None` 表示未指定；混合网络中未给向量的器件使用调用的公共标量参考，显式向量优先于该标量。JSON 字段存在时必须是数组，`null` 不表示省略。`conversion_noise_analysis` 接受同样的器件描述。
+
+`renormalize_conversion_power_waves(spacing_hz, channels, direct, old_references, new_references, conjugate=None, ...)` 返回新 direct/conjugate、noise_direct/noise_conjugate、output_offset、intrinsic_covariance/intrinsic_complementary 及新参考。可选输入为 output_offset、intrinsic_covariance 和 intrinsic_complementary。
+
+`renormalize_conversion_boundary(spacing_hz, channels, old_references, new_references, external_channels=..., ...)` 返回 source、reflection、source_covariance/source_complementary 和新参考。边界输入均为可选零值；external_channels 必须显式给出。内部全局跨器件 C/P 仍由调用者按完整坐标转换，不能拆成独立块而丢失相关项。
+
+### JSON 坐标与限制
+
+`rfmodel.frequency-conversion` version 1 可在顶层加入 `reference_impedances_ohms`；`rfmodel.conversion-network` version 1 在每个 device 加入同名字段。值为覆盖全部通道的复数数组，复数使用已有 `[real, imag]` 编码；线性提升器件按频点优先、端口次序展开。结果在显式参考路径标明实际逐通道参考，并将原标量输出字段改名为 `construction_reference_ohms`，避免误称所有波都以该标量为参考；原公共参考默认输出保持不变。
+
+- 显式 matrix A/B、linear.s 和显式噪声矩阵已处于所声明的局部坐标，不重复转换。
+- 参数生成的理想混频器、线性及 Touchstone 模型先按公共标量参考构建，再调用原生接口转换 A/B；模型生成的内生热噪声随模型一起转换。显式内生 C/P 始终是局部坐标。
+- 边界 source/reflection、source_noise、additional_source_noise 和显式 output_offset 始终由调用者给为局部坐标。改变参考时不能照搬旧边界；可用上述边界辅助函数生成等价输入。
+- 显式向量参考暂不与 automatic operating_point、frequency_plan、linearized_real_mixer、phase_noise_sources 或 phase_noise_groups 组合。解析器明确拒绝这些组合，避免频点扩充/重排或载波侧带计算后错误地沿用参考；公共实参考路径仍保留。
+
+可重跑的七通道 JSON 案例见[混合参考混频—热电阻网络](../examples/mixed-reference-conversion.json)，包含加载噪声和参考温度分析；专用测试以独立傅里叶、物理串联电阻和热噪声公式核对三个参考尺度的全部波与 C/P。
+
+本阶段属于跨语言接口及数学/工程验证，不增加 SystemVue 厂商兼容通过项，也不扩展自动非线性混合参考、实际 LO 求解或未知厂商语义。历史原生验收记录保留；本次验证单独记录，不借用历史 Windows/macOS 结果。
+
+边界变换同时修正数值奇异检测：以缩放后的两个分母项之和为相对尺度，消去残差不超过 `64·epsilon` 时拒绝，未使用绝对阈值。50→100 Ω、Γ=3 在多个共同比例尺度下均报错；Γ=3+1e-8 的可解相邻配置仍接受。该检查避免把精确数学极点的舍入残差当作有效分母，但不保证所有病态反馈网络具有良好条件数。
+
+本轮本地 Linux Debug/Release、安装 SDK、新旧 wheel/旧 C 客户端及格式验证见[跨语言机读记录](../validation/conversion-power-wave-api-validation-20261013.json)。当前未执行 Windows/macOS 或远程 CI，厂商兼容状态保持不变。

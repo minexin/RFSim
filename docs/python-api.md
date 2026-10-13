@@ -124,3 +124,6 @@ Library.compress_coherent_fundamentals 提供多个相干组的共同基波压�
 Monte Carlo 保留原 19 字段结果，新增 `Library.run_monte_carlo_extended` 返回含原 result 的独立扩展快照，并由 JSON v2 开放潜在相关矩阵与参数/指标联合统计；详见 [相关采样及任务格式](monte-carlo.md)。
 
 `Network.reduce_power_waves(external_ports, reference_ohms=50)` 返回独立拥有句柄的普通 Network，可交给相干、频谱和来源传播接口；JSON 线性阶段也支持常量局部复参考，见 [RF 线性阶段](power-wave-stages.md)。
+
+
+固定泵变频的逐通道复参考、联合 A/B/C/P 与边界重归一化已提供新增入口，保留既有标量接口；契约和限制见[变频功率波参考](conversion-power-wave.md)。

@@ -36,6 +36,13 @@ install(FILES ${CMAKE_CURRENT_BINARY_DIR}/RFModelConfig.cmake
     ${CMAKE_CURRENT_BINARY_DIR}/RFModelConfigVersion.cmake
     DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/RFModel)
 include(CTest)
+option(RFMODEL_BUILD_EXAMPLES "Build standalone C++ examples" ON)
+option(RFMODEL_BUILD_PYTHON_TESTS "Discover Python and register binding/reference script tests" ON)
+option(RFMODEL_REQUIRE_PYTHON_TESTS "Require Python binding tests during configuration" OFF)
+if(RFMODEL_REQUIRE_PYTHON_TESTS AND
+   (NOT BUILD_TESTING OR NOT RFMODEL_BUILD_C_API OR NOT RFMODEL_BUILD_PYTHON_TESTS))
+    message(FATAL_ERROR "Required Python tests need BUILD_TESTING, RFMODEL_BUILD_C_API and RFMODEL_BUILD_PYTHON_TESTS")
+endif()
 option(RFMODEL_BUILD_CLI "Build the batch S parameter CSV exporter" ON)
 if(RFMODEL_BUILD_CLI)
 add_executable(rfmodel_cli src/rfmodel_cli.cpp)
@@ -44,6 +51,15 @@ install(TARGETS rfmodel_cli RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
 endif()
 if(BUILD_TESTING)
 if(RFMODEL_BUILD_C_API)
+    add_executable(c_api_conversion_power_wave_test tests/c_api_conversion_power_wave_test.c)
+    target_link_libraries(c_api_conversion_power_wave_test PRIVATE RFModel::c_api)
+    if(UNIX)
+        target_link_libraries(c_api_conversion_power_wave_test PRIVATE m)
+    endif()
+    add_test(NAME c_api_conversion_power_wave_test COMMAND c_api_conversion_power_wave_test)
+    add_executable(c_api_conversion_power_wave_regression_test tests/c_api_conversion_power_wave_regression_test.cpp)
+    target_link_libraries(c_api_conversion_power_wave_regression_test PRIVATE RFModel::c_api RFModel::rfmodel)
+    add_test(NAME c_api_conversion_power_wave_regression_test COMMAND c_api_conversion_power_wave_regression_test)
     add_executable(c_api_test tests/c_api_test.c)
     target_link_libraries(c_api_test PRIVATE RFModel::c_api)
     if(UNIX)
@@ -88,16 +104,22 @@ if(RFMODEL_BUILD_C_API)
     add_executable(c_api_frequency_plan_test tests/c_api_frequency_plan_test.c)
     target_link_libraries(c_api_frequency_plan_test PRIVATE RFModel::c_api)
     add_test(NAME c_api_frequency_plan_test COMMAND c_api_frequency_plan_test)
-    option(RFMODEL_REQUIRE_PYTHON_TESTS "Require Python binding tests during configuration" OFF)
+    if(RFMODEL_BUILD_PYTHON_TESTS)
     if(RFMODEL_REQUIRE_PYTHON_TESTS)
         find_package(Python3 3.9 COMPONENTS Interpreter REQUIRED)
     else()
         find_package(Python3 3.9 COMPONENTS Interpreter QUIET)
     endif()
     if(Python3_Interpreter_FOUND)
-        add_test(NAME conversion_power_wave_example_test COMMAND ${Python3_EXECUTABLE}
-            ${CMAKE_CURRENT_SOURCE_DIR}/scripts/verify-conversion-power-wave-example.py
-            --executable $<TARGET_FILE:mixed_reference_conversion_example>)
+        add_test(NAME conversion_power_wave_api_python_test COMMAND ${Python3_EXECUTABLE}
+            ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_conversion_power_wave_api.py $<TARGET_FILE:rfmodel_c>)
+        add_test(NAME conversion_power_wave_file_test COMMAND ${Python3_EXECUTABLE}
+            ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_conversion_power_wave_file.py $<TARGET_FILE:rfmodel_c>)
+        if(RFMODEL_BUILD_EXAMPLES)
+            add_test(NAME conversion_power_wave_example_test COMMAND ${Python3_EXECUTABLE}
+                ${CMAKE_CURRENT_SOURCE_DIR}/scripts/verify-conversion-power-wave-example.py
+                --executable $<TARGET_FILE:mixed_reference_conversion_example>)
+        endif()
         add_test(NAME power_wave_stages_python_test COMMAND ${Python3_EXECUTABLE}
             ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_power_wave_stages.py $<TARGET_FILE:rfmodel_c>)
         add_test(NAME python_api_test COMMAND ${Python3_EXECUTABLE}
@@ -227,6 +249,7 @@ if(RFMODEL_BUILD_C_API)
             ${CMAKE_CURRENT_SOURCE_DIR}/scripts/reference/test_diagnose_total_drive.py
             $<TARGET_FILE:rfmodel_c>)
     endif()
+    endif() # RFMODEL_BUILD_PYTHON_TESTS
 endif()
 if(RFMODEL_BUILD_CLI)
 add_test(NAME cli_export COMMAND ${CMAKE_COMMAND}
@@ -417,7 +440,6 @@ add_executable(reference_antenna tests/reference_antenna.cpp)
 target_link_libraries(reference_antenna PRIVATE rfmodel)
 add_test(NAME reference_antenna_analytic COMMAND reference_antenna)
 add_test(NAME reference_antenna_source_density COMMAND reference_antenna 6.903251499999993e-22)
-endif()
 
 add_executable(power_wave_noise_test tests/power_wave_noise_test.cpp)
 target_link_libraries(power_wave_noise_test PRIVATE rfmodel)
@@ -430,10 +452,6 @@ add_test(NAME butterworth_filter_test COMMAND butterworth_filter_test)
 add_executable(chebyshev_filter_test tests/chebyshev_filter_test.cpp)
 target_link_libraries(chebyshev_filter_test PRIVATE rfmodel)
 add_test(NAME chebyshev_filter_test COMMAND chebyshev_filter_test)
-
-add_executable(mixed_reference_conversion_example examples/mixed_reference_conversion.cpp)
-target_link_libraries(mixed_reference_conversion_example PRIVATE rfmodel)
-add_test(NAME mixed_reference_conversion_example COMMAND mixed_reference_conversion_example)
 
 add_executable(conversion_power_wave_test tests/conversion_power_wave_test.cpp)
 target_link_libraries(conversion_power_wave_test PRIVATE rfmodel)
@@ -515,22 +533,44 @@ add_executable(optimization_test tests/optimization_test.cpp)
 target_link_libraries(optimization_test PRIVATE rfmodel)
 add_test(NAME optimization_test COMMAND optimization_test)
 
-add_executable(rfmodel_match_design examples/optimize_lc_match.cpp)
-target_link_libraries(rfmodel_match_design PRIVATE rfmodel)
-add_test(NAME optimization_match_design COMMAND rfmodel_match_design)
-
 add_executable(monte_carlo_test tests/monte_carlo_test.cpp)
 target_link_libraries(monte_carlo_test PRIVATE rfmodel)
 add_test(NAME monte_carlo_test COMMAND monte_carlo_test)
-
-add_executable(rfmodel_tolerance_analysis examples/monte_carlo_resistor.cpp)
-target_link_libraries(rfmodel_tolerance_analysis PRIVATE rfmodel)
-add_test(NAME monte_carlo_resistor COMMAND rfmodel_tolerance_analysis)
 
 add_executable(monte_carlo_joint_test tests/monte_carlo_joint_test.cpp)
 target_link_libraries(monte_carlo_joint_test PRIVATE rfmodel)
 add_test(NAME monte_carlo_joint_test COMMAND monte_carlo_joint_test)
 
-add_executable(rfmodel_correlated_tolerance examples/monte_carlo_correlated_resistors.cpp)
-target_link_libraries(rfmodel_correlated_tolerance PRIVATE rfmodel)
-add_test(NAME monte_carlo_correlated_resistors COMMAND rfmodel_correlated_tolerance)
+add_executable(conversion_mixer_physics_test tests/conversion_mixer_physics_test.cpp)
+target_link_libraries(conversion_mixer_physics_test PRIVATE RFModel::rfmodel)
+add_test(NAME conversion_mixer_physics_test COMMAND conversion_mixer_physics_test)
+add_test(NAME sdk_configuration_test COMMAND ${CMAKE_COMMAND}
+    -DSOURCE=${CMAKE_CURRENT_SOURCE_DIR}
+    -DBINARY=${CMAKE_CURRENT_BINARY_DIR}/sdk-configuration-test
+    -DGENERATOR=${CMAKE_GENERATOR}
+    -DCOMPILER=${CMAKE_CXX_COMPILER}
+    -P ${CMAKE_CURRENT_SOURCE_DIR}/tests/check_sdk_configuration.cmake)
+endif() # BUILD_TESTING
+
+if(RFMODEL_BUILD_EXAMPLES)
+    add_executable(mixed_reference_conversion_example examples/mixed_reference_conversion.cpp)
+    target_link_libraries(mixed_reference_conversion_example PRIVATE RFModel::rfmodel)
+    if(BUILD_TESTING)
+        add_test(NAME mixed_reference_conversion_example COMMAND mixed_reference_conversion_example)
+    endif()
+    add_executable(rfmodel_match_design examples/optimize_lc_match.cpp)
+    target_link_libraries(rfmodel_match_design PRIVATE RFModel::rfmodel)
+    if(BUILD_TESTING)
+        add_test(NAME optimization_match_design COMMAND rfmodel_match_design)
+    endif()
+    add_executable(rfmodel_tolerance_analysis examples/monte_carlo_resistor.cpp)
+    target_link_libraries(rfmodel_tolerance_analysis PRIVATE RFModel::rfmodel)
+    if(BUILD_TESTING)
+        add_test(NAME monte_carlo_resistor COMMAND rfmodel_tolerance_analysis)
+    endif()
+    add_executable(rfmodel_correlated_tolerance examples/monte_carlo_correlated_resistors.cpp)
+    target_link_libraries(rfmodel_correlated_tolerance PRIVATE RFModel::rfmodel)
+    if(BUILD_TESTING)
+        add_test(NAME monte_carlo_correlated_resistors COMMAND rfmodel_correlated_tolerance)
+    endif()
+endif()

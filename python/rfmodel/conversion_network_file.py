@@ -19,7 +19,7 @@ from .operating_point import (
     update_converged_models,
 )
 from .affine_conversion import offset_vector, linearized_mixer, check_operating_points
-from .conversion_file import conversion_matrices
+from .conversion_file import conversion_matrices, conversion_references, add_reference_metadata
 from .phase_noise import apply_phase_noise_sources, build_phase_noise_groups
 from .channel_measurements import parse_channel_measurements, measure_conversion_channels
 
@@ -40,7 +40,8 @@ def noise_pair(specification, count):
 
 
 def linear_device(library, device, spacing, reference, base_directory):
-    _object(device, ("id", "bins", "model", "noise"), ("source_noise", "output_offset"))
+    _object(device, ("id", "bins", "model", "noise"),
+            ("source_noise", "output_offset", "reference_impedances_ohms"))
     bins = device["bins"]
     if (
         not isinstance(bins, list)
@@ -127,6 +128,17 @@ def analyze_conversion_network(library, document, base_directory=None):
     entries = document["devices"]
     if not isinstance(entries, list) or not 1 <= len(entries) <= 512:
         raise ValueError("Expected 1..512 conversion devices")
+    explicit_references = any(
+        isinstance(entry, dict) and "reference_impedances_ohms" in entry for entry in entries
+    )
+    if explicit_references and "frequency_plan" in document:
+        raise ValueError("Explicit conversion references do not support frequency_plan expansion or reordering")
+    if explicit_references and (
+        "phase_noise_sources" in document or "phase_noise_groups" in document
+    ):
+        raise ValueError("Explicit conversion references do not support generated phase_noise_sources or phase_noise_groups")
+    if explicit_references and "operating_point" in document:
+        raise ValueError("Explicit conversion references do not support automatic nonlinear operating_point solving")
     planned_channels = planning_report = None
     if "frequency_plan" in document:
         from .frequency_plan_file import prepare_frequency_plan
@@ -149,6 +161,15 @@ def analyze_conversion_network(library, document, base_directory=None):
         name = entry["id"]
         model = entry.get("model")
         generated_offset = None
+        if ("reference_impedances_ohms" in entry and isinstance(model, dict)
+                and model.get("type") in {
+                    "linearized_real_mixer", "bilinear_real_mixer", "saturating_amplifier",
+                    "polynomial_amplifier", "highorder_amplifier",
+                }):
+            raise ValueError(
+                "Explicit conversion references require a fixed-pump matrix, ideal mixer, or linear model; "
+                "supplied and automatic nonlinear operating-point models are unsupported"
+            )
         if isinstance(model, dict) and model.get("type") == "linear":
             if "am_pm" in entry:
                 raise ValueError("AM-PM requires a nonlinear operating-point model")
@@ -157,7 +178,7 @@ def analyze_conversion_network(library, document, base_directory=None):
             _object(
                 entry,
                 ("id", "channels", "model", "noise"),
-                ("source_noise", "output_offset", "am_pm"),
+                ("source_noise", "output_offset", "am_pm", "reference_impedances_ohms"),
             )
             if not isinstance(entry["channels"], list) or not 1 <= len(entry["channels"]) <= 512:
                 raise ValueError("Expected conversion channel list")
@@ -227,6 +248,31 @@ def analyze_conversion_network(library, document, base_directory=None):
                 "intrinsic_covariance": c,
                 "intrinsic_complementary": p,
             }
+        references = conversion_references(entry, native["channels"])
+        if references is not None:
+            parameter_model = model["type"] != "matrix" and not (
+                model["type"] == "linear" and "s" in model
+            )
+            if parameter_model:
+                # Generated thermal/Touchstone noise shares the model's scalar
+                # construction basis. Explicit C/P, boundaries, source noise,
+                # additional source noise and explicit output_offset are local.
+                generated_noise = model["type"] == "linear" and any(
+                    key in entry["noise"] for key in ("temperature_k", "touchstone")
+                )
+                changed = library.renormalize_conversion_power_waves(
+                    spacing, native["channels"], native["direct"],
+                    [reference] * len(native["channels"]), references,
+                    native.get("conjugate"),
+                    intrinsic_covariance=native["intrinsic_covariance"] if generated_noise else None,
+                    intrinsic_complementary=native["intrinsic_complementary"] if generated_noise else None,
+                )
+                for field in ("direct", "conjugate"):
+                    native[field] = getattr(changed, field)
+                if generated_noise:
+                    native["intrinsic_covariance"] = changed.intrinsic_covariance
+                    native["intrinsic_complementary"] = changed.intrinsic_complementary
+            native["reference_impedances_ohms"] = references
         if planned_channels is not None:
             from .frequency_plan_file import reorder_native_channels
             reorder_native_channels(native, planned_channels[len(devices)])
@@ -428,6 +474,8 @@ def analyze_conversion_network(library, document, base_directory=None):
         "noise_complementary_w_per_hz": _encode(result.noise_complementary),
         "relative_residual": result.relative_residual,
     }
+    if explicit_references:
+        add_reference_metadata(output, result.reference_impedances_ohms)
     if planning_report is not None:
         output["frequency_plan"] = planning_report
     if use_affine:
@@ -502,13 +550,18 @@ def analyze_conversion_network(library, document, base_directory=None):
                 output_channel=channel_index(analysis["output_channel"]),
                 reference_temperature_k=temperature,
             )
+            metric_fields = metric._asdict()
+            if "reference_impedances_ohms" in metric_fields:
+                metric_fields["reference_impedances_ohms"] = [
+                    [value.real, value.imag] for value in metric_fields["reference_impedances_ohms"]
+                ]
             results.append(
                 dict(
                     analysis,
                     reference_temperature_k=temperature,
                     normalization="independent_phase_averaged_available_power",
                     output_load_noise="excluded",
-                    **metric._asdict(),
+                    **metric_fields,
                 )
             )
         output["noise_analyses"] = results

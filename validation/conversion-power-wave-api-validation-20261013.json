@@ -1,0 +1,203 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-13",
+  "stage": "A05 fixed-pump conversion mixed complex references C/Python/JSON",
+  "base_commit": "cd52be779eab5aa4113d55ed781e1abe0f4dfc96",
+  "passed": true,
+  "scope": "Mathematical and engineering validation only; no vendor compatibility promotion",
+  "toolchain": {
+    "platform": "Linux-6.18.44-x86_64-with-glibc2.41",
+    "compiler": "GCC 14.2.0",
+    "cmake": "3.31.10",
+    "python": "3.12.14",
+    "clang_format": "19.1.7"
+  },
+  "local_configurations": [
+    {
+      "platform": "Linux",
+      "configuration": "Debug",
+      "ctest": 156,
+      "installed_consumers": 2,
+      "installed_python": 503,
+      "python_suites": 32,
+      "python_skipped": 0,
+      "wheel_report": {
+        "path": "/tmp/rfmodel-api-validation/installed-verified-Debug/installed-python-validation.json",
+        "sha256": "a99ede2b2a7a7d156cd832342780bff354cf1ec1ee187aa277bde1302749493f"
+      },
+      "native_library": {
+        "path": "/tmp/rfmodel-api-validation/install/Debug/lib/librfmodel_cd.so",
+        "sha256": "95fd459cf318a2b77fb00eb1d1f8634fff2347405e20cff382f9248ade9b883a"
+      },
+      "test_logs": [
+        {
+          "path": "/tmp/rfmodel-api-validation/ctest-Debug.log",
+          "sha256": "37fe25212b2afde50f609fa053b813eb84b0c579a98fc943ce2331df13792a52"
+        },
+        {
+          "path": "/tmp/rfmodel-api-validation/consumer-ctest-Debug.log",
+          "sha256": "216ad794af7c5dc4627ebf67594df08297a62777a85533279034d00d777af28f"
+        }
+      ]
+    },
+    {
+      "platform": "Linux",
+      "configuration": "Release",
+      "ctest": 156,
+      "installed_consumers": 2,
+      "installed_python": 503,
+      "python_suites": 32,
+      "python_skipped": 0,
+      "wheel_report": {
+        "path": "/tmp/rfmodel-api-validation/installed-verified-Release/installed-python-validation.json",
+        "sha256": "c7fcb6274c721d7ae4b5bfd2d68193197cb113ace5af196023dbb117c39ec527"
+      },
+      "native_library": {
+        "path": "/tmp/rfmodel-api-validation/install/Release/lib/librfmodel_c.so",
+        "sha256": "19033a258c86fe1490d4fd53742eb6183bb86086a7b1d37f65c543e8eeeb0fed"
+      },
+      "test_logs": [
+        {
+          "path": "/tmp/rfmodel-api-validation/ctest-Release.log",
+          "sha256": "0a1d5197d7bd98b674125ea1e3aeba03e57e1f212d08119884e8a0793ac50053"
+        },
+        {
+          "path": "/tmp/rfmodel-api-validation/consumer-ctest-Release.log",
+          "sha256": "dafa43dcf688d6e80c395dc85cf53c3c2eb99f26bd844b80ff4974d42831cf35"
+        }
+      ]
+    }
+  ],
+  "legacy_compatibility": {
+    "legacy_struct_count": 76,
+    "changed_legacy_structs": [],
+    "legacy_function_count": 107,
+    "missing_legacy_symbols": [],
+    "passed": true,
+    "old_c_binary": {
+      "passed": true,
+      "old_header": {
+        "path": "/tmp/rfmodel-api-validation/c_api-old.h",
+        "sha256": "5186e615fe3af67acbb1f335c8d2c3746712896b5dcdf5552c1388b07b42510d"
+      },
+      "binary": {
+        "path": "/tmp/rfmodel-api-validation/old-c-client",
+        "sha256": "eb7f7e73438565c6427ed9d605c4f878471905639517c1de4ceb089c2b3a3ad5"
+      },
+      "new_library": {
+        "path": "/tmp/rfmodel-api-validation/Debug/librfmodel_cd.so",
+        "sha256": "95fd459cf318a2b77fb00eb1d1f8634fff2347405e20cff382f9248ade9b883a"
+      },
+      "log": {
+        "path": "/tmp/rfmodel-api-validation/old-client-final.log",
+        "sha256": "6170de0eeadb6c22f4cf976cbb7f935ceba80cfb44e96090dccfcad41437fb18"
+      }
+    },
+    "old_python": {
+      "passed": true,
+      "configuration": "Release",
+      "tests": 479,
+      "suites": 30,
+      "report": {
+        "path": "/tmp/rfmodel-api-validation/installed-baseline-verified-Release/installed-python-validation.json",
+        "sha256": "47009a80a048ac9b22d1dd29930c4b1761a010185cb822a704ded6cc3543cf46"
+      }
+    }
+  },
+  "dedicated_tests": {
+    "c_api_suites": 2,
+    "python_binding_tests": 10,
+    "json_tests": 14,
+    "independent_methods": [
+      "Norton V/I real Gaussian elimination with direct and conjugate admittance",
+      "Thevenin boundary transforms and complete C/P",
+      "Seven-channel mixer/resistor Fourier and thermal-noise formulas at .5/1/2 reference scales",
+      "Full incident/outgoing/cross C/P and net noise power",
+      "1e-24..1e24 reference transforms; DC physical roundtrip; ideal through",
+      "50-to-100 ohm Gamma=3 cancellation-pole rejection across common scales and solvable Gamma=3+1e-8 neighbors",
+      "C full-capacity alias, descriptor/tail overlap, failure atomicity, legacy defaults",
+      "Actual JSON serialization and CLI replay including reference noise analysis"
+    ]
+  },
+  "format_check": {
+    "passed": true,
+    "files": 172,
+    "log": {
+      "path": "/tmp/rfmodel-api-validation/format-final.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "verifier_selftests": {
+    "passed": true,
+    "tests": 10,
+    "log": {
+      "path": "/tmp/rfmodel-api-validation/verifier-selftest.log",
+      "sha256": "62524da09646d205427f945b7888f49dc14eed76d75707112108106547d9fc41"
+    }
+  },
+  "source_files": [
+    {
+      "path": "CMakeLists.txt",
+      "sha256": "ba61d963fa74d9eef1a7eff11ac0014218d8d64b9b03454c23ce45aae9389240"
+    },
+    {
+      "path": "examples/mixed-reference-conversion.json",
+      "sha256": "90baee8666f29a0e3d1568c8c49d3107e3a22366e095a6cb0493a1bb0ef916ad"
+    },
+    {
+      "path": "include/rfmodel/c_api.h",
+      "sha256": "a42b6a1ccce51ef4670f621affb93ede07b543d4d0f3b00b33366e3a4cf817c6"
+    },
+    {
+      "path": "include/rfmodel/conversion_power_wave.hpp",
+      "sha256": "4f049110e2431dbaaca128aa8d1e1d5532c33f8f4f7d81e4b35401a130ebc236"
+    },
+    {
+      "path": "python/rfmodel/__init__.py",
+      "sha256": "5ed546858e1af4395eda84b290ec9956fbe4da6b4f6d89148fe9853758d952a3"
+    },
+    {
+      "path": "python/rfmodel/conversion_file.py",
+      "sha256": "148fe09807f2a814746f53ebd02964efdd54a36b6958fd3329e5b3d485c7bac1"
+    },
+    {
+      "path": "python/rfmodel/conversion_network_file.py",
+      "sha256": "ff6f1055dbd60cba4ddf029245a4e3da3877e071e644453f285c39e26fe8576b"
+    },
+    {
+      "path": "src/c_api.cpp",
+      "sha256": "71c61d5c4fc68a5a8411f55e124bac49def1c56844f738626fef7ef9ab670eaa"
+    },
+    {
+      "path": "tests/c_api_conversion_power_wave_regression_test.cpp",
+      "sha256": "0599022ef16704e3ff59806c194947b9e9944305231c51e67b9c6fd470474681"
+    },
+    {
+      "path": "tests/c_api_conversion_power_wave_test.c",
+      "sha256": "e8ad03052de5534f239dc93206e09aec3840b9f73ebf42ff1d01580c4205d44d"
+    },
+    {
+      "path": "tests/consumer/c_main.c",
+      "sha256": "57dcfb07c1fed6ff8bd270dca2e352229dc559e2460b0ebb97d30881be8116ef"
+    },
+    {
+      "path": "tests/conversion_power_wave_test.cpp",
+      "sha256": "8171daebc6e605997af03fc238ceb8359953ab1a782a6aa8044dd7b47aa055c9"
+    },
+    {
+      "path": "tests/test_conversion_power_wave_api.py",
+      "sha256": "bc2970f01c8c621ddd4bd85fbbcc54112f42b156806e02c8fc4e3976e5be22aa"
+    },
+    {
+      "path": "tests/test_conversion_power_wave_file.py",
+      "sha256": "79b06bb9a0dee9bb20892a832f409b63e36b73b84fc0668db37d254d44119760"
+    }
+  ],
+  "limitations": [
+    "Windows/macOS and remote CI not run in this local record",
+    "No new SystemVue measurements or compatibility claims",
+    "Automatic nonlinear mixed references, explicit refs with frequency planning or phase-noise generators remain rejected",
+    "New Python package requires new symbols in matching native library; old clients remain supported",
+    "No commit or push performed by implementing worker; parent controls publication"
+  ]
+}

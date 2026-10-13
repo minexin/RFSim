@@ -1,0 +1,252 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-13",
+  "stage": "C++ function API primary delivery; Python retirement dependency audit and native SDK validation",
+  "base_commit": "cd52be779eab5aa4113d55ed781e1abe0f4dfc96",
+  "passed": true,
+  "publication": {
+    "committed": false,
+    "pushed": false,
+    "remote_ci_executed": false,
+    "note": "Prior publication paused after user changed delivery priority; no cancelled publication retried"
+  },
+  "scope": "C++ SDK, configuration controls, native seven-channel physics oracle, installed multi-translation-unit consumer, dependency/migration documentation; no Python deletion",
+  "snapshot_before_priority_shift": {
+    "manifest": {
+      "path": "/tmp/rfmodel-cpp-priority-backup/frozen-api-manifest.json",
+      "sha256": "675401eadb66f32ca10623bf7369e205240f2ee208b8898d2c1cbe81ec8ece12"
+    },
+    "archive": {
+      "path": "/tmp/rfmodel-cpp-priority-backup/pre-cpp-priority.tar",
+      "sha256": "debee451a1a5e4b79ec5e4a32f99fd26b733052a4e955abb27ebfe10093bfc51"
+    }
+  },
+  "retained_python_sources_unchanged_since_priority_shift": true,
+  "toolchain": {
+    "platform": "Linux-6.18.44-x86_64-with-glibc2.41",
+    "compiler": "GCC 14.2.0",
+    "cmake": "3.31.10",
+    "clang_format": "19.1.7"
+  },
+  "local_configurations": [
+    {
+      "configuration": "Debug",
+      "native_only_ctest": 91,
+      "relocated_installed_cpp_consumers": 2,
+      "retained_full_ctest": 158,
+      "python_discovered": false,
+      "c_language_enabled": false,
+      "logs": [
+        {
+          "path": "/tmp/rfmodel-cpp-validation/native-ctest-Debug.log",
+          "sha256": "aa84d36e0326ede5858e5322d8a89a84a2fe7819854b6b75a0e9aa82f05752e0"
+        },
+        {
+          "path": "/tmp/rfmodel-cpp-validation/consumer-ctest-Debug.log",
+          "sha256": "d616ba8ced106d49927b436d6d8c685b14306f9ba2092c2d67a5a019c1a8d557"
+        },
+        {
+          "path": "/tmp/rfmodel-cpp-validation/full-ctest-Debug.log",
+          "sha256": "865b51a4340ab3e1f8c0189d967ef3a3ef189eaf660276b5527b5b7e79196409"
+        }
+      ],
+      "native_command_inventory": {
+        "path": "/tmp/rfmodel-cpp-validation/native-tests-Debug.json",
+        "sha256": "e0af7c7a229f0abc3def18c6628d6cbac90f04797d7c4b80bbceb771522fdc06"
+      },
+      "consumer_compile_commands": {
+        "path": "/tmp/rfmodel-cpp-validation/consumer-Debug/compile_commands.json",
+        "sha256": "1e91df9e864cbd7cd598e38e56aec057f48643425db1a4fb0789aa774fb2df26"
+      },
+      "independent_oracle": {
+        "path": "/tmp/rfmodel-cpp-validation/oracle-Debug.log",
+        "sha256": "4c5e18ab829a5f9fe3694c862cbe8196b5ad9c985a06b52b7690809718a3dd94"
+      },
+      "consumer_oracle": {
+        "path": "/tmp/rfmodel-cpp-validation/consumer-oracle-Debug.log",
+        "sha256": "2cf71dd5a7999caecf2a5bd5e0ccdd08d80e1146ccc52440351a8ad3799a168c"
+      }
+    },
+    {
+      "configuration": "Release",
+      "native_only_ctest": 91,
+      "relocated_installed_cpp_consumers": 2,
+      "retained_full_ctest": 158,
+      "python_discovered": false,
+      "c_language_enabled": false,
+      "logs": [
+        {
+          "path": "/tmp/rfmodel-cpp-validation/native-ctest-Release.log",
+          "sha256": "1206d90b8c943216d9eb1ceff58870bd18dfe5abeadacc441cf86d722f6e86ef"
+        },
+        {
+          "path": "/tmp/rfmodel-cpp-validation/consumer-ctest-Release.log",
+          "sha256": "afa30f16dfa28e98c76e89db15cd9d2e7722e8387789eeadf6551bfac6e627f1"
+        },
+        {
+          "path": "/tmp/rfmodel-cpp-validation/full-ctest-Release.log",
+          "sha256": "7e8df922058c7d0c1d4d4de315c2313060bbd3d9048dda500cecf89e70bd0c73"
+        }
+      ],
+      "native_command_inventory": {
+        "path": "/tmp/rfmodel-cpp-validation/native-tests-Release.json",
+        "sha256": "f977b993addd375bd89bda029552d6cfc217164bb794725afb8c72910b7e5ae6"
+      },
+      "consumer_compile_commands": {
+        "path": "/tmp/rfmodel-cpp-validation/consumer-Release/compile_commands.json",
+        "sha256": "a1c475f86c1b00dc98597792d08a24bd08b6071019a25e2eb87636434363b82f"
+      },
+      "independent_oracle": {
+        "path": "/tmp/rfmodel-cpp-validation/oracle-Release.log",
+        "sha256": "4c5e18ab829a5f9fe3694c862cbe8196b5ad9c985a06b52b7690809718a3dd94"
+      },
+      "consumer_oracle": {
+        "path": "/tmp/rfmodel-cpp-validation/consumer-oracle-Release.log",
+        "sha256": "2cf71dd5a7999caecf2a5bd5e0ccdd08d80e1146ccc52440351a8ad3799a168c"
+      }
+    }
+  ],
+  "minimal_sdk": {
+    "passed": true,
+    "executable_targets": 0,
+    "python_required": false,
+    "c_compiler_required": false,
+    "shared_library_required": false,
+    "original_install_prefix_removed": true,
+    "relocated_prefix": "/tmp/rfmodel-cpp-validation/sdk-relocated",
+    "target_inventory": {
+      "path": "/tmp/rfmodel-cpp-validation/sdk-targets.log",
+      "sha256": "6041f9af3d326fb04cc0df85f947a1f1031c3d8e274c913fc2eeb9b54e6c282c"
+    }
+  },
+  "configuration_regressions": {
+    "minimal_targets": 0,
+    "examples_only_targets": 4,
+    "required_python_conflict_rejected": true,
+    "c_api_retained_python_disabled_registered_tests": 102,
+    "test_source": {
+      "path": "tests/check_sdk_configuration.cmake",
+      "sha256": "b7c2115d5d6f9936edf5ee4d15137172e9725a860ab2a3acf570e26b7bbd2ef4"
+    },
+    "generator_provided_and_interface_targets_filtered": true,
+    "synthetic_generator_target_filter_test": true
+  },
+  "standalone_headers": {
+    "passed": true,
+    "headers": 71,
+    "standard": "C++17",
+    "installed_headers_only": true,
+    "report": {
+      "path": "/tmp/rfmodel-cpp-validation/header-checks/report.json",
+      "sha256": "41dd745334526e652d518d145459d7697f1c2dd0cd9c9ac756540d34a4d6ad51"
+    }
+  },
+  "physics_oracles": {
+    "native": {
+      "reference_scales": [
+        0.5,
+        1,
+        2
+      ],
+      "wave_and_scalar_checks": 510,
+      "noise_checks": 2727,
+      "maximum_wave_absolute_error": 1.9895196601282805e-13,
+      "maximum_noise_absolute_error": 3.3101920919155616e-35,
+      "methods": [
+        "Independent real-mixer Fourier coefficients",
+        "Thevenin resistor and V/I continuity",
+        "Independent real-random-basis propagation of all six loaded C/P matrices",
+        "External drive, affine offsets, improper cross-device source correlations",
+        "Gain/NF invariance"
+      ]
+    },
+    "installed_cpp": {
+      "checks": 1201,
+      "translation_units": 2,
+      "gain": 0.64,
+      "noise_figure_db": 1.76091259056
+    }
+  },
+  "format": {
+    "passed": true,
+    "files": 175,
+    "log": {
+      "path": "/tmp/rfmodel-cpp-validation/format.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "ci": {
+    "workflow": {
+      "path": ".github/workflows/build.yml",
+      "sha256": "849f7d232aace0cfa8a16de2dd271c60a1f38dbc503cccda53e1a6d792086b65"
+    },
+    "new_job": "cpp-sdk",
+    "configurations": 6,
+    "yaml_parsed": true,
+    "executed": false
+  },
+  "priority_stage_files": [
+    {
+      "path": ".github/workflows/build.yml",
+      "sha256": "849f7d232aace0cfa8a16de2dd271c60a1f38dbc503cccda53e1a6d792086b65"
+    },
+    {
+      "path": "CMakeLists.txt",
+      "sha256": "b5abae96ca6d1e705e275c33b606d48585ee0d4e0760765993aeb4fa467a6d5d"
+    },
+    {
+      "path": "README.md",
+      "sha256": "731caa50864e239e6d31fd59689bcfe2eb597cddf5fbf637f564b8f231a2ee07"
+    },
+    {
+      "path": "docs/acceptance-audit-20261012.md",
+      "sha256": "bec2f500af8bf18f2b0bcaf552f20384e65bbc84f65b68adb0f4a4cee44ffd70"
+    },
+    {
+      "path": "docs/cpp-sdk.md",
+      "sha256": "f3da21ca0c234a7687100b88dfbb6035c2b31140e5475199cd1bdfcb410837e1"
+    },
+    {
+      "path": "docs/installation.md",
+      "sha256": "51f338895dce41ddb4aed8ef89874b0a099685d817bdb884b4158756732c60a4"
+    },
+    {
+      "path": "docs/python-retirement-plan.md",
+      "sha256": "0981049cbe23b7c1cc29a04306ac6a2566cd8d6f9704244f001e777631e408a6"
+    },
+    {
+      "path": "tests/check_sdk_configuration.cmake",
+      "sha256": "b7c2115d5d6f9936edf5ee4d15137172e9725a860ab2a3acf570e26b7bbd2ef4"
+    },
+    {
+      "path": "tests/consumer/CMakeLists.txt",
+      "sha256": "23004f77bf8c7a3c3b1ec0b8944d21204e5d12eaf7d45a2d06227c8cef66bafc"
+    },
+    {
+      "path": "tests/consumer/conversion_api.cpp",
+      "sha256": "227681ce3ec884ad166864dae72206f69eb7f209d76cef4fb9e175068de7e148"
+    },
+    {
+      "path": "tests/consumer/conversion_api_probe.cpp",
+      "sha256": "7c7bd4de4816b20801d480f366aaccf3102d362e1e51fd4483770342b454318d"
+    },
+    {
+      "path": "tests/conversion_mixer_physics_test.cpp",
+      "sha256": "1467815203a0393b3abdb0707a7501b91cda5021412dcbeaa24d348c363397db"
+    }
+  ],
+  "remaining_gates": [
+    "No Windows/macOS or remote CI execution in this local record",
+    "No new SystemVue measurements or compatibility promotion",
+    "Python graph-level origins/common-drive/history orchestration remains substantive and unmigrated",
+    "Chebyshev extreme/non-lowpass fixtures, specific Touchstone/unmatched/DC boundary fixtures and converged NF composition require migration before removing their Python tests",
+    "Vendor replay/scorers including 1413 holdout cases still require Python package bridge replacement",
+    "Python products, SystemVue scripts and historical data were not deleted",
+    "Nested SDK configuration test does not forward nondefault generator platform/toolset or cross-compilation toolchain; default native configurations only"
+  ],
+  "review": {
+    "passed": true,
+    "scope": "Read-only CMake/CI/default-toolchain portability and delivery docs review; Visual Studio/Xcode generator-target inventory corrected; final script rerun in native and full Debug/Release CTest",
+    "windows_macos_executed": false
+  }
+}

@@ -75,3 +75,50 @@ jobs:
             build/Testing/Temporary/LastTest.log
             consumer-build/Testing/Temporary/LastTest.log
           if-no-files-found: warn
+  cpp-sdk:
+    name: C++ SDK / ${{ matrix.os }} / ${{ matrix.configuration }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, ubuntu-latest, macos-latest]
+        configuration: [Debug, Release]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Configure native C++ tests without Python or C ABI
+        run: >-
+          cmake -S . -B build-native -DCMAKE_BUILD_TYPE=${{ matrix.configuration }}
+          -DCMAKE_CXX_EXTENSIONS=OFF -DBUILD_TESTING=ON
+          -DRFMODEL_BUILD_C_API=OFF -DRFMODEL_BUILD_CLI=OFF
+          -DRFMODEL_BUILD_PYTHON_TESTS=OFF -DRFMODEL_BUILD_EXAMPLES=ON
+      - name: Build and test native C++ API
+        run: |
+          cmake --build build-native --config ${{ matrix.configuration }} --parallel 2
+          ctest --test-dir build-native -C ${{ matrix.configuration }} --output-on-failure
+          ctest --test-dir build-native -C ${{ matrix.configuration }} --show-only=json-v1 > native-tests.json
+      - name: Configure and install header-only SDK
+        run: |
+          cmake -S . -B build-sdk -DCMAKE_BUILD_TYPE=${{ matrix.configuration }} -DBUILD_TESTING=OFF -DRFMODEL_BUILD_C_API=OFF -DRFMODEL_BUILD_CLI=OFF -DRFMODEL_BUILD_EXAMPLES=OFF -DRFMODEL_BUILD_PYTHON_TESTS=OFF
+          cmake --build build-sdk --config ${{ matrix.configuration }}
+          cmake --install build-sdk --config ${{ matrix.configuration }} --prefix "$PWD/install-cpp"
+          mv install-cpp relocated-cpp
+      - name: Consume relocated SDK from independent multi-translation-unit project
+        run: |
+          cmake -S tests/consumer -B consumer-cpp -DCMAKE_BUILD_TYPE=${{ matrix.configuration }} -DCMAKE_PREFIX_PATH="$PWD/relocated-cpp"
+          cmake --build consumer-cpp --config ${{ matrix.configuration }} --parallel 2
+          ctest --test-dir consumer-cpp -C ${{ matrix.configuration }} --output-on-failure
+      - name: Preserve native SDK verification evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: cpp-sdk-${{ matrix.os }}-${{ matrix.configuration }}
+          path: |
+            native-tests.json
+            build-native/Testing/Temporary/LastTest.log
+            consumer-cpp/Testing/Temporary/LastTest.log
