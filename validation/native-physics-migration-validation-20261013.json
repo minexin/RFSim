@@ -1,0 +1,216 @@
+{
+  "schema": "rfmodel.native-physics-migration-validation",
+  "version": 1,
+  "date": "2026-10-13",
+  "baseline_commit": "cd52be779eab5aa4113d55ed781e1abe0f4dfc96",
+  "baseline": "frozen prepublication C++ priority snapshot, verified against all 30 manifest entries",
+  "publication": {
+    "committed": false,
+    "pushed": false,
+    "frozen_source_modified": false
+  },
+  "scope": "Direct C++ test-only migration of bounded Chebyshev physics and AM/PM/highorder accepted-snapshot noise composition; no core/API/CMake or Python/C ABI changes.",
+  "host": {
+    "os": "Linux",
+    "compiler": "GNU C++ 14.2.0",
+    "cmake": "3.31.10",
+    "clang_format": "19.1.7"
+  },
+  "configuration_options": {
+    "BUILD_TESTING": "ON",
+    "RFMODEL_BUILD_C_API": "OFF",
+    "RFMODEL_BUILD_CLI": "OFF",
+    "RFMODEL_BUILD_PYTHON_TESTS": "OFF",
+    "RFMODEL_BUILD_EXAMPLES": "ON"
+  },
+  "commands": [
+    "cmake -S <source> -B <build> -DCMAKE_BUILD_TYPE=<Debug|Release> -DRFMODEL_BUILD_C_API=OFF -DRFMODEL_BUILD_CLI=OFF -DRFMODEL_BUILD_PYTHON_TESTS=OFF",
+    "cmake --build <build> --parallel 2 --target chebyshev_filter_test conversion_operating_point_test",
+    "ctest --test-dir <build> -R \"^(chebyshev_filter_test|conversion_operating_point_test)$\" --output-on-failure",
+    "cmake --build <build> --parallel 2",
+    "ctest --test-dir <build> --parallel 2 --output-on-failure"
+  ],
+  "results": [
+    {
+      "configuration": "Debug",
+      "targeted_passed": 2,
+      "targeted_total": 2,
+      "full_native_passed": 91,
+      "full_native_total": 91,
+      "ctest_inventory_count": 91,
+      "python_discovery_cache_present": false,
+      "c_compiler_enabled": false,
+      "ctest_python_or_c_abi_command_present": false
+    },
+    {
+      "configuration": "Release",
+      "targeted_passed": 2,
+      "targeted_total": 2,
+      "full_native_passed": 91,
+      "full_native_total": 91,
+      "ctest_inventory_count": 91,
+      "python_discovery_cache_present": false,
+      "c_compiler_enabled": false,
+      "ctest_python_or_c_abi_command_present": false
+    }
+  ],
+  "additional_checks": {
+    "format_check": "passed",
+    "strict_release_compile_flags": "-std=c++17 -O2 -DNDEBUG -Wall -Wextra -Werror -pedantic",
+    "strict_release_tests_passed": 2,
+    "assertions_active_with_NDEBUG": true,
+    "separate_mutated_include_trees": true
+  },
+  "mutations_rejected": [
+    {
+      "mutation": "all_mappings_become_lowpass",
+      "compile_exit_code": 0,
+      "test_exit_code": 1,
+      "diagnostic": "four-response independent Chebyshev pole mapping"
+    },
+    {
+      "mutation": "discard_edge_scale",
+      "compile_exit_code": 0,
+      "test_exit_code": 1,
+      "diagnostic": "four-response independent Chebyshev pole mapping"
+    },
+    {
+      "mutation": "disable_topology_duality",
+      "compile_exit_code": 0,
+      "test_exit_code": 1,
+      "diagnostic": "dual topology reverses both reflections"
+    },
+    {
+      "mutation": "materialize_underflowed_polynomial",
+      "compile_exit_code": 0,
+      "test_exit_code": 1,
+      "diagnostic": "underflowed frequency ratio retains representable reflection"
+    },
+    {
+      "mutation": "naive_band_mapping",
+      "compile_exit_code": 0,
+      "test_exit_code": 1,
+      "diagnostic": "Chebyshev limiting dual topology"
+    },
+    {
+      "mutation": "omit_am_pm_phase_derivative",
+      "compile_exit_code": 0,
+      "test_exit_code": 1,
+      "diagnostic": "final radial slope differs: (7.89902,-5.69998) != (3.57947,-11.686) (scale 12.2219)\nfinal radial slope differs"
+    },
+    {
+      "mutation": "omit_highorder_limiter_derivative",
+      "compile_exit_code": 0,
+      "test_exit_code": 1,
+      "diagnostic": "final radial slope differs: (7.68639,0) != (7.6827,0) (scale 7.6827)\nfinal radial slope differs"
+    },
+    {
+      "mutation": "omit_returned_snapshot_offsets",
+      "compile_exit_code": 0,
+      "test_exit_code": 1,
+      "diagnostic": "final affine offset differs: (0,0) != (0.0445965,0.0588492) (scale 0.221355)\nfinal affine offset differs"
+    }
+  ],
+  "coverage": {
+    "chebyshev": "four independent signed analog mappings; unequal edge attenuation; odd/even reflection and DC parity; open/short duality; unitarity/thermal noise; adjacent extreme band edges; subnormal ripple; 6000 dB amplitude and underflowed-ratio nonzero reflection",
+    "converged_noise": "six accepted-point fixtures, independent scalar/radial/tangential oracles; snapshot-only affine replay; full outgoing/incident/cross C/P, net noise, reference gain/NF/equivalent temperature; complex-phase and saturation; fundamental and third-harmonic correlation"
+  },
+  "tolerances": {
+    "pole_complex_absolute": 3e-12,
+    "edge_power_absolute": 5e-12,
+    "extreme_edge_dc_center_power_absolute": 5e-13,
+    "unitary_row_power_absolute": 1e-12,
+    "unitary_cross_absolute": 1e-14,
+    "passive_noise_w_per_hz_absolute": 1e-32,
+    "extreme_amplitude_relative": 2e-12,
+    "subnormal_reflection_denorm_ulp": 1,
+    "subnormal_reflection_must_be_nonzero": true,
+    "snapshot_wave_derivative_cp_physical_scale_relative": 5e-10,
+    "snapshot_cp_uses_unit_sized_absolute_floor": false,
+    "noise_factor_and_db_absolute": 1e-12,
+    "equivalent_temperature_k_absolute": 1e-09
+  },
+  "changed_test_and_note_files": [
+    {
+      "path": "tests/chebyshev_filter_test.cpp",
+      "sha256": "ccc49151d5e8837b62b578cc4e922118d20cd5b84423b2cd2dfa707af8cfa383",
+      "bytes": 16144,
+      "baseline_sha256": "9f42c364ce676410dff07c261be86dee1948cbd161d8309388654143c3dbd2e6"
+    },
+    {
+      "path": "tests/conversion_operating_point_test.cpp",
+      "sha256": "39e592ad5ef3fffd6f73e5f00adcf7eeac2163c52f07160e637b61783e21dfa2",
+      "bytes": 22979,
+      "baseline_sha256": "c69680c13ef1f13be9c2b631554c3c534ad619cff19c772f01a08b9951b7f701"
+    },
+    {
+      "path": "docs/native-physics-migration-20261013.md",
+      "sha256": "5b49d702094dc34360719a9e5e1720bdd6f7f9265102882c3a6b3e6688bd8839",
+      "bytes": 6111,
+      "baseline_sha256": null
+    }
+  ],
+  "evidence_logs": [
+    {
+      "file": "configure-debug.log",
+      "sha256": "598d4126f987542c5738b119f53b27f715620bf3f2bf4ea0a7d5b5bd8c2b7df4",
+      "bytes": 389
+    },
+    {
+      "file": "configure-release.log",
+      "sha256": "b5f0b206e0e58926d8af0fb6faa6b2b923f87ddddcbe3089829325f537d6ff1d",
+      "bytes": 391
+    },
+    {
+      "file": "target-build-debug.log",
+      "sha256": "838d920fb9c4ac440e3915ffc17cd2a61c061050d13225363e8fb86d77535bd1",
+      "bytes": 274
+    },
+    {
+      "file": "target-build-release.log",
+      "sha256": "838d920fb9c4ac440e3915ffc17cd2a61c061050d13225363e8fb86d77535bd1",
+      "bytes": 274
+    },
+    {
+      "file": "target-ctest-debug.log",
+      "sha256": "0d5fa2b050d5b41afbb71b9f58931aa258153272224a2c4665772a9ee8e5b72b",
+      "bytes": 438
+    },
+    {
+      "file": "target-ctest-release.log",
+      "sha256": "a20a8787f28197227c72c32f5cc9a30059e3ac24368ae2c21ce4cbfd5ab28e41",
+      "bytes": 442
+    },
+    {
+      "file": "final-full-build-debug.log",
+      "sha256": "07544ad503f323bb4152090d57d0ab41de48138d1a3d012a028c724199792397",
+      "bytes": 3818
+    },
+    {
+      "file": "final-full-build-release.log",
+      "sha256": "06340942830a2f279a0aa3490776bca3bf8342ee387fcd5ddb86f2cde02b52ce",
+      "bytes": 3818
+    },
+    {
+      "file": "final-full-ctest-debug.log",
+      "sha256": "aec73c6a2c26c7313cd546e30a204e0fe728a484c7f03e1b1bc91ffc3a2bd1a1",
+      "bytes": 10652
+    },
+    {
+      "file": "final-full-ctest-release.log",
+      "sha256": "be33bc3977546627acd7a6a0e5f0953320bcea2ed1c3e3a3403ab50bbb4fac05",
+      "bytes": 10656
+    },
+    {
+      "file": "strict-format-release.log",
+      "sha256": "1d7896461cbe3de7b1642f09e8a5a04cec69094bc8c8275e7e308161c68f4510",
+      "bytes": 336
+    }
+  ],
+  "limitations": [
+    "Python is present on the validation host and was used to package evidence; the C++ configurations/tests neither discover nor invoke it. This is not an interpreter-absent host claim.",
+    "No Windows/macOS or remote CI execution in this patch.",
+    "No new SystemVue simulation or vendor compatibility claim; existing diagnostic/calibration/holdout boundaries remain unchanged.",
+    "Python/JSON reconstruction and parsing contracts remain retained; direct C++ composition coverage does not validate those adapters."
+  ]
+}
