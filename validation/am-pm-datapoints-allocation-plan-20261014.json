@@ -1,0 +1,586 @@
+{
+  "schema_version": 1,
+  "created_utc": "2026-10-13T18:00:21.415299+00:00",
+  "classification": "preregistered_fixed_table_gain_source_allocation",
+  "purpose": "Test two explicitly extended finite-pattern candidates under independent gain/source allocation changes. Retain actual input/output spectra and distinguish nominal-coordinate transport from evidence about an unknown physical-power function.",
+  "source_workspace_sha256": "ead90a212c786eff0cfa782dab47dbfe14c421b3f43b32c573bb990cb8348877",
+  "analysis_target": "RFModel_AMPM_A01/DataPoints/System2",
+  "source_phase_conventions": {
+    "ordinary": "measured_input_node_phase",
+    "sweep": "measured_input_node_phase",
+    "nominal_sweep_source_phase_degrees": 0
+  },
+  "baseline_reference": {
+    "path": "validation/am-pm-datapoints-raw-axis-observations-20261013.json",
+    "sha256": "7fed2f4f3ce455c0a1491d76e1d7c9a864dfb1ecc264acca29369557272da512"
+  },
+  "baseline_profile": "control-zero",
+  "prior_order_reference": {
+    "path": "validation/am-pm-datapoints-order-observations-20261014.json",
+    "sha256": "94c96a088989bf10febc9ee2830db21242d50e7244f64c810565be2c3d0a1a52"
+  },
+  "historical_target_profiles": {
+    "0": "control-zero",
+    "-0.000001": "negative-0p000001",
+    "0.000001": "positive-0p000001"
+  },
+  "analysis_budget": {
+    "profiles": 12,
+    "reserved_setup_recovery": 0,
+    "total_maximum": 12
+  },
+  "phase_absolute_tolerance_degrees": 1e-05,
+  "baseline_power_relative_tolerance": 1e-07,
+  "input_power_relative_tolerance": 1e-10,
+  "cross_gain_input_power_relative_tolerance": 1e-07,
+  "ordinary_replication_power_relative_tolerance": 1e-10,
+  "legacy_hypotheses": [
+    "dcp_continuous",
+    "raw_continuous",
+    "raw_nominal_zero_bypass",
+    "raw_report_zero_bypass"
+  ],
+  "legacy_hypothesis_definitions": {
+    "dcp_continuous": "Natural cubic spline evaluated on measured ordinary DCP output dBm, added to measured ordinary source phase.",
+    "raw_continuous": "Same spline evaluated on ordinary raw spectral output power converted to dBm; measured ordinary source phase added.",
+    "raw_nominal_zero_bypass": "Same raw-power spline; set only its increment to zero at the registered nominal zero-dBm control, without assuming raw power is exactly 0.001 W.",
+    "raw_report_zero_bypass": "Same raw-power spline; set its increment to zero wherever ordinary DCP output power equals exactly 0.001 W."
+  },
+  "historical_hypothesis_status": "All four legacy candidates failed the previous complete ten-new-target study. No new local result rescinds those failures.",
+  "hypotheses": [
+    "output_discrete_pattern",
+    "input_discrete_pattern"
+  ],
+  "hypothesis_definitions": {
+    "output_discrete_pattern": "At this fixed table, use zero increment exactly when Decimal nominal output q is 0 or -0.000001 dBm; at every other registered configuration use the natural cubic spline on measured raw output power.",
+    "input_discrete_pattern": "At this fixed table, use zero increment exactly when Decimal nominal source q-G is -20 or -20.000001 dBm; at every other registered configuration use the same natural cubic spline on measured raw output power."
+  },
+  "transfer_zero_sets": {
+    "nominal_output_dbm": [
+      "0",
+      "-0.000001"
+    ],
+    "nominal_source_dbm": [
+      "-20",
+      "-20.000001"
+    ]
+  },
+  "local_spline_polynomial": {
+    "domain_dbm": [
+      -5,
+      5
+    ],
+    "ascending_coefficients": [
+      33.4375,
+      3.5625,
+      -0.3375,
+      -0.0225
+    ],
+    "source": "Analytic natural-cubic interpolation of the frozen table, not fitted to new observations."
+  },
+  "primary_evaluation": {
+    "historical_reproduction_count": 4,
+    "new_prediction_check_count": 8,
+    "divergent_prediction_count": 6,
+    "common_nonzero_prediction_count": 2,
+    "new_prediction_profile_names": [
+      "g18-zero",
+      "g18-negative-epsilon",
+      "g18-positive-epsilon",
+      "g18-fixed-input",
+      "g22-zero",
+      "g22-positive-epsilon",
+      "g22-negative-epsilon",
+      "g22-fixed-input"
+    ],
+    "divergent_profile_names": [
+      "g18-zero",
+      "g18-negative-epsilon",
+      "g18-fixed-input",
+      "g22-zero",
+      "g22-negative-epsilon",
+      "g22-fixed-input"
+    ],
+    "common_nonzero_profile_names": [
+      "g18-positive-epsilon",
+      "g22-positive-epsilon"
+    ],
+    "finite_output_fingerprint_applicable_count": 6,
+    "finite_input_zero_fingerprint_applicable_count": 2,
+    "controls_excluded_from_new_prediction_pass_rates": true,
+    "independent_new_sweep_prediction_points": 0,
+    "zero_increment_test": "Circular difference between measured ordinary output and input phase no greater than 1e-5 degrees.",
+    "added_assumption": "The two eight-point candidates explicitly add raw-spline behavior at all configurations outside their discrete nominal zero sets; that extension was not established by the old data."
+  },
+  "gain_controls": {
+    "g20": "g20-start-zero",
+    "g18": "g18-zero",
+    "g22": "g22-zero"
+  },
+  "gain_control_indices": [
+    0,
+    3,
+    7
+  ],
+  "historical_baseline_indices": [
+    0,
+    11
+  ],
+  "repeated_sweep_indices": [
+    1,
+    2,
+    4,
+    5,
+    6,
+    8,
+    9,
+    10,
+    11
+  ],
+  "same_configuration_pairs": [
+    [
+      "g20-start-zero",
+      "g20-end-zero"
+    ]
+  ],
+  "allocation_comparisons": {
+    "same_nominal_output_pairs": [
+      [
+        "g20-start-zero",
+        "g18-zero"
+      ],
+      [
+        "g20-negative-epsilon",
+        "g18-negative-epsilon"
+      ],
+      [
+        "g20-positive-epsilon",
+        "g18-positive-epsilon"
+      ],
+      [
+        "g20-start-zero",
+        "g22-zero"
+      ],
+      [
+        "g20-negative-epsilon",
+        "g22-negative-epsilon"
+      ],
+      [
+        "g20-positive-epsilon",
+        "g22-positive-epsilon"
+      ]
+    ],
+    "same_nominal_input_pairs": [
+      [
+        "g20-start-zero",
+        "g18-fixed-input"
+      ],
+      [
+        "g20-start-zero",
+        "g22-fixed-input"
+      ]
+    ],
+    "exact_power_fields": [
+      "input_power_w",
+      "output_power_w",
+      "raw_input_w",
+      "raw_output_w"
+    ],
+    "interpretation": "Retain exact parsed binary64 equality separately from residuals. Approximate raw-power equality does not refute an arbitrary unknown output-only function or identify a threshold; these comparisons are descriptive."
+  },
+  "input_power_identity": {
+    "within_gain": "DCP input divided by its registered same-gain zero control must match 10^(q/10), relative tolerance 1e-10.",
+    "cross_gain": "DCP input divided by the first G20 zero must match 10^((q-G+20)/10), relative tolerance 1e-7; this allows small loading differences and does not establish exact physical-input equality.",
+    "source_parameter": "Exact Decimal source expression q-G and exact gain expression, plus their SI readbacks, must match before and after each analysis.",
+    "raw_input": "Preserve input desired-carrier F1/P1/V1/Z1/ID1 nodes and validate physical V/Z/P, carrier support and phase. Raw input ratios, raw gain and raw-versus-DCP differences are descriptive, not cross-gain equality gates."
+  },
+  "quick_sweeps": {
+    "planned_points_per_call": 61,
+    "maximum_extra_endpoints_per_call": 1,
+    "total_planned_observations": 732,
+    "required_parameter_readback": "RFModel_AMPM_A01/DataPoints/System2/Path1/Enable == 1",
+    "input_grid_dbm": [
+      -30,
+      0,
+      0.5
+    ],
+    "initial_gain_reference_indices": [
+      0,
+      3,
+      7
+    ],
+    "repeated_sweep_gate": "Compare only with the first sweep at the same gain. Same-gain input relative tolerance is 1e-10, output 1e-7 and phase 1e-5 degrees. Never require cross-gain output equality.",
+    "interpretation": "First G18/G22 scans are new auxiliary references, not historical reproductions. All 732 scan observations and up to twelve extra endpoints are excluded from ordinary prediction denominators."
+  },
+  "acquisition_rules": [
+    "Commit the plan, new normalizer, preparer, scorer and full exact helper/source workflow before any new analysis.",
+    "Use only the identified already-running SystemVue process; require zero open workspaces before opening each independently prepared input; save and close each result.",
+    "Validate 18 parameter readbacks, exact G and source Pwr expressions, explicit completion, empty diagnostics, ordinary input/output raw V/Z/P, timestamps and full sweep before another analysis.",
+    "Only the first and last G20-zero profiles use the complete 63-item historical baseline gate. Other historical ordinary comparisons are descriptive.",
+    "Stop on invalid acquisition, registered input identity failure, historical zero baseline failure or a same-gain repeated sweep failure; preserve every attempted call and restore without another analysis.",
+    "Candidate, fingerprint, cross-gain comparison and historical epsilon failures are results, not retry triggers. Complete the fixed sequence when technical and baseline/repeat gates pass.",
+    "Twelve calls maximum, no reserved or replacement calls; failed calls consume their slot. No fitting, tolerance changes, added targets or omission of valid observations.",
+    "Restore the original workspace and verify all 245 paths, 247 ordered parameter occurrences and metadata without extra analysis. Preserve unidentified or incomplete application state."
+  ],
+  "exclusions": [
+    "These are two new finite-pattern extensions restricted to this table, not established vendor formulas or continuous/symmetric bypass windows.",
+    "All eight new configurations are prediction checks; only six yield divergent predicted zero/nonzero states. Partial fingerprints have applicable denominators six and two, not eight each.",
+    "Nominal source, raw input and reported input are distinct. This design cannot isolate parameter-expression mechanisms from physical-input mechanisms, nor exclude arbitrary gain-dependent branches.",
+    "Earlier G7 and G-3 zero-output results used different tables; they constrain global input-only claims but are not same-configuration controls here.",
+    "Equal nominal output or near-equal raw power cannot establish exact physical-output equality or uniquely identify the internal coordinate.",
+    "Fixed sequential blocks do not separate gain from time, order or hidden process state. Independent input files do not clear process caches.",
+    "Both candidates may fail or pass; finite successes do not choose a causal mechanism, authorize a product derivative contract or establish full DataPoints compatibility.",
+    "Partial acquisition must list missing profiles and uncompleted controls, without representing an observed prefix as the full study.",
+    "No product formula, tolerance or compatibility acceptance is changed by this registration."
+  ],
+  "profiles": [
+    {
+      "name": "g20-start-zero",
+      "power_dbm": [
+        -5,
+        5,
+        15
+      ],
+      "phase_deg": [
+        10,
+        40,
+        -20
+      ],
+      "gain_db": 20,
+      "frequency_hz": 100000000.0,
+      "source_phase_deg": 37,
+      "output_p1db_dbm": 100,
+      "output_saturation_dbm": 103,
+      "output_ip2_dbm": 140,
+      "output_ip3_dbm": 130,
+      "ordinary_output_target_dbm": 0,
+      "sweep_input_start_dbm": -30,
+      "sweep_input_stop_dbm": 0,
+      "sweep_step_db": 0.5,
+      "expected_points": 61,
+      "ordinary_role": "historical_reproduction",
+      "gain_group": "g20",
+      "comparison_role": "historical_control",
+      "control_profile": "g20-start-zero"
+    },
+    {
+      "name": "g20-negative-epsilon",
+      "power_dbm": [
+        -5,
+        5,
+        15
+      ],
+      "phase_deg": [
+        10,
+        40,
+        -20
+      ],
+      "gain_db": 20,
+      "frequency_hz": 100000000.0,
+      "source_phase_deg": 37,
+      "output_p1db_dbm": 100,
+      "output_saturation_dbm": 103,
+      "output_ip2_dbm": 140,
+      "output_ip3_dbm": 130,
+      "ordinary_output_target_dbm": -1e-06,
+      "sweep_input_start_dbm": -30,
+      "sweep_input_stop_dbm": 0,
+      "sweep_step_db": 0.5,
+      "expected_points": 61,
+      "ordinary_role": "historical_reproduction",
+      "gain_group": "g20",
+      "comparison_role": "historical_control",
+      "control_profile": "g20-start-zero"
+    },
+    {
+      "name": "g20-positive-epsilon",
+      "power_dbm": [
+        -5,
+        5,
+        15
+      ],
+      "phase_deg": [
+        10,
+        40,
+        -20
+      ],
+      "gain_db": 20,
+      "frequency_hz": 100000000.0,
+      "source_phase_deg": 37,
+      "output_p1db_dbm": 100,
+      "output_saturation_dbm": 103,
+      "output_ip2_dbm": 140,
+      "output_ip3_dbm": 130,
+      "ordinary_output_target_dbm": 1e-06,
+      "sweep_input_start_dbm": -30,
+      "sweep_input_stop_dbm": 0,
+      "sweep_step_db": 0.5,
+      "expected_points": 61,
+      "ordinary_role": "historical_reproduction",
+      "gain_group": "g20",
+      "comparison_role": "historical_control",
+      "control_profile": "g20-start-zero"
+    },
+    {
+      "name": "g18-zero",
+      "power_dbm": [
+        -5,
+        5,
+        15
+      ],
+      "phase_deg": [
+        10,
+        40,
+        -20
+      ],
+      "gain_db": 18,
+      "frequency_hz": 100000000.0,
+      "source_phase_deg": 37,
+      "output_p1db_dbm": 100,
+      "output_saturation_dbm": 103,
+      "output_ip2_dbm": 140,
+      "output_ip3_dbm": 130,
+      "ordinary_output_target_dbm": 0,
+      "sweep_input_start_dbm": -30,
+      "sweep_input_stop_dbm": 0,
+      "sweep_step_db": 0.5,
+      "expected_points": 61,
+      "ordinary_role": "new_prediction_check",
+      "gain_group": "g18",
+      "comparison_role": "same_nominal_output",
+      "control_profile": "g18-zero"
+    },
+    {
+      "name": "g18-negative-epsilon",
+      "power_dbm": [
+        -5,
+        5,
+        15
+      ],
+      "phase_deg": [
+        10,
+        40,
+        -20
+      ],
+      "gain_db": 18,
+      "frequency_hz": 100000000.0,
+      "source_phase_deg": 37,
+      "output_p1db_dbm": 100,
+      "output_saturation_dbm": 103,
+      "output_ip2_dbm": 140,
+      "output_ip3_dbm": 130,
+      "ordinary_output_target_dbm": -1e-06,
+      "sweep_input_start_dbm": -30,
+      "sweep_input_stop_dbm": 0,
+      "sweep_step_db": 0.5,
+      "expected_points": 61,
+      "ordinary_role": "new_prediction_check",
+      "gain_group": "g18",
+      "comparison_role": "same_nominal_output",
+      "control_profile": "g18-zero"
+    },
+    {
+      "name": "g18-positive-epsilon",
+      "power_dbm": [
+        -5,
+        5,
+        15
+      ],
+      "phase_deg": [
+        10,
+        40,
+        -20
+      ],
+      "gain_db": 18,
+      "frequency_hz": 100000000.0,
+      "source_phase_deg": 37,
+      "output_p1db_dbm": 100,
+      "output_saturation_dbm": 103,
+      "output_ip2_dbm": 140,
+      "output_ip3_dbm": 130,
+      "ordinary_output_target_dbm": 1e-06,
+      "sweep_input_start_dbm": -30,
+      "sweep_input_stop_dbm": 0,
+      "sweep_step_db": 0.5,
+      "expected_points": 61,
+      "ordinary_role": "new_prediction_check",
+      "gain_group": "g18",
+      "comparison_role": "same_nominal_output",
+      "control_profile": "g18-zero"
+    },
+    {
+      "name": "g18-fixed-input",
+      "power_dbm": [
+        -5,
+        5,
+        15
+      ],
+      "phase_deg": [
+        10,
+        40,
+        -20
+      ],
+      "gain_db": 18,
+      "frequency_hz": 100000000.0,
+      "source_phase_deg": 37,
+      "output_p1db_dbm": 100,
+      "output_saturation_dbm": 103,
+      "output_ip2_dbm": 140,
+      "output_ip3_dbm": 130,
+      "ordinary_output_target_dbm": -2,
+      "sweep_input_start_dbm": -30,
+      "sweep_input_stop_dbm": 0,
+      "sweep_step_db": 0.5,
+      "expected_points": 61,
+      "ordinary_role": "new_prediction_check",
+      "gain_group": "g18",
+      "comparison_role": "same_nominal_input",
+      "control_profile": "g18-zero"
+    },
+    {
+      "name": "g22-zero",
+      "power_dbm": [
+        -5,
+        5,
+        15
+      ],
+      "phase_deg": [
+        10,
+        40,
+        -20
+      ],
+      "gain_db": 22,
+      "frequency_hz": 100000000.0,
+      "source_phase_deg": 37,
+      "output_p1db_dbm": 100,
+      "output_saturation_dbm": 103,
+      "output_ip2_dbm": 140,
+      "output_ip3_dbm": 130,
+      "ordinary_output_target_dbm": 0,
+      "sweep_input_start_dbm": -30,
+      "sweep_input_stop_dbm": 0,
+      "sweep_step_db": 0.5,
+      "expected_points": 61,
+      "ordinary_role": "new_prediction_check",
+      "gain_group": "g22",
+      "comparison_role": "same_nominal_output",
+      "control_profile": "g22-zero"
+    },
+    {
+      "name": "g22-positive-epsilon",
+      "power_dbm": [
+        -5,
+        5,
+        15
+      ],
+      "phase_deg": [
+        10,
+        40,
+        -20
+      ],
+      "gain_db": 22,
+      "frequency_hz": 100000000.0,
+      "source_phase_deg": 37,
+      "output_p1db_dbm": 100,
+      "output_saturation_dbm": 103,
+      "output_ip2_dbm": 140,
+      "output_ip3_dbm": 130,
+      "ordinary_output_target_dbm": 1e-06,
+      "sweep_input_start_dbm": -30,
+      "sweep_input_stop_dbm": 0,
+      "sweep_step_db": 0.5,
+      "expected_points": 61,
+      "ordinary_role": "new_prediction_check",
+      "gain_group": "g22",
+      "comparison_role": "same_nominal_output",
+      "control_profile": "g22-zero"
+    },
+    {
+      "name": "g22-negative-epsilon",
+      "power_dbm": [
+        -5,
+        5,
+        15
+      ],
+      "phase_deg": [
+        10,
+        40,
+        -20
+      ],
+      "gain_db": 22,
+      "frequency_hz": 100000000.0,
+      "source_phase_deg": 37,
+      "output_p1db_dbm": 100,
+      "output_saturation_dbm": 103,
+      "output_ip2_dbm": 140,
+      "output_ip3_dbm": 130,
+      "ordinary_output_target_dbm": -1e-06,
+      "sweep_input_start_dbm": -30,
+      "sweep_input_stop_dbm": 0,
+      "sweep_step_db": 0.5,
+      "expected_points": 61,
+      "ordinary_role": "new_prediction_check",
+      "gain_group": "g22",
+      "comparison_role": "same_nominal_output",
+      "control_profile": "g22-zero"
+    },
+    {
+      "name": "g22-fixed-input",
+      "power_dbm": [
+        -5,
+        5,
+        15
+      ],
+      "phase_deg": [
+        10,
+        40,
+        -20
+      ],
+      "gain_db": 22,
+      "frequency_hz": 100000000.0,
+      "source_phase_deg": 37,
+      "output_p1db_dbm": 100,
+      "output_saturation_dbm": 103,
+      "output_ip2_dbm": 140,
+      "output_ip3_dbm": 130,
+      "ordinary_output_target_dbm": 2,
+      "sweep_input_start_dbm": -30,
+      "sweep_input_stop_dbm": 0,
+      "sweep_step_db": 0.5,
+      "expected_points": 61,
+      "ordinary_role": "new_prediction_check",
+      "gain_group": "g22",
+      "comparison_role": "same_nominal_input",
+      "control_profile": "g22-zero"
+    },
+    {
+      "name": "g20-end-zero",
+      "power_dbm": [
+        -5,
+        5,
+        15
+      ],
+      "phase_deg": [
+        10,
+        40,
+        -20
+      ],
+      "gain_db": 20,
+      "frequency_hz": 100000000.0,
+      "source_phase_deg": 37,
+      "output_p1db_dbm": 100,
+      "output_saturation_dbm": 103,
+      "output_ip2_dbm": 140,
+      "output_ip3_dbm": 130,
+      "ordinary_output_target_dbm": 0,
+      "sweep_input_start_dbm": -30,
+      "sweep_input_stop_dbm": 0,
+      "sweep_step_db": 0.5,
+      "expected_points": 61,
+      "ordinary_role": "historical_reproduction",
+      "gain_group": "g20",
+      "comparison_role": "historical_control",
+      "control_profile": "g20-start-zero"
+    }
+  ]
+}

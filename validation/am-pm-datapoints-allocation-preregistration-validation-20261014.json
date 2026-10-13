@@ -1,0 +1,167 @@
+{
+  "classification": "offline_preacquisition_tests_and_helper_compilation_only",
+  "created_utc": "2026-10-13T18:12:49.608525+00:00",
+  "plan_sha256": "df5cf362e9fc2fb852965c5a18bcf5c9bb556b3387f7b40246eb0bb04cf6a91c",
+  "source_revision": "5861c27344ef3b205108dbb8371b6422115c35d7",
+  "new_sources_uncommitted_at_validation": true,
+  "analysis_calls": 0,
+  "com_methods_invoked": false,
+  "suites": [
+    {
+      "platform": "windows",
+      "suite": "prepare_am_pm_datapoints_allocation_study",
+      "command": [
+        "C:/Users/Administrator/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe",
+        "-I",
+        "-S",
+        "-B",
+        "D:\\project\\RFModel\\scripts\\reference\\test_prepare_am_pm_datapoints_allocation_study.py"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-13T18:12:38.368183+00:00",
+      "finished_utc": "2026-10-13T18:12:39.321081+00:00",
+      "test_count": 12,
+      "script_sha256": "893c54ca08bef9427bf9c0a14a81c1d63b1f60aa16f5f5d6bfd3c3c9b3c564cf",
+      "log": "build-reference/ampm-datapoints-allocation-study-20261014/preacquisition-windows-prepare_am_pm_datapoints_allocation_study.log",
+      "log_sha256": "81a6a9405d57e50ab4b8fad9c6188fec6c4909223d4a6c2e69a99e26a0d4e427",
+      "log_utf8": "............\n----------------------------------------------------------------------\nRan 12 tests in 0.742s\n\nOK\n"
+    },
+    {
+      "platform": "windows",
+      "suite": "normalize_am_pm_datapoints_allocation",
+      "command": [
+        "C:/Users/Administrator/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe",
+        "-I",
+        "-S",
+        "-B",
+        "D:\\project\\RFModel\\scripts\\reference\\test_normalize_am_pm_datapoints_allocation.py"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-13T18:12:39.322140+00:00",
+      "finished_utc": "2026-10-13T18:12:40.178195+00:00",
+      "test_count": 24,
+      "script_sha256": "b0e8851cd8a272bac5ad601b19aee8c38238e6e557aea1da0824de965b4af295",
+      "log": "build-reference/ampm-datapoints-allocation-study-20261014/preacquisition-windows-normalize_am_pm_datapoints_allocation.log",
+      "log_sha256": "5e46c9763fa70c6ba9d1b199ef90f23dd08b36eb097aad190b14dd1548070196",
+      "log_utf8": "........................\n----------------------------------------------------------------------\nRan 24 tests in 0.709s\n\nOK\n"
+    },
+    {
+      "platform": "windows",
+      "suite": "diagnose_am_pm_datapoints_allocation_study",
+      "command": [
+        "C:/Users/Administrator/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe",
+        "-I",
+        "-S",
+        "-B",
+        "D:\\project\\RFModel\\scripts\\reference\\test_diagnose_am_pm_datapoints_allocation_study.py"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-13T18:12:40.179253+00:00",
+      "finished_utc": "2026-10-13T18:12:42.255003+00:00",
+      "test_count": 21,
+      "script_sha256": "783295713e36ce1cfde7833e84c5799029a71421384cbfa872d50152065a0dce",
+      "log": "build-reference/ampm-datapoints-allocation-study-20261014/preacquisition-windows-diagnose_am_pm_datapoints_allocation_study.log",
+      "log_sha256": "e0c3a3931f494c31981b57da767b7d9c9d1eb6dc76bf964d620ef50d4aca467c",
+      "log_utf8": ".....................\n----------------------------------------------------------------------\nRan 21 tests in 1.915s\n\nOK\n"
+    },
+    {
+      "platform": "ubuntu",
+      "suite": "prepare_am_pm_datapoints_allocation_study",
+      "command": [
+        "C:/Windows/System32/wsl.exe",
+        "-d",
+        "Ubuntu",
+        "--",
+        "python3",
+        "-I",
+        "-S",
+        "-B",
+        "/mnt/d/project/RFModel/scripts/reference/test_prepare_am_pm_datapoints_allocation_study.py"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-13T18:12:42.255998+00:00",
+      "finished_utc": "2026-10-13T18:12:45.659234+00:00",
+      "test_count": 12,
+      "script_sha256": "893c54ca08bef9427bf9c0a14a81c1d63b1f60aa16f5f5d6bfd3c3c9b3c564cf",
+      "log": "build-reference/ampm-datapoints-allocation-study-20261014/preacquisition-ubuntu-prepare_am_pm_datapoints_allocation_study.log",
+      "log_sha256": "faa76344341d273a9729e84f74c6745e1671b07c9351b0218c457f62f0e99995",
+      "log_utf8": "............\n----------------------------------------------------------------------\nRan 12 tests in 0.167s\n\nOK\n"
+    },
+    {
+      "platform": "ubuntu",
+      "suite": "normalize_am_pm_datapoints_allocation",
+      "command": [
+        "C:/Windows/System32/wsl.exe",
+        "-d",
+        "Ubuntu",
+        "--",
+        "python3",
+        "-I",
+        "-S",
+        "-B",
+        "/mnt/d/project/RFModel/scripts/reference/test_normalize_am_pm_datapoints_allocation.py"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-13T18:12:45.660232+00:00",
+      "finished_utc": "2026-10-13T18:12:46.572310+00:00",
+      "test_count": 24,
+      "script_sha256": "b0e8851cd8a272bac5ad601b19aee8c38238e6e557aea1da0824de965b4af295",
+      "log": "build-reference/ampm-datapoints-allocation-study-20261014/preacquisition-ubuntu-normalize_am_pm_datapoints_allocation.log",
+      "log_sha256": "5d78f6ddb47657ed1a7e11112c4c8392df008785176e22f251c706f3dbdad926",
+      "log_utf8": "........................\n----------------------------------------------------------------------\nRan 24 tests in 0.728s\n\nOK\n"
+    },
+    {
+      "platform": "ubuntu",
+      "suite": "diagnose_am_pm_datapoints_allocation_study",
+      "command": [
+        "C:/Windows/System32/wsl.exe",
+        "-d",
+        "Ubuntu",
+        "--",
+        "python3",
+        "-I",
+        "-S",
+        "-B",
+        "/mnt/d/project/RFModel/scripts/reference/test_diagnose_am_pm_datapoints_allocation_study.py"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-13T18:12:46.572846+00:00",
+      "finished_utc": "2026-10-13T18:12:48.384276+00:00",
+      "test_count": 21,
+      "script_sha256": "783295713e36ce1cfde7833e84c5799029a71421384cbfa872d50152065a0dce",
+      "log": "build-reference/ampm-datapoints-allocation-study-20261014/preacquisition-ubuntu-diagnose_am_pm_datapoints_allocation_study.log",
+      "log_sha256": "493e6a59146b3f0f2adbb3a12d1825f4ce824e0a963c6ef654f8ad0139f04d34",
+      "log_utf8": ".....................\n----------------------------------------------------------------------\nRan 21 tests in 1.595s\n\nOK\n"
+    }
+  ],
+  "helper_validation": {
+    "command": [
+      "C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe",
+      "-NoProfile",
+      "-NonInteractive",
+      "-ExecutionPolicy",
+      "Bypass",
+      "-File",
+      "D:\\project\\RFModel\\build-reference\\ampm-datapoints-allocation-study-20261014\\validate-helpers.ps1"
+    ],
+    "exit_code": 0,
+    "helper_count": 4,
+    "log": "build-reference/ampm-datapoints-allocation-study-20261014/preacquisition-helper-compilation.log",
+    "log_sha256": "ce6809c081ff421c3b8630ac7313fd1e13ecefc1ac997482ad31a1ebd1e5a11d",
+    "log_utf8": "preflight: PowerShell syntax and embedded C# compilation passed; no COM methods invoked.\npark: PowerShell syntax and embedded C# compilation passed; no COM methods invoked.\ncapture: PowerShell syntax and embedded C# compilation passed; no COM methods invoked.\nrestore: PowerShell syntax and embedded C# compilation passed; no COM methods invoked.\n"
+  },
+  "sources": {
+    "build-reference/ampm-datapoints-allocation-study-20261014/run.py": "c110db95dd7e900a51a6bfc67fc865d3d41019781a33167b086f63f05e7ed5be",
+    "build-reference/ampm-datapoints-allocation-study-20261014/preflight.ps1": "35ab366793d43d5f7c6cea2d53fa7cb14a9cf9f0f5954bf1f35aa98ca353f246",
+    "build-reference/ampm-datapoints-allocation-study-20261014/park.ps1": "1ee8d88f38cf5b52a22ebe6a3a82e5375245326c08b9492281a8d36a438edbd6",
+    "build-reference/ampm-datapoints-allocation-study-20261014/capture.ps1": "7fe96cb77eb9672b9c52d2fafff3b3b99eeeb06d61d6c786158617117bfe797c",
+    "build-reference/ampm-datapoints-allocation-study-20261014/restore.ps1": "aa8d944f34fdade13904f46c1fec9042d1cc32ce9bb02c8325c91c2914883b8d",
+    "build-reference/ampm-datapoints-allocation-study-20261014/validate-helpers.ps1": "dca2f5c021a8729eac2b7d096b33568729ad666835e78ff8dc47c009d7049594",
+    "build-reference/ampm-datapoints-allocation-study-20261014/validate-preacquisition.py": "a06b3db3ea4ae3dff500a42892e40d98671a8fedb21879664b01d208f3f99da9",
+    "scripts/reference/prepare-am-pm-datapoints-allocation-study.py": "c3a2d90e5436efe302d81d49ab0df989496079d0cad848bd23759f45b518fc26",
+    "scripts/reference/normalize-am-pm-datapoints-allocation.py": "fedf61a3aa9238931be02413dbc98f0c222779c9d9f9e920ec450c0784650836",
+    "scripts/reference/diagnose-am-pm-datapoints-allocation-study.py": "f0472f1316754ae7d10a982a89216dced073ba0792d0f152b824f7634e7ebbe5"
+  },
+  "frozen_workflow_sha256": "e10dd9cb246cf2d2772b771bf0b831c887a657c169574ba332a887cbb99d6b9b",
+  "scope": "Three offline suites on Windows and installed Ubuntu WSL, plus syntax and C# compilation for four helpers. No vendor call, full C++ build, CTest or remote CI is claimed by this record."
+}
