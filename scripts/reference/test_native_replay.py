@@ -48,6 +48,8 @@ PURE_PYTHON_SUITES = (
     "test_report_am_pm_datapoints_raw_axis_study.py",
     "test_prepare_am_pm_datapoints_order_study.py",
     "test_diagnose_am_pm_datapoints_order_study.py",
+    "test_archive_am_pm_datapoints_order_acquisition.py",
+    "test_report_am_pm_datapoints_order_study.py",
 )
 DATAPOINTS_ZERO_FIXTURES = (
     "am-pm-datapoints-zero-plan-20261013.json",
@@ -70,6 +72,12 @@ DATAPOINTS_RAW_AXIS_RESULT_FIXTURES = (
     "am-pm-datapoints-raw-axis-captures-20261013.json",
     "am-pm-datapoints-raw-axis-observations-20261013.json",
     "am-pm-datapoints-raw-axis-diagnostic-20261013.json",
+)
+DATAPOINTS_ORDER_RESULT_FIXTURES = (
+    "am-pm-datapoints-order-workflow-20261014.json",
+    "am-pm-datapoints-order-captures-20261014.json",
+    "am-pm-datapoints-order-observations-20261014.json",
+    "am-pm-datapoints-order-diagnostic-20261014.json",
 )
 # Frozen before stage-3A implementation; these are archival identities, not
 # hashes regenerated from the files under test. Keep the historical bytes.
@@ -857,7 +865,8 @@ print("ACTIVE_IMPORT_BAN_PASSED", suite.name)
                     "am-pm-point-derivative-adapter-amendment-20261013.json",
                     "am-pm-adapter-observations-20261013.json",
                     "am-pm-adapter-captures-20261013.json") + DATAPOINTS_ZERO_FIXTURES
-                    + DATAPOINTS_ZERO_RESULT_FIXTURES + DATAPOINTS_RAW_AXIS_RESULT_FIXTURES):
+                    + DATAPOINTS_ZERO_RESULT_FIXTURES + DATAPOINTS_RAW_AXIS_RESULT_FIXTURES
+                    + DATAPOINTS_ORDER_RESULT_FIXTURES):
                 shutil.copyfile(ROOT / "validation" / name, data / name)
             probe = root / PROBE.name
             shutil.copy2(PROBE, probe)
