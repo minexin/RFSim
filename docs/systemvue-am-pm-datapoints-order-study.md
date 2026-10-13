@@ -49,12 +49,16 @@
 
 ## 证据与边界
 
-采集前两组离线测试在 Windows 和实际 Ubuntu 下分别通过 10/10、16/16；四个辅助脚本的 PowerShell 语法与内嵌 C# 编译通过，检查期间没有调用 COM 或运行分析。该证据只覆盖采集前逻辑，不代表本轮实测、完整工程构建或远程 CI 已完成。
+采集前两组离线测试在 Windows 和实际 Ubuntu 下分别通过 10/10、16/16；四个辅助脚本的 PowerShell 语法与内嵌 C# 编译通过，检查期间没有调用 COM 或运行分析。该证据只覆盖采集前逻辑；采集后归档及工程验证分别记录如下。
 
 实测证据归档为[采集链清单](../validation/am-pm-datapoints-order-captures-20261014.json)、[观测数据](../validation/am-pm-datapoints-order-observations-20261014.json)和[完整诊断](../validation/am-pm-datapoints-order-diagnostic-20261014.json)。本地诊断已逐字节核验保留的原始文件；离线或 CI 复算校验提交内的嵌入来源和观测，不声称访问本地工作区文件。独立科学审计直接从采集数据复算，确认五对普通观测、六次历史复现、两组基线和九次完整扫描数值严格一致。
 
 报告命令为 `python -I -S scripts/reference/report-am-pm-datapoints-order-study.py validation/am-pm-datapoints-order-plan-20261014.json validation/am-pm-datapoints-order-observations-20261014.json <新的输出路径> --capture-manifest validation/am-pm-datapoints-order-captures-20261014.json`；本地原始证据完整时添加 `--raw-root .`。成功退出表示采集链及两组零点基线、重复扫描门控通过；预测失败和普通配对差异完整保留为描述结果，不作为兼容通过依据。
 
-[本地工程验证](../validation/am-pm-datapoints-order-validation-20261014.json)绑定提交 `083d64b`：Windows/MSVC Debug、Release 全目标构建通过，各自 CTest **140/140**，其中安装后 SDK 隔离协议回放各 **33/33**。本轮制备、评分、归档、报告四组测试分别为 **10/10、16/16、49/49、7/7**，实际 Ubuntu 离线执行也通过全部 **82 项**。本轮没有改动 C++ 头文件或 ABI，使用增量构建；没有声称 clean-first 重建或已完成远程 CI。证据 JSON 已设置 Git 字节保护，避免平台换行转换改变冻结哈希。
+[本地工程验证](../validation/am-pm-datapoints-order-validation-20261014.json)绑定提交 `083d64b`：Windows/MSVC Debug、Release 全目标构建通过，各自 CTest **140/140**，其中安装后 SDK 隔离协议回放各 **33/33**。本轮制备、评分、归档、报告四组测试分别为 **10/10、16/16、49/49、7/7**，实际 Ubuntu 离线执行也通过全部 **82 项**。本轮没有改动 C++ 头文件或 ABI，使用增量构建，未执行 clean-first 重建。证据 JSON 已设置 Git 字节保护，避免平台换行转换改变冻结哈希。
+
+本阶段已推送至 GitHub `main`，受测提交为 `ab1dca7`。[跨平台 CI](https://github.com/minexin/RFSim/actions/runs/38440281447) 的 **18/18 项任务全部通过**，覆盖 Windows、Linux、macOS 的 Debug/Release。每个配置的核心/CLI 为 **119/119**、安装后 C++/C 消费者为 **10/10**、独立纯 C++ API 为 **106/106**、移动后的头文件 SDK 消费者为 **8/8**、归档回放 CTest 为 **21/21**。
+
+六份实际回放报告均保留两个新目标的 **0/2/2/0** 候选通过数、五对顺序一致、全部通过的零点基线与重复扫描；旧整组失败没有撤销。[跨平台验证记录](../validation/am-pm-datapoints-order-ci-20261014.json)核对全部 18 份任务日志的 **1584 个 CTest 执行实例**及 18 份产物元数据；这些重复执行不增加科学预测分母。CI 校验提交内证据，不运行 SystemVue，也不声称访问本地完整原始文件。本地验证记录保留生成时尚未发布的历史状态；后续提交仅补充本 CI 记录及文档状态，不改变受测实现或冻结观测。
 
 两种固定次序只能检查这些离散目标在本次单进程条件下的一致性，不能独立区分顺序、时间漂移与内部状态，也不能证明连续或对称的零相位区间、精确阈值、多节点任意表、强压缩、多音或其他频率行为。本轮不改变产品公式或兼容验收状态。
