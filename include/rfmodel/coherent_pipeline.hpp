@@ -5,6 +5,7 @@
 #include "coherent_polynomial.hpp"
 #include "origin_expression.hpp"
 #include "saturating_fundamental.hpp"
+#include <exception>
 #include <iterator>
 #include <memory>
 #include <optional>
@@ -187,6 +188,41 @@ private:
         PolynomialCounts counts;
     };
 
+    // Keep publication pending until the complete return object exists. In
+    // particular, moving PolynomialCounts can allocate on some standard libraries.
+    class PendingStore {
+        CoherentPipeline &pipeline_;
+        std::unique_ptr<State> work_;
+        std::unique_ptr<const StreamSnapshot> snapshot_;
+        int exceptions_;
+
+    public:
+        PendingStore(CoherentPipeline &pipeline,
+                     std::unique_ptr<State> work,
+                     std::unique_ptr<const StreamSnapshot> snapshot) noexcept
+            : pipeline_(pipeline), work_(std::move(work)), snapshot_(std::move(snapshot)),
+              exceptions_(std::uncaught_exceptions()) {
+        }
+
+        ~PendingStore() noexcept {
+            if (std::uncaught_exceptions() > exceptions_) {
+                pipeline_.streams_.pop_back();
+                return;
+            }
+            pipeline_.streams_.back() = std::move(snapshot_);
+            pipeline_.state_.swap(work_);
+        }
+
+        Stream stream() const noexcept {
+            return Stream(pipeline_.owner_, pipeline_.streams_.size() - 1);
+        }
+
+        PendingStore(const PendingStore &) = delete;
+        PendingStore &operator=(const PendingStore &) = delete;
+        PendingStore(PendingStore &&) = delete;
+        PendingStore &operator=(PendingStore &&) = delete;
+    };
+
     class Operation {
         bool &active_;
 
@@ -296,7 +332,7 @@ private:
         }
     }
 
-    Stream store(std::unique_ptr<State> work, std::vector<StreamRecord> records) {
+    PendingStore prepare_store(std::unique_ptr<State> work, std::vector<StreamRecord> records) {
         if (records.size() > 4096) {
             throw std::length_error("coherent pipeline physical record limit exceeded");
         }
@@ -353,10 +389,15 @@ private:
         ++work->usage.stream_count;
         work->usage.physical_root_count = work->physical.entries.size();
         work->usage.history_root_count = work->history.entries.size();
-        // push_back is the last potentially throwing operation before commit.
-        streams_.push_back(std::move(snapshot));
-        state_.swap(work);
-        return Stream(owner_, streams_.size() - 1);
+        // Reserve the vector slot before constructing the result. No published
+        // state or snapshot changes until PendingStore's nonthrowing destructor.
+        streams_.push_back(nullptr);
+        return PendingStore(*this, std::move(work), std::move(snapshot));
+    }
+
+    Stream store(std::unique_ptr<State> work, std::vector<StreamRecord> records) {
+        auto pending = prepare_store(std::move(work), std::move(records));
+        return pending.stream();
     }
 
     static Flattened flatten(State &state, const std::vector<StreamRecord> &records) {
@@ -495,9 +536,10 @@ private:
         output.insert(output.end(),
                       std::make_move_iterator(generated.records.begin()),
                       std::make_move_iterator(generated.records.end()));
-        // Counts and the operating point are ready before the single commit;
-        // the remaining aggregate initialization uses only nonthrowing moves.
-        return {store(std::move(work), std::move(output)),
+        // The counts map may allocate while moving into the return object.
+        // C++17 constructs that prvalue before pending publishes the stream.
+        auto pending = prepare_store(std::move(work), std::move(output));
+        return {pending.stream(),
                 snapshot.reduction.total_power_w,
                 point,
                 std::move(generated.counts),
@@ -670,7 +712,8 @@ public:
         const CoherentPolynomial model(coefficients, reference_);
         auto work = begin(*state_, true);
         auto generated = generate(*work, snapshot.records, model, max_source_order);
-        return {store(std::move(work), std::move(generated.records)), std::move(generated.counts)};
+        auto pending = prepare_store(std::move(work), std::move(generated.records));
+        return {pending.stream(), std::move(generated.counts)};
     }
 
     // All physical RF input drives the common gain/limiter. Only source-kind

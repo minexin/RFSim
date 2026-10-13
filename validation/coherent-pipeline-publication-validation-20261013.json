@@ -1,0 +1,318 @@
+{
+  "schema": "rfmodel.pipeline-publication-validation.v1",
+  "date_utc": "2026-10-13",
+  "base_revision": "55ab9d90ac6a44ce2339291297483ce2c3304ade",
+  "scope": "Isolated API-preserving publication/exception-safety fix only; main Touchstone work is excluded.",
+  "observed_ci": {
+    "run_id": 38360174587,
+    "repository": "minexin/RFSim",
+    "compiler": "MSVC 19.51.36260.0",
+    "jobs": [
+      {
+        "id": 115172238238,
+        "configuration": "C++ SDK Windows Release",
+        "failed_test": "coherent_pipeline_amplifier_limits_test",
+        "exit_code": "0xc0000409",
+        "seconds": 2.38
+      },
+      {
+        "id": 115172238270,
+        "configuration": "default Windows Release",
+        "failed_test": "coherent_pipeline_amplifier_limits_test",
+        "exit_code": "0xc0000409",
+        "seconds": 2.41
+      }
+    ],
+    "interpretation": "Existing logs have no phase/allowance diagnostic. They establish the Windows process failure, not its exact failing allocation."
+  },
+  "confirmed_defect": "amplify() and polynomial() constructed the counts-containing return aggregate after store() committed. MSVC std::map move constructs a heap sentinel and can throw, including for an empty map. Therefore a return construction allocation failure could violate the documented strong guarantee.",
+  "primary_sources": [
+    {
+      "url": "https://github.com/microsoft/STL/blob/vs-2022-17.14/stl/inc/map#L163-L168",
+      "finding": "map move is not noexcept and delegates to the tree move"
+    },
+    {
+      "url": "https://github.com/microsoft/STL/blob/vs-2022-17.14/stl/inc/xtree#L908-L913",
+      "finding": "tree move allocates sentinel/proxy before swapping"
+    },
+    {
+      "url": "https://github.com/microsoft/STL/blob/vs-2022-17.14/stl/inc/xtree#L1919-L1924",
+      "finding": "sentinel setup allocates a node"
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/cpp/build/reference/zc-nrvo?view=msvc-170",
+      "finding": "Optional NRVO can be disabled in VS2022 17.4+; mandatory C++17 prvalue elision remains"
+    }
+  ],
+  "historical_evidence_correction": "The prior Linux noexcept-move probe and Linux/macOS test results were real but did not establish portable no-allocation map moves. Existing adapter validation records describe earlier revisions and are superseded for publication/exception-safety by this record. No prior Windows pass is claimed.",
+  "fix": {
+    "public_api_change": false,
+    "numeric_model_change": false,
+    "limits_weakened": false,
+    "tests_skipped": false,
+    "design": "Private noncopyable/nonmovable PendingStore reserves a null vector slot and owns the uncommitted snapshot/state. The full aggregate return object, including counts-map moves, is constructed before local destruction. Normal-return destruction publishes with unique_ptr assignment/swap; unwinding removes the slot and leaves old state untouched. All helper/API returns use C++17 same-type prvalues; optional NRVO is unnecessary.",
+    "methods": "polynomial, limited_amplifier, highorder_amplifier; all existing store users retain their public interface"
+  },
+  "deterministic_control": {
+    "kind": "Linux model of a standard-permitted allocating counts move; not a Windows executable or a substitute for MSVC CI",
+    "method": "External test-only overlay adds one explicit operator-new/operator-delete call to PolynomialCounts move. The production headers never contain this instrumentation. Identical allocation sweeps run against base and fixed headers with -fno-elide-constructors.",
+    "results": [
+      {
+        "operation": "polynomial",
+        "baseline_result": "fails: allocation failure committed usage",
+        "baseline_failure_allowance": 136,
+        "fixed_result": "passes all injected allocation boundaries",
+        "fixed_failed_allocation_boundaries": 137,
+        "before_log": "/workspace/scratch/13ffac99a6e4/rfmodel-amplifier-msvc-fix/allocating-move-before-0.log",
+        "after_log": "/workspace/scratch/13ffac99a6e4/rfmodel-amplifier-msvc-fix/allocating-move-after-0.log"
+      },
+      {
+        "operation": "limited_amplifier",
+        "baseline_result": "fails: allocation failure committed usage",
+        "baseline_failure_allowance": 290,
+        "fixed_result": "passes all injected allocation boundaries",
+        "fixed_failed_allocation_boundaries": 291,
+        "before_log": "/workspace/scratch/13ffac99a6e4/rfmodel-amplifier-msvc-fix/allocating-move-before-1.log",
+        "after_log": "/workspace/scratch/13ffac99a6e4/rfmodel-amplifier-msvc-fix/allocating-move-after-1.log"
+      },
+      {
+        "operation": "highorder_amplifier",
+        "baseline_result": "fails: allocation failure committed usage",
+        "baseline_failure_allowance": 181,
+        "fixed_result": "passes all injected allocation boundaries",
+        "fixed_failed_allocation_boundaries": 182,
+        "before_log": "/workspace/scratch/13ffac99a6e4/rfmodel-amplifier-msvc-fix/allocating-move-before-2.log",
+        "after_log": "/workspace/scratch/13ffac99a6e4/rfmodel-amplifier-msvc-fix/allocating-move-after-2.log"
+      }
+    ]
+  },
+  "normal_fault_sweeps": {
+    "polynomial": 135,
+    "limited_amplifier": 289,
+    "highorder_amplifier": 180,
+    "checks": "usage, old snapshot contents/address, and deterministic recovery versus clean context"
+  },
+  "existing_unwind_probe": {
+    "result": "passed for all three APIs while uncaught_exceptions()==1, including nested injected bad_alloc rollback and successful publication",
+    "log": "/workspace/scratch/13ffac99a6e4/rfmodel-amplifier-msvc-fix/review-unwind-probe.log"
+  },
+  "linux_regression": [
+    {
+      "kind": "native",
+      "configuration": "Debug",
+      "passed": 98,
+      "failed": 0,
+      "log": "/workspace/scratch/13ffac99a6e4/rfmodel-amplifier-msvc-fix/final-test-native-Debug.log",
+      "timeout_seconds": 300,
+      "optional_nrvo": false
+    },
+    {
+      "kind": "native",
+      "configuration": "Release",
+      "passed": 98,
+      "failed": 0,
+      "log": "/workspace/scratch/13ffac99a6e4/rfmodel-amplifier-msvc-fix/final-test-native-Release.log",
+      "timeout_seconds": 300,
+      "optional_nrvo": false
+    },
+    {
+      "kind": "default",
+      "configuration": "Debug",
+      "passed": 163,
+      "failed": 0,
+      "log": "/workspace/scratch/13ffac99a6e4/rfmodel-amplifier-msvc-fix/final-test-default-Debug.log",
+      "timeout_seconds": 300,
+      "optional_nrvo": false
+    },
+    {
+      "kind": "default",
+      "configuration": "Release",
+      "passed": 163,
+      "failed": 0,
+      "log": "/workspace/scratch/13ffac99a6e4/rfmodel-amplifier-msvc-fix/final-test-default-Release.log",
+      "timeout_seconds": 300,
+      "optional_nrvo": false
+    }
+  ],
+  "configuration_details": {
+    "native": "C API/CLI/examples/product Python tests OFF; developer reference replay ON; 96 baseline tests plus 2 adapter tests",
+    "default": "C API/CLI/examples/product Python tests ON, required Python discovery; 163 tests"
+  },
+  "installed_consumer": {
+    "configuration": "fresh relocated header-only SDK, Release C++17, C API/Python/tests disabled",
+    "passed": 3,
+    "pipeline_checks": 89,
+    "strict_flags": "-Wall -Wextra -Wpedantic -Werror",
+    "installed_pipeline_header_sha256": "5711a1f08879ed015e685b00cbaf36fa009dc041c3c1e782897f3bd72594dd53",
+    "documentation_example": "compiled and ran"
+  },
+  "additional_checks": {
+    "strict_cpp17_no_optional_nrvo": "passed",
+    "clang_format_19": "passed",
+    "asan_ubsan": "new complete limits test passed; leak detection disabled because this executor uses ptrace",
+    "independent_review": "approved publication ordering, old/fixed controls and existing-unwind probe",
+    "ci_diagnostics": "phase/allowance messages, top-level exception reporting, no-C++-allocation terminate handler exits nonzero, 300-second CTest timeout",
+    "windows_fix_execution": "pending new CI; not run in this Linux environment",
+    "macos_fix_execution": "not run for this patch"
+  },
+  "source_sha256": {
+    "CMakeLists.txt": "c9cb19f4d7370ccc0df68cd9b605deeee77716bca50d23b8c7e93667d51e2e10",
+    "include/rfmodel/coherent_pipeline.hpp": "5711a1f08879ed015e685b00cbaf36fa009dc041c3c1e782897f3bd72594dd53",
+    "tests/coherent_pipeline_amplifier_limits_test.cpp": "e445ee7c97a556e473fd526563085dcf258cfb4da8da38acfeb007415e1fdc23"
+  },
+  "refreshed_replay_manifests": {
+    "Debug": {
+      "path": "/workspace/scratch/13ffac99a6e4/rfmodel-amplifier-msvc-fix/native-Debug/rfmodel_reference_highorder_probe.manifest.json",
+      "sha256": "6049f4c9aa4d7f69db23e182312ca3d1a762bbee0d86184dd8bf68a7c5b88576",
+      "source_revision": "55ab9d90ac6a44ce2339291297483ce2c3304ade",
+      "source_content_sha256": "5016f4fe0b6652e801e9ed004be383438f74f0d149379012f661c8089ca52ec6",
+      "build_id": "fe59cde6c849197020683ef27e8f8bc7527ab70f1977bea905c835149725a7cf"
+    },
+    "Release": {
+      "path": "/workspace/scratch/13ffac99a6e4/rfmodel-amplifier-msvc-fix/native-Release/rfmodel_reference_highorder_probe.manifest.json",
+      "sha256": "d811a959969639c4f6f7aa8666e3bedec4158406ec0df6251e9f87c8984812d0",
+      "source_revision": "55ab9d90ac6a44ce2339291297483ce2c3304ade",
+      "source_content_sha256": "5016f4fe0b6652e801e9ed004be383438f74f0d149379012f661c8089ca52ec6",
+      "build_id": "ca0fc92fb313253537047c9587c928e8f6869ae4b69e0a3c5632ba45e9ea4720"
+    }
+  },
+  "evidence_files": {
+    "/workspace/scratch/13ffac99a6e4/rfmodel-amplifier-msvc-fix/allocating-move-after-0.log": {
+      "sha256": "68266d610b7563fa94b9907e72bfe231d685f2fa61216abb2d1ea7d87edbd54f",
+      "bytes": 613
+    },
+    "/workspace/scratch/13ffac99a6e4/rfmodel-amplifier-msvc-fix/allocating-move-after-1.log": {
+      "sha256": "c680f834b41f25f64dc8a140dad42ed059ae33ee76afa2ed67aba79a5560cd6c",
+      "bytes": 610
+    },
+    "/workspace/scratch/13ffac99a6e4/rfmodel-amplifier-msvc-fix/allocating-move-after-2.log": {
+      "sha256": "11df7d54417324a9115668e3297561bd172c29a4b907d6c25adbe8fe9ff1de49",
+      "bytes": 613
+    },
+    "/workspace/scratch/13ffac99a6e4/rfmodel-amplifier-msvc-fix/allocating-move-before-0.log": {
+      "sha256": "eec35c11d6146525f8a9f85183478e0d8c7dcab83ca7c150c4f03a93e3e8b8db",
+      "bytes": 614
+    },
+    "/workspace/scratch/13ffac99a6e4/rfmodel-amplifier-msvc-fix/allocating-move-before-1.log": {
+      "sha256": "e341ac698c542b95fdb17e9a3a3504ecab75554f8a77a1defd98a9fa534974f9",
+      "bytes": 611
+    },
+    "/workspace/scratch/13ffac99a6e4/rfmodel-amplifier-msvc-fix/allocating-move-before-2.log": {
+      "sha256": "fbf4788f1cab71dd69c4b0a105ce380b04ba574b47c02264db9031946028092e",
+      "bytes": 614
+    },
+    "/workspace/scratch/13ffac99a6e4/rfmodel-amplifier-msvc-fix/consumer-sdk-verification.log": {
+      "sha256": "4d039876117b154a93d62a5d5c47c666afa06ef5227b2b9c88d6963fb0bf7672",
+      "bytes": 15196
+    },
+    "/workspace/scratch/13ffac99a6e4/rfmodel-amplifier-msvc-fix/final-build-default-Debug.log": {
+      "sha256": "a395f8a56ba4df2fdfe1f132500d9a84deeb9adc57a58bcb98f4f15d398214f5",
+      "bytes": 20970
+    },
+    "/workspace/scratch/13ffac99a6e4/rfmodel-amplifier-msvc-fix/final-build-default-Release.log": {
+      "sha256": "c50cbaaea1e2d1c14e0c54109b7279309e9f6910e7de5343cc52180ef1f299d4",
+      "bytes": 20969
+    },
+    "/workspace/scratch/13ffac99a6e4/rfmodel-amplifier-msvc-fix/final-build-native-Debug.log": {
+      "sha256": "59e6fd0393ebf0a42ff772dba8a6973f8293d47ff68f6033c71db365c13b1279",
+      "bytes": 17943
+    },
+    "/workspace/scratch/13ffac99a6e4/rfmodel-amplifier-msvc-fix/final-build-native-Release.log": {
+      "sha256": "7d964aa7c726d5d9ae0077ef55f1935b51de8993449a96d60a0ed79385b91104",
+      "bytes": 17943
+    },
+    "/workspace/scratch/13ffac99a6e4/rfmodel-amplifier-msvc-fix/final-configure-default-Debug.log": {
+      "sha256": "1a811d51cd1c7180c8f720caf59e0d8b6e46ab82c069442eb380fcf31dd4667a",
+      "bytes": 852
+    },
+    "/workspace/scratch/13ffac99a6e4/rfmodel-amplifier-msvc-fix/final-configure-default-Release.log": {
+      "sha256": "7d37af5ca54f1050a986209f279e34bf86dfd3c07519a29daff4008e82f84feb",
+      "bytes": 854
+    },
+    "/workspace/scratch/13ffac99a6e4/rfmodel-amplifier-msvc-fix/final-configure-native-Debug.log": {
+      "sha256": "232f6b55812ec3f37484e08e727d1b815be9a237b9ef94595c13e6aca7293376",
+      "bytes": 605
+    },
+    "/workspace/scratch/13ffac99a6e4/rfmodel-amplifier-msvc-fix/final-configure-native-Release.log": {
+      "sha256": "69410f15e6b17a70c44db7ed2a3c0dbc879c14af80743fafd1ddcf7f16f4f932",
+      "bytes": 607
+    },
+    "/workspace/scratch/13ffac99a6e4/rfmodel-amplifier-msvc-fix/final-test-default-Debug.log": {
+      "sha256": "03f971b7a4c9ff271e1d4af8f3572c6514982cd3f2703d118c1f2f7d2ed881e5",
+      "bytes": 21891
+    },
+    "/workspace/scratch/13ffac99a6e4/rfmodel-amplifier-msvc-fix/final-test-default-Release.log": {
+      "sha256": "f478233afb16b7981505629ea6bfcb1875ce306e026a46a515ddeb30919e5bfb",
+      "bytes": 21895
+    },
+    "/workspace/scratch/13ffac99a6e4/rfmodel-amplifier-msvc-fix/final-test-native-Debug.log": {
+      "sha256": "d549404abecb272f8ad1f5cc838bec8ad646344c631448fdb00f8031d1331f54",
+      "bytes": 12080
+    },
+    "/workspace/scratch/13ffac99a6e4/rfmodel-amplifier-msvc-fix/final-test-native-Release.log": {
+      "sha256": "c4b562481e773db1c59b273bdc568cb439837c9450c12d8398ce1e5a0aa91562",
+      "bytes": 12084
+    },
+    "/workspace/scratch/13ffac99a6e4/rfmodel-amplifier-msvc-fix/fixed-limits.log": {
+      "sha256": "a43dc798c2dc4c902fcf981079721511c55c0e421ae038590a3ae99ee09685e9",
+      "bytes": 730
+    },
+    "/workspace/scratch/13ffac99a6e4/rfmodel-amplifier-msvc-fix/review-unwind-probe.log": {
+      "sha256": "d055e906e960fb4c23663f23627811350df1388097010d602faf44f743ec9343",
+      "bytes": 185
+    },
+    "/workspace/scratch/13ffac99a6e4/rfmodel-amplifier-msvc-fix/sanitizer-build.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "/workspace/scratch/13ffac99a6e4/rfmodel-amplifier-msvc-fix/sanitizer-test.log": {
+      "sha256": "a43dc798c2dc4c902fcf981079721511c55c0e421ae038590a3ae99ee09685e9",
+      "bytes": 730
+    },
+    "/workspace/scratch/13ffac99a6e4/rfmodel-amplifier-msvc-fix/windows-release-default.log": {
+      "sha256": "90c0dc839b7d7519ffad7166f253cd85aab7080f44cb8945ffcbdf8af2602274",
+      "bytes": 93582
+    },
+    "/workspace/scratch/13ffac99a6e4/rfmodel-amplifier-msvc-fix/windows-release-sdk.log": {
+      "sha256": "15c9030865bbdd1bacad461afb90a62c03fff7993a8c5952d7deae4866b46947",
+      "bytes": 59489
+    },
+    "/workspace/scratch/13ffac99a6e4/rfmodel-amplifier-msvc-fix/allocating-move-control.py": {
+      "sha256": "2e5b384aed2c4f8d804482392a6c25829db0700b693205adcefdbe39bef6ef84",
+      "bytes": 2498
+    },
+    "/workspace/scratch/13ffac99a6e4/rfmodel-amplifier-msvc-fix/allocating-move-limits.cpp": {
+      "sha256": "f881dc7a3f7f649918ab10e9b6417906cebc4e2b32c3def319a9a9523cd9988e",
+      "bytes": 36935
+    },
+    "/workspace/scratch/13ffac99a6e4/rfmodel-amplifier-msvc-fix/review-unwind-probe.cpp": {
+      "sha256": "b8604561ee498bc0b8cfb72344f5fb1b1ad46bdf4347ef7163998eedd23b1c9b",
+      "bytes": 2946
+    },
+    "/workspace/scratch/13ffac99a6e4/rfmodel-amplifier-msvc-fix/run-final-matrix.sh": {
+      "sha256": "af2cf7a7ac70ab2e3642b2d5e987aff012e6884a81e982d87a2d74c483d74318",
+      "bytes": 1272
+    },
+    "/workspace/scratch/13ffac99a6e4/rfmodel-amplifier-msvc-fix/verify-consumer-sdk.sh": {
+      "sha256": "655326fa9de4cd6d30db96c5ad9d84d3d0b47b0ee2591647625c763d87e03af4",
+      "bytes": 1575
+    },
+    "/workspace/scratch/13ffac99a6e4/rfmodel-amplifier-msvc-fix/final-tests-default-Debug.json": {
+      "sha256": "903d259f64bf283caf5aceeebf8a57556635d20317e9c5815b5e5e8fedab704b",
+      "bytes": 101374
+    },
+    "/workspace/scratch/13ffac99a6e4/rfmodel-amplifier-msvc-fix/final-tests-default-Release.json": {
+      "sha256": "20840a5fb79e8e5ad97beb4916f983a62b5c1926cff7ec6ef604b4cf2488e6d0",
+      "bytes": 101971
+    },
+    "/workspace/scratch/13ffac99a6e4/rfmodel-amplifier-msvc-fix/final-tests-native-Debug.json": {
+      "sha256": "21cc21f225da116044251b5639b6d06a2a71f3d0aac0b6ac9f9b2b4bb543638b",
+      "bytes": 58841
+    },
+    "/workspace/scratch/13ffac99a6e4/rfmodel-amplifier-msvc-fix/final-tests-native-Release.json": {
+      "sha256": "de3e7a7a0c6f0e29a791606a415848f865cbd8eb30a9d1d9d433f40ef0042d56",
+      "bytes": 59237
+    }
+  },
+  "unchanged_boundaries": "No vendor recalibration, capture changes, Python deletion, or cascade scorer replacement. Archived 230 checks/22 failing checks and 0 dB discrepancy are not upgraded to a vendor pass."
+}

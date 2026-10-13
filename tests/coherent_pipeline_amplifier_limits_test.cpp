@@ -3,7 +3,9 @@
 #include <algorithm>
 #include <cstddef>
 #include <cstdint>
+#include <cstdio>
 #include <cstdlib>
+#include <exception>
 #include <limits>
 #include <new>
 #include <string>
@@ -15,7 +17,9 @@
 // production allocator or expose pipeline internals.
 namespace allocation_failure {
 std::ptrdiff_t remaining = -1;
-}
+std::ptrdiff_t allowance = -1;
+const char *phase = "startup";
+} // namespace allocation_failure
 
 // Keep replacement allocation/deallocation calls opaque to optimizers. In
 // particular, inlining a malloc-backed replacement delete makes GCC diagnose
@@ -650,12 +654,23 @@ void context_and_cumulative_limits() {
 void allocation_failure_atomicity() {
     const auto low_model = limited();
     const auto high_model = highorder({1., 1.});
-    for (bool use_limited : {true, false}) {
+    const std::vector<double> coefficients{0., 1., 1., 1.};
+    const char *names[]{
+        "polynomial allocation sweep", "limited allocation sweep", "high-order allocation sweep"};
+    for (int operation = 0; operation < 3; ++operation) {
+        allocation_failure::phase = names[operation];
+        const auto apply = [&](CoherentPipeline &pipeline, CoherentPipeline::Stream input) {
+            if (operation == 0) {
+                return pipeline.polynomial(input, coefficients, 2).output;
+            }
+            if (operation == 1) {
+                return pipeline.limited_amplifier(input, low_model).output;
+            }
+            return pipeline.highorder_amplifier(input, high_model, 2).output;
+        };
         CoherentPipeline control(1e8, 50., 2);
         const auto control_input = control.seed({source()});
-        const auto expected = use_limited
-                                  ? control.limited_amplifier(control_input, low_model)
-                                  : control.highorder_amplifier(control_input, high_model, 2);
+        const auto expected = apply(control, control_input);
         std::size_t failures = 0;
         for (std::ptrdiff_t allowance = 0;; ++allowance) {
             CoherentPipeline pipeline(1e8, 50., 2);
@@ -664,13 +679,10 @@ void allocation_failure_atomicity() {
             const auto *address = &pipeline.inspect(input);
             const auto saved = *address;
             bool failed = false;
+            allocation_failure::allowance = allowance;
             allocation_failure::remaining = allowance;
             try {
-                if (use_limited) {
-                    pipeline.limited_amplifier(input, low_model);
-                } else {
-                    pipeline.highorder_amplifier(input, high_model, 2);
-                }
+                apply(pipeline, input);
             } catch (const std::bad_alloc &) {
                 failed = true;
             } catch (...) {
@@ -689,25 +701,61 @@ void allocation_failure_atomicity() {
             same_snapshot(saved, pipeline.inspect(input));
             // This also proves that the mutation guard reset and no temporary
             // source, history, identity or group allocation escaped the failure.
-            const auto recovered = use_limited ? pipeline.limited_amplifier(input, low_model)
-                                               : pipeline.highorder_amplifier(input, high_model, 2);
-            same_snapshot(pipeline.inspect(recovered.output), control.inspect(expected.output));
+            const auto recovered = apply(pipeline, input);
+            same_snapshot(pipeline.inspect(recovered), control.inspect(expected));
             require(same_usage(pipeline.usage(), control.usage()),
                     "allocation rollback changed subsequent deterministic allocation");
         }
-        require(failures > 20, "allocation failure sweep did not reach nontrivial adapter work");
+        require(failures > 20, "allocation failure sweep did not reach nontrivial work");
+        std::fprintf(stderr, "%s: passed %zu allocation failures\n", names[operation], failures);
     }
 }
+
 } // namespace
 
 int main() {
-    empty_silent_and_validation();
-    distortion_selection();
-    cutoff_counts_lo_and_zero();
-    hard_factor_limit_and_filter_order();
-    expanded_and_active_limits();
-    candidate_premerge_and_work_limits();
-    arithmetic_and_group_rollback();
-    context_and_cumulative_limits();
-    allocation_failure_atomicity();
+    // Report failures rather than entering a platform CRT crash/report dialog.
+    // The handler uses no C++ allocation and remains usable inside a fault sweep.
+    std::set_terminate([]() noexcept {
+        std::fprintf(stderr,
+                     "terminate: %s, allocation allowance %td, remaining %td\n",
+                     allocation_failure::phase,
+                     allocation_failure::allowance,
+                     allocation_failure::remaining);
+        std::fflush(stderr);
+        std::_Exit(1);
+    });
+
+    struct Case {
+        const char *name;
+        void (*run)();
+    };
+
+    const Case cases[]{{"empty/silent/validation", empty_silent_and_validation},
+                       {"distortion selection", distortion_selection},
+                       {"cutoff/LO/zero counts", cutoff_counts_lo_and_zero},
+                       {"hard-factor limit/filter ordering", hard_factor_limit_and_filter_order},
+                       {"expanded/active limits", expanded_and_active_limits},
+                       {"candidate/premerge/work limits", candidate_premerge_and_work_limits},
+                       {"arithmetic/group rollback", arithmetic_and_group_rollback},
+                       {"context/cumulative limits", context_and_cumulative_limits},
+                       {"allocation failure atomicity", allocation_failure_atomicity}};
+    for (const auto &test : cases) {
+        allocation_failure::phase = test.name;
+        allocation_failure::allowance = -1;
+        std::fprintf(stderr, "RUN %s\n", test.name);
+        std::fflush(stderr);
+        try {
+            test.run();
+        } catch (const std::exception &error) {
+            allocation_failure::remaining = -1;
+            std::fprintf(stderr,
+                         "FAIL %s, allocation allowance %td: %s\n",
+                         allocation_failure::phase,
+                         allocation_failure::allowance,
+                         error.what());
+            return 1;
+        }
+        std::fprintf(stderr, "PASS %s\n", test.name);
+    }
 }

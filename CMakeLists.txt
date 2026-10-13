@@ -403,6 +403,13 @@ add_test(NAME coherent_pipeline_amplifier_test COMMAND coherent_pipeline_amplifi
 add_executable(coherent_pipeline_amplifier_limits_test tests/coherent_pipeline_amplifier_limits_test.cpp)
 target_link_libraries(coherent_pipeline_amplifier_limits_test PRIVATE RFModel::rfmodel)
 add_test(NAME coherent_pipeline_amplifier_limits_test COMMAND coherent_pipeline_amplifier_limits_test)
+set_tests_properties(coherent_pipeline_amplifier_limits_test PROPERTIES TIMEOUT 300)
+# This exception-safety test must not rely on optional named-return-value elision.
+if(MSVC AND MSVC_VERSION GREATER_EQUAL 1934)
+    target_compile_options(coherent_pipeline_amplifier_limits_test PRIVATE /Zc:nrvo-)
+elseif(CMAKE_CXX_COMPILER_ID MATCHES "^(GNU|Clang|AppleClang)$")
+    target_compile_options(coherent_pipeline_amplifier_limits_test PRIVATE -fno-elide-constructors)
+endif()
 add_executable(coherent_polynomial_test tests/coherent_polynomial_test.cpp)
 target_link_libraries(coherent_polynomial_test PRIVATE rfmodel)
 add_test(NAME coherent_polynomial_test COMMAND coherent_polynomial_test)
