@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "created_utc": "2026-10-13T12:42:04.294432+00:00",
+  "classification": "capture_deviation_record_before_final_profile_not_a_hypothesis_change",
+  "observations": [
+    "915 MHz and 2.45 GHz amplitude sweeps each returned 38 points: all 37 registered powers plus one extra endpoint 0.5 dB above the requested stop.",
+    "10 GHz ordinary operating point triggered the documented low-accuracy compression warning. The workflow stopped and retained all datasets as warning-bearing diagnostics; no rerun is planned."
+  ],
+  "retention_rules": [
+    "Keep every observed point. Score the first 37 exact registered grid points as the planned set and any additional endpoint separately. Do not change expected_points in the preregistered plan.",
+    "Retain and score 10 GHz data only as warning-bearing diagnostics; do not relabel it warning-free acceptance.",
+    "Run the final 30 MHz profile once after this diagnosis; it is below its ordinary compression threshold. Any new diagnostic stops the workflow."
+  ],
+  "hypotheses_and_tolerance_unchanged": true,
+  "calls_used": 4,
+  "remaining_registered_profile_calls": 1,
+  "maximum_analysis_calls": 5,
+  "source_paths": [
+    "build-reference/ampm-adapter-study-20261013/capture-20261013T123804Z-6f62a951/capture.json",
+    "build-reference/ampm-adapter-study-20261013/capture-20261013T123844Z-93672bc3/capture.json",
+    "build-reference/ampm-adapter-study-20261013/recover-20261013T124111Z-67e4493f/diagnostic-capture.json"
+  ]
+}
