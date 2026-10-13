@@ -166,6 +166,11 @@ jobs:
             validation/am-pm-datapoints-zero-observations-20261013.json \
             build-reference/am-pm-datapoints-zero-replay.json \
             --capture-manifest validation/am-pm-datapoints-zero-captures-20261013.json
+          python -I -S scripts/reference/report-am-pm-datapoints-raw-axis-study.py \
+            validation/am-pm-datapoints-raw-axis-plan-20261013.json \
+            validation/am-pm-datapoints-raw-axis-observations-20261013.json \
+            build-reference/am-pm-datapoints-raw-axis-replay.json \
+            --capture-manifest validation/am-pm-datapoints-raw-axis-captures-20261013.json
       - name: Preserve replay verification evidence
         if: always()
         uses: actions/upload-artifact@v7
@@ -177,6 +182,7 @@ jobs:
             build-reference/am-pm-native-replay.json
             build-reference/am-pm-adapter-replay.json
             build-reference/am-pm-datapoints-zero-replay.json
+            build-reference/am-pm-datapoints-raw-axis-replay.json
             build-reference/**/*.manifest.json
             build-reference/reference-installed-sdk/consumer-build/Testing/Temporary/LastTest.log
           if-no-files-found: warn

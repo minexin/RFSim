@@ -31,6 +31,7 @@ ctest --test-dir build -C Release --output-on-failure
 - [优化](docs/optimization.md)、[Monte Carlo](docs/monte-carlo.md)与新的有类型任务装配。
 - [显式 AM/PM 参数适配器](docs/systemvue-am-pm-adapter.md)：C++ 相位、导数及工作点组合；549 个无告警登记点通过，另保留 37 个告警诊断点，完整兼容仍未验收。
 - [DataPoints 零 dBm 判别](docs/systemvue-am-pm-datapoints-zero-study.md)：七组、387 个登记扫描点支持零位置异常；DCP 同功率异相位反例保留，完整表格算法尚未闭合。
+- [DataPoints 普通原始功率轴](docs/systemvue-am-pm-datapoints-raw-axis-study.md)：十个新点中原始功率样条通过九点；−0.000001 dBm 零相移反例否定“仅名义零旁路”，四个冻结候选均未全部通过。
 
 工程回归和独立物理参考不等于厂商验收。已有 SystemVue 采集中的失败、缺项与 diagnostic-only 结论继续保留；本次接口迁移不改变其判定。旧文档中的 Python/JSON 示例属于历史接口，当前集成请使用上述 C++ 指南。
 
