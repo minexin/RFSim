@@ -69,4 +69,6 @@ python scripts/reference/diagnose-am-pm-parameter-study.py \
 
 ## 未完成的兼容边界
 
+后续已执行独立压缩/频率配置，并提供[显式 C++ 校准适配器](systemvue-am-pm-adapter.md)。该阶段没有重拟合本页冻结常数；以下范围描述保留本次六组实验本身的边界。
+
 本轮只覆盖 100 MHz、近似线性 AM-AM 条件、单路 RFAMP、六组 PointDerivative 参数。它没有验证强压缩下组合、多音/来源相位策略、频变或记忆效应，也未解释 DataPoints 模式的旧零 dBm 反例。两种冻结映射都在容差内，当前数据不能唯一辨识厂商归一化实现。后续应独立验证比例来源及不同 AM-AM/频率条件，再决定是否提供明确命名的厂商参数适配；不能静默替换现有文档推导公式。

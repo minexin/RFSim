@@ -29,7 +29,7 @@ ctest --test-dir build -C Release --output-on-failure
 - [相干流管线](docs/coherent-pipeline.md)、来源历史、多项式及[限幅/高阶放大器](docs/coherent-pipeline-amplifiers.md)、失真传播与共同压缩。
 - [变频功率波](docs/conversion-power-wave.md)、[复参考工作点](docs/conversion-operating-point-power-wave.md)、结构扩频、完整 C/P、加载噪声和相位噪声。
 - [优化](docs/optimization.md)、[Monte Carlo](docs/monte-carlo.md)与新的有类型任务装配。
-- [AM/PM 参数映射实测](docs/systemvue-am-pm-parameter-study.md)：六组 438 点，冻结候选映射通过，原始公式仍未通过厂商对比。
+- [显式 AM/PM 参数适配器](docs/systemvue-am-pm-adapter.md)：C++ 相位、导数及工作点组合；549 个无告警登记点通过，另保留 37 个告警诊断点，完整兼容仍未验收。
 
 工程回归和独立物理参考不等于厂商验收。已有 SystemVue 采集中的失败、缺项与 diagnostic-only 结论继续保留；本次接口迁移不改变其判定。旧文档中的 Python/JSON 示例属于历史接口，当前集成请使用上述 C++ 指南。
 

@@ -84,9 +84,9 @@ void phase_law() {
             "ratio overflow");
 }
 
-void composition() {
+template <class Phase>
+void composition(const Phase &phase, double oracle_peak = -5., double oracle_reference = 10.) {
     const CoherentHighOrderAmplifier amplifier(20., 20., 23., {0., .1});
-    const LegacyPointDerivativeAmPm phase(-5., 10.);
     const std::vector<ConversionChannel> channels{{0, 1}, {0, 3}, {1, 1}, {1, 3}};
     const auto base = [&](const std::vector<Complex> &waves) {
         return linearize_highorder_amplifier(1., channels, waves, amplifier, {1});
@@ -103,8 +103,10 @@ void composition() {
                 auto hi = waves, lo = waves;
                 hi[j] += h;
                 lo[j] -= h;
-                const auto response = [](Complex z) {
-                    return std::polar(1., integrated_phase(std::norm(z))) * z;
+                const auto response = [=](Complex z) {
+                    return std::polar(
+                               1., integrated_phase(std::norm(z), oracle_peak, oracle_reference)) *
+                           z;
                 };
                 near((point.jacobian.direct()(2, j) * h +
                       point.jacobian.conjugate()(2, j) * std::conj(h)) /
@@ -126,7 +128,7 @@ void composition() {
 }
 
 // Original cubic/tanh amplitude formula, independent of the adapter.
-Complex reference_amplifier(Complex a) {
+Complex reference_amplifier(Complex a, double peak = -5., double reference = 10.) {
     const double r = std::abs(a), anchor = std::sqrt(std::pow(10., -2.9));
     double m;
     if (r <= anchor) {
@@ -136,10 +138,11 @@ Complex reference_amplifier(Complex a) {
         m = std::sqrt(.1) +
             head * std::tanh(10. * (3. * std::pow(10., -.05) - 2.) * (r - anchor) / head);
     }
-    return r ? a / r * m * std::polar(1., integrated_phase(m * m)) : Complex{};
+    return r ? a / r * m * std::polar(1., integrated_phase(m * m, peak, reference)) : Complex{};
 }
 
-void feedback_noise() {
+template <class Phase>
+void feedback_noise(const Phase &phase, double oracle_peak = -5., double oracle_reference = 10.) {
     const std::vector<ConversionChannel> channels{{0, 1}, {1, 1}};
     const auto zero = conversion_detail::zero(2);
     FrequencyConversionModel base(1., channels, zero, zero);
@@ -150,7 +153,9 @@ void feedback_noise() {
     feedback.model = FrequencyConversionModel(1., channels, transfer, zero);
     feedback.intrinsic_noise.covariance(1, 1) = 1e-9;
     const SaturatingFundamentalCompression amplifier(20., 20., 23.);
-    const LegacyPointDerivativeAmPm phase(-5., 10.);
+    const auto reference = [=](Complex value) {
+        return reference_amplifier(value, oracle_peak, oracle_reference);
+    };
     const ConversionNonlinearDevice law{
         0, [=](const std::vector<Complex> &waves) {
             return apply_output_am_pm(
@@ -167,18 +172,16 @@ void feedback_noise() {
                                                          {0., 0., 0., source});
     Complex root = source;
     for (int i = 0; i < 200; ++i) {
-        root = source - .03 * reference_amplifier(root);
+        root = source - .03 * reference(root);
     }
     near(solved.waves.incident[0], root);
-    near(solved.waves.outgoing[1], reference_amplifier(root));
+    near(solved.waves.outgoing[1], reference(root));
     require(std::abs(phase.response(std::norm(solved.waves.outgoing[1])).radial_phase_slope) > .1,
             "feedback oracle must exercise active AM-PM slope");
     const auto a = solved.waves.incident[0];
     const double h = 1e-7;
-    const Complex dx = (reference_amplifier(a + h) - reference_amplifier(a - h)) / (2 * h);
-    const Complex dy =
-        (reference_amplifier(a + Complex(0., h)) - reference_amplifier(a - Complex(0., h))) /
-        (2 * h);
+    const Complex dx = (reference(a + h) - reference(a - h)) / (2 * h);
+    const Complex dy = (reference(a + Complex(0., h)) - reference(a - Complex(0., h))) / (2 * h);
     const double m00 = 1. + .03 * dx.real(), m01 = .03 * dy.real(), m10 = .03 * dx.imag(),
                  m11 = 1. + .03 * dy.imag();
     const double determinant = m00 * m11 - m01 * m10;
@@ -189,6 +192,72 @@ void feedback_noise() {
     near(solved.waves.outgoing_noise.complementary(1, 1) / 1e-9, .5 * (rx * rx + ry * ry), 1e-7);
     require(std::abs(solved.waves.outgoing_noise.complementary(1, 1).imag()) > 1e-10,
             "missing phase noise correlation");
+}
+
+void calibrated_phase_law() {
+    const double shift = 20. * std::log10(4. / 3.) - 2.5;
+    const double scale = 1.0000010001140027;
+    for (double peak : {-8., -3.5, 0., 4.25, 7.}) {
+        for (double reference : {-12.5, 5.5, 15.}) {
+            const SystemVue2023PointDerivativeAmPm law(peak, reference);
+            const double anchor = std::pow(10., (reference + shift - 30.) / 10.);
+            near(law.response(0.).phase_rad, 0.);
+            near(law.response(0.).radial_phase_slope, 0.);
+            for (double offset : {-100., -10., -1., 0., 1., 3., 4., 30.}) {
+                const double power = anchor * std::pow(10., offset / 10.), h = 1e-5;
+                const auto actual = law.response(power);
+                near(actual.phase_rad,
+                     integrated_phase(power, peak * scale, reference + shift),
+                     3e-10);
+                near(actual.radial_phase_slope,
+                     (law.response(power * std::exp(2 * h)).phase_rad -
+                      law.response(power * std::exp(-2 * h)).phase_rad) /
+                         (2 * h),
+                     3e-8);
+                near(std::norm(law.transmit(std::polar(std::sqrt(power), .3))) / power, 1.);
+            }
+            const double edge = 2.25 * anchor;
+            near(law.response(edge * (1. - 1e-8)).phase_rad,
+                 law.response(edge * (1. + 1e-8)).phase_rad);
+            near(law.response(edge * (1. + 1e-8)).radial_phase_slope, 0.);
+        }
+    }
+    // Independent 915 MHz compressed RFAMP observation, retained in the archive.
+    near(SystemVue2023PointDerivativeAmPm(-3.5, 5.5).response(.00035174778655118184).phase_rad,
+         -.06787744883522229,
+         1e-5 * std::acos(-1.) / 180.);
+    require(std::abs(SystemVue2023PointDerivativeAmPm(-5., 10.).response(.01).phase_rad -
+                     LegacyPointDerivativeAmPm(-5., 10.).response(.01).phase_rad) > 1e-5,
+            "calibrated selection silently became the legacy model");
+    const SystemVue2023PointDerivativeAmPm law(-5., 10.);
+    const double nan = std::numeric_limits<double>::quiet_NaN();
+    rejects([&] {
+        SystemVue2023PointDerivativeAmPm bad(nan, 10.);
+    });
+    rejects([&] {
+        SystemVue2023PointDerivativeAmPm bad(5., nan);
+    });
+    rejects([&] {
+        SystemVue2023PointDerivativeAmPm bad(5., 4000.);
+    });
+    rejects([&] {
+        SystemVue2023PointDerivativeAmPm bad(5., -4000.);
+    });
+    rejects([&] {
+        SystemVue2023PointDerivativeAmPm bad(std::numeric_limits<double>::max(), 10.);
+    });
+    rejects([&] {
+        law.response(-1.);
+    });
+    rejects([&] {
+        law.response(nan);
+    });
+    rejects([&] {
+        law.transmit({nan, 0.});
+    });
+    rejects([&] {
+        law.transmit({1e300, 0.});
+    });
 }
 
 void contracts() {
@@ -247,8 +316,13 @@ void contracts() {
 int main() {
     try {
         phase_law();
-        composition();
-        feedback_noise();
+        composition(LegacyPointDerivativeAmPm(-5., 10.));
+        feedback_noise(LegacyPointDerivativeAmPm(-5., 10.));
+        calibrated_phase_law();
+        const SystemVue2023PointDerivativeAmPm calibrated(-5., 10.);
+        const double shifted = 10. + 20. * std::log10(4. / 3.) - 2.5;
+        composition(calibrated, -5. * 1.0000010001140027, shifted);
+        feedback_noise(calibrated, -5. * 1.0000010001140027, shifted);
         contracts();
     } catch (const std::exception &e) {
         std::cerr << e.what() << '\n';

@@ -301,12 +301,15 @@ void execute(Request &request, const std::string &operation, std::ostream &out) 
             out << value << ' ';
         }
         out << '\n';
-    } else if (operation == "am_pm") {
+    } else if (operation == "am_pm" || operation == "systemvue2023_am_pm") {
         const auto power = request.real();
         const auto peak = request.real();
         const auto reference = request.real();
         request.finish();
-        const auto result = rfmodel::LegacyPointDerivativeAmPm(peak, reference).response(power);
+        const auto result =
+            operation == "am_pm"
+                ? rfmodel::LegacyPointDerivativeAmPm(peak, reference).response(power)
+                : rfmodel::SystemVue2023PointDerivativeAmPm(peak, reference).response(power);
         finite(result.phase_rad);
         finite(result.radial_phase_slope);
         out << result.phase_rad << ' ' << result.radial_phase_slope << '\n';

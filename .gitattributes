@@ -11,3 +11,4 @@
 /validation/am-pm-native-replay-Release-20261013.json -text
 /validation/am-pm-point-derivative-*-20261013.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 /validation/am-pm-parameter-study-*-20261013.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+/validation/am-pm-adapter-*-20261013.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol

@@ -1,0 +1,457 @@
+{
+  "schema_version": 1,
+  "plan_sha256": "3ed1d60cd5b6279c7c7da1f2e0c3324f8a1535085f4c6382a0d8d999745ca40c",
+  "amendment_sha256": "9a275af172fd862245213d42985c8745ed21c34385f40229c370421c1381d9b3",
+  "captures": [
+    {
+      "profile": "915MHz-compressed",
+      "path": "build-reference/ampm-adapter-study-20261013/capture-20261013T123804Z-6f62a951/capture.json",
+      "sha256": "47c3c56f275c6562d1a85dd77b32b0095fa3f392074e7a0dc61cb61b63776fe1",
+      "call_directory": "build-reference/ampm-adapter-study-20261013/capture-20261013T123804Z-6f62a951",
+      "status_sha256": "346169733696f10c4e0aaaa5cdfe90711357d66f433cc08e1acc98382dc8db83",
+      "run_intent_sha256": "6c50715003a644628e4d31c1564943f43563275177262c75375e04a9264ed6c8",
+      "before_sha256": "661721f4cb4e5439fa836ad25020e6d603609d3a51538dcac4cabdc4031e7c4e",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "diagnostics": "",
+      "recovered_diagnostic": false
+    },
+    {
+      "profile": "2450MHz-compressed",
+      "path": "build-reference/ampm-adapter-study-20261013/capture-20261013T123844Z-93672bc3/capture.json",
+      "sha256": "fa9b2247af7c6ac7fd2f28f117a2d26e2f127d204cf8528a22bf49caee7f22fb",
+      "call_directory": "build-reference/ampm-adapter-study-20261013/capture-20261013T123844Z-93672bc3",
+      "status_sha256": "a8294040eb3f61506276c1e01a8ed50c6ce008b9e8276e61b3c2d771ea5386bb",
+      "run_intent_sha256": "bab0d5a726b2651841fa70298cee70a3b2533e0cd05593c2f7f0fd8b8b2d5039",
+      "before_sha256": "76f5be3c6ba0df67437af329cab89838ba10b38aa7c9c055d49de1f512da07fb",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "diagnostics": "",
+      "recovered_diagnostic": false
+    },
+    {
+      "profile": "10GHz-saturation",
+      "path": "build-reference/ampm-adapter-study-20261013/recover-20261013T124111Z-67e4493f/diagnostic-capture.json",
+      "sha256": "1bafb21d32c0703e01aa214e12f5c69a75c920937d40f990849b2ca8c72b9df5",
+      "call_directory": "build-reference/ampm-adapter-study-20261013/capture-20261013T123850Z-6fec6019",
+      "status_sha256": "0015cc7eda6b2e13a7fde6798e9122f55eb57e56932272fda8f4cd4b40e9ee29",
+      "run_intent_sha256": "4189e01e7750d7794d335f3dd500d0e5005bb79ba4350625e8e01a98e7b68134",
+      "before_sha256": "bed87c32cdf39cb7c0e51a787dd642ce5639704827964fbcbaee8e10aea5ec04",
+      "stderr_sha256": "849c55d862fd06b0a3c0c1d2d1d8b1aa1f22ab1b5a1f9f7cfef5f7a6351eef7c",
+      "diagnostics": " (WARNING) Part 'RFAmp' has been driven past the input 1 dB compression point of -15 dBm. The total input power is -15.00 dBm. Current element gain compression is 1.00 dB. Spectrum and measurements have less accuracy.\n",
+      "recovered_diagnostic": true
+    },
+    {
+      "profile": "30MHz-loss-zero-phase",
+      "path": "build-reference/ampm-adapter-study-20261013/capture-20261013T124209Z-08319c6d/capture.json",
+      "sha256": "50ec0cb76e6e62230fc9a83e87bf9a7ad97c3d3d3eedd63d9904f0d34b89c20d",
+      "call_directory": "build-reference/ampm-adapter-study-20261013/capture-20261013T124209Z-08319c6d",
+      "status_sha256": "3a4020a3b26f9992590ad321c01420586b2167ea793813c23a30634502c3ebf3",
+      "run_intent_sha256": "dec5e14dbf72a5a61ac5803b6b3964cfb1c02640e4de35fdeb27f2295336398e",
+      "before_sha256": "adda1404aa1453e3ad0a0fc1fc01c9a4eb3c56794c237841bc4f0ce748e7b9e0",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "diagnostics": "",
+      "recovered_diagnostic": false
+    }
+  ],
+  "actual_analysis_calls": 5,
+  "excluded_ip3_setup_calls": 1,
+  "prepared_workspaces": {
+    "schema_version": 1,
+    "prepared_utc": "2026-10-13T12:37:57.317922+00:00",
+    "plan_sha256": "3ed1d60cd5b6279c7c7da1f2e0c3324f8a1535085f4c6382a0d8d999745ca40c",
+    "source_sha256": "ead90a212c786eff0cfa782dab47dbfe14c421b3f43b32c573bb990cb8348877",
+    "profiles": [
+      {
+        "name": "915MHz-compressed",
+        "workspace_path": "build-reference\\ampm-adapter-study-20261013\\profiles-v2\\915MHz-compressed\\RFModel_AMPM_A01.wsv",
+        "workspace_sha256": "a3291aa44d18b82e745a9793bba8499261d5560f30215228a48eb473f1558d5b",
+        "changes": [
+          {
+            "path": "PointDerivative/Sch1/PartList/RFAmp/ParamSet/AMtoPM_Mode/DataEntry",
+            "before": "1",
+            "after": "1"
+          },
+          {
+            "path": "PointDerivative/Sch1/PartList/RFAmp/ParamSet/G/DataEntry",
+            "before": "20",
+            "after": "13"
+          },
+          {
+            "path": "PointDerivative/Sch1/PartList/RFAmp/ParamSet/OP1dB/DataEntry",
+            "before": "10",
+            "after": "8.5"
+          },
+          {
+            "path": "PointDerivative/Sch1/PartList/RFAmp/ParamSet/OPSAT/DataEntry",
+            "before": "13",
+            "after": "11.5"
+          },
+          {
+            "path": "PointDerivative/Sch1/PartList/RFAmp/ParamSet/OIP2/DataEntry",
+            "before": "30",
+            "after": "140"
+          },
+          {
+            "path": "PointDerivative/Sch1/PartList/RFAmp/ParamSet/OIP3/DataEntry",
+            "before": "20",
+            "after": "28.5"
+          },
+          {
+            "path": "PointDerivative/Sch1/PartList/RFAmp/ParamSet/AMtoPM/DataEntry",
+            "before": "-5",
+            "after": "-3.5"
+          },
+          {
+            "path": "PointDerivative/Sch1/PartList/RFAmp/ParamSet/PwrAMtoPM/DataEntry",
+            "before": "10",
+            "after": "5.5"
+          },
+          {
+            "path": "PointDerivative/Sch1/PartList/Source/ParamSet/Pwr/DataEntry",
+            "before": "Pin",
+            "after": "-6.5"
+          },
+          {
+            "path": "PointDerivative/Sch1/PartList/Source/ParamSet/Phase/DataEntry",
+            "before": "0",
+            "after": "37"
+          },
+          {
+            "path": "PointDerivative/Sch1/PartList/Source/ParamSet/Freq/DataEntry",
+            "before": "100",
+            "after": "915.0"
+          },
+          {
+            "path": "PointDerivative/System1/Path1/QCStartPwr/DataEntry",
+            "before": "-150",
+            "after": "-17.5"
+          },
+          {
+            "path": "PointDerivative/System1/Path1/QCStopPwr/DataEntry",
+            "before": "50",
+            "after": "0.5"
+          },
+          {
+            "path": "PointDerivative/System1/Path1/QCStepPwr/DataEntry",
+            "before": "10",
+            "after": "0.5"
+          },
+          {
+            "path": "PointDerivative/System1/Path1/QCAutoLimits/Data/D",
+            "before": "1",
+            "after": "0"
+          },
+          {
+            "path": "PointDerivative/System1/Path1/QCFreq/DataEntry",
+            "before": null,
+            "after": "915.0"
+          },
+          {
+            "path": "PointDerivative/System1/Path1/QCSwpType/Data/D",
+            "before": "0",
+            "after": "3"
+          }
+        ]
+      },
+      {
+        "name": "2450MHz-compressed",
+        "workspace_path": "build-reference\\ampm-adapter-study-20261013\\profiles-v2\\2450MHz-compressed\\RFModel_AMPM_A01.wsv",
+        "workspace_sha256": "f84f35496e429f0e6af04a229c7fd413370944fa2287bd872675ffac4949ae8b",
+        "changes": [
+          {
+            "path": "PointDerivative/Sch1/PartList/RFAmp/ParamSet/AMtoPM_Mode/DataEntry",
+            "before": "1",
+            "after": "1"
+          },
+          {
+            "path": "PointDerivative/Sch1/PartList/RFAmp/ParamSet/G/DataEntry",
+            "before": "20",
+            "after": "7"
+          },
+          {
+            "path": "PointDerivative/Sch1/PartList/RFAmp/ParamSet/OP1dB/DataEntry",
+            "before": "10",
+            "after": "-9.5"
+          },
+          {
+            "path": "PointDerivative/Sch1/PartList/RFAmp/ParamSet/OPSAT/DataEntry",
+            "before": "13",
+            "after": "-6.5"
+          },
+          {
+            "path": "PointDerivative/Sch1/PartList/RFAmp/ParamSet/OIP2/DataEntry",
+            "before": "30",
+            "after": "140"
+          },
+          {
+            "path": "PointDerivative/Sch1/PartList/RFAmp/ParamSet/OIP3/DataEntry",
+            "before": "20",
+            "after": "10.5"
+          },
+          {
+            "path": "PointDerivative/Sch1/PartList/RFAmp/ParamSet/AMtoPM/DataEntry",
+            "before": "-5",
+            "after": "4.25"
+          },
+          {
+            "path": "PointDerivative/Sch1/PartList/RFAmp/ParamSet/PwrAMtoPM/DataEntry",
+            "before": "10",
+            "after": "-12.5"
+          },
+          {
+            "path": "PointDerivative/Sch1/PartList/Source/ParamSet/Pwr/DataEntry",
+            "before": "Pin",
+            "after": "-18.5"
+          },
+          {
+            "path": "PointDerivative/Sch1/PartList/Source/ParamSet/Phase/DataEntry",
+            "before": "0",
+            "after": "-45"
+          },
+          {
+            "path": "PointDerivative/Sch1/PartList/Source/ParamSet/Freq/DataEntry",
+            "before": "100",
+            "after": "2450.0"
+          },
+          {
+            "path": "PointDerivative/System1/Path1/QCStartPwr/DataEntry",
+            "before": "-150",
+            "after": "-29.5"
+          },
+          {
+            "path": "PointDerivative/System1/Path1/QCStopPwr/DataEntry",
+            "before": "50",
+            "after": "-11.5"
+          },
+          {
+            "path": "PointDerivative/System1/Path1/QCStepPwr/DataEntry",
+            "before": "10",
+            "after": "0.5"
+          },
+          {
+            "path": "PointDerivative/System1/Path1/QCAutoLimits/Data/D",
+            "before": "1",
+            "after": "0"
+          },
+          {
+            "path": "PointDerivative/System1/Path1/QCFreq/DataEntry",
+            "before": null,
+            "after": "2450.0"
+          },
+          {
+            "path": "PointDerivative/System1/Path1/QCSwpType/Data/D",
+            "before": "0",
+            "after": "3"
+          }
+        ]
+      },
+      {
+        "name": "10GHz-saturation",
+        "workspace_path": "build-reference\\ampm-adapter-study-20261013\\profiles-v2\\10GHz-saturation\\RFModel_AMPM_A01.wsv",
+        "workspace_sha256": "0cd0cbc883db4b9eaf12306a6b6cd2ce9626c1710684e733818bcad75dbd318b",
+        "changes": [
+          {
+            "path": "PointDerivative/Sch1/PartList/RFAmp/ParamSet/AMtoPM_Mode/DataEntry",
+            "before": "1",
+            "after": "1"
+          },
+          {
+            "path": "PointDerivative/Sch1/PartList/RFAmp/ParamSet/G/DataEntry",
+            "before": "20",
+            "after": "31"
+          },
+          {
+            "path": "PointDerivative/Sch1/PartList/RFAmp/ParamSet/OP1dB/DataEntry",
+            "before": "10",
+            "after": "15"
+          },
+          {
+            "path": "PointDerivative/Sch1/PartList/RFAmp/ParamSet/OPSAT/DataEntry",
+            "before": "13",
+            "after": "18"
+          },
+          {
+            "path": "PointDerivative/Sch1/PartList/RFAmp/ParamSet/OIP2/DataEntry",
+            "before": "30",
+            "after": "140"
+          },
+          {
+            "path": "PointDerivative/Sch1/PartList/RFAmp/ParamSet/OIP3/DataEntry",
+            "before": "20",
+            "after": "35"
+          },
+          {
+            "path": "PointDerivative/Sch1/PartList/RFAmp/ParamSet/AMtoPM/DataEntry",
+            "before": "-5",
+            "after": "-8"
+          },
+          {
+            "path": "PointDerivative/Sch1/PartList/RFAmp/ParamSet/PwrAMtoPM/DataEntry",
+            "before": "10",
+            "after": "15"
+          },
+          {
+            "path": "PointDerivative/Sch1/PartList/Source/ParamSet/Pwr/DataEntry",
+            "before": "Pin",
+            "after": "-15"
+          },
+          {
+            "path": "PointDerivative/Sch1/PartList/Source/ParamSet/Phase/DataEntry",
+            "before": "0",
+            "after": "-120"
+          },
+          {
+            "path": "PointDerivative/Sch1/PartList/Source/ParamSet/Freq/DataEntry",
+            "before": "100",
+            "after": "10000.0"
+          },
+          {
+            "path": "PointDerivative/System1/Path1/QCStartPwr/DataEntry",
+            "before": "-150",
+            "after": "-26"
+          },
+          {
+            "path": "PointDerivative/System1/Path1/QCStopPwr/DataEntry",
+            "before": "50",
+            "after": "-8"
+          },
+          {
+            "path": "PointDerivative/System1/Path1/QCStepPwr/DataEntry",
+            "before": "10",
+            "after": "0.5"
+          },
+          {
+            "path": "PointDerivative/System1/Path1/QCAutoLimits/Data/D",
+            "before": "1",
+            "after": "0"
+          },
+          {
+            "path": "PointDerivative/System1/Path1/QCFreq/DataEntry",
+            "before": null,
+            "after": "10000.0"
+          },
+          {
+            "path": "PointDerivative/System1/Path1/QCSwpType/Data/D",
+            "before": "0",
+            "after": "3"
+          }
+        ]
+      },
+      {
+        "name": "30MHz-loss-zero-phase",
+        "workspace_path": "build-reference\\ampm-adapter-study-20261013\\profiles-v2\\30MHz-loss-zero-phase\\RFModel_AMPM_A01.wsv",
+        "workspace_sha256": "fd0ce2d6c83c6d050c31d5ec3cf3d672d75e56eaa271000dead3b69128bf2be6",
+        "changes": [
+          {
+            "path": "PointDerivative/Sch1/PartList/RFAmp/ParamSet/AMtoPM_Mode/DataEntry",
+            "before": "1",
+            "after": "1"
+          },
+          {
+            "path": "PointDerivative/Sch1/PartList/RFAmp/ParamSet/G/DataEntry",
+            "before": "20",
+            "after": "-3"
+          },
+          {
+            "path": "PointDerivative/Sch1/PartList/RFAmp/ParamSet/OP1dB/DataEntry",
+            "before": "10",
+            "after": "-1.5"
+          },
+          {
+            "path": "PointDerivative/Sch1/PartList/RFAmp/ParamSet/OPSAT/DataEntry",
+            "before": "13",
+            "after": "1.5"
+          },
+          {
+            "path": "PointDerivative/Sch1/PartList/RFAmp/ParamSet/OIP2/DataEntry",
+            "before": "30",
+            "after": "140"
+          },
+          {
+            "path": "PointDerivative/Sch1/PartList/RFAmp/ParamSet/OIP3/DataEntry",
+            "before": "20",
+            "after": "18.5"
+          },
+          {
+            "path": "PointDerivative/Sch1/PartList/RFAmp/ParamSet/AMtoPM/DataEntry",
+            "before": "-5",
+            "after": "0"
+          },
+          {
+            "path": "PointDerivative/Sch1/PartList/RFAmp/ParamSet/PwrAMtoPM/DataEntry",
+            "before": "10",
+            "after": "-4.5"
+          },
+          {
+            "path": "PointDerivative/Sch1/PartList/Source/ParamSet/Pwr/DataEntry",
+            "before": "Pin",
+            "after": "-0.5"
+          },
+          {
+            "path": "PointDerivative/Sch1/PartList/Source/ParamSet/Phase/DataEntry",
+            "before": "0",
+            "after": "123"
+          },
+          {
+            "path": "PointDerivative/Sch1/PartList/Source/ParamSet/Freq/DataEntry",
+            "before": "100",
+            "after": "30.0"
+          },
+          {
+            "path": "PointDerivative/System1/Path1/QCStartPwr/DataEntry",
+            "before": "-150",
+            "after": "-11.5"
+          },
+          {
+            "path": "PointDerivative/System1/Path1/QCStopPwr/DataEntry",
+            "before": "50",
+            "after": "6.5"
+          },
+          {
+            "path": "PointDerivative/System1/Path1/QCStepPwr/DataEntry",
+            "before": "10",
+            "after": "0.5"
+          },
+          {
+            "path": "PointDerivative/System1/Path1/QCAutoLimits/Data/D",
+            "before": "1",
+            "after": "0"
+          },
+          {
+            "path": "PointDerivative/System1/Path1/QCFreq/DataEntry",
+            "before": null,
+            "after": "30.0"
+          },
+          {
+            "path": "PointDerivative/System1/Path1/QCSwpType/Data/D",
+            "before": "0",
+            "after": "3"
+          }
+        ]
+      }
+    ]
+  },
+  "capture_sources": [
+    {
+      "path": "build-reference/ampm-adapter-study-20261013/capture-v2.ps1",
+      "sha256": "a6ee9b429fc9ea11f8c8a2fb7af8629c0c4066d62ccdf5253e588ed101723186",
+      "utf8_source": "\r\nparam([Parameter(Mandatory=$true)][string]$OutputDirectory,[Parameter(Mandatory=$true)][string]$Profile)\r\n$ErrorActionPreference='Stop'\r\n[Console]::OutputEncoding=New-Object System.Text.UTF8Encoding($false)\r\nfunction SaveNew($name,$value){$p=Join-Path $OutputDirectory $name;$s=$value|ConvertTo-Json -Depth 15;$f=[IO.File]::Open($p,[IO.FileMode]::CreateNew,[IO.FileAccess]::Write);try{$b=[Text.Encoding]::UTF8.GetBytes($s);$f.Write($b,0,$b.Length)}finally{$f.Dispose()}}\r\nif((Get-ExecutionPolicy -Scope Process) -ne 'Undefined' -or (Get-ExecutionPolicy) -ne 'RemoteSigned'){throw 'Unexpected policy'}\r\n$interop='C:/Program Files/Keysight/SystemVue2023/Examples/RF Architecture Design/RF Design Kit/Scripting/Excel_to_RF/Interop.GENESYS.dll'\r\nAdd-Type -Path $interop\r\nAdd-Type -ReferencedAssemblies $interop -TypeDefinition @\"\r\nusing System;\r\nusing System.Collections.Generic;\r\nusing System.Runtime.InteropServices;\r\n\r\npublic static class A01Inspector\r\n{\r\n    public static string RunStartedUtc;\r\n    public static string RunReturnedUtc;\r\n    public static string ManagerErrors;\r\n\r\n    public sealed class Node\r\n    {\r\n        public string path;\r\n        public string methods;\r\n        public string[] variables;\r\n        public object data;\r\n        public int[] dimensions;\r\n        public string timestamp;\r\n        public string data_entry;\r\n        public string data_source;\r\n        public string evaluation_error;\r\n        public Dictionary<string, object> analysis_settings;\r\n    }\r\n\r\n    private static void Visit(GENESYS.IItem item, string path, int depth, List<Node> nodes)\r\n    {\r\n        if (path.EndsWith(\"/Eqns\"))\r\n        {\r\n            depth = 3;\r\n        }\r\n        if ((path.Contains(\"/Sch1/PartList/\") || path.Contains(\"/Example/PartList/\")) && path.Split('/').Length == 5)\r\n        {\r\n            depth = 2;\r\n        }\r\n        if (nodes.Count >= 12000)\r\n        {\r\n            throw new InvalidOperationException(\"Reference inspection node limit exceeded\");\r\n        }\r\n        var variables = new string[item.GetVarCount()];\r\n        for (int index = 0; index < variables.Length; ++index)\r\n        {\r\n            variables[index] = item.GetVarName(index) + \":\" + item.GetVarType(index);\r\n        }\r\n        var node = new Node { path = path, methods = item.GetMethodList(), variables = variables };\r\n        for (int index = 0; index < variables.Length; ++index)\r\n        {\r\n            string name = item.GetVarName(index);\r\n            if ((path.EndsWith(\"/System1\") || path.EndsWith(\"/System2\")) &&\r\n                (name == \"CoherentIM\" || name == \"ShowTotals\" || name == \"CalcNoise\" ||\r\n                 name == \"CalcHarmonics\" || name == \"CalcIntermods\" || name == \"PhaseNoise\" ||\r\n                 name == \"UseSourcePts\" || name == \"NeedRun\" || name == \"AutoCalc\"))\r\n            {\r\n                if (node.analysis_settings == null)\r\n                {\r\n                    node.analysis_settings = new Dictionary<string, object>();\r\n                }\r\n                node.analysis_settings[name] = item.GetVarValue(index);\r\n            }\r\n            if (name == \"DataEntry\")\r\n            {\r\n                node.data_entry = Convert.ToString(item.GetVarValue(index));\r\n            }\r\n            if (name == \"TimeStamp\")\r\n            {\r\n                node.timestamp = Convert.ToString(item.GetVarValue(index));\r\n            }\r\n            if (name == \"Data\")\r\n            {\r\n                object value = item.GetVarValue(index);\r\n                node.data_source = \"Data property\";\r\n                var array = value as Array;\r\n                if (array != null)\r\n                {\r\n                    node.dimensions = new int[array.Rank];\r\n                    for (int dimension = 0; dimension < array.Rank; ++dimension)\r\n                    {\r\n                        node.dimensions[dimension] = array.GetLength(dimension);\r\n                    }\r\n                    if (array.Length <= 4096)\r\n                    {\r\n                        var values = new List<object>();\r\n                        foreach (object entry in array)\r\n                        {\r\n                            values.Add(entry is ValueType || entry is string ? entry : \"unsupported\");\r\n                        }\r\n                        node.data = values.ToArray();\r\n                    }\r\n                }\r\n                else if (value is ValueType || value is string)\r\n                {\r\n                    node.data = value;\r\n                }\r\n            }\r\n        }\r\n        // Some PartParam objects expose only their expression, without a Data\r\n        // property. Read the documented evaluated value through IDispatch.\r\n        if (node.data == null && path.Contains(\"/ParamSet/\") &&\r\n            node.methods.Contains(\"GetValue()\"))\r\n        {\r\n            try\r\n            {\r\n                object value = item.GetType().InvokeMember(\"GetValue\",\r\n                    System.Reflection.BindingFlags.InvokeMethod, null, item, new object[0]);\r\n                var array = value as Array;\r\n                if (array != null && array.Length <= 4096)\r\n                {\r\n                    node.dimensions = new int[array.Rank];\r\n                    for (int dimension = 0; dimension < array.Rank; ++dimension)\r\n                    {\r\n                        node.dimensions[dimension] = array.GetLength(dimension);\r\n                    }\r\n                    var entries = new List<object>();\r\n                    foreach (object entry in array)\r\n                    {\r\n                        entries.Add(entry is ValueType || entry is string ? entry : \"unsupported\");\r\n                    }\r\n                    node.data = entries.ToArray();\r\n                }\r\n                else if (value is ValueType || value is string)\r\n                {\r\n                    node.data = value;\r\n                }\r\n                node.data_source = \"GetValue method\";\r\n            }\r\n            catch (Exception error)\r\n            {\r\n                node.evaluation_error = error.GetBaseException().Message;\r\n            }\r\n        }\r\n        nodes.Add(node);\r\n        if (depth == 0)\r\n        {\r\n            return;\r\n        }\r\n        for (int index = 0; index < item.GetItemCount(); ++index)\r\n        {\r\n            var child = item.GetItemByIndex(index);\r\n            try\r\n            {\r\n                Visit(child, path + \"/\" + child.GetName(), depth - 1, nodes);\r\n            }\r\n            finally\r\n            {\r\n                Marshal.ReleaseComObject(child);\r\n            }\r\n        }\r\n    }\r\n\r\n\r\n    public static object Active;\r\n    public static GENESYS.Application App;\r\n    public static GENESYS.IManager Manager;\r\n    public static GENESYS.Workspace Workspace;\r\n    public static int Index;\r\n    public static string[] Names(){\r\n        var names=new List<string>();\r\n        for(int i=0;i<Manager.GetWorkspaceCount();i++){var w=Manager.GetWorkspaceByIndex(i);names.Add(((GENESYS.IItem)w).GetName());Marshal.ReleaseComObject(w);}\r\n        return names.ToArray();\r\n    }\r\n    public static void Bind(bool allowOpen,string path){\r\n        path=System.IO.Path.GetFullPath(path);\r\n        Console.WriteLine(\"NATIVE_OPEN_PATH=\"+path);\r\n        Active=Marshal.GetActiveObject(\"Genesys.Application\");App=(GENESYS.Application)Active;Manager=App.Manager;\r\n        Console.WriteLine(\"WORKSPACES=\"+String.Join(\" | \",Names()));\r\n        foreach(string name in Names())if(name!=\"RFModel_AttenuatorNoise\" && name!=\"RFModel_AMPM_A01\" && !(allowOpen && name==\"Blank\"))throw new InvalidOperationException(\"Unrelated workspace; no action\");\r\n        bool found=Array.IndexOf(Names(),\"RFModel_AMPM_A01\")>=0;\r\n        if(!found && allowOpen){\r\n            if(Manager.GetWorkspaceCount()>1)throw new InvalidOperationException(\"Ambiguous pre-open workspace\");\r\n            Console.WriteLine(DateTime.UtcNow.ToString(\"o\")+\" BEGIN official OpenWorkspace\");\r\n            App.RunScript(\"Call OpenWorkspace(\\\"\"+path.Replace(\"\\\"\",\"\\\"\\\"\")+\"\\\")\",GENESYS.ScriptLanguage.genLangVBScript);\r\n            Console.WriteLine(DateTime.UtcNow.ToString(\"o\")+\" OK official OpenWorkspace\");\r\n        }\r\n        int matches=0;\r\n        for(int i=0;i<Manager.GetWorkspaceCount();i++){\r\n            var w=Manager.GetWorkspaceByIndex(i);\r\n            if(((GENESYS.IItem)w).GetName()==\"RFModel_AMPM_A01\"){Workspace=w;Index=i;matches++;}\r\n            else Marshal.ReleaseComObject(w);\r\n        }\r\n        if(matches!=1)throw new InvalidOperationException(\"Target workspace missing or ambiguous\");\r\n        CheckDone();\r\n    }\r\n    public static void CheckDone(){\r\n        int done=Convert.ToInt32(Workspace.GetType().InvokeMember(\"IsAnalysisDone\",System.Reflection.BindingFlags.InvokeMethod,null,Workspace,new object[0]));\r\n        if(done!=1)throw new InvalidOperationException(\"Analysis incomplete\");\r\n        string e=Manager.GetErrors();if(!String.IsNullOrWhiteSpace(e))throw new InvalidOperationException(e);\r\n    }\r\n    public static Node[] Read(){\r\n        var list=new List<Node>();\r\n        foreach(string path in new[]{\"DataPoints/Sch2/PartList/RFAmp/ParamSet\",\"DataPoints/Sch2/PartList/Source/ParamSet\",\r\n          \"DataPoints/System2\",\"DataPoints/EqsInp\",\"DataPoints/System2_Sch2_Data\",\"DataPoints/System2_Data_Folder\",\r\n          \"PointDerivative/Sch1/PartList/RFAmp/ParamSet\",\"PointDerivative/Sch1/PartList/Source/ParamSet\",\r\n          \"PointDerivative/System1\",\"PointDerivative/System1_Data\",\"PointDerivative/System1_Data_Folder\",\"WorkspaceVariables\"}){\r\n            GENESYS.IItem current=(GENESYS.IItem)Workspace;bool owned=false;\r\n            try{\r\n                foreach(string part in path.Split('/')){var next=current.GetItemByName(part);if(owned)Marshal.ReleaseComObject(current);current=next;owned=true;}\r\n                Visit(current,\"RFModel_AMPM_A01/\"+path,path.EndsWith(\"Data_Folder\")?4:path.EndsWith(\"ParamSet\")?1:3,list);\r\n            }finally{if(owned)Marshal.ReleaseComObject(current);}\r\n        }\r\n        return list.ToArray();\r\n    }\r\n    public static void RequireDirectory(string expected) {\r\n        if(Manager.GetWorkspaceCount()!=1)throw new InvalidOperationException(\"Ambiguous workspace count\");\r\n        var actual=Convert.ToString(Workspace.GetType().InvokeMember(\"GetWorkspaceFileDir\",System.Reflection.BindingFlags.InvokeMethod,null,Workspace,new object[0]));\r\n        if(!System.IO.Path.GetFullPath(actual).TrimEnd('\\\\').Equals(System.IO.Path.GetFullPath(expected).TrimEnd('\\\\'),StringComparison.OrdinalIgnoreCase))throw new InvalidOperationException(\"Unexpected workspace directory: \"+actual);\r\n    }\r\n    public static void Run() {\r\n        var pd=((GENESYS.IItem)Workspace).GetItemByName(\"PointDerivative\");\r\n        var analysis=pd.GetItemByName(\"System1\");\r\n        try { analysis.GetType().InvokeMember(\"RunAnalysis\",System.Reflection.BindingFlags.InvokeMethod,null,analysis,new object[0]); }\r\n        finally {Marshal.ReleaseComObject(analysis);Marshal.ReleaseComObject(pd);}\r\n    }\r\n    public static void ArchiveClose(string path) {\r\n        if(System.IO.File.Exists(path))throw new InvalidOperationException(\"Archive already exists\");\r\n        Workspace.GetType().InvokeMember(\"SaveAs\",System.Reflection.BindingFlags.InvokeMethod,null,Workspace,new object[]{path});\r\n        if(!System.IO.File.Exists(path))throw new InvalidOperationException(\"Archive missing\");\r\n        Workspace.GetType().InvokeMember(\"CloseWorkspace\",System.Reflection.BindingFlags.InvokeMethod,null,Workspace,new object[0]);\r\n        if(Manager.GetWorkspaceCount()!=0)throw new InvalidOperationException(\"Workspace still open\");\r\n    }\r\n    public static string Script(string body){\r\n        string script=\"Dim wsdoc\\r\\nSet wsdoc=Application.Manager.GetWorkspaceByIndex(\"+Index+\")\\r\\n\"+body;\r\n        App.RunScript(script,GENESYS.ScriptLanguage.genLangVBScript);return script;\r\n    }\r\n}\r\n\r\n\"@\r\n\r\ntry {\r\n $base='D:/project/RFModel/build-reference/ampm-adapter-study-20261013'\r\n $plan=Get-Content -Raw -LiteralPath 'D:/project/RFModel/validation/am-pm-point-derivative-adapter-plan-20261013.json'|ConvertFrom-Json\r\n $amendment=Get-Content -Raw -LiteralPath 'D:/project/RFModel/validation/am-pm-point-derivative-adapter-amendment-20261013.json'|ConvertFrom-Json\r\n $plan.profiles=$amendment.effective_profiles\r\n $p=@($plan.profiles|Where-Object {$_.name -eq $Profile})\r\n if($p.Count -ne 1){throw 'Unknown profile'}\r\n $p=$p[0]\r\n $workspace=Join-Path $base ('profiles-v2/'+$Profile+'/RFModel_AMPM_A01.wsv')\r\n $manifest=Get-Content -Raw -LiteralPath (Join-Path $base 'prepared-workspaces-v2.json')|ConvertFrom-Json\r\n $expected=@($manifest.profiles|Where-Object {$_.name -eq $Profile})[0]\r\n if((Get-FileHash -LiteralPath $workspace -Algorithm SHA256).Hash.ToLower() -ne $expected.workspace_sha256){throw 'Workspace hash mismatch'}\r\n [A01Inspector]::Bind($true,$workspace)\r\n [A01Inspector]::RequireDirectory([IO.Path]::GetDirectoryName($workspace))\r\n $nodes=[A01Inspector]::Read()\r\n SaveNew 'before.json' ([ordered]@{observed_utc=[DateTime]::UtcNow.ToString('o');workspace_names=[A01Inspector]::Names();nodes=$nodes})\r\n $prefix='RFModel_AMPM_A01/PointDerivative/'\r\n $amp=$prefix+'Sch1/PartList/RFAmp/ParamSet/'\r\n $src=$prefix+'Sch1/PartList/Source/ParamSet/'\r\n $sweep=$prefix+'System1/Path1/'\r\n $checks=@{}\r\n $checks[$amp+'AMtoPM_Mode']=1\r\n $checks[$amp+'AMtoPM']=[double]$p.peak_degrees_per_db\r\n $checks[$amp+'PwrAMtoPM']=[Math]::Pow(10,([double]$p.reference_dbm-30)/10)\r\n $checks[$amp+'G']=[Math]::Pow(10,[double]$p.gain_db/10)\r\n $checks[$amp+'OP1dB']=[Math]::Pow(10,([double]$p.output_p1db_dbm-30)/10)\r\n $checks[$amp+'OPSAT']=[Math]::Pow(10,([double]$p.output_saturation_dbm-30)/10)\r\n $checks[$amp+'OIP2']=1e11\r\n $checks[$amp+'OIP3']=[Math]::Pow(10,([double]$p.output_ip3_dbm-30)/10)\r\n $checks[$src+'Pwr']=[Math]::Pow(10,([double]$p.ordinary_output_target_dbm-[double]$p.gain_db-30)/10)\r\n $checks[$src+'Phase']=[double]$p.source_phase_deg*[Math]::PI/180\r\n $checks[$src+'Freq']=[double]$p.frequency_hz\r\n $checks[$sweep+'StartPwr']=[Math]::Pow(10,([double]$p.sweep_input_start_dbm-30)/10)\r\n $checks[$sweep+'StopPwr']=[Math]::Pow(10,([double]$p.sweep_input_stop_dbm-30)/10)\r\n $checks[$sweep+'StepPwr']=[Math]::Pow(10,[double]$p.sweep_step_db/10)\r\n $checks[$sweep+'AutoLimits']=0\r\n $checks[$sweep+'Freq']=[double]$p.frequency_hz\r\n $checks[$sweep+'SweepType']=3\r\n foreach($key in $checks.Keys){\r\n  $n=@($nodes|Where-Object {$_.path -eq $key})\r\n  if($n.Count -ne 1 -or $null -eq $n[0].data){throw ('Missing parameter '+$key)}\r\n  $v=[double]$n[0].data;$wanted=[double]$checks[$key]\r\n  if([Math]::Abs($v-$wanted) -gt 1e-12*[Math]::Max(1e-12,[Math]::Abs($wanted))){throw ('Parameter mismatch '+$key+' actual='+$v+' expected='+$wanted)}\r\n }\r\n $begin=[DateTime]::UtcNow.ToString('o')\r\n SaveNew 'run-intent.json' ([ordered]@{profile=$Profile;run_started_utc=$begin;analysis_calls=1;method='Direct IDispatch RunAnalysis';validated_parameter_count=$checks.Count})\r\n [Console]::WriteLine($begin+' BEGIN PointDerivative.System1.RunAnalysis '+$Profile)\r\n [A01Inspector]::Run()\r\n $returned=[DateTime]::UtcNow.ToString('o')\r\n [A01Inspector]::CheckDone()\r\n SaveNew 'capture.json' ([ordered]@{profile=$Profile;run_started_utc=$begin;run_returned_utc=$returned;analysis_done=1;method='Direct IDispatch RunAnalysis';manager_errors=[A01Inspector]::Manager.GetErrors();workspace_names=[A01Inspector]::Names();nodes=[A01Inspector]::Read()})\r\n [Console]::WriteLine($returned+' OK completed '+$Profile)\r\n [A01Inspector]::ArchiveClose((Join-Path $OutputDirectory 'RFModel_AMPM_A01-result.wsv'))\r\n SaveNew 'closed.json' ([ordered]@{observed_utc=[DateTime]::UtcNow.ToString('o');workspace_count=[A01Inspector]::Manager.GetWorkspaceCount();input_sha256=(Get-FileHash -LiteralPath $workspace -Algorithm SHA256).Hash.ToLower()})\r\n}catch{$e=$_.Exception.GetBaseException();[Console]::Error.WriteLine(('HRESULT=0x{0:X8} {1}' -f $e.HResult,$e.Message));exit 1}\r\n"
+    },
+    {
+      "path": "build-reference/ampm-adapter-study-20261013/prepare-v2.py",
+      "sha256": "d38c166b19f2aa7eddc8008645a761af878548d503b4186c04f403ff2e89285a",
+      "utf8_source": "import copy\r\nimport hashlib\r\nimport json\r\nfrom pathlib import Path\r\nimport xml.etree.ElementTree as ET\r\nimport xml.parsers.expat\r\nfrom datetime import datetime, timezone\r\n\r\nbase=Path(__file__).resolve().parent\r\nroot=base.parents[1]\r\nsource=base/'RFModel_AMPM_A01.wsv'\r\nsha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()\r\nassert sha(source)=='ead90a212c786eff0cfa782dab47dbfe14c421b3f43b32c573bb990cb8348877'\r\nplan_path=root/'validation/am-pm-point-derivative-adapter-plan-20261013.json'\r\nassert sha(plan_path)=='3ed1d60cd5b6279c7c7da1f2e0c3324f8a1535085f4c6382a0d8d999745ca40c'\r\nplan=json.loads(plan_path.read_text())\r\namendment=json.loads((root/'validation/am-pm-point-derivative-adapter-amendment-20261013.json').read_text())\r\nplan['profiles']=amendment['effective_profiles']\r\noriginal=ET.fromstring(source.read_bytes())\r\ndef item(node,*names):\r\n    for name in names:\r\n        rows=[c for c in node.findall('Item') if c.get('XName')==name]\r\n        assert len(rows)==1,name\r\n        node=rows[0]\r\n    return node\r\ndef signature(n):\r\n    return (n.tag,dict(n.attrib),n.text,tuple(signature(c) for c in n))\r\nmanifest={'schema_version':1,'prepared_utc':datetime.now(timezone.utc).isoformat(),\r\n          'plan_sha256':sha(plan_path),'source_sha256':sha(source),'profiles':[]}\r\nfor profile in plan['profiles']:\r\n    document=copy.deepcopy(original)\r\n    pd=item(document,'PointDerivative')\r\n    amp=item(pd,'Sch1','PartList','RFAmp','ParamSet')\r\n    src=item(pd,'Sch1','PartList','Source','ParamSet')\r\n    sweep=item(pd,'System1','Path1')\r\n    changes=[]\r\n    def change(node,field,value,path):\r\n        target=node.find(field);assert target is not None,(path,field)\r\n        before=target.text;target.text=str(value)\r\n        changes.append({'path':path+'/'+field,'before':before,'after':str(value)})\r\n    for key,value in {'AMtoPM_Mode':1,'G':profile['gain_db'],'OP1dB':profile['output_p1db_dbm'],'OPSAT':profile['output_saturation_dbm'],'OIP2':profile['output_ip2_dbm'],'OIP3':profile['output_ip3_dbm'],\r\n                      'AMtoPM':profile['peak_degrees_per_db'],'PwrAMtoPM':profile['reference_dbm']}.items():\r\n        change(item(amp,key),'DataEntry',value,'PointDerivative/Sch1/PartList/RFAmp/ParamSet/'+key)\r\n    for key,value in {'Pwr':profile['ordinary_output_target_dbm']-profile['gain_db'],'Phase':profile['source_phase_deg'],'Freq':profile['frequency_hz']/1e6}.items():\r\n        change(item(src,key),'DataEntry',value,'PointDerivative/Sch1/PartList/Source/ParamSet/'+key)\r\n    for key,value in {'QCStartPwr':profile['sweep_input_start_dbm'],'QCStopPwr':profile['sweep_input_stop_dbm'],'QCStepPwr':profile['sweep_step_db']}.items():\r\n        change(item(sweep,key),'DataEntry',value,'PointDerivative/System1/Path1/'+key)\r\n    change(item(sweep,'QCAutoLimits'),'Data/D',0,'PointDerivative/System1/Path1/QCAutoLimits')\r\n    change(item(sweep,'QCFreq'),'DataEntry',profile['frequency_hz']/1e6,'PointDerivative/System1/Path1/QCFreq')\r\n    change(item(sweep,'QCSwpType'),'Data/D',3,'PointDerivative/System1/Path1/QCSwpType')\r\n    path=base/'profiles-v2'/profile['name']/'RFModel_AMPM_A01.wsv'\r\n    path.parent.mkdir(parents=True,exist_ok=False)\r\n    raw=source.read_bytes()\r\n    spans={};stack=[];active={}\r\n    parser=xml.parsers.expat.ParserCreate()\r\n    targets={row['path']:row['after'].encode('ascii') for row in changes}\r\n    def begin(tag,attrs):\r\n        if not stack:stack.append('')\r\n        else:stack.append(attrs.get('XName',tag))\r\n        key='/'.join(stack[1:])\r\n        if key in targets:active[key]=(parser.CurrentByteIndex,tag)\r\n    def end(tag):\r\n        key='/'.join(stack[1:])\r\n        if key in active:\r\n            start,tag=active[key];tagend=raw.index(b'>',start)+1\r\n            stop=tagend if raw[start:tagend].rstrip().endswith(b'/>') else raw.index(b'>',parser.CurrentByteIndex)+1\r\n            spans[key]=(start,stop)\r\n            targets[key]=b'<'+tag.encode()+b'>'+targets[key]+b'</'+tag.encode()+b'>'\r\n        stack.pop()\r\n    parser.StartElementHandler=begin;parser.EndElementHandler=end\r\n    parser.Parse(raw,True)\r\n    assert set(spans)==set(targets)\r\n    payload=raw\r\n    for key,(start,stop) in sorted(spans.items(),key=lambda x:x[1][0],reverse=True):\r\n        payload=payload[:start]+targets[key]+payload[stop:]\r\n    path.write_bytes(payload)\r\n    assert signature(ET.fromstring(payload))==signature(document)\r\n    # Undo only the listed changes and require the entire semantic tree to match.\r\n    for row in changes:\r\n        parts=row['path'].split('/'); target=document\r\n        while parts and parts[0] not in ('DataEntry','Data'):\r\n            target=item(target,parts.pop(0))\r\n        target.find('/'.join(parts)).text=row['before']\r\n    assert signature(document)==signature(original)\r\n    manifest['profiles'].append({'name':profile['name'],'workspace_path':str(path.relative_to(root)),\r\n                                 'workspace_sha256':sha(path),'changes':changes})\r\nout=base/'prepared-workspaces-v2.json'\r\nout.write_text(json.dumps(manifest,indent=2)+'\\n',encoding='utf-8')\r\nprint('Prepared',len(manifest['profiles']),'independent workspaces with only planned parameter changes.')\r\n"
+    },
+    {
+      "path": "build-reference/ampm-adapter-study-20261013/run.py",
+      "sha256": "083f42516ebf6268f365cf9cd7eaa14904ab16e67992bd3547d0ba541d8abe7c",
+      "utf8_source": "import argparse\r\nfrom datetime import datetime, timezone\r\nimport hashlib\r\nimport json\r\nimport os\r\nfrom pathlib import Path\r\nimport subprocess\r\nimport uuid\r\n\r\nroot=Path(__file__).resolve().parents[2]\r\nbase=Path(__file__).resolve().parent\r\np=argparse.ArgumentParser()\r\np.add_argument('mode',choices=['park','capture','restore','recover'])\r\np.add_argument('--profile')\r\nargs=p.parse_args()\r\nscript=base/('recover-compression.ps1' if args.mode=='recover' else 'park-baseline.ps1' if args.mode=='park' else 'capture-v2.ps1' if args.mode=='capture' else '../ampm-parameter-study-20261013/open-baseline.ps1')\r\nout=base/(args.mode+'-'+datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')+'-'+uuid.uuid4().hex[:8])\r\nout.mkdir(exist_ok=False)\r\nps=Path('C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe')\r\nenv=os.environ.copy();env['PSModulePath']=str(ps.parent/'Modules')\r\ncommand=[str(ps),'-NoProfile','-NonInteractive','-File',str(script),'-OutputDirectory',str(out)]\r\nif args.mode=='capture':\r\n    assert args.profile\r\n    calls=sum(1 for _ in base.glob('capture-*/run-intent.json'))\r\n    if calls>=5:raise SystemExit('Registered analysis budget exhausted')\r\n    command+=['-Profile',args.profile]\r\nelif args.mode in ('park','recover'):\r\n    command+=['-Profile','baseline']\r\nelse:\r\n    command+=['-Mode','open']\r\nstate={'started_utc':datetime.now(timezone.utc).isoformat(),'mode':args.mode,'profile':args.profile,\r\n       'script_sha256':hashlib.sha256(script.read_bytes()).hexdigest(),'command':command,\r\n       'planned_analysis_calls':int(args.mode=='capture'),'timeout_seconds':120}\r\ndef save():\r\n    (out/'status.json').write_text(json.dumps(state,indent=2)+'\\n',encoding='utf-8')\r\nsave(); print('OUTPUT',out,flush=True)\r\nwith (out/'stdout.log').open('xb') as stdout,(out/'stderr.log').open('xb') as stderr:\r\n    proc=subprocess.Popen(command,stdout=stdout,stderr=stderr,env=env,creationflags=subprocess.CREATE_NO_WINDOW)\r\n    state['helper_pid']=proc.pid;save()\r\n    try:\r\n        state['exit_code']=proc.wait(timeout=120)\r\n        state['status']='returned'\r\n    except subprocess.TimeoutExpired:\r\n        proc.kill();proc.wait()\r\n        state['status']='timeout_helper_only_terminated_application_not_restarted'\r\nstate['finished_utc']=datetime.now(timezone.utc).isoformat();save()\r\nprint(json.dumps(state,indent=2))\r\nprint((out/'stdout.log').read_text(encoding='utf-8-sig',errors='replace'))\r\nprint((out/'stderr.log').read_text(encoding='utf-8-sig',errors='replace'))\r\nraise SystemExit(0 if state.get('exit_code')==0 else 1)\r\n"
+    }
+  ],
+  "restoration": {
+    "parameters_checked": 109,
+    "identical_expressions_and_values": true,
+    "capture_path": "build-reference/ampm-adapter-study-20261013/restore-20261013T124225Z-001a8a2c/before.json",
+    "capture_sha256": "e80033aaf0b0b20dddfe7646e060149ba9059aa66342a70193da90337b9ec243",
+    "pristine_input_sha256": "ead90a212c786eff0cfa782dab47dbfe14c421b3f43b32c573bb990cb8348877"
+  }
+}

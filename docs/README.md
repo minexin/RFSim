@@ -33,6 +33,7 @@
 - [能力边界与验收矩阵](acceptance-matrix.md)
 - [2026-10-12 剩余验收审计与闭合条件](acceptance-audit-20261012.md)
 - [A01 DataPoints 实测辨识与零 dBm 反例](systemvue-am-pm-datapoints-a01.md)
+- [SystemVue 2023 PointDerivative AM/PM 显式 C++ 适配器](systemvue-am-pm-adapter.md)
 - [有阻抗失配的均匀传输线](transmission-line.md)
 - [分布参数 RLGC 传输线](rlgc-transmission-line.md)
 - [理想功分/合路器和正交耦合器](multiport-devices.md)
@@ -110,7 +111,7 @@
 
 [共同限幅高阶工作点](highorder-linearization.md)提供既有高阶放大器的 C++/C/Python/JSON 链式导数与工作点接口、生成频点选择、混合器件反馈和收敛噪声；厂商模型语义仍待实测验收。
 
-[旧式峰值导数 AM-PM](am-pm.md)提供文档约束推导的 C++ 相位曲线及工作点链式导数；跨语言接口与厂商实测仍待完成。
+[旧式峰值导数 AM-PM](am-pm.md)提供文档约束推导的 C++ 相位曲线及工作点链式导数；[显式校准模型](systemvue-am-pm-adapter.md)通过有界参数/压缩/频率观测，完整厂商兼容仍待完成。
 
 [1 dB 衰减器离线复核](systemvue-attenuator-offline-audit.md)：确切 ATTN_Linear 参数/API 映射、原阈值失败重放和独立噪声预算。
 

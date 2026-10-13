@@ -35,6 +35,8 @@ SUITES = (
     "test_diagnose_highorder_amplifier.py",
     "test_diagnose_spectrum_reduction.py",
     "test_diagnose_am_pm_reference.py",
+    "test_diagnose_am_pm_parameter_study.py",
+    "test_systemvue_am_pm_adapter.py",
 )
 # Frozen before stage-3A implementation; these are archival identities, not
 # hashes regenerated from the files under test. Keep the historical bytes.
@@ -134,8 +136,9 @@ class RawProbeTests(unittest.TestCase):
     def test_am_pm_invalid_power_reference_and_payload(self):
         for payload in ("-1 -5 10", "0.01 -5 99999", "0.01 -5 -99999",
                         "0.01 -5", "0.01 -5 10 extra"):
-            with self.subTest(payload=payload):
-                self.assert_rejected(request("am_pm", payload))
+            for operation in ("am_pm", "systemvue2023_am_pm"):
+                with self.subTest(payload=payload, operation=operation):
+                    self.assert_rejected(request(operation, payload))
 
     def test_strict_decimal_tokens(self):
         for value in ("nan", "NaN", "inf", "Infinity", "-inf", "0x1p0", "1e", "1e+",
@@ -320,13 +323,13 @@ class AdapterTests(unittest.TestCase):
                 output_p1db_dbm=20., output_saturation_dbm=23., propagate_distortion=True)
 
     def test_am_pm_response_shape_and_finite_fields(self):
-        invoke = lambda: self.native.am_pm_response(.01, peak_degrees_per_db=-5,
-                                                    output_reference_dbm=10)
-        for mutation in (lambda b: b + b" extra", lambda b: b.rsplit(None, 1)[0],
-                         lambda b: b.rsplit(None, 1)[0] + b" nan",
-                         lambda b: b.rsplit(None, 1)[0] + b" 1e999"):
-            with self.subTest(mutation=mutation):
-                self.corrupt_response(mutation, method=invoke)
+        for method in (self.native.am_pm_response, self.native.systemvue2023_am_pm_response):
+            invoke = lambda: method(.01, peak_degrees_per_db=-5, output_reference_dbm=10)
+            for mutation in (lambda b: b + b" extra", lambda b: b.rsplit(None, 1)[0],
+                             lambda b: b.rsplit(None, 1)[0] + b" nan",
+                             lambda b: b.rsplit(None, 1)[0] + b" 1e999"):
+                with self.subTest(mutation=mutation, method=method):
+                    self.corrupt_response(mutation, method=invoke)
 
     def test_malformed_response_header_number_and_bounds(self):
         def replace(position, value):
@@ -774,7 +777,7 @@ class ArchiveManifestTests(unittest.TestCase):
 
 
 class ImportIsolationTests(unittest.TestCase):
-    def test_all_five_archived_suites_without_product_tree_or_imports(self):
+    def test_archived_suites_without_product_tree_or_imports(self):
         """Each suite gets a fresh -I -S interpreter with an active import ban."""
         driver = r'''
 import importlib.abc
@@ -809,7 +812,16 @@ print("ACTIVE_IMPORT_BAN_PASSED", suite.name)
                 shutil.copyfile(source, scripts / source.name)
             data = root / "validation"
             data.mkdir()
-            for name in ARCHIVES + ("am-pm-existing-reference-evidence-20261012.json",):
+            for name in ARCHIVES + (
+                    "am-pm-existing-reference-evidence-20261012.json",
+                    "am-pm-point-derivative-plan-20261013.json",
+                    "am-pm-parameter-study-observations-20261013.json",
+                    "am-pm-parameter-study-manifest-20261013.json",
+                    "am-pm-parameter-study-capture-sources-20261013.json",
+                    "am-pm-point-derivative-adapter-plan-20261013.json",
+                    "am-pm-point-derivative-adapter-amendment-20261013.json",
+                    "am-pm-adapter-observations-20261013.json",
+                    "am-pm-adapter-captures-20261013.json"):
                 shutil.copyfile(ROOT / "validation" / name, data / name)
             probe = root / PROBE.name
             shutil.copy2(PROBE, probe)

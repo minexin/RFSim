@@ -3,12 +3,14 @@
 #include "rfmodel/conversion/conversion_operating_point.hpp"
 
 namespace rfmodel {
+namespace am_pm_detail {
 // Rotate each explicitly selected RF outgoing wave using its own power.
 // Composition is after the base deterministic response, before fixed network
 // offsets. Selection does not imply vendor multitone/harmonic phase semantics.
-inline ConversionLinearization apply_output_am_pm(const ConversionLinearization &base,
-                                                  const LegacyPointDerivativeAmPm &phase,
-                                                  const std::vector<std::size_t> &output_channels) {
+template <class Phase>
+inline ConversionLinearization apply(const ConversionLinearization &base,
+                                     const Phase &phase,
+                                     const std::vector<std::size_t> &output_channels) {
     const auto &channels = base.jacobian.channels();
     const auto n = channels.size();
     if (!n || n > 512 || base.outgoing.size() != n) {
@@ -57,5 +59,18 @@ inline ConversionLinearization apply_output_am_pm(const ConversionLinearization 
                                      conjugate,
                                      base.jacobian.reference_ohms()),
             outgoing};
+}
+} // namespace am_pm_detail
+
+inline ConversionLinearization apply_output_am_pm(const ConversionLinearization &base,
+                                                  const LegacyPointDerivativeAmPm &phase,
+                                                  const std::vector<std::size_t> &output_channels) {
+    return am_pm_detail::apply(base, phase, output_channels);
+}
+
+inline ConversionLinearization apply_output_am_pm(const ConversionLinearization &base,
+                                                  const SystemVue2023PointDerivativeAmPm &phase,
+                                                  const std::vector<std::size_t> &output_channels) {
+    return am_pm_detail::apply(base, phase, output_channels);
 }
 } // namespace rfmodel

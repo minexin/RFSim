@@ -4,6 +4,8 @@
 
 `LegacyPointDerivativeAmPm` 提供输出功率驱动的相位曲线；`apply_output_am_pm` 将该曲线组合到已有 C++ 非线性工作点响应和直接/共轭导数。新增模型不改变已存在的放大器接口。C ABI、Python、JSON 接入已完成；新符号和可选描述不改变已有 C 结构布局或旧入口。
 
+2026-10-13 新增独立命名的 [`SystemVue2023PointDerivativeAmPm`](systemvue-am-pm-adapter.md)，将先前冻结的经验参数映射落实为可显式选择的 C++ 模型，也支持 `apply_output_am_pm`。它不改动本页原模型公式；两者的厂商对比结论分别保留。
+
 ## 官方约束与推导范围
 
 来源是本机 SystemVue 2023 官方帮助 `sim/AM_to_PM_-_Legacy.html`，页面及帮助包哈希见 [来源记录](../validation/systemvue-2023-am-pm-provenance.json)。官方描述低功率相位增量为零，高功率相位恒定，并在指定输出功率处达到指定的有符号 degrees/dB 峰值导数。帮助先给出幅度域三次曲线，再描述 dB 域峰值的移位/缩放；下面的闭式表达式是依这些约束推导的结果，不是厂商运行结果。
@@ -57,7 +59,7 @@ ConversionNonlinearDevice device{0, [=](const std::vector<Complex>& a) {
 
 `am_pm_test` 独立积分 dB 域导数并核对闭式曲线，覆盖正负/零峰值、零功率、低/高驱动、峰值锚点与恒相位边界。高阶双音响应组合用独立积分后的真实响应做实/虚中心差分，检查 A/B 及通道选择。反馈案例在非零 AM-PM 斜率区，以独立复数不动点迭代检查根，再用实 2×2 闭环矩阵检验 C/P 及非零幅相相关。安装 C++ consumer 直接包含新增头文件。
 
-当前不是完整 AM-PM 兼容验收。Point Derivative 已有单组厂商实测且对比失败；旧式 DataPoints 已取得有界辨识数据，但零dBm反例尚未解释。Compression Curve 的 AM-AM/AM-PM 表格输入、多音/来源选择、频变/记忆效应与自动高阶标定仍待实现或核验。SystemVue 会话问题见 [恢复记录](systemvue-session-recovery.md)。
+当前不是完整 AM-PM 兼容验收。原始 PointDerivative 解析映射仍未通过厂商对比；新增显式校准模型的独立验证见[适配器记录](systemvue-am-pm-adapter.md)。旧式 DataPoints 的零 dBm 反例尚未解释。Compression Curve 的 AM-AM/AM-PM 表格输入、多音/来源选择、频变/记忆效应与自动高阶标定仍待实现或核验。SystemVue 会话问题见 [恢复记录](systemvue-session-recovery.md)。
 
 ## 本地工程验证（2026-10-12）
 

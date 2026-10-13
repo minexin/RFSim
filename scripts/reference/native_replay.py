@@ -307,7 +307,7 @@ class NativeReplay:
             return process.returncode, bytes(chunks[0]), bytes(chunks[1])
 
     def _invoke(self, operation, tokens):
-        if operation not in ("intercepts", "operating_point", "polynomial", "highorder", "am_pm"):
+        if operation not in ("intercepts", "operating_point", "polynomial", "highorder", "am_pm", "systemvue2023_am_pm"):
             raise ValueError("Unknown native replay operation")
         payload = " ".join(str(value) for value in tokens) + "\n"
         request_id = _sha256((operation + "\n" + payload).encode("ascii"))
@@ -344,6 +344,13 @@ class NativeReplay:
         tokens = tuple(_number(value) for value in
                        (output_power_w, peak_degrees_per_db, output_reference_dbm))
         reader, exchange = self._invoke("am_pm", tokens)
+        response = AmPmResponse(reader.number(), reader.number())
+        return self._complete(reader, exchange, response)
+
+    def systemvue2023_am_pm_response(self, output_power_w, *, peak_degrees_per_db, output_reference_dbm):
+        tokens = tuple(_number(value) for value in
+                       (output_power_w, peak_degrees_per_db, output_reference_dbm))
+        reader, exchange = self._invoke("systemvue2023_am_pm", tokens)
         response = AmPmResponse(reader.number(), reader.number())
         return self._complete(reader, exchange, response)
 

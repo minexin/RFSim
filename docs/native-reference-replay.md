@@ -2,14 +2,15 @@
 
 > 接口更新（2026-10-13）：Python 产品包、wheel 和 Python/JSON CLI 已退役。本页涉及这些入口的命令与验证属于历史记录；当前 C++ 入口及迁移范围见 [退役记录](python-interface-retirement.md)。保留的物理结论与厂商差异不因退役而改变。
 
-This bounded replay removes the product `rfmodel` import from five existing
-high-order reference suites. The 2026-10-13 extension also restores the A01
-AM/PM diagnosis through `LegacyPointDerivativeAmPm`. Numerical work calls five existing C++
-kernels: intercept coefficient conversion, `CoherentLimitedAmplifier` operating
-point, `CoherentPolynomial`, `CoherentHighOrderAmplifier`, and the AM/PM response. There are no new RF
-equations, C ABI changes, JSON model parser, or replacement Python product binding.
-The standard-library Python adapter handles only transport, immutable data
-records, archived JSON, existing independent scoring and provenance.
+This bounded replay removes the product `rfmodel` import from five high-order
+reference suites, the A01 AM/PM diagnosis, the parameter study and the explicit
+SystemVue 2023 AM/PM adapter study. The probe exposes four high-order operations
+and two explicitly selected AM/PM laws, `LegacyPointDerivativeAmPm` and
+`SystemVue2023PointDerivativeAmPm`. The latter applies its frozen calibration
+inside the C++ SDK; its replay passes the observed parameters directly.
+The standard-library Python adapter handles transport, immutable data records,
+archived JSON, scoring and provenance. No product binding or JSON model parser
+is reintroduced.
 
 The header-only SDK and its installed/exported targets have no probe or Python
 runtime dependency. `RFMODEL_BUILD_REFERENCE_TESTS` defaults to OFF; enabling it
@@ -33,13 +34,13 @@ base revision using `-DRFMODEL_REFERENCE_SOURCE_REVISION=<revision>`; otherwise 
 manifest says `unavailable`. Actual configured source hashes, not that revision
 label alone, identify changed/exported sources.
 
-Each of the six suites accepts `--native-probe <executable>`; the five historical
+Each of the eight suites accepts `--native-probe <executable>`; the five historical
 high-order suites retain their old positional argument only to report retirement.
 The AM/PM scorer requires the explicit native probe. Native
 runs use `python -I -S`, install an active import finder that rejects `rfmodel`
 and every submodule before importing scorers, and check no product module entered
 `sys.modules`. The protocol suite also stages the reference scripts and required
-immutable archives without any `python/rfmodel` tree, then runs all six suites
+immutable archives without any `python/rfmodel` tree, then runs all eight suites
 in fresh isolated processes. The independent C++ oracle calls the five kernels
 directly and returns complete records for transport comparisons; archived vendor
 samples and existing independent physics tests remain the numerical oracles.
@@ -80,7 +81,8 @@ archived cascade result remains 230 checks with 22 failures, including the known
 [adapter contract](coherent-pipeline-amplifiers.md). The four high-order operations
 and their archived scoring path remain unchanged. Python product retirement is
 recorded separately; these developer tools do not replace a product binding.
-No new SystemVue simulation is performed or claimed.
+Replay itself performs no new SystemVue simulation; separate acquisition plans
+and their actual call counts are recorded with each newly added archive.
 
 The A01 extension retains 7/37 matching PointDerivative observations and 144/148
 matching retrospective DataPoints candidates at `1e-5 degree`; both full sets fail.
@@ -107,6 +109,7 @@ bytes. Responses echo it and the embedded 64-hex build-manifest ID.
 | `polynomial` | spacing_Hz Z reserved_group coefficient_count full `c0..cn` input_count components | input_count reduced inputs, term_count terms |
 | `highorder` | spacing_Hz Z reserved_group gain_dB OP1dB_dBm OPSAT_dBm coefficient_count `a2..an` input_count components | total_input_W, five operating-point fields, polynomial-shaped records |
 | `am_pm` | output_power_W peak_degree_per_dB output_reference_dBm | phase_rad radial_phase_slope |
+| `systemvue2023_am_pm` | output_power_W peak_degree_per_dB output_reference_dBm | phase_rad radial_phase_slope |
 
 Component: `positive_int32_bin kind bandwidth_Hz uint64_group real imag`, with
 complex amplitude in sqrt(W). This gate accepts at most two source-kind inputs

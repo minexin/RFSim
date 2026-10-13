@@ -166,6 +166,11 @@ int main() {
         }
     }
     {
+        const rfmodel::SystemVue2023PointDerivativeAmPm calibrated(-3.5, 5.5);
+        if (std::abs(calibrated.response(.00035174778655118184).phase_rad + .06787744883522229) >
+            1e-7) {
+            return 118;
+        }
         const rfmodel::LegacyPointDerivativeAmPm phase(-5., 10.);
         const auto original = rfmodel::linearize_saturating_amplifier(
             1.,
@@ -173,6 +178,12 @@ int main() {
             {.01, 0.},
             rfmodel::SaturatingFundamentalCompression(20., 20., 23.));
         const auto point = rfmodel::apply_output_am_pm(original, phase, {1});
+        const auto calibrated_point = rfmodel::apply_output_am_pm(original, calibrated, {1});
+        if (std::abs(calibrated_point.outgoing[1] - calibrated.transmit(original.outgoing[1])) >
+            1e-12) {
+            return 119;
+        }
+
         if (std::abs(point.outgoing[1] - phase.transmit(original.outgoing[1])) > 1e-12 ||
             std::abs(phase.response(.01).radial_phase_slope * std::log(10.) / 20. * 180. /
                          std::acos(-1.) +
