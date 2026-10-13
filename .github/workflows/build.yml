@@ -159,6 +159,13 @@ jobs:
             validation/am-pm-parameter-study-observations-20261013.json \
             validation/am-pm-adapter-observations-20261013.json \
             build-reference/am-pm-adapter-replay.json --native-probe "$probe"
+          # Descriptive scoring retains all failed hypotheses. Success here
+          # verifies acquisition-chain integrity and baseline reproduction.
+          python -I -S scripts/reference/diagnose-am-pm-datapoints-zero-study.py \
+            validation/am-pm-datapoints-zero-plan-20261013.json \
+            validation/am-pm-datapoints-zero-observations-20261013.json \
+            build-reference/am-pm-datapoints-zero-replay.json \
+            --capture-manifest validation/am-pm-datapoints-zero-captures-20261013.json
       - name: Preserve replay verification evidence
         if: always()
         uses: actions/upload-artifact@v7
@@ -169,6 +176,7 @@ jobs:
             build-reference/native-replay.json
             build-reference/am-pm-native-replay.json
             build-reference/am-pm-adapter-replay.json
+            build-reference/am-pm-datapoints-zero-replay.json
             build-reference/**/*.manifest.json
             build-reference/reference-installed-sdk/consumer-build/Testing/Temporary/LastTest.log
           if-no-files-found: warn

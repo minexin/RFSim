@@ -281,11 +281,24 @@ def main():
     parser.add_argument('evidence', type=Path)
     parser.add_argument('output', type=Path)
     parser.add_argument('--root', type=Path, default=Path(__file__).resolve().parents[2])
+    parser.add_argument('--capture-manifest', type=Path)
+    parser.add_argument('--raw-root', type=Path,
+                        help='Verify retained local raw files; requires --capture-manifest.')
     args = parser.parse_args()
     require(not args.output.exists(), 'Output exists')
+    require(not args.raw_root or args.capture_manifest is not None,
+            'Raw verification requires a capture manifest')
     require(digest(args.plan) == PLAN_SHA256, 'Frozen plan bytes changed')
     plan, evidence = load(args.plan), load(args.evidence)
     require(evidence['plan_sha256'] == digest(args.plan), 'Evidence references different plan bytes')
+    if args.capture_manifest:
+        archive_spec = importlib.util.spec_from_file_location(
+            'datapoints_acquisition', Path(__file__).with_name('archive-am-pm-datapoints-zero-acquisition.py'))
+        archive = importlib.util.module_from_spec(archive_spec)
+        archive_spec.loader.exec_module(archive)
+        archive.verify_committed(args.root, args.plan, args.capture_manifest, args.evidence)
+        if args.raw_root:
+            archive.verify_archive(args.raw_root, args.plan, args.capture_manifest, args.evidence)
     result = score(plan, evidence['samples'])
     references = {}
     for name, source in REFERENCES.items():
@@ -296,6 +309,10 @@ def main():
                                           references['quick_sweep_evidence'])
     result.update(plan_sha256=digest(args.plan), evidence_sha256=digest(args.evidence),
                   baseline_file_hashes_verified=True)
+    if args.capture_manifest:
+        result.update(acquisition_archive_verified=True,
+                      capture_manifest_sha256=digest(args.capture_manifest),
+                      raw_sources_verified=bool(args.raw_root))
     with args.output.open('x', encoding='utf-8') as stream:
         json.dump(result, stream, indent=2, allow_nan=False)
         stream.write('\n')

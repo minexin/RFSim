@@ -1,0 +1,2437 @@
+{
+  "schema_version": 1,
+  "recorded_utc": "2026-10-13T14:28:58.247169+00:00",
+  "plan_sha256": "0ee1496412224c03daebb746db559435a2e4244b446180d913b67e2c8cd62af0",
+  "classification": "restoration_verified_by_read_only_reinspection",
+  "parameter_paths_verified": 245,
+  "parameter_occurrences_verified": 247,
+  "all_parameter_values_expressions_shapes_already_equal_on_initial_restore": true,
+  "initial_metadata_difference_count": 117,
+  "initial_metadata_differences": [
+    {
+      "path": "RFModel_AMPM_A01/DataPoints/Sch2/PartList/RFAmp/ParamSet/AM_AM_Data",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Enum:BSTR",
+        "HideCondition:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long",
+        "Data:BSTR"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Enum:BSTR",
+        "HideCondition:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/DataPoints/Sch2/PartList/RFAmp/ParamSet/AM_AM_DatasetName",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Default:Byte",
+        "Description:BSTR",
+        "Enum:BSTR",
+        "HideCondition:BSTR",
+        "Show:Byte",
+        "Validate:Long",
+        "Data:BSTR"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Default:Byte",
+        "Description:BSTR",
+        "Enum:BSTR",
+        "HideCondition:BSTR",
+        "Show:Byte",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/DataPoints/Sch2/PartList/RFAmp/ParamSet/AM_AM_OverrideOddIPn",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Default:Byte",
+        "Description:BSTR",
+        "Enum:BSTR",
+        "HideCondition:BSTR",
+        "Show:Byte",
+        "Validate:Long",
+        "Data:Double"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Default:Byte",
+        "Description:BSTR",
+        "Enum:BSTR",
+        "HideCondition:BSTR",
+        "Show:Byte",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/DataPoints/Sch2/PartList/RFAmp/ParamSet/AM_AM_PinPwr",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Enum:BSTR",
+        "HideCondition:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long",
+        "Data:BSTR"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Enum:BSTR",
+        "HideCondition:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/DataPoints/Sch2/PartList/RFAmp/ParamSet/AM_PM_Data",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Default:Byte",
+        "Description:BSTR",
+        "Enum:BSTR",
+        "HideCondition:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long",
+        "Data:BSTR"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Default:Byte",
+        "Description:BSTR",
+        "Enum:BSTR",
+        "HideCondition:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/DataPoints/Sch2/PartList/RFAmp/ParamSet/AMtoPM",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "HideCondition:BSTR",
+        "Show:Byte",
+        "Validate:Long",
+        "Data:Double"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "HideCondition:BSTR",
+        "Show:Byte",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/DataPoints/Sch2/PartList/RFAmp/ParamSet/AMtoPM_Mode",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Enum:BSTR",
+        "HideCondition:BSTR",
+        "Validate:Long",
+        "Data:Double"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Enum:BSTR",
+        "HideCondition:BSTR",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/DataPoints/Sch2/PartList/RFAmp/ParamSet/AMtoPMpoints",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Enum:BSTR",
+        "HideCondition:BSTR",
+        "Unit:Long",
+        "Validate:Long",
+        "Data:Array of Double"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Enum:BSTR",
+        "HideCondition:BSTR",
+        "Unit:Long",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/DataPoints/Sch2/PartList/RFAmp/ParamSet/AngleIn",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Default:Byte",
+        "Description:BSTR",
+        "Enum:BSTR",
+        "HideCondition:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long",
+        "Data:Double"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Default:Byte",
+        "Description:BSTR",
+        "Enum:BSTR",
+        "HideCondition:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/DataPoints/Sch2/PartList/RFAmp/ParamSet/AngleOut",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Default:Byte",
+        "Description:BSTR",
+        "Enum:BSTR",
+        "HideCondition:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long",
+        "Data:Double"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Default:Byte",
+        "Description:BSTR",
+        "Enum:BSTR",
+        "HideCondition:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/DataPoints/Sch2/PartList/RFAmp/ParamSet/EnablePN",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Default:Byte",
+        "Description:BSTR",
+        "Enum:BSTR",
+        "Show:Byte",
+        "Validate:Long",
+        "Data:Double"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Default:Byte",
+        "Description:BSTR",
+        "Enum:BSTR",
+        "Show:Byte",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/DataPoints/Sch2/PartList/RFAmp/ParamSet/Foff",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Default:Byte",
+        "Description:BSTR",
+        "Enum:BSTR",
+        "HideCondition:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long",
+        "Data:Array of Double"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Default:Byte",
+        "Description:BSTR",
+        "Enum:BSTR",
+        "HideCondition:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/DataPoints/Sch2/PartList/RFAmp/ParamSet/FreqPN",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Default:Byte",
+        "Description:BSTR",
+        "Enum:BSTR",
+        "HideCondition:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long",
+        "Data:Double"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Default:Byte",
+        "Description:BSTR",
+        "Enum:BSTR",
+        "HideCondition:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/DataPoints/Sch2/PartList/RFAmp/ParamSet/FrequencyDataName",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Enum:BSTR",
+        "HideCondition:BSTR",
+        "Show:Byte",
+        "Validate:Long",
+        "Data:BSTR"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Enum:BSTR",
+        "HideCondition:BSTR",
+        "Show:Byte",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/DataPoints/Sch2/PartList/RFAmp/ParamSet/FrequencyMode",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Default:Byte",
+        "Description:BSTR",
+        "Enum:BSTR",
+        "Show:Byte",
+        "Validate:Long",
+        "Data:Double"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Default:Byte",
+        "Description:BSTR",
+        "Enum:BSTR",
+        "Show:Byte",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/DataPoints/Sch2/PartList/RFAmp/ParamSet/G",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Unit:Long",
+        "Validate:Long",
+        "Data:Double"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Unit:Long",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/DataPoints/Sch2/PartList/RFAmp/ParamSet/ISupply",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Default:Byte",
+        "Description:BSTR",
+        "Enum:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long",
+        "Data:Double"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Default:Byte",
+        "Description:BSTR",
+        "Enum:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/DataPoints/Sch2/PartList/RFAmp/ParamSet/MaxOrder",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Default:Byte",
+        "Description:BSTR",
+        "Enum:BSTR",
+        "Show:Byte",
+        "Validate:Long",
+        "Data:Double"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Default:Byte",
+        "Description:BSTR",
+        "Enum:BSTR",
+        "Show:Byte",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/DataPoints/Sch2/PartList/RFAmp/ParamSet/NF",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Default:Byte",
+        "Description:BSTR",
+        "Unit:Long",
+        "Validate:Long",
+        "Data:BSTR"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Default:Byte",
+        "Description:BSTR",
+        "Unit:Long",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/DataPoints/Sch2/PartList/RFAmp/ParamSet/NonLinearModelingMode",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Default:Byte",
+        "Description:BSTR",
+        "Enum:BSTR",
+        "Show:Byte",
+        "Validate:Long",
+        "Data:Double"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Default:Byte",
+        "Description:BSTR",
+        "Enum:BSTR",
+        "Show:Byte",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/DataPoints/Sch2/PartList/RFAmp/ParamSet/OIP2",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long",
+        "Data:Double"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/DataPoints/Sch2/PartList/RFAmp/ParamSet/OIP3",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "HideCondition:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long",
+        "Data:Double"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "HideCondition:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/DataPoints/Sch2/PartList/RFAmp/ParamSet/OP1dB",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "HideCondition:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long",
+        "Data:Double"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "HideCondition:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/DataPoints/Sch2/PartList/RFAmp/ParamSet/OPSAT",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "HideCondition:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long",
+        "Data:Double"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "HideCondition:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/DataPoints/Sch2/PartList/RFAmp/ParamSet/ParamFreqList",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Default:Byte",
+        "Description:BSTR",
+        "Enum:BSTR",
+        "HideCondition:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long",
+        "Data:Double"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Default:Byte",
+        "Description:BSTR",
+        "Enum:BSTR",
+        "HideCondition:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/DataPoints/Sch2/PartList/RFAmp/ParamSet/PhaseN",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Default:Byte",
+        "Description:BSTR",
+        "Enum:BSTR",
+        "HideCondition:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long",
+        "Data:Array of Double"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Default:Byte",
+        "Description:BSTR",
+        "Enum:BSTR",
+        "HideCondition:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/DataPoints/Sch2/PartList/RFAmp/ParamSet/PortParamType",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Default:Byte",
+        "Description:BSTR",
+        "Enum:BSTR",
+        "Show:Byte",
+        "Validate:Long",
+        "Data:Double"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Default:Byte",
+        "Description:BSTR",
+        "Enum:BSTR",
+        "Show:Byte",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/DataPoints/Sch2/PartList/RFAmp/ParamSet/PwrAMtoPM",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "HideCondition:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long",
+        "Data:Double"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "HideCondition:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/DataPoints/Sch2/PartList/RFAmp/ParamSet/PwrAMtoPMpoints",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Enum:BSTR",
+        "HideCondition:BSTR",
+        "Unit:Long",
+        "Validate:Long",
+        "Data:Array of Double"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Enum:BSTR",
+        "HideCondition:BSTR",
+        "Unit:Long",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/DataPoints/Sch2/PartList/RFAmp/ParamSet/RISO",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Default:Byte",
+        "Description:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long",
+        "Data:BSTR"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Default:Byte",
+        "Description:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/DataPoints/Sch2/PartList/RFAmp/ParamSet/RLin",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Default:Byte",
+        "Description:BSTR",
+        "Enum:BSTR",
+        "HideCondition:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long",
+        "Data:Double"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Default:Byte",
+        "Description:BSTR",
+        "Enum:BSTR",
+        "HideCondition:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/DataPoints/Sch2/PartList/RFAmp/ParamSet/RLout",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Default:Byte",
+        "Description:BSTR",
+        "Enum:BSTR",
+        "HideCondition:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long",
+        "Data:Double"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Default:Byte",
+        "Description:BSTR",
+        "Enum:BSTR",
+        "HideCondition:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/DataPoints/Sch2/PartList/RFAmp/ParamSet/S11",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Default:Byte",
+        "Description:BSTR",
+        "Enum:BSTR",
+        "HideCondition:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long",
+        "Data:Double"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Default:Byte",
+        "Description:BSTR",
+        "Enum:BSTR",
+        "HideCondition:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/DataPoints/Sch2/PartList/RFAmp/ParamSet/S11a",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Default:Byte",
+        "Description:BSTR",
+        "Enum:BSTR",
+        "HideCondition:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long",
+        "Data:Double"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Default:Byte",
+        "Description:BSTR",
+        "Enum:BSTR",
+        "HideCondition:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/DataPoints/Sch2/PartList/RFAmp/ParamSet/S11m",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Default:Byte",
+        "Description:BSTR",
+        "Enum:BSTR",
+        "HideCondition:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long",
+        "Data:Double"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Default:Byte",
+        "Description:BSTR",
+        "Enum:BSTR",
+        "HideCondition:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/DataPoints/Sch2/PartList/RFAmp/ParamSet/S22",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Default:Byte",
+        "Description:BSTR",
+        "Enum:BSTR",
+        "HideCondition:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long",
+        "Data:Double"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Default:Byte",
+        "Description:BSTR",
+        "Enum:BSTR",
+        "HideCondition:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/DataPoints/Sch2/PartList/RFAmp/ParamSet/S22a",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Default:Byte",
+        "Description:BSTR",
+        "Enum:BSTR",
+        "HideCondition:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long",
+        "Data:Double"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Default:Byte",
+        "Description:BSTR",
+        "Enum:BSTR",
+        "HideCondition:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/DataPoints/Sch2/PartList/RFAmp/ParamSet/S22m",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Default:Byte",
+        "Description:BSTR",
+        "Enum:BSTR",
+        "HideCondition:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long",
+        "Data:Double"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Default:Byte",
+        "Description:BSTR",
+        "Enum:BSTR",
+        "HideCondition:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/DataPoints/Sch2/PartList/RFAmp/ParamSet/Ta",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Default:Byte",
+        "Description:BSTR",
+        "Enum:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long",
+        "Data:BSTR"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Default:Byte",
+        "Description:BSTR",
+        "Enum:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/DataPoints/Sch2/PartList/RFAmp/ParamSet/VSWRin",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Default:Byte",
+        "Description:BSTR",
+        "Enum:BSTR",
+        "HideCondition:BSTR",
+        "Show:Byte",
+        "Validate:Long",
+        "Data:Double"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Default:Byte",
+        "Description:BSTR",
+        "Enum:BSTR",
+        "HideCondition:BSTR",
+        "Show:Byte",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/DataPoints/Sch2/PartList/RFAmp/ParamSet/VSWRout",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Default:Byte",
+        "Description:BSTR",
+        "Enum:BSTR",
+        "HideCondition:BSTR",
+        "Show:Byte",
+        "Validate:Long",
+        "Data:Double"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Default:Byte",
+        "Description:BSTR",
+        "Enum:BSTR",
+        "HideCondition:BSTR",
+        "Show:Byte",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/DataPoints/Sch2/PartList/RFAmp/ParamSet/VSupply",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Default:Byte",
+        "Description:BSTR",
+        "Enum:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long",
+        "Data:Double"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Default:Byte",
+        "Description:BSTR",
+        "Enum:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/DataPoints/Sch2/PartList/RFAmp/ParamSet/ZIN",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Default:Byte",
+        "Description:BSTR",
+        "HideCondition:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long",
+        "Data:BSTR"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Default:Byte",
+        "Description:BSTR",
+        "HideCondition:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/DataPoints/Sch2/PartList/RFAmp/ParamSet/ZOUT",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Default:Byte",
+        "Description:BSTR",
+        "HideCondition:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long",
+        "Data:BSTR"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Default:Byte",
+        "Description:BSTR",
+        "HideCondition:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/DataPoints/Sch2/PartList/RFAmp/ParamSet/Zref",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Default:Byte",
+        "Description:BSTR",
+        "Enum:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long",
+        "Data:Double"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Default:Byte",
+        "Description:BSTR",
+        "Enum:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/DataPoints/Sch2/PartList/Source/ParamSet/BW",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long",
+        "Data:Double"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/DataPoints/Sch2/PartList/Source/ParamSet/Carriers",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Show:Byte",
+        "Validate:Long",
+        "Data:Double"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Show:Byte",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/DataPoints/Sch2/PartList/Source/ParamSet/CombBW",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long",
+        "Data:Double"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/DataPoints/Sch2/PartList/Source/ParamSet/CombCarriers",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Show:Byte",
+        "Validate:Long",
+        "Data:Double"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Show:Byte",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/DataPoints/Sch2/PartList/Source/ParamSet/Dataset",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "EqnLang:Long",
+        "Show:Byte",
+        "Validate:Long",
+        "Data:BSTR"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "EqnLang:Long",
+        "Show:Byte",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/DataPoints/Sch2/PartList/Source/ParamSet/Descrip",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "EqnLang:Long",
+        "Show:Byte",
+        "Validate:Long",
+        "Data:BSTR"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "EqnLang:Long",
+        "Show:Byte",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/DataPoints/Sch2/PartList/Source/ParamSet/DigACPOffset",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long",
+        "Data:Double"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/DataPoints/Sch2/PartList/Source/ParamSet/DigACP_BW",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long",
+        "Data:Double"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/DataPoints/Sch2/PartList/Source/ParamSet/DigAlpha",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Show:Byte",
+        "Validate:Long",
+        "Data:Double"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Show:Byte",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/DataPoints/Sch2/PartList/Source/ParamSet/DigSymbolRate",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long",
+        "Data:Double"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/DataPoints/Sch2/PartList/Source/ParamSet/FOff",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long",
+        "Data:Double"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/DataPoints/Sch2/PartList/Source/ParamSet/Freq",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long",
+        "Data:Double"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/DataPoints/Sch2/PartList/Source/ParamSet/Name",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "EqnLang:Long",
+        "Show:Byte",
+        "Validate:Long",
+        "Data:BSTR"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "EqnLang:Long",
+        "Show:Byte",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/DataPoints/Sch2/PartList/Source/ParamSet/NoisePoints",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Show:Byte",
+        "Validate:Long",
+        "Data:Double"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Show:Byte",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/DataPoints/Sch2/PartList/Source/ParamSet/NoisePower",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long",
+        "Data:Double"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/DataPoints/Sch2/PartList/Source/ParamSet/NoiseStart",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long",
+        "Data:Double"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/DataPoints/Sch2/PartList/Source/ParamSet/NoiseStop",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long",
+        "Data:Double"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/DataPoints/Sch2/PartList/Source/ParamSet/PNFreq",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long",
+        "Data:Array of Double"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/DataPoints/Sch2/PartList/Source/ParamSet/PNPwr",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long",
+        "Data:Array of Double"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/DataPoints/Sch2/PartList/Source/ParamSet/PORT",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Validate:Long",
+        "Data:Double"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/DataPoints/Sch2/PartList/Source/ParamSet/POff",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long",
+        "Data:Double"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/DataPoints/Sch2/PartList/Source/ParamSet/PhOff",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long",
+        "Data:Double"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/DataPoints/Sch2/PartList/Source/ParamSet/Phase",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long",
+        "Data:Double"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/DataPoints/Sch2/PartList/Source/ParamSet/Pts",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Show:Byte",
+        "Validate:Long",
+        "Data:Double"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Show:Byte",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/DataPoints/Sch2/PartList/Source/ParamSet/Pwr",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long",
+        "Data:Double"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/DataPoints/Sch2/PartList/Source/ParamSet/R",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Default:Byte",
+        "Description:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long",
+        "Data:BSTR"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Default:Byte",
+        "Description:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/DataPoints/Sch2/PartList/Source/ParamSet/RefClk",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "EqnLang:Long",
+        "Show:Byte",
+        "Validate:Long",
+        "Data:BSTR"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "EqnLang:Long",
+        "Show:Byte",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/PointDerivative/Sch1/PartList/RFAmp/ParamSet/AMtoPM",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "HideCondition:BSTR",
+        "Tunable:Byte",
+        "Validate:Long",
+        "Data:Double"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "HideCondition:BSTR",
+        "Tunable:Byte",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/PointDerivative/Sch1/PartList/RFAmp/ParamSet/AMtoPM_Mode",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Enum:BSTR",
+        "Validate:Long",
+        "Data:Double"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Enum:BSTR",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/PointDerivative/Sch1/PartList/RFAmp/ParamSet/AMtoPMpoints",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Default:Byte",
+        "Description:BSTR",
+        "Enum:BSTR",
+        "HideCondition:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long",
+        "Data:Double"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Default:Byte",
+        "Description:BSTR",
+        "Enum:BSTR",
+        "HideCondition:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/PointDerivative/Sch1/PartList/RFAmp/ParamSet/EnablePN",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Default:Byte",
+        "Description:BSTR",
+        "Enum:BSTR",
+        "Show:Byte",
+        "Validate:Long",
+        "Data:Double"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Default:Byte",
+        "Description:BSTR",
+        "Enum:BSTR",
+        "Show:Byte",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/PointDerivative/Sch1/PartList/RFAmp/ParamSet/Foff",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Default:Byte",
+        "Description:BSTR",
+        "Enum:BSTR",
+        "HideCondition:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long",
+        "Data:Array of Double"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Default:Byte",
+        "Description:BSTR",
+        "Enum:BSTR",
+        "HideCondition:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/PointDerivative/Sch1/PartList/RFAmp/ParamSet/FreqPN",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Default:Byte",
+        "Description:BSTR",
+        "Enum:BSTR",
+        "HideCondition:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long",
+        "Data:Double"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Default:Byte",
+        "Description:BSTR",
+        "Enum:BSTR",
+        "HideCondition:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/PointDerivative/Sch1/PartList/RFAmp/ParamSet/G",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Unit:Long",
+        "Validate:Long",
+        "Data:Double"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Unit:Long",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/PointDerivative/Sch1/PartList/RFAmp/ParamSet/NF",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Default:Byte",
+        "Description:BSTR",
+        "Unit:Long",
+        "Validate:Long",
+        "Data:BSTR"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Default:Byte",
+        "Description:BSTR",
+        "Unit:Long",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/PointDerivative/Sch1/PartList/RFAmp/ParamSet/OIP2",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long",
+        "Data:Double"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/PointDerivative/Sch1/PartList/RFAmp/ParamSet/OIP3",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long",
+        "Data:Double"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/PointDerivative/Sch1/PartList/RFAmp/ParamSet/OP1dB",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long",
+        "Data:Double"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/PointDerivative/Sch1/PartList/RFAmp/ParamSet/OPSAT",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long",
+        "Data:Double"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/PointDerivative/Sch1/PartList/RFAmp/ParamSet/PhaseN",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Default:Byte",
+        "Description:BSTR",
+        "Enum:BSTR",
+        "HideCondition:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long",
+        "Data:Array of Double"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Default:Byte",
+        "Description:BSTR",
+        "Enum:BSTR",
+        "HideCondition:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/PointDerivative/Sch1/PartList/RFAmp/ParamSet/PwrAMtoPM",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "HideCondition:BSTR",
+        "Tunable:Byte",
+        "Unit:Long",
+        "Validate:Long",
+        "Data:Double"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "HideCondition:BSTR",
+        "Tunable:Byte",
+        "Unit:Long",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/PointDerivative/Sch1/PartList/RFAmp/ParamSet/PwrAMtoPMpoints",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Default:Byte",
+        "Description:BSTR",
+        "Enum:BSTR",
+        "HideCondition:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long",
+        "Data:Double"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Default:Byte",
+        "Description:BSTR",
+        "Enum:BSTR",
+        "HideCondition:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/PointDerivative/Sch1/PartList/RFAmp/ParamSet/RISO",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Default:Byte",
+        "Description:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long",
+        "Data:BSTR"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Default:Byte",
+        "Description:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/PointDerivative/Sch1/PartList/RFAmp/ParamSet/ZIN",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Default:Byte",
+        "Description:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long",
+        "Data:BSTR"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Default:Byte",
+        "Description:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/PointDerivative/Sch1/PartList/RFAmp/ParamSet/ZOUT",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Default:Byte",
+        "Description:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long",
+        "Data:BSTR"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Default:Byte",
+        "Description:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/PointDerivative/Sch1/PartList/Source/ParamSet/BW",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long",
+        "Data:Double"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/PointDerivative/Sch1/PartList/Source/ParamSet/Carriers",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Show:Byte",
+        "Validate:Long",
+        "Data:Double"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Show:Byte",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/PointDerivative/Sch1/PartList/Source/ParamSet/CombBW",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long",
+        "Data:Double"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/PointDerivative/Sch1/PartList/Source/ParamSet/CombCarriers",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Show:Byte",
+        "Validate:Long",
+        "Data:Double"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Show:Byte",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/PointDerivative/Sch1/PartList/Source/ParamSet/Dataset",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "EqnLang:Long",
+        "Show:Byte",
+        "Validate:Long",
+        "Data:BSTR"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "EqnLang:Long",
+        "Show:Byte",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/PointDerivative/Sch1/PartList/Source/ParamSet/Descrip",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "EqnLang:Long",
+        "Show:Byte",
+        "Validate:Long",
+        "Data:BSTR"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "EqnLang:Long",
+        "Show:Byte",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/PointDerivative/Sch1/PartList/Source/ParamSet/DigACPOffset",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long",
+        "Data:Double"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/PointDerivative/Sch1/PartList/Source/ParamSet/DigACP_BW",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long",
+        "Data:Double"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/PointDerivative/Sch1/PartList/Source/ParamSet/DigAlpha",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Show:Byte",
+        "Validate:Long",
+        "Data:Double"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Show:Byte",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/PointDerivative/Sch1/PartList/Source/ParamSet/DigSymbolRate",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long",
+        "Data:Double"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/PointDerivative/Sch1/PartList/Source/ParamSet/FOff",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long",
+        "Data:Double"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/PointDerivative/Sch1/PartList/Source/ParamSet/Freq",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long",
+        "Data:Double"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/PointDerivative/Sch1/PartList/Source/ParamSet/Name",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "EqnLang:Long",
+        "Show:Byte",
+        "Validate:Long",
+        "Data:BSTR"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "EqnLang:Long",
+        "Show:Byte",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/PointDerivative/Sch1/PartList/Source/ParamSet/NoisePoints",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Show:Byte",
+        "Validate:Long",
+        "Data:Double"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Show:Byte",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/PointDerivative/Sch1/PartList/Source/ParamSet/NoisePower",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long",
+        "Data:Double"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/PointDerivative/Sch1/PartList/Source/ParamSet/NoiseStart",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long",
+        "Data:Double"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/PointDerivative/Sch1/PartList/Source/ParamSet/NoiseStop",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long",
+        "Data:Double"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/PointDerivative/Sch1/PartList/Source/ParamSet/PNFreq",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long",
+        "Data:Array of Double"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/PointDerivative/Sch1/PartList/Source/ParamSet/PNPwr",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long",
+        "Data:Array of Double"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/PointDerivative/Sch1/PartList/Source/ParamSet/PORT",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Validate:Long",
+        "Data:Double"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/PointDerivative/Sch1/PartList/Source/ParamSet/POff",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long",
+        "Data:Double"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/PointDerivative/Sch1/PartList/Source/ParamSet/PhOff",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long",
+        "Data:Double"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/PointDerivative/Sch1/PartList/Source/ParamSet/Phase",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long",
+        "Data:Double"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/PointDerivative/Sch1/PartList/Source/ParamSet/Pts",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Show:Byte",
+        "Validate:Long",
+        "Data:Double"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Show:Byte",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/PointDerivative/Sch1/PartList/Source/ParamSet/Pwr",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long",
+        "Data:Double"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/PointDerivative/Sch1/PartList/Source/ParamSet/R",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Default:Byte",
+        "Description:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long",
+        "Data:BSTR"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Default:Byte",
+        "Description:BSTR",
+        "Show:Byte",
+        "Unit:Long",
+        "Validate:Long"
+      ]
+    },
+    {
+      "path": "RFModel_AMPM_A01/PointDerivative/Sch1/PartList/Source/ParamSet/RefClk",
+      "occurrence": 0,
+      "before": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "EqnLang:Long",
+        "Show:Byte",
+        "Validate:Long",
+        "Data:BSTR"
+      ],
+      "after": [
+        "DataEntry:BSTR",
+        "Description:BSTR",
+        "EqnLang:Long",
+        "Show:Byte",
+        "Validate:Long"
+      ]
+    }
+  ],
+  "explanation": "The initial restore had identical values, expressions, shapes and methods, but 117 PartParam variable lists lacked their lazily materialized Data descriptor. The inspector evaluates GetValue after enumerating that list. A second read of the same already-open pristine workspace matches all original fields and all ordered occurrences exactly. No analysis, reopen, save, or close was performed for this inspection.",
+  "reinspection_directory": "build-reference\\ampm-datapoints-zero-study-20261013\\inspect-restoration-20261013T142855Z-56f64811",
+  "additional_analysis_calls": 0,
+  "full_rich_snapshot_equal": true,
+  "user_application_left_running": true,
+  "pristine_sha256": "ead90a212c786eff0cfa782dab47dbfe14c421b3f43b32c573bb990cb8348877",
+  "original_restore_status_retained": true,
+  "source_snapshots": {
+    "build-reference\\ampm-datapoints-zero-study-20261013\\inspect-restored.ps1": {
+      "sha256": "e4b4f1387fa167e87e45bec4bd2e93e42c3e8c7fee2f8dcac02a61bdb4be243e",
+      "utf8_source": "\nparam([Parameter(Mandatory=$true)][string]$OutputDirectory,[Parameter(Mandatory=$true)][string]$Profile)\n$ErrorActionPreference='Stop'\n[Console]::OutputEncoding=New-Object System.Text.UTF8Encoding($false)\nfunction SaveNew($name,$value){$p=Join-Path $OutputDirectory $name;$s=$value|ConvertTo-Json -Depth 15;$f=[IO.File]::Open($p,[IO.FileMode]::CreateNew,[IO.FileAccess]::Write);try{$b=[Text.Encoding]::UTF8.GetBytes($s);$f.Write($b,0,$b.Length)}finally{$f.Dispose()}}\nif((Get-ExecutionPolicy -Scope Process) -ne 'Undefined' -or (Get-ExecutionPolicy) -ne 'RemoteSigned'){throw 'Unexpected policy'}\n$interop='C:/Program Files/Keysight/SystemVue2023/Examples/RF Architecture Design/RF Design Kit/Scripting/Excel_to_RF/Interop.GENESYS.dll'\nAdd-Type -Path $interop\nAdd-Type -ReferencedAssemblies $interop -TypeDefinition @\"\nusing System;\nusing System.Collections.Generic;\nusing System.Runtime.InteropServices;\n\npublic static class A01Inspector\n{\n    public static string RunStartedUtc;\n    public static string RunReturnedUtc;\n    public static string ManagerErrors;\n\n    public sealed class Node\n    {\n        public string path;\n        public string methods;\n        public string[] variables;\n        public object data;\n        public int[] dimensions;\n        public string timestamp;\n        public string data_entry;\n        public string data_source;\n        public string evaluation_error;\n        public Dictionary<string, object> analysis_settings;\n    }\n\n    private static void Visit(GENESYS.IItem item, string path, int depth, List<Node> nodes)\n    {\n        if (path.EndsWith(\"/Eqns\"))\n        {\n            depth = 3;\n        }\n        if ((path.Contains(\"/Sch1/PartList/\") || path.Contains(\"/Example/PartList/\")) && path.Split('/').Length == 5)\n        {\n            depth = 2;\n        }\n        if (nodes.Count >= 12000)\n        {\n            throw new InvalidOperationException(\"Reference inspection node limit exceeded\");\n        }\n        var variables = new string[item.GetVarCount()];\n        for (int index = 0; index < variables.Length; ++index)\n        {\n            variables[index] = item.GetVarName(index) + \":\" + item.GetVarType(index);\n        }\n        var node = new Node { path = path, methods = item.GetMethodList(), variables = variables };\n        for (int index = 0; index < variables.Length; ++index)\n        {\n            string name = item.GetVarName(index);\n            if ((path.EndsWith(\"/System1\") || path.EndsWith(\"/System2\")) &&\n                (name == \"CoherentIM\" || name == \"ShowTotals\" || name == \"CalcNoise\" ||\n                 name == \"CalcHarmonics\" || name == \"CalcIntermods\" || name == \"PhaseNoise\" ||\n                 name == \"UseSourcePts\" || name == \"NeedRun\" || name == \"AutoCalc\"))\n            {\n                if (node.analysis_settings == null)\n                {\n                    node.analysis_settings = new Dictionary<string, object>();\n                }\n                node.analysis_settings[name] = item.GetVarValue(index);\n            }\n            if (name == \"DataEntry\")\n            {\n                node.data_entry = Convert.ToString(item.GetVarValue(index));\n            }\n            if (name == \"TimeStamp\")\n            {\n                node.timestamp = Convert.ToString(item.GetVarValue(index));\n            }\n            if (name == \"Data\")\n            {\n                object value = item.GetVarValue(index);\n                node.data_source = \"Data property\";\n                var array = value as Array;\n                if (array != null)\n                {\n                    node.dimensions = new int[array.Rank];\n                    for (int dimension = 0; dimension < array.Rank; ++dimension)\n                    {\n                        node.dimensions[dimension] = array.GetLength(dimension);\n                    }\n                    if (array.Length <= 4096)\n                    {\n                        var values = new List<object>();\n                        foreach (object entry in array)\n                        {\n                            values.Add(entry is ValueType || entry is string ? entry : \"unsupported\");\n                        }\n                        node.data = values.ToArray();\n                    }\n                }\n                else if (value is ValueType || value is string)\n                {\n                    node.data = value;\n                }\n            }\n        }\n        // Some PartParam objects expose only their expression, without a Data\n        // property. Read the documented evaluated value through IDispatch.\n        if (node.data == null && path.Contains(\"/ParamSet/\") &&\n            node.methods.Contains(\"GetValue()\"))\n        {\n            try\n            {\n                object value = item.GetType().InvokeMember(\"GetValue\",\n                    System.Reflection.BindingFlags.InvokeMethod, null, item, new object[0]);\n                var array = value as Array;\n                if (array != null && array.Length <= 4096)\n                {\n                    node.dimensions = new int[array.Rank];\n                    for (int dimension = 0; dimension < array.Rank; ++dimension)\n                    {\n                        node.dimensions[dimension] = array.GetLength(dimension);\n                    }\n                    var entries = new List<object>();\n                    foreach (object entry in array)\n                    {\n                        entries.Add(entry is ValueType || entry is string ? entry : \"unsupported\");\n                    }\n                    node.data = entries.ToArray();\n                }\n                else if (value is ValueType || value is string)\n                {\n                    node.data = value;\n                }\n                node.data_source = \"GetValue method\";\n            }\n            catch (Exception error)\n            {\n                node.evaluation_error = error.GetBaseException().Message;\n            }\n        }\n        nodes.Add(node);\n        if (depth == 0)\n        {\n            return;\n        }\n        for (int index = 0; index < item.GetItemCount(); ++index)\n        {\n            var child = item.GetItemByIndex(index);\n            try\n            {\n                Visit(child, path + \"/\" + child.GetName(), depth - 1, nodes);\n            }\n            finally\n            {\n                Marshal.ReleaseComObject(child);\n            }\n        }\n    }\n\n\n    public static object Active;\n    public static GENESYS.Application App;\n    public static GENESYS.IManager Manager;\n    public static GENESYS.Workspace Workspace;\n    public static int Index;\n    public static string[] Names(){\n        var names=new List<string>();\n        for(int i=0;i<Manager.GetWorkspaceCount();i++){var w=Manager.GetWorkspaceByIndex(i);names.Add(((GENESYS.IItem)w).GetName());Marshal.ReleaseComObject(w);}\n        return names.ToArray();\n    }\n    public static void Bind(bool allowOpen,string path){\n        path=System.IO.Path.GetFullPath(path);\n        Console.WriteLine(\"NATIVE_OPEN_PATH=\"+path);\n        Active=Marshal.GetActiveObject(\"Genesys.Application\");App=(GENESYS.Application)Active;Manager=App.Manager;\n        Console.WriteLine(\"WORKSPACES=\"+String.Join(\" | \",Names()));\n        foreach(string name in Names())if(name!=\"RFModel_AttenuatorNoise\" && name!=\"RFModel_AMPM_A01\" && !(allowOpen && name==\"Blank\"))throw new InvalidOperationException(\"Unrelated workspace; no action\");\n        bool found=Array.IndexOf(Names(),\"RFModel_AMPM_A01\")>=0;\n        if(!found && allowOpen){\n            if(Manager.GetWorkspaceCount()>1)throw new InvalidOperationException(\"Ambiguous pre-open workspace\");\n            Console.WriteLine(DateTime.UtcNow.ToString(\"o\")+\" BEGIN official OpenWorkspace\");\n            App.RunScript(\"Call OpenWorkspace(\\\"\"+path.Replace(\"\\\"\",\"\\\"\\\"\")+\"\\\")\",GENESYS.ScriptLanguage.genLangVBScript);\n            Console.WriteLine(DateTime.UtcNow.ToString(\"o\")+\" OK official OpenWorkspace\");\n        }\n        int matches=0;\n        for(int i=0;i<Manager.GetWorkspaceCount();i++){\n            var w=Manager.GetWorkspaceByIndex(i);\n            if(((GENESYS.IItem)w).GetName()==\"RFModel_AMPM_A01\"){Workspace=w;Index=i;matches++;}\n            else Marshal.ReleaseComObject(w);\n        }\n        if(matches!=1)throw new InvalidOperationException(\"Target workspace missing or ambiguous\");\n        CheckDone();\n    }\n    public static int AnalysisDone(){\n        return Convert.ToInt32(Workspace.GetType().InvokeMember(\"IsAnalysisDone\",System.Reflection.BindingFlags.InvokeMethod,null,Workspace,new object[0]));\n    }\n    public static void CheckDone(){\n        int done=Convert.ToInt32(Workspace.GetType().InvokeMember(\"IsAnalysisDone\",System.Reflection.BindingFlags.InvokeMethod,null,Workspace,new object[0]));\n        if(done!=1)throw new InvalidOperationException(\"Analysis incomplete\");\n        string e=Manager.GetErrors();if(!String.IsNullOrWhiteSpace(e))throw new InvalidOperationException(e);\n    }\n    public static Node[] Read(){\n        var list=new List<Node>();\n        foreach(string path in new[]{\"DataPoints/Sch2/PartList/RFAmp/ParamSet\",\"DataPoints/Sch2/PartList/Source/ParamSet\",\n          \"DataPoints/System2\",\"DataPoints/EqsInp\",\"DataPoints/System2_Sch2_Data\",\"DataPoints/System2_Data_Folder\",\n          \"PointDerivative/Sch1/PartList/RFAmp/ParamSet\",\"PointDerivative/Sch1/PartList/Source/ParamSet\",\n          \"PointDerivative/System1\",\"PointDerivative/System1_Data\",\"PointDerivative/System1_Data_Folder\",\"WorkspaceVariables\"}){\n            GENESYS.IItem current=(GENESYS.IItem)Workspace;bool owned=false;\n            try{\n                foreach(string part in path.Split('/')){var next=current.GetItemByName(part);if(owned)Marshal.ReleaseComObject(current);current=next;owned=true;}\n                Visit(current,\"RFModel_AMPM_A01/\"+path,path.EndsWith(\"Data_Folder\")?4:path.EndsWith(\"ParamSet\")?1:3,list);\n            }finally{if(owned)Marshal.ReleaseComObject(current);}\n        }\n        return list.ToArray();\n    }\n    public static void RequireDirectory(string expected) {\n        if(Manager.GetWorkspaceCount()!=1)throw new InvalidOperationException(\"Ambiguous workspace count\");\n        var actual=Convert.ToString(Workspace.GetType().InvokeMember(\"GetWorkspaceFileDir\",System.Reflection.BindingFlags.InvokeMethod,null,Workspace,new object[0]));\n        if(!System.IO.Path.GetFullPath(actual).TrimEnd('\\\\').Equals(System.IO.Path.GetFullPath(expected).TrimEnd('\\\\'),StringComparison.OrdinalIgnoreCase))throw new InvalidOperationException(\"Unexpected workspace directory: \"+actual);\n    }\n    public static void Run() {\n        var pd=((GENESYS.IItem)Workspace).GetItemByName(\"DataPoints\");\n        var analysis=pd.GetItemByName(\"System2\");\n        try { analysis.GetType().InvokeMember(\"RunAnalysis\",System.Reflection.BindingFlags.InvokeMethod,null,analysis,new object[0]); }\n        finally {Marshal.ReleaseComObject(analysis);Marshal.ReleaseComObject(pd);}\n    }\n    public static void ArchiveClose(string path) {\n        if(System.IO.File.Exists(path))throw new InvalidOperationException(\"Archive already exists\");\n        Workspace.GetType().InvokeMember(\"SaveAs\",System.Reflection.BindingFlags.InvokeMethod,null,Workspace,new object[]{path});\n        if(!System.IO.File.Exists(path))throw new InvalidOperationException(\"Archive missing\");\n        Workspace.GetType().InvokeMember(\"CloseWorkspace\",System.Reflection.BindingFlags.InvokeMethod,null,Workspace,new object[0]);\n        if(Manager.GetWorkspaceCount()!=0)throw new InvalidOperationException(\"Workspace still open\");\n    }\n    public static string Script(string body){\n        string script=\"Dim wsdoc\\r\\nSet wsdoc=Application.Manager.GetWorkspaceByIndex(\"+Index+\")\\r\\n\"+body;\n        App.RunScript(script,GENESYS.ScriptLanguage.genLangVBScript);return script;\n    }\n}\n\n\"@\n\ntry {\n\n $base='D:/project/RFModel/build-reference/ampm-datapoints-zero-study-20261013'\n $planPath='D:/project/RFModel/validation/am-pm-datapoints-zero-plan-20261013.json'\n $planHash='0ee1496412224c03daebb746db559435a2e4244b446180d913b67e2c8cd62af0'\n if((Get-FileHash -LiteralPath $planPath -Algorithm SHA256).Hash.ToLower() -ne $planHash){throw 'Frozen plan changed'}\n $plan=Get-Content -Raw -LiteralPath $planPath|ConvertFrom-Json\n $processes=@(Get-Process -Name SystemVue -ErrorAction Stop)\n if($processes.Count -ne 1 -or $processes[0].Id -ne 14656 -or -not $processes[0].Responding){throw 'Unexpected or unresponsive user SystemVue process'}\n $process=$processes[0]\n $executable=$process.MainModule.FileName\n $version=(Get-Item -LiteralPath $executable).VersionInfo\n $application=[ordered]@{pid=$process.Id;started_utc=$process.StartTime.ToUniversalTime().ToString('o');executable=$executable;file_version=$version.FileVersion;product_version=$version.ProductVersion}\n SaveNew 'application.json' $application\n $pristine='D:/project/RFModel/build-reference/ampm-parameter-study-20261013/RFModel_AMPM_A01.wsv'\n if((Get-FileHash -LiteralPath $pristine -Algorithm SHA256).Hash.ToLower() -ne $plan.source_workspace_sha256){throw 'Pristine source changed'}\n\n [A01Inspector]::Bind($false,$pristine)\n [A01Inspector]::RequireDirectory([IO.Path]::GetDirectoryName($pristine))\n SaveNew 'restored.json' ([ordered]@{observed_utc=[DateTime]::UtcNow.ToString('o');analysis_calls=0;workspace_names=[A01Inspector]::Names();nodes=[A01Inspector]::Read();pristine_sha256=(Get-FileHash -LiteralPath $pristine -Algorithm SHA256).Hash.ToLower()})\n\n}catch{$e=$_.Exception.GetBaseException();[Console]::Error.WriteLine(('HRESULT=0x{0:X8} {1}' -f $e.HResult,$e.Message));exit 1}\n"
+    },
+    "build-reference\\ampm-datapoints-zero-study-20261013\\inspect-restoration.py": {
+      "sha256": "4bad4c06afba0f083cd91fc8e86656adc8a80598ca907a0e3361f488385018e3",
+      "utf8_source": "\"\"\"Read the already reopened pristine workspace again; no open/run/save/close calls.\"\"\"\nfrom datetime import datetime, timezone\nimport importlib.util\nimport json\nimport os\nfrom pathlib import Path\nimport subprocess\nimport uuid\n\nbase = Path(__file__).resolve().parent\nroot = base.parents[1]\nspec = importlib.util.spec_from_file_location('runner', base/'run.py')\nrunner = importlib.util.module_from_spec(spec)\nspec.loader.exec_module(runner)\npark = base/'park-20261013T141636Z-0077e72a'\nrestore = base/'restore-20261013T142451Z-324b5b1a'\nbefore = runner.load(park/'parameter-snapshot.json')\ninitial = runner.parameter_snapshot(runner.load(restore/'restored.json')['nodes'])\nassert set(before) == set(initial)\ndifferences = []\nfor key in before:\n    assert len(before[key]) == len(initial[key])\n    for index, (a, b) in enumerate(zip(before[key], initial[key])):\n        changed = [field for field in a if a[field] != b[field]]\n        assert changed in ([], ['variables'])\n        if changed:\n            assert [v for v in a['variables'] if not v.startswith('Data:')] == b['variables']\n            differences.append(dict(path=key, occurrence=index, before=a['variables'], after=b['variables']))\nassert len(differences) == 117\nscript = base/'inspect-restored.ps1'\ntext = (base/'restore.ps1').read_text(encoding='utf-8')\nassert text.count('[A01Inspector]::Bind($true,$pristine)') == 1\ntext = text.replace('[A01Inspector]::Bind($true,$pristine)', '[A01Inspector]::Bind($false,$pristine)')\nwith script.open('x', encoding='utf-8', newline='\\n') as stream:\n    stream.write(text)\nout = base/('inspect-restoration-'+datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')+'-'+uuid.uuid4().hex[:8])\nout.mkdir(exist_ok=False)\nps = Path('C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe')\nenv = {k.upper():v for k,v in os.environ.items()}\nenv['PSMODULEPATH'] = str(ps.parent/'Modules')\ncommand = [str(ps), '-NoProfile', '-NonInteractive', '-File', str(script), '-OutputDirectory', str(out), '-Profile', 'read-only-restoration-check']\nstate = dict(started_utc=runner.now(), command=command, analysis_calls=0, status='starting',\n             helper_script_sha256=runner.digest(script))\ndef save_status():\n    (out/'status.json').write_text(json.dumps(state, indent=2)+'\\n', encoding='utf-8', newline='\\n')\nsave_status()\nprint('OUTPUT', out, flush=True)\nwith (out/'stdout.log').open('xb') as stdout, (out/'stderr.log').open('xb') as stderr:\n    proc = subprocess.Popen(command, stdout=stdout, stderr=stderr, env=env, creationflags=subprocess.CREATE_NO_WINDOW)\n    state.update(helper_pid=proc.pid, status='running')\n    save_status()\n    try:\n        state.update(exit_code=proc.wait(timeout=120), status='returned')\n    except subprocess.TimeoutExpired:\n        proc.kill(); proc.wait()\n        state['status'] = 'timeout_helper_only_terminated_application_not_restarted'\nstate['finished_utc'] = runner.now()\nsave_status()\nprint((out/'stdout.log').read_text(encoding='utf-8-sig', errors='replace'))\nprint((out/'stderr.log').read_text(encoding='utf-8-sig', errors='replace'))\nif state.get('exit_code') != 0:\n    raise SystemExit(1)\nreinspection = runner.load(out/'restored.json')\nassert reinspection['pristine_sha256'] == runner.digest(runner.PRISTINE) == 'ead90a212c786eff0cfa782dab47dbfe14c421b3f43b32c573bb990cb8348877'\nobserved = runner.parameter_snapshot(reinspection['nodes'])\nassert observed == before, 'Full ordered rich parameter snapshots still differ'\nrecord = dict(schema_version=1, recorded_utc=runner.now(), plan_sha256=runner.PLAN_SHA,\n    classification='restoration_verified_by_read_only_reinspection',\n    parameter_paths_verified=len(before), parameter_occurrences_verified=sum(map(len,before.values())),\n    all_parameter_values_expressions_shapes_already_equal_on_initial_restore=True,\n    initial_metadata_difference_count=len(differences), initial_metadata_differences=differences,\n    explanation='The initial restore had identical values, expressions, shapes and methods, but 117 PartParam variable lists lacked their lazily materialized Data descriptor. The inspector evaluates GetValue after enumerating that list. A second read of the same already-open pristine workspace matches all original fields and all ordered occurrences exactly. No analysis, reopen, save, or close was performed for this inspection.',\n    reinspection_directory=str(out.relative_to(root)), additional_analysis_calls=0,\n    full_rich_snapshot_equal=True, user_application_left_running=True,\n    pristine_sha256=reinspection['pristine_sha256'],\n    original_restore_status_retained=True,\n    source_snapshots={str(path.relative_to(root)):dict(sha256=runner.digest(path),utf8_source=path.read_bytes().decode('utf-8'))\n                      for path in [script,Path(__file__).resolve()]},\n    artifact_sha256={str(path.relative_to(root)):runner.digest(path) for path in [\n        park/'before.json', park/'parameter-snapshot.json', restore/'restored.json', restore/'status.json',\n        out/'restored.json',out/'status.json',out/'stdout.log',out/'stderr.log',out/'application.json']})\nsummary = root/'validation/am-pm-datapoints-zero-restoration-20261013.json'\nrunner.save_new(summary, record)\nrunner.save_new(restore/'validated.json', dict(validated_utc=record['recorded_utc'], directory=str(restore.relative_to(root)),\n    parameters_verified=record['parameter_occurrences_verified'], analysis_calls=0,\n    followup_read_only_verification=dict(path=str(summary.relative_to(root)),sha256=runner.digest(summary)),\n    artifact_sha256={name:runner.digest(restore/name) for name in [\n        'restored.json','application.json','source-snapshot.json','stdout.log','stderr.log','status.json']}))\nprint('Restoration fully verified:', record['parameter_occurrences_verified'], 'ordered occurrences; unchanged acceptance; 0 additional analyses.')\n"
+    }
+  },
+  "artifact_sha256": {
+    "build-reference\\ampm-datapoints-zero-study-20261013\\park-20261013T141636Z-0077e72a\\before.json": "11055133fb9773865929cc75c6c0a75071dea9c536e2d36ef9e6b2770a52293a",
+    "build-reference\\ampm-datapoints-zero-study-20261013\\park-20261013T141636Z-0077e72a\\parameter-snapshot.json": "61ff439b90c1b847df9a285599ea31b4ea05c1ce029dac27db108015cbced5ed",
+    "build-reference\\ampm-datapoints-zero-study-20261013\\restore-20261013T142451Z-324b5b1a\\restored.json": "97694294f125af43dfa84a94587917adf5abfc846a8cd4a9f52b8541458a747d",
+    "build-reference\\ampm-datapoints-zero-study-20261013\\restore-20261013T142451Z-324b5b1a\\status.json": "db77d346ca138f74e8fad59539f3d7ca9b6ea18cec0eb103072db00722db0302",
+    "build-reference\\ampm-datapoints-zero-study-20261013\\inspect-restoration-20261013T142855Z-56f64811\\restored.json": "449e28446c3fbbc1cf9e410f6f455b19eaec8f3b43f4b33bec9aaaec0aa448cd",
+    "build-reference\\ampm-datapoints-zero-study-20261013\\inspect-restoration-20261013T142855Z-56f64811\\status.json": "9372c49ca6953cde7bc5ed41939ffbacc879316e54c5042b58f627971f208993",
+    "build-reference\\ampm-datapoints-zero-study-20261013\\inspect-restoration-20261013T142855Z-56f64811\\stdout.log": "9b3e769b479283235f98011acd94803c0762dc8cc8d0693aad35015bea69255b",
+    "build-reference\\ampm-datapoints-zero-study-20261013\\inspect-restoration-20261013T142855Z-56f64811\\stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "build-reference\\ampm-datapoints-zero-study-20261013\\inspect-restoration-20261013T142855Z-56f64811\\application.json": "2fd4bb0e5bbfc2d332d46d346fd84e3501102e8369d2893e201c32073e624328"
+  }
+}

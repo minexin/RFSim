@@ -38,6 +38,25 @@ SUITES = (
     "test_diagnose_am_pm_parameter_study.py",
     "test_systemvue_am_pm_adapter.py",
 )
+PURE_PYTHON_SUITES = (
+    "test_archive_am_pm_datapoints_zero_study.py",
+    "test_archive_am_pm_datapoints_zero_acquisition.py",
+    "test_diagnose_am_pm_datapoints_zero_study.py",
+)
+DATAPOINTS_ZERO_FIXTURES = (
+    "am-pm-datapoints-zero-plan-20261013.json",
+    "am-pm-datapoints-observations-20261012.json",
+    "am-pm-existing-reference-evidence-20261012.json",
+)
+# Listed artifacts are mandatory: staging must never silently skip a missing
+# source file or imply that synthetic tests replay newly acquired observations.
+DATAPOINTS_ZERO_RESULT_FIXTURES = (
+    "am-pm-datapoints-zero-captures-20261013.json",
+    "am-pm-datapoints-zero-observations-20261013.json",
+    "am-pm-datapoints-zero-diagnostic-20261013.json",
+    "am-pm-datapoints-zero-workflow-repairs-20261013.json",
+    "am-pm-datapoints-zero-restoration-20261013.json",
+)
 # Frozen before stage-3A implementation; these are archival identities, not
 # hashes regenerated from the files under test. Keep the historical bytes.
 ARCHIVE_SHA256 = {
@@ -791,11 +810,13 @@ class RejectProduct(importlib.abc.MetaPathFinder):
             raise AssertionError("forbidden product import: " + fullname)
         return None
 
-root, suite, probe = map(pathlib.Path, sys.argv[1:])
+root, suite, probe = map(pathlib.Path, sys.argv[1:4])
+mode = sys.argv[4]
+assert mode in ("native", "pure")
 assert not (root / "python").exists()
 sys.path.insert(0, str(root / "scripts" / "reference"))
 sys.meta_path.insert(0, RejectProduct())
-sys.argv = [str(suite), "--native-probe", str(probe)]
+sys.argv = [str(suite)] + (["--native-probe", str(probe)] if mode == "native" else [])
 try:
     runpy.run_path(str(suite), run_name="__main__")
 except SystemExit as exc:
@@ -812,7 +833,7 @@ print("ACTIVE_IMPORT_BAN_PASSED", suite.name)
                 shutil.copyfile(source, scripts / source.name)
             data = root / "validation"
             data.mkdir()
-            for name in ARCHIVES + (
+            for name in dict.fromkeys(ARCHIVES + (
                     "am-pm-existing-reference-evidence-20261012.json",
                     "am-pm-point-derivative-plan-20261013.json",
                     "am-pm-parameter-study-observations-20261013.json",
@@ -821,16 +842,17 @@ print("ACTIVE_IMPORT_BAN_PASSED", suite.name)
                     "am-pm-point-derivative-adapter-plan-20261013.json",
                     "am-pm-point-derivative-adapter-amendment-20261013.json",
                     "am-pm-adapter-observations-20261013.json",
-                    "am-pm-adapter-captures-20261013.json"):
+                    "am-pm-adapter-captures-20261013.json") + DATAPOINTS_ZERO_FIXTURES
+                    + DATAPOINTS_ZERO_RESULT_FIXTURES):
                 shutil.copyfile(ROOT / "validation" / name, data / name)
             probe = root / PROBE.name
             shutil.copy2(PROBE, probe)
             shutil.copyfile(Path(str(PROBE) + ".manifest.json"), Path(str(probe) + ".manifest.json"))
-            for suite in SUITES:
+            for suite in SUITES + PURE_PYTHON_SUITES:
                 with self.subTest(suite=suite):
                     process = subprocess.run(
                         [sys.executable, "-I", "-S", "-c", driver, str(root),
-                         str(scripts / suite), str(probe)],
+                         str(scripts / suite), str(probe), "native" if suite in SUITES else "pure"],
                         cwd=root, capture_output=True, text=True, timeout=180, check=False)
                     self.assertEqual(process.returncode, 0, process.stdout + process.stderr)
                     self.assertIn("ACTIVE_IMPORT_BAN_PASSED " + suite, process.stdout)

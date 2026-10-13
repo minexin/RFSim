@@ -95,6 +95,14 @@ foreach(suite IN ITEMS highorder_model_reference highorder_input_reference
         --native-probe $<TARGET_FILE:rfmodel_reference_highorder_probe>)
     set_tests_properties(native_${suite} PROPERTIES TIMEOUT 180)
 endforeach()
+# Acquisition guards and frozen hypothesis scoring use only archived JSON and
+# Python's standard library; they do not accept a native-probe argument.
+foreach(suite IN ITEMS archive_am_pm_datapoints_zero_study
+        archive_am_pm_datapoints_zero_acquisition diagnose_am_pm_datapoints_zero_study)
+    add_test(NAME native_${suite} COMMAND "${Python3_EXECUTABLE}" -I -S
+        "${CMAKE_CURRENT_SOURCE_DIR}/scripts/reference/test_${suite}.py")
+    set_tests_properties(native_${suite} PROPERTIES TIMEOUT 180)
+endforeach()
 set_tests_properties(native_replay_protocol PROPERTIES TIMEOUT 240)
 add_test(NAME native_replay_installed_sdk COMMAND "${CMAKE_COMMAND}"
     "-DSOURCE=${CMAKE_CURRENT_SOURCE_DIR}"

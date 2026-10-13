@@ -71,3 +71,5 @@ python scripts/reference/archive-am-pm-datapoints.py . validation/am-pm-datapoin
 最终验证：Python 3.12 单独运行 21/21；CTest 使用 SystemVue 附带 Python 3.10，Debug/Release 均为新增测试 1/1（内部21项）。首次 Python 3.10 检查发现 Windows 七位小数 UTC 解析问题，已修复并保留失败日志；只在秒级新鲜度核验时截到微秒，原始时间文字不改。完整原始捕获重放与已提交归一化证据逐字段一致。
 
 后续补充：[既有捕获的真实 C API 与 Quick Sweep 离线诊断](systemvue-am-pm-existing-reference.md)。原始基线复现与 RFModel 匹配是不同检查；补充诊断发现 Point Derivative 原生对比30/37点不匹配，并保留快速扫描的四个零dBm反例，没有新增分析调用。
+
+2026-10-13 后续实测：[零 dBm / 首节点判别](systemvue-am-pm-datapoints-zero-study.md)新增七组、387 个登记扫描点与七个普通点，支持异常位置跟随名义零 dBm 而非首节点。密集扫描的九个点具有相同 DCP 功率但不同相位，四个非零点仍不匹配登记 DCP 横轴候选；完整 DataPoints 契约继续未验收。
