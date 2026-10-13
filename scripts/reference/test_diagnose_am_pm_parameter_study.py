@@ -90,6 +90,14 @@ class ParameterStudyTests(unittest.TestCase):
             expected = {k: v for k, v in sample.items() if k != 'capture_source'}
             self.assertEqual(actual, expected)
 
+    def test_registered_evidence_byte_identity(self):
+        self.assertEqual(diagnostic.archive.digest(PLAN), diagnostic.study.PLAN_SHA)
+        manifest_path = ROOT / 'validation/am-pm-parameter-study-manifest-20261013.json'
+        manifest = diagnostic.archive.load(manifest_path)
+        self.assertEqual(diagnostic.archive.digest(manifest_path), self.evidence['manifest_sha256'])
+        source_path = ROOT / 'validation/am-pm-parameter-study-capture-sources-20261013.json'
+        self.assertEqual(diagnostic.archive.digest(source_path), manifest['capture_sources_archive_sha256'])
+
     def test_capture_guards(self):
         original = raw_fixture(self.evidence['samples'][0])
         profile = self.plan['profiles'][0]

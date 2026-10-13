@@ -48,6 +48,10 @@
 
 [采集清单](../validation/am-pm-parameter-study-manifest-20261013.json) 保存实际调用台账、输入改动、原始捕获、结果工作区及恢复哈希。[采集源码快照](../validation/am-pm-parameter-study-capture-sources-20261013.json) 保存实际本地脚本，仅供审计，包含固定 Windows 路径，不是通用产品入口。[规范化观测](../validation/am-pm-parameter-study-observations-20261013.json) 保留全部点、SI 读回、时间戳和原始载波电压/阻抗。
 
+源码快照的 `utf8_source` 经文本读取规范化为 LF，而其 SHA256 指向原始 CRLF 字节；[字节恢复补充记录](../validation/am-pm-parameter-study-capture-byte-record-20261013.json)明确该转换，并已逐文件验证将 LF 恢复为 CRLF 后与本地原始字节完全一致。补充记录不改动既有证据及哈希链。
+
+最终字节审计另发现 Git 自动换行转换曾使提交内容与采集时本地 CRLF 字节的哈希不同。现通过 `.gitattributes` 对本次计划和证据禁用文本转换，重新提交采集时的原始字节；[Git 字节审计](../validation/am-pm-parameter-study-git-byte-audit-20261013.json)逐文件证明变化仅为换行，登记数值、预测及容差均未改变。新增跨平台哈希链回归后，参数实验套件包含 7 项测试。
+
 原始 WSV 和完整 COM 捕获保留在本地 `build-reference/ampm-parameter-study-20261013`，未作为可重新分发的厂商文件提交。归档脚本核对数据新鲜度、节点、频率、源相位、扫描网格、V/Z/P 一致性和文件哈希；远程 CI 可使用提交的规范化观测重放，但不能声称复核不可用的本地原始文件。
 
 ```sh

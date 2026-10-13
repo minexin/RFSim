@@ -9,3 +9,5 @@
 /validation/systemvue-2023-spectrum-reduction-diagnostic.json -text
 /validation/am-pm-native-replay-Debug-20261013.json -text
 /validation/am-pm-native-replay-Release-20261013.json -text
+/validation/am-pm-point-derivative-*-20261013.json -text
+/validation/am-pm-parameter-study-*-20261013.json -text

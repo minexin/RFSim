@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "recorded_utc": "2026-10-13T12:18:17.222519+00:00",
+  "previous_git_revision": "1b308df4112b6a738d2bd7fbdcb67a76259bf54b",
+  "reason": "Git text conversion had committed LF while frozen hashes described the local CRLF acquisition evidence. Disable text conversion for this dated study and commit the original local bytes. No numeric value or registered hypothesis changed.",
+  "registered_plan_sha256_restored": "8ab865ee8e8300e9201e3f111d0bfb674da98f51a6988de60920b4bbdddd5650",
+  "files": [
+    {
+      "path": "validation/am-pm-parameter-study-capture-sources-20261013.json",
+      "previous_git_blob_sha256": "e8b96007bf38771371eaa731cf8c14ead5dbeb0c6ad13bf1bd33d439711b9a31",
+      "original_local_and_new_git_sha256": "25c3f77a0e191f3c2243ace39ba471f8dd90816a51523cb97354b6f381f16007",
+      "only_line_endings_changed": true
+    },
+    {
+      "path": "validation/am-pm-parameter-study-manifest-20261013.json",
+      "previous_git_blob_sha256": "a7bcd63715df0209516f32930e122774f01c2b7e651792f58acf2022b135c976",
+      "original_local_and_new_git_sha256": "089de0da1c955468468b3c1a950aa5e3c887167d6363ff39cda774c7ea689b79",
+      "only_line_endings_changed": true
+    },
+    {
+      "path": "validation/am-pm-parameter-study-observations-20261013.json",
+      "previous_git_blob_sha256": "04891f4ba908e75391f0140a147d519166ad6067f41affcbab16cd6e5a40e1f7",
+      "original_local_and_new_git_sha256": "4cf701b1197bd3e0602ce9e42065c34d73e306e89ea7fb68e9868026e4be31f5",
+      "only_line_endings_changed": true
+    },
+    {
+      "path": "validation/am-pm-parameter-study-validation-20261013.json",
+      "previous_git_blob_sha256": "4447d4c3254c50f8ac5a02d3fafe1f09ffd191594166c117a16e0ba85a78a1c8",
+      "original_local_and_new_git_sha256": "0649e531e3c00fe93c2c6b8e3fb1209bbbc0ff4b1dbf0f78362f2f403d01a657",
+      "only_line_endings_changed": true
+    },
+    {
+      "path": "validation/am-pm-point-derivative-amendment-20261013.json",
+      "previous_git_blob_sha256": "81e97e50d44ea4512725ea48a07ec2933b1ac5cc35ee24620fd91c7979068e5b",
+      "original_local_and_new_git_sha256": "a45498fb465173f9272535bd7d2021635afacd63574f2ecc178f56f671b326d6",
+      "only_line_endings_changed": true
+    },
+    {
+      "path": "validation/am-pm-point-derivative-byte-preservation-20261013.json",
+      "previous_git_blob_sha256": "7a104c082b3c183f2881235ae86622fb1d675bcb02c787bfde08cd649b8443b5",
+      "original_local_and_new_git_sha256": "11c8584d33f12dae19b0f2706d0d16d9b9aa6554b06b6d689b6781411545f617",
+      "only_line_endings_changed": true
+    },
+    {
+      "path": "validation/am-pm-point-derivative-plan-20261013.json",
+      "previous_git_blob_sha256": "b619f9e94aa20a155e0ae4327f485aa082e5ea25283d4b05f6ae841ffca93fbb",
+      "original_local_and_new_git_sha256": "8ab865ee8e8300e9201e3f111d0bfb674da98f51a6988de60920b4bbdddd5650",
+      "only_line_endings_changed": true
+    },
+    {
+      "path": "validation/am-pm-point-derivative-sweep-correction-20261013.json",
+      "previous_git_blob_sha256": "79fa70bee8189771bccd7ddbf3101fc97b058253e546c35417f44adf9221fc42",
+      "original_local_and_new_git_sha256": "ffa9fc2063095cf65bfbbd049e890721297b6a99a70fc0333d357a247eb8d000",
+      "only_line_endings_changed": true
+    }
+  ]
+}

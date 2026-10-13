@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "recorded_utc": "2026-10-13T12:14:42.929978+00:00",
+  "snapshot_path": "validation/am-pm-parameter-study-capture-sources-20261013.json",
+  "snapshot_sha256": "25c3f77a0e191f3c2243ace39ba471f8dd90816a51523cb97354b6f381f16007",
+  "clarification": "The original snapshot used text-mode reads, so utf8_source has LF while each sha256 describes the original CRLF bytes. This supplemental record makes that reversible newline normalization explicit without modifying previously hashed evidence.",
+  "files": [
+    {
+      "path": "build-reference/ampm-parameter-study-20261013/prepare-workspaces-v4.py",
+      "snapshot_text_sha256": "5c23acd34444b38d8430f921c5f426db8aa6e4848091442a22f02324e7b3b90d",
+      "original_bytes_sha256": "0dbf59c4f958cc587badfe613ce67d914e066150e3288840256b0ab3e5695a20",
+      "original_line_endings": "CRLF",
+      "reconstruction": "UTF-8 encode utf8_source, then replace every LF byte with CRLF. No BOM.",
+      "reconstructed_bytes_equal_local_original": true,
+      "line_count": 87
+    },
+    {
+      "path": "build-reference/ampm-parameter-study-20261013/capture-prepared-v4.ps1",
+      "snapshot_text_sha256": "b77a683fc22882f2b6fc97cc3916fc0a8d5d35e94bbfbae350a747ca0b3dd149",
+      "original_bytes_sha256": "9887689d8a527b2475e40c40af72a461b4b52aeb789fd134d0a9ae40189b0b6f",
+      "original_line_endings": "CRLF",
+      "reconstruction": "UTF-8 encode utf8_source, then replace every LF byte with CRLF. No BOM.",
+      "reconstructed_bytes_equal_local_original": true,
+      "line_count": 288
+    },
+    {
+      "path": "build-reference/ampm-parameter-study-20261013/run.py",
+      "snapshot_text_sha256": "fdaafa39b5f44d8a5c0ffd1175410d3d701a9aa17d0c7d1dcafcfb6d2b06b6d2",
+      "original_bytes_sha256": "88818d5af4a0eb5d1a1bb2bc9e5c42bf52f9a60f0fd3f872a2354e92a09311d1",
+      "original_line_endings": "CRLF",
+      "reconstruction": "UTF-8 encode utf8_source, then replace every LF byte with CRLF. No BOM.",
+      "reconstructed_bytes_equal_local_original": true,
+      "line_count": 46
+    },
+    {
+      "path": "build-reference/ampm-parameter-study-20261013/open-baseline.ps1",
+      "snapshot_text_sha256": "5a1f2ce942c950384bdad7f712461f18ffbe5a59ff9f8a5a572a4f401733e3a3",
+      "original_bytes_sha256": "0387a8ebe016c08e97c59e5ae4832b7819565295e90afdd894db4ac0769e630c",
+      "original_line_endings": "CRLF",
+      "reconstruction": "UTF-8 encode utf8_source, then replace every LF byte with CRLF. No BOM.",
+      "reconstructed_bytes_equal_local_original": true,
+      "line_count": 231
+    }
+  ]
+}
