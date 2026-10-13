@@ -7,7 +7,12 @@ from pathlib import Path
 import sys
 import unittest
 
-LIBRARY = Path(sys.argv.pop(1)).resolve()
+# Explicit bootstrap for python -I -S; no product package is added here.
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from native_replay import assert_no_product_imports, suite_provider
+
+# Native mode installs an active import guard before loading any scorer dependency.
+PROVIDER = suite_provider(sys.argv)
 ROOT = Path(__file__).resolve().parents[2]
 spec = importlib.util.spec_from_file_location(
     "eleventh_diagnostic", Path(__file__).with_name("diagnose-eleventh-order.py")
@@ -20,7 +25,7 @@ comparison = diagnostic.comparison
 class EleventhOrderTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.library = comparison.traced.two_tone.single.Library(LIBRARY)
+        cls.library = PROVIDER()
         cls.captures = json.loads(
             (ROOT / "validation/systemvue-2023-eleventh-order-captures.json").read_text()
         )
@@ -143,4 +148,7 @@ class EleventhOrderTests(unittest.TestCase):
 
 
 if __name__ == "__main__":
-    unittest.main()
+    result = unittest.main(exit=False).result
+    if PROVIDER.is_native:
+        assert_no_product_imports()
+    raise SystemExit(not result.wasSuccessful())

@@ -8,8 +8,14 @@ from pathlib import Path
 import sys
 
 ROOT = Path(__file__).resolve().parents[2]
+# Retain legacy callers that import their own rfmodel types after this module.
 sys.path.insert(0, str(ROOT / "python"))
-from rfmodel import Library
+
+
+def Library(path):
+    """Explicit legacy factory; capture validation has no product import dependency."""
+    from rfmodel import Library as LegacyLibrary
+    return LegacyLibrary(path)
 
 spec = importlib.util.spec_from_file_location(
     "runner", Path(__file__).with_name("run-systemvue-reference.py"))

@@ -19,8 +19,7 @@ def module(name, filename):
 
 runner = module("cascade_runner", "run-systemvue-reference.py")
 traced = module("cascade_terms", "compare-amplifier-terms.py")
-from rfmodel import CoherentComponent, SpectrumKind
-from rfmodel.coherent_system_file import analyze_coherent_system
+from reference_records import CoherentComponent, SpectrumKind
 
 ROOT = "RFModel_CascadeIntermods/Designs/"
 SPECTRUM = "System3_Design3_Data/Eqns/VarBlock/"
@@ -429,6 +428,8 @@ def compare(library, captures):
             ],
             outputs=["second"],
         )
+        # The combined-origin graph remains an explicitly legacy calculation.
+        from rfmodel.coherent_system_file import analyze_coherent_system
         graph = analyze_coherent_system(library, model)
         output = next(s for s in graph["streams"] if s["id"] == "second")
         combined = {c["coherence_group"]: complex(*c["amplitude"]) for c in output["components"]}

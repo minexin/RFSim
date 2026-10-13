@@ -49,6 +49,7 @@ function(check_targets suffix examples expected_count)
         -G "${GENERATOR}" "-DCMAKE_CXX_COMPILER=${COMPILER}"
         -DBUILD_TESTING=OFF -DRFMODEL_BUILD_C_API=OFF -DRFMODEL_BUILD_CLI=OFF
         "-DRFMODEL_BUILD_EXAMPLES=${examples}" -DRFMODEL_BUILD_PYTHON_TESTS=OFF
+        -DRFMODEL_BUILD_REFERENCE_TESTS=OFF
         RESULT_VARIABLE status OUTPUT_VARIABLE output ERROR_VARIABLE error)
     if(NOT status EQUAL 0)
         message(FATAL_ERROR "SDK configure failed: ${output}\n${error}")
@@ -91,4 +92,22 @@ execute_process(COMMAND "${CMAKE_COMMAND}" -S "${SOURCE}" -B "${BINARY}/conflict
     RESULT_VARIABLE status OUTPUT_VARIABLE output ERROR_VARIABLE error)
 if(status EQUAL 0 OR NOT "${output}${error}" MATCHES "Required Python tests need")
     message(FATAL_ERROR "Conflicting required Python tests did not fail explicitly")
+endif()
+
+# Explicit developer replay must never be silently skipped.
+execute_process(COMMAND "${CMAKE_COMMAND}" -S "${SOURCE}" -B "${BINARY}/reference-conflict"
+    -G "${GENERATOR}" "-DCMAKE_CXX_COMPILER=${COMPILER}"
+    -DBUILD_TESTING=OFF -DRFMODEL_BUILD_C_API=OFF -DRFMODEL_BUILD_PYTHON_TESTS=OFF
+    -DRFMODEL_BUILD_REFERENCE_TESTS=ON
+    RESULT_VARIABLE status OUTPUT_VARIABLE output ERROR_VARIABLE error)
+if(status EQUAL 0 OR NOT "${output}${error}" MATCHES "Native reference tests need BUILD_TESTING")
+    message(FATAL_ERROR "Conflicting reference test option did not fail explicitly")
+endif()
+execute_process(COMMAND "${CMAKE_COMMAND}" -S "${SOURCE}" -B "${BINARY}/reference-no-python"
+    -G "${GENERATOR}" "-DCMAKE_CXX_COMPILER=${COMPILER}"
+    -DBUILD_TESTING=ON -DRFMODEL_BUILD_C_API=OFF -DRFMODEL_BUILD_PYTHON_TESTS=OFF
+    -DRFMODEL_BUILD_REFERENCE_TESTS=ON -DCMAKE_DISABLE_FIND_PACKAGE_Python3=TRUE
+    RESULT_VARIABLE status OUTPUT_VARIABLE output ERROR_VARIABLE error)
+if(status EQUAL 0 OR NOT "${output}${error}" MATCHES "Python3")
+    message(FATAL_ERROR "Explicit reference tests silently skipped missing Python")
 endif()

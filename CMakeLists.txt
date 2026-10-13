@@ -38,6 +38,10 @@ install(FILES ${CMAKE_CURRENT_BINARY_DIR}/RFModelConfig.cmake
 include(CTest)
 option(RFMODEL_BUILD_EXAMPLES "Build standalone C++ examples" ON)
 option(RFMODEL_BUILD_PYTHON_TESTS "Discover Python and register binding/reference script tests" ON)
+option(RFMODEL_BUILD_REFERENCE_TESTS "Build developer-only native archived-reference replay tests" OFF)
+if(RFMODEL_BUILD_REFERENCE_TESTS AND NOT BUILD_TESTING)
+    message(FATAL_ERROR "Native reference tests need BUILD_TESTING")
+endif()
 option(RFMODEL_REQUIRE_PYTHON_TESTS "Require Python binding tests during configuration" OFF)
 if(RFMODEL_REQUIRE_PYTHON_TESTS AND
    (NOT BUILD_TESTING OR NOT RFMODEL_BUILD_C_API OR NOT RFMODEL_BUILD_PYTHON_TESTS))
@@ -250,6 +254,9 @@ if(RFMODEL_BUILD_C_API)
             $<TARGET_FILE:rfmodel_c>)
     endif()
     endif() # RFMODEL_BUILD_PYTHON_TESTS
+endif()
+if(RFMODEL_BUILD_REFERENCE_TESTS)
+    include(cmake/NativeReferenceReplay.cmake)
 endif()
 if(RFMODEL_BUILD_CLI)
 add_test(NAME cli_export COMMAND ${CMAKE_COMMAND}

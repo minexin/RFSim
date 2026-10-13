@@ -122,3 +122,52 @@ jobs:
             native-tests.json
             build-native/Testing/Temporary/LastTest.log
             consumer-cpp/Testing/Temporary/LastTest.log
+  native-reference:
+    name: Native archived replay / ${{ matrix.os }} / ${{ matrix.configuration }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, ubuntu-latest, macos-latest]
+        configuration: [Debug, Release]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+      - name: Configure explicit developer replay without the C ABI
+        run: >-
+          cmake -S . -B build-reference -DCMAKE_BUILD_TYPE=${{ matrix.configuration }}
+          -DCMAKE_CXX_EXTENSIONS=OFF -DRFMODEL_BUILD_C_API=OFF
+          -DRFMODEL_BUILD_CLI=OFF -DRFMODEL_BUILD_EXAMPLES=OFF
+          -DRFMODEL_BUILD_PYTHON_TESTS=OFF -DRFMODEL_BUILD_REFERENCE_TESTS=ON
+          -DPython3_EXECUTABLE="$(python -c 'import sys; print(sys.executable)')"
+      - name: Build probes
+        run: cmake --build build-reference --config ${{ matrix.configuration }} --target rfmodel_reference_highorder_probe rfmodel_reference_highorder_oracle --parallel 2
+      - name: Replay frozen evidence, protocol faults and installed SDK
+        run: ctest --test-dir build-reference -C ${{ matrix.configuration }} -R '^native_' --output-on-failure
+      - name: Record replay identity and evidence
+        run: |
+          suffix=""
+          if [ "$RUNNER_OS" = Windows ]; then suffix=".exe"; fi
+          probe="build-reference/rfmodel_reference_highorder_probe$suffix"
+          configured="build-reference/${{ matrix.configuration }}/rfmodel_reference_highorder_probe$suffix"
+          if [ -f "$configured" ]; then probe="$configured"; fi
+          python -I -S scripts/reference/native_replay.py --probe "$probe" --report build-reference/native-replay.json
+      - name: Preserve replay verification evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: native-reference-${{ matrix.os }}-${{ matrix.configuration }}
+          path: |
+            build-reference/Testing/Temporary/LastTest.log
+            build-reference/native-replay.json
+            build-reference/**/*.manifest.json
+            build-reference/reference-installed-sdk/consumer-build/Testing/Temporary/LastTest.log
+          if-no-files-found: warn

@@ -127,3 +127,5 @@ Windows 本机可运行 `scripts/build-msvc.ps1` 自动定位已有 VS 工具链
 - [原生变频网络的复功率波参考](docs/conversion-power-wave.md)
 
 [固定泵变频复参考接口](docs/conversion-power-wave.md)贯通 C/Python/JSON，支持局部坐标物理连线、仿射波及完整 C/P 的原生重归一化；自动非线性混合参考与厂商验收仍未完成。
+
+[开发用原生高阶参考重放](docs/native-reference-replay.md)：独立于 C ABI 的四操作探针，在主动禁止产品包导入时重放五个既有套件和 1,413 个实测输入 holdout；保留名义失败、缺项、校准分离及 diagnostic-only 状态。纯 SDK 不安装探针或依赖 Python，完整 Python 退役和 SystemVue 兼容仍未完成。

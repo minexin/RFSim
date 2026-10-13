@@ -6,7 +6,12 @@ from pathlib import Path
 import sys
 import unittest
 
-LIBRARY = Path(sys.argv.pop(1)).resolve()
+# Explicit bootstrap for python -I -S; no product package is added here.
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from native_replay import assert_no_product_imports, suite_provider
+
+# Native mode installs an active import guard before loading any scorer dependency.
+PROVIDER = suite_provider(sys.argv)
 ROOT = Path(__file__).resolve().parents[2]
 spec = importlib.util.spec_from_file_location(
     "highorder_input", Path(__file__).with_name("diagnose-highorder-input-reference.py")
@@ -17,7 +22,7 @@ spec.loader.exec_module(reference)
 
 class HighOrderModelReferenceTests(unittest.TestCase):
     def test_unified_native_model_matches_measured_input_holdouts(self):
-        library = reference.comparison.traced.two_tone.single.Library(LIBRARY)
+        library = PROVIDER()
         captures = json.loads(
             (ROOT / "validation/systemvue-2023-eleventh-order-captures.json").read_text()
         )
@@ -76,4 +81,7 @@ class HighOrderModelReferenceTests(unittest.TestCase):
 
 
 if __name__ == "__main__":
-    unittest.main()
+    result = unittest.main(exit=False).result
+    if PROVIDER.is_native:
+        assert_no_product_imports()
+    raise SystemExit(not result.wasSuccessful())

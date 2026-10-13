@@ -33,6 +33,12 @@ RFModel 的数值内核已经是 C++17 header-only 库，交付 `RFModel::rfmode
 
 这是阶段 2 的选定子集，不表示阶段 2 整体完成。完整图/DAG、JSON/CLI、multi-output 共享提取、limited/cascaded/highorder 适配、其他收敛点噪声和频点重映射仍开放。无 Python/C 文件删除、无新绑定、无 SystemVue 兼容等级提升。下文审计表保留审计时点含义，不能因这个子集通过就删除其余独立参考。
 
+## 后续增量：阶段 3A 原生高阶证据重放
+
+新增开发专用的四操作 C++ 探针与标准库 Python 传输适配，使五个既有高阶参考套件可以在主动禁止 `rfmodel` 导入的独立进程及无产品包的暂存目录重放。冻结的 1,413 个实测输入 holdout、名义八/十阶失败、缺项、校准/holdout 分离和 `diagnostic_only` 状态继续由原有评分逻辑验收。归档字节不改写。
+
+`RFMODEL_BUILD_REFERENCE_TESTS=ON` 显式启用这一开发依赖，独立于 C ABI 与绑定测试；默认 OFF 的纯 SDK 不查找 Python，不安装探针或适配脚本。构建/执行身份、故障协议、安装消费检查及仍未迁移的级联来源图边界见[原生参考重放](native-reference-replay.md)。这是阶段 3 的有限子集；下文首次审计依赖清单属于历史时点，其余比较器仍未整体脱离产品包，不能据此删除 Python/C 产品接口。
+
 ## 一、依赖边界
 
 | 部分 | 当前依赖与责任 | C++ 优先时的处理 |
@@ -78,7 +84,8 @@ RFModel 的数值内核已经是 C++17 header-only 库，交付 `RFModel::rfmode
 | `RFMODEL_BUILD_C_API` | ON | 共享 C ABI 与其 C/C++ ABI 测试；OFF 不启用 C 语言 |
 | `RFMODEL_BUILD_CLI` | ON | 原生 S 参数 CSV CLI；其测试另外要求 `BUILD_TESTING` |
 | `RFMODEL_BUILD_EXAMPLES` | ON | 四个 C++ 示例；OFF 时不构建、不注册这些示例 |
-| `RFMODEL_BUILD_PYTHON_TESTS` | ON | 只有同时启用测试和 C API 才查找 Python 并注册绑定/参考脚本测试；OFF 不查找 Python |
+| `RFMODEL_BUILD_PYTHON_TESTS` | ON | 只有同时启用测试和 C API 才查找 Python 并注册绑定/参考脚本测试；OFF 禁用此路径的 Python 发现；独立的显式参考选项除外 |
+| `RFMODEL_BUILD_REFERENCE_TESTS` | OFF | 显式启用开发用原生高阶参考重放；需要测试与 Python ≥3.9，不需要 C ABI 或绑定测试；默认 OFF 不触发该 Python 发现 |
 | `RFMODEL_REQUIRE_PYTHON_TESTS` | OFF | ON 时要求 Python ≥3.9；若测试、C API、Python 测试任何一项关闭，配置明确失败 |
 
 `RFMODEL_REQUIRE_PYTHON_TESTS=OFF` 只表示 Python 缺失时允许继续，不能用来禁用已经可发现的 Python。纯 C++ 配置应明确设置 `RFMODEL_BUILD_PYTHON_TESTS=OFF`。

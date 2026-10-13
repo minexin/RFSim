@@ -1,0 +1,210 @@
+{
+  "archive_bytes_sha256": {
+    "systemvue-2023-eleventh-order-captures.json": "553ebdca52dec654a2e01fe77d47104cede890d2f15b69444ea5ee1bfcc4f275",
+    "systemvue-2023-eleventh-order-diagnostic.json": "52b54d0f28e8ccb2257497306fa1a7311bf060fbad9efb5358cb582a8a499a36",
+    "systemvue-2023-highorder-captures.json": "4592a5ff6651836ab17aaf2e39b6809746da647c9856c71c696b392d4d0a5b4e",
+    "systemvue-2023-highorder-diagnostic.json": "d9b052cfdb2009cc0405ee4ee84660d2bb107fefa4a9d3095d812b52237b6f51",
+    "systemvue-2023-highorder-input-diagnostic.json": "d1da5cc4e78a4608a36ed36de3d1e5b037fc12cd07791f78c58e0dde02201149",
+    "systemvue-2023-highorder-input-references.json": "39a5beb695509e21e8b8c6899d5d65a2c25ba1cf01a4b32c52fae1c81cf0d2e0",
+    "systemvue-2023-spectrum-reduction-captures.json": "b6a5b210b97169106706a563aba6c7ce822fee88829899905c86e7ca29fcf2d5",
+    "systemvue-2023-spectrum-reduction-diagnostic.json": "aec3915d551b56ce3c7cd0d1155a933eee11662e55c69820f8ff514c14383be4"
+  },
+  "base_revision": "3a44a733957d407f88d6f8d6b277ff8089deeaeb",
+  "builds": {
+    "debug": {
+      "compiler": {
+        "flags": " -g; C++17; extensions=OFF",
+        "id": "GNU",
+        "path": "/usr/bin/c++",
+        "version": "14.2.0"
+      },
+      "configuration": "Debug",
+      "exchange_count": 72,
+      "execution": {
+        "build_id": "0ed614d212361640280a062cd417721c92634fa2846c1548cc57153fc7d9875c",
+        "build_manifest_sha256": "fa43e1865d2980cf05eb9efe13171cbc41d1ae3f08af083c599851a6b8348a49",
+        "executable_sha256": "ced251a71afa4712a5ad183e9e2206d249e7e8fe2b16b92c1084fa906ff5121b",
+        "protocol": 1
+      },
+      "operation_set": [
+        "highorder",
+        "intercepts",
+        "operating_point",
+        "polynomial"
+      ],
+      "replay_report_sha256": "7ad45a544246b9dd86f6a387d30ccf020eb33bd0c347eed088335fba07b8cb6a",
+      "source_content_sha256": "043d80a46248e9ac918642b90ff72daecf0d1bfa3df9f26c01ef175364492c43",
+      "unified_model_test": {
+        "asserted_measured_input_holdout_count": 1413,
+        "calibration": "Odd calibration observations excluded by the unchanged test",
+        "passed": true,
+        "suite": "test_highorder_model_reference.py",
+        "tests_run": 1
+      }
+    },
+    "release": {
+      "compiler": {
+        "flags": " -O3 -DNDEBUG; C++17; extensions=OFF",
+        "id": "GNU",
+        "path": "/usr/bin/c++",
+        "version": "14.2.0"
+      },
+      "configuration": "Release",
+      "exchange_count": 72,
+      "execution": {
+        "build_id": "d1d1af07d2d123550040822fd0d48c0ff44ccdd0646682a13a6f0b4cf283c16e",
+        "build_manifest_sha256": "a6331ea398ace32cc6bffda2761777f7a25bd1f2a56d28f4ef1cf433e3b169e6",
+        "executable_sha256": "72a1bc5940f8578859a032ebe7d2605a5b4c9d4123c1342a2fc70f4b6c33f764",
+        "protocol": 1
+      },
+      "operation_set": [
+        "highorder",
+        "intercepts",
+        "operating_point",
+        "polynomial"
+      ],
+      "replay_report_sha256": "a12688e687203f8b6aa6f2bae7d5cdf7ebffbe0f742260a06b5a642ee21bfb50",
+      "source_content_sha256": "043d80a46248e9ac918642b90ff72daecf0d1bfa3df9f26c01ef175364492c43",
+      "unified_model_test": {
+        "asserted_measured_input_holdout_count": 1413,
+        "calibration": "Odd calibration observations excluded by the unchanged test",
+        "passed": true,
+        "suite": "test_highorder_model_reference.py",
+        "tests_run": 1
+      }
+    }
+  },
+  "classification": "diagnostic_only",
+  "date_utc": "2026-10-13",
+  "eligible_for_compatibility": false,
+  "evidence_location": "Full local reports native-replay-debug-final.json/native-replay-release-final.json and logs are delivered with this change. CI uploads fresh reports and build manifests per OS/configuration.",
+  "frozen_evidence": {
+    "calibration_role": "Designated odd calibration observations remain excluded from holdouts",
+    "measured_input_holdouts": 1413,
+    "nominal_even_orders": [
+      4,
+      6,
+      8,
+      10
+    ],
+    "nominal_even_statuses": [
+      true,
+      true,
+      false,
+      false
+    ],
+    "nominal_order8_max_error": 1.0000000560950184e-07,
+    "nominal_relative_wave_tolerance": 1e-07,
+    "odd_holdout_counts": {
+      "11": 368,
+      "5": 68,
+      "7": 136,
+      "9": 235
+    },
+    "spectrum_reduction_observations": 224,
+    "spectrum_reduction_predictions_per_case": 44,
+    "spectrum_reduction_restored_counts": [
+      12,
+      14,
+      14
+    ],
+    "unrecorded_terms": 10
+  },
+  "independent_audit": {
+    "artifact_sha256": "881ae2b8ef6b5ba448b997b009605db73bba4348c78d51e63a6c10353de92117",
+    "result": "No remaining blocking code or contract finding",
+    "scope": "Read-only code/contract/manifest/header/log/evidence audit, not an independent RF oracle or hermetic build attestation",
+    "source_content_sha256": "043d80a46248e9ac918642b90ff72daecf0d1bfa3df9f26c01ef175364492c43"
+  },
+  "limitations": [
+    "Direct-kernel comparison verifies transport only; frozen vendor samples and existing independent scorers remain numerical oracles.",
+    "Cascade combined-origin graph orchestration remains on the legacy product path.",
+    "Not complete Python retirement, automatic RFAMP coefficients, full network equivalence, or a new vendor simulation."
+  ],
+  "log_sha256": {
+    "compat-build.log": "79c19058d3e2492af9274739f46dd214e179108eb6443a2a7c5c89381edf277c",
+    "compat-configure.log": "65a5983b12388da557fbd9a0b7475aa71cfd1219537f9bc87d0de43b240b9617",
+    "compat-ctest.log": "244bb27337ef2c5595b9ed53b7653046d65f6a0f18a2318eb40695ace439e7b5",
+    "compat-debug-build.log": "fb5aafd927450f970dc548dd89b7e0f186bc4b4c1c8e54a88fa982e1c34d2a23",
+    "compat-debug-configure.log": "dda76c05f329fd843898311049f932b0a6f93bd42f1c6e8ec2d5ae45fa39ca56",
+    "compat-debug-ctest.log": "a7eecf0fc1b296d8902d9767e85935846b928e383982d1d80e6b3f12c3ded391",
+    "debug-build.log": "e4f11c59c8f4c0f5d220aa5c4d9e1db81418502760798bc4623a397dc5466152",
+    "debug-configure.log": "e13ad40f12beb518a3cb9e41b9b3d077ec377167a3804c5ecfed92d13b7f6ac0",
+    "debug-ctest.log": "029b737c02ff8a945dcb1df223945e972a96263cd567b9584378f5303b447c85",
+    "format.log": "51617e1fec07c5ed1ead8740f97e8e8b9e351aeb05cfc51f8f66553720f7cb53",
+    "immutable-inputs.log": "4f3d88dad200cbb6730ab58c3d40363fbcc76337233781775c42101bad2a9589",
+    "per-header.log": "5d9717ce070c858901d3d5442367a0ac208f7117525d902ec89084f460f16f58",
+    "release-build.log": "ef2b9ef4bb02ada374a9e78474014455cd0b77029556ed45635fde42168b82d9",
+    "release-configure.log": "03f5724e90781ee6450db6f23bafb3fe66ee28ec060d683b58aca1146fb25ebb",
+    "release-ctest.log": "1ddd5857a002e9a064d50e186c7991cf67ac34cf7b5e0d719c0a1353b3dd2b7a"
+  },
+  "platform": {
+    "cmake": "3.31.10",
+    "compiler": "GCC14.2.0",
+    "machine": "x86_64",
+    "os": "Linux",
+    "python": "3.12.14"
+  },
+  "schema": "rfmodel.native-reference-replay-validation",
+  "schema_version": 1,
+  "scope": "Stage3A developer-only archived high-order replay; C ABI disabled; no new SystemVue simulation",
+  "source_files_sha256": {
+    ".github/workflows/build.yml": "41bfa7a7ab49a771a91db3097901f6decb5b8ad7200159c026d70eceeac8f0af",
+    "CMakeLists.txt": "6ef73810f42053a99b65ac63ae82236db95e3fab2afef92a32fac1d55e9f0dda",
+    "README.md": "c58301f531593d161af36b831d6045f78662bc6ee79af2d3a4422018efa61cb7",
+    "cmake/NativeReferenceReplay.cmake": "80cf226eddca033f6561c4910e75a56d7092962324b3436414fe9b23de4d8864",
+    "docs/native-reference-replay.md": "1ed0ccf8e87f439c247a88736e8ff301efa26e1098ca94465d5aabd3b010a811",
+    "docs/python-retirement-plan.md": "d0938d067d1cb7c6b0709d4cce4d49f5ff665c5b6e5c7f22b6ccefba8a77d3db",
+    "scripts/reference/compare-cascade-amplifier.py": "0dbf0738fecc0823d461586440ebc22ee92a4f5fbf200992f77fd064b482be79",
+    "scripts/reference/compare-single-compression.py": "f2b718c050c39f5f2130ec13c18512ff79aa82afa4d84d07daa0fee8cf6144ce",
+    "scripts/reference/diagnose-highorder-amplifier.py": "a75cb4c28b53761fb764b24d342058bf93d5142456b82010630f8188ebc4a10e",
+    "scripts/reference/native_replay.py": "5f1a65156bc184d1d9f22979c29800646b5beffa6aa8e430d0322d0dc49afe6f",
+    "scripts/reference/reference_records.py": "d1ffa8540021df75a082da0cbcd59e332e894b3e7a6dac65b0334f0119243de1",
+    "scripts/reference/test_diagnose_eleventh_order.py": "3318280830c75c88701873b06be0b23b77d59a3a51def48f0c072a011d68b29e",
+    "scripts/reference/test_diagnose_highorder_amplifier.py": "ff1de911ea379e584cc372e7d2dd941fb26de2c11f526bb8ae5909a8179d3720",
+    "scripts/reference/test_diagnose_spectrum_reduction.py": "922c336092a293e8d865b36fded1149b3962a1ff3c37d604202b687f830e99f9",
+    "scripts/reference/test_highorder_input_reference.py": "0a589ad9e61852ee102b1fb00d4c101699521cc81c7fee4d71cb038464312a23",
+    "scripts/reference/test_highorder_model_reference.py": "d0fdebc0c9846c95eccb94ff2ae16060015dc7ae46fa482dd0dd907fd76c2bc9",
+    "scripts/reference/test_native_replay.py": "2a2202fb7553cb3118d9291782f5f84b85575238d90822e18626c36c9c04b015",
+    "tests/check_native_replay_install.cmake": "e96e47ea7d78c8952d3e065689e23b25d5f4d253f9a4e7731ecfa91e83749b77",
+    "tests/check_sdk_configuration.cmake": "677e248d60e080cad0bc029d6f627d9abee28d6aaf5c38a515846be8bad81238",
+    "tests/reference_consumer/CMakeLists.txt": "455baed0cea4bd1b05ace6a9d4f35151e431dd6d9f6bf5bce293f78733f0ed46",
+    "tests/reference_highorder_oracle.cpp": "d05fa2e2d9851e169757663841c8ceb35933c113320991f5af0a453f8f62e0da",
+    "tests/reference_highorder_probe.cpp": "33167b64a219c4e6204d797429c563c61e8a3a59b4ff1b00e1d380e7d7dd2811"
+  },
+  "source_state": "Uncommitted isolated export plus the source SHA256 map below. Parent publishes separately.",
+  "unchanged_tracked_files": {
+    "existing_validation_files": 194,
+    "product_python": 28,
+    "production_src": 2,
+    "public_headers": 73
+  },
+  "verification": {
+    "clang_format_19_1_7_checked_files": 182,
+    "existing_target_suite_tests": 30,
+    "installed_sdk_probe_debug": "passed",
+    "installed_sdk_probe_release": "passed",
+    "legacy_debug_ctest": {
+      "failed": 0,
+      "passed": 161
+    },
+    "legacy_release_ctest": {
+      "failed": 0,
+      "passed": 161
+    },
+    "macos_windows": "Pending actual CI for resulting revision; workflow configuration is not verification",
+    "multi_configuration_generator_runtime": "Not run locally: Ninja unavailable; CMAKE_CONFIGURATION_TYPES logic reviewed, actual Windows/MSVC matrix pending",
+    "native_debug_ctest": {
+      "failed": 0,
+      "passed": 102
+    },
+    "native_release_ctest": {
+      "failed": 0,
+      "passed": 102
+    },
+    "per_header_cpp17_strict_checks": 72,
+    "protocol_tests_per_configuration": 27,
+    "pure_sdk_python_c_discovery": "absent",
+    "sdk_developer_runtime_artifacts": "absent"
+  }
+}

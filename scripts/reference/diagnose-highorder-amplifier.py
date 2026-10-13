@@ -14,7 +14,7 @@ spec = importlib.util.spec_from_file_location(
 )
 comparison = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(comparison)
-from rfmodel import CoherentComponent, SpectrumKind, TwoToneIntercept, InterceptReference
+from reference_records import CoherentComponent, SpectrumKind, TwoToneIntercept, InterceptReference
 
 CONFIGURATIONS = {
     (-30.0, 0.0, False),
