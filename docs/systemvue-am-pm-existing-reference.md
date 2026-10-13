@@ -59,3 +59,5 @@ MSVC 原生库 Debug/Release 目标构建通过；相关 CTest 各6/6：C API、
 原生协议的直接 C++ 对照增加 45 组正/负/零峰值、不同参考功率、零驱动及两段分支；这是传输字段一致性检查。新增非法输入、非有限/截断/多余返回字段检查；隔离复制回放和重定位 SDK 均包含第六个 AM/PM 套件。验证与 CI 状态见[本轮机读记录](../validation/am-pm-native-replay-validation-20261013.json)。测试通过表示诊断可用且已知失败被保留，不表示 A01 厂商兼容通过。
 
 下一步仍需独立预登记其他峰值/参考功率及恒相位支路的厂商样本，区分参数映射误差与功率报表定义。当前帮助页只支持解析曲线的构造条件，尚不足以把事后拟合的峰值偏移推广为模型常数。DataPoints 的零 dBm 反例也继续开放。
+
+最终验证：本机 Debug/Release 相关 CTest 各 **9/9**，含重定位 SDK；211 个 C/C++ 文件格式检查通过。实现提交 `c612e99` 的[跨平台 CI](https://github.com/minexin/RFSim/actions/runs/38388945281) **18/18** 作业成功。已下载并核验 Windows/MSVC、Ubuntu/GNU、macOS/AppleClang 的 Debug/Release 六份 AM/PM 回放报告，均保留 30 个原生不匹配点和四个零 dBm 候选反例。CI 观察期间的 API EOF 是连接中断，最终状态通过重新查询确认；结果及报告摘要已写入机读记录。

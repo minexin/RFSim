@@ -96,7 +96,288 @@
     "passed": true
   },
   "remote_ci": {
-    "status": "pending"
+    "status": "completed",
+    "conclusion": "success",
+    "url": "https://github.com/minexin/RFSim/actions/runs/38388945281",
+    "run_id": 38388945281,
+    "head_sha": "c612e99dd3d214f1f11f92ac778a28f21fa544fb",
+    "passed_jobs": 18,
+    "total_jobs": 18,
+    "jobs": [
+      {
+        "databaseId": 115267611768,
+        "name": "C++ SDK / windows-latest / Release",
+        "conclusion": "success",
+        "startedAt": "2026-10-13T11:15:21Z",
+        "completedAt": "2026-10-13T11:20:37Z"
+      },
+      {
+        "databaseId": 115267611957,
+        "name": "build (ubuntu-latest, Release)",
+        "conclusion": "success",
+        "startedAt": "2026-10-13T11:15:22Z",
+        "completedAt": "2026-10-13T11:18:54Z"
+      },
+      {
+        "databaseId": 115267612017,
+        "name": "Native archived replay / ubuntu-latest / Debug",
+        "conclusion": "success",
+        "startedAt": "2026-10-13T11:15:22Z",
+        "completedAt": "2026-10-13T11:15:59Z"
+      },
+      {
+        "databaseId": 115267612044,
+        "name": "Native archived replay / ubuntu-latest / Release",
+        "conclusion": "success",
+        "startedAt": "2026-10-13T11:15:22Z",
+        "completedAt": "2026-10-13T11:15:55Z"
+      },
+      {
+        "databaseId": 115267612103,
+        "name": "C++ SDK / macos-latest / Release",
+        "conclusion": "success",
+        "startedAt": "2026-10-13T11:15:26Z",
+        "completedAt": "2026-10-13T11:18:27Z"
+      },
+      {
+        "databaseId": 115267612120,
+        "name": "C++ SDK / ubuntu-latest / Debug",
+        "conclusion": "success",
+        "startedAt": "2026-10-13T11:15:22Z",
+        "completedAt": "2026-10-13T11:17:48Z"
+      },
+      {
+        "databaseId": 115267612131,
+        "name": "C++ SDK / macos-latest / Debug",
+        "conclusion": "success",
+        "startedAt": "2026-10-13T11:15:29Z",
+        "completedAt": "2026-10-13T11:17:51Z"
+      },
+      {
+        "databaseId": 115267612160,
+        "name": "build (ubuntu-latest, Debug)",
+        "conclusion": "success",
+        "startedAt": "2026-10-13T11:15:22Z",
+        "completedAt": "2026-10-13T11:17:01Z"
+      },
+      {
+        "databaseId": 115267612176,
+        "name": "Native archived replay / windows-latest / Debug",
+        "conclusion": "success",
+        "startedAt": "2026-10-13T11:15:22Z",
+        "completedAt": "2026-10-13T11:17:04Z"
+      },
+      {
+        "databaseId": 115267612187,
+        "name": "Native archived replay / macos-latest / Debug",
+        "conclusion": "success",
+        "startedAt": "2026-10-13T11:15:27Z",
+        "completedAt": "2026-10-13T11:16:32Z"
+      },
+      {
+        "databaseId": 115267612212,
+        "name": "build (windows-latest, Debug)",
+        "conclusion": "success",
+        "startedAt": "2026-10-13T11:15:22Z",
+        "completedAt": "2026-10-13T11:18:42Z"
+      },
+      {
+        "databaseId": 115267612232,
+        "name": "C++ SDK / ubuntu-latest / Release",
+        "conclusion": "success",
+        "startedAt": "2026-10-13T11:15:22Z",
+        "completedAt": "2026-10-13T11:18:30Z"
+      },
+      {
+        "databaseId": 115267612236,
+        "name": "build (windows-latest, Release)",
+        "conclusion": "success",
+        "startedAt": "2026-10-13T11:15:22Z",
+        "completedAt": "2026-10-13T11:19:52Z"
+      },
+      {
+        "databaseId": 115267612256,
+        "name": "C++ SDK / windows-latest / Debug",
+        "conclusion": "success",
+        "startedAt": "2026-10-13T11:15:22Z",
+        "completedAt": "2026-10-13T11:18:36Z"
+      },
+      {
+        "databaseId": 115267612308,
+        "name": "build (macos-latest, Debug)",
+        "conclusion": "success",
+        "startedAt": "2026-10-13T11:16:37Z",
+        "completedAt": "2026-10-13T11:18:19Z"
+      },
+      {
+        "databaseId": 115267612316,
+        "name": "Native archived replay / macos-latest / Release",
+        "conclusion": "success",
+        "startedAt": "2026-10-13T11:15:26Z",
+        "completedAt": "2026-10-13T11:16:30Z"
+      },
+      {
+        "databaseId": 115267612326,
+        "name": "build (macos-latest, Release)",
+        "conclusion": "success",
+        "startedAt": "2026-10-13T11:15:26Z",
+        "completedAt": "2026-10-13T11:18:48Z"
+      },
+      {
+        "databaseId": 115267612360,
+        "name": "Native archived replay / windows-latest / Release",
+        "conclusion": "success",
+        "startedAt": "2026-10-13T11:15:22Z",
+        "completedAt": "2026-10-13T11:16:29Z"
+      }
+    ],
+    "downloaded_native_reports": [
+      {
+        "artifact": "native-reference-macos-latest-Debug",
+        "report_sha256": "785f2893c3b377c985b16fbf535256cc3f274c8f407897fff397d12473c7c59b",
+        "configuration": "Debug",
+        "compiler": {
+          "id": "AppleClang",
+          "version": "21.0.0.21000101",
+          "path": "/usr/bin/c++",
+          "flags": " -g; C++17; extensions=OFF"
+        },
+        "execution_identity": {
+          "protocol": 1,
+          "build_id": "66551c49945665eb83a93c08596da29cfb2acfa38f6a6b63622f27356f2d37f8",
+          "executable_sha256": "2e5fa3795b5c71dd5ecd6850adf8d630f9becefbcb8df0876446202b90078f95",
+          "build_manifest_sha256": "62785192f09ac763b2bd1d03a0e89bc9768520564bf9705eb104df6093788f1a"
+        },
+        "raw_sources_verified": false,
+        "native_matching_points": 7,
+        "native_points": 37,
+        "native_max_error_deg": 0.00616264490543017,
+        "candidate_matching_points": 144,
+        "candidate_points": 148,
+        "exchanges": 37
+      },
+      {
+        "artifact": "native-reference-macos-latest-Release",
+        "report_sha256": "a36e31c66c6951ec812f79dfb01e60a61982a5f04d057a3bef1898528f166ee4",
+        "configuration": "Release",
+        "compiler": {
+          "id": "AppleClang",
+          "version": "21.0.0.21000101",
+          "path": "/usr/bin/c++",
+          "flags": " -O3 -DNDEBUG; C++17; extensions=OFF"
+        },
+        "execution_identity": {
+          "protocol": 1,
+          "build_id": "d37a4a691edf465e1d51412345078de8c898f3d31d940c3faf30bdc02c3295df",
+          "executable_sha256": "44441a4aade4e41c4bd01d64958b9a80c12566cdee806fdbe2a601ab07ee6572",
+          "build_manifest_sha256": "9504237c0c701e482ae2f3098da5be8f431ef46e3e1f3c31bafe3ac261a66ee9"
+        },
+        "raw_sources_verified": false,
+        "native_matching_points": 7,
+        "native_points": 37,
+        "native_max_error_deg": 0.00616264490543017,
+        "candidate_matching_points": 144,
+        "candidate_points": 148,
+        "exchanges": 37
+      },
+      {
+        "artifact": "native-reference-ubuntu-latest-Debug",
+        "report_sha256": "87a405a1071190571a8eb56a1987b68d90a37b3c98f4fdd5f6a87eabfc0681e4",
+        "configuration": "Debug",
+        "compiler": {
+          "id": "GNU",
+          "version": "13.3.0",
+          "path": "/usr/bin/c++",
+          "flags": " -g; C++17; extensions=OFF"
+        },
+        "execution_identity": {
+          "protocol": 1,
+          "build_id": "738715a76b12530922e221140f51c81dce9b7c89fee7f912ae8738e802f83ed2",
+          "executable_sha256": "72623e4db4cbe924de21bb4b7f20df26dffd9bc1f8531e91cd9fb25af6a0e1f9",
+          "build_manifest_sha256": "b839a85bb0727ed75c1fa06256752cbb269aa935ae187f719572117be76db5ed"
+        },
+        "raw_sources_verified": false,
+        "native_matching_points": 7,
+        "native_points": 37,
+        "native_max_error_deg": 0.00616264490543017,
+        "candidate_matching_points": 144,
+        "candidate_points": 148,
+        "exchanges": 37
+      },
+      {
+        "artifact": "native-reference-ubuntu-latest-Release",
+        "report_sha256": "fa266384cfb4b5c0d1a4e1dafe288eeff007b0d4ee40eaa24aeb3c0a6676097d",
+        "configuration": "Release",
+        "compiler": {
+          "id": "GNU",
+          "version": "13.3.0",
+          "path": "/usr/bin/c++",
+          "flags": " -O3 -DNDEBUG; C++17; extensions=OFF"
+        },
+        "execution_identity": {
+          "protocol": 1,
+          "build_id": "bef4ba582580ea6880ba515f5f452287ba923568fcc892686d1401e23dd42ae1",
+          "executable_sha256": "9cfd13e104c318de58deddbe3c1710647a2481a2365939447d863e03e85201dd",
+          "build_manifest_sha256": "1c3292a3bc1f3fec659ee1c822da4047bfb6a610426bafd2bf925ecfa26930e8"
+        },
+        "raw_sources_verified": false,
+        "native_matching_points": 7,
+        "native_points": 37,
+        "native_max_error_deg": 0.00616264490543017,
+        "candidate_matching_points": 144,
+        "candidate_points": 148,
+        "exchanges": 37
+      },
+      {
+        "artifact": "native-reference-windows-latest-Debug",
+        "report_sha256": "eecad5e04268ca31e0cce806b4ac00b1e075b5e1cdc72109b77d0dcdcdc75a08",
+        "configuration": "Debug",
+        "compiler": {
+          "id": "MSVC",
+          "version": "19.51.36260.0",
+          "path": "C:/Program Files/Microsoft Visual Studio/18/Enterprise/VC/Tools/MSVC/14.51.36231/bin/Hostx64/x64/cl.exe",
+          "flags": "/DWIN32 /D_WINDOWS /EHsc /Zi /Ob0 /Od /RTC1; C++17; extensions=OFF"
+        },
+        "execution_identity": {
+          "protocol": 1,
+          "build_id": "1ecf2f58436ea7dd75371da5cd43b0c12c1154062b6512972ae39e5b5caa854b",
+          "executable_sha256": "b90bc940216a852237d8fe94a5a0e6d629212b19e5807e38d53d084f9c9bdfc0",
+          "build_manifest_sha256": "577e16433e68929ee97400c3a5ebb349305ccac1c99688adb9902fc4fa213f0a"
+        },
+        "raw_sources_verified": false,
+        "native_matching_points": 7,
+        "native_points": 37,
+        "native_max_error_deg": 0.00616264490543017,
+        "candidate_matching_points": 144,
+        "candidate_points": 148,
+        "exchanges": 37
+      },
+      {
+        "artifact": "native-reference-windows-latest-Release",
+        "report_sha256": "4362a4e026279813fb55a66d19fc3c6eb16624eb96303677c26bff0aded5e1fb",
+        "configuration": "Release",
+        "compiler": {
+          "id": "MSVC",
+          "version": "19.51.36260.0",
+          "path": "C:/Program Files/Microsoft Visual Studio/18/Enterprise/VC/Tools/MSVC/14.51.36231/bin/Hostx64/x64/cl.exe",
+          "flags": "/DWIN32 /D_WINDOWS /EHsc /O2 /Ob2 /DNDEBUG; C++17; extensions=OFF"
+        },
+        "execution_identity": {
+          "protocol": 1,
+          "build_id": "7cb95c8e897a8be8a1ab2736b581bccee70b660f5fac00ac84136abc44e74d04",
+          "executable_sha256": "f7a719f1f94b93e4c21ff0c2da7e0e3082a7bdd91fa64b61c57dc5d744213344",
+          "build_manifest_sha256": "34311e6e8c7c19434e4cad2eeefe97edf0874a5e3b1e2b2a50d3978475e3ec29"
+        },
+        "raw_sources_verified": false,
+        "native_matching_points": 7,
+        "native_points": 37,
+        "native_max_error_deg": 0.00616264490543017,
+        "candidate_matching_points": 144,
+        "candidate_points": 148,
+        "exchanges": 37
+      }
+    ],
+    "observation_note": "An initial gh watch connection ended with API EOF; a fresh run query confirmed the completed result."
   },
   "limitations": [
     "Known PointDerivative and DataPoints mismatches remain failures.",
@@ -104,5 +385,6 @@
     "Local raw captures were reverified; CI only has normalized evidence.",
     "This stage runs focused local tests, not a new full local build or full CTest.",
     "Initial sandboxed MSVC build failed with FileTracker E_ACCESSDENIED; approved unsandboxed builds passed."
-  ]
+  ],
+  "implementation_commit": "c612e99dd3d214f1f11f92ac778a28f21fa544fb"
 }
