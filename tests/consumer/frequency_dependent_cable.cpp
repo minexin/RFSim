@@ -1,7 +1,7 @@
 // Installed public headers only. The probe instantiates the same inline API in
 // a second translation unit; checks remain active in Release/NDEBUG builds.
-#include <rfmodel/frequency_dependent_cable.hpp>
-#include <rfmodel/noise_matrix.hpp>
+#include <rfmodel/models/frequency_dependent_cable.hpp>
+#include <rfmodel/noise/noise_matrix.hpp>
 #include <cmath>
 #include <complex>
 #include <iostream>

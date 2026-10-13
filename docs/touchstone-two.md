@@ -69,7 +69,7 @@ Cartesian linear interpolation in those unchanged S coordinates. Reject and Clam
 policies apply to the relevant S and noise grids.
 
 ```cpp
-#include <rfmodel/tabulated_noise_model.hpp>
+#include <rfmodel/io/tabulated_noise_model.hpp>
 
 const auto data = rfmodel::read_touchstone("amplifier.ts");
 const auto refs = rfmodel::effective_reference_impedances(data);

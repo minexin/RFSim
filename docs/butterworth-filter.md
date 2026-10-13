@@ -42,7 +42,7 @@ s = library.butterworth_filter(
 python -m rfmodel examples/butterworth-bandpass.json --library build-msvc/Release/rfmodel_c.dll --output build-reference/butterworth-result.json
 ~~~
 
-C++ 使用 ButterworthFilterParameters 和 ButterworthFilterModel（include/rfmodel/butterworth_filter.hpp）。C 使用 rfmodel_butterworth_parameters 与 rfmodel_butterworth_s；低/高通的 lower_passband_hz 是单一边缘，upper_passband_hz 必须为 0。input_stopband_open 必须是 0 或 1。输出为四个按行排列的复数；容量不足、非法参数及输入/输出重叠均失败且不改写输出。
+C++ 使用 ButterworthFilterParameters 和 ButterworthFilterModel（include/rfmodel/models/butterworth_filter.hpp）。C 使用 rfmodel_butterworth_parameters 与 rfmodel_butterworth_s；低/高通的 lower_passband_hz 是单一边缘，upper_passband_hz 必须为 0。input_stopband_open 必须是 0 或 1。输出为四个按行排列的复数；容量不足、非法参数及输入/输出重叠均失败且不改写输出。
 
 ## SystemVue 参数边界
 

@@ -40,7 +40,7 @@ B_ij =            (D/2)*(a_i/r)*(a_j/r)
 ## C++ 接口
 
 ```cpp
-#include <rfmodel/amplifier_linearization.hpp>
+#include <rfmodel/conversion/amplifier_linearization.hpp>
 using namespace rfmodel;
 const SaturatingFundamentalCompression amplifier(20., 20., 23.);
 const std::vector<ConversionChannel> channels{

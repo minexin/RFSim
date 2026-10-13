@@ -22,7 +22,7 @@ JSON linear 模型支持静态 S 或现有参数模型（包括 Touchstone、RLC
 
 ## 接口
 
-C++ 头文件为 rfmodel/conversion_network.hpp：
+C++ 头文件为 rfmodel/conversion/conversion_network.hpp：
 
 ~~~cpp
 FrequencyConversionNetwork network(spacing_hz, reference_ohms);

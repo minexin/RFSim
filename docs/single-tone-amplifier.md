@@ -35,7 +35,7 @@ OPSAT。深饱和总谱、AM/PM、高阶产品、反向传播、失配和噪声�
 ## API 和模型文件
 
 ```cpp
-#include <rfmodel/single_tone_amplifier.hpp>
+#include <rfmodel/nonlinear/single_tone_amplifier.hpp>
 rfmodel::SingleToneLimitedAmplifier amp(20., 20., 23., 20., 10., 50.);
 auto output = amp.transmit({1e6, {{1000, rfmodel::Complex{0., .03162277660168379}}}});
 ```

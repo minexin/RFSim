@@ -31,7 +31,7 @@ OPSAT 推导，没有拟合 SystemVue 采集误差。
 ## 接口
 
 ```cpp
-#include <rfmodel/saturating_fundamental.hpp>
+#include <rfmodel/nonlinear/saturating_fundamental.hpp>
 rfmodel::SaturatingFundamentalCompression amp(20., 20., 23.);
 auto single = amp.transmit_fundamental(rfmodel::Complex{0., .1});
 auto driven = amp.transmit_fundamental(rfmodel::Complex{0., .05}, .01);

@@ -14,7 +14,7 @@ contributors；不先合并同频率项，保留精确陷波后的零项。
 ## 原生接口
 
 ```cpp
-#include <rfmodel/term_propagation.hpp>
+#include <rfmodel/coherent/term_propagation.hpp>
 auto output = rfmodel::transmit_linear_terms(
     spacing_hz, traced.terms, {0, 1}, 50., build_network_at_frequency);
 ```

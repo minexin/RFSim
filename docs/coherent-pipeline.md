@@ -2,7 +2,7 @@
 
 > 接口更新（2026-10-13）：Python 产品包、wheel 和 Python/JSON CLI 已退役。本页涉及这些入口的命令与验证属于历史记录；当前 C++ 入口及迁移范围见 [退役记录](python-interface-retirement.md)。保留的物理结论与厂商差异不因退役而改变。
 
-`<rfmodel/coherent_pipeline.hpp>` 提供 header-only 的 `rfmodel::CoherentPipeline`。
+`<rfmodel/coherent/coherent_pipeline.hpp>` 提供 header-only 的 `rfmodel::CoherentPipeline`。
 只需链接安装包中的 `RFModel::rfmodel`；不依赖 C ABI、Python 或 JSON。
 它把现有数值内核串成七种显式操作：`seed`、`mix`、`linear_network`、
 `polynomial`、`compress_fundamentals`、`limited_amplifier` 和 `highorder_amplifier`。
@@ -18,7 +18,7 @@
 ## 调用和所有权
 
 ```cpp
-#include <rfmodel/coherent_pipeline.hpp>
+#include <rfmodel/coherent/coherent_pipeline.hpp>
 
 rfmodel::CoherentPipeline pipeline(1e8, 50., 2);
 const auto source = pipeline.seed({
@@ -154,7 +154,7 @@ C++ 异常报告；空流或零波不会绕过必要参数检查。失败后旧�
 
 ## 可运行示例与安装消费者
 
-[examples/coherent_pipeline.cpp](../examples/coherent_pipeline.cpp) 使用 IF 相消、
+[examples/coherent/coherent_pipeline.cpp](../examples/coherent/coherent_pipeline.cpp) 使用 IF 相消、
 线性 IF-only 滤波、公共压缩和平方级两条分支，展示历史与物理净波的区别。
 
 ```sh

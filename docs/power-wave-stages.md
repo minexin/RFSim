@@ -12,7 +12,7 @@
 
 ## C++ / C / Python 快照
 
-新头文件 `rfmodel/power_wave_network.hpp` 提供：
+新头文件 `rfmodel/linear/power_wave_network.hpp` 提供：
 
 ```cpp
 auto reduced = rfmodel::reduce_power_wave_network(network, {0, 3}, 75.);

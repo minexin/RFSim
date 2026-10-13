@@ -45,7 +45,7 @@ delta_b = A*delta_a + B*conj(delta_a)
 ## C++ 使用
 
 ```cpp
-#include <rfmodel/polynomial_linearization.hpp>
+#include <rfmodel/conversion/polynomial_linearization.hpp>
 using namespace rfmodel;
 
 const MemorylessPolynomial polynomial({0., 2., 0., -.02});

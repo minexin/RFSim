@@ -8,7 +8,7 @@
 
 ## 核心与绑定
 
-C++ 头文件为 `rfmodel/coherent_mixer.hpp`：
+C++ 头文件为 `rfmodel/coherent/coherent_mixer.hpp`：
 
 ```cpp
 std::vector<CoherentComponent> mix_coherent_components(

@@ -1,6 +1,6 @@
-#include <rfmodel/analysis_task.hpp>
-#include <rfmodel/coherent_system.hpp>
-#include <rfmodel/conversion_simulation.hpp>
+#include <rfmodel/analysis/analysis_task.hpp>
+#include <rfmodel/coherent/coherent_system.hpp>
+#include <rfmodel/conversion/conversion_simulation.hpp>
 
 // A second translation unit checks header-only linkage and owning plan lifetime.
 rfmodel::CoherentSystem::Plan make_simulation_plan() {

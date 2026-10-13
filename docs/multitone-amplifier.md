@@ -39,7 +39,7 @@ OPSAT 标定直接响应的总功率极限，不保证任意截点参数下所�
 ## 接口
 
 ```cpp
-#include <rfmodel/multitone_amplifier.hpp>
+#include <rfmodel/nonlinear/multitone_amplifier.hpp>
 rfmodel::MultiToneLimitedAmplifier amp(20., 20., 23., 20., 10., 50.);
 auto result = amp.evaluate({1e8, {{10, .001}, {11, .002}}});
 // result.direct, result.second_order, result.third_order are PowerWaveSpectrum.

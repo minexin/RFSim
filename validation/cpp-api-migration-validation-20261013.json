@@ -162,12 +162,108 @@
     "tests/conversion_simulation_test.cpp": "a272a495c4a5399864b15b875ee1dde35b9b1f7cd11ea1fdba256763328a0320"
   },
   "remote_ci": {
-    "status": "pending_after_commit",
-    "matrix": "Windows/Ubuntu/macOS x Debug/Release; core, pure C++ SDK and native reference jobs"
+    "status": "completed",
+    "conclusion": "success",
+    "run_id": 38384762960,
+    "url": "https://github.com/minexin/RFSim/actions/runs/38384762960",
+    "head_sha": "727db06e84b24309e42d2ad87bd16afd2045a0f4",
+    "jobs": [
+      {
+        "name": "C++ SDK / windows-latest / Release",
+        "conclusion": "success",
+        "database_id": 115253690921
+      },
+      {
+        "name": "Native archived replay / windows-latest / Debug",
+        "conclusion": "success",
+        "database_id": 115253690977
+      },
+      {
+        "name": "build (windows-latest, Release)",
+        "conclusion": "success",
+        "database_id": 115253691081
+      },
+      {
+        "name": "build (ubuntu-latest, Debug)",
+        "conclusion": "success",
+        "database_id": 115253691110
+      },
+      {
+        "name": "build (windows-latest, Debug)",
+        "conclusion": "success",
+        "database_id": 115253691131
+      },
+      {
+        "name": "Native archived replay / windows-latest / Release",
+        "conclusion": "success",
+        "database_id": 115253691143
+      },
+      {
+        "name": "build (macos-latest, Release)",
+        "conclusion": "success",
+        "database_id": 115253691149
+      },
+      {
+        "name": "C++ SDK / macos-latest / Release",
+        "conclusion": "success",
+        "database_id": 115253691166
+      },
+      {
+        "name": "build (macos-latest, Debug)",
+        "conclusion": "success",
+        "database_id": 115253691170
+      },
+      {
+        "name": "C++ SDK / macos-latest / Debug",
+        "conclusion": "success",
+        "database_id": 115253691173
+      },
+      {
+        "name": "Native archived replay / macos-latest / Release",
+        "conclusion": "success",
+        "database_id": 115253691187
+      },
+      {
+        "name": "Native archived replay / ubuntu-latest / Release",
+        "conclusion": "success",
+        "database_id": 115253691210
+      },
+      {
+        "name": "C++ SDK / windows-latest / Debug",
+        "conclusion": "success",
+        "database_id": 115253691223
+      },
+      {
+        "name": "build (ubuntu-latest, Release)",
+        "conclusion": "success",
+        "database_id": 115253691232
+      },
+      {
+        "name": "C++ SDK / ubuntu-latest / Debug",
+        "conclusion": "success",
+        "database_id": 115253691328
+      },
+      {
+        "name": "Native archived replay / macos-latest / Debug",
+        "conclusion": "success",
+        "database_id": 115253691350
+      },
+      {
+        "name": "C++ SDK / ubuntu-latest / Release",
+        "conclusion": "success",
+        "database_id": 115253691356
+      },
+      {
+        "name": "Native archived replay / ubuntu-latest / Debug",
+        "conclusion": "success",
+        "database_id": 115253691413
+      }
+    ]
   },
   "limitations": [
     "No new SystemVue run or full vendor compatibility claim.",
     "Some legacy developer numerical replay adapters are explicitly retired; capture/scoring logic and data remain.",
     "Old Python/JSON serialization contracts are not delivered as a C++ JSON parser."
-  ]
+  ],
+  "implementation_commit": "727db06e84b24309e42d2ad87bd16afd2045a0f4"
 }

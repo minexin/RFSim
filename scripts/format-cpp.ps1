@@ -25,7 +25,7 @@ if (-not $ClangFormat -or -not (Test-Path -LiteralPath $ClangFormat)) {
     throw 'clang-format not found; pass -ClangFormat with its executable path.'
 }
 
-$sourceDirectories = @('include', 'src', 'tests') | ForEach-Object {
+$sourceDirectories = @('include', 'src', 'tests', 'examples') | ForEach-Object {
     Join-Path $projectRoot $_
 }
 $sourceFiles = @(Get-ChildItem -LiteralPath $sourceDirectories -Recurse -File |

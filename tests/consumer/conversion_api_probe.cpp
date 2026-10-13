@@ -1,5 +1,5 @@
-#include <rfmodel/conversion_network.hpp>
-#include <rfmodel/conversion_power_wave.hpp>
+#include <rfmodel/conversion/conversion_network.hpp>
+#include <rfmodel/conversion/conversion_power_wave.hpp>
 #include <cmath>
 
 // A second translation unit independently instantiates public inline API code.

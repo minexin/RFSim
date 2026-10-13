@@ -1,6 +1,6 @@
 # 分布参数 RLGC 传输线
 
-`rfmodel/rlgc_transmission_line.hpp` 提供 `RlgcTransmissionLineModel`，实现
+`rfmodel/models/rlgc_transmission_line.hpp` 提供 `RlgcTransmissionLineModel`，实现
 `RFDeviceModel` 和 `SParameterProvider`。它从单位长度串联电阻、电感、并联电导、电容
 计算均匀传输线的完整二端口 S 参数，可接入网络、频率扫描和被动热噪声 API。
 

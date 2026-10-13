@@ -1,4 +1,4 @@
-#include <rfmodel/conversion_operating_point.hpp>
+#include <rfmodel/conversion/conversion_operating_point.hpp>
 #include <cmath>
 #include <vector>
 

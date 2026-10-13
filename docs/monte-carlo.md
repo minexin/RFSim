@@ -2,7 +2,7 @@
 
 > 接口更新（2026-10-13）：Python 产品包、wheel 和 Python/JSON CLI 已退役。本页涉及这些入口的命令与验证属于历史记录；当前 C++ 入口及迁移范围见 [退役记录](python-interface-retirement.md)。保留的物理结论与厂商差异不因退役而改变。
 
-`include/rfmodel/monte_carlo.hpp` 提供 C++17 `run_monte_carlo(parameters, metric_count, evaluate, options, cancelled)`。每次完整参数抽样调用一个返回有限实向量的同步求值函数；调用者可据此重建 RF 网络、噪声或器件模型。分布与选项在入口复制，回调修改原请求不影响本次运行。
+`include/rfmodel/analysis/monte_carlo.hpp` 提供 C++17 `run_monte_carlo(parameters, metric_count, evaluate, options, cancelled)`。每次完整参数抽样调用一个返回有限实向量的同步求值函数；调用者可据此重建 RF 网络、噪声或器件模型。分布与选项在入口复制，回调修改原请求不影响本次运行。
 
 ## 输入和随机流
 
@@ -67,13 +67,13 @@ criteria 为空时不计算合格比例，否则必须与指标数相同，至�
 
 ## 原生阶段验证（8fc3710）
 
-验证入口为 `monte_carlo_test`、`monte_carlo_resistor` 两个 CTest 用例及安装后的消费端测试。可用 `ctest --test-dir build -C Release -R monte_carlo --output-on-failure` 重跑新增用例；`rfmodel_tolerance_analysis` 的标准输出即完整 JSON 轨迹。示例源码为 [monte_carlo_resistor.cpp](../examples/monte_carlo_resistor.cpp)。
+验证入口为 `monte_carlo_test`、`monte_carlo_resistor` 两个 CTest 用例及安装后的消费端测试。可用 `ctest --test-dir build -C Release -R monte_carlo --output-on-failure` 重跑新增用例；`rfmodel_tolerance_analysis` 的标准输出即完整 JSON 轨迹。示例源码为 [monte_carlo_resistor.cpp](../examples/analysis/monte_carlo_resistor.cpp)。
 
 [机读验证报告](../validation/monte-carlo-native-validation-20261012.json)记录四个本地配置的核心、安装、同环境重放、独立 Python 统计核对和源文件指纹；[完整电阻容差轨迹](../validation/monte-carlo-resistor-example-20261012.json)保留全部 4096 个样本。原生阶段 C ABI 与 Python 源码未改动，本地完整 CTest 包含原有绑定测试，没有另行构建安装新 wheel；干净检出的三平台 wheel 回归随阶段推送执行。报告中发布状态保留生成时刻的含义。
 
 ## C ABI 与 Python 同步回调
 
-`rfmodel_run_monte_carlo` 现提供与原生 C++ 相同的采样/统计语义，不改变已有 ABI 布局。新结构体、枚举与函数声明见 [c_api.h](../include/rfmodel/c_api.h)。结果是独立、只读的 `rfmodel_monte_carlo_result`，由 `rfmodel_monte_carlo_destroy` 释放；输入和 options 指向的分位数/判据数组在首次回调前复制。
+`rfmodel_run_monte_carlo` 现提供与原生 C++ 相同的采样/统计语义，不改变已有 ABI 布局。新结构体、枚举与函数声明见 [c_api.h](../include/rfmodel/api/c_api.h)。结果是独立、只读的 `rfmodel_monte_carlo_result`，由 `rfmodel_monte_carlo_destroy` 释放；输入和 options 指向的分位数/判据数组在首次回调前复制。
 
 C 求值回调接收只读参数、指标输出缓冲区、其容量以及 value_count 输出指针。缓冲区容量就是 metric_count，初值为 NaN，value_count 初值为零。成功时写满指标并设置实际个数，再返回 0；个数不符记为 InvalidMeasurementCount，未写满或非有限值记为 NonFiniteMeasurement。不得越界写入。非零返回记为 Exception，可写最多 512 字节诊断；库保证第 513 字节为 NUL。取消回调返回零继续，正值取消，负值表示 API 失败。回调可重入 RFModel，但不能跨 C 边界抛异常，也不能修改调用方 out 槽。
 

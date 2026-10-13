@@ -1,5 +1,5 @@
 // Standalone two-TU C++17 consumer of the installed native operating-point API.
-#include <rfmodel/conversion_operating_point.hpp>
+#include <rfmodel/conversion/conversion_operating_point.hpp>
 
 #include <cmath>
 #include <iostream>

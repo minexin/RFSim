@@ -26,7 +26,7 @@
 
 ## C++、C 与 Python
 
-C++ 头文件 `rfmodel/coherent_compression.hpp`：
+C++ 头文件 `rfmodel/coherent/coherent_compression.hpp`：
 
 ```cpp
 const rfmodel::SaturatingFundamentalCompression amp(20., 20., 23.);

@@ -26,7 +26,7 @@ C ABI 和 Python 运算。它是混频折叠后继续做非线性展开的基础
 
 ## 接口
 
-C++ 头文件 `rfmodel/origin_expression.hpp` 提供 `OriginContribution`、
+C++ 头文件 `rfmodel/coherent/origin_expression.hpp` 提供 `OriginContribution`、
 `OriginExpression`、`sum_origin_expressions`、`product_origin_expressions`、
 `origin_expression_amplitude`。求和与乘法返回各项；最后一个函数计算总波。
 各项及总波求值均要求复数分量和模平方有限，溢出整体报错。

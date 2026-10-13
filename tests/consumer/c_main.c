@@ -1,4 +1,5 @@
-#include <rfmodel/c_api.h>
+#include <rfmodel/api/c_api.h>
+#include <rfmodel/c_api.h> // Installed legacy include compatibility in a C translation unit.
 #include <math.h>
 
 static int monte_carlo_evaluate(const double *p,

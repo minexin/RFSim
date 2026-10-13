@@ -1,6 +1,6 @@
-#include <rfmodel/analysis_task.hpp>
-#include <rfmodel/coherent_system.hpp>
-#include <rfmodel/conversion_simulation.hpp>
+#include <rfmodel/analysis/analysis_task.hpp>
+#include <rfmodel/coherent/coherent_system.hpp>
+#include <rfmodel/conversion/conversion_simulation.hpp>
 #include <cmath>
 #include <iostream>
 #include <stdexcept>

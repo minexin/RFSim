@@ -37,7 +37,7 @@ A/B 由真实实部、虚部基向量的精确双线性导数构造；这不是�
 
 ## C++、C、Python
 
-C++17 头文件 rfmodel/mixer_linearization.hpp 提供 linearize_real_mixer，返回 MixerLinearization，其中 incremental_model 是 FrequencyConversionModel，operating_outgoing 是名义出射向量：
+C++17 头文件 rfmodel/conversion/mixer_linearization.hpp 提供 linearize_real_mixer，返回 MixerLinearization，其中 incremental_model 是 FrequencyConversionModel，operating_outgoing 是名义出射向量：
 
 ~~~cpp
 auto model = rfmodel::linearize_real_mixer(

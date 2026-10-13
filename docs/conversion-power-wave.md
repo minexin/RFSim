@@ -9,8 +9,8 @@ C/Python/JSON 已提供显式逐通道参考入口，见下方跨语言契约。
 ## 模型与通道坐标
 
 ```cpp
-#include <rfmodel/conversion_power_wave.hpp>
-#include <rfmodel/conversion_network.hpp>
+#include <rfmodel/conversion/conversion_power_wave.hpp>
+#include <rfmodel/conversion/conversion_network.hpp>
 
 rfmodel::FrequencyConversionModel local(
     spacing_hz, channels, direct, conjugate,
@@ -114,7 +114,7 @@ P'ij = Li Pij Lj
 
 ## 可重跑示例与验收范围
 
-[原生混频—热电阻示例](../examples/mixed_reference_conversion.cpp)将 0.8 GHz 信号用 1 GHz 固定泵转换至 0.2/1.8 GHz，再经串联 25 Ω 电阻送至 50 Ω 负载。七个通道采用不同复参考，命令行可将局部参考整体乘以正数；物理源、负载、器件和泵不变。
+[原生混频—热电阻示例](../examples/conversion/mixed_reference_conversion.cpp)将 0.8 GHz 信号用 1 GHz 固定泵转换至 0.2/1.8 GHz，再经串联 25 Ω 电阻送至 50 Ω 负载。七个通道采用不同复参考，命令行可将局部参考整体乘以正数；物理源、负载、器件和泵不变。
 
 ```powershell
 cmake --build build-msvc --config Release --target mixed_reference_conversion_example

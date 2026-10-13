@@ -5,7 +5,7 @@
 C++17 新入口 `solve_conversion_operating_point_power_waves` 在各器件原有逐通道功率波坐标中求解固定非线性方程、物理接线和源/负载边界。它与[既有工作点接口](conversion-operating-point.md)使用相同类型、参数顺序和默认值：
 
 ```cpp
-#include <rfmodel/conversion_operating_point.hpp>
+#include <rfmodel/conversion/conversion_operating_point.hpp>
 
 rfmodel::ConversionOperatingResult
 rfmodel::solve_conversion_operating_point_power_waves(

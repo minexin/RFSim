@@ -35,8 +35,8 @@ linearize_bilinear_mixer 使用固定系数 k=10^(gain_db/20)/lo_reference_ampli
 ## C++ 示例
 
 ```cpp
-#include <rfmodel/conversion_operating_point.hpp>
-#include <rfmodel/mixer_linearization.hpp>
+#include <rfmodel/conversion/conversion_operating_point.hpp>
+#include <rfmodel/conversion/mixer_linearization.hpp>
 using namespace rfmodel;
 const std::vector<ConversionChannel> channels{{0, 0}, {1, 0}, {2, 0}};
 const auto zero = conversion_detail::zero(3);

@@ -3,7 +3,7 @@
 构建生成 `rfmodel_cli`，安装位于 bin。使用 `-DRFMODEL_BUILD_CLI=OFF` 可只构建库。
 
 ```powershell
-./build-msvc/Release/rfmodel_cli.exe tests/sweep.s2p 1000000000 2000000000 3000000000 > build-msvc/sweep.csv
+./build-msvc/Release/rfmodel_cli.exe tests/fixtures/sweep.s2p 1000000000 2000000000 3000000000 > build-msvc/sweep.csv
 ```
 
 不传频率参数时导出原始采样频点；传入的 Hz 频率必须严格递增。带外频率报错，不静默外推。输出字段为 frequency_hz、row_port、column_port、reference_ohms、s_real、s_imag，CSV 端口编号从 1 开始，S 矩阵按行优先展开。输出使用独立于系统区域设置的小数点和 17 位精度。

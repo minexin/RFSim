@@ -22,7 +22,7 @@ C_upper,lower = P_upper,upper = P_lower,lower = 0
 
 ## C++、C 与 Python
 
-C++17 头文件 rfmodel/phase_noise.hpp 提供 PhaseNoiseOffset 和 phase_noise_sidebands(channels, carrier_channel, carrier_wave, offsets)，返回 ConversionNoise。carrier_channel 是 channels 中的索引；offset_bin 是相对载波的正整数频偏。
+C++17 头文件 rfmodel/noise/phase_noise.hpp 提供 PhaseNoiseOffset 和 phase_noise_sidebands(channels, carrier_channel, carrier_wave, offsets)，返回 ConversionNoise。carrier_channel 是 channels 中的索引；offset_bin 是相对载波的正整数频偏。
 
 ~~~cpp
 auto noise = rfmodel::phase_noise_sidebands(

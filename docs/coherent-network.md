@@ -28,7 +28,7 @@ S(output,input) × incident_amplitude。随后按
 
 ## C++ / C / Python
 
-C++ 头文件 rfmodel/coherent_network.hpp：
+C++ 头文件 rfmodel/coherent/coherent_network.hpp：
 
     auto result = rfmodel::transmit_coherent_network(
         spacing_hz, port_components, external_ports, output_port,

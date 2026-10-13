@@ -1,6 +1,6 @@
 # 双向小信号放大器
 
-`include/rfmodel/amplifier_model.hpp` 提供 `LinearAmplifierParameters`、`LinearAmplifierModel` 和 `reflection_from_impedance`。它是后续 RFAMP 适配使用的小信号构件，尚不代表完整 RFAMP 兼容。
+`include/rfmodel/nonlinear/amplifier_model.hpp` 提供 `LinearAmplifierParameters`、`LinearAmplifierModel` 和 `reflection_from_impedance`。它是后续 RFAMP 适配使用的小信号构件，尚不代表完整 RFAMP 兼容。
 
 ## 参数与接口
 

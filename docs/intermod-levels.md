@@ -53,7 +53,7 @@ MaxOrder 枚举支持一阶 RFAMP_HO。12..20 阶暂不支持。
 
 ## 公开接口
 
-C++ 头文件 `rfmodel/intermod_levels.hpp` 提供：
+C++ 头文件 `rfmodel/nonlinear/intermod_levels.hpp` 提供：
 
 ```cpp
 auto coefficients = rfmodel::polynomial_coefficients_from_intermod_levels(

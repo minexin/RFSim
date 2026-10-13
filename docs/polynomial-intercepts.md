@@ -46,7 +46,7 @@
 ## 接口与示例
 
 C++：`rfmodel::polynomial_coefficients_from_intercepts`，头文件
-`rfmodel/polynomial_intercepts.hpp`，接收 `std::vector<TwoToneIntercept>`。
+`rfmodel/nonlinear/polynomial_intercepts.hpp`，接收 `std::vector<TwoToneIntercept>`。
 C：`rfmodel_polynomial_coefficients_from_intercepts`，最多十条定义，输出至多十二个
 系数。缓冲区容量不足、别名重叠或参数错误时，系数数组和计数都保持不变。
 Python：`Library.polynomial_coefficients_from_intercepts` 返回系数元组；

@@ -1,4 +1,4 @@
-#include <rfmodel/coherent_pipeline.hpp>
+#include <rfmodel/coherent/coherent_pipeline.hpp>
 #include <cmath>
 #include <stdexcept>
 

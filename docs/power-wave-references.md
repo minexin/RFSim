@@ -20,7 +20,7 @@ Linear Analysis 可在每个频率为每个外部端口指定独立复参考阻�
 
 ## C++ 与 C ABI
 
-头文件 include/rfmodel/power_wave_reference.hpp 提供：
+头文件 include/rfmodel/core/power_wave_reference.hpp 提供：
 
 - renormalize_power_waves(s, old_refs, new_refs)：返回 scattering、noise_transfer。
 - renormalize_noise(s, intrinsic, old_refs, new_refs)：返回新参考下的噪声相关矩阵。
@@ -90,7 +90,7 @@ aq = 2 sqrt(Rp Rq)/D * bp + (conj(Zp)-Zq)/D * bq
 
 `analyze_linear()` 现在按所选外部端口顺序记录实际参考阻抗，并从这些参考转换到可选 output_references；S 与噪声同步转换。逐频率构建回调可以提供不同的局部参考。未使用新方法的既有网络行为不变。
 
-`tests/mixed_reference_network_test.cpp` 覆盖四端口独立物理 Z 方程、连接电压电流与净功率守恒、先重归一化再接线的独立对照、非互易器件、复失配源/负载、双端激励、理想直通的奇异 Z、同复/共轭/不同实参考、无源热平衡和噪声分项、输出端口重排、线性分析参考标注及失败输入。C++ 安装消费者实际调用新接口。
+`tests/linear/mixed_reference_network_test.cpp` 覆盖四端口独立物理 Z 方程、连接电压电流与净功率守恒、先重归一化再接线的独立对照、非互易器件、复失配源/负载、双端激励、理想直通的奇异 Z、同复/共轭/不同实参考、无源热平衡和噪声分项、输出端口重排、线性分析参考标注及失败输入。C++ 安装消费者实际调用新接口。
 
 这是 A05 的原生物理接线实现，后续跨语言接口见下一节。SystemVue ZPORT/CS 对照、通用器件 DC 偏置和线性化仍待完成，不能据此关闭 A05。
 

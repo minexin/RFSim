@@ -1,8 +1,8 @@
 # Developer reference replay only. Nothing in this file is installed/exported.
 find_package(Python3 3.9 COMPONENTS Interpreter REQUIRED)
-add_executable(rfmodel_reference_highorder_probe tests/reference_highorder_probe.cpp)
+add_executable(rfmodel_reference_highorder_probe tests/reference/reference_highorder_probe.cpp)
 target_link_libraries(rfmodel_reference_highorder_probe PRIVATE RFModel::rfmodel)
-add_executable(rfmodel_reference_highorder_oracle tests/reference_highorder_oracle.cpp)
+add_executable(rfmodel_reference_highorder_oracle tests/reference/reference_highorder_oracle.cpp)
 target_link_libraries(rfmodel_reference_highorder_oracle PRIVATE RFModel::rfmodel)
 set_target_properties(rfmodel_reference_highorder_probe rfmodel_reference_highorder_oracle
     PROPERTIES CXX_EXTENSIONS OFF)
@@ -34,8 +34,9 @@ file(GLOB_RECURSE reference_sources CONFIGURE_DEPENDS RELATIVE "${CMAKE_CURRENT_
     "${CMAKE_CURRENT_SOURCE_DIR}/include/rfmodel/*.hpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/scripts/reference/*.py")
 list(APPEND reference_sources CMakeLists.txt cmake/NativeReferenceReplay.cmake
-    tests/reference_highorder_probe.cpp tests/reference_highorder_oracle.cpp
-    tests/check_native_replay_install.cmake tests/reference_consumer/CMakeLists.txt)
+    cmake/RFModelHeaders.cmake cmake/RFModelTests.cmake cmake/RFModelExamples.cmake
+    tests/reference/reference_highorder_probe.cpp tests/reference/reference_highorder_oracle.cpp
+    tests/cmake/check_native_replay_install.cmake tests/reference_consumer/CMakeLists.txt)
 list(SORT reference_sources)
 set(reference_files "")
 set(reference_content "")
@@ -100,5 +101,5 @@ add_test(NAME native_replay_installed_sdk COMMAND "${CMAKE_COMMAND}"
     "-DGENERATOR=${CMAKE_GENERATOR}" "-DCOMPILER=${CMAKE_CXX_COMPILER}"
     "-DCONFIG=$<CONFIG>" "-DPYTHON=${Python3_EXECUTABLE}"
     "-DSOURCE_REVISION=${reference_revision}"
-    -P "${CMAKE_CURRENT_SOURCE_DIR}/tests/check_native_replay_install.cmake")
+    -P "${CMAKE_CURRENT_SOURCE_DIR}/tests/cmake/check_native_replay_install.cmake")
 set_tests_properties(native_replay_installed_sdk PROPERTIES TIMEOUT 300)

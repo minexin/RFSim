@@ -1,6 +1,6 @@
 # 理想功分/合路器和正交耦合器
 
-`rfmodel/multiport_devices.hpp` 提供三个实现 `RFDeviceModel` 和
+`rfmodel/models/multiport_devices.hpp` 提供三个实现 `RFDeviceModel` 和
 `SParameterProvider` 的多端口器件。矩阵可直接交给 `LinearNetwork`，支持带反射负载的
 任意网络连接；热噪声由已有 `passive_thermal_noise(s, temperature_k)` 显式组合。
 所有端口采用同一个正实数参考阻抗，频率为非负有限 Hz。

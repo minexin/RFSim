@@ -1,4 +1,4 @@
-#include <rfmodel/frequency_dependent_cable.hpp>
+#include <rfmodel/models/frequency_dependent_cable.hpp>
 #include <cmath>
 #include <stdexcept>
 

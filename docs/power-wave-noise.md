@@ -21,7 +21,7 @@ GammaOpt 使用上述源端定义。它与器件 b/a 的反射系数公式不同
 
 ## 接口
 
-C++ 头文件 include/rfmodel/power_wave_noise.hpp：
+C++ 头文件 include/rfmodel/noise/power_wave_noise.hpp：
 
 - power_wave_noise_figure_db(s, noise, references, source_impedance_ohms, temperature_k)
 - extract_power_wave_noise_parameters(s, noise, references, temperature_k)

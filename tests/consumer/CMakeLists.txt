@@ -33,11 +33,11 @@ if(TARGET RFModel::c_api)
 endif()
 
 # Compile the complete import contract against installed headers, not source includes.
-add_executable(touchstone_two_consumer ../touchstone_two_test.cpp)
+add_executable(touchstone_two_consumer ../io/touchstone_two_test.cpp)
 target_link_libraries(touchstone_two_consumer PRIVATE RFModel::rfmodel)
 add_test(NAME installed_touchstone_two_consumer COMMAND touchstone_two_consumer)
 if(TARGET RFModel::c_api)
-    add_executable(touchstone_two_c_consumer ../touchstone_two_c_test.c)
+    add_executable(touchstone_two_c_consumer ../api/touchstone_two_c_test.c)
     target_link_libraries(touchstone_two_c_consumer PRIVATE RFModel::c_api)
     if(UNIX)
         target_link_libraries(touchstone_two_c_consumer PRIVATE m)
@@ -57,3 +57,7 @@ add_test(NAME installed_frequency_dependent_cable_consumer COMMAND frequency_dep
 add_executable(simulation_tasks_consumer simulation_tasks.cpp simulation_tasks_probe.cpp)
 target_link_libraries(simulation_tasks_consumer PRIVATE RFModel::rfmodel)
 add_test(NAME installed_simulation_tasks_consumer COMMAND simulation_tasks_consumer)
+
+add_executable(legacy_headers_consumer legacy_headers.cpp)
+target_link_libraries(legacy_headers_consumer PRIVATE RFModel::rfmodel)
+add_test(NAME installed_legacy_headers_consumer COMMAND legacy_headers_consumer)

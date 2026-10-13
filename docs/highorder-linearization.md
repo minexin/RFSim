@@ -55,7 +55,7 @@ B_generated[i,j] = s*Bh[i,j] + (Ds/2)*T_i*u_j
 ## C++ 接口
 
 ```cpp
-#include <rfmodel/highorder_linearization.hpp>
+#include <rfmodel/conversion/highorder_linearization.hpp>
 using namespace rfmodel;
 
 const CoherentHighOrderAmplifier amplifier(20., 20., 23., {0., .1});

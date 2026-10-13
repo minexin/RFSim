@@ -1,6 +1,6 @@
 # 线性链路噪声接口
 
-`rfmodel/linear_path_noise.hpp` 提供单频点 `analyze_linear_path_noise`，输入按连接顺序
+`rfmodel/noise/linear_path_noise.hpp` 提供单频点 `analyze_linear_path_noise`，输入按连接顺序
 排列的 LinearPathStage 和对应 NoiseCorrelation。各级为双端口，共用同一正实参考阻抗；
 器件之间噪声独立，但每个器件的两个噪声波允许相关。完整网络求解保留双向传输和反射。
 
@@ -9,7 +9,7 @@
 改变这一标准化噪声因子。无信号传输或完全反射负载时噪声因子为空，而非伪造有限值。
 
 ```cpp
-#include <rfmodel/linear_path_noise.hpp>
+#include <rfmodel/noise/linear_path_noise.hpp>
 
 const rfmodel::SMatrix pad{2, {0., 0.5, 0.5, 0.}};
 const auto covariance = rfmodel::passive_thermal_noise(pad, 290.);

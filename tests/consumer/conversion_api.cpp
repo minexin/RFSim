@@ -1,7 +1,7 @@
 // Standalone C++17 SDK consumer. Link only to RFModel::rfmodel.
 // No private headers, test helpers, C ABI, JSON, or Python are required.
-#include <rfmodel/conversion_network.hpp>
-#include <rfmodel/conversion_power_wave.hpp>
+#include <rfmodel/conversion/conversion_network.hpp>
+#include <rfmodel/conversion/conversion_power_wave.hpp>
 
 #include <array>
 #include <cmath>

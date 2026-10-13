@@ -32,7 +32,7 @@
 
 ## C++、C 和 Python
 
-公开头文件为 `rfmodel/coherent_highorder_amplifier.hpp`。C++ 提供
+公开头文件为 `rfmodel/coherent/coherent_highorder_amplifier.hpp`。C++ 提供
 `operating_point(total_input_power_w)` 与
 `evaluate(spacing_hz, inputs, reserved_group_max, propagate_distortion)`。
 

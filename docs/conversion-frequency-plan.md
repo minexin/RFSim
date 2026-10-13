@@ -8,7 +8,7 @@
 
 ## 规则和接线
 
-头文件为 `rfmodel/conversion_frequency_plan.hpp`。每个 `ConversionFrequencyDevice` 声明物理 `ports`、本地 `seeds` 和若干类型明确的规则：
+头文件为 `rfmodel/conversion/conversion_frequency_plan.hpp`。每个 `ConversionFrequencyDevice` 声明物理 `ports`、本地 `seeds` 和若干类型明确的规则：
 
 | 规则 | 输出频率集合 |
 |---|---|
@@ -25,7 +25,7 @@
 ## 用法
 
 ```cpp
-#include <rfmodel/conversion_frequency_plan.hpp>
+#include <rfmodel/conversion/conversion_frequency_plan.hpp>
 using namespace rfmodel;
 std::vector<ConversionFrequencyDevice> description{
     {{0, 1}, {{0, 3}, {0, 2}}, linear_frequency_rules({0, 1})},

@@ -29,8 +29,8 @@ target_link_libraries(my_rf_application PRIVATE RFModel::rfmodel)
 ## 最小函数调用
 
 ```cpp
-#include <rfmodel/conversion_network.hpp>
-#include <rfmodel/conversion_power_wave.hpp>
+#include <rfmodel/conversion/conversion_network.hpp>
+#include <rfmodel/conversion/conversion_power_wave.hpp>
 #include <iostream>
 
 int main() {
@@ -83,7 +83,7 @@ ctest --test-dir build-native -C Debug --output-on-failure
 - `network.hpp`：`LinearNetwork`，连接及等效 S；`frequency_conversion.hpp` / `conversion_network.hpp`：`FrequencyConversionModel`、`FrequencyConversionNetwork` 和完整 C/P 结果。
 - `conversion_power_wave.hpp`：模型、仿射偏置、内生噪声和源/负载边界的功率波参考变换。仅声明新参考不会自动保留旧物理边界。
 - `conversion_operating_point.hpp`：`solve_conversion_operating_point` 保留公共实参考契约；[solve_conversion_operating_point_power_waves](conversion-operating-point-power-wave.md) 支持逐通道复参考。两者均返回收敛点的波、原坐标 Jacobian、偏置和噪声。
-- `optimization.hpp`：`minimize_bounded`；`monte_carlo.hpp`：`run_monte_carlo`。完整无 Python 例子是 [LC 匹配](../examples/optimize_lc_match.cpp)和[容差分析](../examples/monte_carlo_resistor.cpp)。
+- `optimization.hpp`：`minimize_bounded`；`monte_carlo.hpp`：`run_monte_carlo`。完整无 Python 例子是 [LC 匹配](../examples/analysis/optimize_lc_match.cpp)和[容差分析](../examples/analysis/monte_carlo_resistor.cpp)。
 
 频率 Hz、阻抗 Ω、功率 W、噪声 C/P 为 W/Hz；RF 采用 RMS 功率波，幅度为 sqrt(W)，DC 保留实自由度。`SMatrix.values` 按行优先存储。dBm 是显示或明示参数单位，不能与 W 混用。
 
@@ -98,3 +98,5 @@ ctest --test-dir build-native -C Debug --output-on-failure
 新入口 `CoherentSystem`、`ConversionGrid`、`analyze_conversion_simulation`、`run_optimization_task` 和 `run_monte_carlo_task` 已迁移原 Python 图、频率映射及任务装配职责。旧 JSON 文件分发不再交付。详细类型、所有权、回调、单位和预算见 [仿真编排 API](cpp-simulation-api.md)。
 
 [simulation_tasks_consumer](../tests/consumer/simulation_tasks.cpp) 在两个翻译单元中从安装后的 SDK 调用全部新增入口。验证结果见 [接口退役记录](python-interface-retirement.md)，历史跨平台记录不替代本次验收。
+
+公共头文件已按模块划分。新增调用使用 `<rfmodel/模块/文件.hpp>`；旧扁平路径由构建/安装阶段生成的兼容头继续支持，见[代码目录说明](repository-layout.md)。

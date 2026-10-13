@@ -52,11 +52,11 @@ RFModel 的数值内核已经是 C++17 header-only 库，交付 `RFModel::rfmode
 | 部分 | 当前依赖与责任 | C++ 优先时的处理 |
 |---|---|---|
 | `include/rfmodel/*.hpp`、`RFModel::rfmodel` | C++17 标准库；核心网络、转换、噪声、非线性局部模型、优化和 Monte Carlo | 主交付；无 Python 运行时依赖 |
-| `src/c_api.cpp`、`RFModel::c_api` | 包装 C++；共享库供 C 和 ctypes 使用；C 测试另需 C 编译器 | 可关构建；是否退役 C ABI 是独立决定，不能随 Python 自动删除 |
+| `src/api/c_api.cpp`、`RFModel::c_api` | 包装 C++；共享库供 C 和 ctypes 使用；C 测试另需 C 编译器 | 可关构建；是否退役 C ABI 是独立决定，不能随 Python 自动删除 |
 | `python/rfmodel/__init__.py` 等绑定 | 通过 ctypes 加载独立提供的原生库 | 保留现有兼容验证，停止新增包装层优先级 |
 | `python/rfmodel/*_file.py`、`expression_system.py` 等 | 解析、图级执行、调度、结果编码；部分行为仅在此层实现 | 先盘点行为，不能当成纯粹的序列化胶水 |
 | `python -m rfmodel` | `__main__.py` 分派九种分析和优化/Monte Carlo 任务；保护输入/库/Touchstone 路径 | 属于 Python 产品 CLI；C++ API 不自动提供它的替代品 |
-| `src/rfmodel_cli.cpp` / `rfmodel_cli` | 原生 Touchstone 单模型 S 参数 CSV 导出 | 与 Python CLI 不同；无网络 JSON、转换噪声或通用任务输入能力 |
+| `src/cli/rfmodel_cli.cpp` / `rfmodel_cli` | 原生 Touchstone 单模型 S 参数 CSV 导出 | 与 Python CLI 不同；无网络 JSON、转换噪声或通用任务输入能力 |
 | 四个原生示例 | 混合参考转换、LC 匹配、独立/相关电阻容差，输出 JSON | JSON 输出不代表具有通用 JSON 输入解析器 |
 | `scripts/verify-*-example.py` | 读取原生示例 JSON、检查解析物理公式、重放及损坏样本 | 可继续作开发验证工具；不需要作为 SDK 运行时依赖 |
 | `scripts/reference/` | 77 个 Python 文件、6 个 PowerShell 文件；厂商元数据、采集、诊断、比较及其测试 | 保留；其中部分比较器依赖 Python 包，应另行适配原生探针 |

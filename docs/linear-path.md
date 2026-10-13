@@ -1,6 +1,6 @@
 # 多级线性链路功率预算
 
-`analyze_linear_path`（`include/rfmodel/linear_path.hpp`）在一个频率点连接有序二端口列表，求解完整双向网络，再从各端口入射/出射波计算功率。有限 S12、级间失配以及源/负载反射会同时影响所有级；不采用单向增益连乘近似。
+`analyze_linear_path`（`include/rfmodel/linear/linear_path.hpp`）在一个频率点连接有序二端口列表，求解完整双向网络，再从各端口入射/出射波计算功率。有限 S12、级间失配以及源/负载反射会同时影响所有级；不采用单向增益连乘近似。
 
 ## 输入与结果
 

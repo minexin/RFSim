@@ -11,7 +11,7 @@
 
 ## 独立物理基准
 
-[物理回归](../tests/conversion_operating_point_power_wave_test.cpp)直接从 V/I 定义构造
+[物理回归](../tests/conversion/conversion_operating_point_power_wave_test.cpp)直接从 V/I 定义构造
 20 Ω 串联电阻、30 Ω Thevenin 源和双频受控电流器件：
 
 ```text
@@ -42,7 +42,7 @@ V2 = 0.028 - 0.096j V
 
 ## 契约与负向回归
 
-[契约回归](../tests/conversion_operating_point_power_wave_contract_test.cpp)通过 64 个拒绝用例，
+[契约回归](../tests/conversion/conversion_operating_point_power_wave_contract_test.cpp)通过 64 个拒绝用例，
 覆盖完整回调参考向量（含仅第二项的虚部不同）、通道顺序/端口/频点/步长、维度、非有限数、
 实 DC、边界与 C/P、额外源噪声、重复/缺失接线、初值、选项、奇异 Jacobian、迭代上限与回溯失败。
 检查非法输入在回调之前拒绝，以及失败不改变调用方设备、偏置和额外噪声。

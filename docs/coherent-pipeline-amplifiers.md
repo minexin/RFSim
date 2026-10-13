@@ -2,7 +2,7 @@
 
 > 接口更新（2026-10-13）：Python 产品包、wheel 和 Python/JSON CLI 已退役。本页涉及这些入口的命令与验证属于历史记录；当前 C++ 入口及迁移范围见 [退役记录](python-interface-retirement.md)。保留的物理结论与厂商差异不因退役而改变。
 
-`<rfmodel/coherent_pipeline.hpp>` 在有界的 C++17 前馈管线中提供两个模型适配器。
+`<rfmodel/coherent/coherent_pipeline.hpp>` 在有界的 C++17 前馈管线中提供两个模型适配器。
 只需安装后的 `RFModel::rfmodel`，不依赖 C ABI、Python 或 JSON。数值仍来自现有
 `CoherentLimitedAmplifier`、`CoherentHighOrderAmplifier` 和 `CoherentPolynomial`；
 这里新增的是共同驱动、流局部来源历史和物理身份的组合，不改变增益或系数公式。
@@ -25,7 +25,7 @@ AmplifierResult highorder_amplifier(
 例如两个限幅级，再接显式高阶级：
 
 ```cpp
-#include <rfmodel/coherent_pipeline.hpp>
+#include <rfmodel/coherent/coherent_pipeline.hpp>
 
 rfmodel::CoherentPipeline pipeline(1e8, 50., 2);
 const auto input = pipeline.seed({
@@ -136,10 +136,10 @@ A²、-2A²、A² 三条非零历史，随后再次相消。已归一化的精�
 下保持启用。安装后移动整个前缀，再仅通过 `RFModel::rfmodel` 编译和运行；
 见 [SDK 安装命令](cpp-sdk.md)。这不等于新的跨平台或 SystemVue 验收记录。
 
-直接原生的[独立物理回归](../tests/coherent_pipeline_amplifier_test.cpp)及
-[资源/事务边界回归](../tests/coherent_pipeline_amplifier_limits_test.cpp)分别验证数值历史
+直接原生的[独立物理回归](../tests/coherent/coherent_pipeline_amplifier_test.cpp)及
+[资源/事务边界回归](../tests/coherent/coherent_pipeline_amplifier_limits_test.cpp)分别验证数值历史
 和失败不提交契约；安装消费者补充实际公开 SDK 的构建、链接及组合调用覆盖。
-另有[分配失败回归](../tests/coherent_pipeline_allocation_test.cpp)，对 `polynomial`、
+另有[分配失败回归](../tests/coherent/coherent_pipeline_allocation_test.cpp)，对 `polynomial`、
 两个放大器的每个分配边界注入失败，检查旧快照、usage 和后续确定性恢复。
 这些检查在 Debug/Release 都执行，并关闭可选 NRVO，保留返回值构造期间的失败覆盖。
 

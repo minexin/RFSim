@@ -2,7 +2,7 @@
 
 > 接口更新（2026-10-13）：Python 产品包、wheel 和 Python/JSON CLI 已退役。本页涉及这些入口的命令与验证属于历史记录；当前 C++ 入口及迁移范围见 [退役记录](python-interface-retirement.md)。保留的物理结论与厂商差异不因退役而改变。
 
-`<rfmodel/frequency_dependent_cable.hpp>` 提供 RFModel 自定义的非磁性同轴电缆工程近似：
+`<rfmodel/models/frequency_dependent_cable.hpp>` 提供 RFModel 自定义的非磁性同轴电缆工程近似：
 常数正实特性阻抗、由相对介电常数给出的恒定传播延迟，以及平方根频率项和线性频率项
 组成的单程传播损耗。它计算完整、互易、有失配的二端口复数 S 参数。
 此接口为 header-only C++17，链接目标为 `RFModel::rfmodel`，不增加 C ABI、Python 或
@@ -11,8 +11,8 @@ JSON/CLI 器件入口。
 ## 参数和入口
 
 ```cpp
-#include <rfmodel/frequency_dependent_cable.hpp>
-#include <rfmodel/noise_matrix.hpp>
+#include <rfmodel/models/frequency_dependent_cable.hpp>
+#include <rfmodel/noise/noise_matrix.hpp>
 
 rfmodel::FrequencyDependentCableParameters p;
 p.length_m = 2.5;
@@ -112,7 +112,7 @@ S21 = S12 = (1-r*r)*p / (1-r*r*p*p)
 
 ## 可运行的频率扫描和安装消费测试
 
-`examples/frequency_dependent_cable.cpp` 在 0、1 MHz、100 MHz、1 GHz、2.5 GHz 和 6 GHz
+`examples/linear/frequency_dependent_cable.cpp` 在 0、1 MHz、100 MHz、1 GHz、2.5 GHz 和 6 GHz
 输出 CSV。示例使用 2.5 m、εr = 2.25、75 Ω 特性阻抗、60 Ω 端口参考阻抗、2 GHz
 系数参考频率和两种非零损耗贡献，输出传播损耗及全部四个 S 参数的实部与虚部。
 可选 `--noise` 在每个频点显式增加 290 K 和完整复数噪声相关矩阵。

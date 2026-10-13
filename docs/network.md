@@ -1,6 +1,6 @@
 # 线性网络求解 API
 
-`rfmodel/network.hpp` 的 `LinearNetwork` 接收单频 S 矩阵块。`add` 返回块的全局首端口编号；`connect(p,q)` 连接两个端口；`terminate(p,gamma,source)` 设置边界 `a[p]=source+gamma*b[p]`。未连接端口必须显式终端化。
+`rfmodel/linear/network.hpp` 的 `LinearNetwork` 接收单频 S 矩阵块。`add` 返回块的全局首端口编号；`connect(p,q)` 连接两个端口；`terminate(p,gamma,source)` 设置边界 `a[p]=source+gamma*b[p]`。未连接端口必须显式终端化。
 
 每块满足 `b=S*a`，连接矩阵与激励满足 `a=C*b+e`，因此求解 `(I-C*S)*a=e`。内部组装块对角 S 矩阵，使用带部分选主元的复数高斯消元，返回全部入射波、出射波和归一化残差。阈值检查拒绝奇异或数值上难以可靠求解的网络。
 

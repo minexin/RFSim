@@ -1,6 +1,6 @@
 // Installed public headers only. This file and coherent_pipeline_probe.cpp
 // deliberately instantiate the same inline API in separate translation units.
-#include <rfmodel/coherent_pipeline.hpp>
+#include <rfmodel/coherent/coherent_pipeline.hpp>
 #include <cmath>
 #include <complex>
 #include <iostream>

@@ -51,3 +51,5 @@
 MSVC 19.44 / C++17：Debug 和 Release 完整 CTest 各 **126/126**，包含 C ABI、原生 CLI 与七项显式开发参考重放；重定位纯 C++ 安装包消费者各 **7/7**。十个独立开发脚本套件全部通过。四个新增公共头文件单独以 `/permissive- /W4 /WX /Zs` 编译通过；204 个 C/C++ 文件格式检查通过。
 
 首轮 Debug 有两项归档哈希失败，定位为旧本地检出残留 CRLF；恢复 Git 提交原始字节后通过，未改预期哈希或数据判定。三平台远程 CI 状态以关联提交的工作流结果为准，本机证据不替代远程结果。
+
+提交 `727db06` 的[三平台 CI](https://github.com/minexin/RFSim/actions/runs/38384762960) 已完成：Windows、Ubuntu、macOS 的 Debug/Release，核心、纯 C++ SDK 和原生参考重放共 **18/18** 个作业成功。此结果绑定该功能迁移提交；后续目录调整另行验证。

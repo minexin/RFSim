@@ -31,7 +31,7 @@ kind 支持 source、harmonic、intermod；不把随机噪声伪装成确定性�
 
 ## 公共接口
 
-C++ 头文件 rfmodel/coherence.hpp：
+C++ 头文件 rfmodel/coherent/coherence.hpp：
 
     auto result = rfmodel::reduce_coherent_components(spacing_hz, components);
 

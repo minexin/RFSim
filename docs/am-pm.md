@@ -38,8 +38,8 @@ Bnew_i = Az*B_i + Bz*conj(A_i)
 这一组合保留 AM 到 PM 的扰动耦合。仅给旧 A/B 乘一个固定相位，会遗漏功率扰动引起的相位变化。通用工作点求解器据组合后的真实 F、A、B 生成仿射偏置，再传播 C/P 噪声。网络固定出射偏置在器件回调之后加入，不受本适配旋转；器件内禀噪声仍需调用者明确指定其注入参考面。
 
 ```cpp
-#include <rfmodel/am_pm_linearization.hpp>
-#include <rfmodel/amplifier_linearization.hpp>
+#include <rfmodel/conversion/am_pm_linearization.hpp>
+#include <rfmodel/conversion/amplifier_linearization.hpp>
 using namespace rfmodel;
 const SaturatingFundamentalCompression amplitude(20., 20., 23.);
 const LegacyPointDerivativeAmPm phase(-5., 10.);

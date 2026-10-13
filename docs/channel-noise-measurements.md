@@ -28,7 +28,7 @@ PSD 样本以 W/Hz 表示，非负且有限，频率严格递增。至少两个�
 
 ## C++ / C / Python
 
-C++ 头文件 rfmodel/channel_noise.hpp：
+C++ 头文件 rfmodel/noise/channel_noise.hpp：
 
 ~~~cpp
 auto result = rfmodel::measure_channel_noise(

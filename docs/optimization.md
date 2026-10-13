@@ -2,7 +2,7 @@
 
 > 接口更新（2026-10-13）：Python 产品包、wheel 和 Python/JSON CLI 已退役。本页涉及这些入口的命令与验证属于历史记录；当前 C++ 入口及迁移范围见 [退役记录](python-interface-retirement.md)。保留的物理结论与厂商差异不因退役而改变。
 
-A09 的第一项原生实现提供 `include/rfmodel/optimization.hpp` 中的 `minimize_bounded(parameters, objective, options, cancelled)`。目标是最小化调用者给定的一个有限实标量；可用它调用 RFModel 网络、噪声或器件原语并组合设计误差。现已提供 C ABI 和 Python 同步回调入口；现已增加参数绑定和通用 JSON 优化任务；另已提供[原生 Monte Carlo](monte-carlo.md)，已接入 C/Python 和声明式任务，SystemVue 对照尚未完成。
+A09 的第一项原生实现提供 `include/rfmodel/analysis/optimization.hpp` 中的 `minimize_bounded(parameters, objective, options, cancelled)`。目标是最小化调用者给定的一个有限实标量；可用它调用 RFModel 网络、噪声或器件原语并组合设计误差。现已提供 C ABI 和 Python 同步回调入口；现已增加参数绑定和通用 JSON 优化任务；另已提供[原生 Monte Carlo](monte-carlo.md)，已接入 C/Python 和声明式任务，SystemVue 对照尚未完成。
 
 ## 参数及约束
 
@@ -55,7 +55,7 @@ OptimizationResult 包含最佳已评估 parameters/value、has_finite_point、s
 ## C++ 使用
 
 ~~~cpp
-#include <rfmodel/optimization.hpp>
+#include <rfmodel/analysis/optimization.hpp>
 rfmodel::OptimizationOptions options;
 options.target = 1e-12;
 auto result = rfmodel::minimize_bounded(
@@ -71,7 +71,7 @@ auto result = rfmodel::minimize_bounded(
 
 ## RF LC 匹配设计示例
 
-`examples/optimize_lc_match.cpp` 构建为 rfmodel_match_design，stdout 输出 `rfmodel.optimization-example` version=1 的设计输入、参数顺序、选项、目标值、停止原因和完整评估轨迹。这是固定可重跑案例的机读输出，不是通用优化任务输入格式。
+`examples/analysis/optimize_lc_match.cpp` 构建为 rfmodel_match_design，stdout 输出 `rfmodel.optimization-example` version=1 的设计输入、参数顺序、选项、目标值、停止原因和完整评估轨迹。这是固定可重跑案例的机读输出，不是通用优化任务输入格式。
 
 网络在 1 GHz 使用输入端并联电容 C、随后串联电感 L，将 25 Ω 负载接到 50 Ω 输入参考。目标函数逐次使用 IdealRLCModel 与 LinearNetwork 组网，最小化 |S11|²。L 在 [0.1 nH,30 nH]、C 在 [0.1 pF,100 pF] 以对数尺度搜索，初始值 2 nH、10 pF，目标 |S11|²≤1e-14。
 
