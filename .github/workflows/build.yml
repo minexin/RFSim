@@ -176,6 +176,11 @@ jobs:
             validation/am-pm-datapoints-order-observations-20261014.json \
             build-reference/am-pm-datapoints-order-replay.json \
             --capture-manifest validation/am-pm-datapoints-order-captures-20261014.json
+          python -I -S scripts/reference/report-am-pm-datapoints-allocation-study.py \
+            validation/am-pm-datapoints-allocation-plan-20261014.json \
+            validation/am-pm-datapoints-allocation-observations-20261014.json \
+            build-reference/am-pm-datapoints-allocation-replay.json \
+            --capture-manifest validation/am-pm-datapoints-allocation-captures-20261014.json
       - name: Preserve replay verification evidence
         if: always()
         uses: actions/upload-artifact@v7
@@ -189,6 +194,7 @@ jobs:
             build-reference/am-pm-datapoints-zero-replay.json
             build-reference/am-pm-datapoints-raw-axis-replay.json
             build-reference/am-pm-datapoints-order-replay.json
+            build-reference/am-pm-datapoints-allocation-replay.json
             build-reference/**/*.manifest.json
             build-reference/reference-installed-sdk/consumer-build/Testing/Temporary/LastTest.log
           if-no-files-found: warn

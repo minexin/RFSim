@@ -102,7 +102,10 @@ foreach(suite IN ITEMS archive_am_pm_datapoints_zero_study
         prepare_am_pm_datapoints_raw_axis_study diagnose_am_pm_datapoints_raw_axis_study
         archive_am_pm_datapoints_raw_axis_acquisition report_am_pm_datapoints_raw_axis_study
         prepare_am_pm_datapoints_order_study diagnose_am_pm_datapoints_order_study
-        archive_am_pm_datapoints_order_acquisition report_am_pm_datapoints_order_study)
+        archive_am_pm_datapoints_order_acquisition report_am_pm_datapoints_order_study
+        prepare_am_pm_datapoints_allocation_study normalize_am_pm_datapoints_allocation
+        diagnose_am_pm_datapoints_allocation_study archive_am_pm_datapoints_allocation_acquisition
+        report_am_pm_datapoints_allocation_study)
     add_test(NAME native_${suite} COMMAND "${Python3_EXECUTABLE}" -I -S
         "${CMAKE_CURRENT_SOURCE_DIR}/scripts/reference/test_${suite}.py")
     set_tests_properties(native_${suite} PROPERTIES TIMEOUT 180)

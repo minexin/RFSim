@@ -33,6 +33,7 @@ ctest --test-dir build -C Release --output-on-failure
 - [DataPoints 零 dBm 判别](docs/systemvue-am-pm-datapoints-zero-study.md)：七组、387 个登记扫描点支持零位置异常；DCP 同功率异相位反例保留，完整表格算法尚未闭合。
 - [DataPoints 普通原始功率轴](docs/systemvue-am-pm-datapoints-raw-axis-study.md)：十个新点中原始功率样条通过九点；−0.000001 dBm 零相移反例否定“仅名义零旁路”，四个冻结候选均未全部通过。
 - [DataPoints 顺序复现](docs/systemvue-am-pm-datapoints-order-study.md)：两个相反顺序下五个普通目标均复现；±0.00001 dBm 两个新增目标通过原始功率样条，但近零旁路规则与完整兼容仍未闭合。
+- [DataPoints 增益与源功率分配](docs/systemvue-am-pm-datapoints-allocation-study.md)：改变增益后，输出离散模式通过八个新配置，输入离散模式仅通过两个；有限结果未确定内部坐标、旁路边界或产品导数契约。
 
 工程回归和独立物理参考不等于厂商验收。已有 SystemVue 采集中的失败、缺项与 diagnostic-only 结论继续保留；本次接口迁移不改变其判定。旧文档中的 Python/JSON 示例属于历史接口，当前集成请使用上述 C++ 指南。
 
