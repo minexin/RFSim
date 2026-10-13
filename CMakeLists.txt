@@ -403,13 +403,26 @@ add_test(NAME coherent_pipeline_amplifier_test COMMAND coherent_pipeline_amplifi
 add_executable(coherent_pipeline_amplifier_limits_test tests/coherent_pipeline_amplifier_limits_test.cpp)
 target_link_libraries(coherent_pipeline_amplifier_limits_test PRIVATE RFModel::rfmodel)
 add_test(NAME coherent_pipeline_amplifier_limits_test COMMAND coherent_pipeline_amplifier_limits_test)
-set_tests_properties(coherent_pipeline_amplifier_limits_test PROPERTIES TIMEOUT 300)
-# This exception-safety test must not rely on optional named-return-value elision.
-if(MSVC AND MSVC_VERSION GREATER_EQUAL 1934)
-    target_compile_options(coherent_pipeline_amplifier_limits_test PRIVATE /Zc:nrvo-)
-elseif(CMAKE_CXX_COMPILER_ID MATCHES "^(GNU|Clang|AppleClang)$")
-    target_compile_options(coherent_pipeline_amplifier_limits_test PRIVATE -fno-elide-constructors)
+add_executable(coherent_pipeline_allocation_test tests/coherent_pipeline_allocation_test.cpp)
+target_link_libraries(coherent_pipeline_allocation_test PRIVATE RFModel::rfmodel)
+add_test(NAME coherent_pipeline_allocation_test COMMAND coherent_pipeline_allocation_test)
+set_tests_properties(coherent_pipeline_amplifier_limits_test coherent_pipeline_allocation_test
+    PROPERTIES TIMEOUT 300)
+# MSVC checked iterators allocate proxies inside noexcept vector constructors.
+# Keep all ordinary Debug tests checked, and run every allocation-failure sweep
+# separately with the normal throwing-allocation contract. This single-TU target
+# links only the header-only SDK, so no STL ABI crosses a compiled-library boundary.
+if(MSVC)
+    target_compile_definitions(coherent_pipeline_allocation_test PRIVATE _ITERATOR_DEBUG_LEVEL=0)
 endif()
+# Exception-safety tests must not rely on optional named-return-value elision.
+foreach(target coherent_pipeline_amplifier_limits_test coherent_pipeline_allocation_test)
+    if(MSVC AND MSVC_VERSION GREATER_EQUAL 1934)
+        target_compile_options(${target} PRIVATE /Zc:nrvo-)
+    elseif(CMAKE_CXX_COMPILER_ID MATCHES "^(GNU|Clang|AppleClang)$")
+        target_compile_options(${target} PRIVATE -fno-elide-constructors)
+    endif()
+endforeach()
 add_executable(coherent_polynomial_test tests/coherent_polynomial_test.cpp)
 target_link_libraries(coherent_polynomial_test PRIVATE rfmodel)
 add_test(NAME coherent_polynomial_test COMMAND coherent_polynomial_test)

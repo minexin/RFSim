@@ -4,67 +4,11 @@
 #include <cstddef>
 #include <cstdint>
 #include <cstdio>
-#include <cstdlib>
 #include <exception>
 #include <limits>
-#include <new>
 #include <string>
 #include <tuple>
 #include <vector>
-
-// Exercise every allocation boundary, including the last allocation before the
-// stream commit. This executable is single-threaded and does not replace any
-// production allocator or expose pipeline internals.
-namespace allocation_failure {
-std::ptrdiff_t remaining = -1;
-std::ptrdiff_t allowance = -1;
-const char *phase = "startup";
-} // namespace allocation_failure
-
-// Keep replacement allocation/deallocation calls opaque to optimizers. In
-// particular, inlining a malloc-backed replacement delete makes GCC diagnose
-// legitimate matched new/delete pairs as mismatched malloc/free operations.
-#if defined(__GNUC__) || defined(__clang__)
-#define RFMODEL_TEST_NOINLINE __attribute__((noinline))
-#elif defined(_MSC_VER)
-#define RFMODEL_TEST_NOINLINE __declspec(noinline)
-#else
-#define RFMODEL_TEST_NOINLINE
-#endif
-RFMODEL_TEST_NOINLINE void *operator new(std::size_t size) {
-    if (allocation_failure::remaining == 0) {
-        throw std::bad_alloc();
-    }
-    if (allocation_failure::remaining > 0) {
-        --allocation_failure::remaining;
-    }
-    if (void *memory = std::malloc(size == 0 ? 1 : size)) {
-        return memory;
-    }
-    throw std::bad_alloc();
-}
-
-RFMODEL_TEST_NOINLINE void *operator new[](std::size_t size) {
-    return ::operator new(size);
-}
-
-RFMODEL_TEST_NOINLINE void operator delete(void *memory) noexcept {
-    std::free(memory);
-}
-
-RFMODEL_TEST_NOINLINE void operator delete[](void *memory) noexcept {
-    std::free(memory);
-}
-
-RFMODEL_TEST_NOINLINE void operator delete(void *memory, std::size_t) noexcept {
-    std::free(memory);
-}
-
-RFMODEL_TEST_NOINLINE void operator delete[](void *memory, std::size_t) noexcept {
-    std::free(memory);
-}
-
-#undef RFMODEL_TEST_NOINLINE
 
 using namespace rfmodel;
 
@@ -651,81 +595,9 @@ void context_and_cumulative_limits() {
     });
 }
 
-void allocation_failure_atomicity() {
-    const auto low_model = limited();
-    const auto high_model = highorder({1., 1.});
-    const std::vector<double> coefficients{0., 1., 1., 1.};
-    const char *names[]{
-        "polynomial allocation sweep", "limited allocation sweep", "high-order allocation sweep"};
-    for (int operation = 0; operation < 3; ++operation) {
-        allocation_failure::phase = names[operation];
-        const auto apply = [&](CoherentPipeline &pipeline, CoherentPipeline::Stream input) {
-            if (operation == 0) {
-                return pipeline.polynomial(input, coefficients, 2).output;
-            }
-            if (operation == 1) {
-                return pipeline.limited_amplifier(input, low_model).output;
-            }
-            return pipeline.highorder_amplifier(input, high_model, 2).output;
-        };
-        CoherentPipeline control(1e8, 50., 2);
-        const auto control_input = control.seed({source()});
-        const auto expected = apply(control, control_input);
-        std::size_t failures = 0;
-        for (std::ptrdiff_t allowance = 0;; ++allowance) {
-            CoherentPipeline pipeline(1e8, 50., 2);
-            const auto input = pipeline.seed({source()});
-            const auto usage = pipeline.usage();
-            const auto *address = &pipeline.inspect(input);
-            const auto saved = *address;
-            bool failed = false;
-            allocation_failure::allowance = allowance;
-            allocation_failure::remaining = allowance;
-            try {
-                apply(pipeline, input);
-            } catch (const std::bad_alloc &) {
-                failed = true;
-            } catch (...) {
-                allocation_failure::remaining = -1;
-                throw;
-            }
-            allocation_failure::remaining = -1;
-            if (!failed) {
-                require(same_usage(pipeline.usage(), control.usage()),
-                        "successful injected operation committed wrong usage");
-                break;
-            }
-            ++failures;
-            require(same_usage(usage, pipeline.usage()), "allocation failure committed usage");
-            require(address == &pipeline.inspect(input), "allocation failure moved input snapshot");
-            same_snapshot(saved, pipeline.inspect(input));
-            // This also proves that the mutation guard reset and no temporary
-            // source, history, identity or group allocation escaped the failure.
-            const auto recovered = apply(pipeline, input);
-            same_snapshot(pipeline.inspect(recovered), control.inspect(expected));
-            require(same_usage(pipeline.usage(), control.usage()),
-                    "allocation rollback changed subsequent deterministic allocation");
-        }
-        require(failures > 20, "allocation failure sweep did not reach nontrivial work");
-        std::fprintf(stderr, "%s: passed %zu allocation failures\n", names[operation], failures);
-    }
-}
-
 } // namespace
 
 int main() {
-    // Report failures rather than entering a platform CRT crash/report dialog.
-    // The handler uses no C++ allocation and remains usable inside a fault sweep.
-    std::set_terminate([]() noexcept {
-        std::fprintf(stderr,
-                     "terminate: %s, allocation allowance %td, remaining %td\n",
-                     allocation_failure::phase,
-                     allocation_failure::allowance,
-                     allocation_failure::remaining);
-        std::fflush(stderr);
-        std::_Exit(1);
-    });
-
     struct Case {
         const char *name;
         void (*run)();
@@ -738,22 +610,14 @@ int main() {
                        {"expanded/active limits", expanded_and_active_limits},
                        {"candidate/premerge/work limits", candidate_premerge_and_work_limits},
                        {"arithmetic/group rollback", arithmetic_and_group_rollback},
-                       {"context/cumulative limits", context_and_cumulative_limits},
-                       {"allocation failure atomicity", allocation_failure_atomicity}};
+                       {"context/cumulative limits", context_and_cumulative_limits}};
     for (const auto &test : cases) {
-        allocation_failure::phase = test.name;
-        allocation_failure::allowance = -1;
         std::fprintf(stderr, "RUN %s\n", test.name);
         std::fflush(stderr);
         try {
             test.run();
         } catch (const std::exception &error) {
-            allocation_failure::remaining = -1;
-            std::fprintf(stderr,
-                         "FAIL %s, allocation allowance %td: %s\n",
-                         allocation_failure::phase,
-                         allocation_failure::allowance,
-                         error.what());
+            std::fprintf(stderr, "FAIL %s: %s\n", test.name, error.what());
             return 1;
         }
         std::fprintf(stderr, "PASS %s\n", test.name);

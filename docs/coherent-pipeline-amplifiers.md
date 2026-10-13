@@ -137,6 +137,18 @@ A²、-2A²、A² 三条非零历史，随后再次相消。已归一化的精�
 直接原生的[独立物理回归](../tests/coherent_pipeline_amplifier_test.cpp)及
 [资源/事务边界回归](../tests/coherent_pipeline_amplifier_limits_test.cpp)分别验证数值历史
 和失败不提交契约；安装消费者补充实际公开 SDK 的构建、链接及组合调用覆盖。
+另有[分配失败回归](../tests/coherent_pipeline_allocation_test.cpp)，对 `polynomial`、
+两个放大器的每个分配边界注入失败，检查旧快照、usage 和后续确定性恢复。
+这些检查在 Debug/Release 都执行，并关闭可选 NRVO，保留返回值构造期间的失败覆盖。
+
+MSVC 的 checked-iterator 实现会在 `noexcept` 的 vector 默认/移动构造函数中
+分配调试代理；代理分配失败时由标准库直接终止进程，不能传播为可捕获的
+`std::bad_alloc`。因此只有独立、单翻译单元、仅链接 header-only SDK 的分配失败
+测试私有设置 `_ITERATOR_DEBUG_LEVEL=0`；Debug CRT、正常数值/资源测试的默认
+迭代器检查及公开 SDK 编译设置均不改变。仍注入全部可传播的分配失败，包括
+MSVC Release/level-0 map 移动时的哨兵分配，不按分配大小或序号跳过失败。
+强异常保证适用于传播回调用者的异常，不能令标准库内部的 `noexcept` 终止恢复执行。
+
 本地 Release 安装重定位的配置、源文件哈希和结果见
 [消费验证记录](../validation/coherent-pipeline-amplifier-consumer-validation-20261013.json)。
 
