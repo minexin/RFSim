@@ -1,5 +1,7 @@
 # SystemVue 不等功率双音交叉验证
 
+> 接口更新（2026-10-13）：Python 产品包、wheel 和 Python/JSON CLI 已退役。本页涉及这些入口的命令与验证属于历史记录；当前 C++ 入口及迁移范围见 [退役记录](python-interface-retirement.md)。保留的物理结论与厂商差异不因退役而改变。
+
 2026-10-08 使用本机 SystemVue 2023，沿用独立 RFAMP 专用副本与原采集接口。
 1.0/1.1 GHz CW 的输入功率分别受控，源相位均为 0。器件参数与
 [等功率双音](systemvue-two-tone.md) 相同：G=20 dB、NF=3 dB、

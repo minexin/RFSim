@@ -10,6 +10,7 @@
 #include <memory>
 #include <optional>
 #include <utility>
+#include <type_traits>
 
 namespace rfmodel {
 enum class AmplifierInputMode {
@@ -94,6 +95,11 @@ public:
     public:
         Stream(const Stream &) = default;
         Stream &operator=(const Stream &) = default;
+    };
+
+    struct MixerBranch {
+        Stream stream;
+        MixerDrive drive;
     };
 
     struct PortStream {
@@ -332,7 +338,12 @@ private:
         }
     }
 
-    PendingStore prepare_store(std::unique_ptr<State> work, std::vector<StreamRecord> records) {
+    std::unique_ptr<const StreamSnapshot> prepare_snapshot(State &state,
+                                                           std::vector<StreamRecord> records) {
+        State *work = &state;
+        if (work->usage.stream_count >= 4096) {
+            throw std::length_error("coherent pipeline stream limit exceeded");
+        }
         if (records.size() > 4096) {
             throw std::length_error("coherent pipeline physical record limit exceeded");
         }
@@ -389,6 +400,11 @@ private:
         ++work->usage.stream_count;
         work->usage.physical_root_count = work->physical.entries.size();
         work->usage.history_root_count = work->history.entries.size();
+        return snapshot;
+    }
+
+    PendingStore prepare_store(std::unique_ptr<State> work, std::vector<StreamRecord> records) {
+        auto snapshot = prepare_snapshot(*work, std::move(records));
         // Reserve the vector slot before constructing the result. No published
         // state or snapshot changes until PendingStore's nonthrowing destructor.
         streams_.push_back(nullptr);
@@ -604,17 +620,9 @@ public:
         return store(std::move(work), std::move(records));
     }
 
-    Stream mix(Stream input, const MixerDrive &lo) {
-        const Operation operation(active_);
-        const auto &snapshot = inspect(input);
-        source_group(lo.lo_coherence_group);
-        IdealRealMixer mixer("coherent pipeline mixer",
-                             lo.lo_bin,
-                             lo.conversion_gain_db,
-                             lo.lo_phase_radians,
-                             reference_);
-        mixer.transmit({spacing_, {}}); // Validate even an empty stream.
-        auto work = begin(*state_, true);
+private:
+    std::vector<StreamRecord>
+    mix_records(State &work, const StreamSnapshot &snapshot, const MixerDrive &lo) {
         std::vector<CoherentMixerInput> inputs;
         for (const auto &record : snapshot.records) {
             inputs.push_back({record.component,
@@ -623,28 +631,28 @@ public:
                               lo.lo_phase_radians,
                               lo.lo_coherence_group});
         }
-        const auto converted = mix_coherent_components(spacing_, inputs, work->highest_group);
+        const auto converted = mix_coherent_components(spacing_, inputs, work.highest_group);
         std::vector<StreamRecord> output;
         if (!inputs.empty()) {
             const auto root =
-                work->history.intern(lo.lo_coherence_group, lo.lo_bin, 0., RootRole::lo);
+                work.history.intern(lo.lo_coherence_group, lo.lo_bin, 0., RootRole::lo);
             const OriginExpression pump{{{{root, 1}}, std::polar(1., lo.lo_phase_radians)}};
             const Complex gain{std::pow(10., lo.conversion_gain_db / 20.), 0.};
             for (std::size_t i = 0; i < snapshot.records.size(); ++i) {
                 const auto &record = snapshot.records[i];
                 const auto pair =
                     std::make_pair(record.component.coherence_group, lo.lo_coherence_group);
-                auto found = work->mixed_groups.find(pair);
-                if (found == work->mixed_groups.end()) {
-                    found = work->mixed_groups.emplace(pair, allocate_group(*work)).first;
+                auto found = work.mixed_groups.find(pair);
+                if (found == work.mixed_groups.end()) {
+                    found = work.mixed_groups.emplace(pair, allocate_group(work)).first;
                 }
                 for (std::size_t side = 0; side < 2; ++side) {
                     auto component = converted[2 * i + side];
                     component.coherence_group = found->second;
-                    const auto physical = work->physical.intern(component.coherence_group,
-                                                                component.bin,
-                                                                component.bandwidth_hz,
-                                                                RootRole::mixed);
+                    const auto physical = work.physical.intern(component.coherence_group,
+                                                               component.bin,
+                                                               component.bandwidth_hz,
+                                                               RootRole::mixed);
                     const auto indices = side == 1 ? std::vector<int>{1, 2}
                                          : record.component.bin > lo.lo_bin
                                              ? std::vector<int>{1, -2}
@@ -655,7 +663,63 @@ public:
                 }
             }
         }
-        return store(std::move(work), std::move(output));
+        return output;
+    }
+
+public:
+    Stream mix(Stream input, const MixerDrive &lo) {
+        const Operation operation(active_);
+        const auto &snapshot = inspect(input);
+        source_group(lo.lo_coherence_group);
+        IdealRealMixer("coherent pipeline mixer",
+                       lo.lo_bin,
+                       lo.conversion_gain_db,
+                       lo.lo_phase_radians,
+                       reference_)
+            .transmit({spacing_, {}});
+        auto work = begin(*state_, true);
+        auto records = mix_records(*work, snapshot, lo);
+        return store(std::move(work), std::move(records));
+    }
+
+    // Shared coherence registry and a single transaction/operation for all branches.
+    std::vector<Stream> mixer_bank(const std::vector<MixerBranch> &branches) {
+        const Operation operation(active_);
+        if (branches.empty() || branches.size() > 2048 ||
+            branches.size() > 4096 - state_->usage.stream_count) {
+            throw std::length_error("invalid coherent mixer bank size");
+        }
+        std::size_t components = 0;
+        for (const auto &branch : branches) {
+            const auto &snapshot = inspect(branch.stream);
+            if (snapshot.records.size() > 2048 - components) {
+                throw std::length_error("coherent mixer bank component limit exceeded");
+            }
+            components += snapshot.records.size();
+            source_group(branch.drive.lo_coherence_group);
+            IdealRealMixer("coherent mixer bank",
+                           branch.drive.lo_bin,
+                           branch.drive.conversion_gain_db,
+                           branch.drive.lo_phase_radians,
+                           reference_)
+                .transmit({spacing_, {}});
+        }
+        auto work = begin(*state_, true);
+        std::vector<std::unique_ptr<const StreamSnapshot>> snapshots;
+        std::vector<Stream> result;
+        snapshots.reserve(branches.size());
+        result.reserve(branches.size());
+        for (const auto &branch : branches) {
+            snapshots.push_back(
+                prepare_snapshot(*work, mix_records(*work, inspect(branch.stream), branch.drive)));
+            result.push_back(Stream(owner_, streams_.size() + result.size()));
+        }
+        streams_.reserve(streams_.size() + snapshots.size());
+        for (auto &snapshot : snapshots) {
+            streams_.push_back(std::move(snapshot));
+        }
+        state_.swap(work);
+        return result;
     }
 
     Stream linear_network(const std::vector<PortStream> &inputs,
@@ -699,6 +763,75 @@ public:
             output.push_back(std::move(record));
         }
         return store(std::move(work), std::move(output));
+    }
+
+    // All outputs share one physical network evaluation per represented bin.
+    // The entire batch is published together after every snapshot and handle is
+    // constructed; failures leave usage, group registries and old handles intact.
+    std::vector<Stream> linear_network_outputs(const std::vector<PortStream> &inputs,
+                                               const std::vector<std::size_t> &external_ports,
+                                               const std::vector<std::size_t> &output_ports,
+                                               const NetworkBuilder &build) {
+        const Operation operation(active_);
+        if (inputs.size() > 4096 || output_ports.empty() || output_ports.size() > 1024 ||
+            output_ports.size() > 4096 - state_->usage.stream_count) {
+            throw std::length_error("coherent pipeline multi-output size limit exceeded");
+        }
+        if (!build || external_ports.empty() || external_ports.size() > 1024) {
+            throw std::invalid_argument("invalid coherent pipeline network ports/builder");
+        }
+        for (auto port : output_ports) {
+            if (std::find(external_ports.begin(), external_ports.end(), port) ==
+                external_ports.end()) {
+                throw std::invalid_argument("output must be a selected external port");
+            }
+        }
+        auto work = begin(*state_, true);
+        std::vector<PortCoherentComponent> incident;
+        std::map<std::uint64_t, StreamRecord> lookup;
+        for (const auto &input : inputs) {
+            const auto &snapshot = inspect(input.stream);
+            if (std::find(external_ports.begin(), external_ports.end(), input.input_port) ==
+                external_ports.end()) {
+                throw std::invalid_argument("input must be a selected external port");
+            }
+            auto flat = flatten(*work, snapshot.records);
+            if (flat.components.size() > 4096 - incident.size()) {
+                throw std::length_error("coherent pipeline expanded network limit exceeded");
+            }
+            for (const auto &component : flat.components) {
+                incident.push_back({input.input_port, component});
+            }
+            lookup.insert(std::make_move_iterator(flat.lookup.begin()),
+                          std::make_move_iterator(flat.lookup.end()));
+        }
+        if (!incident.empty() && output_ports.size() > 65536 / incident.size()) {
+            throw std::length_error("coherent pipeline multi-output contribution limit exceeded");
+        }
+        const auto transmitted = transmit_coherent_network_outputs(
+            spacing_, incident, external_ports, output_ports, reference_, build);
+        std::vector<std::unique_ptr<const StreamSnapshot>> snapshots;
+        std::vector<Stream> result;
+        snapshots.reserve(output_ports.size());
+        result.reserve(output_ports.size());
+        for (const auto &port : transmitted) {
+            std::vector<StreamRecord> records;
+            for (const auto &component : port.components) {
+                auto record = lookup.at(component.coherence_group);
+                record.history[0].amplitude = component.amplitude;
+                records.push_back(std::move(record));
+            }
+            snapshots.push_back(prepare_snapshot(*work, std::move(records)));
+            result.push_back(Stream(owner_, streams_.size() + result.size()));
+        }
+        streams_.reserve(streams_.size() + snapshots.size());
+        static_assert(std::is_nothrow_move_constructible_v<std::vector<Stream>>,
+                      "batch publication requires a nonthrowing result move");
+        for (auto &snapshot : snapshots) {
+            streams_.push_back(std::move(snapshot));
+        }
+        state_.swap(work);
+        return result;
     }
 
     PolynomialResult polynomial(Stream input,

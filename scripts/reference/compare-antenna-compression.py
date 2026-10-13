@@ -7,9 +7,8 @@ from pathlib import Path
 import sys
 
 ROOT = Path(__file__).resolve().parents[2]
-sys.path.insert(0, str(ROOT / "python"))
-from rfmodel import Library
-from rfmodel.spectrum_file import analyze_spectrum
+from retired_binding import Library
+from retired_binding import unavailable as analyze_spectrum
 
 NAMES = ("Source", "Attn1", "RFAmp1", "Attn2", "RFAmp2")
 RELATIVE_TOLERANCE = 1e-7

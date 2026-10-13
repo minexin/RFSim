@@ -1,5 +1,10 @@
 # RFModel 文档索引
 
+> 接口更新（2026-10-13）：Python 产品包、wheel 和 Python/JSON CLI 已退役。本页涉及这些入口的命令与验证属于历史记录；当前 C++ 入口及迁移范围见 [退役记录](python-interface-retirement.md)。保留的物理结论与厂商差异不因退役而改变。
+
+- [C++ SDK 安装](cpp-sdk.md)
+- [C++ 仿真编排 API](cpp-simulation-api.md)
+- [Python 产品接口退役与迁移记录](python-interface-retirement.md)
 - [M1 建设目标](m1-goal.md)
 - [总体架构](architecture.md)
 - [核心接口](api.md)

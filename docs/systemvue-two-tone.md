@@ -1,5 +1,7 @@
 # SystemVue 双音互调参考
 
+> 接口更新（2026-10-13）：Python 产品包、wheel 和 Python/JSON CLI 已退役。本页涉及这些入口的命令与验证属于历史记录；当前 C++ 入口及迁移范围见 [退役记录](python-interface-retirement.md)。保留的物理结论与厂商差异不因退役而改变。
+
 2026-09-30 用已安装的 SystemVue 2023、独立 RFAMP 专用副本采集等功率
 1.0/1.1 GHz CW。G=20 dB、NF=3 dB、OP1dB=20 dBm、OPSAT=23 dBm、
 OIP2=40 dBm、OIP3=30 dBm、RISO=100 dB，端口均为 50 ohm。

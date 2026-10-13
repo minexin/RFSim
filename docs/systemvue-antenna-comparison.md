@@ -1,5 +1,7 @@
 # 四级天线噪声链路首次后台对照
 
+> 接口更新（2026-10-13）：Python 产品包、wheel 和 Python/JSON CLI 已退役。本页涉及这些入口的命令与验证属于历史记录；当前 C++ 入口及迁移范围见 [退役记录](python-interface-retirement.md)。保留的物理结论与厂商差异不因退役而改变。
+
 参考为 SystemVue 2023 官方 `Noise/Antenna Noise Temperature.wsv` 的本地副本。
 2026-09-28 UTC 01:35:53.0314133–01:35:53.5159776，通过 Python 后台驱动调用
 COM 完成 System1 分析，错误列表为空，目标数据集时间戳通过运行区间校验。

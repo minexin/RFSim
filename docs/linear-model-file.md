@@ -1,5 +1,7 @@
 # 线性网络 JSON 文件 v1
 
+> 接口更新（2026-10-13）：Python 产品包、wheel 和 Python/JSON CLI 已退役。本页涉及这些入口的命令与验证属于历史记录；当前 C++ 入口及迁移范围见 [退役记录](python-interface-retirement.md)。保留的物理结论与厂商差异不因退役而改变。
+
 此格式将网络输入及频率样本保存在可重放文件中。Python 负责读取、校验及编排，
 数值求解和噪声传播全部调用 C++ 核心。可运行示例为 `examples/linear-noise.json`。
 

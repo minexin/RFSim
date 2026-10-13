@@ -9,18 +9,19 @@ struct PortCoherentComponent {
     CoherentComponent component;
 };
 
-// Matched external incident waves, observed outgoing wave at one external port.
+// Matched external incident waves, observed outgoing waves at selected ports.
 // Input/output ports are global network indices, not positions in external_ports.
 // The callback supplies the entire connected linear network at each frequency.
-inline CoherentReduction
-transmit_coherent_network(double spacing_hz,
-                          const std::vector<PortCoherentComponent> &input,
-                          const std::vector<std::size_t> &external_ports,
-                          std::size_t output_port,
-                          double reference_ohms,
-                          const std::function<LinearNetwork(double)> &build) {
+inline std::vector<CoherentReduction>
+transmit_coherent_network_outputs(double spacing_hz,
+                                  const std::vector<PortCoherentComponent> &input,
+                                  const std::vector<std::size_t> &external_ports,
+                                  const std::vector<std::size_t> &output_ports,
+                                  double reference_ohms,
+                                  const std::function<LinearNetwork(double)> &build) {
     if (!build || input.size() > 4096 || external_ports.empty() || external_ports.size() > 1024 ||
-        !std::isfinite(reference_ohms) || reference_ohms <= 0) {
+        output_ports.empty() || output_ports.size() > 1024 || !std::isfinite(reference_ohms) ||
+        reference_ohms <= 0) {
         throw std::invalid_argument("invalid coherent network request");
     }
     // Validate the grid even when there are no incident components.
@@ -31,9 +32,13 @@ transmit_coherent_network(double spacing_hz,
             throw std::invalid_argument("duplicate coherent network external port");
         }
     }
-    const auto output = columns.find(output_port);
-    if (output == columns.end()) {
-        throw std::invalid_argument("output must be a selected external port");
+    std::vector<std::size_t> rows;
+    for (const auto port : output_ports) {
+        const auto output = columns.find(port);
+        if (output == columns.end()) {
+            throw std::invalid_argument("output must be a selected external port");
+        }
+        rows.push_back(output->second);
     }
     std::map<std::size_t, std::vector<CoherentComponent>> by_port;
     for (const auto &value : input) {
@@ -63,18 +68,39 @@ transmit_coherent_network(double spacing_hz,
     if (by_bin.empty()) {
         matrix_at(0.);
     }
-    std::vector<CoherentComponent> transmitted;
+    std::vector<std::vector<CoherentComponent>> transmitted(rows.size());
     for (const auto &entry : by_bin) {
         const auto matrix = matrix_at(entry.first * spacing_hz);
         for (const auto &incident : entry.second) {
-            auto component = incident.component;
-            component.amplitude *= matrix(output->second, columns.at(incident.input_port));
-            if (!std::isfinite(std::norm(component.amplitude))) {
-                throw std::overflow_error("coherent network component power overflow");
+            for (std::size_t output = 0; output < rows.size(); ++output) {
+                auto component = incident.component;
+                component.amplitude *= matrix(rows[output], columns.at(incident.input_port));
+                if (!std::isfinite(std::norm(component.amplitude))) {
+                    throw std::overflow_error("coherent network component power overflow");
+                }
+                transmitted[output].push_back(component);
             }
-            transmitted.push_back(component);
         }
     }
-    return reduce_coherent_components(spacing_hz, transmitted);
+    std::vector<CoherentReduction> result;
+    result.reserve(rows.size());
+    for (const auto &output : transmitted) {
+        result.push_back(reduce_coherent_components(spacing_hz, output));
+    }
+    return result;
+}
+
+// Single-output compatibility entry. A multi-output request evaluates the
+// builder and extracts the common-reference S matrix once per represented bin.
+inline CoherentReduction
+transmit_coherent_network(double spacing_hz,
+                          const std::vector<PortCoherentComponent> &input,
+                          const std::vector<std::size_t> &external_ports,
+                          std::size_t output_port,
+                          double reference_ohms,
+                          const std::function<LinearNetwork(double)> &build) {
+    auto result = transmit_coherent_network_outputs(
+        spacing_hz, input, external_ports, {output_port}, reference_ohms, build);
+    return std::move(result.front());
 }
 } // namespace rfmodel

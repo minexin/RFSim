@@ -1,5 +1,7 @@
 # 共同限幅高阶放大器的工作点导数
 
+> 接口更新（2026-10-13）：Python 产品包、wheel 和 Python/JSON CLI 已退役。本页涉及这些入口的命令与验证属于历史记录；当前 C++ 入口及迁移范围见 [退役记录](python-interface-retirement.md)。保留的物理结论与厂商差异不因退役而改变。
+
 `highorder_linearization.hpp` 将既有 `CoherentHighOrderAmplifier` 的公共基波压缩、输入限幅和二至十一阶生成项接入通用 C++ 工作点求解器。输入是每个物理端口/频点的一份已合成复波；通过 `generating_bins` 显式选择哪些输入频点参与本级新产物生成。其余 RF 输入仍参与公共功率，并以同一直接增益传播。
 
 现已提供 C++/C/Python/JSON 工作点接口与安装 SDK。已有高阶前馈系统图接口和来源项计算保持不变。数学回归证明的是既有近似模型的组合与导数，不能替代 SystemVue RFAMP_HO 系数、限幅、MaxOrder 或反馈行为的实测验收。

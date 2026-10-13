@@ -1,5 +1,7 @@
 # SystemVue 饱和区诊断与未成立的候选模型
 
+> 接口更新（2026-10-13）：Python 产品包、wheel 和 Python/JSON CLI 已退役。本页涉及这些入口的命令与验证属于历史记录；当前 C++ 入口及迁移范围见 [退役记录](python-interface-retirement.md)。保留的物理结论与厂商差异不因退役而改变。
+
 后续进展：本文“整体 tanh”假设继续作为未吻合记录保留。新推导的增量 tanh
 基波模型在新增交叉验证点上吻合，已接入 C++/C/Python/JSON，见
 [饱和基波模型](saturating-fundamental.md)。厂商警告和诊断证据边界仍保留。

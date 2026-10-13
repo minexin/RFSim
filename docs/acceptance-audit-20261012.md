@@ -1,5 +1,7 @@
 # 2026-10-12 剩余验收审计
 
+> 接口更新（2026-10-13）：Python 产品包、wheel 和 Python/JSON CLI 已退役。本页涉及这些入口的命令与验证属于历史记录；当前 C++ 入口及迁移范围见 [退役记录](python-interface-retirement.md)。保留的物理结论与厂商差异不因退役而改变。
+
 审计范围为 SystemVue 2023 Linear Analysis、RF System Analysis 和整个 RF Design 相关目录；核心为跨平台 C++17，RFModel 是框架名，PHD 是其中的非线性模型适配。总体目标尚未完成。本记录不根据测试数量计算兼容百分比。
 
 本次完整读取 [能力边界](acceptance-matrix.md)、[路线图](roadmap.md)、[兼容矩阵](systemvue-2023-matrix.md)，保留这三份文件原文。机读审计保存其 SHA-256 及所引用报告的状态：[acceptance-audit-20261012.json](../validation/acceptance-audit-20261012.json)。它是当前快照，不能替代以后提交的验收。

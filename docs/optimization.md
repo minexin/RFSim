@@ -1,5 +1,7 @@
 # 有界参数优化：C++、C ABI 与 Python 契约
 
+> 接口更新（2026-10-13）：Python 产品包、wheel 和 Python/JSON CLI 已退役。本页涉及这些入口的命令与验证属于历史记录；当前 C++ 入口及迁移范围见 [退役记录](python-interface-retirement.md)。保留的物理结论与厂商差异不因退役而改变。
+
 A09 的第一项原生实现提供 `include/rfmodel/optimization.hpp` 中的 `minimize_bounded(parameters, objective, options, cancelled)`。目标是最小化调用者给定的一个有限实标量；可用它调用 RFModel 网络、噪声或器件原语并组合设计误差。现已提供 C ABI 和 Python 同步回调入口；现已增加参数绑定和通用 JSON 优化任务；另已提供[原生 Monte Carlo](monte-carlo.md)，已接入 C/Python 和声明式任务，SystemVue 对照尚未完成。
 
 ## 参数及约束

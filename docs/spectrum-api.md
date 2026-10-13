@@ -1,5 +1,7 @@
 # C/Python 非线性与混频频谱接口
 
+> 接口更新（2026-10-13）：Python 产品包、wheel 和 Python/JSON CLI 已退役。本页涉及这些入口的命令与验证属于历史记录；当前 C++ 入口及迁移范围见 [退役记录](python-interface-retirement.md)。保留的物理结论与厂商差异不因退役而改变。
+
 本接口复用 C++ MatchedPolynomialAmplifier 与 IdealRealMixer，不在 Python 中重写频谱算法。
 它提供匹配条件下的单向器件传输，尚不包含非线性网络反馈或谐波平衡求解。
 

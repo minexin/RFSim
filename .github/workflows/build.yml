@@ -21,35 +21,10 @@ jobs:
       - uses: actions/checkout@v4
         with:
           persist-credentials: false
-      - uses: actions/setup-python@v7
-        with:
-          python-version: '3.12'
-      - name: Test installed Python verification tools
-        run: python scripts/test_verify_installed_python.py
-      - name: Test reference inventory tools
-        run: python scripts/reference/test_extract_rf_models.py
-      - name: Test reference parameter metadata
-        run: python scripts/reference/test_extract_rf_parameters.py
-      - name: Test reference result validation
-        run: python scripts/reference/test_compare_attenuator.py
-      - name: Test background reference runner
-        run: python scripts/reference/test_run_systemvue_reference.py
-      - name: Test antenna reference validation
-        run: python scripts/reference/test_compare_antenna.py
-      - name: Test antenna power sweep validation
-        run: python scripts/reference/test_summarize_antenna_power.py
-      - name: Test antenna nonlinear parameter audit
-        run: python scripts/reference/test_audit_antenna_nonlinearity.py
-      - name: Test compression diagnostic
-        run: python scripts/reference/test_diagnose_antenna_compression.py
-      - name: Test saturation warning diagnostic
-        run: python scripts/reference/test_diagnose_single_saturation.py
       - name: Configure
-        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=${{ matrix.configuration }} -DCMAKE_CXX_EXTENSIONS=OFF -DRFMODEL_REQUIRE_PYTHON_TESTS=ON -DPython3_EXECUTABLE="$(python -c 'import sys; print(sys.executable)')"
+        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=${{ matrix.configuration }} -DCMAKE_CXX_EXTENSIONS=OFF -DRFMODEL_BUILD_C_API=ON -DRFMODEL_BUILD_REFERENCE_TESTS=OFF
       - name: Build
         run: cmake --build build --config ${{ matrix.configuration }} --parallel 2
-      - name: Build Python distribution
-        run: python -m pip wheel ./python --no-deps --wheel-dir python-dist
       - name: Test core and CLI
         run: ctest --test-dir build -C ${{ matrix.configuration }} --output-on-failure
       - name: Install package
@@ -60,18 +35,12 @@ jobs:
         run: cmake --build consumer-build --config ${{ matrix.configuration }} --parallel 2
       - name: Test installed package
         run: ctest --test-dir consumer-build -C ${{ matrix.configuration }} --output-on-failure
-      - name: Verify installed wheel against installed native package
-        run: python scripts/verify-installed-python.py --wheel-dir python-dist --install-prefix "$PWD/install" --configuration ${{ matrix.configuration }} --work-dir installed-python-verification
       - name: Preserve verification evidence
         if: always()
         uses: actions/upload-artifact@v7
         with:
           name: verification-${{ matrix.os }}-${{ matrix.configuration }}
           path: |
-            installed-python-verification/installed-python-validation.json
-            installed-python-verification/install.log
-            installed-python-verification/test_*/result.json
-            installed-python-verification/test_*/test.log
             build/Testing/Temporary/LastTest.log
             consumer-build/Testing/Temporary/LastTest.log
           if-no-files-found: warn
@@ -96,7 +65,7 @@ jobs:
           cmake -S . -B build-native -DCMAKE_BUILD_TYPE=${{ matrix.configuration }}
           -DCMAKE_CXX_EXTENSIONS=OFF -DBUILD_TESTING=ON
           -DRFMODEL_BUILD_C_API=OFF -DRFMODEL_BUILD_CLI=OFF
-          -DRFMODEL_BUILD_PYTHON_TESTS=OFF -DRFMODEL_BUILD_EXAMPLES=ON
+          -DRFMODEL_BUILD_EXAMPLES=ON
       - name: Build and test native C++ API
         run: |
           cmake --build build-native --config ${{ matrix.configuration }} --parallel 2
@@ -104,7 +73,7 @@ jobs:
           ctest --test-dir build-native -C ${{ matrix.configuration }} --show-only=json-v1 > native-tests.json
       - name: Configure and install header-only SDK
         run: |
-          cmake -S . -B build-sdk -DCMAKE_BUILD_TYPE=${{ matrix.configuration }} -DBUILD_TESTING=OFF -DRFMODEL_BUILD_C_API=OFF -DRFMODEL_BUILD_CLI=OFF -DRFMODEL_BUILD_EXAMPLES=OFF -DRFMODEL_BUILD_PYTHON_TESTS=OFF
+          cmake -S . -B build-sdk -DCMAKE_BUILD_TYPE=${{ matrix.configuration }} -DBUILD_TESTING=OFF -DRFMODEL_BUILD_C_API=OFF -DRFMODEL_BUILD_CLI=OFF -DRFMODEL_BUILD_EXAMPLES=OFF
           cmake --build build-sdk --config ${{ matrix.configuration }}
           cmake --install build-sdk --config ${{ matrix.configuration }} --prefix "$PWD/install-cpp"
           mv install-cpp relocated-cpp
@@ -141,12 +110,32 @@ jobs:
       - uses: actions/setup-python@v7
         with:
           python-version: '3.12'
+      - name: Test reference inventory tools
+        run: python scripts/reference/test_extract_rf_models.py
+      - name: Test reference parameter metadata
+        run: python scripts/reference/test_extract_rf_parameters.py
+      - name: Test reference result validation
+        run: python scripts/reference/test_compare_attenuator.py
+      - name: Test background reference runner
+        run: python scripts/reference/test_run_systemvue_reference.py
+      - name: Test antenna reference validation
+        run: python scripts/reference/test_compare_antenna.py
+      - name: Test antenna power sweep validation
+        run: python scripts/reference/test_summarize_antenna_power.py
+      - name: Test antenna nonlinear parameter audit
+        run: python scripts/reference/test_audit_antenna_nonlinearity.py
+      - name: Test compression diagnostic
+        run: python scripts/reference/test_diagnose_antenna_compression.py
+      - name: Test saturation warning diagnostic
+        run: python scripts/reference/test_diagnose_single_saturation.py
+      - name: Test Python retirement and independent capture imports
+        run: python -I -S scripts/reference/test_python_retirement.py
       - name: Configure explicit developer replay without the C ABI
         run: >-
           cmake -S . -B build-reference -DCMAKE_BUILD_TYPE=${{ matrix.configuration }}
           -DCMAKE_CXX_EXTENSIONS=OFF -DRFMODEL_BUILD_C_API=OFF
           -DRFMODEL_BUILD_CLI=OFF -DRFMODEL_BUILD_EXAMPLES=OFF
-          -DRFMODEL_BUILD_PYTHON_TESTS=OFF -DRFMODEL_BUILD_REFERENCE_TESTS=ON
+          -DRFMODEL_BUILD_REFERENCE_TESTS=ON
           -DPython3_EXECUTABLE="$(python -c 'import sys; print(sys.executable)')"
       - name: Build probes
         run: cmake --build build-reference --config ${{ matrix.configuration }} --target rfmodel_reference_highorder_probe rfmodel_reference_highorder_oracle --parallel 2

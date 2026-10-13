@@ -10,8 +10,8 @@ import re
 import sys
 
 ROOT = Path(__file__).resolve().parents[2]
-sys.path.insert(0, str(ROOT / "python"))
-from rfmodel import Library, CoherentComponent, PortCoherentComponent, SpectrumKind, SourceCoherence
+from retired_binding import Library
+from reference_records import CoherentComponent, PortCoherentComponent, SpectrumKind, SourceCoherence
 
 spec = importlib.util.spec_from_file_location("runner", Path(__file__).with_name("run-systemvue-reference.py"))
 runner = importlib.util.module_from_spec(spec)

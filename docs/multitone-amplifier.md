@@ -1,5 +1,7 @@
 # 多音限幅放大器的分阶结果
 
+> 接口更新（2026-10-13）：Python 产品包、wheel 和 Python/JSON CLI 已退役。本页涉及这些入口的命令与验证属于历史记录；当前 C++ 入口及迁移范围见 [退役记录](python-interface-retirement.md)。保留的物理结论与厂商差异不因退役而改变。
+
 `MultiToneLimitedAmplifier` 已贯通 C++、C ABI、Python 和独立 JSON/CLI 分析。
 它按同一输入端口所有 RF bin 的功率之和驱动限幅，并分别返回直接响应、
 二阶和三阶产物。当前为匹配单向分析原语，尚不是完整 SystemVue RFAMP。

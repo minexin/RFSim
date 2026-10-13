@@ -1,5 +1,7 @@
 # 递归来源与多项式系统图
 
+> 接口更新（2026-10-13）：Python 产品包、wheel 和 Python/JSON CLI 已退役。本页涉及这些入口的命令与验证属于历史记录；当前 C++ 入口及迁移范围见 [退役记录](python-interface-retirement.md)。保留的物理结论与厂商差异不因退役而改变。
+
 ## 原始因子代数
 
 `expand_mixing_origin` 把最多十一个带符号的一基父来源下标展开为原始根因子。

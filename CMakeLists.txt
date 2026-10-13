@@ -37,15 +37,14 @@ install(FILES ${CMAKE_CURRENT_BINARY_DIR}/RFModelConfig.cmake
     DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/RFModel)
 include(CTest)
 option(RFMODEL_BUILD_EXAMPLES "Build standalone C++ examples" ON)
-option(RFMODEL_BUILD_PYTHON_TESTS "Discover Python and register binding/reference script tests" ON)
 option(RFMODEL_BUILD_REFERENCE_TESTS "Build developer-only native archived-reference replay tests" OFF)
 if(RFMODEL_BUILD_REFERENCE_TESTS AND NOT BUILD_TESTING)
     message(FATAL_ERROR "Native reference tests need BUILD_TESTING")
 endif()
-option(RFMODEL_REQUIRE_PYTHON_TESTS "Require Python binding tests during configuration" OFF)
-if(RFMODEL_REQUIRE_PYTHON_TESTS AND
-   (NOT BUILD_TESTING OR NOT RFMODEL_BUILD_C_API OR NOT RFMODEL_BUILD_PYTHON_TESTS))
-    message(FATAL_ERROR "Required Python tests need BUILD_TESTING, RFMODEL_BUILD_C_API and RFMODEL_BUILD_PYTHON_TESTS")
+# Old OFF flags are accepted for existing native SDK build scripts. Explicit ON
+# must fail rather than silently pretending that the removed bindings were tested.
+if(RFMODEL_BUILD_PYTHON_TESTS OR RFMODEL_REQUIRE_PYTHON_TESTS)
+    message(FATAL_ERROR "Python product interfaces have been retired; use RFMODEL_BUILD_REFERENCE_TESTS for independent developer tools")
 endif()
 option(RFMODEL_BUILD_CLI "Build the batch S parameter CSV exporter" ON)
 if(RFMODEL_BUILD_CLI)
@@ -54,6 +53,15 @@ target_link_libraries(rfmodel_cli PRIVATE RFModel::rfmodel)
 install(TARGETS rfmodel_cli RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
 endif()
 if(BUILD_TESTING)
+add_executable(coherent_system_test tests/coherent_system_test.cpp)
+target_link_libraries(coherent_system_test PRIVATE RFModel::rfmodel)
+add_test(NAME coherent_system_test COMMAND coherent_system_test)
+add_executable(analysis_task_test tests/analysis_task_test.cpp)
+target_link_libraries(analysis_task_test PRIVATE RFModel::rfmodel)
+add_test(NAME analysis_task_test COMMAND analysis_task_test)
+add_executable(conversion_simulation_test tests/conversion_simulation_test.cpp)
+target_link_libraries(conversion_simulation_test PRIVATE RFModel::rfmodel)
+add_test(NAME conversion_simulation_test COMMAND conversion_simulation_test)
 if(RFMODEL_BUILD_C_API)
     add_executable(c_api_conversion_power_wave_test tests/c_api_conversion_power_wave_test.c)
     target_link_libraries(c_api_conversion_power_wave_test PRIVATE RFModel::c_api)
@@ -108,152 +116,6 @@ if(RFMODEL_BUILD_C_API)
     add_executable(c_api_frequency_plan_test tests/c_api_frequency_plan_test.c)
     target_link_libraries(c_api_frequency_plan_test PRIVATE RFModel::c_api)
     add_test(NAME c_api_frequency_plan_test COMMAND c_api_frequency_plan_test)
-    if(RFMODEL_BUILD_PYTHON_TESTS)
-    if(RFMODEL_REQUIRE_PYTHON_TESTS)
-        find_package(Python3 3.9 COMPONENTS Interpreter REQUIRED)
-    else()
-        find_package(Python3 3.9 COMPONENTS Interpreter QUIET)
-    endif()
-    if(Python3_Interpreter_FOUND)
-        add_test(NAME conversion_power_wave_api_python_test COMMAND ${Python3_EXECUTABLE}
-            ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_conversion_power_wave_api.py $<TARGET_FILE:rfmodel_c>)
-        add_test(NAME conversion_power_wave_file_test COMMAND ${Python3_EXECUTABLE}
-            ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_conversion_power_wave_file.py $<TARGET_FILE:rfmodel_c>)
-        if(RFMODEL_BUILD_EXAMPLES)
-            add_test(NAME conversion_power_wave_example_test COMMAND ${Python3_EXECUTABLE}
-                ${CMAKE_CURRENT_SOURCE_DIR}/scripts/verify-conversion-power-wave-example.py
-                --executable $<TARGET_FILE:mixed_reference_conversion_example>)
-        endif()
-        add_test(NAME power_wave_stages_python_test COMMAND ${Python3_EXECUTABLE}
-            ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_power_wave_stages.py $<TARGET_FILE:rfmodel_c>)
-        add_test(NAME python_api_test COMMAND ${Python3_EXECUTABLE}
-            ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_python_api.py $<TARGET_FILE:rfmodel_c>)
-        add_test(NAME optimization_task_file_test COMMAND ${Python3_EXECUTABLE}
-            ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_optimization_file.py $<TARGET_FILE:rfmodel_c>)
-        add_test(NAME monte_carlo_extended_python_test COMMAND ${Python3_EXECUTABLE}
-            ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_monte_carlo_extended.py $<TARGET_FILE:rfmodel_c>)
-        add_test(NAME monte_carlo_task_file_test COMMAND ${Python3_EXECUTABLE}
-            ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_monte_carlo_file.py $<TARGET_FILE:rfmodel_c>)
-        add_test(NAME monte_carlo_python_test COMMAND ${Python3_EXECUTABLE}
-            ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_monte_carlo.py $<TARGET_FILE:rfmodel_c>)
-        add_test(NAME optimization_python_test COMMAND ${Python3_EXECUTABLE}
-            ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_optimization.py $<TARGET_FILE:rfmodel_c>)
-        add_test(NAME mixed_reference_file_test COMMAND ${Python3_EXECUTABLE}
-            ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_mixed_reference.py $<TARGET_FILE:rfmodel_c>)
-        add_test(NAME linear_noise_analysis_file_test COMMAND ${Python3_EXECUTABLE}
-            ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_linear_noise_analysis.py $<TARGET_FILE:rfmodel_c>)
-        add_test(NAME am_pm_datapoints_hypotheses_test COMMAND ${Python3_EXECUTABLE}
-            ${CMAKE_CURRENT_SOURCE_DIR}/scripts/reference/test_analyze_am_pm_datapoints.py)
-        add_test(NAME highorder_frequency_plan_file_test COMMAND ${Python3_EXECUTABLE}
-            ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_highorder_frequency_plan.py $<TARGET_FILE:rfmodel_c>)
-        add_test(NAME conversion_frequency_plan_file_test COMMAND ${Python3_EXECUTABLE}
-            ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_conversion_frequency_plan.py $<TARGET_FILE:rfmodel_c>)
-        add_test(NAME am_pm_existing_reference_diagnostic_test COMMAND ${Python3_EXECUTABLE}
-            ${CMAKE_CURRENT_SOURCE_DIR}/scripts/reference/test_diagnose_am_pm_reference.py $<TARGET_FILE:rfmodel_c>)
-        add_test(NAME offline_attenuator_diagnostic_test COMMAND ${Python3_EXECUTABLE}
-            ${CMAKE_CURRENT_SOURCE_DIR}/scripts/reference/test_diagnose_attenuator_1db.py $<TARGET_FILE:reference_attenuator>)
-        add_test(NAME am_pm_operating_point_file_test COMMAND ${Python3_EXECUTABLE}
-            ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_am_pm_operating_point.py $<TARGET_FILE:rfmodel_c>)
-        add_test(NAME highorder_operating_point_file_test COMMAND ${Python3_EXECUTABLE}
-            ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_highorder_operating_point.py $<TARGET_FILE:rfmodel_c>)
-        add_test(NAME polynomial_operating_point_file_test COMMAND ${Python3_EXECUTABLE}
-            ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_polynomial_operating_point.py $<TARGET_FILE:rfmodel_c>)
-        add_test(NAME amplifier_operating_point_file_test COMMAND ${Python3_EXECUTABLE}
-            ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_amplifier_operating_point.py $<TARGET_FILE:rfmodel_c>)
-        add_test(NAME conversion_operating_point_file_test COMMAND ${Python3_EXECUTABLE}
-            ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_operating_point.py $<TARGET_FILE:rfmodel_c>)
-        add_test(NAME affine_conversion_file_test COMMAND ${Python3_EXECUTABLE}
-            ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_affine_conversion.py $<TARGET_FILE:rfmodel_c>)
-        add_test(NAME mixer_linearization_file_test COMMAND ${Python3_EXECUTABLE}
-            ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_mixer_linearization.py $<TARGET_FILE:rfmodel_c>)
-        add_test(NAME shared_phase_noise_file_test COMMAND ${Python3_EXECUTABLE}
-            ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_shared_phase_noise.py $<TARGET_FILE:rfmodel_c>)
-        add_test(NAME phase_noise_file_test COMMAND ${Python3_EXECUTABLE}
-            ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_phase_noise.py $<TARGET_FILE:rfmodel_c>)
-        add_test(NAME channel_noise_file_test COMMAND ${Python3_EXECUTABLE}
-            ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_channel_noise.py $<TARGET_FILE:rfmodel_c>)
-        add_test(NAME conversion_loaded_noise_file_test COMMAND ${Python3_EXECUTABLE}
-            ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_conversion_loaded_noise.py $<TARGET_FILE:rfmodel_c>)
-        add_test(NAME conversion_noise_file_test COMMAND ${Python3_EXECUTABLE}
-            ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_conversion_noise.py $<TARGET_FILE:rfmodel_c>)
-        add_test(NAME conversion_network_file_test COMMAND ${Python3_EXECUTABLE}
-            ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_conversion_network.py $<TARGET_FILE:rfmodel_c>)
-        add_test(NAME frequency_conversion_file_test COMMAND ${Python3_EXECUTABLE}
-            ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_frequency_conversion.py $<TARGET_FILE:rfmodel_c>)
-        add_test(NAME chebyshev_filter_file_test COMMAND ${Python3_EXECUTABLE}
-            ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_chebyshev_filter.py $<TARGET_FILE:rfmodel_c>)
-        add_test(NAME butterworth_filter_file_test COMMAND ${Python3_EXECUTABLE}
-            ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_butterworth_filter.py $<TARGET_FILE:rfmodel_c>)
-        add_test(NAME passive_model_file_test COMMAND ${Python3_EXECUTABLE}
-            ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_passive_model_file.py $<TARGET_FILE:rfmodel_c>)
-        add_test(NAME native_compression_reference COMMAND ${Python3_EXECUTABLE}
-            ${CMAKE_CURRENT_SOURCE_DIR}/scripts/reference/test_compare_antenna_compression.py
-            $<TARGET_FILE:rfmodel_c>)
-        add_test(NAME single_compression_reference COMMAND ${Python3_EXECUTABLE}
-            ${CMAKE_CURRENT_SOURCE_DIR}/scripts/reference/test_compare_single_compression.py
-            $<TARGET_FILE:rfmodel_c>)
-        add_test(NAME single_harmonic_reference COMMAND ${Python3_EXECUTABLE}
-            ${CMAKE_CURRENT_SOURCE_DIR}/scripts/reference/test_compare_single_harmonics.py
-            $<TARGET_FILE:rfmodel_c>)
-        add_test(NAME saturation_reference_diagnostic COMMAND ${Python3_EXECUTABLE}
-            ${CMAKE_CURRENT_SOURCE_DIR}/scripts/reference/test_compare_saturating_fundamental.py
-            $<TARGET_FILE:rfmodel_c>)
-        add_test(NAME limited_single_tone_reference COMMAND ${Python3_EXECUTABLE}
-            ${CMAKE_CURRENT_SOURCE_DIR}/scripts/reference/test_compare_limited_single_tone.py
-            $<TARGET_FILE:rfmodel_c>)
-        add_test(NAME two_tone_reference COMMAND ${Python3_EXECUTABLE}
-            ${CMAKE_CURRENT_SOURCE_DIR}/scripts/reference/test_compare_two_tone.py
-            $<TARGET_FILE:rfmodel_c>)
-        add_test(NAME multitone_amplifier_reference COMMAND ${Python3_EXECUTABLE}
-            ${CMAKE_CURRENT_SOURCE_DIR}/scripts/reference/test_compare_multitone_amplifier.py
-            $<TARGET_FILE:rfmodel_c>)
-        add_test(NAME amplifier_term_reference COMMAND ${Python3_EXECUTABLE}
-            ${CMAKE_CURRENT_SOURCE_DIR}/scripts/reference/test_compare_amplifier_terms.py
-            $<TARGET_FILE:rfmodel_c>)
-        add_test(NAME coherent_system_file_test COMMAND ${Python3_EXECUTABLE}
-            ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_coherent_system_file.py
-            $<TARGET_FILE:rfmodel_c>)
-        add_test(NAME coherent_network_file_test COMMAND ${Python3_EXECUTABLE}
-            ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_coherent_network_file.py
-            $<TARGET_FILE:rfmodel_c>)
-        add_test(NAME highorder_model_reference COMMAND ${Python3_EXECUTABLE}
-            ${CMAKE_CURRENT_SOURCE_DIR}/scripts/reference/test_highorder_model_reference.py
-            $<TARGET_FILE:rfmodel_c>)
-        add_test(NAME highorder_input_reference_diagnostic COMMAND ${Python3_EXECUTABLE}
-            ${CMAKE_CURRENT_SOURCE_DIR}/scripts/reference/test_highorder_input_reference.py
-            $<TARGET_FILE:rfmodel_c>)
-        add_test(NAME eleventh_order_diagnostic COMMAND ${Python3_EXECUTABLE}
-            ${CMAKE_CURRENT_SOURCE_DIR}/scripts/reference/test_diagnose_eleventh_order.py
-            $<TARGET_FILE:rfmodel_c>)
-        add_test(NAME spectrum_reduction_diagnostic COMMAND ${Python3_EXECUTABLE}
-            ${CMAKE_CURRENT_SOURCE_DIR}/scripts/reference/test_diagnose_spectrum_reduction.py
-            $<TARGET_FILE:rfmodel_c>)
-        add_test(NAME highorder_amplifier_diagnostic COMMAND ${Python3_EXECUTABLE}
-            ${CMAKE_CURRENT_SOURCE_DIR}/scripts/reference/test_diagnose_highorder_amplifier.py
-            $<TARGET_FILE:rfmodel_c>)
-        add_test(NAME cascade_unity_gain_diagnostic COMMAND ${Python3_EXECUTABLE}
-            ${CMAKE_CURRENT_SOURCE_DIR}/scripts/reference/test_diagnose_cascade_unity_gain.py
-            $<TARGET_FILE:rfmodel_c>)
-        add_test(NAME cascade_amplifier_reference COMMAND ${Python3_EXECUTABLE}
-            ${CMAKE_CURRENT_SOURCE_DIR}/scripts/reference/test_compare_cascade_amplifier.py
-            $<TARGET_FILE:rfmodel_c>)
-        add_test(NAME coherent_amplifier_reference COMMAND ${Python3_EXECUTABLE}
-            ${CMAKE_CURRENT_SOURCE_DIR}/scripts/reference/test_compare_coherent_amplifier.py
-            $<TARGET_FILE:rfmodel_c>)
-        add_test(NAME shared_compression_reference COMMAND ${Python3_EXECUTABLE}
-            ${CMAKE_CURRENT_SOURCE_DIR}/scripts/reference/test_compare_shared_compression.py
-            $<TARGET_FILE:rfmodel_c>)
-        add_test(NAME coherent_network_reference COMMAND ${Python3_EXECUTABLE}
-            ${CMAKE_CURRENT_SOURCE_DIR}/scripts/reference/test_compare_coherent_network.py
-            $<TARGET_FILE:rfmodel_c>)
-        add_test(NAME coherent_carrier_reference COMMAND ${Python3_EXECUTABLE}
-            ${CMAKE_CURRENT_SOURCE_DIR}/scripts/reference/test_compare_coherent_carriers.py
-            $<TARGET_FILE:rfmodel_c>)
-        add_test(NAME total_drive_diagnostic COMMAND ${Python3_EXECUTABLE}
-            ${CMAKE_CURRENT_SOURCE_DIR}/scripts/reference/test_diagnose_total_drive.py
-            $<TARGET_FILE:rfmodel_c>)
-    endif()
-    endif() # RFMODEL_BUILD_PYTHON_TESTS
 endif()
 if(RFMODEL_BUILD_REFERENCE_TESTS)
     include(cmake/NativeReferenceReplay.cmake)

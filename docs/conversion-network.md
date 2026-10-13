@@ -1,5 +1,7 @@
 # 多器件频率转换网络
 
+> 接口更新（2026-10-13）：Python 产品包、wheel 和 Python/JSON CLI 已退役。本页涉及这些入口的命令与验证属于历史记录；当前 C++ 入口及迁移范围见 [退役记录](python-interface-retirement.md)。保留的物理结论与厂商差异不因退役而改变。
+
 本阶段将固定泵转换矩阵、普通线性器件和物理端口接线装配为同一个频域方程，支持反射往返与完整出射噪声 C/P。C++17、C ABI、Python、JSON/CLI 均有入口。它扩大了 RF System Analysis 的联合信号/噪声能力；尚未通过 SystemVue Mixer 实测验收。
 
 ## 方程与接线

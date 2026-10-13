@@ -1,5 +1,7 @@
 # A01 已有捕获的补充离线诊断
 
+> 接口更新（2026-10-13）：Python 产品包、wheel 和 Python/JSON CLI 已退役。本页涉及这些入口的命令与验证属于历史记录；当前 C++ 入口及迁移范围见 [退役记录](python-interface-retirement.md)。保留的物理结论与厂商差异不因退役而改变。
+
 2026-10-12：未新增 SystemVue RunAnalysis，使用上一轮 A01 的既有捕获，对真实 RFModel C API 和 Quick Sweep 相位来源做补充核验。**Point Derivative 当前未通过厂商数据对比，DataPoints 样条候选也未通过完整观测集合。** 原始两基线复现只说明 SystemVue 重现历史结果，不代表 RFModel 与其相等。
 
 ## 真实 C API 对比

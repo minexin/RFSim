@@ -1,5 +1,7 @@
 # 理想实数混频器
 
+> 接口更新（2026-10-13）：Python 产品包、wheel 和 Python/JSON CLI 已退役。本页涉及这些入口的命令与验证属于历史记录；当前 C++ 入口及迁移范围见 [退役记录](python-interface-retirement.md)。保留的物理结论与厂商差异不因退役而改变。
+
 `IdealRealMixer(name, lo_bin, conversion_gain_db, lo_phase_radians=0, reference_ohms=50)` 实现 RFDeviceModel 和 SpectrumTransmissionProvider。它是两端匹配、固定外部 LO 驱动的 RF/IF 二端口模型，LO 作为参数而不是可求解的第三个端口。
 
 同一公共频率网格上，LO 频率为 lo_bin*spacing_hz，lo_bin 必须为正整数。数学定义为 y(t)=2*g*x(t)*cos(2*pi*fLO*t+phi)，其中 g=10^(conversion_gain_db/20)。对于远离 DC 且不发生碰撞的单个输入音，上下边带各自功率增益为 g²。此模型保留两个边带，不隐式选带或模拟镜像滤波。

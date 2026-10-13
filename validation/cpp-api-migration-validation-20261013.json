@@ -1,0 +1,173 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-13",
+  "baseline_commit": "e47ea901a2ded2528f7e26502d8635f4d599ab24",
+  "scope": "Migrate simulation orchestration to typed C++17 API; retire Python product bindings and wheel/JSON CLI.",
+  "local_environment": {
+    "os": "Windows",
+    "compiler": "MSVC 19.44",
+    "generator": "Visual Studio 17 2022 x64",
+    "standard": "C++17"
+  },
+  "local_results": {
+    "Debug": {
+      "full": {
+        "tests": 126,
+        "failures": 0,
+        "disabled": 0,
+        "seconds": 31.0,
+        "log": "build-reference/cpp-migration-Debug-results.xml",
+        "sha256": "7b4a86a045d825dcbc79e5dcd25b8795c3457b49ff3b160bfb2649c154a29520"
+      },
+      "relocated_cpp_sdk": {
+        "tests": 7,
+        "failures": 0,
+        "disabled": 0,
+        "seconds": 1.0,
+        "log": "build-reference/migration-sdk-Debug-results.xml",
+        "sha256": "c02131903d9be00b53d93489bd94851d9ddfa42e3a016f8e75b3d17364312c84"
+      }
+    },
+    "Release": {
+      "full": {
+        "tests": 126,
+        "failures": 0,
+        "disabled": 0,
+        "seconds": 45.0,
+        "log": "build-reference/cpp-migration-Release-results.xml",
+        "sha256": "c62783bd21d245778ca8f37e82bde504589205b80b35fdce99554cb5fb6e732b"
+      },
+      "relocated_cpp_sdk": {
+        "tests": 7,
+        "failures": 0,
+        "disabled": 0,
+        "seconds": 0.0,
+        "log": "build-reference/migration-sdk-Release-results.xml",
+        "sha256": "e5ec8f240b750ec68eea85c14da57698576929747c8b327fa345bdd51ec528f0"
+      }
+    }
+  },
+  "developer_suites": [
+    {
+      "suite": "test_extract_rf_models",
+      "exit_code": 0,
+      "log": "build-reference/test_extract_rf_models-migration.log"
+    },
+    {
+      "suite": "test_extract_rf_parameters",
+      "exit_code": 0,
+      "log": "build-reference/test_extract_rf_parameters-migration.log"
+    },
+    {
+      "suite": "test_compare_attenuator",
+      "exit_code": 0,
+      "log": "build-reference/test_compare_attenuator-migration.log"
+    },
+    {
+      "suite": "test_run_systemvue_reference",
+      "exit_code": 0,
+      "log": "build-reference/test_run_systemvue_reference-migration.log"
+    },
+    {
+      "suite": "test_compare_antenna",
+      "exit_code": 0,
+      "log": "build-reference/test_compare_antenna-migration.log"
+    },
+    {
+      "suite": "test_summarize_antenna_power",
+      "exit_code": 0,
+      "log": "build-reference/test_summarize_antenna_power-migration.log"
+    },
+    {
+      "suite": "test_audit_antenna_nonlinearity",
+      "exit_code": 0,
+      "log": "build-reference/test_audit_antenna_nonlinearity-migration.log"
+    },
+    {
+      "suite": "test_diagnose_antenna_compression",
+      "exit_code": 0,
+      "log": "build-reference/test_diagnose_antenna_compression-migration.log"
+    },
+    {
+      "suite": "test_diagnose_single_saturation",
+      "exit_code": 0,
+      "log": "build-reference/test_diagnose_single_saturation-migration.log"
+    },
+    {
+      "suite": "test_python_retirement",
+      "exit_code": 0,
+      "log": "build-reference/test_python_retirement-migration.log"
+    }
+  ],
+  "standalone_headers": {
+    "headers": [
+      "analysis_task.hpp",
+      "coherent_system.hpp",
+      "conversion_grid.hpp",
+      "conversion_simulation.hpp"
+    ],
+    "flags": "/std:c++17 /permissive- /EHsc /W4 /WX /Zs",
+    "passed": true,
+    "log": "build-reference/migration-header-check.log"
+  },
+  "format_check": {
+    "passed": true,
+    "files": 204,
+    "log": "build-reference/cpp-migration-format-check.log"
+  },
+  "pure_cpp_install": {
+    "python_discovered": false,
+    "c_compiler_enabled": false,
+    "relocated": true,
+    "dual_translation_unit_consumer": true
+  },
+  "initial_failure": {
+    "full_debug": "124/126; two developer replay tests failed frozen-byte checks due to stale CRLF worktree copies.",
+    "resolution": "Restored eight archives to exact HEAD Git bytes without changing expected hashes, committed data, or numerical verdicts.",
+    "final": "Both configurations 126/126."
+  },
+  "retired_python_tests": {
+    "files": 32,
+    "methods": 503,
+    "counted_as_passed": false,
+    "one_to_one_fixture_migration_claimed": false
+  },
+  "source_worktree_sha256": {
+    "include/rfmodel/analysis_task.hpp": "5bafb2879876e6c96b2087c7a5396ff1eb232000d975173121022ac004b87a94",
+    "include/rfmodel/coherent_network.hpp": "9f4f469cf7afbcc6af4d64874849cb079d43583df2cc2bedaaa1e7e23838bdd9",
+    "include/rfmodel/coherent_pipeline.hpp": "cdbe7e1654ac52b856d06335877d6ba45b95c40239a639cdd7bac6a89f584b69",
+    "include/rfmodel/coherent_system.hpp": "0a266380abeea25ae360f71f1c8bb09ec4e8c7e22171ace1cf74cb8fce7de2e0",
+    "include/rfmodel/conversion_grid.hpp": "06b1beb599b47873e1c70781167d55b730baa2f3f993c2b5efa472df6adb1954",
+    "include/rfmodel/conversion_simulation.hpp": "832444858545955cdb2d5aa192a63e039bedad10e42a7f531c27cd5b73873b00",
+    "scripts/reference/compare-antenna-compression.py": "c7f73c8aff05983c962f7a62a205bb531c3c3f6d74beb261d7783932fd3dd71c",
+    "scripts/reference/compare-cascade-amplifier.py": "9e4aaeee1cacacfb852595f21f510a25c6164f9ba9d060e9bdaf29c75afd5220",
+    "scripts/reference/compare-coherent-amplifier.py": "a499bea303d687204ea5342d1cdb3d9a23be5d8d03515ea1ef7c08cbf75c6cbf",
+    "scripts/reference/compare-coherent-carriers.py": "47de105b50793a9095015d74fb7dc1a1b96fe02ddf0881b2e7d3b4bec531275a",
+    "scripts/reference/compare-coherent-network.py": "c8c33527fef4d64037c496b47bea7f1f6bce125cbdabbe6a9e20be71822b33c2",
+    "scripts/reference/compare-shared-compression.py": "c1d4f6e91ed15f2958c7780ab7472573298f8a57cb389d4eb1d6b1fcf682d65b",
+    "scripts/reference/compare-single-compression.py": "48c2eb810803fb5f659cf80ab06c43f9643e201f98e3d75cd1dc8e63f8541050",
+    "scripts/reference/diagnose-am-pm-reference.py": "2a93c90be55477486fdd5721c4c88983fb095902d8172de5592a8c483eb3ec35",
+    "scripts/reference/diagnose-total-drive.py": "986a216b4bd729692f482e0bb6aef833c65e1d0f0c18d704568253de1e7f86e6",
+    "scripts/reference/native_replay.py": "9251d67ec71eb2bfb20b766b055d2c1b75161805ef703740f3d0a9e3f0e9920b",
+    "scripts/reference/reference_records.py": "f11adf9804915f8c86d94eec7ca7b94660e490a22e6491573cab4f1ef5e63a48",
+    "scripts/reference/retired_binding.py": "61fa00f02dd283324474b847c47b62a717d36559bc9b2f48fd5088c4e43db516",
+    "scripts/reference/test_python_retirement.py": "53a13302f2f42a81259b16b971aa0c7977e81cf521ae9dacab7c65fb33b32ffc",
+    "tests/analysis_task_test.cpp": "8f7f32742465ec8917c81b41a7a85027564443c6620bf7bf19fc965105b24b09",
+    "tests/check_sdk_configuration.cmake": "f7d42d2d72b5cb82a065115f6f02c32e39b889791c69fb960d26704e2bccf0c8",
+    "tests/coherent_pipeline_allocation_test.cpp": "3e7521cdd9f3b21c877900db7d2b16d40742dcfccbe43efa5d2750d32bbd3488",
+    "tests/coherent_system_test.cpp": "86f0a7f9f807966298fd4ea30e8048cc924b9d36f5e7f1fbeddacec4392ca11d",
+    "tests/consumer/CMakeLists.txt": "46304e3f6a4671cac3e9515263f11a13514045ed125cdb386439b5674167a5eb",
+    "tests/consumer/simulation_tasks.cpp": "53abef62cd4e19445590d6522b8674ff784b17a5c1d12e3e4d17e2c8350f2f83",
+    "tests/consumer/simulation_tasks_probe.cpp": "a30c8e5afe35fce8235a157c81fd8851dbeae1e13066bfdf17219cb6d17ca08f",
+    "tests/conversion_simulation_test.cpp": "a272a495c4a5399864b15b875ee1dde35b9b1f7cd11ea1fdba256763328a0320"
+  },
+  "remote_ci": {
+    "status": "pending_after_commit",
+    "matrix": "Windows/Ubuntu/macOS x Debug/Release; core, pure C++ SDK and native reference jobs"
+  },
+  "limitations": [
+    "No new SystemVue run or full vendor compatibility claim.",
+    "Some legacy developer numerical replay adapters are explicitly retired; capture/scoring logic and data remain.",
+    "Old Python/JSON serialization contracts are not delivered as a C++ JSON parser."
+  ]
+}

@@ -1,5 +1,7 @@
 # Linear Analysis 输出兼容矩阵
 
+> 接口更新（2026-10-13）：Python 产品包、wheel 和 Python/JSON CLI 已退役。本页涉及这些入口的命令与验证属于历史记录；当前 C++ 入口及迁移范围见 [退役记录](python-interface-retirement.md)。保留的物理结论与厂商差异不因退役而改变。
+
 本机来源：`C:\Program Files\Keysight\SystemVue2023\Help\systemvue.qch` 中 `sim/Linear_Analysis.html`、`sim/Linear_Analysis_Output.html`。2026-09-22 通过只读 SQLite 查询和 Qt 压缩数据解码读取。
 
 | 输出/能力 | RFModel 当前状态 | 待完成 |

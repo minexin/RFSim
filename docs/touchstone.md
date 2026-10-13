@@ -1,5 +1,7 @@
 # Touchstone 数据接入
 
+> 接口更新（2026-10-13）：Python 产品包、wheel 和 Python/JSON CLI 已退役。本页涉及这些入口的命令与验证属于历史记录；当前 C++ 入口及迁移范围见 [退役记录](python-interface-retirement.md)。保留的物理结论与厂商差异不因退役而改变。
+
 当前 C++17 已新增[有界 Touchstone 2.0 单端 S 导入](touchstone-two.md)，包括逐端口正实参考阻抗和独立噪声参考语义。下文保留 legacy 接口说明及历史验证记录；完整格式支持边界以新文档为准。
 
 读取 legacy `.sNp` 全矩阵 S 参数，RI/MA/DB 转换，Hz/kHz/MHz/GHz，行内注释、前导空白、矩阵续行及缺省选项类别（单独的 R 必须带正实数值）。统一参考电阻保存在 `reference_impedance_ohms`，不隐式重归一化。

@@ -1,5 +1,7 @@
 # 频变损耗电缆（C++17）
 
+> 接口更新（2026-10-13）：Python 产品包、wheel 和 Python/JSON CLI 已退役。本页涉及这些入口的命令与验证属于历史记录；当前 C++ 入口及迁移范围见 [退役记录](python-interface-retirement.md)。保留的物理结论与厂商差异不因退役而改变。
+
 `<rfmodel/frequency_dependent_cable.hpp>` 提供 RFModel 自定义的非磁性同轴电缆工程近似：
 常数正实特性阻抗、由相对介电常数给出的恒定传播延迟，以及平方根频率项和线性频率项
 组成的单程传播损耗。它计算完整、互易、有失配的二端口复数 S 参数。

@@ -9,8 +9,7 @@ from pathlib import Path
 import sys
 
 ROOT = Path(__file__).resolve().parents[2]
-sys.path.insert(0, str(ROOT / "python"))
-from rfmodel import Library
+from retired_binding import Library
 
 spec = importlib.util.spec_from_file_location("antenna", Path(__file__).with_name("compare-antenna.py"))
 antenna = importlib.util.module_from_spec(spec)

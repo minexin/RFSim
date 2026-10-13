@@ -1,5 +1,7 @@
 # 带本地来源的十一阶相干 RF 多项式
 
+> 接口更新（2026-10-13）：Python 产品包、wheel 和 Python/JSON CLI 已退役。本页涉及这些入口的命令与验证属于历史记录；当前 C++ 入口及迁移范围见 [退役记录](python-interface-retirement.md)。保留的物理结论与厂商差异不因退役而改变。
+
 ## 能力与接口
 
 `CoherentPolynomial` 为确定性 RF 分量提供 1..11 阶实电压多项式展开。

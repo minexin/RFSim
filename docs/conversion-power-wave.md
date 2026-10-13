@@ -1,5 +1,7 @@
 # 变频网络的逐通道复功率波参考
 
+> 接口更新（2026-10-13）：Python 产品包、wheel 和 Python/JSON CLI 已退役。本页涉及这些入口的命令与验证属于历史记录；当前 C++ 入口及迁移范围见 [退役记录](python-interface-retirement.md)。保留的物理结论与厂商差异不因退役而改变。
+
 原生 C++17 的固定泵转换模型和多器件网络支持逐通道参考阻抗。直接矩阵 A、共轭矩阵 B、仿射偏置、边界源以及完整 C/P 噪声均保留各自坐标；内部连线按电压连续和电流守恒求解。本页扩展[转换矩阵](frequency-conversion.md)和[多器件网络](conversion-network.md)的原生接口。
 
 C/Python/JSON 已提供显式逐通道参考入口，见下方跨语言契约。原生自动非线性工作点新增 [solve_conversion_operating_point_power_waves](conversion-operating-point-power-wave.md)；既有工作点入口及跨语言自动求解继续要求公共实参考。固定泵坐标变换不完成实际 LO 工作点、厂商 ZPORT/CS、通用器件 DC 偏置或 SystemVue 路径预算验收。

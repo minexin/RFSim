@@ -1,5 +1,7 @@
 # 固定泵频率转换、反射反馈与相关噪声
 
+> 接口更新（2026-10-13）：Python 产品包、wheel 和 Python/JSON CLI 已退役。本页涉及这些入口的命令与验证属于历史记录；当前 C++ 入口及迁移范围见 [退役记录](python-interface-retirement.md)。保留的物理结论与厂商差异不因退役而改变。
+
 本阶段新增有限频率通道的转换矩阵求解器，提供 C++、C、Python 和 JSON/CLI。它同时求解确定性复功率波与噪声二阶统计量，支持正负频率折叠所需的共轭转换项、DC 和跨频率往返反馈。它是 RF System Analysis 的转换核心；后续已提供[多器件连接装配](conversion-network.md)，厂商 Mixer 标定和 SystemVue 数值验收仍待完成。
 
 ## 通道和方程

@@ -1,5 +1,7 @@
 # 线性 JSON 的逐频点噪声分析
 
+> 接口更新（2026-10-13）：Python 产品包、wheel 和 Python/JSON CLI 已退役。本页涉及这些入口的命令与验证属于历史记录；当前 C++ 入口及迁移范围见 [退役记录](python-interface-retirement.md)。保留的物理结论与厂商差异不因退役而改变。
+
 在线性网络文件中添加 noise_analysis 对象，命令行会在每个频点输出 NF、NFmin、GammaOpt 与物理噪声电阻 Rn。数值计算调用 C++ 的[复参考二端口噪声接口](power-wave-noise.md)。
 
 可运行文件 examples/linear-noise-analysis.json 包含两个频点、不同的复输出参考和不同的物理源阻抗：

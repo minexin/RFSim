@@ -90,7 +90,7 @@ execute_process(COMMAND "${CMAKE_COMMAND}" -S "${SOURCE}" -B "${BINARY}/conflict
     -DRFMODEL_BUILD_EXAMPLES=OFF -DRFMODEL_BUILD_PYTHON_TESTS=OFF
     -DRFMODEL_REQUIRE_PYTHON_TESTS=ON
     RESULT_VARIABLE status OUTPUT_VARIABLE output ERROR_VARIABLE error)
-if(status EQUAL 0 OR NOT "${output}${error}" MATCHES "Required Python tests need")
+if(status EQUAL 0 OR NOT "${output}${error}" MATCHES "Python product interfaces have been retired")
     message(FATAL_ERROR "Conflicting required Python tests did not fail explicitly")
 endif()
 

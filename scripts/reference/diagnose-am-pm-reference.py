@@ -8,8 +8,7 @@ import re
 import sys
 
 ROOT = Path(__file__).resolve().parents[2]
-sys.path.insert(0, str(ROOT / 'python'))
-from rfmodel import Library
+from retired_binding import Library
 spec = importlib.util.spec_from_file_location('archive', Path(__file__).with_name('archive-am-pm-datapoints.py'))
 archive = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(archive)

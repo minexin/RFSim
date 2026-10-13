@@ -12,7 +12,7 @@ spec = importlib.util.spec_from_file_location("two_tone", Path(__file__).with_na
 two = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(two)
 Library = two.single.Library
-from rfmodel import CoherentComponent, SourceCoherence, SpectrumKind
+from reference_records import CoherentComponent, SourceCoherence, SpectrumKind
 
 
 def finite(value):

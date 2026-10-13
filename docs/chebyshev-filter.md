@@ -1,5 +1,7 @@
 # 理想无损 Chebyshev I 型滤波器
 
+> 接口更新（2026-10-13）：Python 产品包、wheel 和 Python/JSON CLI 已退役。本页涉及这些入口的命令与验证属于历史记录；当前 C++ 入口及迁移范围见 [退役记录](python-interface-retirement.md)。保留的物理结论与厂商差异不因退役而改变。
+
 ChebyshevFilterModel 提供低通、高通、带通和带阻四类互易二端口的完整复 S 参数。对应 C ABI、Python 和 JSON 模型已接入现有网络求解流程。实现包含传输相位与反射，尚未完成 SystemVue 滤波器实测兼容验收。
 
 ## 参数

@@ -1,19 +1,13 @@
 # RFModel / RFSim
 
-面向 SystemVue 2023 Linear Analysis、RF System Analysis 和 RF Design 器件能力的 C++17 射频仿真工程。当前处于原型开发期，**尚未达到完整兼容目标**。
+面向仿真软件集成的 C++17 射频仿真库。最终调用入口为 C++ 函数和类型 API，核心为 header-only 的 `RFModel::rfmodel`。当前处于原型开发期，**尚未达到完整 SystemVue 2023 兼容目标**。
 
-## 已有实现
+## 集成入口
 
-- Touchstone legacy 与 [有界 2.0 单端 S 数据导入](docs/touchstone-two.md)、RI/MA/DB、三角矩阵、逐端口实参考阻抗、频率插值及表格器件接口。
-- 多端口连接、反射反馈、等效 S 提取和频率扫描；C++/C/Python 与线性 JSON 支持器件间混合复参考阻抗物理接线；支持[各端口独立复参考阻抗](docs/power-wave-references.md)下的 S、内生噪声输出和物理 Z/Y 转换。
-- 匹配衰减/延迟模型、[频率相关同轴电缆 C++ 接口](docs/frequency-dependent-cable.md)、功率与阻抗后处理、标量 Friis 级联噪声。
-- S 数据 CSV 命令行导出与可安装 CMake 包。
-
-## C++ 集成
-
-最终集成以 C++17 函数 API 为主。可只安装 header-only SDK，不需要 Python 或 C ABI；最小调用、无 Python 构建与独立安装示例见 [C++ SDK](docs/cpp-sdk.md)。Python 包后续按[依赖迁移计划](docs/python-retirement-plan.md)逐步退出，当前不删除验证脚本或数据。
-
-[类型化相干流管线](docs/coherent-pipeline.md)新增 C++17 不可变流入口：来源播种、理想混频、单输出线性网络、多项式及仅 source 的共同驱动压缩，并提供[限幅/高阶模型适配器](docs/coherent-pipeline-amplifiers.md)与显式失真传播模式。保留相消历史、全历史共轭和来源阶数计数；不替代完整 Python 图层，也不扩大厂商兼容声明。
+- [C++ SDK 安装与调用](docs/cpp-sdk.md)：可独立安装、移动并消费，不依赖 Python 或 C ABI。
+- [仿真编排 API](docs/cpp-simulation-api.md)：线性/频谱分析、相干系统图、扩频与变频工作点、相位噪声及测量、参数化优化和 Monte Carlo。
+- [完整 C++ 安装消费者](tests/consumer/simulation_tasks.cpp)：直接组合相干图、频率规划、转换分析和参数任务。
+- [Python 接口退役及功能迁移记录](docs/python-interface-retirement.md)：产品包、wheel、Python/JSON CLI 已移除；独立开发采集与参考工具保留。
 
 ## 构建
 
@@ -23,111 +17,18 @@ cmake --build build --config Release
 ctest --test-dir build -C Release --output-on-failure
 ```
 
-Windows 本机可运行 `scripts/build-msvc.ps1` 自动定位已有 VS 工具链。外部工程通过安装包中的 `RFModel::rfmodel` 接入，见 [安装说明](docs/installation.md)。
+默认构建 C++ 测试、示例、C ABI 与原生 S 数据 CSV CLI，不查找 Python。仅开发用归档参考重放通过 `RFMODEL_BUILD_REFERENCE_TESTS=ON` 显式启用 Python 脚本。Windows 可运行 `scripts/build-msvc.ps1`。
 
-代码统一使用多行定义、4 空格缩进和显式控制流程花括号。提交前运行 `scripts/format-cpp.ps1 -Check`；批量整理可运行 `scripts/format-cpp.ps1`，详见 [代码风格](docs/code-style.md)。
+外部工程使用 `find_package(RFModel 0.1.0 EXACT CONFIG REQUIRED)` 并链接 `RFModel::rfmodel`。最小 SDK 的开关见[安装说明](docs/installation.md)。代码遵循四空格、多行定义、显式花括号；提交前执行 `scripts/format-cpp.ps1 -Check`。
 
-## 验证与剩余工作
+## 主要能力与验证边界
 
-[三平台 CI](https://github.com/minexin/RFSim/actions/runs/35746795541) 已验证 Windows/MSVC、Ubuntu/GCC、macOS/AppleClang 的 Debug/Release，六组均通过 14 个核心/CLI 测试与 1 个安装消费者测试。证据绑定提交 `7fba1bf`，见 [验证报告](docs/build-validation.md)。
+- [Touchstone](docs/touchstone-two.md)、多端口网络、频率扫描、混合复参考阻抗、S/Z/Y 转换及噪声协方差。
+- RLC、理想器件、[频率相关电缆](docs/frequency-dependent-cable.md)、滤波器、[链路噪声](docs/linear-path-noise.md)及功率后处理。
+- [相干流管线](docs/coherent-pipeline.md)、来源历史、多项式及[限幅/高阶放大器](docs/coherent-pipeline-amplifiers.md)、失真传播与共同压缩。
+- [变频功率波](docs/conversion-power-wave.md)、[复参考工作点](docs/conversion-operating-point-power-wave.md)、结构扩频、完整 C/P、加载噪声和相位噪声。
+- [优化](docs/optimization.md)、[Monte Carlo](docs/monte-carlo.md)与新的有类型任务装配。
 
-已运行 SystemVue 2023 衰减器的损耗、温度和源功率对照，噪声密度与极小衰减边界仍有差异，见 [实测报告](docs/systemvue-attenuator-power.md)。相关噪声协方差、双向线性链路和基础非线性/混频能力已进入核心；这些实现不代表完整 RF Design 库兼容。仍需完成复参考阻抗与 SystemVue 的数值对照、完整器件目录及更广泛的验证。
+工程回归和独立物理参考不等于厂商验收。已有 SystemVue 采集中的失败、缺项与 diagnostic-only 结论继续保留；本次接口迁移不改变其判定。旧文档中的 Python/JSON 示例属于历史接口，当前集成请使用上述 C++ 指南。
 
-新增 [链路噪声接口](docs/linear-path-noise.md) 支持源/负载失配、器件内相关噪声和源噪声/器件噪声分解。
-
-[多音放大器接口](docs/multitone-amplifier.md) 已提供总 RF 功率限幅以及直接、二阶、
-三阶分谱结果，贯通 C++/C/Python/JSON；等功率双音的指定功率点已对照，完整
-重叠谱合并、级联、相位和噪声语义仍待验证。
-
-[长期路线](docs/roadmap.md) · [兼容矩阵](docs/systemvue-2023-matrix.md) · [线性分析输出契约](docs/linear-analysis-compatibility.md)
-
-[同频多源非线性放大器](docs/coherent-amplifier.md) 已接入 C++/C/Python 与系统图；
-21 组 SystemVue 记录的 206 个来源谱项通过比较，递归多级非线性仍待完成。
-
-[失真来源级联](docs/coherent-amplifier-cascade.md) 新增 cascaded_amplifier：传播前级谐波/互调，计入共同驱动，并与本级同源失真相干合并。八组 SystemVue 对照中六组通过，两组 0 dB 增益差异保留；次级失真再混频仍未完成。
-
-[RFAMP 单位增益诊断](docs/systemvue-unity-gain-diagnostic.md)：17 组受控采集支持等效功率增益 1.00000023 的行为解释；名义增益验收仍保留失败，诊断不算兼容性通过。
-
-[十一阶相干多项式](docs/coherent-polynomial.md) 新增 C++/C/Python 接口，可由谐波、互调输入继续生成带本地来源的 RF 项；已做独立卷积验证，尚未完成 RFAMP 高阶系数、递归身份及子谱合并的兼容验收。
-
-[递归来源与多项式系统图](docs/recursive-mixing-origins.md) 新增原始源因子展开、同源失真归并及显式全局来源阶数限制。混频多来源传播已在后续阶段接入；SystemVue 高阶子谱语义仍待完成。
-
-[来源表达式之和](docs/origin-expressions.md) 新增实际复波贡献的求和、共轭和分配展开，C++/C/Python 均保留相消后的来源项；已用于系统图中的混频与多项式联合传播。
-
-[混频与多项式的多来源系统图](docs/mixed-polynomial-graphs.md) 支持混频折叠后的复波贡献经线性网络继续非线性展开；独立数值对照通过，共同压缩已接入，SystemVue 全局阶数/高阶系数仍待验收。
-
-[多来源公共压缩响应](docs/common-amplifier-response.md) 新增 C++/C/Python 工作点接口，按真实相干总功率共同压缩并保留各来源贡献，支持零驱动相消及既有失真级联。
-
-[RFAMP 四阶与五阶诊断](docs/systemvue-highorder-diagnostic.md)：六组实测中，公开四阶规则的 23 个已记录来源项吻合，单点识别的五阶系数通过另外 27 项检查；双音 12 个标签缺项已由后续频谱削减开关对照定位，完整高阶兼容仍未验收。
-
-[频谱削减配对诊断](docs/systemvue-spectrum-reduction.md)：三组双音功率配置关闭 UseSpecReduction 后均恢复完整的 44 个四、五阶来源项；开启时较弱重叠项缺失，共有的 92 项复波不变。五阶系数仍属固定参数识别，总谱与完整削减算法尚未验收。
-
-[显式高阶截点转换](docs/polynomial-intercepts.md)新增二至十一阶 C++/C/Python 参数接口，指定双音参考项、截点参考面及实系数符号，可接入现有多项式系统图；SystemVue 四阶诊断已使用此接口，自动高阶 RFAMP 系数仍待完成。
-
-[十一阶多项式与 ABI 兼容](docs/eleventh-order-polynomial.md)：C++/Python、显式 IP2..IP11 及系统图已扩展到十一阶；新增 C v2 符号，旧九阶结构与函数保留。证据为独立数值与工程回归，SystemVue 完整十一阶兼容尚未完成。
-
-[RFAMP 四至十一阶实测诊断](docs/systemvue-eleventh-order-diagnostic.md)：七组采集验证公共限幅与固定参数奇数阶系数；807 个奇数阶校准外来源项通过，八/十阶小残差及 10 个低功率缺项保留，自动系数算法仍未实现。
-
-[高阶输入端口参考诊断](docs/systemvue-highorder-input-reference.md)：从原采集归档九个源的实际输入电压，1413 个独立高阶评分项在原容差下通过；八/十阶名义残差由输入参考差异解释，完整网络输入求解和自动奇数阶系数仍未完成。
-
-[显式高阶放大器](docs/coherent-highorder-amplifier.md) 将二至十一阶系数、共同基波压缩与输入限幅接入 C++/C/Python/JSON，保留相消来源历史并支持已有失真传播。统一原生入口重放通过 1413 个独立来源项；自动 RFAMP 系数、完整总谱及次级失真再混频仍待完成。
-
-[IMN 输出互调功率参数](docs/intermod-levels.md) 接入 RFAMP_HO 文档规定的 IM1..IM11 功率到显式系数转换，贯通 C++/C/Python/JSON；系数符号由调用者明确给出，完整 RFAMP_HO 实测验收仍待完成。
-
-新增[复参考二端口噪声后处理](docs/power-wave-noise.md)：C++/C/Python 支持 NF、NFmin、源端 GammaOpt、物理 Rn 及相关矩阵重建，SystemVue 对照仍待完成。
-
-线性 JSON 的[noise_analysis 配置](docs/linear-noise-analysis.md)支持物理源阻抗扫描及逐频点 NF/NFmin/GammaOpt/Rn 输出，示例为 examples/linear-noise-analysis.json。
-
-[理想无源器件参数化入口](docs/passive-model-interfaces.md)覆盖 R/L/C、匹配衰减与延迟、等功率/复分支隔离功分器和正交耦合器；可用于线性及相干网络 JSON，示例为 examples/passive-rc-network.json。
-
-[理想无损 Butterworth 滤波器](docs/butterworth-filter.md) 已提供低通、高通、带通、带阻的复 S 参数和 C++/C/Python/JSON 接口；厂商 IL/Amax 等非理想参数与实测兼容仍待完成。
-
-[理想无损 Chebyshev I 滤波器](docs/chebyshev-filter.md) 新增四类响应、独立纹波与边缘衰减、奇偶阶反射及 C++/C/Python/JSON 接口；SystemVue 非理想参数及实测仍待完成。
-
-[固定泵频率转换与相关噪声](docs/frequency-conversion.md) 新增直接/共轭转换矩阵、跨频率反射反馈、DC 及 C/P 噪声统计量，贯通 C++/C/Python/JSON；厂商 Mixer 标定仍待完成。
-
-[多器件转换网络](docs/conversion-network.md) 已支持线性器件与混频器按物理端口接线、反射往返、镜像噪声折叠及跨频率 C/P，提供完整 JSON/CLI 示例；C++/C/Python/JSON已接入显式结构频率规划，厂商选频和频谱削减仍待完成；双线性混频与公共基波压缩已支持工作点联立。
-
-[变频网络噪声分析](docs/conversion-noise-analysis.md) 支持显式参考/热噪声频带、单边带和多频带归一化、复反射及等效输入噪声温度，保留原网络源条件；宽带、热负载和厂商 CNF 验收仍待完成。
-
-[变频热负载噪声](docs/conversion-loaded-noise.md) 可输出入射/出射及交叉 C/P、端口净吸收噪声，支持显式终端温度，并通过热平衡和连接守恒验证。
-
-[通道噪声与载噪比](docs/channel-noise-measurements.md) 支持指定带宽的 PSD 积分、DC 截边、所需谱线选择，以及转换网络的入射/出射通道测量；相噪与完整路径映射仍待完成。
-
-已提供[小角度相噪源](docs/phase-noise.md)，可将相关上下边带接入固定泵转换网络；完整 LO/参考时钟相噪与厂商验收仍待完成。
-
-[共享参考相噪与跨器件相关噪声](docs/shared-phase-noise.md)支持多载波相位增益和相关统计在转换网络中的传播。
-
-[RF/LO 混频小信号模型](docs/mixer-linearization.md)支持给定工作点的 LO 扰动、共享相噪和阻塞波互易混频解析验证。
-
-[绝对波仿射网络](docs/affine-conversion.md)将给定工作点混频器接入物理网络，检查工作点一致性并保留 RF/LO 相关噪声。
-
-[自动非线性工作点](docs/conversion-operating-point.md)支持固定器件方程、阻尼 Newton、物理反馈和收敛噪声；双线性混频器和公共基波压缩放大器已接入 C/Python/JSON，提供混合器件与反馈网络示例。
-
-[原生混合参考工作点](docs/conversion-operating-point-power-wave.md)提供独立 C++17 入口，保留逐通道复参考、物理接线及收敛点 Jacobian/C/P；既有公共实参考和 C/Python/JSON 自动求解契约不变。
-
-[压缩放大器工作点接口](docs/amplifier-linearization.md)提供 C++/C/Python/JSON 接口，保留公共总驱动的跨频点导数，支持混合器件、非线性反馈及收敛噪声求解。
-
-[高阶多项式工作点导数](docs/polynomial-linearization.md)提供零至十一阶 C++/C/Python/JSON 接口、完整频点规划、DC/谐波/互调 A/B 与混合网络反馈噪声。
-
-[共同限幅高阶工作点](docs/highorder-linearization.md)提供既有高阶放大器的 C++/C/Python/JSON 链式导数与工作点接口、生成频点选择、混合器件反馈和收敛噪声；厂商模型语义仍待实测验收。
-
-[旧式峰值导数 AM-PM](docs/am-pm.md)已提供 C++/C/Python/JSON 相位曲线及工作点链式导数；[实测对比](docs/systemvue-am-pm-existing-reference.md)有30/37点超差，厂商兼容仍未完成。
-
-[转换网络结构频率规划](docs/conversion-frequency-plan.md)已贯通 C++17/C/Python 与显式 JSON 自动扩频，联合闭合器件规则和物理接线，保留源/噪声/初值映射；高阶放大器的显式生成频点与 RF 投影闭包也已接入 C/Python/JSON，并提供自动扩频反馈示例。频谱截断和厂商选频语义仍待完成。
-
-[安装 wheel 与 SDK 验证](docs/installed-python-validation.md)提供隔离导入、原生库来源和完整绑定套件检查，已接入三平台六配置 CI；本地 Windows/Linux 与远程执行的证据分别记录，不能以工作流配置替代 macOS 或远程验收。
-
-新增[原生有界参数优化](docs/optimization.md)：确定性坐标搜索支持连续、对数尺度及整数参数，保留停止原因和评估轨迹，并以 LC 匹配电路核对解析最优值。C ABI/Python 同步目标函数、独立结果快照和安装回归已接入；JSON 任务已支持现有九类分析的参数绑定和组合目标，提供 LC 匹配与镜像抑制示例。
-
-新增[Monte Carlo 容差分析](docs/monte-carlo.md)：六种独立分布、固定种子重放、失败计数与稳定统计，并以电阻容差网络核对闭式参考；已接入 C/Python 同步回调与独立快照，以及 JSON/CLI 的系统参数绑定、多指标和联合通过判定；高斯 copula 相关输入和参数/指标协方差已通过新增 C/Python 扩展入口及 JSON v2 开放，含相关电阻网络参考，保留旧接口和 v1 任务；厂商对照仍待完成。
-
-[RF Design 参数清单](docs/rf-design-catalog.md)新增全部 281 模型的 3,404 条参数记录，保留默认值、单位、源位置及异常复核项；独立 DOM 全量核对通过，逐模型 API 适配和厂商行为验收仍待完成。
-
-[RF 线性阶段的混合参考](docs/power-wave-stages.md)支持相干系统、频谱链及失真来源后级中的逐端口复参考接线，并在阶段边界统一波坐标；C++/C/Python 新增独立网络快照，含 RC 谐波传播与物理守恒回归。
-
-- [原生变频网络的复功率波参考](docs/conversion-power-wave.md)
-
-[固定泵变频复参考接口](docs/conversion-power-wave.md)贯通 C/Python/JSON，支持局部坐标物理连线、仿射波及完整 C/P 的原生重归一化；跨语言自动非线性混合参考与厂商验收仍未完成。
-
-[开发用原生高阶参考重放](docs/native-reference-replay.md)：独立于 C ABI 的四操作探针，在主动禁止产品包导入时重放五个既有套件和 1,413 个实测输入 holdout；保留名义失败、缺项、校准分离及 diagnostic-only 状态。纯 SDK 不安装探针或依赖 Python，完整 Python 退役和 SystemVue 兼容仍未完成。
+[长期路线](docs/roadmap.md) · [兼容矩阵](docs/systemvue-2023-matrix.md) · [RF Design 参数目录](docs/rf-design-catalog.md) · [历史构建记录](docs/build-validation.md) · [原生归档参考重放](docs/native-reference-replay.md)

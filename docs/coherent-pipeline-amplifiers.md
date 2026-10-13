@@ -1,5 +1,7 @@
 # 类型化相干流的限幅与高阶放大器
 
+> 接口更新（2026-10-13）：Python 产品包、wheel 和 Python/JSON CLI 已退役。本页涉及这些入口的命令与验证属于历史记录；当前 C++ 入口及迁移范围见 [退役记录](python-interface-retirement.md)。保留的物理结论与厂商差异不因退役而改变。
+
 `<rfmodel/coherent_pipeline.hpp>` 在有界的 C++17 前馈管线中提供两个模型适配器。
 只需安装后的 `RFModel::rfmodel`，不依赖 C ABI、Python 或 JSON。数值仍来自现有
 `CoherentLimitedAmplifier`、`CoherentHighOrderAmplifier` 和 `CoherentPolynomial`；

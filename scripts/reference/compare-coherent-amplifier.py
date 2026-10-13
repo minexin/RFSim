@@ -18,7 +18,7 @@ def module(name, filename):
 
 shared = module("shared", "compare-shared-compression.py")
 traced = module("traced", "compare-amplifier-terms.py")
-from rfmodel import CoherentComponent, SourceCoherence, SpectrumKind
+from reference_records import CoherentComponent, SourceCoherence, SpectrumKind
 
 
 def compare(library, captures):

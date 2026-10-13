@@ -1,5 +1,7 @@
 # 匹配单向频谱链路 JSON v1
 
+> 接口更新（2026-10-13）：Python 产品包、wheel 和 Python/JSON CLI 已退役。本页涉及这些入口的命令与验证属于历史记录；当前 C++ 入口及迁移范围见 [退役记录](python-interface-retirement.md)。保留的物理结论与厂商差异不因退役而改变。
+
 新增 `single_tone_amplifier` 将独立基波与限幅 H2/H3 组合，参数、边界及九组
 参考结果见 [单音限幅放大器](single-tone-amplifier.md)。
 

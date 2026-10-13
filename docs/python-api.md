@@ -1,5 +1,7 @@
 # Python 线性网络接口
 
+> 接口更新（2026-10-13）：Python 产品包、wheel 和 Python/JSON CLI 已退役。本页涉及这些入口的命令与验证属于历史记录；当前 C++ 入口及迁移范围见 [退役记录](python-interface-retirement.md)。保留的物理结论与厂商差异不因退役而改变。
+
 `python/rfmodel` 使用标准库 ctypes 调用 C ABI，运行不依赖 NumPy；要求 Python 3.9 及以上。
 这是 RFModel 自身的脚本接口，与用于采集参考数据的 SystemVue 自动化脚本分别使用。
 原生动态库需由 CMake 单独构建或安装，Python 包不包含二进制，也不会自动下载或启动外部程序。

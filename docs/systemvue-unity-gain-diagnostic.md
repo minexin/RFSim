@@ -1,5 +1,7 @@
 # SystemVue 2023 RFAMP 单位增益诊断
 
+> 接口更新（2026-10-13）：Python 产品包、wheel 和 Python/JSON CLI 已退役。本页涉及这些入口的命令与验证属于历史记录；当前 C++ 入口及迁移范围见 [退役记录](python-interface-retirement.md)。保留的物理结论与厂商差异不因退役而改变。
+
 ## 结论与边界
 
 第二级 G=0 dB 的已知级联差异，在本轮受控案例中可由等效线性功率增益

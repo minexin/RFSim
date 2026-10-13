@@ -58,3 +58,13 @@ class CoherentHighOrderAmplifierResponse(NamedTuple):
     terms: tuple
     total_input_power_w: float
     operating_point: AmplifierOperatingPoint
+
+
+class SourceCoherence(NamedTuple):
+    source_id: str
+    reference_clock: str = ""
+
+
+class PortCoherentComponent(NamedTuple):
+    input_port: int
+    component: CoherentComponent

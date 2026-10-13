@@ -9,7 +9,7 @@ from pathlib import Path
 spec = importlib.util.spec_from_file_location("terms", Path(__file__).with_name("compare-amplifier-terms.py"))
 terms = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(terms)
-from rfmodel import CoherentComponent, SpectrumKind
+from reference_records import CoherentComponent, SpectrumKind
 
 
 def compare(library, captures):

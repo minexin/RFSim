@@ -1,5 +1,7 @@
 # 多来源分量的共同压缩响应
 
+> 接口更新（2026-10-13）：Python 产品包、wheel 和 Python/JSON CLI 已退役。本页涉及这些入口的命令与验证属于历史记录；当前 C++ 入口及迁移范围见 [退役记录](python-interface-retirement.md)。保留的物理结论与厂商差异不因退役而改变。
+
 混频折叠后的多个来源贡献现在可以共同进入 `fundamental_compression`、
 `limited_amplifier` 和 `cascaded_amplifier`，再继续经过线性网络、混频或多项式。
 真实物理相干分量先归并复波，同组相加、异组加功率；该总功率只求一次公共工作点，

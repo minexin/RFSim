@@ -1,5 +1,7 @@
 # C ABI：线性网络接口
 
+> 接口更新（2026-10-13）：Python 产品包、wheel 和 Python/JSON CLI 已退役。本页涉及这些入口的命令与验证属于历史记录；当前 C++ 入口及迁移范围见 [退役记录](python-interface-retirement.md)。保留的物理结论与厂商差异不因退役而改变。
+
 公共头文件为 `rfmodel/c_api.h`，动态库目标为 `RFModel::c_api`，Windows 文件名为
 `rfmodel_c.dll`，Linux/macOS 使用平台共享库命名。默认构建；设置
 `-DRFMODEL_BUILD_C_API=OFF` 可只构建原有 C++ 核心和所选工具。

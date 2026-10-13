@@ -1,5 +1,7 @@
 # 原生 Monte Carlo 容差分析
 
+> 接口更新（2026-10-13）：Python 产品包、wheel 和 Python/JSON CLI 已退役。本页涉及这些入口的命令与验证属于历史记录；当前 C++ 入口及迁移范围见 [退役记录](python-interface-retirement.md)。保留的物理结论与厂商差异不因退役而改变。
+
 `include/rfmodel/monte_carlo.hpp` 提供 C++17 `run_monte_carlo(parameters, metric_count, evaluate, options, cancelled)`。每次完整参数抽样调用一个返回有限实向量的同步求值函数；调用者可据此重建 RF 网络、噪声或器件模型。分布与选项在入口复制，回调修改原请求不影响本次运行。
 
 ## 输入和随机流

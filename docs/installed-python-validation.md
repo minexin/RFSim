@@ -1,5 +1,7 @@
 # 安装 wheel 与原生 SDK 的独立验证
 
+> 接口更新（2026-10-13）：Python 产品包、wheel 和 Python/JSON CLI 已退役。本页涉及这些入口的命令与验证属于历史记录；当前 C++ 入口及迁移范围见 [退役记录](python-interface-retirement.md)。保留的物理结论与厂商差异不因退役而改变。
+
 A10 发布验收要求同时验证 C++ 安装包、共享 C ABI 和 Python wheel。构建出 wheel 不等于 wheel 能被独立导入，更不等于它加载的是刚安装的原生库。本阶段新增 `scripts/verify-installed-python.py`，供本地验证和三平台 CI 共用。
 
 ## 验证路径

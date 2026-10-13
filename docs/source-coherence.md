@@ -1,5 +1,7 @@
 # 源与参考时钟的相干关系
 
+> 接口更新（2026-10-13）：Python 产品包、wheel 和 Python/JSON CLI 已退役。本页涉及这些入口的命令与验证属于历史记录；当前 C++ 入口及迁移范围见 [退役记录](python-interface-retirement.md)。保留的物理结论与厂商差异不因退役而改变。
+
 source_coherence.hpp 提供源级关系解析，衔接显式相干分量与实际信号源配置。
 规则来自本机 SystemVue 2023 帮助 sim/Coherency.html：同一源的贡献可以相干；
 不同源只有在声明相同参考时钟时才具备相干关系，之后仍须匹配类别、中心频率和

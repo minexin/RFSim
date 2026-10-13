@@ -1,5 +1,7 @@
 # 高阶多项式的工作点、谐波与噪声导数
 
+> 接口更新（2026-10-13）：Python 产品包、wheel 和 Python/JSON CLI 已退役。本页涉及这些入口的命令与验证属于历史记录；当前 C++ 入口及迁移范围见 [退役记录](python-interface-retirement.md)。保留的物理结论与厂商差异不因退役而改变。
+
 `polynomial_linearization.hpp` 将既有 `MemorylessPolynomial` 的零至十一阶电压多项式接入通用非线性工作点求解器。它同时返回真实 DC/谐波/互调输出和直接、共轭导数，支持在收敛点计算跨频率 C/P 噪声。已提供 C++/C/Python/JSON 接口与安装 SDK，可在同一网络中混合双线性混频器、基波压缩放大器和高阶多项式。
 
 这是明确的无记忆电压多项式模型。它复用已有稀疏频谱计算，不把 RFAMP_HO 的饱和、限幅、IMN 标定或来源追踪规则隐含成同一种行为，也不构成新增的 SystemVue 实测验收。

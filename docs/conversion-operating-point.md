@@ -1,5 +1,7 @@
 # 自动非线性频率转换工作点
 
+> 接口更新（2026-10-13）：Python 产品包、wheel 和 Python/JSON CLI 已退役。本页涉及这些入口的命令与验证属于历史记录；当前 C++ 入口及迁移范围见 [退役记录](python-interface-retirement.md)。保留的物理结论与厂商差异不因退役而改变。
+
 C++17 接口 solve_conversion_operating_point 根据固定器件方程、物理接线、外部源和反射自动求解入射/出射复功率波，再在收敛工作点计算一阶 C/P 噪声。它扩展了此前只能检查已给定工作点的仿射网络。
 
 此既有入口继续要求同一公共正实参考。原生新增 [solve_conversion_operating_point_power_waves](conversion-operating-point-power-wave.md)，保持相同签名与默认值，支持逐通道复参考及物理接线；C ABI、Python 和 JSON/CLI 的自动工作点行为未改变。

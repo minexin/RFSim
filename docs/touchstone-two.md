@@ -1,5 +1,7 @@
 # Native Touchstone 2.0 single-ended S import
 
+> 接口更新（2026-10-13）：Python 产品包、wheel 和 Python/JSON CLI 已退役。本页涉及这些入口的命令与验证属于历史记录；当前 C++ 入口及迁移范围见 [退役记录](python-interface-retirement.md)。保留的物理结论与厂商差异不因退役而改变。
+
 The C++17 reader supports the bounded single-ended S-parameter subset of the
 [IBIS Touchstone 2.0 specification](https://www.ibis.org/touchstone_ver2.0/touchstone_ver2_0.pdf)
 (April 24, 2009). It does **not** claim complete Touchstone, Touchstone 2.1,

@@ -7,8 +7,7 @@
 ```sh
 cmake -S . -B build-sdk -DCMAKE_BUILD_TYPE=Release \
   -DBUILD_TESTING=OFF -DRFMODEL_BUILD_C_API=OFF \
-  -DRFMODEL_BUILD_CLI=OFF -DRFMODEL_BUILD_EXAMPLES=OFF \
-  -DRFMODEL_BUILD_PYTHON_TESTS=OFF
+  -DRFMODEL_BUILD_CLI=OFF -DRFMODEL_BUILD_EXAMPLES=OFF
 cmake --build build-sdk --config Release
 cmake --install build-sdk --config Release --prefix /absolute/path/rfmodel-sdk
 ```
@@ -67,16 +66,15 @@ ctest --test-dir build-sdk-consumer -C Release --output-on-failure
 ```sh
 cmake -S . -B build-native -DCMAKE_BUILD_TYPE=Debug \
   -DBUILD_TESTING=ON -DRFMODEL_BUILD_C_API=OFF \
-  -DRFMODEL_BUILD_CLI=OFF -DRFMODEL_BUILD_EXAMPLES=ON \
-  -DRFMODEL_BUILD_PYTHON_TESTS=OFF
+  -DRFMODEL_BUILD_CLI=OFF -DRFMODEL_BUILD_EXAMPLES=ON
 cmake --build build-native --config Debug
 ctest --test-dir build-native -C Debug --output-on-failure
 ```
 
 - `BUILD_TESTING=OFF` 不再留下未受控的原生测试可执行文件。
 - `RFMODEL_BUILD_EXAMPLES` 独立控制六个 C++ 示例，默认 ON；测试关闭时仍可单独构建示例。
-- `RFMODEL_BUILD_PYTHON_TESTS=OFF` 明确禁止查找 Python/注册脚本测试，即使保留 C ABI。旧 `RFMODEL_REQUIRE_PYTHON_TESTS=OFF` 只表示“不强制存在”，并不等于关闭。
-- `RFMODEL_REQUIRE_PYTHON_TESTS=ON` 与关闭测试/C ABI/Python 测试互斥；配置直接报错，不静默跳过要求。
+- 默认不查找 Python。只有显式 `RFMODEL_BUILD_REFERENCE_TESTS=ON` 的开发重放依赖 Python。
+- 旧 Python 开关 OFF 兼容现有脚本；显式要求 ON 将报退役错误，避免误报已验证绑定。
 
 ## 常用入口与调用责任
 
@@ -95,12 +93,8 @@ ctest --test-dir build-native -C Debug --output-on-failure
 
 混合参考自动工作点另有双翻译单元 `operating_power_wave_consumer`，从安装头文件检查全部参数、默认调用、物理连线及接受点导数噪声，详见[调用契约与命令](conversion-operating-point-power-wave.md)。
 
-## 数值功能与 Python 装配边界
+## 完整有类型仿真任务
 
-优化和 Monte Carlo 的搜索、抽样、相关分布、预算、统计及回调算法已有原生 C++ API。Python 中的声明式任务字段、JSON 参数选择器、单位/目标装配及 CLI 入口是另外一层，删除它们不等于删除核心算法，也不能声称 C++ 已有等价文件入口。
+新入口 `CoherentSystem`、`ConversionGrid`、`analyze_conversion_simulation`、`run_optimization_task` 和 `run_monte_carlo_task` 已迁移原 Python 图、频率映射及任务装配职责。旧 JSON 文件分发不再交付。详细类型、所有权、回调、单位和预算见 [仿真编排 API](cpp-simulation-api.md)。
 
-有类型 `CoherentPipeline` 已提供有界前馈子集的来源注册、流局部历史、混频/单输出线性/多项式及 source-only 共同压缩。限幅/高阶模型适配器及失真传播模式现已接入同一类型化管线。Python 相干图的完整调度、JSON 和其他跨阶段功能仍未逐项迁移；级联参考比较器仍依赖原 Python 图。Python 包的分阶段退出条件见[依赖审计与迁移计划](python-retirement-plan.md)。本阶段不删除 Python 辅助脚本、SystemVue 对照脚本或参考数据，也不为保留 CLI 阻塞 C++ SDK 的使用。
-
-本轮 Linux Debug/Release 验证、安装重定位、双翻译单元及逐头编译证据见[机读记录](../validation/cpp-sdk-priority-validation-20261013.json)。独立三平台两配置 CI 已编写但尚未远程执行，不能据此声称 Windows/macOS 通过。
-
-构建边界：本轮验证默认本机工具链。SDK 配置回归的嵌套工程暂不转发自定义生成器平台、工具集或交叉编译 toolchain；这些配置需要另行验证，不属于当前三平台默认 CI 配置的通过声明。
+[simulation_tasks_consumer](../tests/consumer/simulation_tasks.cpp) 在两个翻译单元中从安装后的 SDK 调用全部新增入口。验证结果见 [接口退役记录](python-interface-retirement.md)，历史跨平台记录不替代本次验收。

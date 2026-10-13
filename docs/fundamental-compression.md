@@ -1,5 +1,7 @@
 # P1dB 标定的单音主信号压缩
 
+> 接口更新（2026-10-13）：Python 产品包、wheel 和 Python/JSON CLI 已退役。本页涉及这些入口的命令与验证属于历史记录；当前 C++ 入口及迁移范围见 [退役记录](python-interface-retirement.md)。保留的物理结论与厂商差异不因退役而改变。
+
 `rfmodel/fundamental_compression.hpp` 提供 P1dBFundamentalCompression，构造参数为
 小信号功率增益 dB 和实际输出 OP1dB（dBm）。输入和输出为 sqrt(W) 复功率波，
 适用于外部匹配条件下的单音基波；相位保持不变。它不是多音频谱传输器。

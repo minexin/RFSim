@@ -1,5 +1,7 @@
 # SystemVue 2023 RF Design 器件目录基线
 
+> 接口更新（2026-10-13）：Python 产品包、wheel 和 Python/JSON CLI 已退役。本页涉及这些入口的命令与验证属于历史记录；当前 C++ 入口及迁移范围见 [退役记录](python-interface-retirement.md)。保留的物理结论与厂商差异不因退役而改变。
+
 本机 `Help/systemvue.qch` 的 `rfdesign/RF_Design_Kit_Library.html` 索引包含 243 个不同的器件帮助链接：241 个位于 rfdesign，2 个位于 algorithm。以帮助页路径去重，同一器件在多个分组出现时只计一次。原始索引页面的 SHA-256 和每项名称、路径保存在 `validation/systemvue-2023-rf-catalog.json`。
 
 这是索引链接清单，不证明安装产品的所有许可扩展模块均已枚举，更不证明 RFModel 的参数、端口、算法或结果兼容。所有条目的 assessment 暂为 unassessed、systemvue_comparison 为 not_executed。不得根据通用 S 参数或理想器件原语自动将同类条目标为支持。

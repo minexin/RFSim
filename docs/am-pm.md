@@ -1,5 +1,7 @@
 # 旧式峰值导数 AM-PM 与工作点组合
 
+> 接口更新（2026-10-13）：Python 产品包、wheel 和 Python/JSON CLI 已退役。本页涉及这些入口的命令与验证属于历史记录；当前 C++ 入口及迁移范围见 [退役记录](python-interface-retirement.md)。保留的物理结论与厂商差异不因退役而改变。
+
 `LegacyPointDerivativeAmPm` 提供输出功率驱动的相位曲线；`apply_output_am_pm` 将该曲线组合到已有 C++ 非线性工作点响应和直接/共轭导数。新增模型不改变已存在的放大器接口。C ABI、Python、JSON 接入已完成；新符号和可选描述不改变已有 C 结构布局或旧入口。
 
 ## 官方约束与推导范围

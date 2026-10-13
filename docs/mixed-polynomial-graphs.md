@@ -1,5 +1,7 @@
 # 混频与多项式的多来源系统图
 
+> 接口更新（2026-10-13）：Python 产品包、wheel 和 Python/JSON CLI 已退役。本页涉及这些入口的命令与验证属于历史记录；当前 C++ 入口及迁移范围见 [退役记录](python-interface-retirement.md)。保留的物理结论与厂商差异不因退役而改变。
+
 现在可在同一个 `rfmodel.coherent-system` version=1 模型中组合
 `polynomial_amplifier`、`ideal_mixer_bank` 和 `linear_network`。
 链路可包含多级多项式、频率转换、并行支路及合路。数值运算调用既有 C++/C ABI；

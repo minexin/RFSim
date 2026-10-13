@@ -1,5 +1,7 @@
 # 公共基波压缩的工作点与导数
 
+> 接口更新（2026-10-13）：Python 产品包、wheel 和 Python/JSON CLI 已退役。本页涉及这些入口的命令与验证属于历史记录；当前 C++ 入口及迁移范围见 [退役记录](python-interface-retirement.md)。保留的物理结论与厂商差异不因退役而改变。
+
 C++ 接口 linearize_saturating_amplifier 将既有 SaturatingFundamentalCompression 适配到自动非线性工作点求解器。所有选定驱动端口的 RF 通道共享同一个总功率和压缩增益，并保留跨频点的直接/共轭导数。已提供 C++/C/Python/JSON 接口，可与固定系数双线性混频器在同一物理网络中联立求解。本基波模型不生成高阶项；独立电压多项式模型已接入同一求解器。
 
 ## 既有模型与导数

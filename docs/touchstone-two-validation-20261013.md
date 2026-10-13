@@ -1,5 +1,7 @@
 # Touchstone 2.0 native import validation, 2026-10-13
 
+> 接口更新（2026-10-13）：Python 产品包、wheel 和 Python/JSON CLI 已退役。本页涉及这些入口的命令与验证属于历史记录；当前 C++ 入口及迁移范围见 [退役记录](python-interface-retirement.md)。保留的物理结论与厂商差异不因退役而改变。
+
 This records local Linux/GCC 14.2.0 validation of the bounded import work atop
 `4303efb801873cd5afe4a747bacd4fcdd4e35d30`, including the published pipeline
 adapter allocation-test portability split, before Touchstone commit/publication. The

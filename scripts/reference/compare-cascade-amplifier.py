@@ -429,7 +429,7 @@ def compare(library, captures):
             outputs=["second"],
         )
         # The combined-origin graph remains an explicitly legacy calculation.
-        from rfmodel.coherent_system_file import analyze_coherent_system
+        from retired_binding import unavailable as analyze_coherent_system
         graph = analyze_coherent_system(library, model)
         output = next(s for s in graph["streams"] if s["id"] == "second")
         combined = {c["coherence_group"]: complex(*c["amplitude"]) for c in output["components"]}

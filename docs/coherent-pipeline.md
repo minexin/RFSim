@@ -1,5 +1,7 @@
 # 类型化相干流管线（C++17）
 
+> 接口更新（2026-10-13）：Python 产品包、wheel 和 Python/JSON CLI 已退役。本页涉及这些入口的命令与验证属于历史记录；当前 C++ 入口及迁移范围见 [退役记录](python-interface-retirement.md)。保留的物理结论与厂商差异不因退役而改变。
+
 `<rfmodel/coherent_pipeline.hpp>` 提供 header-only 的 `rfmodel::CoherentPipeline`。
 只需链接安装包中的 `RFModel::rfmodel`；不依赖 C ABI、Python 或 JSON。
 它把现有数值内核串成七种显式操作：`seed`、`mix`、`linear_network`、

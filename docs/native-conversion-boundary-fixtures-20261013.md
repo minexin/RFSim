@@ -1,5 +1,7 @@
 # 四个转换功率波边界 fixture 迁入直接 C++
 
+> 接口更新（2026-10-13）：Python 产品包、wheel 和 Python/JSON CLI 已退役。本页涉及这些入口的命令与验证属于历史记录；当前 C++ 入口及迁移范围见 [退役记录](python-interface-retirement.md)。保留的物理结论与厂商差异不因退役而改变。
+
 日期：2026-10-13。发布基线：`cabbbcedabc9d2cf9f38e6da86f5cab06d16bce0`。本轮只扩展两个既有原生测试和本记录，不修改数值内核、公共 API、CMake、Python/C ABI 或厂商数据，不执行提交、推送或发布。
 
 本轮补齐 [Python 退役计划](python-retirement-plan.md) 列出的四个指定物理 fixture。它们的检查入口直接调用 C++17 函数，不经过 ctypes、JSON、Python 包或 CLI；原 Python 测试继续保留。本记录是该计划对应“待迁移”条目的增量证据，不表示全部 Python 高层行为已经迁移。

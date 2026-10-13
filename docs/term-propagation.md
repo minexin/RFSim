@@ -1,5 +1,7 @@
 # 互调项在线性后级中的传播
 
+> 接口更新（2026-10-13）：Python 产品包、wheel 和 Python/JSON CLI 已退役。本页涉及这些入口的命令与验证属于历史记录；当前 C++ 入口及迁移范围见 [退役记录](python-interface-retirement.md)。保留的物理结论与厂商差异不因退役而改变。
+
 多音放大器输出的本级来源项现可经过线性网络继续传播，覆盖 C++、C、Python
 及 JSON/CLI。每项按实际输出频率乘网络的外部 S21，保留 order、bin 和带符号
 contributors；不先合并同频率项，保留精确陷波后的零项。

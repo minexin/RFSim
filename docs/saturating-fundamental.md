@@ -1,5 +1,7 @@
 # 饱和基波模型
 
+> 接口更新（2026-10-13）：Python 产品包、wheel 和 Python/JSON CLI 已退役。本页涉及这些入口的命令与验证属于历史记录；当前 C++ 入口及迁移范围见 [退役记录](python-interface-retirement.md)。保留的物理结论与厂商差异不因退役而改变。
+
 `SaturatingFundamentalCompression` 在小信号至 P1dB 区域复用三阶基波压缩关系，
 在 P1dB 以上用增量 tanh 连接到输出饱和功率。它保留输入相位，不产生谐波、
 互调、AM/PM 或噪声，也不求解非线性反馈网络。

@@ -142,9 +142,12 @@ void allocation_failure_atomicity() {
     const auto low_model = limited();
     const auto high_model = highorder({1., 1.});
     const std::vector<double> coefficients{0., 1., 1., 1.};
-    const char *names[]{
-        "polynomial allocation sweep", "limited allocation sweep", "high-order allocation sweep"};
-    for (int operation = 0; operation < 3; ++operation) {
+    const char *names[]{"polynomial allocation sweep",
+                        "limited allocation sweep",
+                        "high-order allocation sweep",
+                        "mixer-bank allocation sweep",
+                        "network-batch allocation sweep"};
+    for (int operation = 0; operation < 5; ++operation) {
         allocation_failure::phase = names[operation];
         const auto apply = [&](CoherentPipeline &pipeline, CoherentPipeline::Stream input) {
             if (operation == 0) {
@@ -153,7 +156,23 @@ void allocation_failure_atomicity() {
             if (operation == 1) {
                 return pipeline.limited_amplifier(input, low_model).output;
             }
-            return pipeline.highorder_amplifier(input, high_model, 2).output;
+            if (operation == 2) {
+                return pipeline.highorder_amplifier(input, high_model, 2).output;
+            }
+            if (operation == 3) {
+                return pipeline.mixer_bank({{input, {101, 2, 0., .2}}, {input, {101, 2, 0., .4}}})
+                    .front();
+            }
+            return pipeline
+                .linear_network_outputs({{input, 0}},
+                                        {0, 1, 2},
+                                        {1, 2},
+                                        [](double) {
+                                            LinearNetwork network;
+                                            network.add({3, {0., 0., 0., .5, 0., 0., -.5, 0., 0.}});
+                                            return network;
+                                        })
+                .front();
         };
         CoherentPipeline control(1e8, 50., 2);
         const auto control_input = control.seed({source()});

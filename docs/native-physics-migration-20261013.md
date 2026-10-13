@@ -1,5 +1,7 @@
 # 有限物理回归迁入直接 C++：Chebyshev 与收敛快照噪声
 
+> 接口更新（2026-10-13）：Python 产品包、wheel 和 Python/JSON CLI 已退役。本页涉及这些入口的命令与验证属于历史记录；当前 C++ 入口及迁移范围见 [退役记录](python-interface-retirement.md)。保留的物理结论与厂商差异不因退役而改变。
+
 日期：2026-10-13。范围仅为原生测试与本记录；数值内核、公共 API、CMake、Python/C ABI 和厂商数据均未修改。本记录补充 [Python 退役计划](python-retirement-plan.md) 中指出的两类有限缺口，不表示全部 Python 编排已迁移或可立即删除。
 
 ## 迁移对应关系

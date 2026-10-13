@@ -1,5 +1,7 @@
 # 原生混合参考非线性工作点
 
+> 接口更新（2026-10-13）：Python 产品包、wheel 和 Python/JSON CLI 已退役。本页涉及这些入口的命令与验证属于历史记录；当前 C++ 入口及迁移范围见 [退役记录](python-interface-retirement.md)。保留的物理结论与厂商差异不因退役而改变。
+
 C++17 新入口 `solve_conversion_operating_point_power_waves` 在各器件原有逐通道功率波坐标中求解固定非线性方程、物理接线和源/负载边界。它与[既有工作点接口](conversion-operating-point.md)使用相同类型、参数顺序和默认值：
 
 ```cpp

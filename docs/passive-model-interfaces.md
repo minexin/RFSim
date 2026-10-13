@@ -1,5 +1,7 @@
 # 理想无源器件的 C/Python/JSON 接口
 
+> 接口更新（2026-10-13）：Python 产品包、wheel 和 Python/JSON CLI 已退役。本页涉及这些入口的命令与验证属于历史记录；当前 C++ 入口及迁移范围见 [退役记录](python-interface-retirement.md)。保留的物理结论与厂商差异不因退役而改变。
+
 已有 C++ 核心的理想 R/L/C、匹配衰减/延迟、隔离功分器与正交耦合器现在可通过 C ABI、Python 和线性网络 JSON 使用。参数化器件也可用于已有相干网络与系统图的 network 节点，频率由所在扫描或频谱 bin 决定。
 
 这些接口复用 IdealRLCModel、MatchedTransmissionModel、EqualPowerDividerModel、IsolatedPowerDividerModel、QuadratureCouplerModel。它们是明确定义的理想原语，不等同于 SystemVue 某一同名器件的全部寄生、频率特性、噪声或非线性行为；不据此更新官方目录条目的兼容评定。

@@ -1,5 +1,7 @@
 # 外部边界反馈下的噪声
 
+> 接口更新（2026-10-13）：Python 产品包、wheel 和 Python/JSON CLI 已退役。本页涉及这些入口的命令与验证属于历史记录；当前 C++ 入口及迁移范围见 [退役记录](python-interface-retirement.md)。保留的物理结论与厂商差异不因退役而改变。
+
 `rfmodel/loaded_noise.hpp` 提供 `loaded_noise(scattering, intrinsic, reflections,
 boundary_emission)`，用于已提取的 N 端口网络或单个器件。
 所有端口共用正实参考阻抗的功率波约定，与现有 S 参数和 NoiseCorrelation 一致。

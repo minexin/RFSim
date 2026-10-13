@@ -1,5 +1,7 @@
 # 放大器和衰减器模型差异初审
 
+> 接口更新（2026-10-13）：Python 产品包、wheel 和 Python/JSON CLI 已退役。本页涉及这些入口的命令与验证属于历史记录；当前 C++ 入口及迁移范围见 [退役记录](python-interface-retirement.md)。保留的物理结论与厂商差异不因退役而改变。
+
 基准为本机 SystemVue 2023 的 `Help/systemvue.qch`，2026-09-24 读取 `rfdesign/Amp_(RF)_Part.html`、`rfdesign/Attenuator_Part.html`、`rfdesign/RFAMP.html` 和 `rfdesign/ATTN_Linear.html`。页面摘要和完整器件—模型关系见 `validation/systemvue-2023-rf-models.json`。以下为帮助语义核对，尚无 SystemVue 数值对照，不构成兼容验收。
 
 ## 一个器件对应多个模型

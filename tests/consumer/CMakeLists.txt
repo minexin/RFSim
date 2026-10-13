@@ -53,3 +53,7 @@ endif()
 add_executable(frequency_dependent_cable_consumer frequency_dependent_cable.cpp frequency_dependent_cable_probe.cpp)
 target_link_libraries(frequency_dependent_cable_consumer PRIVATE RFModel::rfmodel)
 add_test(NAME installed_frequency_dependent_cable_consumer COMMAND frequency_dependent_cable_consumer)
+
+add_executable(simulation_tasks_consumer simulation_tasks.cpp simulation_tasks_probe.cpp)
+target_link_libraries(simulation_tasks_consumer PRIVATE RFModel::rfmodel)
+add_test(NAME installed_simulation_tasks_consumer COMMAND simulation_tasks_consumer)

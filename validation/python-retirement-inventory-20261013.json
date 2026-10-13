@@ -1,0 +1,1321 @@
+{
+  "schema_version": 1,
+  "baseline_commit": "e47ea901a2ded2528f7e26502d8635f4d599ab24",
+  "removed_files": [
+    {
+      "path": "python/pyproject.toml",
+      "sha256": "70eab2e6c4c73f20ecbd4d27b653e62971e16dd97ca9d769be7340bedf6ce702",
+      "historical_source": "https://github.com/minexin/RFSim/blob/e47ea901a2ded2528f7e26502d8635f4d599ab24/python/pyproject.toml",
+      "worktree_sha256_before_removal": "70eab2e6c4c73f20ecbd4d27b653e62971e16dd97ca9d769be7340bedf6ce702"
+    },
+    {
+      "path": "python/rfmodel/__init__.py",
+      "sha256": "5ed546858e1af4395eda84b290ec9956fbe4da6b4f6d89148fe9853758d952a3",
+      "historical_source": "https://github.com/minexin/RFSim/blob/e47ea901a2ded2528f7e26502d8635f4d599ab24/python/rfmodel/__init__.py",
+      "cpp_interfaces": [
+        "C++ public headers",
+        "C ABI retained",
+        "native CSV CLI retained"
+      ],
+      "native_mechanism_tests": [
+        "tests/consumer/simulation_tasks.cpp",
+        "tests/c_api_test.c"
+      ],
+      "disposition": "Language binding and Python/JSON dispatch retired; host owns serialization.",
+      "worktree_sha256_before_removal": "1a860195258c41c69398195fd97f74225ef6580ceb8d3a27bd981cc437a5d6e8"
+    },
+    {
+      "path": "python/rfmodel/__main__.py",
+      "sha256": "c6b58ff8a2fc8c10d857006cde2651a908e645d9a5c846969a34d7e4c21bdb0a",
+      "historical_source": "https://github.com/minexin/RFSim/blob/e47ea901a2ded2528f7e26502d8635f4d599ab24/python/rfmodel/__main__.py",
+      "cpp_interfaces": [
+        "C++ public headers",
+        "C ABI retained",
+        "native CSV CLI retained"
+      ],
+      "native_mechanism_tests": [
+        "tests/consumer/simulation_tasks.cpp",
+        "tests/c_api_test.c"
+      ],
+      "disposition": "Language binding and Python/JSON dispatch retired; host owns serialization.",
+      "worktree_sha256_before_removal": "67220fbebdcca80ffcf8ecf91d21aacfe78825cfe10c086111b263e0f10fe595"
+    },
+    {
+      "path": "python/rfmodel/affine_conversion.py",
+      "sha256": "b29a56f179f692ec9b8addadf101e017d7c4f284a63db5e94c50a3cd50630b24",
+      "historical_source": "https://github.com/minexin/RFSim/blob/e47ea901a2ded2528f7e26502d8635f4d599ab24/python/rfmodel/affine_conversion.py",
+      "cpp_interfaces": [
+        "conversion_simulation.hpp",
+        "mixer_linearization.hpp"
+      ],
+      "native_mechanism_tests": [
+        "tests/affine_conversion_test.cpp",
+        "tests/mixer_linearization_test.cpp",
+        "tests/conversion_simulation_test.cpp"
+      ],
+      "disposition": "Typed offsets and model linearization.",
+      "worktree_sha256_before_removal": "822a2d023adf9802ecffedbb6a8578bf7d69364a5b144b7f42e1fd9853148121"
+    },
+    {
+      "path": "python/rfmodel/amplifier_file.py",
+      "sha256": "65958bbc1f5afaf8a84ecb883ae0cabaf1657a5b65ffb5d72aac47a480fc09cc",
+      "historical_source": "https://github.com/minexin/RFSim/blob/e47ea901a2ded2528f7e26502d8635f4d599ab24/python/rfmodel/amplifier_file.py",
+      "cpp_interfaces": [
+        "multitone_amplifier.hpp",
+        "term_propagation.hpp"
+      ],
+      "native_mechanism_tests": [
+        "tests/multitone_amplifier_test.cpp",
+        "tests/term_propagation_test.cpp"
+      ],
+      "disposition": "Native component analysis and identity-preserving post-stage propagation.",
+      "worktree_sha256_before_removal": "7c08427a0e57e99373b6a73ef571a60c54534c0f89ca2cff6cce8253a401ee28"
+    },
+    {
+      "path": "python/rfmodel/analysis_file.py",
+      "sha256": "f6ada50022b4ae83279022fd4162b887236d1f1cde46c1cb85785d21cbe3f24c",
+      "historical_source": "https://github.com/minexin/RFSim/blob/e47ea901a2ded2528f7e26502d8635f4d599ab24/python/rfmodel/analysis_file.py",
+      "cpp_interfaces": [
+        "linear_analysis.hpp",
+        "power_wave_network.hpp",
+        "power_wave_noise.hpp",
+        "tabulated_model.hpp",
+        "device_model.hpp"
+      ],
+      "native_mechanism_tests": [
+        "tests/linear_analysis_test.cpp",
+        "tests/power_wave_network_test.cpp",
+        "tests/linear_noise_test.cpp"
+      ],
+      "disposition": "Host builds typed devices/networks and owns file/path selection; Touchstone remains native.",
+      "worktree_sha256_before_removal": "7a1a7b54fa6f420240d9856d0c170035ff7f8fc482af603f366395e4b877b397"
+    },
+    {
+      "path": "python/rfmodel/channel_measurements.py",
+      "sha256": "15265004a0a94a82ce1f271eb2d19c8f2ff0016b48ff6e71a92d055786c037e8",
+      "historical_source": "https://github.com/minexin/RFSim/blob/e47ea901a2ded2528f7e26502d8635f4d599ab24/python/rfmodel/channel_measurements.py",
+      "cpp_interfaces": [
+        "conversion_simulation.hpp",
+        "channel_noise.hpp"
+      ],
+      "native_mechanism_tests": [
+        "tests/conversion_simulation_test.cpp",
+        "tests/channel_noise_test.cpp"
+      ],
+      "disposition": "Physical-channel lookup, sorting and measurement composition migrated.",
+      "worktree_sha256_before_removal": "a97bdefe2ec0c8eb2241ba047d0318de3370898b9d12b3a95ab6b74ffcb8cb38"
+    },
+    {
+      "path": "python/rfmodel/coherence_file.py",
+      "sha256": "20b6c64e608ba700cbeb2c04d58877eb174bf04a0f3b1a1dcd4d64c32513e8ee",
+      "historical_source": "https://github.com/minexin/RFSim/blob/e47ea901a2ded2528f7e26502d8635f4d599ab24/python/rfmodel/coherence_file.py",
+      "cpp_interfaces": [
+        "coherence.hpp",
+        "source_coherence.hpp",
+        "coherent_system.hpp"
+      ],
+      "native_mechanism_tests": [
+        "tests/coherence_test.cpp",
+        "tests/source_coherence_test.cpp",
+        "tests/coherent_system_test.cpp"
+      ],
+      "disposition": "Source resolution and component reduction.",
+      "worktree_sha256_before_removal": "b0ef5c6ae6b33f6bba58bedf98da0146539877e452cea4a15da9f51b4cec21c7"
+    },
+    {
+      "path": "python/rfmodel/coherent_graph_support.py",
+      "sha256": "b2d9cc0fdd61f17b5606db7fd6a39db9f659a1ecfe6f4f9010e47cbfb76ebc60",
+      "historical_source": "https://github.com/minexin/RFSim/blob/e47ea901a2ded2528f7e26502d8635f4d599ab24/python/rfmodel/coherent_graph_support.py",
+      "cpp_interfaces": [
+        "coherent_system.hpp",
+        "coherent_pipeline.hpp",
+        "coherent_network.hpp",
+        "origin_expression.hpp"
+      ],
+      "native_mechanism_tests": [
+        "tests/coherent_system_test.cpp",
+        "tests/coherent_pipeline.cpp",
+        "tests/coherent_pipeline_allocation_test.cpp",
+        "tests/coherent_pipeline_amplifier_test.cpp"
+      ],
+      "disposition": "Compiled graph, names, multi-output network, batched mixer, snapshots, physical identity/history and nonlinear propagation migrated.",
+      "worktree_sha256_before_removal": "620d8a7a9ef877fe1cb3fb3e0a3abc038eb891b7a71e620008a3a529a4df1039"
+    },
+    {
+      "path": "python/rfmodel/coherent_network_file.py",
+      "sha256": "4022ca094852ea49daee2ec767eb1f80a90b613f9fe589695a76955e3c98b087",
+      "historical_source": "https://github.com/minexin/RFSim/blob/e47ea901a2ded2528f7e26502d8635f4d599ab24/python/rfmodel/coherent_network_file.py",
+      "cpp_interfaces": [
+        "coherent_system.hpp",
+        "coherent_pipeline.hpp",
+        "coherent_network.hpp",
+        "origin_expression.hpp"
+      ],
+      "native_mechanism_tests": [
+        "tests/coherent_system_test.cpp",
+        "tests/coherent_pipeline.cpp",
+        "tests/coherent_pipeline_allocation_test.cpp",
+        "tests/coherent_pipeline_amplifier_test.cpp"
+      ],
+      "disposition": "Compiled graph, names, multi-output network, batched mixer, snapshots, physical identity/history and nonlinear propagation migrated.",
+      "worktree_sha256_before_removal": "56e46224e31a127747398c80284024a153e57450d2e2ce0bdfbab2f35b863212"
+    },
+    {
+      "path": "python/rfmodel/coherent_origins.py",
+      "sha256": "527e42f9d9569bbae34536b36b07c50b6596470ffed225070f54decb62fc0628",
+      "historical_source": "https://github.com/minexin/RFSim/blob/e47ea901a2ded2528f7e26502d8635f4d599ab24/python/rfmodel/coherent_origins.py",
+      "cpp_interfaces": [
+        "coherent_system.hpp",
+        "coherent_pipeline.hpp",
+        "coherent_network.hpp",
+        "origin_expression.hpp"
+      ],
+      "native_mechanism_tests": [
+        "tests/coherent_system_test.cpp",
+        "tests/coherent_pipeline.cpp",
+        "tests/coherent_pipeline_allocation_test.cpp",
+        "tests/coherent_pipeline_amplifier_test.cpp"
+      ],
+      "disposition": "Compiled graph, names, multi-output network, batched mixer, snapshots, physical identity/history and nonlinear propagation migrated.",
+      "worktree_sha256_before_removal": "7c5ff2441ff6c09861304680db67ef01d97c267150dbd5dea8c6734b284b7642"
+    },
+    {
+      "path": "python/rfmodel/coherent_system_file.py",
+      "sha256": "b6d69888657987458e501641392e33977eb712077de2588b54a2ecc52a9f5f68",
+      "historical_source": "https://github.com/minexin/RFSim/blob/e47ea901a2ded2528f7e26502d8635f4d599ab24/python/rfmodel/coherent_system_file.py",
+      "cpp_interfaces": [
+        "coherent_system.hpp",
+        "coherent_pipeline.hpp",
+        "coherent_network.hpp",
+        "origin_expression.hpp"
+      ],
+      "native_mechanism_tests": [
+        "tests/coherent_system_test.cpp",
+        "tests/coherent_pipeline.cpp",
+        "tests/coherent_pipeline_allocation_test.cpp",
+        "tests/coherent_pipeline_amplifier_test.cpp"
+      ],
+      "disposition": "Compiled graph, names, multi-output network, batched mixer, snapshots, physical identity/history and nonlinear propagation migrated.",
+      "worktree_sha256_before_removal": "bf20e9cea42dbab21d10558cf48ed6f973fb6a2490f8f990f076a21ff2de37e5"
+    },
+    {
+      "path": "python/rfmodel/conversion_file.py",
+      "sha256": "148fe09807f2a814746f53ebd02964efdd54a36b6958fd3329e5b3d485c7bac1",
+      "historical_source": "https://github.com/minexin/RFSim/blob/e47ea901a2ded2528f7e26502d8635f4d599ab24/python/rfmodel/conversion_file.py",
+      "cpp_interfaces": [
+        "conversion_simulation.hpp",
+        "conversion_operating_point.hpp",
+        "phase_noise.hpp"
+      ],
+      "native_mechanism_tests": [
+        "tests/conversion_simulation_test.cpp",
+        "tests/conversion_operating_point_power_wave_test.cpp",
+        "tests/shared_phase_noise_test.cpp"
+      ],
+      "disposition": "Request composition, topology, accepted-point snapshot, phase-group C/P, V/I and noise experiments migrated.",
+      "worktree_sha256_before_removal": "79c1575756a382b92d8d573ce79a6d2effd7278f01aa4b9203d32b19cd40157c"
+    },
+    {
+      "path": "python/rfmodel/conversion_network_file.py",
+      "sha256": "ff6f1055dbd60cba4ddf029245a4e3da3877e071e644453f285c39e26fe8576b",
+      "historical_source": "https://github.com/minexin/RFSim/blob/e47ea901a2ded2528f7e26502d8635f4d599ab24/python/rfmodel/conversion_network_file.py",
+      "cpp_interfaces": [
+        "conversion_simulation.hpp",
+        "conversion_operating_point.hpp",
+        "phase_noise.hpp"
+      ],
+      "native_mechanism_tests": [
+        "tests/conversion_simulation_test.cpp",
+        "tests/conversion_operating_point_power_wave_test.cpp",
+        "tests/shared_phase_noise_test.cpp"
+      ],
+      "disposition": "Request composition, topology, accepted-point snapshot, phase-group C/P, V/I and noise experiments migrated.",
+      "worktree_sha256_before_removal": "25e55d217937158c54f6ea3db061584feac2dac06c9146e0bffd5df1268719fc"
+    },
+    {
+      "path": "python/rfmodel/expression_system.py",
+      "sha256": "3741419a8c747481c125e1d25b42f47c1e1b8e75cbea3bfbd0374d0d5885d8a0",
+      "historical_source": "https://github.com/minexin/RFSim/blob/e47ea901a2ded2528f7e26502d8635f4d599ab24/python/rfmodel/expression_system.py",
+      "cpp_interfaces": [
+        "coherent_system.hpp",
+        "coherent_pipeline.hpp",
+        "coherent_network.hpp",
+        "origin_expression.hpp"
+      ],
+      "native_mechanism_tests": [
+        "tests/coherent_system_test.cpp",
+        "tests/coherent_pipeline.cpp",
+        "tests/coherent_pipeline_allocation_test.cpp",
+        "tests/coherent_pipeline_amplifier_test.cpp"
+      ],
+      "disposition": "Compiled graph, names, multi-output network, batched mixer, snapshots, physical identity/history and nonlinear propagation migrated.",
+      "worktree_sha256_before_removal": "29285a83cf5d50655ac90815dd08ff2fd39436789533b72449d7dcdfa0042c07"
+    },
+    {
+      "path": "python/rfmodel/frequency_plan.py",
+      "sha256": "745982464297b26d4c3f370c8339e281b69f623d525c83e00a331021b81607ef",
+      "historical_source": "https://github.com/minexin/RFSim/blob/e47ea901a2ded2528f7e26502d8635f4d599ab24/python/rfmodel/frequency_plan.py",
+      "cpp_interfaces": [
+        "conversion_grid.hpp",
+        "conversion_frequency_plan.hpp"
+      ],
+      "native_mechanism_tests": [
+        "tests/conversion_simulation_test.cpp",
+        "tests/conversion_frequency_plan_test.cpp",
+        "tests/highorder_frequency_plan_test.cpp"
+      ],
+      "disposition": "Closure already native; source/noise/reference/offset/initial/channel-selection remaps migrated.",
+      "worktree_sha256_before_removal": "f0ff2a879903c2ff8ddca714ae25db70d712cfbdd5ecf52b7ee3bfff3b1e9100"
+    },
+    {
+      "path": "python/rfmodel/frequency_plan_file.py",
+      "sha256": "807a129b2464bbf4bb93f1585c408935f962cbcc50481310a30f9bd48f9c793c",
+      "historical_source": "https://github.com/minexin/RFSim/blob/e47ea901a2ded2528f7e26502d8635f4d599ab24/python/rfmodel/frequency_plan_file.py",
+      "cpp_interfaces": [
+        "conversion_grid.hpp",
+        "conversion_frequency_plan.hpp"
+      ],
+      "native_mechanism_tests": [
+        "tests/conversion_simulation_test.cpp",
+        "tests/conversion_frequency_plan_test.cpp",
+        "tests/highorder_frequency_plan_test.cpp"
+      ],
+      "disposition": "Closure already native; source/noise/reference/offset/initial/channel-selection remaps migrated.",
+      "worktree_sha256_before_removal": "cc208af03ecc9b185c649a129bc1cb9352fd6359083c280860df97b946a06440"
+    },
+    {
+      "path": "python/rfmodel/linear_stage_file.py",
+      "sha256": "2dc9d71ef399d186846e95490b9f0452dfc6ab564078e5ec7390783d670f5e4e",
+      "historical_source": "https://github.com/minexin/RFSim/blob/e47ea901a2ded2528f7e26502d8635f4d599ab24/python/rfmodel/linear_stage_file.py",
+      "cpp_interfaces": [
+        "linear_analysis.hpp",
+        "power_wave_network.hpp",
+        "power_wave_noise.hpp",
+        "tabulated_model.hpp",
+        "device_model.hpp"
+      ],
+      "native_mechanism_tests": [
+        "tests/linear_analysis_test.cpp",
+        "tests/power_wave_network_test.cpp",
+        "tests/linear_noise_test.cpp"
+      ],
+      "disposition": "Host builds typed devices/networks and owns file/path selection; Touchstone remains native.",
+      "worktree_sha256_before_removal": "9deea4c6852abadb89b30ef8897c91550b0169b9749e30b266cda195902921de"
+    },
+    {
+      "path": "python/rfmodel/mixer_linearization_file.py",
+      "sha256": "8c8210dfa9de4d492f105cf00d2248210ce9ab6742e001b2cad280c8b7827d5e",
+      "historical_source": "https://github.com/minexin/RFSim/blob/e47ea901a2ded2528f7e26502d8635f4d599ab24/python/rfmodel/mixer_linearization_file.py",
+      "cpp_interfaces": [
+        "conversion_simulation.hpp",
+        "mixer_linearization.hpp"
+      ],
+      "native_mechanism_tests": [
+        "tests/affine_conversion_test.cpp",
+        "tests/mixer_linearization_test.cpp",
+        "tests/conversion_simulation_test.cpp"
+      ],
+      "disposition": "Typed offsets and model linearization.",
+      "worktree_sha256_before_removal": "ca1c9b3f1b892a828d61739d474beebed0415a33d030761e95b19d8179608270"
+    },
+    {
+      "path": "python/rfmodel/model_file.py",
+      "sha256": "0c863dc1533fc1b82ab4fb1692050f1ec6549d9ce73a4f4d105a3667b8f47141",
+      "historical_source": "https://github.com/minexin/RFSim/blob/e47ea901a2ded2528f7e26502d8635f4d599ab24/python/rfmodel/model_file.py",
+      "cpp_interfaces": [
+        "linear_analysis.hpp",
+        "power_wave_network.hpp",
+        "power_wave_noise.hpp",
+        "tabulated_model.hpp",
+        "device_model.hpp"
+      ],
+      "native_mechanism_tests": [
+        "tests/linear_analysis_test.cpp",
+        "tests/power_wave_network_test.cpp",
+        "tests/linear_noise_test.cpp"
+      ],
+      "disposition": "Host builds typed devices/networks and owns file/path selection; Touchstone remains native.",
+      "worktree_sha256_before_removal": "298e64852f912f50b4f1d1f28dcfb4541c20d96af5f28fe20531133c449537cc"
+    },
+    {
+      "path": "python/rfmodel/monte_carlo.py",
+      "sha256": "e9c858e84c36daa2b76f090427f4a06cb6ce04bc9667edf4444246f58f78c0ef",
+      "historical_source": "https://github.com/minexin/RFSim/blob/e47ea901a2ded2528f7e26502d8635f4d599ab24/python/rfmodel/monte_carlo.py",
+      "cpp_interfaces": [
+        "analysis_task.hpp",
+        "optimization.hpp",
+        "monte_carlo.hpp"
+      ],
+      "native_mechanism_tests": [
+        "tests/analysis_task_test.cpp",
+        "tests/optimization_test.cpp",
+        "tests/monte_carlo_test.cpp",
+        "tests/monte_carlo_joint_test.cpp"
+      ],
+      "disposition": "Numeric slots replace JSON paths; affine binding, objectives, metric projections, dependency guards and best-result snapshot migrated.",
+      "worktree_sha256_before_removal": "15adf9aeadf883a4a9407a5ed410fe7747cdd3844d86816b4f3501a37dbed33d"
+    },
+    {
+      "path": "python/rfmodel/monte_carlo_file.py",
+      "sha256": "7d0ff2d223a9a07c1c70f51a424e8f6ccc6dc36ca3828d272527b0f57fe49fd6",
+      "historical_source": "https://github.com/minexin/RFSim/blob/e47ea901a2ded2528f7e26502d8635f4d599ab24/python/rfmodel/monte_carlo_file.py",
+      "cpp_interfaces": [
+        "analysis_task.hpp",
+        "optimization.hpp",
+        "monte_carlo.hpp"
+      ],
+      "native_mechanism_tests": [
+        "tests/analysis_task_test.cpp",
+        "tests/optimization_test.cpp",
+        "tests/monte_carlo_test.cpp",
+        "tests/monte_carlo_joint_test.cpp"
+      ],
+      "disposition": "Numeric slots replace JSON paths; affine binding, objectives, metric projections, dependency guards and best-result snapshot migrated.",
+      "worktree_sha256_before_removal": "29bf3f71e8a23d8649c9b407fdeba19adaab7a8006226ed6a7ee9272fb52d907"
+    },
+    {
+      "path": "python/rfmodel/operating_point.py",
+      "sha256": "792baf5762ae6b978b344218ffa4eb5812b22c1b5d2e4c87c4350fbc18f31abe",
+      "historical_source": "https://github.com/minexin/RFSim/blob/e47ea901a2ded2528f7e26502d8635f4d599ab24/python/rfmodel/operating_point.py",
+      "cpp_interfaces": [
+        "conversion_simulation.hpp",
+        "conversion_operating_point.hpp",
+        "phase_noise.hpp"
+      ],
+      "native_mechanism_tests": [
+        "tests/conversion_simulation_test.cpp",
+        "tests/conversion_operating_point_power_wave_test.cpp",
+        "tests/shared_phase_noise_test.cpp"
+      ],
+      "disposition": "Request composition, topology, accepted-point snapshot, phase-group C/P, V/I and noise experiments migrated.",
+      "worktree_sha256_before_removal": "c62ec4f4b8467cccaea0effbb185133fe446dd73278c866ce0057f80e35e0ad8"
+    },
+    {
+      "path": "python/rfmodel/optimization.py",
+      "sha256": "fc9942ddacb3dff06265a39a21299811073f4042feb48c0497009e3679c0ec45",
+      "historical_source": "https://github.com/minexin/RFSim/blob/e47ea901a2ded2528f7e26502d8635f4d599ab24/python/rfmodel/optimization.py",
+      "cpp_interfaces": [
+        "analysis_task.hpp",
+        "optimization.hpp",
+        "monte_carlo.hpp"
+      ],
+      "native_mechanism_tests": [
+        "tests/analysis_task_test.cpp",
+        "tests/optimization_test.cpp",
+        "tests/monte_carlo_test.cpp",
+        "tests/monte_carlo_joint_test.cpp"
+      ],
+      "disposition": "Numeric slots replace JSON paths; affine binding, objectives, metric projections, dependency guards and best-result snapshot migrated.",
+      "worktree_sha256_before_removal": "19f45cd107b0026e6f867b00d5ee98fac67da4a686b3c443ff7f0de9ecb6e7a8"
+    },
+    {
+      "path": "python/rfmodel/optimization_file.py",
+      "sha256": "64f7b15469afb501e7c30c89fec7f8ac856e43e4da98af4cde3f62439f70282e",
+      "historical_source": "https://github.com/minexin/RFSim/blob/e47ea901a2ded2528f7e26502d8635f4d599ab24/python/rfmodel/optimization_file.py",
+      "cpp_interfaces": [
+        "analysis_task.hpp",
+        "optimization.hpp",
+        "monte_carlo.hpp"
+      ],
+      "native_mechanism_tests": [
+        "tests/analysis_task_test.cpp",
+        "tests/optimization_test.cpp",
+        "tests/monte_carlo_test.cpp",
+        "tests/monte_carlo_joint_test.cpp"
+      ],
+      "disposition": "Numeric slots replace JSON paths; affine binding, objectives, metric projections, dependency guards and best-result snapshot migrated.",
+      "worktree_sha256_before_removal": "4699f78171c6368b96d7cc1d651f50abe1e6d83b99400638e1cd9b2c0b1ffffd"
+    },
+    {
+      "path": "python/rfmodel/parameter_binding.py",
+      "sha256": "95b56ffe46bf154d72ca07fed85e2bbdae89ef4ae194a012c51cdf81a43e9cd4",
+      "historical_source": "https://github.com/minexin/RFSim/blob/e47ea901a2ded2528f7e26502d8635f4d599ab24/python/rfmodel/parameter_binding.py",
+      "cpp_interfaces": [
+        "analysis_task.hpp",
+        "optimization.hpp",
+        "monte_carlo.hpp"
+      ],
+      "native_mechanism_tests": [
+        "tests/analysis_task_test.cpp",
+        "tests/optimization_test.cpp",
+        "tests/monte_carlo_test.cpp",
+        "tests/monte_carlo_joint_test.cpp"
+      ],
+      "disposition": "Numeric slots replace JSON paths; affine binding, objectives, metric projections, dependency guards and best-result snapshot migrated.",
+      "worktree_sha256_before_removal": "706679ab95ad05de1ac4d5c06e31c6719cc28794541588745b07a6b499cf584d"
+    },
+    {
+      "path": "python/rfmodel/phase_noise.py",
+      "sha256": "108b5d6953bfe986aa5f7655a96f39ed961ce4d72aab8e5f5914d2e52db35e66",
+      "historical_source": "https://github.com/minexin/RFSim/blob/e47ea901a2ded2528f7e26502d8635f4d599ab24/python/rfmodel/phase_noise.py",
+      "cpp_interfaces": [
+        "conversion_simulation.hpp",
+        "conversion_operating_point.hpp",
+        "phase_noise.hpp"
+      ],
+      "native_mechanism_tests": [
+        "tests/conversion_simulation_test.cpp",
+        "tests/conversion_operating_point_power_wave_test.cpp",
+        "tests/shared_phase_noise_test.cpp"
+      ],
+      "disposition": "Request composition, topology, accepted-point snapshot, phase-group C/P, V/I and noise experiments migrated.",
+      "worktree_sha256_before_removal": "4f114e1953bc024146e85a97b0f05b286b3f5656ba75453952aea82141bb7ca5"
+    },
+    {
+      "path": "python/rfmodel/spectrum_file.py",
+      "sha256": "9e7c5f9acd7ad58ce94003d1e532a2c2bd339e7c1c0856876f981418a61862f4",
+      "historical_source": "https://github.com/minexin/RFSim/blob/e47ea901a2ded2528f7e26502d8635f4d599ab24/python/rfmodel/spectrum_file.py",
+      "cpp_interfaces": [
+        "spectrum_analysis.hpp",
+        "nonlinear_spectrum.hpp"
+      ],
+      "native_mechanism_tests": [
+        "tests/spectrum_analysis_test.cpp",
+        "tests/single_tone_amplifier_test.cpp"
+      ],
+      "disposition": "Typed spectrum stages compose native models.",
+      "worktree_sha256_before_removal": "fe5fecd2391d6e6057f6f2961f32d96a6c93937137c8d1ba352389a4262ba301"
+    },
+    {
+      "path": "scripts/test_verify_installed_python.py",
+      "sha256": "831f7888a58ec633955a59d64230796e6893090a3508d30fbd99df3fecd145d2",
+      "historical_source": "https://github.com/minexin/RFSim/blob/e47ea901a2ded2528f7e26502d8635f4d599ab24/scripts/test_verify_installed_python.py",
+      "worktree_sha256_before_removal": "de31fc67a4b2a91aa85c9cbff8f2e07b0e81ee48519d6c1c741da2b5f72badeb"
+    },
+    {
+      "path": "scripts/verify-installed-python.py",
+      "sha256": "ee398aa5537efadf17d684857c327716722e6997be98ca2d81f1bc193e71642f",
+      "historical_source": "https://github.com/minexin/RFSim/blob/e47ea901a2ded2528f7e26502d8635f4d599ab24/scripts/verify-installed-python.py",
+      "worktree_sha256_before_removal": "7909989faf8649b708b5e79844774b9b28fcbaf760c22ce2b89866ed5f0a0f44"
+    },
+    {
+      "path": "tests/test_affine_conversion.py",
+      "sha256": "d97771aa34fe383e81b31d72407e0bf170aff91266a4b5dbafd3ff580673e29d",
+      "historical_source": "https://github.com/minexin/RFSim/blob/e47ea901a2ded2528f7e26502d8635f4d599ab24/tests/test_affine_conversion.py",
+      "test_methods": [
+        "test_widely_linear_complex_feedback_closed_form_and_noise_invariance",
+        "test_single_model_wrapper_and_zero_offset_equivalence",
+        "test_emission_at_wired_port_propagates_and_is_not_boundary_drive",
+        "test_mixer_offset_removes_double_count_and_does_not_change_noise",
+        "test_invalid_offsets_and_singular_feedback",
+        "test_physical_network_nominal_point_and_shared_phase_noise",
+        "test_inconsistent_working_point_is_rejected_instead_of_using_wrong_noise_jacobian",
+        "test_reflected_if_incident_wave_is_part_of_supplied_point",
+        "test_explicit_device_offsets_and_single_conversion_json",
+        "test_json_rejects_offset_override_unknown_fields_and_booleans",
+        "test_cli_bad_working_point_preserves_existing_result"
+      ],
+      "disposition": "Retired Python/JSON adapter suite. Original independent oracles remain at the pinned source; native mechanism coverage is listed in docs/python-interface-retirement.md, not claimed to reproduce every removed fixture.",
+      "migration_coverage": "Native mechanism mapping in docs/python-interface-retirement.md; no assertion of one-to-one fixture equivalence.",
+      "worktree_sha256_before_removal": "cf735d758659c214bc75e90425e2eae01ba57c4bacfb094b02908f45dd615a19"
+    },
+    {
+      "path": "tests/test_am_pm_operating_point.py",
+      "sha256": "0b57ed3973d7b8e481eccd04c526684afd81a54c108cc1102068f75dd5f7f0d7",
+      "historical_source": "https://github.com/minexin/RFSim/blob/e47ea901a2ded2528f7e26502d8635f4d599ab24/tests/test_am_pm_operating_point.py",
+      "test_methods": [
+        "test_phase_response",
+        "test_local_response_and_derivatives",
+        "test_feedback_and_complex_noise",
+        "test_all_four_nonlinear_types",
+        "test_selected_channels_only_and_identity",
+        "test_fixed_offset_after_phase",
+        "test_nf_rebuild_uses_phase_derivative",
+        "test_warm_start",
+        "test_invalid_local_parameters",
+        "test_reject_dc_and_dimensions",
+        "test_invalid_network_mapping",
+        "test_multiple_decorated_devices_and_duplicate_rejection",
+        "test_json_strictness",
+        "test_cli_failure_preserves_result"
+      ],
+      "disposition": "Retired Python/JSON adapter suite. Original independent oracles remain at the pinned source; native mechanism coverage is listed in docs/python-interface-retirement.md, not claimed to reproduce every removed fixture.",
+      "migration_coverage": "Native mechanism mapping in docs/python-interface-retirement.md; no assertion of one-to-one fixture equivalence.",
+      "worktree_sha256_before_removal": "010394900db7ee3962f8480090222a900e943abfd88b969032fd5f0d1a545d43"
+    },
+    {
+      "path": "tests/test_amplifier_operating_point.py",
+      "sha256": "96b216d4e6424e843cba3b210d7cdb5365217a177085ff86731916ceaf0b62da",
+      "historical_source": "https://github.com/minexin/RFSim/blob/e47ea901a2ded2528f7e26502d8635f4d599ab24/tests/test_amplifier_operating_point.py",
+      "test_methods": [
+        "test_complex_derivatives_below_at_and_above_anchor",
+        "test_general_affine_offset_reconstructs_nominal",
+        "test_single_amplifier_python_working_point_and_loaded_noise",
+        "test_feedback_matches_independent_root_and_radial_tangential_noise",
+        "test_cross_frequency_covariance_and_complementary",
+        "test_reflected_output_drive_is_explicit_and_self_consistent",
+        "test_mixed_mixer_amplifier_network_and_shared_phase_noise",
+        "test_reference_noise_figure_uses_converged_derivatives",
+        "test_feedback_warm_start",
+        "test_strict_json_model_fields",
+        "test_direct_parameters_and_duplicate_model_rejection",
+        "test_invalid_channels_dc_and_nonfinite_input",
+        "test_additional_noise_and_fixed_output_offset",
+        "test_cli_nonconvergence_preserves_previous_output"
+      ],
+      "disposition": "Retired Python/JSON adapter suite. Original independent oracles remain at the pinned source; native mechanism coverage is listed in docs/python-interface-retirement.md, not claimed to reproduce every removed fixture.",
+      "migration_coverage": "Native mechanism mapping in docs/python-interface-retirement.md; no assertion of one-to-one fixture equivalence.",
+      "worktree_sha256_before_removal": "1b6974325e1eeefff9a3c79faeb4d8f33c3cdd8a7d7d5abc17e1f00b560119d8"
+    },
+    {
+      "path": "tests/test_butterworth_filter.py",
+      "sha256": "8cfec8b94e197412bf8d547f7ad9f83355bdf47f42c9ab7975ad592e53d7afe9",
+      "historical_source": "https://github.com/minexin/RFSim/blob/e47ea901a2ded2528f7e26502d8635f4d599ab24/tests/test_butterworth_filter.py",
+      "test_methods": [
+        "test_four_responses_against_analog_poles",
+        "test_dual_topology_preserves_transmission",
+        "test_json_against_explicit_lc_network",
+        "test_bandpass_example_and_lossless_noise",
+        "test_narrow_band_and_extreme_attenuation",
+        "test_native_validation",
+        "test_json_rejects_unimplemented_vendor_fields",
+        "test_cli_failure_preserves_output"
+      ],
+      "disposition": "Retired Python/JSON adapter suite. Original independent oracles remain at the pinned source; native mechanism coverage is listed in docs/python-interface-retirement.md, not claimed to reproduce every removed fixture.",
+      "migration_coverage": "Native mechanism mapping in docs/python-interface-retirement.md; no assertion of one-to-one fixture equivalence.",
+      "worktree_sha256_before_removal": "98940dadc8871a72406fd109764e17a58c6abd26657eecc909857cafb196eb79"
+    },
+    {
+      "path": "tests/test_channel_noise.py",
+      "sha256": "ec66d458faa0099d6b776b2bc2cd6043ebcbf3c3c73a383602f428cb6e3399bb",
+      "historical_source": "https://github.com/minexin/RFSim/blob/e47ea901a2ded2528f7e26502d8635f4d599ab24/tests/test_channel_noise.py",
+      "test_methods": [
+        "test_affine_psd_integral_with_clipped_segments",
+        "test_dc_clips_effective_width_including_one_hz_channel",
+        "test_tones_are_discrete_and_band_edges_inclusive",
+        "test_nonfinite_ratios_are_explicit_states",
+        "test_dynamic_range_uses_log_difference",
+        "test_grid_refinement_converges_to_quadratic_integral",
+        "test_conversion_filter_chain_has_correct_noise_and_signal",
+        "test_noise_measurement_requires_full_sampling_coverage",
+        "test_invalid_band",
+        "test_json_measurements_are_strict",
+        "test_cli_missing_band_coverage_preserves_output"
+      ],
+      "disposition": "Retired Python/JSON adapter suite. Original independent oracles remain at the pinned source; native mechanism coverage is listed in docs/python-interface-retirement.md, not claimed to reproduce every removed fixture.",
+      "migration_coverage": "Native mechanism mapping in docs/python-interface-retirement.md; no assertion of one-to-one fixture equivalence.",
+      "worktree_sha256_before_removal": "ed88993ae16eac7789eec51db0958662aad885100bfaf8f6711685c29cfbeadf"
+    },
+    {
+      "path": "tests/test_chebyshev_filter.py",
+      "sha256": "7de300df3bd4f62f0a122864c411dec8445de6d3daf1f3987a13869689a133fc",
+      "historical_source": "https://github.com/minexin/RFSim/blob/e47ea901a2ded2528f7e26502d8635f4d599ab24/tests/test_chebyshev_filter.py",
+      "test_methods": [
+        "test_four_responses_against_analog_poles",
+        "test_independent_edge_attenuation_and_parity",
+        "test_dual_topology_preserves_transmission",
+        "test_json_against_explicit_lc_network",
+        "test_bandpass_example_and_lossless_noise",
+        "test_narrow_band_and_extreme_attenuation",
+        "test_odd_polynomial_near_dc_without_cancellation",
+        "test_native_validation",
+        "test_json_rejects_unimplemented_vendor_fields",
+        "test_cli_failure_preserves_output"
+      ],
+      "disposition": "Retired Python/JSON adapter suite. Original independent oracles remain at the pinned source; native mechanism coverage is listed in docs/python-interface-retirement.md, not claimed to reproduce every removed fixture.",
+      "migration_coverage": "Native mechanism mapping in docs/python-interface-retirement.md; no assertion of one-to-one fixture equivalence.",
+      "worktree_sha256_before_removal": "f9808c8e2e889340574daaaf614ee8486474459f3c5181ad214d2ac9920eb4bf"
+    },
+    {
+      "path": "tests/test_coherent_network_file.py",
+      "sha256": "ddf6c1e845708728d5e572a39d9338cfbc24c470a064cf5fcffd01a0bb76cda7",
+      "historical_source": "https://github.com/minexin/RFSim/blob/e47ea901a2ded2528f7e26502d8635f4d599ab24/tests/test_coherent_network_file.py",
+      "test_methods": [
+        "test_source_definitions_resolve_clock_relationships",
+        "test_split_delay_recombine_at_actual_frequencies",
+        "test_ports_are_not_merged_before_different_transfer_paths",
+        "test_duplicate_port_groups_and_same_port_observation",
+        "test_internal_reflection_and_termination",
+        "test_strict_schema_ports_metadata_and_resource_limits",
+        "test_empty_input_still_validates_topology",
+        "test_touchstone_interpolation_relative_paths_and_empty_dc_policy",
+        "test_cli_runs_and_does_not_overwrite_touchstone_or_result_on_failure"
+      ],
+      "disposition": "Retired Python/JSON adapter suite. Original independent oracles remain at the pinned source; native mechanism coverage is listed in docs/python-interface-retirement.md, not claimed to reproduce every removed fixture.",
+      "migration_coverage": "Native mechanism mapping in docs/python-interface-retirement.md; no assertion of one-to-one fixture equivalence.",
+      "worktree_sha256_before_removal": "eee0bc8483bb552aa33d96f91cb2c695e22f2a4884d8f9332c19ee8e98a4050b"
+    },
+    {
+      "path": "tests/test_coherent_system_file.py",
+      "sha256": "e296e91830ae70fc268c1edb9dfd8c9874c46234b6aaf76b76de351492b7f35d",
+      "historical_source": "https://github.com/minexin/RFSim/blob/e47ea901a2ded2528f7e26502d8635f4d599ab24/tests/test_coherent_system_file.py",
+      "test_methods": [
+        "test_intermod_level_stage_matches_explicit_coefficients",
+        "test_intermod_stage_requires_one_complete_parameterization",
+        "test_intermod_stage_linear_only_reference",
+        "test_highorder_stage_matches_native_and_preserves_mixed_histories",
+        "test_highorder_cascade_applies_source_cutoff_to_direct_histories",
+        "test_eleventh_order_pure_and_mixed_graphs",
+        "test_mixed_polynomial_matches_independent_spectrum",
+        "test_mixed_cancellation_retains_nonlinear_cross_contributions",
+        "test_mixed_origins_are_local_to_streams_and_linear_paths",
+        "test_mixed_recursive_mixer_conjugates_entire_history",
+        "test_mixed_source_order_counts_lo_and_filters_each_contribution",
+        "test_polynomial_mixer_polynomial_matches_independent_chain",
+        "test_mixed_graph_rejects_incomplete_compression_parameters",
+        "test_mixed_graph_cli_and_failure_preserve_existing_result",
+        "test_mixed_polynomial_preserves_independent_coherence_classes",
+        "test_mixed_linear_polynomial_preserves_existing_image_rejection",
+        "test_mixed_expanded_contribution_limit_and_silent_validation",
+        "test_mixed_network_extracts_once_and_preserves_fractional_bandwidth",
+        "test_mixed_fundamental_compression_uses_coherent_total_drive",
+        "test_mixed_limited_amplifier_matches_existing_native_response",
+        "test_mixed_compression_zero_drive_retains_cancelling_contributions",
+        "test_mixed_cascade_distortion_drives_compression_without_remixing",
+        "test_mixed_shared_compression_with_independent_sources",
+        "test_empty_mixed_amplifier_validates_model_and_parameters",
+        "test_recursive_polynomial_aliases_same_root_harmonics",
+        "test_source_order_cutoff_is_explicit_and_counts_dropped_paths",
+        "test_recursive_polynomial_phase_parity",
+        "test_polynomial_follows_limited_amplifier_and_linear_network",
+        "test_recursive_polynomial_matches_independent_two_tone_convolution",
+        "test_recursive_fractional_bandwidth_is_canonical",
+        "test_polynomial_validates_cutoff_and_empty_mixer_bank",
+        "test_recursive_polynomial_cli_and_failure_preserve_output",
+        "test_legacy_mixer_coherent_image_addition_is_preserved",
+        "test_cascade_combines_conducted_and_generated_origins",
+        "test_parallel_amplifiers_share_origins_and_preserve_parity",
+        "test_amplifier_origin_registry_uses_parent_keys_not_local_indices",
+        "test_generated_harmonics_and_intermods_continue_through_mixer",
+        "test_amplifier_rejects_recursive_distortion_and_unknown_fields",
+        "test_compression_before_split_mix_combine_preserves_cancellation",
+        "test_shared_compression_blocker_and_coherent_cancellation",
+        "test_empty_compression_validates_parameters_and_graph_contract",
+        "test_split_mix_combine_and_one_extraction_per_network",
+        "test_independent_lo_and_independent_rf_prevent_cancellation",
+        "test_separate_banks_reuse_origins_and_independent_stage_order",
+        "test_two_conversion_levels_preserve_new_origins",
+        "test_bypass_groups_do_not_collide_with_conversion_groups",
+        "test_frequency_dependent_post_network_on_generated_bins",
+        "test_empty_streams_validate_topology_and_lo",
+        "test_invalid_graphs_fail_without_mutating_model",
+        "test_work_limits",
+        "test_touchstone_cli_and_failure_preserves_existing_output"
+      ],
+      "disposition": "Retired Python/JSON adapter suite. Original independent oracles remain at the pinned source; native mechanism coverage is listed in docs/python-interface-retirement.md, not claimed to reproduce every removed fixture.",
+      "migration_coverage": "Native mechanism mapping in docs/python-interface-retirement.md; no assertion of one-to-one fixture equivalence.",
+      "worktree_sha256_before_removal": "30140dc2afccc48a9775c87067018093ce2f24be4d763f5cf0e5716cd0fe2e96"
+    },
+    {
+      "path": "tests/test_conversion_frequency_plan.py",
+      "sha256": "c04063be302264e134b51ee7a49b4090ff67368a5c62d8561ead53b3603c74be",
+      "historical_source": "https://github.com/minexin/RFSim/blob/e47ea901a2ded2528f7e26502d8635f4d599ab24/tests/test_conversion_frequency_plan.py",
+      "test_methods": [
+        "test_native_rules_and_seed_permutation",
+        "test_json_multistage_equals_explicit_and_independent_time_projection",
+        "test_all_seed_indexed_quantities_and_am_pm_are_remapped",
+        "test_linear_positional_source_noise_and_offsets_use_original_bin_major_order",
+        "test_generated_boundary_never_fills_missing_seed_boundary",
+        "test_explicit_generated_boundary_overrides_default",
+        "test_parameterized_linear_ports_are_explicit_and_checked",
+        "test_unknown_model_rule_and_no_operating_point_rejected",
+        "test_invalid_parameters_and_fixed_point_resource_failure",
+        "test_cli_result_and_failed_planning_preserve_old_output"
+      ],
+      "disposition": "Retired Python/JSON adapter suite. Original independent oracles remain at the pinned source; native mechanism coverage is listed in docs/python-interface-retirement.md, not claimed to reproduce every removed fixture.",
+      "migration_coverage": "Native mechanism mapping in docs/python-interface-retirement.md; no assertion of one-to-one fixture equivalence.",
+      "worktree_sha256_before_removal": "bbd855c84a7c7e68282e80164ae77ad3d3da51f0fefd22a29f6c64b614ce7a29"
+    },
+    {
+      "path": "tests/test_conversion_loaded_noise.py",
+      "sha256": "ac07437db79ae31a8e8030f11cec29a29590ccab7878ea29924eb6e1ffe05441",
+      "historical_source": "https://github.com/minexin/RFSim/blob/e47ea901a2ded2528f7e26502d8635f4d599ab24/tests/test_conversion_loaded_noise.py",
+      "test_methods": [
+        "test_conjugate_feedback_against_complex_scalar_inverse",
+        "test_ordinary_limit_matches_loaded_noise",
+        "test_thermal_equilibrium_and_flow_direction",
+        "test_wires_preserve_cross_statistics_and_net_flow",
+        "test_folded_mixer_c_and_p_cross_orientation",
+        "test_dc_thermal_boundary_uses_real_statistics",
+        "test_requested_statistics_preserve_ordinary_outputs",
+        "test_thermal_boundary_rejects_conflicting_or_active_input",
+        "test_cli_preserves_result_when_extended_output_fails"
+      ],
+      "disposition": "Retired Python/JSON adapter suite. Original independent oracles remain at the pinned source; native mechanism coverage is listed in docs/python-interface-retirement.md, not claimed to reproduce every removed fixture.",
+      "migration_coverage": "Native mechanism mapping in docs/python-interface-retirement.md; no assertion of one-to-one fixture equivalence.",
+      "worktree_sha256_before_removal": "2f0aa2f027e8c0a8ca3616d2dad1955806e5348f1e07c3cf97eba710c76b6d26"
+    },
+    {
+      "path": "tests/test_conversion_network.py",
+      "sha256": "dfe367ef235d68426d07ba75296e1afeb1edddcde43f7246e9f126c2d410f064",
+      "historical_source": "https://github.com/minexin/RFSim/blob/e47ea901a2ded2528f7e26502d8635f4d599ab24/tests/test_conversion_network.py",
+      "test_methods": [
+        "test_filtered_chain_against_independent_poles",
+        "test_warm_pad_chain_preserves_c_and_p",
+        "test_wires_match_bins_not_channel_positions",
+        "test_dc_lift_has_real_noise",
+        "test_frequency_mismatch_is_rejected",
+        "test_repeated_and_self_connections_rejected",
+        "test_boundary_coverage_is_explicit",
+        "test_connected_source_noise_rejected",
+        "test_conflicting_source_noise_rejected",
+        "test_direct_library_feedback",
+        "test_invalid_schema_and_dimensions",
+        "test_nested_touchstone_and_cli_input_protection",
+        "test_cli_failure_preserves_previous_result"
+      ],
+      "disposition": "Retired Python/JSON adapter suite. Original independent oracles remain at the pinned source; native mechanism coverage is listed in docs/python-interface-retirement.md, not claimed to reproduce every removed fixture.",
+      "migration_coverage": "Native mechanism mapping in docs/python-interface-retirement.md; no assertion of one-to-one fixture equivalence.",
+      "worktree_sha256_before_removal": "2f7b05367f3522f2b3080f90ddddca029bcd0070e3507adf81d0c4230c45589d"
+    },
+    {
+      "path": "tests/test_conversion_noise.py",
+      "sha256": "4e5c6d56fe07ac192ff3e2951f158034f3307959d1259b4764e43d5f5c3d3ea2",
+      "historical_source": "https://github.com/minexin/RFSim/blob/e47ea901a2ded2528f7e26502d8635f4d599ab24/tests/test_conversion_noise.py",
+      "test_methods": [
+        "test_ideal_mixer_single_and_double_band",
+        "test_image_suppression_is_not_a_fixed_three_db_correction",
+        "test_phase_sensitive_gain_is_quadrature_average",
+        "test_unheated_lossless_termination_is_allowed",
+        "test_warm_pad_mixer_chain_analytic",
+        "test_passive_pad_reference_temperature",
+        "test_complex_reflections_match_closed_form",
+        "test_reference_experiment_does_not_mutate_sources",
+        "test_invalid_channel_sets",
+        "test_dc_zero_gain_and_active_load_rejected",
+        "test_json_strict_fields_and_channel_names",
+        "test_cli_failure_preserves_result"
+      ],
+      "disposition": "Retired Python/JSON adapter suite. Original independent oracles remain at the pinned source; native mechanism coverage is listed in docs/python-interface-retirement.md, not claimed to reproduce every removed fixture.",
+      "migration_coverage": "Native mechanism mapping in docs/python-interface-retirement.md; no assertion of one-to-one fixture equivalence.",
+      "worktree_sha256_before_removal": "6806eec140f5a9ee629ba10c6f3681d89ecd5c7a0bac03a90ee789d34690f303"
+    },
+    {
+      "path": "tests/test_conversion_power_wave_api.py",
+      "sha256": "bc2970f01c8c621ddd4bd85fbbcc54112f42b156806e02c8fc4e3976e5be22aa",
+      "historical_source": "https://github.com/minexin/RFSim/blob/e47ea901a2ded2528f7e26502d8635f4d599ab24/tests/test_conversion_power_wave_api.py",
+      "test_methods": [
+        "test_default_tuple_compatibility_and_explicit_scalar_precedence",
+        "test_independent_norton_network_full_loaded_cp_and_offsets",
+        "test_boundary_matches_thevenin_full_cp_and_retains_internal_zeros",
+        "test_dc_physical_round_trip_and_identity_representation",
+        "test_invalid_references_dimensions_dc_and_nonfinite",
+        "test_singular_transforms_and_complex_dc_boundaries_fail_without_mutation",
+        "test_extreme_references_follow_independent_norton_thevenin_formulas",
+        "test_ideal_through_needs_no_invertible_physical_z",
+        "test_explicit_vectors_rejected_for_automatic_operating_point",
+        "test_noise_reference_experiment_coordinate_invariance"
+      ],
+      "disposition": "Retired Python/JSON adapter suite. Original independent oracles remain at the pinned source; native mechanism coverage is listed in docs/python-interface-retirement.md, not claimed to reproduce every removed fixture.",
+      "migration_coverage": "Native mechanism mapping in docs/python-interface-retirement.md; no assertion of one-to-one fixture equivalence.",
+      "worktree_sha256_before_removal": "426e0a5cfc69f7769c766c6767279601d74baf21cf61e841ccc0fd8c0e8052aa"
+    },
+    {
+      "path": "tests/test_conversion_power_wave_file.py",
+      "sha256": "79b06bb9a0dee9bb20892a832f409b63e36b73b84fc0668db37d254d44119760",
+      "historical_source": "https://github.com/minexin/RFSim/blob/e47ea901a2ded2528f7e26502d8635f4d599ab24/tests/test_conversion_power_wave_file.py",
+      "test_methods": [
+        "test_mixer_resistor_full_physical_waves_and_noise",
+        "test_example_json_reproduces_independent_physics",
+        "test_single_parameter_mixer_transforms_signal_and_preserves_physical_boundary",
+        "test_single_matrix_affine_and_explicit_c_p_are_already_local",
+        "test_parameter_mixer_explicit_noise_and_offsets_stay_local",
+        "test_linear_static_matrix_is_local_parameter_model_transforms",
+        "test_dc_lift_noise_and_frequency_major_reference_order",
+        "test_touchstone_embedded_noise_preserves_physical_loads",
+        "test_partial_vectors_report_default_refs_without_changing_local_matrices",
+        "test_global_correlated_source_noise_stays_local",
+        "test_legacy_output_shape_unchanged",
+        "test_invalid_vectors_and_complex_dc_are_rejected",
+        "test_unsupported_automatic_paths_fail_explicitly",
+        "test_cli_replay_and_invalid_reference_preserves_output"
+      ],
+      "disposition": "Retired Python/JSON adapter suite. Original independent oracles remain at the pinned source; native mechanism coverage is listed in docs/python-interface-retirement.md, not claimed to reproduce every removed fixture.",
+      "migration_coverage": "Native mechanism mapping in docs/python-interface-retirement.md; no assertion of one-to-one fixture equivalence.",
+      "worktree_sha256_before_removal": "8fbdeecf84fc5f62b39202ef9b005cfe88641c6ce2d8d239d6b513f166f0e384"
+    },
+    {
+      "path": "tests/test_frequency_conversion.py",
+      "sha256": "6cf481e97795613b40bbb167e9d19ecb33662bc94b68a2700ecddecbb2dd0ff5",
+      "historical_source": "https://github.com/minexin/RFSim/blob/e47ea901a2ded2528f7e26502d8635f4d599ab24/tests/test_frequency_conversion.py",
+      "test_methods": [
+        "test_two_sideband_noise_folds_into_if",
+        "test_folded_sidebands_have_complementary_correlation",
+        "test_mixer_signal_matches_existing_including_dc",
+        "test_dc_noise_and_upconverted_real_noise",
+        "test_complex_reflection_and_intrinsic_noise_against_scalar_formula",
+        "test_bidirectional_conversion_feedback_across_frequencies",
+        "test_complex_linear_special_case",
+        "test_invalid_covariances_and_singular_feedback",
+        "test_channel_and_matrix_validation",
+        "test_json_matrix_and_strict_fields",
+        "test_cli_failure_preserves_output"
+      ],
+      "disposition": "Retired Python/JSON adapter suite. Original independent oracles remain at the pinned source; native mechanism coverage is listed in docs/python-interface-retirement.md, not claimed to reproduce every removed fixture.",
+      "migration_coverage": "Native mechanism mapping in docs/python-interface-retirement.md; no assertion of one-to-one fixture equivalence.",
+      "worktree_sha256_before_removal": "e57544d493dada5e9c8b3b2aea5d588a44634c99a46e682da46c87ad2d432636"
+    },
+    {
+      "path": "tests/test_highorder_frequency_plan.py",
+      "sha256": "c20f3e24a67f5af3310ea8c718196676b0eda09bf970f8a006ccf8f3900d0fc0",
+      "historical_source": "https://github.com/minexin/RFSim/blob/e47ea901a2ded2528f7e26502d8635f4d599ab24/tests/test_highorder_frequency_plan.py",
+      "test_methods": [
+        "test_native_late_selection_and_mixed_rules",
+        "test_empty_selection_zero_coefficients_and_eleventh_order",
+        "test_json_feedback_matches_full_manual_grid_and_independent_scalar_reference",
+        "test_seed_statistics_initial_waves_offsets_and_am_pm_remapped",
+        "test_strict_native_parameters_and_resource_failures",
+        "test_json_missing_selection_and_invalid_model_rejected",
+        "test_json_remapped_physical_ports_and_explicit_dc",
+        "test_installed_cli_and_failure_preserves_output"
+      ],
+      "disposition": "Retired Python/JSON adapter suite. Original independent oracles remain at the pinned source; native mechanism coverage is listed in docs/python-interface-retirement.md, not claimed to reproduce every removed fixture.",
+      "migration_coverage": "Native mechanism mapping in docs/python-interface-retirement.md; no assertion of one-to-one fixture equivalence.",
+      "worktree_sha256_before_removal": "217a35547b757545654cd67aa5ec42591892ea4b2b3ea6bf0c65b3b371351f68"
+    },
+    {
+      "path": "tests/test_highorder_operating_point.py",
+      "sha256": "ac4c35f0272df6f11653262ce6f6784769aac777ff0bb613152ff645eded5476",
+      "historical_source": "https://github.com/minexin/RFSim/blob/e47ea901a2ded2528f7e26502d8635f4d599ab24/tests/test_highorder_operating_point.py",
+      "test_methods": [
+        "test_sampled_multitone_response_and_derivatives",
+        "test_affine_offset_and_output_drive",
+        "test_feedback_root_and_correlated_noise",
+        "test_propagating_distortion_drives_generated_noise",
+        "test_empty_coefficients_and_generating_set",
+        "test_custom_ports_and_blocked_dc",
+        "test_support_required_at_zero_drive",
+        "test_invalid_parameters",
+        "test_json_strictness",
+        "test_duplicate_model_indices",
+        "test_four_model_types_in_one_network",
+        "test_fixed_offset_and_additional_noise",
+        "test_warm_start",
+        "test_noise_analysis_reconstructs_converged_model",
+        "test_cli_failure_preserves_result"
+      ],
+      "disposition": "Retired Python/JSON adapter suite. Original independent oracles remain at the pinned source; native mechanism coverage is listed in docs/python-interface-retirement.md, not claimed to reproduce every removed fixture.",
+      "migration_coverage": "Native mechanism mapping in docs/python-interface-retirement.md; no assertion of one-to-one fixture equivalence.",
+      "worktree_sha256_before_removal": "49d330cf829410db47de19682809931bbbb9af4a1ac9eadbbd33813a771d8fa7"
+    },
+    {
+      "path": "tests/test_linear_noise_analysis.py",
+      "sha256": "eb81d885af263928ca18d9992c702adeeb1224680fa8a58d2fa3fbfa4a4609f0",
+      "historical_source": "https://github.com/minexin/RFSim/blob/e47ea901a2ded2528f7e26502d8635f4d599ab24/tests/test_linear_noise_analysis.py",
+      "test_methods": [
+        "test_frequency_sources_and_complex_references",
+        "test_default_source_is_physical_internal_reference",
+        "test_reference_temperature_and_explicit_noiseless",
+        "test_external_port_order_selects_direction",
+        "test_boundary_results_do_not_supply_intrinsic_noise",
+        "test_touchstone_noise_analysis",
+        "test_invalid_requests",
+        "test_failure_identifies_frequency",
+        "test_cli_preserves_output_after_later_frequency_failure"
+      ],
+      "disposition": "Retired Python/JSON adapter suite. Original independent oracles remain at the pinned source; native mechanism coverage is listed in docs/python-interface-retirement.md, not claimed to reproduce every removed fixture.",
+      "migration_coverage": "Native mechanism mapping in docs/python-interface-retirement.md; no assertion of one-to-one fixture equivalence.",
+      "worktree_sha256_before_removal": "e42786b3a2b6465792778912a1dc72767eb19ec40f1ef5cb9b8f88bc68c21023"
+    },
+    {
+      "path": "tests/test_mixed_reference.py",
+      "sha256": "d5f678adaef50173097ec2a535fca788df6d47fadf92580b263a1ab8aea6152d",
+      "historical_source": "https://github.com/minexin/RFSim/blob/e47ea901a2ded2528f7e26502d8635f4d599ab24/tests/test_mixed_reference.py",
+      "test_methods": [
+        "test_native_binding_query_and_wiring",
+        "test_json_models_signal_and_thermal_noise",
+        "test_explicit_s_is_already_in_declared_coordinates",
+        "test_cross_device_covariance_is_local_and_correlations_survive",
+        "test_explicit_device_noise_stays_in_local_coordinates",
+        "test_touchstone_embedded_noise_and_nf_transform_together",
+        "test_output_conversion_preserves_boundary_coordinates",
+        "test_internal_termination_uses_its_local_reference",
+        "test_invalid_json_references",
+        "test_python_failed_add_and_closed_handles",
+        "test_uniform_reference_algorithms_reject_mixed_coordinates",
+        "test_cli_example_and_failure_preserve_output",
+        "test_example_is_rerunnable"
+      ],
+      "disposition": "Retired Python/JSON adapter suite. Original independent oracles remain at the pinned source; native mechanism coverage is listed in docs/python-interface-retirement.md, not claimed to reproduce every removed fixture.",
+      "migration_coverage": "Native mechanism mapping in docs/python-interface-retirement.md; no assertion of one-to-one fixture equivalence.",
+      "worktree_sha256_before_removal": "26d630b729b03a63c8a01f3f476e7abc6c9b32678cb78a80432630b90c2dcae4"
+    },
+    {
+      "path": "tests/test_mixer_linearization.py",
+      "sha256": "28ea9970b4c60cf2af6646fcc55cb7fcfee60d96b6809ed9b504db843d444f08",
+      "historical_source": "https://github.com/minexin/RFSim/blob/e47ea901a2ded2528f7e26502d8635f4d599ab24/tests/test_mixer_linearization.py",
+      "test_methods": [
+        "test_nominal_and_all_quadrature_derivatives_against_fourier_convolution",
+        "test_second_order_residual_scales_quadratically",
+        "test_shared_phase_sum_and_difference_gains",
+        "test_incremental_network_with_upstream_filter_and_shared_lo",
+        "test_independent_rf_lo_phases_add",
+        "test_complex_carriers_and_lo_amplitude_normalization",
+        "test_reciprocal_mixing_of_strong_blocker",
+        "test_rf_derivative_reduces_to_existing_fixed_pump",
+        "test_same_frequency_dc_and_phase_detector",
+        "test_invalid_operating_points_and_incremental_closure",
+        "test_json_operating_and_incremental_results_are_separate",
+        "test_json_rejects_ambiguous_or_unknown_inputs",
+        "test_cli_failure_preserves_result"
+      ],
+      "disposition": "Retired Python/JSON adapter suite. Original independent oracles remain at the pinned source; native mechanism coverage is listed in docs/python-interface-retirement.md, not claimed to reproduce every removed fixture.",
+      "migration_coverage": "Native mechanism mapping in docs/python-interface-retirement.md; no assertion of one-to-one fixture equivalence.",
+      "worktree_sha256_before_removal": "fabce40f136b68bd91d1baabd192b56ea117a922a2ac8458e4a0154623a6dc16"
+    },
+    {
+      "path": "tests/test_monte_carlo.py",
+      "sha256": "b870a2994539738741a018e079b438d6a1b46c5e00a572b8208e83d5a8815c17",
+      "historical_source": "https://github.com/minexin/RFSim/blob/e47ea901a2ded2528f7e26502d8635f4d599ab24/tests/test_monte_carlo.py",
+      "test_methods": [
+        "test_golden_random_stream",
+        "test_six_distributions_replay",
+        "test_degenerate_and_defaults",
+        "test_exact_statistics",
+        "test_extreme_statistics",
+        "test_measurement_failures",
+        "test_exception_diagnostics",
+        "test_failure_denominators_and_attempt_budget",
+        "test_sampling_failures_and_json",
+        "test_cancellation",
+        "test_fatal_exceptions_and_cleanup",
+        "test_cancel_and_exception_formatting_errors",
+        "test_input_validation_before_callbacks",
+        "test_frozen_request_and_callback_reentry",
+        "test_inclusive_multimetric_criteria",
+        "test_bounded_iterables",
+        "test_rf_resistor_tolerance"
+      ],
+      "disposition": "Retired Python/JSON adapter suite. Original independent oracles remain at the pinned source; native mechanism coverage is listed in docs/python-interface-retirement.md, not claimed to reproduce every removed fixture.",
+      "migration_coverage": "Native mechanism mapping in docs/python-interface-retirement.md; no assertion of one-to-one fixture equivalence.",
+      "worktree_sha256_before_removal": "b0ed9cba8781e2ab9d95d59586483de8a510e0ed623da0db86c8e71f4653fb4f"
+    },
+    {
+      "path": "tests/test_monte_carlo_extended.py",
+      "sha256": "75e545ce97d3764f74d0836e7466a811e3c2e699f754f3c2d17359d6947f8109",
+      "historical_source": "https://github.com/minexin/RFSim/blob/e47ea901a2ded2528f7e26502d8635f4d599ab24/tests/test_monte_carlo_extended.py",
+      "test_methods": [
+        "test_legacy_result_and_independent_stream",
+        "test_singular_correlation_and_replay",
+        "test_joint_pairing_before_quantile_sort",
+        "test_extreme_covariance_and_unavailable_values",
+        "test_rejected_rows_are_paired",
+        "test_sampling_failure_and_cancellation",
+        "test_cleanup_on_fatal_callback_or_new_getter_failure",
+        "test_frozen_inputs_and_immutable_snapshots",
+        "test_invalid_matrix_requests_before_callbacks",
+        "test_all_six_correlated_marginals",
+        "test_rf_correlated_resistors",
+        "test_version_two_task_matches_direct_api",
+        "test_version_one_shape_and_version_two_defaults",
+        "test_task_freezes_version_and_dependence",
+        "test_task_invalid_matrix_and_no_extra_analyses",
+        "test_version_two_all_nine_analyses",
+        "test_cli_v2_roundtrip_protection_and_failed_output",
+        "test_v2_touchstone_dependency_change_and_output_protection"
+      ],
+      "disposition": "Retired Python/JSON adapter suite. Original independent oracles remain at the pinned source; native mechanism coverage is listed in docs/python-interface-retirement.md, not claimed to reproduce every removed fixture.",
+      "migration_coverage": "Native mechanism mapping in docs/python-interface-retirement.md; no assertion of one-to-one fixture equivalence.",
+      "worktree_sha256_before_removal": "77ff78ebe8c7d18c331206ee040b70638b5fc7475db58344edcfd0efaa63d68f"
+    },
+    {
+      "path": "tests/test_monte_carlo_file.py",
+      "sha256": "864535d35e6748ee11f5d39a5dd8d577c069a5feb9e0e381d40c221bdff67511",
+      "historical_source": "https://github.com/minexin/RFSim/blob/e47ea901a2ded2528f7e26502d8635f4d599ab24/tests/test_monte_carlo_file.py",
+      "test_methods": [
+        "test_resistor_complete_trace_and_statistics",
+        "test_image_phase_analytic_population",
+        "test_all_distribution_contracts_use_native_stream",
+        "test_shared_parameter_multiple_bindings",
+        "test_discrete_integer_model_fields",
+        "test_all_measurement_components",
+        "test_history_switch_and_no_export_reanalysis",
+        "test_failure_policy_counts_attempts_without_resampling",
+        "test_sampling_binding_and_measurement_failures",
+        "test_cancellation_and_fatal_exception",
+        "test_schema_validation_precedes_analysis",
+        "test_unique_selectors_overlaps_and_integer_range",
+        "test_frozen_document_during_callback",
+        "test_existing_nine_analysis_formats",
+        "test_touchstone_fingerprints_cli_and_hardlinks",
+        "test_dependency_change_discards_task",
+        "test_full_seed_defaults_and_cli_sample_failure"
+      ],
+      "disposition": "Retired Python/JSON adapter suite. Original independent oracles remain at the pinned source; native mechanism coverage is listed in docs/python-interface-retirement.md, not claimed to reproduce every removed fixture.",
+      "migration_coverage": "Native mechanism mapping in docs/python-interface-retirement.md; no assertion of one-to-one fixture equivalence.",
+      "worktree_sha256_before_removal": "c172f84b38072fa5d27fd14cfbdf3dd259aa2bea1ec7fb4eb4277cccb3858c46"
+    },
+    {
+      "path": "tests/test_operating_point.py",
+      "sha256": "a1c8a3ef1ca7a0c9830792878c0fe628cd3c24f45794296bd6127b50f7ee2bc4",
+      "historical_source": "https://github.com/minexin/RFSim/blob/e47ea901a2ded2528f7e26502d8635f4d599ab24/tests/test_operating_point.py",
+      "test_methods": [
+        "test_fixed_product_fourier_and_complex_derivatives",
+        "test_lo_scaling_zero_and_full_closure",
+        "test_physical_feedback_analytic_root_and_true_equations",
+        "test_rf_nominal_and_shared_noise_after_solve",
+        "test_actual_lo_drive_changes_nominal_gain",
+        "test_converged_jacobian_is_used_for_reference_noise_figure",
+        "test_warm_start_and_different_solution_branch",
+        "test_loaded_and_additional_noise_linear_limit",
+        "test_direct_python_network_and_duplicate_model_rejection",
+        "test_limits_and_invalid_options",
+        "test_strict_json_model_and_explicit_opt_in",
+        "test_reflected_if_is_solved_without_supplied_point",
+        "test_cli_nonconvergence_preserves_existing_output"
+      ],
+      "disposition": "Retired Python/JSON adapter suite. Original independent oracles remain at the pinned source; native mechanism coverage is listed in docs/python-interface-retirement.md, not claimed to reproduce every removed fixture.",
+      "migration_coverage": "Native mechanism mapping in docs/python-interface-retirement.md; no assertion of one-to-one fixture equivalence.",
+      "worktree_sha256_before_removal": "4313e4a14b5891013eef740043e567aa9e2d56738a52f7fcc17e38bd25816f89"
+    },
+    {
+      "path": "tests/test_optimization.py",
+      "sha256": "1ceb744ccb01b245193e6b45edb35fe11f39325d02288ee47f74fc2026f878b6",
+      "historical_source": "https://github.com/minexin/RFSim/blob/e47ea901a2ded2528f7e26502d8635f4d599ab24/tests/test_optimization.py",
+      "test_methods": [
+        "test_mixed_and_replay",
+        "test_stops_and_cancellation",
+        "test_objective_failures",
+        "test_fatal_exception_cleanup",
+        "test_validation_before_callback",
+        "test_rf_matching_physical_reference"
+      ],
+      "disposition": "Retired Python/JSON adapter suite. Original independent oracles remain at the pinned source; native mechanism coverage is listed in docs/python-interface-retirement.md, not claimed to reproduce every removed fixture.",
+      "migration_coverage": "Native mechanism mapping in docs/python-interface-retirement.md; no assertion of one-to-one fixture equivalence.",
+      "worktree_sha256_before_removal": "e62beb6fa74d31a1c0df09845243d94b5ffaf74d1ab0a1aea4fc3e191631c409"
+    },
+    {
+      "path": "tests/test_optimization_file.py",
+      "sha256": "efced21e951b0f18e8f2ced80236ed82f2008229c56bbbd3d7051bf895923f7a",
+      "historical_source": "https://github.com/minexin/RFSim/blob/e47ea901a2ded2528f7e26502d8635f4d599ab24/tests/test_optimization_file.py",
+      "test_methods": [
+        "test_lc_known_minimum_and_complete_trace",
+        "test_coherent_system_image_phase",
+        "test_integer_multiple_bindings_and_units",
+        "test_all_objective_formulas_and_complex_components",
+        "test_budget_snapshot_without_extra_analysis",
+        "test_cancellation_and_invalid_candidate_policy",
+        "test_schema_rejection_before_analysis",
+        "test_result_path_and_log_zero_fail_explicitly",
+        "test_touchstone_fingerprint_and_cli_protection",
+        "test_ambiguous_overlapping_and_integer_range_bindings",
+        "test_existing_analysis_formats_as_fixed_tasks",
+        "test_changing_dependency_discarded"
+      ],
+      "disposition": "Retired Python/JSON adapter suite. Original independent oracles remain at the pinned source; native mechanism coverage is listed in docs/python-interface-retirement.md, not claimed to reproduce every removed fixture.",
+      "migration_coverage": "Native mechanism mapping in docs/python-interface-retirement.md; no assertion of one-to-one fixture equivalence.",
+      "worktree_sha256_before_removal": "2aeacbc95bf7e728ca6dd31f6e1723b02175aa923e765b4f5d74eb36f4f2e77c"
+    },
+    {
+      "path": "tests/test_passive_model_file.py",
+      "sha256": "15c4f5028bdf1e98688b9d1c7181317f5aa45a6fe54b1fda36210be406782d6c",
+      "historical_source": "https://github.com/minexin/RFSim/blob/e47ea901a2ded2528f7e26502d8635f4d599ab24/tests/test_passive_model_file.py",
+      "test_methods": [
+        "test_native_rlc_equations",
+        "test_native_rlc_dc_limits",
+        "test_native_matched_attenuation_and_delay",
+        "test_native_divider_noise_and_complex_phase",
+        "test_native_quadrature_power_and_isolation",
+        "test_rc_network_against_abcd",
+        "test_series_resistor_noise_minimum_boundary_is_explicit",
+        "test_json_multiport_models",
+        "test_coherent_network_reuses_passive_models",
+        "test_native_invalid_parameters",
+        "test_json_rejects_ambiguous_units_and_invalid_values",
+        "test_cli_and_failure_preserves_output"
+      ],
+      "disposition": "Retired Python/JSON adapter suite. Original independent oracles remain at the pinned source; native mechanism coverage is listed in docs/python-interface-retirement.md, not claimed to reproduce every removed fixture.",
+      "migration_coverage": "Native mechanism mapping in docs/python-interface-retirement.md; no assertion of one-to-one fixture equivalence.",
+      "worktree_sha256_before_removal": "07aab54dcf3a5710294e54cfd599e4f568ac44d28b6ee390e28391e3c6db97d3"
+    },
+    {
+      "path": "tests/test_phase_noise.py",
+      "sha256": "d10575854dbb7e9ef4d79f6566ee27acea78ca5368060b627e3215b6d617e051",
+      "historical_source": "https://github.com/minexin/RFSim/blob/e47ea901a2ded2528f7e26502d8635f4d599ab24/tests/test_phase_noise.py",
+      "test_methods": [
+        "test_statistics_from_independent_four_phase_ensemble",
+        "test_carrier_phase_rotates_complementary_twice",
+        "test_unordered_channels_and_independent_offsets",
+        "test_linear_filter_and_complex_reflection_closed_form",
+        "test_in_phase_mixer_rejects_first_order_pm",
+        "test_quadrature_mixer_detects_pm_and_phase_scan",
+        "test_log_scaling_avoids_intermediate_overflow",
+        "test_tiny_carrier_has_well_normalized_phase",
+        "test_invalid_carrier_channels_and_offsets",
+        "test_json_detector_and_offset_band_integration",
+        "test_independent_sources_add_even_with_overlapping_sidebands",
+        "test_json_strict_validation",
+        "test_cli_failure_preserves_existing_result"
+      ],
+      "disposition": "Retired Python/JSON adapter suite. Original independent oracles remain at the pinned source; native mechanism coverage is listed in docs/python-interface-retirement.md, not claimed to reproduce every removed fixture.",
+      "migration_coverage": "Native mechanism mapping in docs/python-interface-retirement.md; no assertion of one-to-one fixture equivalence.",
+      "worktree_sha256_before_removal": "a60d912e29f03690e4155278aaaf6468a716456cebcf2fab9610218608b5db58"
+    },
+    {
+      "path": "tests/test_polynomial_operating_point.py",
+      "sha256": "6b46f385743aceef7c0e7a6d270f5ef46245d99fc5cd8d0893fa6d066a9bab10",
+      "historical_source": "https://github.com/minexin/RFSim/blob/e47ea901a2ded2528f7e26502d8635f4d599ab24/tests/test_polynomial_operating_point.py",
+      "test_methods": [
+        "test_structural_frequency_planning",
+        "test_time_domain_nominal_and_complex_derivatives",
+        "test_general_offset_with_constant_and_mixed_orders",
+        "test_feedback_root_harmonic_and_correlated_noise",
+        "test_three_model_types_in_one_network",
+        "test_unoccupied_input_produces_noise_and_complementary_correlation",
+        "test_rectified_dc_and_harmonic_noise",
+        "test_converged_reference_noise_figure",
+        "test_warm_start",
+        "test_custom_ports_reference_and_constant_limit",
+        "test_missing_support_fails_even_at_zero_drive",
+        "test_strict_coefficients_and_options",
+        "test_duplicate_model_indices_and_polynomial_parameter_errors",
+        "test_fixed_offset_additional_noise",
+        "test_cli_failure_preserves_previous_result"
+      ],
+      "disposition": "Retired Python/JSON adapter suite. Original independent oracles remain at the pinned source; native mechanism coverage is listed in docs/python-interface-retirement.md, not claimed to reproduce every removed fixture.",
+      "migration_coverage": "Native mechanism mapping in docs/python-interface-retirement.md; no assertion of one-to-one fixture equivalence.",
+      "worktree_sha256_before_removal": "443d60cba104aee5f52731dc8057092d23e080e42e6b584200f2b7912079ea2c"
+    },
+    {
+      "path": "tests/test_power_wave_stages.py",
+      "sha256": "7023e6bd0fc7730106940e17b404399c74672e50cab94ce6f4bf72428b12fd56",
+      "historical_source": "https://github.com/minexin/RFSim/blob/e47ea901a2ded2528f7e26502d8635f4d599ab24/tests/test_power_wave_stages.py",
+      "test_methods": [
+        "test_snapshot_lifetime_reference_and_reordering",
+        "test_snapshot_coherence_and_mixing_identity",
+        "test_snapshot_bad_inputs_and_bounded_iterables",
+        "test_snapshot_python_adoption_failure_releases_handle",
+        "test_spectrum_rc_matches_independent_abcd_and_preserves_input",
+        "test_spectrum_different_stage_reference",
+        "test_coherent_two_sided_sources_and_external_order",
+        "test_explicit_s_is_already_local_and_not_converted_twice",
+        "test_multiport_shared_and_independent_sources",
+        "test_generated_mixer_frequencies_recompute_network",
+        "test_amplifier_post_stage_preserves_sources",
+        "test_expression_graph_and_highorder_keep_origins",
+        "test_empty_input_still_validates_mixed_topology_and_references",
+        "test_invalid_reference_descriptions",
+        "test_touchstone_parameter_coordinates_and_file_identity",
+        "test_cli_example_and_failure_preserves_existing_output"
+      ],
+      "disposition": "Retired Python/JSON adapter suite. Original independent oracles remain at the pinned source; native mechanism coverage is listed in docs/python-interface-retirement.md, not claimed to reproduce every removed fixture.",
+      "migration_coverage": "Native mechanism mapping in docs/python-interface-retirement.md; no assertion of one-to-one fixture equivalence.",
+      "worktree_sha256_before_removal": "9c983948be1e8361640f2bb85114b6e40eaa1674bd04e5846e03be2d9fc54b00"
+    },
+    {
+      "path": "tests/test_python_api.py",
+      "sha256": "97d1c846cb1b708559f0f8b5974bf582bd05c548528d77deadc2a9643b6639ed",
+      "historical_source": "https://github.com/minexin/RFSim/blob/e47ea901a2ded2528f7e26502d8635f4d599ab24/tests/test_python_api.py",
+      "test_methods": [
+        "test_power_wave_noise_physical_invariance",
+        "test_power_wave_noise_passive_and_temperature",
+        "test_power_wave_noise_invalid_inputs",
+        "test_power_wave_load_and_physical_parameters",
+        "test_power_wave_noise_preserves_small_transfer_at_wide_references",
+        "test_power_wave_noise_and_roundtrip",
+        "test_power_wave_validation",
+        "test_linear_complex_output_references",
+        "test_linear_output_reference_boundaries_and_validation",
+        "test_intermod_levels_and_explicit_signs",
+        "test_intermod_levels_reject_incomplete_and_invalid_definitions",
+        "test_explicit_high_order_intercept_coefficients",
+        "test_intercept_definitions_reject_ambiguous_or_wrapped_values",
+        "test_tenth_and_eleventh_order_end_to_end",
+        "test_unified_highorder_amplifier_and_operating_point",
+        "test_highorder_rejects_invalid_parameters_and_propagates_only_when_enabled",
+        "test_common_amplifier_operating_point",
+        "test_common_response_rejects_invalid_drives_and_parameters",
+        "test_origin_expression_distribution_and_cancellation",
+        "test_origin_expression_sum_and_empty",
+        "test_origin_expression_rejects_invalid_inputs",
+        "test_recursive_mixing_origin_conjugation_and_multiplicity",
+        "test_coherent_polynomial_high_order_and_secondary_inputs",
+        "test_coherent_amplifier_origins_and_downstream",
+        "test_coherent_cascade_distortion_drive_and_kind",
+        "test_coherent_fundamental_compression_shared_drive",
+        "test_coherent_mixer_clock_phase_and_network_combination",
+        "test_source_clock_assignment_and_utf8_validation",
+        "test_multiport_coherent_interference_and_closed_handle",
+        "test_coherent_network_internal_feedback_and_source_rejection",
+        "test_coherent_reduction_and_explicit_group_validation",
+        "test_coherence_json_cli_and_strict_schema",
+        "test_complex_cascade_and_waves",
+        "test_network_spectrum_internal_feedback_and_dc",
+        "test_json_mixer_linear_network_frequency_evaluation",
+        "test_json_linear_spectrum_rejects_ambiguous_contracts",
+        "test_touchstone_unicode_snapshot_interpolation_and_lifetime",
+        "test_touchstone_reference_noise_metadata_and_errors",
+        "test_json_touchstone_linear_and_converted_frequency_response",
+        "test_touchstone_cli_relative_paths_and_input_protection",
+        "test_touchstone_noise_snapshot_reference_and_json",
+        "test_touchstone_noise_missing_invalid_and_separate_domain",
+        "test_json_p1db_fundamental_with_linear_output",
+        "test_saturating_fundamental_phase_drive_and_json",
+        "test_multitone_families_json_and_cli",
+        "test_term_network_preserves_cancellation_and_zero",
+        "test_amplifier_linear_post_stages_and_input_protection",
+        "test_multitone_term_provenance_and_json",
+        "test_multitone_rejects_invalid_input_and_schema",
+        "test_limited_single_tone_api_and_json",
+        "test_json_p1db_rejects_multitone_dc_and_overdrive",
+        "test_p1db_cli_preserves_output_for_multitone",
+        "test_native_error_preserves_network",
+        "test_p1db_fundamental_phase_calibration_and_domain",
+        "test_p1db_total_drive_calibration_and_domain",
+        "test_spectral_fundamental_total_drive",
+        "test_polynomial_even_harmonics_and_difference_frequency",
+        "test_json_square_law_spectrum",
+        "test_intercept_amplifier_analytic_products_and_json",
+        "test_shape_indices_and_nonfinite",
+        "test_context_exception_and_double_close",
+        "test_finalizer_does_not_retain_network",
+        "test_invalid_creation",
+        "test_cubic_two_tone_and_compression",
+        "test_mixer_phase_dc_and_coherent_cancellation",
+        "test_spectrum_invalid_inputs",
+        "test_spectrum_file_chain",
+        "test_spectrum_cli",
+        "test_cascaded_thermal_noise",
+        "test_loaded_noise_scalar_and_thermal_equilibrium",
+        "test_loaded_noise_correlations_and_errors",
+        "test_correlated_noise_and_validation",
+        "test_model_file_sweep",
+        "test_json_signal_feedback_and_power",
+        "test_json_signal_keeps_noise_reference_conditions",
+        "test_device_noise_mixed_chain",
+        "test_device_noise_frequency_samples",
+        "test_parameter_models_and_json",
+        "test_amplifier_parameters_and_chain",
+        "test_json_complex_amplifier_impedance",
+        "test_model_file_rejects_ambiguous_or_invalid_input",
+        "test_model_file_correlated_noise_and_termination",
+        "test_json_loaded_noise_feedback_and_order",
+        "test_json_loaded_noise_equilibrium_and_signal_independence",
+        "test_json_loaded_noise_rejects_incomplete_or_invalid_boundaries",
+        "test_model_file_cli_preserves_output_on_failure"
+      ],
+      "disposition": "Retired Python/JSON adapter suite. Original independent oracles remain at the pinned source; native mechanism coverage is listed in docs/python-interface-retirement.md, not claimed to reproduce every removed fixture.",
+      "migration_coverage": "Native mechanism mapping in docs/python-interface-retirement.md; no assertion of one-to-one fixture equivalence.",
+      "worktree_sha256_before_removal": "dd7e8256a31aa630400a67398107be044767c5f1eaf2265f4b67c11f9c70e4ce"
+    },
+    {
+      "path": "tests/test_shared_phase_noise.py",
+      "sha256": "4156551789dccfab9680fddcd7ee3c50c6ae950819af435c642c2c31253e8166",
+      "historical_source": "https://github.com/minexin/RFSim/blob/e47ea901a2ded2528f7e26502d8635f4d599ab24/tests/test_shared_phase_noise.py",
+      "test_methods": [
+        "test_group_matches_independent_latent_ensemble",
+        "test_coincident_upper_lower_sidebands_are_improper",
+        "test_signed_zero_and_frequency_scaling_gains",
+        "test_invalid_group_members_and_offsets",
+        "test_cross_device_complex_reflection_and_loaded_closed_form",
+        "test_invalid_noise_cannot_be_hidden_by_independent_positive_noise",
+        "test_noise_on_connected_channels_is_rejected",
+        "test_dc_requires_real_source_noise",
+        "test_shared_clock_cancellation_and_gain_difference",
+        "test_independent_groups_and_residual_noise_add",
+        "test_json_strict_boundaries",
+        "test_explicit_global_noise_json_and_unchanged_carrier",
+        "test_cli_failure_preserves_result"
+      ],
+      "disposition": "Retired Python/JSON adapter suite. Original independent oracles remain at the pinned source; native mechanism coverage is listed in docs/python-interface-retirement.md, not claimed to reproduce every removed fixture.",
+      "migration_coverage": "Native mechanism mapping in docs/python-interface-retirement.md; no assertion of one-to-one fixture equivalence.",
+      "worktree_sha256_before_removal": "09fa6080a5700c7be1660b7b69710025dfe51a5f516527f089f1d199d272beb4"
+    }
+  ],
+  "original_python_test_methods": 503,
+  "interpretation": "Removal inventory, not a claim that retired tests passed or all fixtures migrated.",
+  "numerical_kernel_changed": false,
+  "typed_cpp_orchestration_added": true,
+  "developer_tool_limitations": "Some historical binding-backed comparison commands now fail explicitly; baseline source and capture/scoring data retained. Supported native high-order replays remain executable.",
+  "sha256_basis": "Exact Git blob bytes at baseline_commit; worktree_sha256_before_removal separately records checkout bytes."
+}

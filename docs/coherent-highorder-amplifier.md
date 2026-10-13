@@ -1,5 +1,7 @@
 # 显式高阶放大器与共同压缩
 
+> 接口更新（2026-10-13）：Python 产品包、wheel 和 Python/JSON CLI 已退役。本页涉及这些入口的命令与验证属于历史记录；当前 C++ 入口及迁移范围见 [退役记录](python-interface-retirement.md)。保留的物理结论与厂商差异不因退役而改变。
+
 `CoherentHighOrderAmplifier` 将基波压缩、公共输入限幅与二至十一阶电压多项式
 组合成原生模型，并提供 C ABI、Python 和 JSON 系统图入口。调用者显式提供
 非线性系数；本阶段不自动推导 SystemVue RFAMP 的高阶系数。

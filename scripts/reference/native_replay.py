@@ -474,9 +474,9 @@ def forbid_product_imports():
 
 
 def suite_provider(argv):
-    """Consume explicit native CLI selection, retaining the positional legacy path."""
+    """Consume explicit native CLI selection; product bindings are retired."""
     if len(argv) < 2:
-        raise ValueError("Pass --native-probe EXECUTABLE or the legacy LIBRARY path")
+        raise ValueError("Pass --native-probe EXECUTABLE")
     if argv[1] == "--native-probe":
         if len(argv) < 3:
             raise ValueError("--native-probe requires an executable path")
@@ -488,13 +488,7 @@ def suite_provider(argv):
             return NativeReplay(path)
         native.is_native = True
         return native
-    path = Path(argv.pop(1)).resolve()
-    def legacy():
-        sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "python"))
-        from rfmodel import Library
-        return Library(path)
-    legacy.is_native = False
-    return legacy
+    raise ValueError("Python product bindings are retired; pass --native-probe EXECUTABLE")
 
 
 def atomic_write_report(path, report, *, protected_paths=()):
