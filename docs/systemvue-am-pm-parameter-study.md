@@ -59,6 +59,8 @@ python scripts/reference/diagnose-am-pm-parameter-study.py \
 
 存在本地原始捕获时加 `--raw-root .`，会重新从原始字节归一化并逐项比较。评分命令保留原始公式的失败退出码 `1`；候选映射通过不会使原始公式被报告为通过。已有输出拒绝覆盖。启用 `RFMODEL_BUILD_REFERENCE_TESTS=ON` 后，CTest 的 `native_diagnose_am_pm_parameter_study` 对上述结论及证据拒绝路径进行回归。
 
+提交 `a962def` 的本地 Debug/Release 原生 probe 目标构建成功，两套 AM/PM CTest 各 2/2 通过（新增参数实验套件含 6 项单元测试）。[Debug 正式重放](../validation/am-pm-parameter-study-Debug-20261013.json)与[Release 正式重放](../validation/am-pm-parameter-study-Release-20261013.json)的三个功率轴结果完全一致，均重新核验本地原始捕获。211 个 C/C++ 文件格式检查及差异空白检查通过。这里没有声称本地全量构建、全量 CTest 或安装消费者重测；范围及日志哈希见[验证记录](../validation/am-pm-parameter-study-validation-20261013.json)。
+
 ## 未完成的兼容边界
 
 本轮只覆盖 100 MHz、近似线性 AM-AM 条件、单路 RFAMP、六组 PointDerivative 参数。它没有验证强压缩下组合、多音/来源相位策略、频变或记忆效应，也未解释 DataPoints 模式的旧零 dBm 反例。两种冻结映射都在容差内，当前数据不能唯一辨识厂商归一化实现。后续应独立验证比例来源及不同 AM-AM/频率条件，再决定是否提供明确命名的厂商参数适配；不能静默替换现有文档推导公式。

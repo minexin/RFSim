@@ -1,0 +1,113 @@
+{
+  "schema_version": 1,
+  "recorded_utc": "2026-10-13T12:12:10.075303+00:00",
+  "source_revision": "a962defe1a871596f53462e5c71dc98e2f727b19",
+  "product_core_changed": false,
+  "new_systemvue_analysis_calls": 8,
+  "build_scope": "Current Debug and Release developer reference probe targets only; not a full product or clean-first rebuild.",
+  "local_tests": {
+    "Debug": {
+      "ctest_passed": 2,
+      "ctest_total": 2,
+      "suite_names": [
+        "native_diagnose_am_pm_reference",
+        "native_diagnose_am_pm_parameter_study"
+      ],
+      "new_suite_unittests": 6,
+      "ctest_log_sha256": "27535291d697caf15e73da74bea017058708132a4e818413fe79a573aecce5c3",
+      "build_log_sha256": "eb78f0efb697527b595fe161a3c5e3c7de942828fc9b97cb264f63716d123707"
+    },
+    "Release": {
+      "ctest_passed": 2,
+      "ctest_total": 2,
+      "suite_names": [
+        "native_diagnose_am_pm_reference",
+        "native_diagnose_am_pm_parameter_study"
+      ],
+      "new_suite_unittests": 6,
+      "ctest_log_sha256": "bf3b598d66f859016fb6c38c8e6bf55a9fd4cb6e4ef0bcc82bded372c6aaf069",
+      "build_log_sha256": "3d5690ec633a6a6045098fbf132f775f47f83d06064c9e074ff4c11241fe1c9b"
+    }
+  },
+  "replay": {
+    "Debug": {
+      "path": "validation/am-pm-parameter-study-Debug-20261013.json",
+      "sha256": "15fad8fabf31cf3ab621c5b01ab5511dfd3c37d4a3237701935eb34b31b9c412",
+      "command_exit_code": 1,
+      "exit_reason": "Native analytic vendor comparison fails; expected diagnostic exit.",
+      "raw_bytes_and_normalized_values_verified": true,
+      "sweep_summary": {
+        "native_analytic": {
+          "point_count": 438,
+          "passed_count": 73,
+          "passed": false,
+          "max_circular_error_deg": 0.008627703444737733
+        },
+        "rounded_shift_only": {
+          "point_count": 438,
+          "passed_count": 131,
+          "passed": false,
+          "max_circular_error_deg": 6.840690203091526e-05
+        },
+        "rounded_shift_frozen_scale": {
+          "point_count": 438,
+          "passed_count": 438,
+          "passed": true,
+          "max_circular_error_deg": 2.3151960348855027e-07
+        },
+        "frozen_retrospective_mapping": {
+          "point_count": 438,
+          "passed_count": 438,
+          "passed": true,
+          "max_circular_error_deg": 2.7565498683657097e-07
+        }
+      }
+    },
+    "Release": {
+      "path": "validation/am-pm-parameter-study-Release-20261013.json",
+      "sha256": "5c8addf90f199625509db4485ce46e8a945dd211f5818f3f8be4a65037d23175",
+      "command_exit_code": 1,
+      "exit_reason": "Native analytic vendor comparison fails; expected diagnostic exit.",
+      "raw_bytes_and_normalized_values_verified": true,
+      "sweep_summary": {
+        "native_analytic": {
+          "point_count": 438,
+          "passed_count": 73,
+          "passed": false,
+          "max_circular_error_deg": 0.008627703444737733
+        },
+        "rounded_shift_only": {
+          "point_count": 438,
+          "passed_count": 131,
+          "passed": false,
+          "max_circular_error_deg": 6.840690203091526e-05
+        },
+        "rounded_shift_frozen_scale": {
+          "point_count": 438,
+          "passed_count": 438,
+          "passed": true,
+          "max_circular_error_deg": 2.3151960348855027e-07
+        },
+        "frozen_retrospective_mapping": {
+          "point_count": 438,
+          "passed_count": 438,
+          "passed": true,
+          "max_circular_error_deg": 2.7565498683657097e-07
+        }
+      }
+    }
+  },
+  "format_check": {
+    "cpp_files_checked": 211,
+    "passed": true
+  },
+  "diff_check_passed": true,
+  "debug_release_all_axes_identical": true,
+  "remote_ci": "Pending push at time of this record; recorded separately after completion.",
+  "eligible_for_full_model_compatibility": false,
+  "unrun_locally": [
+    "Full CTest suite",
+    "Installed-consumer rebuild/tests",
+    "Full product clean-first build"
+  ]
+}
