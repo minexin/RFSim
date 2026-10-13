@@ -2,11 +2,13 @@
 
 `<rfmodel/coherent_pipeline.hpp>` 提供 header-only 的 `rfmodel::CoherentPipeline`。
 只需链接安装包中的 `RFModel::rfmodel`；不依赖 C ABI、Python 或 JSON。
-它把现有数值内核串成五种显式操作：`seed`、`mix`、`linear_network`、
-`polynomial` 和 `compress_fundamentals`。每次返回新流，输入流可复用、分支和重合并。
+它把现有数值内核串成七种显式操作：`seed`、`mix`、`linear_network`、
+`polynomial`、`compress_fundamentals`、`limited_amplifier` 和 `highorder_amplifier`。
+每次返回新流，输入流可复用、分支和重合并。
 
 这是有界的前馈计算入口，不是通用系统图调度器。没有 JSON/CLI 装配、序列化、
-自动时钟推断、多输出共享提取、限幅/级联/高阶放大器适配或反馈工作点求解。
+自动时钟推断、多输出共享提取或反馈工作点求解。限幅/高阶适配器及失真传播模式
+只补充此有界类型化入口，不替代 Python 图级调度或级联参考比较器。
 现有 Python 系统图仍保留这些未迁移功能；此入口不构成删除 Python 的依据。
 也不增加 SystemVue MaxOrder、RFAMP 系数、子谱削减、LO 驱动、转换噪声、AM/PM
 或完整厂商兼容性声明。
@@ -66,7 +68,7 @@ bin 的 `mixed` 根，原始 RF/LO 历史完整保留，并且历史仅属于当
 不同物理键再加功率。不能把展开历史的功率直接相加，也不能把所有同频但独立身份
 的复波强行合成。临时展开组不会成为功率或压缩驱动的物理身份。
 
-## 五种操作的边界
+## 七种操作的边界
 
 - `seed(components)`：建立 RF 源根，合并重复物理键并保留来源信息。
 - `mix(input, MixerDrive{lo_bin, lo_group, conversion_gain_db, phase_radians})`：
@@ -91,6 +93,13 @@ bin 的 `mixed` 根，原始 RF/LO 历史完整保留，并且历史仅属于当
   乘到所有历史。返回 `output`、`input_power_w`、`common_amplitude_gain`。
   不能用单个历史功率代替驱动，也不通过输入/输出总波相除推断增益。
   零驱动使用有限的小信号增益，因此相消来源可以大于净驱动而仍合法。
+
+- `limited_amplifier(input, model, mode)`：限幅模型的共同驱动、直接历史传输及
+  source-only 非线性生成，无语义 cutoff；传播模式可携带已有失真。
+- `highorder_amplifier(input, model, max_source_order, mode)`：显式二至十一阶模型，
+  cutoff 逐条作用于直接历史和生成路径，工作点仍由完整未截断物理输入决定。
+  两者默认 `AmplifierInputMode::sources_only`；完整调用、计数及失败契约见
+  [类型化放大器适配器](coherent-pipeline-amplifiers.md)。
 
 `PolynomialResult::counts` 中 `physical_input_count` 是实际物理记录数，
 `expanded_input_count` 是展开历史数（包括展开的零项），`generated_term_count` 是
@@ -135,7 +144,8 @@ C++ 异常报告；空流或零波不会绕过必要参数检查。失败后旧�
 
 `usage()` 返回 `PipelineUsage` 的当前已提交计数：流、变换、物理记录、历史项/因子、
 两类根及注册物理身份因子。`seed` 消耗流和存储预算，不消耗变换次数；
-`mix`、`linear_network`、`polynomial`、`compress_fundamentals` 每次成功各消耗一次变换。
+`mix`、`linear_network`、`polynomial`、`compress_fundamentals`、
+`limited_amplifier`、`highorder_amplifier` 每次成功各消耗一次变换。
 上下文预算累计所有保留快照，不只最新输出；释放一个用户句柄不会回收流预算。
 源和生成相干组使用 `uint64_t`，耗尽显式报错。所有限制取交集，因此某阶段可能先
 触及更小的原生表达式、网络或枚举上限。
@@ -166,7 +176,8 @@ polynomial: physical inputs=3, expanded inputs=4, generated paths=5, discarded p
 [安装消费者](../tests/consumer/coherent_pipeline.cpp)与
 [第二翻译单元](../tests/consumer/coherent_pipeline_probe.cpp)仅包含公开头文件，
 覆盖混频 → 多项式 → 线性网络、独立有符号频谱卷积、手算来源阶数计数、
-历史相消、零驱动公共增益和跨管线句柄拒绝。Release 下检查仍有效。
+历史相消、零驱动公共增益和跨管线句柄拒绝；两个翻译单元还调用两个放大器适配器
+及失真传播模式，检查独立电压乘积、身份复用与完整驱动下的 cutoff。Release 下检查仍有效。
 
 按 [SDK 安装说明](cpp-sdk.md) 关闭 C ABI/Python 后安装，将安装目录整体移到新路径，
 再用新前缀配置 `tests/consumer` 并执行 `installed_coherent_pipeline_consumer`。

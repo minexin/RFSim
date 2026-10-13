@@ -1,0 +1,344 @@
+{
+  "schema": "rfmodel.amplifier-adapter-consumer-validation.v1",
+  "date_utc": "2026-10-13",
+  "verification_completed_at_utc": "2026-10-13T06:56:28.925978+00:00",
+  "scope": "Fresh local Linux Release installed/relocated SDK consumers built from the integrated main checkout at the recorded base plus uncommitted amplifier adapters; no platform/vendor compatibility claim.",
+  "source_directory": "/workspace/scratch/13ffac99a6e4/rfsim-readonly-20261013-0228",
+  "base_revision": "59812cbd7e3786695ef4fcd32f02f573ee6139ac",
+  "source_state": "Integrated working tree with uncommitted approved amplifier adapters.",
+  "compiler": "c++ (Debian 14.2.0-19) 14.2.0",
+  "cmake_version": "3.31.10",
+  "format_version": "19.1.7",
+  "sdk_configuration": {
+    "CMAKE_BUILD_TYPE": "Release",
+    "CMAKE_CXX_STANDARD": "17",
+    "BUILD_TESTING": "OFF",
+    "RFMODEL_BUILD_C_API": "OFF",
+    "RFMODEL_BUILD_CLI": "OFF",
+    "RFMODEL_BUILD_EXAMPLES": "OFF",
+    "RFMODEL_BUILD_PYTHON_TESTS": "OFF",
+    "RFMODEL_BUILD_REFERENCE_TESTS": "OFF"
+  },
+  "sdk_build": "/tmp/rfmodel-amplifier-integrated/consumer-sdk-build",
+  "install_prefix_original": "/tmp/rfmodel-amplifier-integrated/consumer-sdk-original",
+  "install_prefix_relocated": "/tmp/rfmodel-amplifier-integrated/consumer-sdk-relocated",
+  "consumer_build": "/tmp/rfmodel-amplifier-integrated/consumer-release",
+  "consumer_target": "RFModel::rfmodel",
+  "build_parallelism": 1,
+  "ctest": {
+    "passed": 3,
+    "failed": 0,
+    "names": [
+      "installed_consumer",
+      "installed_conversion_api_consumer",
+      "installed_coherent_pipeline_consumer"
+    ]
+  },
+  "pipeline_consumer_output": "PASS: 89 installed coherent pipeline checks",
+  "checks": {
+    "source_only_and_propagation_both_models_both_tus": true,
+    "release_ndebug_present_checks_active": true,
+    "only_relocated_installed_include": true,
+    "compiler_dependencies_only_relocated_rfmodel_headers": true,
+    "original_prefix_absent": true,
+    "installed_package_has_no_source_or_original_prefix_paths": true,
+    "no_python_or_c_discovery": true,
+    "no_python_shared_runtime_probe_files_installed": true,
+    "documentation_relative_link_targets_exist": true,
+    "documentation_example_compiled_and_ran": true,
+    "clang_format_passed": true,
+    "installed_headers_match_current_sources": true,
+    "strict_warnings_passed": true,
+    "sources_unchanged_during_verification": true
+  },
+  "documentation_relative_link_targets_checked": 101,
+  "documentation_anchor_fragments": "Not independently checked in this integrated consumer pass.",
+  "consumer_coverage": [
+    "independent low-drive scalar gain and a2/a3 voltage products",
+    "source/carrier-intermod separation",
+    "conducted/generated harmonic identity reuse",
+    "source-only generation during distortion propagation",
+    "full physical drive before high-order cutoff",
+    "separate direct and generated cutoff counts",
+    "zero-drive cancellation histories and LO-factor cutoff in second translation unit",
+    "previous polynomial/mixing/network and foreign-handle coverage retained"
+  ],
+  "source_sha256": {
+    "CMakeLists.txt": "eead3a276beb7b0aafc9dd90723cb7d574652b9e3343580049811d44a7b104b0",
+    "include/rfmodel/coherent_amplifier.hpp": "4a40d0dd222f18730110060e35ac48c12f193a5ff8a2567c8560f0cab2f055d8",
+    "include/rfmodel/coherent_pipeline.hpp": "ead3bdb2f635afad9af22a41e1c5ddf2dd070d372a49428525025484398dde56",
+    "tests/consumer/CMakeLists.txt": "9b0fa32a0e2c3d07cd6bdd452a46636c60e1852139e212e586f8d12fb4bf2619",
+    "tests/consumer/coherent_pipeline.cpp": "d12b24c0c01798503e5b2c46d14c41febf8ab29e9f4474c9bcaa432f5ca12490",
+    "tests/consumer/coherent_pipeline_probe.cpp": "dbcda4d43b893481dfb653c0a25c5eac7ce64984b0db05e244fc843d90803232",
+    "tests/consumer/conversion_api.cpp": "227681ce3ec884ad166864dae72206f69eb7f209d76cef4fb9e175068de7e148",
+    "tests/consumer/conversion_api_probe.cpp": "7c7bd4de4816b20801d480f366aaccf3102d362e1e51fd4483770342b454318d",
+    "tests/consumer/main.cpp": "399b3cb706161cb35e585552f27680779070a2ac443f0e952bcf87187cf66eb1",
+    "docs/coherent-pipeline-amplifiers.md": "0a5ad1f419ca75007962b59c225c3c3afa71a431903e28c47dcf2e5275eac940",
+    "docs/coherent-pipeline.md": "80f7257405fdf19948bdcf2dfd0ea18a3d71c079f08cfa6dbd616521bf2c963c",
+    "docs/cpp-sdk.md": "2e887ca8cc368a6938b1bd0858747a6c4e08d235786d851bfaee1475f7815186",
+    "docs/python-retirement-plan.md": "10894b82aef7065515ad95247e594fa65659609cd56a8df55850f9e051cf733b",
+    "docs/native-reference-replay.md": "8e5d6ded376c09b0ebc78c2cf04aa54a9f82c9383146ad5724f33042dc28a425",
+    "README.md": "45c21c9208b87bfd52eb2f3391661f2d17feeecd167524fef3828746c626de68"
+  },
+  "installed_header_sha256": {
+    "include/rfmodel/am_pm.hpp": "e59b11f8220d934fc1fc4301170596a11e0302c80152ac0080b28b478e0e1fac",
+    "include/rfmodel/am_pm_linearization.hpp": "e90ca5950812d24048595afe32f2363feb747a083d623416f132712a2559a69f",
+    "include/rfmodel/amplifier_linearization.hpp": "ff6364121ad433d6d53183c679117e5ffc64a5e7fba08eb443bf62c9c64b41e0",
+    "include/rfmodel/amplifier_model.hpp": "fcaadefe88f06515f1b468651360c7832652040caeed56470486f5138aad3610",
+    "include/rfmodel/butterworth_filter.hpp": "af9786e156179cdd94b7d8bab6a79669d3296b2d33c5ad80585e13f391d750a8",
+    "include/rfmodel/c_api.h": "a42b6a1ccce51ef4670f621affb93ede07b543d4d0f3b00b33366e3a4cf817c6",
+    "include/rfmodel/channel_noise.hpp": "7158b6303ce5979d2ef923b894c369aa91d88faf2a381ef056a9830bff083c2d",
+    "include/rfmodel/chebyshev_filter.hpp": "35fddd2a12bbba9afe70c9858aac01cc02b1bc197e5c29f5f2d1e2bb69a3d62a",
+    "include/rfmodel/coherence.hpp": "9a12fc8ef6241f31615f3c9d69b9ef2141a3635d46178a8b8710a94e0d2797de",
+    "include/rfmodel/coherent_amplifier.hpp": "4a40d0dd222f18730110060e35ac48c12f193a5ff8a2567c8560f0cab2f055d8",
+    "include/rfmodel/coherent_compression.hpp": "277f2c3376150612bf6a6b265b186bad9a5c0a5c17f5ec9c176457e59ca3fef2",
+    "include/rfmodel/coherent_highorder_amplifier.hpp": "b5c4517847c9a180cfc73597bb343a1972d94b06c8e106498b72ecf0172dca14",
+    "include/rfmodel/coherent_mixer.hpp": "6b1ea8b6558c99d4a1fb04b92b5f5a831f90aa6e6f65e0df8ba2ef863621af12",
+    "include/rfmodel/coherent_network.hpp": "0ee3e3ede02c17c82203a8ef61b13adf69646b30da5abf7080e77095716a4fe8",
+    "include/rfmodel/coherent_pipeline.hpp": "ead3bdb2f635afad9af22a41e1c5ddf2dd070d372a49428525025484398dde56",
+    "include/rfmodel/coherent_polynomial.hpp": "cc45b9ef0eb34b4acfce6dc859542db19c71e9e231104960ecdccd104cf4b352",
+    "include/rfmodel/conversion_frequency_plan.hpp": "8c9d355b4e8930c01d6e9c3f06bf26029712ef464c0c35fc41504399d29a6ab2",
+    "include/rfmodel/conversion_network.hpp": "09f8dc85bc9931eb8774f072323bcb554486471164c171a2ccd0da20338b0229",
+    "include/rfmodel/conversion_operating_point.hpp": "51582c6bc98e7683fa25144e514bbcd2bbda8644edb4dff93189479e8124e260",
+    "include/rfmodel/conversion_power_wave.hpp": "4f049110e2431dbaaca128aa8d1e1d5532c33f8f4f7d81e4b35401a130ebc236",
+    "include/rfmodel/device_model.hpp": "2dbfe40b4fda23207d8f6d68f89496af9064344ba02f548563196004a0655857",
+    "include/rfmodel/filter_frequency.hpp": "f6f5ff62b5e7a41a831a292002b0561129eb495da49385bec53849d3d85d9db9",
+    "include/rfmodel/frequency_conversion.hpp": "9d18df8f1d7e9be7372ee2c18460c66112af128d6ec86ffd6fc9c806c5d24d6f",
+    "include/rfmodel/fundamental_compression.hpp": "77461853f075d67c7bc4f93c37ea41735f4aa4a9b670acfbb3e7e1081bfd2668",
+    "include/rfmodel/group_delay.hpp": "a6311f4d71a442ae5135bc303160cba03b94cb69e3221193bab829a13ca43541",
+    "include/rfmodel/highorder_linearization.hpp": "cbb6827f41c3cc6ca780e7d795669545d1d8f6c83b1f3095c73f5dc83700b9f6",
+    "include/rfmodel/ideal_devices.hpp": "78223978c84de943cf05a2ef1d40a2b8d763cdc7d745bc521a7ae30e14a1853c",
+    "include/rfmodel/ideal_mixer.hpp": "c13bd668e8b52464febf9f6259a9068156126e92b0eccd9387eda2fd5caad4cc",
+    "include/rfmodel/intermod_levels.hpp": "e765fc9a95a4974db4da3a5dd22cd2fc72579dee57982e3eeb1ee98246a054b1",
+    "include/rfmodel/interpolation.hpp": "321fdb8f762729faabb701d7f414ad34c062adcd2904ec9e60cf06c1b995ebdb",
+    "include/rfmodel/linear_analysis.hpp": "5c2dc9663f4f2b719e8baad57603d2aa4cd139d6babc8567b838532011dc11b5",
+    "include/rfmodel/linear_path.hpp": "98e326cabe8393cef4206394b3ce9cb5a80fa401fe0548cb3f26b8a26040db51",
+    "include/rfmodel/linear_path_noise.hpp": "c9aaa1f647d26274961f76fcc9ec81b42aeb08548d2698393dc12b6776bb370b",
+    "include/rfmodel/linear_solver.hpp": "5a6b388c456ba6cb3f262a3fe403110d93f25d7701d6ee8aff9691af51374aee",
+    "include/rfmodel/loaded_noise.hpp": "3381436cce7944f2b18cd60d3248c2d518c96f87c9581a23334789bdd1aa3b44",
+    "include/rfmodel/lumped_model.hpp": "857b1c07ce77660e8dd447d8210d0a55f3c3074959ad423d82f241c59562ed42",
+    "include/rfmodel/measurements.hpp": "8fff861531c6d0d31de2c8fbbb10810143c1afe636ce24cbb70646a32d26eb37",
+    "include/rfmodel/mixer_linearization.hpp": "5e5dedaabd4b0b278e93c019c2375f5bf3e6fa14da1b63acf6cfed2e713d9b55",
+    "include/rfmodel/mixing_origin.hpp": "daffb38b8beeb39b4447cfe91f760400cfd67931844c4b4a1936a4cbd92dec86",
+    "include/rfmodel/monte_carlo.hpp": "43dbe8f8cf6a1b2bf627f310316928b606fbc445ddd15a34b2998eebbe69e6eb",
+    "include/rfmodel/multiport_devices.hpp": "01f48078bd0b67d8827de91f1d9cfca7f7464d3684b33e889d8a37e7d744d4bd",
+    "include/rfmodel/multitone_amplifier.hpp": "c822c01075029ce2035917a06c936474fa4c1a6fdadec1c389750067d9e660e5",
+    "include/rfmodel/network.hpp": "71ea3f7b0c3a3fdd210a48622a9eceeebd9055271ae446e46b73defe77b50049",
+    "include/rfmodel/network_parameters.hpp": "13bc32a9a7b7ad83bbb6fa01997e08a3dd154c9394553999b8f86787af51efa1",
+    "include/rfmodel/noise.hpp": "83195e05e380836bed2ba7b33eb6132545da01a798f8034d829fbcdd1c370632",
+    "include/rfmodel/noise_figure.hpp": "b92f308019b4d7c0b8e85574d2d7dfada14847d681837206da4ff01e840880a6",
+    "include/rfmodel/noise_matrix.hpp": "616ddcd1cb1b627ef7dd82757ef32807abb01b4617a78137e1f5f0bb9b556ac6",
+    "include/rfmodel/noise_renormalization.hpp": "552c5d0bcad96683d2f968d911061865dfdc4582eb990ff0745a1fe113add19e",
+    "include/rfmodel/nonlinear_spectrum.hpp": "1803b5ccb55c08575b11d4881b52fafb4011c8034b78e3046526a941d771b204",
+    "include/rfmodel/optimization.hpp": "f28859cd94ebaf1c16b51f5f7d362183f047b6bb7024989bb4740ee072abe3f9",
+    "include/rfmodel/origin_expression.hpp": "0ee590fbdeb65515a256d7697021e9c7f59e29ffc5716be50a608c91f3efd7a6",
+    "include/rfmodel/phase_noise.hpp": "fa67ffd895ff41c496b7949b80ac5bbfa7faac222884b2796c65c8ba83948d4c",
+    "include/rfmodel/polynomial_amplifier.hpp": "629bb08d9e1c46d76f9243576c06f4497795f7f16917309422422234d95aeda5",
+    "include/rfmodel/polynomial_intercepts.hpp": "6df4972dd36a853192385a9556ec0ca44ed23795bf9d77d9b627b0c12d772c4e",
+    "include/rfmodel/polynomial_limits.hpp": "317a2bfe8760a9b6add86cd1d4a184628a03b3e243d8cc5320ae2923fa8b9138",
+    "include/rfmodel/polynomial_linearization.hpp": "e1c879299e6bce7385528149054b84eb652e8f77c1dcdae97ffdecd1f06e250d",
+    "include/rfmodel/power_gain.hpp": "7141aeec1292d6d1cf3be7d41b244861af5169e857835cf79810665dd45f8c91",
+    "include/rfmodel/power_wave_network.hpp": "52fb4f96ed0c7a39742891b3dca3b302e69537885fa86a83dcef8b2a86b45e1c",
+    "include/rfmodel/power_wave_noise.hpp": "e7c319e8c72a3b9d74291dfd16f78cd23c18c4c5badb8b45897966ca8e031b5c",
+    "include/rfmodel/power_wave_reference.hpp": "0df3134977d0a2767a9787ba79b0303e573db09c409596277e212f571db315ec",
+    "include/rfmodel/power_wave_spectrum.hpp": "5dd9aa97073e5d9508ef24b9aac58e80017ec125fd5a52c05ca6575771c10cc5",
+    "include/rfmodel/rlc_model.hpp": "7fd8384fe4474e2483fc0f92114466e65326464ad897acb1ad3bcff994b703ac",
+    "include/rfmodel/rlgc_transmission_line.hpp": "5c0f58d3600a24da7d21d5ad4fbec525d76d74bf5330ffadf3ae76376b048a60",
+    "include/rfmodel/saturating_fundamental.hpp": "55e6eb1a567b6b423962f7e3537e010c530a95d68b510bcfacbd91295a113445",
+    "include/rfmodel/single_tone_amplifier.hpp": "b92786905b5a80ee8f5cb6056988eb4a7a2f6c1ca8f870ef781dae331175db01",
+    "include/rfmodel/source_coherence.hpp": "ecdf38512d4df00c4da05782fe037e6a42f368986c584b84aec101ad9909840a",
+    "include/rfmodel/spectrum_analysis.hpp": "2b90262b4844d475fe763de6193bc176a367e2ac300f497cc43ed511b5713dcf",
+    "include/rfmodel/sweep.hpp": "feff709d5ab6232f9d0ee19371b215da37f25b687a31af923cc89e0b41ea3aff",
+    "include/rfmodel/tabulated_model.hpp": "346dce021b24f4726df517321ebbfb24a3ab279ee25bc2f65732c3cff1fc42a7",
+    "include/rfmodel/tabulated_noise_model.hpp": "ab857b793b7100f50be974121d811874f0cec2e3042a393e9353e04ce9b43dd9",
+    "include/rfmodel/term_propagation.hpp": "4c44f61a66e9eae4be20d11fe97f04b692d41922a23624402a202cfbc46d9c3e",
+    "include/rfmodel/touchstone.hpp": "c7b7339d17641cce98b589847d9f639044ccd34d4c5806649c86648cd69b3fb5",
+    "include/rfmodel/transmission_line.hpp": "a792602aef632c66186ae007131523c450264fd512d828327bec98a31f2d2f34"
+  },
+  "source_header_sha256": {
+    "include/rfmodel/am_pm.hpp": "e59b11f8220d934fc1fc4301170596a11e0302c80152ac0080b28b478e0e1fac",
+    "include/rfmodel/am_pm_linearization.hpp": "e90ca5950812d24048595afe32f2363feb747a083d623416f132712a2559a69f",
+    "include/rfmodel/amplifier_linearization.hpp": "ff6364121ad433d6d53183c679117e5ffc64a5e7fba08eb443bf62c9c64b41e0",
+    "include/rfmodel/amplifier_model.hpp": "fcaadefe88f06515f1b468651360c7832652040caeed56470486f5138aad3610",
+    "include/rfmodel/butterworth_filter.hpp": "af9786e156179cdd94b7d8bab6a79669d3296b2d33c5ad80585e13f391d750a8",
+    "include/rfmodel/c_api.h": "a42b6a1ccce51ef4670f621affb93ede07b543d4d0f3b00b33366e3a4cf817c6",
+    "include/rfmodel/channel_noise.hpp": "7158b6303ce5979d2ef923b894c369aa91d88faf2a381ef056a9830bff083c2d",
+    "include/rfmodel/chebyshev_filter.hpp": "35fddd2a12bbba9afe70c9858aac01cc02b1bc197e5c29f5f2d1e2bb69a3d62a",
+    "include/rfmodel/coherence.hpp": "9a12fc8ef6241f31615f3c9d69b9ef2141a3635d46178a8b8710a94e0d2797de",
+    "include/rfmodel/coherent_amplifier.hpp": "4a40d0dd222f18730110060e35ac48c12f193a5ff8a2567c8560f0cab2f055d8",
+    "include/rfmodel/coherent_compression.hpp": "277f2c3376150612bf6a6b265b186bad9a5c0a5c17f5ec9c176457e59ca3fef2",
+    "include/rfmodel/coherent_highorder_amplifier.hpp": "b5c4517847c9a180cfc73597bb343a1972d94b06c8e106498b72ecf0172dca14",
+    "include/rfmodel/coherent_mixer.hpp": "6b1ea8b6558c99d4a1fb04b92b5f5a831f90aa6e6f65e0df8ba2ef863621af12",
+    "include/rfmodel/coherent_network.hpp": "0ee3e3ede02c17c82203a8ef61b13adf69646b30da5abf7080e77095716a4fe8",
+    "include/rfmodel/coherent_pipeline.hpp": "ead3bdb2f635afad9af22a41e1c5ddf2dd070d372a49428525025484398dde56",
+    "include/rfmodel/coherent_polynomial.hpp": "cc45b9ef0eb34b4acfce6dc859542db19c71e9e231104960ecdccd104cf4b352",
+    "include/rfmodel/conversion_frequency_plan.hpp": "8c9d355b4e8930c01d6e9c3f06bf26029712ef464c0c35fc41504399d29a6ab2",
+    "include/rfmodel/conversion_network.hpp": "09f8dc85bc9931eb8774f072323bcb554486471164c171a2ccd0da20338b0229",
+    "include/rfmodel/conversion_operating_point.hpp": "51582c6bc98e7683fa25144e514bbcd2bbda8644edb4dff93189479e8124e260",
+    "include/rfmodel/conversion_power_wave.hpp": "4f049110e2431dbaaca128aa8d1e1d5532c33f8f4f7d81e4b35401a130ebc236",
+    "include/rfmodel/device_model.hpp": "2dbfe40b4fda23207d8f6d68f89496af9064344ba02f548563196004a0655857",
+    "include/rfmodel/filter_frequency.hpp": "f6f5ff62b5e7a41a831a292002b0561129eb495da49385bec53849d3d85d9db9",
+    "include/rfmodel/frequency_conversion.hpp": "9d18df8f1d7e9be7372ee2c18460c66112af128d6ec86ffd6fc9c806c5d24d6f",
+    "include/rfmodel/fundamental_compression.hpp": "77461853f075d67c7bc4f93c37ea41735f4aa4a9b670acfbb3e7e1081bfd2668",
+    "include/rfmodel/group_delay.hpp": "a6311f4d71a442ae5135bc303160cba03b94cb69e3221193bab829a13ca43541",
+    "include/rfmodel/highorder_linearization.hpp": "cbb6827f41c3cc6ca780e7d795669545d1d8f6c83b1f3095c73f5dc83700b9f6",
+    "include/rfmodel/ideal_devices.hpp": "78223978c84de943cf05a2ef1d40a2b8d763cdc7d745bc521a7ae30e14a1853c",
+    "include/rfmodel/ideal_mixer.hpp": "c13bd668e8b52464febf9f6259a9068156126e92b0eccd9387eda2fd5caad4cc",
+    "include/rfmodel/intermod_levels.hpp": "e765fc9a95a4974db4da3a5dd22cd2fc72579dee57982e3eeb1ee98246a054b1",
+    "include/rfmodel/interpolation.hpp": "321fdb8f762729faabb701d7f414ad34c062adcd2904ec9e60cf06c1b995ebdb",
+    "include/rfmodel/linear_analysis.hpp": "5c2dc9663f4f2b719e8baad57603d2aa4cd139d6babc8567b838532011dc11b5",
+    "include/rfmodel/linear_path.hpp": "98e326cabe8393cef4206394b3ce9cb5a80fa401fe0548cb3f26b8a26040db51",
+    "include/rfmodel/linear_path_noise.hpp": "c9aaa1f647d26274961f76fcc9ec81b42aeb08548d2698393dc12b6776bb370b",
+    "include/rfmodel/linear_solver.hpp": "5a6b388c456ba6cb3f262a3fe403110d93f25d7701d6ee8aff9691af51374aee",
+    "include/rfmodel/loaded_noise.hpp": "3381436cce7944f2b18cd60d3248c2d518c96f87c9581a23334789bdd1aa3b44",
+    "include/rfmodel/lumped_model.hpp": "857b1c07ce77660e8dd447d8210d0a55f3c3074959ad423d82f241c59562ed42",
+    "include/rfmodel/measurements.hpp": "8fff861531c6d0d31de2c8fbbb10810143c1afe636ce24cbb70646a32d26eb37",
+    "include/rfmodel/mixer_linearization.hpp": "5e5dedaabd4b0b278e93c019c2375f5bf3e6fa14da1b63acf6cfed2e713d9b55",
+    "include/rfmodel/mixing_origin.hpp": "daffb38b8beeb39b4447cfe91f760400cfd67931844c4b4a1936a4cbd92dec86",
+    "include/rfmodel/monte_carlo.hpp": "43dbe8f8cf6a1b2bf627f310316928b606fbc445ddd15a34b2998eebbe69e6eb",
+    "include/rfmodel/multiport_devices.hpp": "01f48078bd0b67d8827de91f1d9cfca7f7464d3684b33e889d8a37e7d744d4bd",
+    "include/rfmodel/multitone_amplifier.hpp": "c822c01075029ce2035917a06c936474fa4c1a6fdadec1c389750067d9e660e5",
+    "include/rfmodel/network.hpp": "71ea3f7b0c3a3fdd210a48622a9eceeebd9055271ae446e46b73defe77b50049",
+    "include/rfmodel/network_parameters.hpp": "13bc32a9a7b7ad83bbb6fa01997e08a3dd154c9394553999b8f86787af51efa1",
+    "include/rfmodel/noise.hpp": "83195e05e380836bed2ba7b33eb6132545da01a798f8034d829fbcdd1c370632",
+    "include/rfmodel/noise_figure.hpp": "b92f308019b4d7c0b8e85574d2d7dfada14847d681837206da4ff01e840880a6",
+    "include/rfmodel/noise_matrix.hpp": "616ddcd1cb1b627ef7dd82757ef32807abb01b4617a78137e1f5f0bb9b556ac6",
+    "include/rfmodel/noise_renormalization.hpp": "552c5d0bcad96683d2f968d911061865dfdc4582eb990ff0745a1fe113add19e",
+    "include/rfmodel/nonlinear_spectrum.hpp": "1803b5ccb55c08575b11d4881b52fafb4011c8034b78e3046526a941d771b204",
+    "include/rfmodel/optimization.hpp": "f28859cd94ebaf1c16b51f5f7d362183f047b6bb7024989bb4740ee072abe3f9",
+    "include/rfmodel/origin_expression.hpp": "0ee590fbdeb65515a256d7697021e9c7f59e29ffc5716be50a608c91f3efd7a6",
+    "include/rfmodel/phase_noise.hpp": "fa67ffd895ff41c496b7949b80ac5bbfa7faac222884b2796c65c8ba83948d4c",
+    "include/rfmodel/polynomial_amplifier.hpp": "629bb08d9e1c46d76f9243576c06f4497795f7f16917309422422234d95aeda5",
+    "include/rfmodel/polynomial_intercepts.hpp": "6df4972dd36a853192385a9556ec0ca44ed23795bf9d77d9b627b0c12d772c4e",
+    "include/rfmodel/polynomial_limits.hpp": "317a2bfe8760a9b6add86cd1d4a184628a03b3e243d8cc5320ae2923fa8b9138",
+    "include/rfmodel/polynomial_linearization.hpp": "e1c879299e6bce7385528149054b84eb652e8f77c1dcdae97ffdecd1f06e250d",
+    "include/rfmodel/power_gain.hpp": "7141aeec1292d6d1cf3be7d41b244861af5169e857835cf79810665dd45f8c91",
+    "include/rfmodel/power_wave_network.hpp": "52fb4f96ed0c7a39742891b3dca3b302e69537885fa86a83dcef8b2a86b45e1c",
+    "include/rfmodel/power_wave_noise.hpp": "e7c319e8c72a3b9d74291dfd16f78cd23c18c4c5badb8b45897966ca8e031b5c",
+    "include/rfmodel/power_wave_reference.hpp": "0df3134977d0a2767a9787ba79b0303e573db09c409596277e212f571db315ec",
+    "include/rfmodel/power_wave_spectrum.hpp": "5dd9aa97073e5d9508ef24b9aac58e80017ec125fd5a52c05ca6575771c10cc5",
+    "include/rfmodel/rlc_model.hpp": "7fd8384fe4474e2483fc0f92114466e65326464ad897acb1ad3bcff994b703ac",
+    "include/rfmodel/rlgc_transmission_line.hpp": "5c0f58d3600a24da7d21d5ad4fbec525d76d74bf5330ffadf3ae76376b048a60",
+    "include/rfmodel/saturating_fundamental.hpp": "55e6eb1a567b6b423962f7e3537e010c530a95d68b510bcfacbd91295a113445",
+    "include/rfmodel/single_tone_amplifier.hpp": "b92786905b5a80ee8f5cb6056988eb4a7a2f6c1ca8f870ef781dae331175db01",
+    "include/rfmodel/source_coherence.hpp": "ecdf38512d4df00c4da05782fe037e6a42f368986c584b84aec101ad9909840a",
+    "include/rfmodel/spectrum_analysis.hpp": "2b90262b4844d475fe763de6193bc176a367e2ac300f497cc43ed511b5713dcf",
+    "include/rfmodel/sweep.hpp": "feff709d5ab6232f9d0ee19371b215da37f25b687a31af923cc89e0b41ea3aff",
+    "include/rfmodel/tabulated_model.hpp": "346dce021b24f4726df517321ebbfb24a3ab279ee25bc2f65732c3cff1fc42a7",
+    "include/rfmodel/tabulated_noise_model.hpp": "ab857b793b7100f50be974121d811874f0cec2e3042a393e9353e04ce9b43dd9",
+    "include/rfmodel/term_propagation.hpp": "4c44f61a66e9eae4be20d11fe97f04b692d41922a23624402a202cfbc46d9c3e",
+    "include/rfmodel/touchstone.hpp": "c7b7339d17641cce98b589847d9f639044ccd34d4c5806649c86648cd69b3fb5",
+    "include/rfmodel/transmission_line.hpp": "a792602aef632c66186ae007131523c450264fd512d828327bec98a31f2d2f34"
+  },
+  "installed_header_count": 73,
+  "consumer_translation_units": 5,
+  "compiler_dependency_files_checked": 5,
+  "relocated_rfmodel_header_dependencies_checked": 122,
+  "not_claimed": [
+    "Windows or macOS execution",
+    "new SystemVue simulation",
+    "changes to archived 230 checks / 22 failures or 0 dB discrepancy",
+    "replacement of Stage 3A probe/scorer",
+    "removal of Python cascade scorer dependency"
+  ],
+  "consumer_cxx_flags": "-O3 -DNDEBUG -std=c++17 -Wall -Wextra -Wpedantic -Werror",
+  "evidence_files": {
+    "/tmp/rfmodel-amplifier-integrated/consumer-verify-sdk.sh": {
+      "sha256": "c4afba103c777be8c2f198a678384350dcae2e337888f63cd8b20333617de262",
+      "bytes": 5620
+    },
+    "/tmp/rfmodel-amplifier-integrated/consumer-audit-evidence.py": {
+      "sha256": "ebb34d353cdaeeed28f273932052c0ea65b87d3ed25041d1378c3bd6d8615b2f",
+      "bytes": 10720
+    },
+    "/tmp/rfmodel-amplifier-integrated/consumer-sdk-full-verification.log": {
+      "sha256": "a3f9b256b018f2611f7e23a6fce22cd3a60462be8b931c1a11464d60d2cb4448",
+      "bytes": 22378
+    },
+    "/tmp/rfmodel-amplifier-integrated/consumer-sdk-configure.log": {
+      "sha256": "fb0d4f690bc465bf0867f802a7060b3f1e66e6975a3949236ebf8917697ed780",
+      "bytes": 402
+    },
+    "/tmp/rfmodel-amplifier-integrated/consumer-configure.log": {
+      "sha256": "637b45307d2c9edc4b98f16bd5948e76016026606df9c20def9bfe61eb922249",
+      "bytes": 400
+    },
+    "/tmp/rfmodel-amplifier-integrated/consumer-ctest.log": {
+      "sha256": "f28a2e7f3d61446a185de266bcccda31d3bf648f48974de04e551a10df9b4835",
+      "bytes": 590
+    },
+    "/tmp/rfmodel-amplifier-integrated/consumer-pipeline-checks.log": {
+      "sha256": "cda33bb4f349b0cf76eabbd34ca5cc4247a439250ba3a80b7f6325ff4f0313b9",
+      "bytes": 44
+    },
+    "/tmp/rfmodel-amplifier-integrated/consumer-compile-commands.txt": {
+      "sha256": "36eb70480c93420bbcd50fbc99b96357b074ff2797f583d4516c84774ef7adb8",
+      "bytes": 1617
+    },
+    "/tmp/rfmodel-amplifier-integrated/consumer-source-sha256-before.txt": {
+      "sha256": "300a7a2d36ab8c400350f815d4fea95d24843634335945a250ed9e3585c82fdc",
+      "bytes": 1442
+    },
+    "/tmp/rfmodel-amplifier-integrated/consumer-source-header-sha256.txt": {
+      "sha256": "c5deaad7f818111363e79078b0738e854f947db2417e90bfe2e3f56440043a71",
+      "bytes": 7511
+    },
+    "/tmp/rfmodel-amplifier-integrated/consumer-source-header-sha256-after.txt": {
+      "sha256": "c5deaad7f818111363e79078b0738e854f947db2417e90bfe2e3f56440043a71",
+      "bytes": 7511
+    },
+    "/tmp/rfmodel-amplifier-integrated/consumer-installed-header-sha256.txt": {
+      "sha256": "c5deaad7f818111363e79078b0738e854f947db2417e90bfe2e3f56440043a71",
+      "bytes": 7511
+    },
+    "/tmp/rfmodel-amplifier-integrated/consumer-doc-example.cpp": {
+      "sha256": "10a9e1884d6fd9fc804c14ce5e9570bea8729cf8078d8984f89a764ec258d925",
+      "bytes": 1003
+    },
+    "/tmp/rfmodel-amplifier-integrated/consumer-doc-example": {
+      "sha256": "b1a1ccd3a3de14f20df11e76629780a91917d9cfae7b72cdea00188bf68663fc",
+      "bytes": 162928
+    },
+    "/tmp/rfmodel-amplifier-integrated/consumer-release/compile_commands.json": {
+      "sha256": "30da64514b9d5e4b1e3d595a0cdbcb8620507a08a37f4ee8a56935bfad5412be",
+      "bytes": 2906
+    },
+    "/tmp/rfmodel-amplifier-integrated/consumer-release/CMakeCache.txt": {
+      "sha256": "129c68bbaac7d3dc4636699406634335c4ce4fc72d47591f0a2071d6cdcd90ec",
+      "bytes": 13114
+    },
+    "/tmp/rfmodel-amplifier-integrated/consumer-sdk-build/CMakeCache.txt": {
+      "sha256": "2b0b235c142429db93a33ff4bffd940ef8524d11607691af365cb1e9bba35f50",
+      "bytes": 16646
+    },
+    "/tmp/rfmodel-amplifier-integrated/consumer-release/Testing/Temporary/LastTest.log": {
+      "sha256": "201f164914045dcdb5d95d170b12d847cf33773b54a3873587008e551a0e32a8",
+      "bytes": 2575
+    },
+    "/tmp/rfmodel-amplifier-integrated/consumer-release/CMakeFiles/coherent_pipeline_consumer.dir/coherent_pipeline.cpp.o.d": {
+      "sha256": "1e3b28eeb9b2be32573567db51c4bb7ccad3918a774a288870513263b8307dfe",
+      "bytes": 14575
+    },
+    "/tmp/rfmodel-amplifier-integrated/consumer-release/CMakeFiles/coherent_pipeline_consumer.dir/coherent_pipeline_probe.cpp.o.d": {
+      "sha256": "0c9d521c079e5576a4cc25e3827488ca1195518b91012640ea3f4b20cd329861",
+      "bytes": 14450
+    },
+    "/tmp/rfmodel-amplifier-integrated/consumer-release/CMakeFiles/consumer.dir/main.cpp.o.d": {
+      "sha256": "3fd189e8dcd229442f8acc1021a55b13eb466660053133d2b77dd0bb20bd0b45",
+      "bytes": 20139
+    },
+    "/tmp/rfmodel-amplifier-integrated/consumer-release/CMakeFiles/conversion_api_consumer.dir/conversion_api.cpp.o.d": {
+      "sha256": "e8dd81cd44fe9a4367e67b94ad8287701a1c74753c930eee5475e090b9180b54",
+      "bytes": 12386
+    },
+    "/tmp/rfmodel-amplifier-integrated/consumer-release/CMakeFiles/conversion_api_consumer.dir/conversion_api_probe.cpp.o.d": {
+      "sha256": "b9072ec163c843e86e5010ffee7a1c37571f5da26e027c92bd8bee4feda0da02",
+      "bytes": 11855
+    }
+  },
+  "historical_isolated_verification": {
+    "base_revision": "0638c34052d2a981fa925635f85c86242d07b637",
+    "path": "/tmp/rfmodel-amplifier-integrated/historical-consumer-validation.json",
+    "sha256": "efd229849f7ce13a4c13972d07b74dbf078604e0f8e00a2380c847ae8f207885"
+  }
+}

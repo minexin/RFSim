@@ -69,7 +69,12 @@ The original capture/report bytes are never modified. Replay preserves:
 Lazy product imports preserve unrelated legacy comparisons. Cascade capture
 validation is importable without the product, but its combined-origin prediction
 still explicitly loads the legacy graph orchestration. The new typed coherent
-pipeline does not yet replace limited/cascaded/high-order graph remapping.
+pipeline now has bounded limited/high-order model adapters and explicit distortion
+propagation, but the cascade scorer has not been migrated to these APIs. The
+archived cascade result remains 230 checks with 22 failures, including the known
+0 dB discrepancy; adding adapters alone does not change that evidence. See the
+[adapter contract](coherent-pipeline-amplifiers.md). The four-operation probe and
+existing scoring path remain unchanged.
 This is a limited stage-3 gate, not completion of Python retirement; the product
 package, C ABI, other reference tools and all archives remain. No new SystemVue
 simulation is performed or claimed.

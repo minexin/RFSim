@@ -31,7 +31,13 @@ RFModel 的数值内核已经是 C++17 header-only 库，交付 `RFModel::rfmode
 
 直接回归用 long-double 有符号电压谱有序卷积和手算历史/路径/功率预期，覆盖多项式→混频→多项式、跨流复权合路、重复共轭、正频 IF 总幅度相消为零时仍保留的非零交叉历史、独立源功率、共同驱动及资源边界。安装消费者在独立翻译单元中调用同一公开 API。接口与限制见[相干流指南](coherent-pipeline.md)；实际执行结果见[增量验证](../validation/coherent-pipeline-validation-20261013.json)。
 
-这是阶段 2 的选定子集，不表示阶段 2 整体完成。完整图/DAG、JSON/CLI、multi-output 共享提取、limited/cascaded/highorder 适配、其他收敛点噪声和频点重映射仍开放。无 Python/C 文件删除、无新绑定、无 SystemVue 兼容等级提升。下文审计表保留审计时点含义，不能因这个子集通过就删除其余独立参考。
+这是阶段 2 的选定子集，不表示阶段 2 整体完成。完整图/DAG、JSON/CLI、multi-output 共享提取、其他收敛点噪声和频点重映射仍开放。limited/highorder 及传播模式由下述后续适配增量补充。无 Python/C 文件删除、无新绑定、无 SystemVue 兼容等级提升。下文审计表保留审计时点含义，不能因这个子集通过就删除其余独立参考。
+
+## 后续增量：有界模型放大器适配
+
+`CoherentPipeline` 新增模型接收式 `limited_amplifier`、`highorder_amplifier` 与显式 `AmplifierInputMode`。限幅不做语义来源阶数裁剪，高阶显式 cutoff；两者均用完整物理输入一次求共同工作点，只从 source 历史生成新项，保持相消来源和同源级联身份。API、固定资源边界及安装双翻译单元消费见[放大器适配器](coherent-pipeline-amplifiers.md)。
+
+这不替换阶段 3A 探针或级联评分器，也不解除级联比较器对 Python 图的依赖。已有级联归档 230 项检查、22 项失败与两个 0 dB 差异不因新增 API 而改变。完整图迁移、评分路径迁移与 Python 产品包删除仍是独立的后续工作；本增量没有新的厂商兼容声明。
 
 ## 后续增量：阶段 3A 原生高阶证据重放
 

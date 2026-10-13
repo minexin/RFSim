@@ -13,7 +13,7 @@
 
 最终集成以 C++17 函数 API 为主。可只安装 header-only SDK，不需要 Python 或 C ABI；最小调用、无 Python 构建与独立安装示例见 [C++ SDK](docs/cpp-sdk.md)。Python 包后续按[依赖迁移计划](docs/python-retirement-plan.md)逐步退出，当前不删除验证脚本或数据。
 
-[类型化相干流管线](docs/coherent-pipeline.md)新增 C++17 不可变流入口：来源播种、理想混频、单输出线性网络、多项式及仅 source 的共同驱动压缩。保留相消历史、全历史共轭和来源阶数计数；不替代完整 Python 图层，也不扩大厂商兼容声明。
+[类型化相干流管线](docs/coherent-pipeline.md)新增 C++17 不可变流入口：来源播种、理想混频、单输出线性网络、多项式及仅 source 的共同驱动压缩，并提供[限幅/高阶模型适配器](docs/coherent-pipeline-amplifiers.md)与显式失真传播模式。保留相消历史、全历史共轭和来源阶数计数；不替代完整 Python 图层，也不扩大厂商兼容声明。
 
 ## 构建
 

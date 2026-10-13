@@ -1,4 +1,5 @@
 #pragma once
+#include "coherent_highorder_amplifier.hpp"
 #include "coherent_mixer.hpp"
 #include "coherent_network.hpp"
 #include "coherent_polynomial.hpp"
@@ -6,9 +7,15 @@
 #include "saturating_fundamental.hpp"
 #include <iterator>
 #include <memory>
+#include <optional>
 #include <utility>
 
 namespace rfmodel {
+enum class AmplifierInputMode {
+    sources_only,
+    propagate_distortion
+};
+
 enum class RootRole {
     rf,
     lo,
@@ -104,6 +111,15 @@ public:
         double common_amplitude_gain;
     };
 
+    struct AmplifierResult {
+        Stream output;
+        double input_power_w;
+        AmplifierOperatingPoint operating_point;
+        PolynomialCounts nonlinear_counts;
+        std::size_t direct_contribution_count;
+        std::size_t discarded_direct_contributions;
+    };
+
     using NetworkBuilder = std::function<LinearNetwork(double)>;
 
 private:
@@ -164,6 +180,11 @@ private:
     struct Flattened {
         std::vector<CoherentComponent> components;
         std::map<std::uint64_t, StreamRecord> lookup;
+    };
+
+    struct Generated {
+        std::vector<StreamRecord> records;
+        PolynomialCounts counts;
     };
 
     class Operation {
@@ -338,9 +359,9 @@ private:
         return Stream(owner_, streams_.size() - 1);
     }
 
-    static Flattened flatten(State &state, const StreamSnapshot &snapshot) {
+    static Flattened flatten(State &state, const std::vector<StreamRecord> &records) {
         Flattened result;
-        for (const auto &record : snapshot.records) {
+        for (const auto &record : records) {
             for (const auto &term : record.history) {
                 if (result.components.size() >= 4096) {
                     throw std::length_error("coherent pipeline expanded input limit exceeded");
@@ -370,6 +391,118 @@ private:
             local.push_back(index < 0 ? -position : position);
         }
         return expand_mixing_origin(selected, local);
+    }
+
+    // Generate records without storing a stream. A missing cutoff is different
+    // from 256: over-capacity origins must fail rather than silently disappear.
+    Generated generate(State &work,
+                       const std::vector<StreamRecord> &records,
+                       const CoherentPolynomial &model,
+                       std::optional<std::size_t> max_source_order) const {
+        const auto flat = flatten(work, records);
+        const auto response = model.evaluate(spacing_, flat.components, work.highest_group);
+        PolynomialCounts counts{
+            records.size(), flat.components.size(), response.terms.size(), 0, {}};
+        std::vector<const StreamRecord *> parents;
+        for (const auto &component : response.inputs) {
+            parents.push_back(&flat.lookup.at(component.coherence_group));
+        }
+        std::vector<StreamRecord> output;
+        for (const auto &term : response.terms) {
+            std::vector<int> indices(term.input_indices.begin(),
+                                     term.input_indices.begin() + term.order);
+            std::size_t source_order = 0;
+            for (int index : indices) {
+                source_order += parents[static_cast<std::size_t>(std::abs(index) - 1)]
+                                    ->history[0]
+                                    .factors.size();
+            }
+            if (max_source_order && source_order > *max_source_order) {
+                ++counts.discarded_term_count;
+                ++counts.discarded_by_source_order[source_order];
+                continue;
+            }
+            auto physical = compose(parents, indices, true);
+            auto history = compose(parents, indices, false);
+            auto component = term.component;
+            component.coherence_group = 0;
+            if (term.order > 1) {
+                const bool harmonic =
+                    std::all_of(physical.begin(), physical.end(), [&](const auto &factor) {
+                        return factor.sign == 1 && factor.root_id == physical.front().root_id;
+                    });
+                component.kind = harmonic ? SpectrumKind::harmonic : SpectrumKind::intermod;
+            }
+            output.push_back(
+                {component, {std::move(physical)}, {{std::move(history), component.amplitude}}});
+        }
+        return {std::move(output), std::move(counts)};
+    }
+
+    void validate_amplifier_input(const StreamSnapshot &snapshot,
+                                  double model_reference,
+                                  AmplifierInputMode mode) const {
+        if (mode != AmplifierInputMode::sources_only &&
+            mode != AmplifierInputMode::propagate_distortion) {
+            throw std::invalid_argument("invalid coherent pipeline amplifier input mode");
+        }
+        if (model_reference != reference_) {
+            throw std::invalid_argument("coherent pipeline amplifier reference mismatch");
+        }
+        if (mode == AmplifierInputMode::sources_only) {
+            for (const auto &record : snapshot.records) {
+                if (record.component.kind != SpectrumKind::source) {
+                    throw std::invalid_argument("coherent pipeline amplifier requires source kind");
+                }
+            }
+        }
+    }
+
+    AmplifierResult amplify(const StreamSnapshot &snapshot,
+                            const AmplifierOperatingPoint &point,
+                            const std::vector<double> &coefficients,
+                            std::optional<std::size_t> max_source_order) {
+        const CoherentPolynomial model(coefficients, reference_);
+        auto work = begin(*state_, true);
+        std::vector<StreamRecord> output, sources;
+        std::size_t direct_count = 0, discarded_direct = 0;
+        for (const auto &record : snapshot.records) {
+            direct_count += record.history.size();
+            auto direct = record;
+            direct.history = product_origin_expressions(
+                {record.history}, {1}, {point.fundamental_amplitude_gain, 0.});
+            if (max_source_order) {
+                const auto remove = std::remove_if(
+                    direct.history.begin(), direct.history.end(), [&](const auto &term) {
+                        return term.factors.size() > *max_source_order;
+                    });
+                discarded_direct += static_cast<std::size_t>(direct.history.end() - remove);
+                direct.history.erase(remove, direct.history.end());
+            }
+            if (!direct.history.empty()) {
+                output.push_back(std::move(direct));
+            }
+            // Generate from the complete, uncut original source histories. The
+            // snapshot's physical reduction, never this flattening, sets drive.
+            if (record.component.kind == SpectrumKind::source) {
+                auto source = record;
+                source.history = product_origin_expressions(
+                    {record.history}, {1}, {point.nonlinear_input_scale, 0.});
+                sources.push_back(std::move(source));
+            }
+        }
+        auto generated = generate(*work, sources, model, max_source_order);
+        output.insert(output.end(),
+                      std::make_move_iterator(generated.records.begin()),
+                      std::make_move_iterator(generated.records.end()));
+        // Counts and the operating point are ready before the single commit;
+        // the remaining aggregate initialization uses only nonthrowing moves.
+        return {store(std::move(work), std::move(output)),
+                snapshot.reduction.total_power_w,
+                point,
+                std::move(generated.counts),
+                direct_count,
+                discarded_direct};
     }
 
 public:
@@ -505,7 +638,7 @@ public:
                 external_ports.end()) {
                 throw std::invalid_argument("input must be a selected external port");
             }
-            auto flat = flatten(*work, snapshot);
+            auto flat = flatten(*work, snapshot.records);
             if (flat.components.size() > 4096 - incident.size()) {
                 throw std::length_error("coherent pipeline expanded network limit exceeded");
             }
@@ -536,44 +669,41 @@ public:
         }
         const CoherentPolynomial model(coefficients, reference_);
         auto work = begin(*state_, true);
-        const auto flat = flatten(*work, snapshot);
-        const auto response = model.evaluate(spacing_, flat.components, work->highest_group);
-        PolynomialCounts counts{
-            snapshot.records.size(), flat.components.size(), response.terms.size(), 0, {}};
-        std::vector<const StreamRecord *> parents;
-        for (const auto &component : response.inputs) {
-            parents.push_back(&flat.lookup.at(component.coherence_group));
+        auto generated = generate(*work, snapshot.records, model, max_source_order);
+        return {store(std::move(work), std::move(generated.records)), std::move(generated.counts)};
+    }
+
+    // All physical RF input drives the common gain/limiter. Only source-kind
+    // records generate products; propagated distortion receives direct gain.
+    AmplifierResult limited_amplifier(Stream input,
+                                      const CoherentLimitedAmplifier &model,
+                                      AmplifierInputMode mode = AmplifierInputMode::sources_only) {
+        const Operation operation(active_);
+        const auto &snapshot = inspect(input);
+        validate_amplifier_input(snapshot, model.reference_ohms(), mode);
+        const auto point = model.operating_point(snapshot.reduction.total_power_w);
+        return amplify(
+            snapshot,
+            point,
+            {0., 0., point.quadratic_voltage_coefficient, point.cubic_voltage_coefficient},
+            std::nullopt);
+    }
+
+    // The cutoff counts full source-history factors, including LO factors.
+    // It filters both direct and generated paths, never the physical drive.
+    AmplifierResult
+    highorder_amplifier(Stream input,
+                        const CoherentHighOrderAmplifier &model,
+                        std::size_t max_source_order,
+                        AmplifierInputMode mode = AmplifierInputMode::sources_only) {
+        const Operation operation(active_);
+        const auto &snapshot = inspect(input);
+        validate_amplifier_input(snapshot, model.reference_ohms(), mode);
+        if (max_source_order == 0 || max_source_order > 256) {
+            throw std::invalid_argument("coherent pipeline source order must be in 1..256");
         }
-        std::vector<StreamRecord> output;
-        for (const auto &term : response.terms) {
-            std::vector<int> indices(term.input_indices.begin(),
-                                     term.input_indices.begin() + term.order);
-            std::size_t source_order = 0;
-            for (int index : indices) {
-                source_order += parents[static_cast<std::size_t>(std::abs(index) - 1)]
-                                    ->history[0]
-                                    .factors.size();
-            }
-            if (source_order > max_source_order) {
-                ++counts.discarded_term_count;
-                ++counts.discarded_by_source_order[source_order];
-                continue;
-            }
-            auto physical = compose(parents, indices, true);
-            auto history = compose(parents, indices, false);
-            auto component = term.component;
-            component.coherence_group = 0;
-            if (term.order > 1) {
-                const bool harmonic =
-                    std::all_of(physical.begin(), physical.end(), [&](const auto &factor) {
-                        return factor.sign == 1 && factor.root_id == physical.front().root_id;
-                    });
-                component.kind = harmonic ? SpectrumKind::harmonic : SpectrumKind::intermod;
-            }
-            output.push_back(
-                {component, {std::move(physical)}, {{std::move(history), component.amplitude}}});
-        }
-        return {store(std::move(work), std::move(output)), std::move(counts)};
+        const auto point = model.operating_point(snapshot.reduction.total_power_w);
+        return amplify(snapshot, point, model.voltage_coefficients(), max_source_order);
     }
 
     CompressionResult compress_fundamentals(Stream input,

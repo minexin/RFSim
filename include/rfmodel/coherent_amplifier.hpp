@@ -54,6 +54,10 @@ public:
           reference_(reference_ohms) {
     }
 
+    double reference_ohms() const noexcept {
+        return reference_;
+    }
+
     // The caller supplies drive after physical coherent summation. Scale each
     // carrier contribution before applying the returned raw voltage coefficients.
     // Existing distortion receives fundamental gain but generates no new terms.

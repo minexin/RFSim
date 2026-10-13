@@ -1,0 +1,250 @@
+{
+  "schema": "rfmodel.coherent-pipeline-amplifier-validation.v1",
+  "date_utc": "2026-10-13",
+  "base_revision": "59812cbd7e3786695ef4fcd32f02f573ee6139ac",
+  "source_state": "Integrated approved adapter patch into clean main at base revision; 15 uncommitted files, no commit or push by this worker.",
+  "platform": "Linux x86_64, GCC 14.2.0, CMake 3.31.10, C++17, extensions disabled",
+  "matrix": [
+    {
+      "kind": "native",
+      "configuration": "Debug",
+      "passed": 98,
+      "failed": 0,
+      "registered": 98,
+      "source_base_revision": "59812cbd7e3786695ef4fcd32f02f573ee6139ac",
+      "log": "/tmp/rfmodel-amplifier-integrated/final-test-native-Debug.log"
+    },
+    {
+      "kind": "native",
+      "configuration": "Release",
+      "passed": 98,
+      "failed": 0,
+      "registered": 98,
+      "source_base_revision": "59812cbd7e3786695ef4fcd32f02f573ee6139ac",
+      "log": "/tmp/rfmodel-amplifier-integrated/final-test-native-Release.log"
+    },
+    {
+      "kind": "default",
+      "configuration": "Debug",
+      "passed": 163,
+      "failed": 0,
+      "registered": 163,
+      "source_base_revision": "59812cbd7e3786695ef4fcd32f02f573ee6139ac",
+      "log": "/tmp/rfmodel-amplifier-integrated/final-test-default-Debug.log"
+    },
+    {
+      "kind": "default",
+      "configuration": "Release",
+      "passed": 163,
+      "failed": 0,
+      "registered": 163,
+      "source_base_revision": "59812cbd7e3786695ef4fcd32f02f573ee6139ac",
+      "log": "/tmp/rfmodel-amplifier-integrated/final-test-default-Release.log"
+    }
+  ],
+  "configuration_contract": {
+    "native": {
+      "BUILD_TESTING": "ON",
+      "RFMODEL_BUILD_C_API": "OFF",
+      "RFMODEL_BUILD_CLI": "OFF",
+      "RFMODEL_BUILD_EXAMPLES": "OFF",
+      "RFMODEL_BUILD_PYTHON_TESTS": "OFF",
+      "RFMODEL_BUILD_REFERENCE_TESTS": "ON",
+      "product_python_dependency": false,
+      "developer_replay_python_interpreter": true,
+      "baseline_test_count": 96,
+      "added_adapter_tests": 2
+    },
+    "default": {
+      "BUILD_TESTING": "ON",
+      "RFMODEL_BUILD_C_API": "ON",
+      "RFMODEL_BUILD_CLI": "ON",
+      "RFMODEL_BUILD_EXAMPLES": "ON",
+      "RFMODEL_BUILD_PYTHON_TESTS": "ON",
+      "RFMODEL_REQUIRE_PYTHON_TESTS": "ON",
+      "RFMODEL_BUILD_REFERENCE_TESTS": "OFF",
+      "baseline_test_count": 161,
+      "added_adapter_tests": 2
+    }
+  },
+  "independent_coverage": [
+    "Long-double scalar gain, limiter and intercept coefficients",
+    "Ordered signed-voltage convolution and signed physical/history labels",
+    "12 physics/history fixture groups including 50/75 ohms, two/three-stage cascades, parallel aliases, cancelled IF, independent RF/LO groups, mixed chain, distortion-only propagation, degree 4/7/9/11 and full-drive cutoff counters",
+    "Validation, 256-factor hard failure versus cutoff, resource boundaries and deterministic rollback",
+    "Per-allocation bad_alloc sweeps for both adapters, including high-order discard maps"
+  ],
+  "checks": {
+    "strict_headers_and_new_tests": "Strict -Wall -Wextra -Wpedantic -Werror checks passed before integration and inputs match integrated main SHA256; current full Debug/Release builds and current formatting check pass.",
+    "clang_format": "passed, version 19.1.7",
+    "installed_relocated_consumer": "Fresh integrated-main Release SDK: 3/3 passed, 89 pipeline checks, both adapters/modes in two TUs, strict warnings and C API/Python disabled.",
+    "asan_ubsan": "Both dedicated tests passed in the isolated build; compiler inputs match integrated source hashes byte-for-byte. Historical evidence preserved; no new sanitizer claim for pipe changes.",
+    "leak_sanitizer": "Unavailable under ptrace; initial detect_leaks=1 failed with tool-environment fatal diagnostic, rerun detect_leaks=0 passed",
+    "independent_reviews": "No blocking findings; supplemental strict C++17 reentrancy/noexcept-move probe passed"
+  },
+  "retained_archived_classification": {
+    "comparison": "cascade_amplifier_reference",
+    "regression_cases": 7,
+    "archived_cases": 8,
+    "checks": 230,
+    "failing_checks": 22,
+    "rfpwrin_checks": "passing",
+    "overall_vendor_pass": false,
+    "unchanged_difference": "Two second-stage 0 dB cases; adapters do not change vendor calibration or capture acceptance"
+  },
+  "remaining_limits": [
+    "Windows/macOS execution not run for this patch",
+    "No new SystemVue simulation or vendor acceptance",
+    "No cascade scorer/probe replacement and no Python deletion",
+    "Inherited 65536-root and physical-identity-factor registry ceiling guards are unchanged; dedicated adapter tests do not separately exhaust these registries",
+    "Existing 4096 pre-merge record limit remains narrower than some Python graph inputs"
+  ],
+  "refreshed_replay_manifests": {
+    "Debug": {
+      "path": "/tmp/rfmodel-amplifier-integrated/native-Debug/rfmodel_reference_highorder_probe.manifest.json",
+      "sha256": "058644e79bf07ba503cf554b529bb676a72d0fa7f2a800ac882fd07618475220",
+      "source_revision": "59812cbd7e3786695ef4fcd32f02f573ee6139ac",
+      "source_content_sha256": "04e320870b3e6d4f5c1a1895840fa6fde682c70d45299a2ab99c81323cbda0fb",
+      "build_id": "d02198a5b251fda8e2f63eae9d75d25571d636ba74b704bd8a84ce2b2d21fc32"
+    },
+    "Release": {
+      "path": "/tmp/rfmodel-amplifier-integrated/native-Release/rfmodel_reference_highorder_probe.manifest.json",
+      "sha256": "add5f5e6eed9619b6438a97b84f0c639f36412d9eaa99dd5420bb32bab69e1b1",
+      "source_revision": "59812cbd7e3786695ef4fcd32f02f573ee6139ac",
+      "source_content_sha256": "04e320870b3e6d4f5c1a1895840fa6fde682c70d45299a2ab99c81323cbda0fb",
+      "build_id": "846e57d33e2fedfdcffe6a82a8c14e1d3689413fdbebdbd296ebe5363adc35aa"
+    }
+  },
+  "adapter_files_sha256": {
+    "CMakeLists.txt": "eead3a276beb7b0aafc9dd90723cb7d574652b9e3343580049811d44a7b104b0",
+    "README.md": "45c21c9208b87bfd52eb2f3391661f2d17feeecd167524fef3828746c626de68",
+    "docs/coherent-pipeline-amplifiers.md": "0a5ad1f419ca75007962b59c225c3c3afa71a431903e28c47dcf2e5275eac940",
+    "docs/coherent-pipeline.md": "80f7257405fdf19948bdcf2dfd0ea18a3d71c079f08cfa6dbd616521bf2c963c",
+    "docs/cpp-sdk.md": "2e887ca8cc368a6938b1bd0858747a6c4e08d235786d851bfaee1475f7815186",
+    "docs/native-reference-replay.md": "8e5d6ded376c09b0ebc78c2cf04aa54a9f82c9383146ad5724f33042dc28a425",
+    "docs/python-retirement-plan.md": "10894b82aef7065515ad95247e594fa65659609cd56a8df55850f9e051cf733b",
+    "include/rfmodel/coherent_amplifier.hpp": "4a40d0dd222f18730110060e35ac48c12f193a5ff8a2567c8560f0cab2f055d8",
+    "include/rfmodel/coherent_pipeline.hpp": "ead3bdb2f635afad9af22a41e1c5ddf2dd070d372a49428525025484398dde56",
+    "tests/coherent_pipeline_amplifier_limits_test.cpp": "43117e9cf41fbf23fd7b640c7577ed8315ccdd15fb5c8aaf17edcf62f5e38849",
+    "tests/coherent_pipeline_amplifier_test.cpp": "0464dbc4c843dd9443b228d0cc147498040b466de7115fc0aaafc066453e41ab",
+    "tests/consumer/coherent_pipeline.cpp": "d12b24c0c01798503e5b2c46d14c41febf8ab29e9f4474c9bcaa432f5ca12490",
+    "tests/consumer/coherent_pipeline_probe.cpp": "dbcda4d43b893481dfb653c0a25c5eac7ce64984b0db05e244fc843d90803232",
+    "validation/coherent-pipeline-amplifier-consumer-validation-20261013.json": "c05666e6f57b8f4ae1eed7aa8528db3036bfd3a1066343648cf1931fe82f049b"
+  },
+  "evidence_files": {
+    "/tmp/rfmodel-amplifier-integrated/final-build-default-Debug.log": {
+      "sha256": "f032a32adfac705ea36d97110335178384dcffe0428608e01d1a52dafd0119bb",
+      "bytes": 20970
+    },
+    "/tmp/rfmodel-amplifier-integrated/final-build-default-Release.log": {
+      "sha256": "0688cd730a0c88b9a83a73e4d954b9739e32e455d15854942ea397e8655e3ef1",
+      "bytes": 20969
+    },
+    "/tmp/rfmodel-amplifier-integrated/final-build-native-Debug.log": {
+      "sha256": "ccb2d3a94dea97cba6d9dac230b8a0432a45b78b82bc258c406cae2193518928",
+      "bytes": 17943
+    },
+    "/tmp/rfmodel-amplifier-integrated/final-build-native-Release.log": {
+      "sha256": "5207df438497ec07516b30d129d11c49e74ebb6f148cf38e64d8255842a8e9f1",
+      "bytes": 17943
+    },
+    "/tmp/rfmodel-amplifier-integrated/final-configure-default-Debug.log": {
+      "sha256": "88b53c2cf7c00fbf40235aa4dc846a7c0d828d2ba4f4738f180a875d764889fa",
+      "bytes": 827
+    },
+    "/tmp/rfmodel-amplifier-integrated/final-configure-default-Release.log": {
+      "sha256": "61b673788f6385790cb94e41042c1a476ecdd2d1be16596b5b98030c045f0bd3",
+      "bytes": 829
+    },
+    "/tmp/rfmodel-amplifier-integrated/final-configure-native-Debug.log": {
+      "sha256": "25b28857e70bb03dab196bb67e904b0a7f98a97fd451176fe66981b189bfe7c4",
+      "bytes": 580
+    },
+    "/tmp/rfmodel-amplifier-integrated/final-configure-native-Release.log": {
+      "sha256": "b60964144dc744c88b61c37c5a216a887d15fba8eda9386568f78b4d1e24105d",
+      "bytes": 582
+    },
+    "/tmp/rfmodel-amplifier-integrated/final-test-default-Debug.log": {
+      "sha256": "6d37b2037b0b2022f21e2b2177c7d8bc2f2cbb255ba8f3a7d37434a9d05d1dc5",
+      "bytes": 21841
+    },
+    "/tmp/rfmodel-amplifier-integrated/final-test-default-Release.log": {
+      "sha256": "94c22f34fd29049e5f289cc924064480c8511c18d8842fb6ce178875b3550ecb",
+      "bytes": 21845
+    },
+    "/tmp/rfmodel-amplifier-integrated/final-test-native-Debug.log": {
+      "sha256": "4775e059ab0e8b56c6873b32d5a1ec766351e24ce653783c4d655e033d6ca100",
+      "bytes": 12030
+    },
+    "/tmp/rfmodel-amplifier-integrated/final-test-native-Release.log": {
+      "sha256": "9b5d8511133bd7f451af0ecdd5fb4e5da8639bc6e318087918da703f137fc7f3",
+      "bytes": 12034
+    },
+    "/tmp/rfmodel-amplifier-integrated/final-tests-default-Debug.json": {
+      "sha256": "d459b135d8da9dbb1e0fbca593e04a10f065f15ce7fe47ce68153a8ca6c9ab69",
+      "bytes": 94847
+    },
+    "/tmp/rfmodel-amplifier-integrated/final-tests-default-Release.json": {
+      "sha256": "f03f06f4632f6e434c5b28b1e2e4a8939a1fd62819ea7c101d8cf863c3bfa15d",
+      "bytes": 95444
+    },
+    "/tmp/rfmodel-amplifier-integrated/final-tests-native-Debug.json": {
+      "sha256": "70808393e32b8b531db9f08cee6cb007f01143e431f105816c60ba04c84b4236",
+      "bytes": 54239
+    },
+    "/tmp/rfmodel-amplifier-integrated/final-tests-native-Release.json": {
+      "sha256": "402070e98f7c4da5216844a86c552a2a4a29dacd7957b232d45503a02aab5257",
+      "bytes": 54635
+    },
+    "/tmp/rfmodel-amplifier-integrated/run-final-matrix.sh": {
+      "sha256": "1ff0df3effc32a8fb67606608f2b3d0c358e349567d8a78a620eff1686cd2842",
+      "bytes": 1227
+    },
+    "/tmp/rfmodel-amplifier-integrated/consumer-audit-evidence.log": {
+      "sha256": "1616d64ccc96e1a24e686692669fa2edd99fbf5fb81b69c20f896d0d71f16f5b",
+      "bytes": 406
+    },
+    "/tmp/rfmodel-amplifier-integrated/consumer-configure.log": {
+      "sha256": "637b45307d2c9edc4b98f16bd5948e76016026606df9c20def9bfe61eb922249",
+      "bytes": 400
+    },
+    "/tmp/rfmodel-amplifier-integrated/consumer-ctest.log": {
+      "sha256": "f28a2e7f3d61446a185de266bcccda31d3bf648f48974de04e551a10df9b4835",
+      "bytes": 590
+    },
+    "/tmp/rfmodel-amplifier-integrated/consumer-pipeline-checks.log": {
+      "sha256": "cda33bb4f349b0cf76eabbd34ca5cc4247a439250ba3a80b7f6325ff4f0313b9",
+      "bytes": 44
+    },
+    "/tmp/rfmodel-amplifier-integrated/consumer-sdk-configure.log": {
+      "sha256": "fb0d4f690bc465bf0867f802a7060b3f1e66e6975a3949236ebf8917697ed780",
+      "bytes": 402
+    },
+    "/tmp/rfmodel-amplifier-integrated/consumer-sdk-full-verification.log": {
+      "sha256": "a3f9b256b018f2611f7e23a6fce22cd3a60462be8b931c1a11464d60d2cb4448",
+      "bytes": 22378
+    },
+    "/tmp/rfmodel-amplifier-integrated/consumer-verify-sdk.sh": {
+      "sha256": "c4afba103c777be8c2f198a678384350dcae2e337888f63cd8b20333617de262",
+      "bytes": 5620
+    },
+    "/tmp/rfmodel-amplifier-integrated/consumer-integrated-evidence.json": {
+      "sha256": "94fa0aa471c919317445faaeaec2c9f4767de774e04bbf7fb68f093a34a842e2",
+      "bytes": 26128
+    }
+  },
+  "consumer_validation": "validation/coherent-pipeline-amplifier-consumer-validation-20261013.json",
+  "source_path": "/workspace/scratch/13ffac99a6e4/rfsim-readonly-20261013-0228",
+  "historical_isolated_verification": {
+    "base_revision": "0638c34052d2a981fa925635f85c86242d07b637",
+    "path": "/tmp/rfmodel-amplifier-integrated/historical-isolated-validation.json",
+    "sha256": "78e4da5ea94904ae2ddcbe5b0a4e8eb4bced45f26feb2b154a87352575eda516"
+  },
+  "preserved_parent_files": {
+    ".gitattributes": "72ef0a7f8625ac6b4bf1346c881601b9b02ced78ae48dd44d7abd3f75c3227dc",
+    "tests/reference_highorder_probe.cpp": "fe6b26af077546459be631b44278f425023b2ab3c4808beda7b6416c2d8d5bd0",
+    "scripts/reference/native_replay.py": "3b35d28c53988110a74a3e7d6a25f0d053982cbb28ec663d34e507857f4ec392",
+    "scripts/reference/test_native_replay.py": "c57558ffb8abbd859f91d1ae92848532f4d56026be7429c46a4094a36209fed6",
+    "tests/reference_highorder_oracle.cpp": "368aca4b7098c1b6a034f5d9b5ade5fe457305e81de949722e1cf3e27a4fef29"
+  }
+}
