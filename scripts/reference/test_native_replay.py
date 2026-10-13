@@ -42,11 +42,14 @@ PURE_PYTHON_SUITES = (
     "test_archive_am_pm_datapoints_zero_study.py",
     "test_archive_am_pm_datapoints_zero_acquisition.py",
     "test_diagnose_am_pm_datapoints_zero_study.py",
+    "test_prepare_am_pm_datapoints_raw_axis_study.py",
+    "test_diagnose_am_pm_datapoints_raw_axis_study.py",
 )
 DATAPOINTS_ZERO_FIXTURES = (
     "am-pm-datapoints-zero-plan-20261013.json",
     "am-pm-datapoints-observations-20261012.json",
     "am-pm-existing-reference-evidence-20261012.json",
+    "am-pm-datapoints-raw-axis-plan-20261013.json",
 )
 # Listed artifacts are mandatory: staging must never silently skip a missing
 # source file or imply that synthetic tests replay newly acquired observations.
