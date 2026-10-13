@@ -69,7 +69,7 @@ function(check_targets suffix examples expected_count)
             message(FATAL_ERROR "SDK target count ${count}, expected ${expected_count}: ${actual}")
         endif()
         if(examples)
-            set(expected mixed_reference_conversion_example rfmodel_correlated_tolerance
+            set(expected coherent_pipeline_example mixed_reference_conversion_example rfmodel_correlated_tolerance
                 rfmodel_match_design rfmodel_tolerance_analysis)
             if(NOT actual STREQUAL expected)
                 message(FATAL_ERROR "Unexpected example targets: ${actual}")
@@ -82,7 +82,7 @@ function(check_targets suffix examples expected_count)
     endif()
 endfunction()
 check_targets(minimal OFF 0)
-check_targets(examples ON 4)
+check_targets(examples ON 5)
 execute_process(COMMAND "${CMAKE_COMMAND}" -S "${SOURCE}" -B "${BINARY}/conflict"
     -G "${GENERATOR}" "-DCMAKE_CXX_COMPILER=${COMPILER}"
     -DBUILD_TESTING=OFF -DRFMODEL_BUILD_C_API=OFF -DRFMODEL_BUILD_CLI=OFF

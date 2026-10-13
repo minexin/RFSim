@@ -1,0 +1,341 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-13",
+  "stage": "Integrated C++ coherent pipeline and four conversion boundary fixtures",
+  "base_commit": "cabbbcedabc9d2cf9f38e6da86f5cab06d16bce0",
+  "passed": true,
+  "platform": "Linux",
+  "checks": [
+    {
+      "name": "native-build-Debug",
+      "command": [
+        "/tmp/rfmodel-build-tools/cmake/data/bin/cmake",
+        "--build",
+        "/tmp/rfmodel-cpp-validation/native-Debug",
+        "--parallel",
+        "2"
+      ],
+      "returncode": 0,
+      "seconds": 10.302,
+      "log": "/tmp/rfmodel-merged-validation/native-build-Debug.log",
+      "sha256": "30afb2bb37232673a3981fc56fb5c53581308bb60626a193c98f28b614df7cf3"
+    },
+    {
+      "name": "native-ctest-Debug",
+      "command": [
+        "/tmp/rfmodel-build-tools/cmake/data/bin/ctest",
+        "--test-dir",
+        "/tmp/rfmodel-cpp-validation/native-Debug",
+        "--output-on-failure"
+      ],
+      "returncode": 0,
+      "seconds": 5.533,
+      "log": "/tmp/rfmodel-merged-validation/native-ctest-Debug.log",
+      "sha256": "5d51adb568cd3ef039022e0cdd56d2da3b4ca363c64c1c5f884cc6f0fdd59781",
+      "tests": 94
+    },
+    {
+      "name": "compat-build-Debug",
+      "command": [
+        "/tmp/rfmodel-build-tools/cmake/data/bin/cmake",
+        "--build",
+        "/tmp/rfmodel-api-validation/Debug",
+        "--parallel",
+        "2"
+      ],
+      "returncode": 0,
+      "seconds": 11.574,
+      "log": "/tmp/rfmodel-merged-validation/compat-build-Debug.log",
+      "sha256": "f011789aed11381284a9dd71bf2060ac3b09eaf12d5d67d7182dc9051c19676a"
+    },
+    {
+      "name": "compat-ctest-Debug",
+      "command": [
+        "/tmp/rfmodel-build-tools/cmake/data/bin/ctest",
+        "--test-dir",
+        "/tmp/rfmodel-api-validation/Debug",
+        "--output-on-failure"
+      ],
+      "returncode": 0,
+      "seconds": 37.894,
+      "log": "/tmp/rfmodel-merged-validation/compat-ctest-Debug.log",
+      "sha256": "d8ba13aa77bbd5b7108c503c5ef46ed17a0ca07e0ac46dfbb486d52bf466fb6d",
+      "tests": 161
+    },
+    {
+      "name": "install-Debug",
+      "command": [
+        "/tmp/rfmodel-build-tools/cmake/data/bin/cmake",
+        "--install",
+        "/tmp/rfmodel-cpp-validation/native-Debug",
+        "--config",
+        "Debug",
+        "--prefix",
+        "/tmp/rfmodel-merged-validation/install-Debug"
+      ],
+      "returncode": 0,
+      "seconds": 0.007,
+      "log": "/tmp/rfmodel-merged-validation/install-Debug.log",
+      "sha256": "7211e9e423b66fd20558d409fd3c66700b6e96c45f5c59337796f2ccdff83f4d"
+    },
+    {
+      "name": "consumer-configure-Debug",
+      "command": [
+        "/tmp/rfmodel-build-tools/cmake/data/bin/cmake",
+        "-S",
+        "/workspace/scratch/13ffac99a6e4/rfsim-readonly-20261013-0228/tests/consumer",
+        "-B",
+        "/tmp/rfmodel-merged-validation/consumer-Debug",
+        "-DCMAKE_BUILD_TYPE=Debug",
+        "-DCMAKE_PREFIX_PATH=/tmp/rfmodel-merged-validation/relocated-Debug"
+      ],
+      "returncode": 0,
+      "seconds": 0.161,
+      "log": "/tmp/rfmodel-merged-validation/consumer-configure-Debug.log",
+      "sha256": "88f46f0a2bd4fba6dad0b43d7c7614082967db48656dfedecd2b244509da8e20"
+    },
+    {
+      "name": "consumer-build-Debug",
+      "command": [
+        "/tmp/rfmodel-build-tools/cmake/data/bin/cmake",
+        "--build",
+        "/tmp/rfmodel-merged-validation/consumer-Debug",
+        "--config",
+        "Debug",
+        "--parallel",
+        "2"
+      ],
+      "returncode": 0,
+      "seconds": 9.581,
+      "log": "/tmp/rfmodel-merged-validation/consumer-build-Debug.log",
+      "sha256": "4c466e34ff4dcd3c57a30259cf8192b714f849b81d2e737d00b620c786b1958f"
+    },
+    {
+      "name": "consumer-ctest-Debug",
+      "command": [
+        "/tmp/rfmodel-build-tools/cmake/data/bin/ctest",
+        "--test-dir",
+        "/tmp/rfmodel-merged-validation/consumer-Debug",
+        "-C",
+        "Debug",
+        "--output-on-failure"
+      ],
+      "returncode": 0,
+      "seconds": 0.052,
+      "log": "/tmp/rfmodel-merged-validation/consumer-ctest-Debug.log",
+      "sha256": "f0e3aa0d4cd66d6080ff7d3b534d9f3127ba174345bd136a67ee6a271556b7b3",
+      "tests": 3
+    },
+    {
+      "name": "native-build-Release",
+      "command": [
+        "/tmp/rfmodel-build-tools/cmake/data/bin/cmake",
+        "--build",
+        "/tmp/rfmodel-cpp-validation/native-Release",
+        "--parallel",
+        "2"
+      ],
+      "returncode": 0,
+      "seconds": 18.705,
+      "log": "/tmp/rfmodel-merged-validation/native-build-Release.log",
+      "sha256": "cc5d5f3ef45a8317b66accf95cfdc408bc25a8dd29469a210a02930c9af3c0b1"
+    },
+    {
+      "name": "native-ctest-Release",
+      "command": [
+        "/tmp/rfmodel-build-tools/cmake/data/bin/ctest",
+        "--test-dir",
+        "/tmp/rfmodel-cpp-validation/native-Release",
+        "--output-on-failure"
+      ],
+      "returncode": 0,
+      "seconds": 0.796,
+      "log": "/tmp/rfmodel-merged-validation/native-ctest-Release.log",
+      "sha256": "a1ec6d82a073f568dae6ec78d2bf5336343374cdcec0e08ec12087f99d1423ea",
+      "tests": 94
+    },
+    {
+      "name": "compat-build-Release",
+      "command": [
+        "/tmp/rfmodel-build-tools/cmake/data/bin/cmake",
+        "--build",
+        "/tmp/rfmodel-api-validation/Release",
+        "--parallel",
+        "2"
+      ],
+      "returncode": 0,
+      "seconds": 21.718,
+      "log": "/tmp/rfmodel-merged-validation/compat-build-Release.log",
+      "sha256": "0bbdd9a2e877b590ffca3f8cc00ee21b2cf272b606bf40ade3176522e2cc131a"
+    },
+    {
+      "name": "compat-ctest-Release",
+      "command": [
+        "/tmp/rfmodel-build-tools/cmake/data/bin/ctest",
+        "--test-dir",
+        "/tmp/rfmodel-api-validation/Release",
+        "--output-on-failure"
+      ],
+      "returncode": 0,
+      "seconds": 18.58,
+      "log": "/tmp/rfmodel-merged-validation/compat-ctest-Release.log",
+      "sha256": "7ef86920a2a83e02a7990dd83c411c474d0f80411973d909ce23995973cda8c3",
+      "tests": 161
+    },
+    {
+      "name": "install-Release",
+      "command": [
+        "/tmp/rfmodel-build-tools/cmake/data/bin/cmake",
+        "--install",
+        "/tmp/rfmodel-cpp-validation/native-Release",
+        "--config",
+        "Release",
+        "--prefix",
+        "/tmp/rfmodel-merged-validation/install-Release"
+      ],
+      "returncode": 0,
+      "seconds": 0.007,
+      "log": "/tmp/rfmodel-merged-validation/install-Release.log",
+      "sha256": "70bbd95af0b927c0545367b5c4950e0b563f65e45b9b4a33547f2b7e98f8625b"
+    },
+    {
+      "name": "consumer-configure-Release",
+      "command": [
+        "/tmp/rfmodel-build-tools/cmake/data/bin/cmake",
+        "-S",
+        "/workspace/scratch/13ffac99a6e4/rfsim-readonly-20261013-0228/tests/consumer",
+        "-B",
+        "/tmp/rfmodel-merged-validation/consumer-Release",
+        "-DCMAKE_BUILD_TYPE=Release",
+        "-DCMAKE_PREFIX_PATH=/tmp/rfmodel-merged-validation/relocated-Release"
+      ],
+      "returncode": 0,
+      "seconds": 0.16,
+      "log": "/tmp/rfmodel-merged-validation/consumer-configure-Release.log",
+      "sha256": "18c41b82c3d729e81ac0869d4c1c25632447bd372dc59824ea84335b8c5af875"
+    },
+    {
+      "name": "consumer-build-Release",
+      "command": [
+        "/tmp/rfmodel-build-tools/cmake/data/bin/cmake",
+        "--build",
+        "/tmp/rfmodel-merged-validation/consumer-Release",
+        "--config",
+        "Release",
+        "--parallel",
+        "2"
+      ],
+      "returncode": 0,
+      "seconds": 16.712,
+      "log": "/tmp/rfmodel-merged-validation/consumer-build-Release.log",
+      "sha256": "dd4bdcd45ec9c447107b7f32b986740eccfd59158d83c6703ee3441216e97115"
+    },
+    {
+      "name": "consumer-ctest-Release",
+      "command": [
+        "/tmp/rfmodel-build-tools/cmake/data/bin/ctest",
+        "--test-dir",
+        "/tmp/rfmodel-merged-validation/consumer-Release",
+        "-C",
+        "Release",
+        "--output-on-failure"
+      ],
+      "returncode": 0,
+      "seconds": 0.015,
+      "log": "/tmp/rfmodel-merged-validation/consumer-ctest-Release.log",
+      "sha256": "0ce08a2b164de27c90f12753665cd64199b2b171558603124856b56151fed25e",
+      "tests": 3
+    },
+    {
+      "name": "diff-check",
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "returncode": 0,
+      "seconds": 0.005,
+      "log": "/tmp/rfmodel-merged-validation/diff-check.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "source_files": [
+    {
+      "path": "CMakeLists.txt",
+      "sha256": "2eda92061d530ef978aab024a46e840412a25e05183b9b554bac0683d40a7669"
+    },
+    {
+      "path": "README.md",
+      "sha256": "baea5e036fb77e0893d309dd0114ef616d4096e1cfc1d99415ec72fee26e4351"
+    },
+    {
+      "path": "docs/coherent-pipeline.md",
+      "sha256": "3f15cd280301db6d352ff04673b3cf129953cc66f8e68c92733ac6f8c5a3ddbc"
+    },
+    {
+      "path": "docs/cpp-sdk.md",
+      "sha256": "b2d09333ebf32e6a217f40648d6aadf147250146f2537f988ff17bfed6580637"
+    },
+    {
+      "path": "docs/native-conversion-boundary-fixtures-20261013.md",
+      "sha256": "085de71bb30629c9e61e44c1ce01d997ba31a46dd624d597889841d1ebfb65df"
+    },
+    {
+      "path": "docs/python-retirement-plan.md",
+      "sha256": "f9e0b37f4c3f1b11cbdc22460be7df36426fca0a286b7c73ae8050c4eae39aa5"
+    },
+    {
+      "path": "examples/coherent_pipeline.cpp",
+      "sha256": "59e27f742e62bf1c9f64d1d5c55cbbf88e001775de17b1fe4bd524651da9dcb1"
+    },
+    {
+      "path": "include/rfmodel/coherent_pipeline.hpp",
+      "sha256": "611a03a9b4bd4cec41d13443dbd0407e229afa17e5eba5c204bd42be82b736ea"
+    },
+    {
+      "path": "tests/check_sdk_configuration.cmake",
+      "sha256": "f40d54ff2ed4a8fa7b6f694a3e008ebd8db97cbdb3300d91c08411a93c2c8341"
+    },
+    {
+      "path": "tests/coherent_pipeline.cpp",
+      "sha256": "40481c810fa13f1cd8c2e192f5d147c9749ba70377490e6184545e1a8eed99eb"
+    },
+    {
+      "path": "tests/coherent_pipeline_limits_test.cpp",
+      "sha256": "e5def48d91ca9471544e16636512435a0239ea8cc49179ea5c20553be2711ae1"
+    },
+    {
+      "path": "tests/consumer/CMakeLists.txt",
+      "sha256": "9b0fa32a0e2c3d07cd6bdd452a46636c60e1852139e212e586f8d12fb4bf2619"
+    },
+    {
+      "path": "tests/consumer/coherent_pipeline.cpp",
+      "sha256": "dc8f01c416c156a7f788f101baa7a18717a4dcbaebfd46250d0087a3ece8277f"
+    },
+    {
+      "path": "tests/consumer/coherent_pipeline_probe.cpp",
+      "sha256": "c52def9119cb045d64bec9cdbff281afaefb1195c680d8df8b9ac599d6bf99e0"
+    },
+    {
+      "path": "tests/conversion_power_wave_test.cpp",
+      "sha256": "a1134a708977d860dc312b6742cf8880990c47f5817c7d6edbe0d12c7be42f9c"
+    },
+    {
+      "path": "tests/touchstone_noise_test.cpp",
+      "sha256": "1713d3ffae831923bec0fd0324ecaf1e7bc9ef7ad97ca30e8caa919bc8b4be5a"
+    },
+    {
+      "path": "validation/coherent-pipeline-validation-20261013.json",
+      "sha256": "a2b168493d49b9506f79cc23e26f5aa05e63ca3b7e6e5e9e7e36e3150896c71d"
+    },
+    {
+      "path": "validation/native-conversion-boundary-fixtures-validation-20261013.json",
+      "sha256": "3173b54489eea3c7580848e6178e250b1c158631f0e112a60c759f22a7432a13"
+    }
+  ],
+  "limitations": [
+    "New combined commit not yet pushed or remotely tested at record creation",
+    "No new SystemVue measurements or compatibility promotion",
+    "Python interfaces not removed; complete graph/amplifier adapters and reference replay migration remain open"
+  ]
+}

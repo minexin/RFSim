@@ -60,7 +60,7 @@ cmake --build build-sdk-consumer --config Release
 ctest --test-dir build-sdk-consumer -C Release --output-on-failure
 ```
 
-仅安装 C++ SDK 时执行两个独立 C++ 消费者，不创建 C 消费者。数值错误按现有 C++ API 抛出异常；调用方应在自己的边界处理 `std::exception`。通道按器件加入顺序及器件内通道顺序排列；参考阻抗、单位和 C/P 契约见[变频功率波参考](conversion-power-wave.md)。
+仅安装 C++ SDK 时执行三个独立 C++ 消费者，不创建 C 消费者。数值错误按现有 C++ API 抛出异常；调用方应在自己的边界处理 `std::exception`。通道按器件加入顺序及器件内通道顺序排列；参考阻抗、单位和 C/P 契约见[变频功率波参考](conversion-power-wave.md)。
 
 ## 无 Python 的完整原生回归
 
@@ -74,12 +74,13 @@ ctest --test-dir build-native -C Debug --output-on-failure
 ```
 
 - `BUILD_TESTING=OFF` 不再留下未受控的原生测试可执行文件。
-- `RFMODEL_BUILD_EXAMPLES` 独立控制四个现有 C++ 示例，默认 ON；测试关闭时仍可单独构建示例。
+- `RFMODEL_BUILD_EXAMPLES` 独立控制五个 C++ 示例，默认 ON；测试关闭时仍可单独构建示例。
 - `RFMODEL_BUILD_PYTHON_TESTS=OFF` 明确禁止查找 Python/注册脚本测试，即使保留 C ABI。旧 `RFMODEL_REQUIRE_PYTHON_TESTS=OFF` 只表示“不强制存在”，并不等于关闭。
 - `RFMODEL_REQUIRE_PYTHON_TESTS=ON` 与关闭测试/C ABI/Python 测试互斥；配置直接报错，不静默跳过要求。
 
 ## 常用入口与调用责任
 
+- `coherent_pipeline.hpp`：`CoherentPipeline` 的不可变有类型相干流、混频/线性/多项式/共同驱动压缩；[调用、历史与固定边界](coherent-pipeline.md)。
 - `network.hpp`：`LinearNetwork`，连接及等效 S；`frequency_conversion.hpp` / `conversion_network.hpp`：`FrequencyConversionModel`、`FrequencyConversionNetwork` 和完整 C/P 结果。
 - `conversion_power_wave.hpp`：模型、仿射偏置、内生噪声和源/负载边界的功率波参考变换。仅声明新参考不会自动保留旧物理边界。
 - `conversion_operating_point.hpp`：`solve_conversion_operating_point`，收敛后的线性化器件及偏置可用于后续噪声分析；混合复参考自动工作点尚未支持。
@@ -89,13 +90,13 @@ ctest --test-dir build-native -C Debug --output-on-failure
 
 优化/Monte Carlo 的求值回调由调用者同步执行网络构造、参数赋值和结果投影，应返回规定维数的有限实数，并自行管理捕获对象的生命周期与外部状态。没有隐含 Python 字段选择器或自动并行；确定性重放还要求回调本身确定。取消在评估之间检查，不中断正在执行的回调。不要只看是否抛异常判断成功，还须检查返回的停止原因、有效样本/有限点状态及失败记录。详细异常、失败与取消约定见[优化](optimization.md)及[Monte Carlo](monte-carlo.md)。
 
-安装消费者还把同一转换 API 放在两个独立 translation unit 中编译链接，检查 header-only 的 ODR/linkage；安装目录整体移动后再通过新前缀消费，避免依赖原安装位置。
+转换 API 和相干流管线安装消费者各在两个独立 translation unit 中编译链接，检查 header-only 的 ODR/linkage；安装目录整体移动后再通过新前缀消费，避免依赖原安装位置。
 
 ## 数值功能与 Python 装配边界
 
 优化和 Monte Carlo 的搜索、抽样、相关分布、预算、统计及回调算法已有原生 C++ API。Python 中的声明式任务字段、JSON 参数选择器、单位/目标装配及 CLI 入口是另外一层，删除它们不等于删除核心算法，也不能声称 C++ 已有等价文件入口。
 
-相干系统图还存在 Python 端的多级来源身份注册、共同驱动与历史组合逻辑。原生内核已有，但完整编排尚未逐项迁移。Python 包的分阶段退出条件见[依赖审计与迁移计划](python-retirement-plan.md)。本阶段不删除 Python 辅助脚本、SystemVue 对照脚本或参考数据，也不为保留 CLI 阻塞 C++ SDK 的使用。
+有类型 `CoherentPipeline` 已提供有界前馈子集的来源注册、流局部历史、混频/单输出线性/多项式及 source-only 共同压缩。Python 相干图的完整调度、JSON、限幅/级联/高阶放大器适配和其他跨阶段功能仍未逐项迁移。Python 包的分阶段退出条件见[依赖审计与迁移计划](python-retirement-plan.md)。本阶段不删除 Python 辅助脚本、SystemVue 对照脚本或参考数据，也不为保留 CLI 阻塞 C++ SDK 的使用。
 
 本轮 Linux Debug/Release 验证、安装重定位、双翻译单元及逐头编译证据见[机读记录](../validation/cpp-sdk-priority-validation-20261013.json)。独立三平台两配置 CI 已编写但尚未远程执行，不能据此声称 Windows/macOS 通过。
 

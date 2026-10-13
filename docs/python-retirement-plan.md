@@ -2,6 +2,17 @@
 
 审计日期：2026-10-13。范围为当前工作树；本轮只补强 C++ SDK 安装消费与七通道混频—热电阻的原生独立物理回归，不删除 Python/C 接口，不实现通用 C++ JSON 解析器，不扩大 SystemVue 兼容声明。
 
+## 状态更新：2026-10-13 后续增量
+
+下文详细表格保留首次审计时点的差距，当前状态以本节及各增量验证记录为准：
+
+- SDK 提交 `ceded246` 与第一批原生物理迁移提交 `cabbbced` 已推送，各自三平台两配置的完整/纯 C++ 共 12 个 CI job 全通过：[SDK CI](https://github.com/minexin/RFSim/actions/runs/38342174081)、[原生迁移 CI](https://github.com/minexin/RFSim/actions/runs/38342751482)。首次审计中的“未提交/未跑远端”仅是当时记录。
+- Chebyshev 四类映射与极端数值、AM-PM/高阶收敛快照噪声的直接 C++ 回归已迁移，见[第一批物理迁移](native-physics-migration-20261013.md)。
+- 四个精确变频/噪声 fixture 现已建立直接 C++ 回归：75 Ω 非匹配器件与 45+3j Ω 源的极端参考；部分外部相关 C/P 与严格零内部行列；不同实 DC 参考的完整热噪声升维；75 Ω Touchstone 内嵌噪声至复参考变频与物理 50 Ω 负载的端到端链。见[边界回归及独立预期](native-conversion-boundary-fixtures-20261013.md)。
+- 上述六组有限回归迁移不等于完整 Python 退役或厂商兼容完成。下列相干流仅覆盖选定子集；参考比较器仍依赖产品包，实际删除尚未执行。
+
+本次整合后的实际检查及后续远端结果必须对应本次提交，不能借用上面两个旧提交的 CI 结论。
+
 ## 结论
 
 RFModel 的数值内核已经是 C++17 header-only 库，交付 `RFModel::rfmodel` 不需要 Python、pip、共享 C ABI 或 Python CLI。可以立即把 C++ 函数接口、安装后的真实调用和独立物理参考作为主验收入口。Python 产品接口可以在后续阶段退役，但不能以“删除 `python/` 后原生测试仍通过”作为无功能损失的证据。
@@ -13,6 +24,14 @@ RFModel 的数值内核已经是 C++17 header-only 库，交付 `RFModel::rfmode
 3. 独立数学/物理参考、SystemVue 数据采集与比较、历史证据核验。
 
 只有第一类可以随对应产品接口一起取消。第二类必须逐项决定迁移为 C++ 行为、由 C++ 调用者显式组合，或明确退出交付范围；第三类应保留或先迁移验证能力。停止交付 Python 包，不等于禁止研发机器用 Python 检查结果。
+
+## 后续增量：有类型相干流子集
+
+`coherent_pipeline.hpp` 现提供 C++17 函数入口，用同一上下文的不可变流组合 seed、mix、单输出 linear_network、polynomial 和仅 source-kind 的共同驱动压缩。迁移的是物理/历史根注册、流局部表达式、相消保留、全历史共轭、规范支持宽度、临时身份恢复、精确来源阶数过滤计数与上下文资源/失败语义；数值计算继续调用既有内核。
+
+直接回归用 long-double 有符号电压谱有序卷积和手算历史/路径/功率预期，覆盖多项式→混频→多项式、跨流复权合路、重复共轭、正频 IF 总幅度相消为零时仍保留的非零交叉历史、独立源功率、共同驱动及资源边界。安装消费者在独立翻译单元中调用同一公开 API。接口与限制见[相干流指南](coherent-pipeline.md)；实际执行结果见[增量验证](../validation/coherent-pipeline-validation-20261013.json)。
+
+这是阶段 2 的选定子集，不表示阶段 2 整体完成。完整图/DAG、JSON/CLI、multi-output 共享提取、limited/cascaded/highorder 适配、其他收敛点噪声和频点重映射仍开放。无 Python/C 文件删除、无新绑定、无 SystemVue 兼容等级提升。下文审计表保留审计时点含义，不能因这个子集通过就删除其余独立参考。
 
 ## 一、依赖边界
 

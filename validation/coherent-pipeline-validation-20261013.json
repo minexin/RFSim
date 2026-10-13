@@ -1,0 +1,173 @@
+{
+  "schema": "rfmodel.coherent-pipeline-validation",
+  "version": 1,
+  "date": "2026-10-13",
+  "baseline_commit": "cabbbcedabc9d2cf9f38e6da86f5cab06d16bce0",
+  "source_materialization": "git archive of exact clean baseline into isolated source directory; main checkout never edited",
+  "publication": {
+    "committed": false,
+    "pushed": false,
+    "main_checkout_modified": false
+  },
+  "scope": "Bounded C++17 immutable coherent stream context: seed, mix, single-output linear_network, polynomial, source-only common-drive compression. Existing numerical kernels reused unchanged.",
+  "host": {
+    "os": "Linux",
+    "compiler": "GNU C++ 14.2.0",
+    "cmake": "3.31.10",
+    "clang_format": "19.1.7",
+    "compatibility_python": "3.12.14"
+  },
+  "native_configuration": {
+    "BUILD_TESTING": "ON",
+    "RFMODEL_BUILD_C_API": "OFF",
+    "RFMODEL_BUILD_CLI": "OFF",
+    "RFMODEL_BUILD_PYTHON_TESTS": "OFF",
+    "RFMODEL_BUILD_EXAMPLES": "ON"
+  },
+  "compatibility_configuration": {
+    "BUILD_TESTING": "ON",
+    "RFMODEL_BUILD_C_API": "ON",
+    "RFMODEL_BUILD_CLI": "ON",
+    "RFMODEL_BUILD_PYTHON_TESTS": "ON",
+    "RFMODEL_REQUIRE_PYTHON_TESTS": "ON",
+    "RFMODEL_BUILD_EXAMPLES": "ON"
+  },
+  "results": [
+    {
+      "configuration": "Debug",
+      "mode": "native_cpp_only",
+      "passed": 94,
+      "total": 94,
+      "real_seconds": 4.96,
+      "log": "/tmp/rfmodel-coherent-pipeline/ctest-debug-final.log",
+      "log_sha256": "00bf4b2f51535a3ccf047625e1bc3b45779ec7ca1ba5b139280aa0d74b406c83"
+    },
+    {
+      "configuration": "Release",
+      "mode": "native_cpp_only",
+      "passed": 94,
+      "total": 94,
+      "real_seconds": 0.31,
+      "log": "/tmp/rfmodel-coherent-pipeline/ctest-release-final.log",
+      "log_sha256": "c0ea3bd1efa2f4989a42c9ca051524c4b4c6152692fb25964ffe501cd248c00b"
+    },
+    {
+      "configuration": "Debug",
+      "mode": "retained_default_compatibility",
+      "passed": 161,
+      "total": 161,
+      "real_seconds": 15.12,
+      "log": "/tmp/rfmodel-coherent-pipeline/ctest-compat-debug-final.log",
+      "log_sha256": "4c243e6e41c9ae8ea1c348de425f9b7655e15c0435d3648d119e23fa0438906b"
+    },
+    {
+      "configuration": "Release",
+      "mode": "retained_default_compatibility",
+      "passed": 161,
+      "total": 161,
+      "real_seconds": 7.73,
+      "log": "/tmp/rfmodel-coherent-pipeline/ctest-compat-final.log",
+      "log_sha256": "536a33756b6e9abc7583f6f3864a3813b74fcaca5e90b02f283a6d386b7c5ea9"
+    }
+  ],
+  "configuration_audit": {
+    "debug": {
+      "count": 94,
+      "c_compiler_enabled": false,
+      "python_discovered": false,
+      "python_test_command_present": false,
+      "c_api_test_command_present": false
+    },
+    "release": {
+      "count": 94,
+      "c_compiler_enabled": false,
+      "python_discovered": false,
+      "python_test_command_present": false,
+      "c_api_test_command_present": false
+    },
+    "compat": {
+      "count": 161,
+      "c_compiler_enabled": true,
+      "python_discovered": true,
+      "python_test_command_present": true,
+      "c_api_test_command_present": true
+    },
+    "compat-debug": {
+      "count": 161,
+      "c_compiler_enabled": true,
+      "python_discovered": true,
+      "python_test_command_present": true,
+      "c_api_test_command_present": true
+    }
+  },
+  "independent_oracles": [
+    "Ordered signed voltage Fourier convolution in complex<long double>, V[k]=sqrt(R/2)*a[k], conjugate negative spectrum, positive-RF projection between stages; no pipeline/polynomial/origin/reducer calls derive expectations.",
+    "Direct complex mixer shifts, explicit whole-history sign vectors, hand-counted physical versus history identities and source-order paths.",
+    "Explicit scalar cubic/P1dB and incremental-tanh compression equations applied to hand-computed physical drive; independent-source powers checked separately from same-frequency wave sums."
+  ],
+  "covered_fixtures": [
+    "Mixed RF8/RF12/LO10: 3 physical records, 4 expanded histories, 19 local paths; cutoff3 drops15 and cutoff1 drops19.",
+    "Cancellation: three quadratic history amplitudes +.00025,-.0005,+.00025 and recursive fourth-order 1,-4,6,-4,1 coefficients survive despite zero total wave.",
+    "Cross-stream same physical IF identity retains distinct local histories; complex weighted network recombination; repeated mixing conjugates every amplitude and original factor.",
+    "Polynomial-mixer-polynomial independent full RF spectrum; recursive one-tone six generated paths with exact discard counts1,3,5.",
+    "Canonical fractional support, uncompacted repeated/opposite factors, retained identical-monomial zero, per-actual-bin network builder calls.",
+    "Shared physical drive, distinct RF/LO identities, IF-only cancellation filter and zero-drive gain10 retaining +.1/-.1 histories."
+  ],
+  "failure_and_boundary_checks": [
+    "Invalid empty-stream parameters, source reservation, foreign/stale same-address handles, DC mixing rejection, bin/group overflow, invalid source cutoff, and non-source compression rejection.",
+    "65 active expanded histories fail nonlinear input limit even with small physical count and cutoff1; 4096 accepted expanded inputs,4097 rejected.",
+    "16 sources with degree4 and cutoff1 still fail native4096 generated-RF-path cap before filtering.",
+    "2048 physical mixer inputs accepted/2049 rejected;2048 network frequencies accepted/2049 rejected before callback.",
+    "256 history factors retained; mixer factor257 fails; polynomial source512 path is counted/dropped before over256 composition.",
+    "Cumulative65536 records/terms,1,048,560 factors before rejecting next4096,512 transformations,4096 streams; failure leaves committed usage/snapshots/roots unchanged.",
+    "Throwing network callback and same-context callback mutation reject atomically; external callback side effects are explicitly outside rollback."
+  ],
+  "sdk": {
+    "installed_relocated": true,
+    "copied_consumer_sources": true,
+    "new_consumer_translation_units": 2,
+    "new_consumer_checks": 61,
+    "all_installed_consumers_passed": 3,
+    "all_installed_consumers_total": 3,
+    "c_or_python_discovered": false,
+    "c_abi_linked": false,
+    "header_sha256": "611a03a9b4bd4cec41d13443dbd0407e229afa17e5eba5c204bd42be82b736ea",
+    "installed_header_sha256": "611a03a9b4bd4cec41d13443dbd0407e229afa17e5eba5c204bd42be82b736ea",
+    "log": "/tmp/rfmodel-coherent-pipeline/consumer-all-ctest.log",
+    "log_sha256": "9d1852d00b5bb63869f5a2575e126109ebd26ddb540ba02bb5613a0400989d7c"
+  },
+  "engineering_checks": {
+    "standalone_cpp_headers_passed": 72,
+    "standalone_c_api_header_cpp17_and_c11": true,
+    "strict_debug_release_new_tests_passed": 4,
+    "strict_flags": "-std=c++17 -Wall -Wextra -Werror -pedantic; Debug -O0 -g; Release -O3 -DNDEBUG",
+    "format_check_files": 181,
+    "format_check_passed": true,
+    "sdk_examples_target_count": 5,
+    "sdk_minimal_buildable_target_count": 0,
+    "asan_ubsan_new_tests_passed": 2,
+    "leak_detection": "disabled; environment LeakSanitizer/ptrace incompatibility, no leak-check claim",
+    "sanitizer_log_sha256": "b191960d2d7ec8b0a8a1d34fd640a8741d908a30e532649ff3133934af9428c0"
+  },
+  "independent_review": {
+    "status": "no correctness blockers",
+    "core_header_sha256": "611a03a9b4bd4cec41d13443dbd0407e229afa17e5eba5c204bd42be82b736ea",
+    "physics_test_sha256": "40481c810fa13f1cd8c2e192f5d147c9749ba70377490e6184545e1a8eed99eb",
+    "limits_test_sha256": "e5def48d91ca9471544e16636512435a0239ea8cc49179ea5c20553be2711ae1",
+    "additional_boundary_probes_retained": true
+  },
+  "commands": [
+    "cmake -S <source> -B <build> -DCMAKE_BUILD_TYPE=<Debug|Release> -DRFMODEL_BUILD_C_API=OFF -DRFMODEL_BUILD_CLI=OFF -DRFMODEL_BUILD_PYTHON_TESTS=OFF",
+    "cmake -S <source> -B <compat-build> -DCMAKE_BUILD_TYPE=<Debug|Release> -DRFMODEL_REQUIRE_PYTHON_TESTS=ON",
+    "cmake --build <build> -j4 && ctest --test-dir <build> --output-on-failure -j4",
+    "cmake -S <source> -B <sdk-build> -DBUILD_TESTING=OFF -DRFMODEL_BUILD_C_API=OFF -DRFMODEL_BUILD_CLI=OFF -DRFMODEL_BUILD_EXAMPLES=OFF -DRFMODEL_BUILD_PYTHON_TESTS=OFF; cmake --install <sdk-build>; move installed prefix; configure copied tests/consumer with relocated CMAKE_PREFIX_PATH",
+    "clang-format --style=file --dry-run --Werror <all180 include/src/tests C/C++ files> <new example>"
+  ],
+  "not_claimed": [
+    "Windows/MSVC or macOS execution",
+    "SystemVue execution or vendor compatibility promotion",
+    "Python/C ABI retirement or new bindings",
+    "JSON/DAG engine, multi-output shared extraction, limited/cascaded/highorder adapters",
+    "Allocator fault injection or callback external side-effect rollback"
+  ]
+}

@@ -13,6 +13,8 @@ static double maximum_wave_error = 0., maximum_noise_error = 0.;
 static std::size_t wave_checks = 0, noise_checks = 0;
 static double maximum_wide_reference_relative_error = 0.;
 static std::size_t wide_reference_checks = 0;
+static std::size_t boundary_fixture_checks = 0;
+static double maximum_boundary_fixture_scaled_error = 0.;
 
 static void relative_value(Complex actual, Complex expected) {
     const double error = std::abs(actual - expected) / std::abs(expected);
@@ -589,6 +591,269 @@ static void test_wide_reference_precision() {
     }
 }
 
+// Scale every assertion to its physical quantity, including small correlations.
+// In particular, thermal noise must never inherit a unit-sized absolute floor.
+static void fixture_value(Complex actual, Complex expected, double scale, const char *message) {
+    require(std::isfinite(scale) && scale > 0., "invalid independent fixture scale");
+    const double error = std::abs(actual - expected) / scale;
+    require(std::isfinite(error) && error < 3e-12, message);
+    maximum_boundary_fixture_scaled_error = std::max(maximum_boundary_fixture_scaled_error, error);
+    ++boundary_fixture_checks;
+}
+
+static void test_partial_boundary_thevenin() {
+    const std::vector<ConversionChannel> channels{{0, 1}, {0, 2}, {1, 3}};
+    const Vector old_refs{50., {30., 9.}, {81., -4.}};
+    const Vector new_refs{{21., 7.}, {93., -15.}, {64., 12.}};
+    const Vector impedance{{35., 4.}, {}, {74., -5.}};
+    const Vector voltage{{.4, .2}, {}, {0., -.2}};
+    // Independent real latent Thevenin voltages produce both C and nonzero P.
+    const std::vector<Vector> bases{{{.2, .05}, {}, {0., -.1}}, {{0., .03}, {}, {.04, -.06}}};
+    const FrequencyConversionModel model(1., channels, {3, Vector(9)}, {3, Vector(9)}, old_refs);
+    const auto physical_boundary = [&](const Vector &refs) {
+        ConversionPowerWaveBoundary result{Vector(3), Vector(3), model.zero_noise()};
+        Vector transfer(3);
+        for (const auto i : {0u, 2u}) {
+            transfer[i] = std::sqrt(refs[i].real()) / (impedance[i] + std::conj(refs[i]));
+            result.source[i] = transfer[i] * voltage[i];
+            result.reflection[i] = (impedance[i] - refs[i]) / (impedance[i] + std::conj(refs[i]));
+        }
+        for (const auto &basis : bases) {
+            Vector wave(3);
+            for (const auto i : {0u, 2u}) {
+                wave[i] = transfer[i] * basis[i];
+            }
+            add_noise(result.source_noise, wave, wave);
+        }
+        return result;
+    };
+    const auto original = physical_boundary(old_refs), saved = original;
+    const auto check = [&](const ConversionPowerWaveBoundary &actual,
+                           const ConversionPowerWaveBoundary &expected) {
+        for (const auto i : {0u, 2u}) {
+            fixture_value(actual.source[i],
+                          expected.source[i],
+                          std::abs(expected.source[i]),
+                          "partial boundary Thevenin source");
+            fixture_value(actual.reflection[i],
+                          expected.reflection[i],
+                          1.,
+                          "partial boundary Thevenin reflection");
+            for (const auto j : {0u, 2u}) {
+                const double scale = std::sqrt(expected.source_noise.covariance(i, i).real() *
+                                               expected.source_noise.covariance(j, j).real());
+                fixture_value(actual.source_noise.covariance(i, j),
+                              expected.source_noise.covariance(i, j),
+                              scale,
+                              "partial boundary Thevenin covariance");
+                fixture_value(actual.source_noise.complementary(i, j),
+                              expected.source_noise.complementary(i, j),
+                              scale,
+                              "partial boundary Thevenin complementary covariance");
+            }
+        }
+        require(actual.source[1] == Complex{} && actual.reflection[1] == Complex{},
+                "partial boundary internal drive must stay exactly zero");
+        for (std::size_t i = 0; i < 3; ++i) {
+            require(actual.source_noise.covariance(1, i) == Complex{} &&
+                        actual.source_noise.covariance(i, 1) == Complex{} &&
+                        actual.source_noise.complementary(1, i) == Complex{} &&
+                        actual.source_noise.complementary(i, 1) == Complex{},
+                    "partial boundary internal noise rows/columns must stay exactly zero");
+        }
+        require(std::abs(actual.source_noise.covariance(0, 2)) > 1e-6 &&
+                    std::abs(actual.source_noise.complementary(0, 2)) > 1e-6,
+                "partial boundary fixture lost its cross-channel C/P");
+    };
+    const auto changed = renormalize_conversion_boundary(
+        model, new_refs, {0, 2}, original.source, original.reflection, original.source_noise);
+    check(changed, physical_boundary(new_refs));
+    // Deliberately reverse selection order: indices, not list positions, define coordinates.
+    const auto changed_model = renormalize_power_waves(model, new_refs).model;
+    const auto restored = renormalize_conversion_boundary(
+        changed_model, old_refs, {2, 0}, changed.source, changed.reflection, changed.source_noise);
+    check(restored, original);
+    rejects<std::invalid_argument>([&] {
+        renormalize_conversion_boundary(
+            model, new_refs, {0}, original.source, original.reflection, original.source_noise);
+    });
+    auto bad_noise = original.source_noise;
+    bad_noise.covariance(1, 1) = 1e-4;
+    const auto saved_bad_noise = bad_noise;
+    rejects<std::invalid_argument>([&] {
+        renormalize_conversion_boundary(
+            model, new_refs, {0, 2}, original.source, original.reflection, bad_noise);
+    });
+    require(bad_noise.covariance.values == saved_bad_noise.covariance.values &&
+                bad_noise.complementary.values == saved_bad_noise.complementary.values,
+            "rejected partial boundary mutated invalid input noise");
+    require(original.source == saved.source && original.reflection == saved.reflection &&
+                original.source_noise.covariance.values == saved.source_noise.covariance.values &&
+                original.source_noise.complementary.values ==
+                    saved.source_noise.complementary.values &&
+                model.reference_impedances_ohms() == old_refs &&
+                model.direct().values == Vector(9) && model.conjugate().values == Vector(9),
+            "partial boundary success/failure mutated caller data");
+}
+
+static void test_mismatched_extreme_references() {
+    constexpr double resistance = 75.;
+    const Complex old = 1., impedance{45., 3.}, voltage{.4, .2}, offset{-.02, .01};
+    const Complex scattering = (resistance - std::conj(old)) / (resistance + old);
+    const Complex gamma = (impedance - old) / (impedance + std::conj(old));
+    const Complex source = voltage / (impedance + std::conj(old));
+    const FrequencyConversionModel model(1., {{0, 1}}, {1, {scattering}}, {1, {0.}}, {old});
+    const ConversionNoise intrinsic{{1, {2.}}, {1, {Complex{.3, .2}}}};
+    const ConversionNoise source_noise{{1, {2.}}, {1, {Complex{0., .3}}}};
+    for (const double scale : {1e-24, 1e-12, 1., 1e12, 1e24}) {
+        for (const Complex reference : Vector{scale, scale * Complex{1., .3}}) {
+            // I=V/R+J gives b=(R-conj(Z))/(R+Z)*a - R*sqrt(Re Z)/(R+Z)*J.
+            // The fixed physical Norton offset/noise is thus scaled by this ratio.
+            const auto device_transfer =
+                std::sqrt(reference.real()) * (resistance + old) / (resistance + reference);
+            const auto changed = renormalize_power_waves(model, {reference});
+            fixture_value(changed.model.direct()(0, 0),
+                          (resistance - std::conj(reference)) / (resistance + reference),
+                          1.,
+                          "mismatched extreme-reference scattering");
+            relative_value(changed.noise_direct(0, 0), device_transfer);
+            fixture_value(changed.noise_conjugate(0, 0),
+                          0.,
+                          std::abs(device_transfer),
+                          "ordinary Norton noise acquired conjugate transfer");
+            relative_value(renormalize_conversion_offset(changed, {offset})[0],
+                           device_transfer * offset);
+            const auto noise = renormalize_conversion_noise(changed, intrinsic);
+            relative_value(noise.covariance(0, 0), 2. * std::norm(device_transfer));
+            relative_value(noise.complementary(0, 0),
+                           Complex{.3, .2} * device_transfer * device_transfer);
+            // V+Zs*I=Vs gives a=Gamma*b+sqrt(Re Z)/(Zs+conj(Z))*Vs.
+            const auto source_transfer = std::sqrt(reference.real()) *
+                                         (impedance + std::conj(old)) /
+                                         (impedance + std::conj(reference));
+            const auto boundary = renormalize_conversion_boundary(
+                model, {reference}, {0}, {source}, {gamma}, source_noise);
+            relative_value(boundary.source[0],
+                           voltage * std::sqrt(reference.real()) /
+                               (impedance + std::conj(reference)));
+            fixture_value(boundary.reflection[0],
+                          (impedance - reference) / (impedance + std::conj(reference)),
+                          1.,
+                          "mismatched extreme-reference Thevenin reflection");
+            relative_value(boundary.source_noise.covariance(0, 0), 2. * std::norm(source_transfer));
+            relative_value(boundary.source_noise.complementary(0, 0),
+                           Complex{0., .3} * source_transfer * source_transfer);
+        }
+    }
+    require(model.reference_impedances_ohms() == Vector{old} &&
+                model.direct().values == Vector{scattering} &&
+                model.conjugate().values == Vector{0.} &&
+                intrinsic.covariance.values == Vector{2.} &&
+                intrinsic.complementary.values == Vector{Complex{.3, .2}} &&
+                source_noise.covariance.values == Vector{2.} &&
+                source_noise.complementary.values == Vector{Complex{0., .3}},
+            "extreme-reference changes mutated physical input data");
+}
+
+static void test_unequal_dc_linear_lift() {
+    constexpr double resistance = 25., temperature = 290., kt = 1.380649e-23 * temperature;
+    const IdealRLCModel resistor("thermal series resistor",
+                                 IdealElement::Resistor,
+                                 LumpedConnection::SeriesImpedance,
+                                 resistance);
+    const std::vector<Vector> refs{{31., 73.}, {{19., 8.}, {110., 31.}}};
+    std::vector<SMatrix> scattering;
+    std::vector<NoiseCorrelation> noise;
+    for (std::size_t k = 0; k < refs.size(); ++k) {
+        const auto original = resistor.s_parameters(static_cast<double>(k) * 1e9);
+        scattering.push_back(renormalize_power_waves(original, {50., 50.}, refs[k]).scattering);
+        noise.push_back(renormalize_noise(
+            original, passive_thermal_noise(original, temperature), {50., 50.}, refs[k]));
+    }
+    auto device = lift_linear_conversion(1e9, {0, 1}, scattering, noise, refs);
+    const Vector sources{.02, -.01, {.03, -.02}, {-.01, .04}};
+    device.source = sources;
+    FrequencyConversionNetwork network(1e9);
+    network.add_power_waves(device);
+    const auto result = network.analyze(true);
+    require(network.reference_impedances_ohms() ==
+                Vector{refs[0][0], refs[0][1], refs[1][0], refs[1][1]},
+            "DC/RF linear lift reference order");
+    const auto &channels = device.model.channels();
+    for (std::size_t i = 0; i < 4; ++i) {
+        require(channels[i].bin == static_cast<int>(i / 2) && channels[i].port == i % 2,
+                "DC/RF linear lift is not frequency-major");
+        Complex expected_wave{}, expected_self_noise{};
+        for (std::size_t j = 0; j < 4; ++j) {
+            Complex s{}, c{}, p{};
+            if (i / 2 == j / 2) {
+                const auto &z = refs[i / 2];
+                const auto denominator = resistance + z[0] + z[1];
+                const auto ri = z[i % 2].real(), rj = z[j % 2].real();
+                s = i == j ? 1. - 2. * ri / denominator : 2. * std::sqrt(ri * rj) / denominator;
+                // A series Johnson voltage has density 4*k*T*R. KCL makes its
+                // two outgoing wave coefficients opposite in sign. This oracle
+                // does not call passive_thermal_noise, renormalize, or a wave solve.
+                c = (i == j ? 1. : -1.) * 4. * kt * resistance * std::sqrt(ri * rj) /
+                    std::norm(denominator);
+                p = i < 2 ? c : Complex{}; // DC is real; each RF sample is proper.
+                if (i == j) {
+                    expected_self_noise = c;
+                }
+                fixture_value(result.outgoing_noise.covariance(i, j),
+                              c,
+                              kt,
+                              "unequal DC/RF lift full thermal covariance");
+                fixture_value(result.outgoing_noise.complementary(i, j),
+                              p,
+                              kt,
+                              "unequal DC/RF lift full thermal complementary covariance");
+                fixture_value(device.intrinsic_noise.covariance(i, j),
+                              c,
+                              kt,
+                              "unequal DC/RF intrinsic covariance");
+                fixture_value(device.intrinsic_noise.complementary(i, j),
+                              p,
+                              kt,
+                              "unequal DC/RF intrinsic complementary covariance");
+            } else {
+                require(result.outgoing_noise.covariance(i, j) == Complex{} &&
+                            result.outgoing_noise.complementary(i, j) == Complex{} &&
+                            device.intrinsic_noise.covariance(i, j) == Complex{} &&
+                            device.intrinsic_noise.complementary(i, j) == Complex{},
+                        "independent DC/RF frequency blocks became correlated");
+            }
+            fixture_value(device.model.direct()(i, j), s, 1., "unequal DC/RF scattering");
+            require(device.model.conjugate()(i, j) == Complex{}, "linear lift became conjugate");
+            expected_wave += s * sources[j];
+            require(result.incident_noise.covariance(i, j) == Complex{} &&
+                        result.incident_noise.complementary(i, j) == Complex{} &&
+                        result.incident_outgoing_noise.covariance(i, j) == Complex{} &&
+                        result.incident_outgoing_noise.complementary(i, j) == Complex{},
+                    "cold matched local boundaries acquired incident or cross noise");
+        }
+        fixture_value(result.incident[i], sources[i], std::abs(sources[i]), "linear lift incident");
+        fixture_value(result.outgoing[i], expected_wave, .1, "linear lift physical outgoing");
+        fixture_value(result.net_noise_into_device_w_per_hz[i],
+                      -expected_self_noise,
+                      kt,
+                      "linear lift net thermal noise");
+    }
+    // Invalid DC coordinates reject without altering the successful sample inputs.
+    const auto saved_scattering = scattering;
+    const auto saved_noise = noise;
+    auto invalid_refs = refs;
+    invalid_refs[0][1] += Complex{0., 1.};
+    rejects<std::invalid_argument>([&] {
+        lift_linear_conversion(1e9, {0, 1}, scattering, noise, invalid_refs);
+    });
+    for (std::size_t k = 0; k < refs.size(); ++k) {
+        require(scattering[k].values == saved_scattering[k].values &&
+                    noise[k].watts_per_hz.values == saved_noise[k].watts_per_hz.values,
+                "rejected complex DC lift mutated input samples");
+    }
+}
+
 static void test_linear_lift_and_failures() {
     const SMatrix original{2, {.2, .6, .6, .2}};
     const Vector refs{{31., 12.}, {73., -21.}};
@@ -702,6 +967,9 @@ int main() {
         test_boundary_change();
         test_mixer_dc_coordinates();
         test_wide_reference_precision();
+        test_partial_boundary_thevenin();
+        test_mismatched_extreme_references();
+        test_unequal_dc_linear_lift();
         test_linear_lift_and_failures();
         test_boundary_relative_singularity();
         std::cout << std::setprecision(17) << "{\"passed\":true,\"wave_checks\":" << wave_checks
@@ -710,7 +978,10 @@ int main() {
                   << ",\"maximum_noise_absolute_error_w_per_hz\":" << maximum_noise_error
                   << ",\"wide_reference_checks\":" << wide_reference_checks
                   << ",\"maximum_wide_reference_relative_error\":"
-                  << maximum_wide_reference_relative_error << "}\n";
+                  << maximum_wide_reference_relative_error
+                  << ",\"boundary_fixture_checks\":" << boundary_fixture_checks
+                  << ",\"maximum_boundary_fixture_scaled_error\":"
+                  << maximum_boundary_fixture_scaled_error << "}\n";
         return 0;
     } catch (const std::exception &error) {
         std::cerr << error.what() << '\n';

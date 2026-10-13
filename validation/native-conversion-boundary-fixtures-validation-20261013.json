@@ -1,0 +1,204 @@
+{
+  "schema": "rfmodel.native-conversion-boundary-fixtures-validation",
+  "version": 1,
+  "date": "2026-10-13",
+  "baseline_commit": "cabbbcedabc9d2cf9f38e6da86f5cab06d16bce0",
+  "publication": {
+    "committed": false,
+    "pushed": false,
+    "published": false,
+    "main_checkout_modified": false
+  },
+  "scope": "Four bounded direct-C++ physical regression fixtures; tests and documentation only. No core, public API, CMake, Python/C ABI, parser-scope, or vendor-evidence changes.",
+  "host": {
+    "os": "Linux",
+    "compiler": "GNU C++ 14.2.0",
+    "cmake": "3.31.10",
+    "clang_format": "19.1.7"
+  },
+  "configuration_options": {
+    "BUILD_TESTING": "ON",
+    "RFMODEL_BUILD_C_API": "OFF",
+    "RFMODEL_BUILD_CLI": "OFF",
+    "RFMODEL_BUILD_PYTHON_TESTS": "OFF",
+    "RFMODEL_BUILD_EXAMPLES": "ON",
+    "CMAKE_CXX_EXTENSIONS": "OFF",
+    "CMAKE_CXX_FLAGS": "-Wall -Wextra -Wpedantic -pedantic-errors"
+  },
+  "commands": [
+    "cmake -S <source> -B <build> -DCMAKE_BUILD_TYPE=<Debug|Release> -DCMAKE_CXX_EXTENSIONS=OFF -DCMAKE_CXX_FLAGS=\"-Wall -Wextra -Wpedantic -pedantic-errors\" -DRFMODEL_BUILD_C_API=OFF -DRFMODEL_BUILD_CLI=OFF -DRFMODEL_BUILD_PYTHON_TESTS=OFF",
+    "cmake --build <build> --target conversion_power_wave_test touchstone_noise_test --parallel 2",
+    "ctest --test-dir <build> -V -R \"^(conversion_power_wave_test|touchstone_noise_test)$\" --output-on-failure",
+    "cmake --build <build> --parallel 2",
+    "ctest --test-dir <build> --output-on-failure",
+    "ctest --test-dir <build> --show-only=json-v1",
+    "clang-format --dry-run --Werror tests/conversion_power_wave_test.cpp tests/touchstone_noise_test.cpp"
+  ],
+  "results": [
+    {
+      "configuration": "Debug",
+      "targeted_passed": 2,
+      "targeted_total": 2,
+      "full_native_passed": 91,
+      "full_native_total": 91,
+      "ctest_inventory_count": 91,
+      "compiler_flags": "-Wall -Wextra -Wpedantic -pedantic-errors -g -std=c++17",
+      "python_discovery_cache_present": false,
+      "c_compiler_enabled": false,
+      "ctest_python_c_abi_or_cli_command_present": false,
+      "metrics": {
+        "touchstone_noise_test": {
+          "passed": true,
+          "conversion_chain_checks": 42,
+          "maximum_conversion_chain_scaled_error": 7.515869506010319e-16
+        },
+        "conversion_power_wave_test": {
+          "passed": true,
+          "wave_checks": 409,
+          "noise_checks": 1389,
+          "maximum_wave_absolute_error": 2.8066088919804617e-16,
+          "maximum_noise_absolute_error_w_per_hz": 7.52316384526264e-36,
+          "wide_reference_checks": 124,
+          "maximum_wide_reference_relative_error": 2.8665933717837495e-15,
+          "boundary_fixture_checks": 114,
+          "maximum_boundary_fixture_scaled_error": 2.7844251801988247e-15
+        }
+      }
+    },
+    {
+      "configuration": "Release",
+      "targeted_passed": 2,
+      "targeted_total": 2,
+      "full_native_passed": 91,
+      "full_native_total": 91,
+      "ctest_inventory_count": 91,
+      "compiler_flags": "-Wall -Wextra -Wpedantic -pedantic-errors -O3 -DNDEBUG -std=c++17",
+      "python_discovery_cache_present": false,
+      "c_compiler_enabled": false,
+      "ctest_python_c_abi_or_cli_command_present": false,
+      "metrics": {
+        "touchstone_noise_test": {
+          "passed": true,
+          "conversion_chain_checks": 42,
+          "maximum_conversion_chain_scaled_error": 7.515869506010319e-16
+        },
+        "conversion_power_wave_test": {
+          "passed": true,
+          "wave_checks": 409,
+          "noise_checks": 1389,
+          "maximum_wave_absolute_error": 2.8066088919804617e-16,
+          "maximum_noise_absolute_error_w_per_hz": 7.52316384526264e-36,
+          "wide_reference_checks": 124,
+          "maximum_wide_reference_relative_error": 2.8665933717837495e-15,
+          "boundary_fixture_checks": 114,
+          "maximum_boundary_fixture_scaled_error": 2.7844251801988247e-15
+        }
+      }
+    }
+  ],
+  "fixtures": [
+    {
+      "native": "conversion_power_wave_test::test_mismatched_extreme_references",
+      "source": "test_conversion_power_wave_api.py::test_extreme_references_follow_independent_norton_thevenin_formulas",
+      "independent_oracle": "Scalar Norton device and Thevenin source equations",
+      "parameters": "75 ohm device, 45+3j ohm source, five reference scales from 1e-24 to 1e24 ohms, real and complex targets",
+      "nonzero_relative_tolerance": 1e-12,
+      "zero_transfer_scaled_tolerance": 3e-12
+    },
+    {
+      "native": "conversion_power_wave_test::test_partial_boundary_thevenin",
+      "source": "test_conversion_power_wave_api.py::test_boundary_matches_thevenin_full_cp_and_retains_internal_zeros",
+      "independent_oracle": "Two independent real latent Thevenin voltages; analytic complex source transfer; C/P outer products",
+      "scaled_tolerance": 3e-12,
+      "internal_source_reflection_and_all_cp_rows_columns": "exact zero",
+      "failure_atomicity": "Omitted external boundary and illegal internal noise rejected; original and invalid noise snapshots unchanged"
+    },
+    {
+      "native": "conversion_power_wave_test::test_unequal_dc_linear_lift",
+      "source": "test_conversion_power_wave_file.py::test_dc_lift_noise_and_frequency_major_reference_order",
+      "independent_oracle": "Johnson voltage density 4*k*T*R and KCL, not I-S*S^H evaluated from RFModel matrices",
+      "parameters": "25 ohm series resistor, 290 K, DC references 31 and 73 ohms, RF references 19+8j and 110+31j ohms",
+      "noise_tolerance_in_kT_units": 3e-12,
+      "cross_frequency_noise": "exact zero",
+      "failure_atomicity": "Complex DC reference rejected without mutating S/noise input samples"
+    },
+    {
+      "native": "touchstone_noise_test::test_complex_reference_conversion_chain",
+      "source": "test_conversion_power_wave_file.py::test_touchstone_embedded_noise_preserves_physical_loads",
+      "independent_oracle": "Noise-factor polynomial yields C75/kT=diag(1,4); physical 50-ohm feedback yields C50/kT=[[0.96,-0.384],[-0.384,3.9936]]; Kurokawa wave definitions give local signal and all six loaded C/P matrices",
+      "parameters": "Synthetic 75 ohm Touchstone embedded-noise file, sample at 2 GHz, complex references 31+12j and 73-21j ohms, cold physical 50 ohm terminations",
+      "noise_tolerance_in_kT_units": 3e-12,
+      "proper_noise_complementary_zero": "Scaled tolerance accommodates real-quadrature cancellation roundoff"
+    }
+  ],
+  "additional_checks": {
+    "format_check": "passed",
+    "mutated_include_trees_separate": true,
+    "release_mutation_flags": "-std=c++17 -O2 -DNDEBUG -pedantic-errors",
+    "assertions_active_with_NDEBUG": true,
+    "new_test_build_errors": 0,
+    "preexisting_full_build_warnings": [
+      "range-loop copy in tests/multitone_amplifier_test.cpp",
+      "range-loop copy in existing test_coordinate_change in tests/conversion_power_wave_test.cpp"
+    ]
+  },
+  "mutations_rejected": [
+    {
+      "name": "extreme-norton-transfer",
+      "mutation_header": "conversion_power_wave.hpp",
+      "original": "const auto transfer = conversion_power_wave_detail::complex_linear(noise, channels);",
+      "replacement": "auto transfer = conversion_power_wave_detail::complex_linear(noise, channels);\n    transfer.first(0, 0) *= 1.000001;",
+      "build_exit_code": 0,
+      "test_exit_code": 1,
+      "stderr": "wide-reference relative precision lost"
+    },
+    {
+      "name": "internal-boundary-leakage",
+      "mutation_header": "conversion_power_wave.hpp",
+      "original": "    model.validate_noise(result.source_noise);",
+      "replacement": "    for (std::size_t i = 0; i < n; ++i) {\n        if (!selected[i]) { result.source_noise.covariance(i, i) = 1e-40; }\n    }\n    model.validate_noise(result.source_noise);",
+      "build_exit_code": 0,
+      "test_exit_code": 1,
+      "stderr": "partial boundary internal noise rows/columns must stay exactly zero"
+    },
+    {
+      "name": "dc-offdiagonal-complementary",
+      "mutation_header": "conversion_network.hpp",
+      "original": "if (bins[k] == 0) {",
+      "replacement": "if (bins[k] == 0 && i == j) {",
+      "build_exit_code": 0,
+      "test_exit_code": 1,
+      "stderr": "DC noise must be real"
+    },
+    {
+      "name": "touchstone-physical-reference",
+      "mutation_header": "tabulated_noise_model.hpp",
+      "original": "scattering, parameters, data.reference_impedance_ohms, reference_temperature_k)",
+      "replacement": "scattering, parameters, 50., reference_temperature_k)",
+      "build_exit_code": 0,
+      "test_exit_code": 1,
+      "stderr": "Touchstone intrinsic noise from independent noise-factor polynomial"
+    },
+    {
+      "name": "touchstone-loaded-cross-covariance",
+      "mutation_header": "frequency_conversion.hpp",
+      "original": "result.incident_outgoing_noise = conversion_detail::complex_noise(cross_q);",
+      "replacement": "result.incident_outgoing_noise = conversion_detail::complex_noise(cross_q);\n            result.incident_outgoing_noise.covariance(0, 1) *= 1.000001;",
+      "build_exit_code": 0,
+      "test_exit_code": 1,
+      "stderr": "Touchstone full loaded incident-outgoing covariance"
+    }
+  ],
+  "source_sha256": {
+    "tests/conversion_power_wave_test.cpp": "a1134a708977d860dc312b6742cf8880990c47f5817c7d6edbe0d12c7be42f9c",
+    "tests/touchstone_noise_test.cpp": "1713d3ffae831923bec0fd0324ecaf1e7bc9ef7ad97ca30e8caa919bc8b4be5a",
+    "docs/native-conversion-boundary-fixtures-20261013.md": "085de71bb30629c9e61e44c1ce01d997ba31a46dd624d597889841d1ebfb65df"
+  },
+  "limitations": [
+    "Linux local engineering validation only; no new Windows/macOS or remote CI evidence",
+    "No new SystemVue measurement or vendor-compatibility promotion",
+    "No Python interface removal, JSON reimplementation, or parser-scope expansion",
+    "Tested reference values are 1e-24 through 1e24 ohms; these fixtures do not exercise IEEE subnormal noise",
+    "Existing 124 wide-reference metric checks combine retained matched-reference checks and 70 newly added mismatched-reference checks; counters are assertions, not independent capabilities"
+  ]
+}
