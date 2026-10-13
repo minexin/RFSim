@@ -51,7 +51,7 @@ void check_mixed_reference_feedback() {
         {placeholder, {source, {}}, {gamma, {}}, source_noise, placeholder.zero_noise()},
         {load, {0.}, {0.}, load.zero_noise(), load.zero_noise()}};
     const ConversionNonlinearDevice nonlinear{
-        0, [channels, references](const Vector &a) {
+        0, [channels, references, spacing = spacing](const Vector &a) {
             SMatrix direct{2, Vector(4)}, conjugate{2, Vector(4)};
             direct(0, 0) = -2. * std::norm(a[0]);
             conjugate(0, 0) = -a[0] * a[0];
