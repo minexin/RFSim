@@ -1,0 +1,9 @@
+# Frozen evidence is byte-addressed; never normalize its committed bytes.
+/validation/systemvue-2023-eleventh-order-captures.json -text
+/validation/systemvue-2023-highorder-input-references.json -text
+/validation/systemvue-2023-highorder-input-diagnostic.json -text
+/validation/systemvue-2023-eleventh-order-diagnostic.json -text
+/validation/systemvue-2023-highorder-captures.json -text
+/validation/systemvue-2023-highorder-diagnostic.json -text
+/validation/systemvue-2023-spectrum-reduction-captures.json -text
+/validation/systemvue-2023-spectrum-reduction-diagnostic.json -text

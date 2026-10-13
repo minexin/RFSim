@@ -141,9 +141,15 @@ public:
         stream.imbue(std::locale::classic());
         double result{};
         stream >> std::noskipws >> result;
-        // Representable subnormals are allowed. Nonzero decimal underflow to
-        // zero is an error, rather than a silently changed RF coefficient.
-        if (stream.fail() || !stream.eof() || !std::isfinite(result) || (result == 0. && nonzero)) {
+        // libc++ retains a correctly rounded tiny value but sets failbit when
+        // strtod reports ERANGE. Tininess before rounding can also yield exactly
+        // min(), the smallest normal. Accept only nonzero results in that range
+        // after strict grammar and complete consumption. Other failures,
+        // overflow and nonzero decimal underflow to zero remain errors.
+        const bool tiny_nonzero =
+            result != 0. && std::abs(result) <= std::numeric_limits<double>::min();
+        if (stream.bad() || !stream.eof() || (stream.fail() && !tiny_nonzero) ||
+            !std::isfinite(result) || (result == 0. && nonzero)) {
             throw std::overflow_error("decimal range");
         }
         return result;

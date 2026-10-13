@@ -147,6 +147,35 @@ class RawProbeTests(unittest.TestCase):
         self.assert_rejected(request("intercepts", "2.4703282292062327e-324 50 0"),
                              ("numeric_range",))
 
+    def test_signed_subnormal_roundtrip_and_range_boundaries(self):
+        # Exercise the parsed value, rather than only accepting a tiny gain whose
+        # final exp() rounds to one. These direct waves retain the literal sign.
+        for magnitude in ("4.9406564584124654e-324", "9.8813129168249309e-324",
+                          "2.225073858507201e-308", "2.2250738585072012e-308",
+                          "2.2250738585072014e-308"):
+            for sign in ("", "+", "-"):
+                value = sign + magnitude
+                with self.subTest(value=value):
+                    result = run_probe(request(
+                        "polynomial", f"1e6 50 0 2 0 {value} 1 10 0 100 1 1 0"))
+                    self.assertEqual(result.returncode, 0, result.stdout)
+                    words = result.stdout.split()
+                    self.assertEqual(words[13:16], [b"1", b"1", b"1"])
+                    self.assertEqual(float(words[-2]), float(value))
+                    self.assertEqual(math.copysign(1., float(words[-2])),
+                                     math.copysign(1., float(value)))
+                    self.assertEqual(float(words[-1]), 0.)
+        # Empty input isolates parsing from RF amplitude overflow. Finite maximum
+        # is accepted; overflow and either sign of rounded-to-zero are rejected.
+        for value in ("1.7976931348623157e308", "-1.7976931348623157e308"):
+            self.assertEqual(run_probe(request(
+                "polynomial", f"1e6 50 0 2 0 {value} 0")).returncode, 0)
+        for value in ("1.7976931348623159e308", "-1.7976931348623159e308",
+                      "2.4703282292062327e-324", "-2.4703282292062327e-324",
+                      "1e-999", "-1e-999"):
+            self.assert_rejected(request("polynomial", f"1e6 50 0 2 0 {value} 0"),
+                                 ("numeric_range",))
+
     def test_counts_integer_overflow_and_truncation(self):
         for count in ("-1", "1.0", "true", "18446744073709551616", "9999999999999999999999"):
             with self.subTest(count=count):
