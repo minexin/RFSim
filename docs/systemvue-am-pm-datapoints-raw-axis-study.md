@@ -55,7 +55,9 @@ python -I -S scripts/reference/report-am-pm-datapoints-raw-axis-study.py validat
 # 本机原始文件复核：为上述命令增加 --raw-root .，并选择尚不存在的输出文件。
 ```
 
-报告成功表示采集链与控制校验成功；全部假设失败仍如实记录。采集前制备测试 6/6、评分测试 16/16 通过；完成后的工程构建与全量回归证据将在验证记录中单列。本批次尚未推送，不能声称已有新增跨平台 CI 结果。
+报告成功表示采集链与控制校验成功；全部假设失败仍如实记录。[本地验证记录](../validation/am-pm-datapoints-raw-axis-validation-20261013.json)绑定源码提交 `906cdcb`：Windows/MSVC Debug、Release 全目标构建均通过，各自 CTest 为 136/136，包含各自 33/33 项隔离安装 SDK 协议回放。新增的制备、评分、归档、报告四组测试分别为 6/6、16/16、39/39、5/5；实际 Ubuntu 离线执行也通过全部 66 项。此次未改动 C++ 头文件或 ABI，使用增量构建，没有声称执行 clean-first 重建。
+
+验证记录在授权推送前生成；远程跨平台 CI 结果需在本批次发布后另行记录。本机 Ubuntu 四组离线测试不代表完整 Linux 构建或 macOS 验证。
 
 ## 适用范围
 
