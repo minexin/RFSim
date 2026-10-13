@@ -2,11 +2,15 @@
 
 C++17 接口 solve_conversion_operating_point 根据固定器件方程、物理接线、外部源和反射自动求解入射/出射复功率波，再在收敛工作点计算一阶 C/P 噪声。它扩展了此前只能检查已给定工作点的仿射网络。
 
+此既有入口继续要求同一公共正实参考。原生新增 [solve_conversion_operating_point_power_waves](conversion-operating-point-power-wave.md)，保持相同签名与默认值，支持逐通道复参考及物理接线；C ABI、Python 和 JSON/CLI 的自动工作点行为未改变。
+
 通用 C++ 求解器支持自定义确定性器件回调。C ABI、Python、JSON/CLI 已接入固定系数双线性混频器、公共基波压缩放大器、高阶电压多项式、共同限幅高阶放大器及原有线性/仿射器件；其他非线性器件与自定义回调的跨语言接口尚未适配。旧分析入口默认保持原语义，自动求解必须显式启用。完整 SystemVue RF Design 库兼容仍未完成。
 
 ## 固定器件方程
 
 ConversionNonlinearDevice 以器件索引和 evaluate 回调描述非线性。回调接受当前本地入射向量 a，返回 ConversionLinearization，其中 outgoing 为真实 F(a)，jacobian 为直接矩阵 A 及共轭矩阵 B，满足 delta_b=A*delta_a+B*conj(delta_a)。器件通道顺序、物理端口、频点、公共参考阻抗和频率步长必须保持不变。求解器验证这些约束及有限数值、实 DC。
+
+混合参考原生入口要求回调保留原器件的完整参考向量，而非仅首项或公共标量；不隐式重归一化回调模型。
 
 ConversionDevice 继续保存源、反射及独立源/内部噪声 C/P。回调替换该器件的确定性模型；普通器件保持原 A/B。全局 fixed_offset 可作为额外确定性内部出射项，适用于已接线通道。噪声数组在本次求解中固定，回调不隐式生成工作点相关器件噪声。
 
@@ -16,7 +20,7 @@ linearize_bilinear_mixer 使用固定系数 k=10^(gain_db/20)/lo_reference_ampli
 
 ## 求解与报告
 
-未知量是全局入射向量。器件方程 b=F(a)+d_fixed、外部边界 a=source+Gamma*b、内部接线 a_i=b_j 共同定义残差。
+未知量是全局入射向量。器件方程 b=F(a)+d_fixed、外部边界 a=source+Gamma*b、公共实参考下的内部接线 a_i=b_j 共同定义残差。混合参考新入口使用[包含两端自项的物理接线](conversion-operating-point-power-wave.md#边界迭代与返回值)。
 
 每步从真实响应和导数建立 d=F(a)-A*a-B*conj(a)+d_fixed，通过仿射转换网络得到 Newton 候选点。真实非线性残差未充分下降时，以 1/2 逐次缩小步长。不能只看线性系统残差判断收敛。
 

@@ -148,6 +148,6 @@ with library.network(50) as network:
 
 安装后的 Windows Debug CLI 运行公开例子，两个频点的 S21=0.5，并从输出的局部波与参考重建电压电流，连接连续性误差小于 1e-12。157 个 C/C++ 文件格式检查通过。原有八份未提交文件哈希未变；全量 CTest 包含这些参考脚本草稿，不能当作纯净提交检出。没有新增 SystemVue 分析、推送、macOS 或远程 CI 执行。
 
-后续原生 C++ 已支持[变频网络逐通道复参考](conversion-power-wave.md)，包括 A/B、偏置和 C/P 联合转换及内部物理接线；变频 C/Python/JSON 扩展输入与混合参考非线性工作点仍未开放。
+后续[变频网络逐通道复参考](conversion-power-wave.md)已支持 A/B、偏置和 C/P 联合转换、内部物理接线及 C/Python/JSON 显式参考输入。[混合参考非线性工作点](conversion-operating-point-power-wave.md)提供独立原生 C++ 入口；既有及跨语言自动工作点仍要求公共实参考。
 
 变频复参考阶段还修正了大阻抗比下内生噪声传递的相消：普通 S 变换的噪声系数改用逆坐标方程直接求解；既有 C/Python 线性重归一化调用同一原生实现。参见[数值契约及独立回归](conversion-power-wave.md)。

@@ -106,4 +106,4 @@ C 输入允许彼此重叠，输出必须与全部输入、两个描述结构及
 - 127 个 C/C++ 文件格式检查及 git diff --check 通过。
 - 本阶段为解析和工程验证；跨平台结果以对应提交的 GitHub Actions 为准，SystemVue Mixer 实测兼容仍未验收。
 
-后续原生 C++ 已支持[变频网络逐通道复参考](conversion-power-wave.md)，包括 A/B、偏置和 C/P 联合转换及内部物理接线；变频 C/Python/JSON 扩展输入与混合参考非线性工作点仍未开放。
+后续[变频网络逐通道复参考](conversion-power-wave.md)已支持 A/B、偏置和 C/P 联合转换、内部物理接线及 C/Python/JSON 显式参考输入。[混合参考非线性工作点](conversion-operating-point-power-wave.md)提供独立原生 C++ 入口；既有及跨语言自动工作点仍要求公共实参考。

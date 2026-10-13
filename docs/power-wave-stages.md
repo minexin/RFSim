@@ -85,4 +85,4 @@ C 专项检查失败原子性、输出别名、已有句柄不被覆盖及独立
 
 这些是物理及工程回归。SystemVue ZPORT/CS、厂商路径预算、变频图跨语言复参考、混合参考非线性工作点和通用器件 DC 工作点仍未验收，A05 整项保持开放。
 
-后续原生 C++ 已支持[变频网络逐通道复参考](conversion-power-wave.md)，包括 A/B、偏置和 C/P 联合转换及内部物理接线；变频 C/Python/JSON 扩展输入与混合参考非线性工作点仍未开放。
+后续[变频网络逐通道复参考](conversion-power-wave.md)已支持 A/B、偏置和 C/P 联合转换、内部物理接线及 C/Python/JSON 显式参考输入。[混合参考非线性工作点](conversion-operating-point-power-wave.md)提供独立原生 C++ 入口；既有及跨语言自动工作点仍要求公共实参考。

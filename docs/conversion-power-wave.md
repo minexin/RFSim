@@ -2,7 +2,7 @@
 
 原生 C++17 的固定泵转换模型和多器件网络支持逐通道参考阻抗。直接矩阵 A、共轭矩阵 B、仿射偏置、边界源以及完整 C/P 噪声均保留各自坐标；内部连线按电压连续和电流守恒求解。本页扩展[转换矩阵](frequency-conversion.md)和[多器件网络](conversion-network.md)的原生接口。
 
-C/Python/JSON 已提供显式逐通道参考入口，见下方跨语言契约。既有跨语言公共实参考接口继续回归；自动非线性工作点求解仍要求公共实参考。固定泵坐标变换不完成实际 LO 工作点、厂商 ZPORT/CS、通用器件 DC 偏置或 SystemVue 路径预算验收。
+C/Python/JSON 已提供显式逐通道参考入口，见下方跨语言契约。原生自动非线性工作点新增 [solve_conversion_operating_point_power_waves](conversion-operating-point-power-wave.md)；既有工作点入口及跨语言自动求解继续要求公共实参考。固定泵坐标变换不完成实际 LO 工作点、厂商 ZPORT/CS、通用器件 DC 偏置或 SystemVue 路径预算验收。
 
 ## 模型与通道坐标
 
@@ -176,7 +176,7 @@ result = library.conversion_network(
 
 可重跑的七通道 JSON 案例见[混合参考混频—热电阻网络](../examples/mixed-reference-conversion.json)，包含加载噪声和参考温度分析；专用测试以独立傅里叶、物理串联电阻和热噪声公式核对三个参考尺度的全部波与 C/P。
 
-本阶段属于跨语言接口及数学/工程验证，不增加 SystemVue 厂商兼容通过项，也不扩展自动非线性混合参考、实际 LO 求解或未知厂商语义。历史原生验收记录保留；本次验证单独记录，不借用历史 Windows/macOS 结果。
+上述跨语言接口及数学/工程验证不增加 SystemVue 厂商兼容通过项，也不扩展跨语言自动非线性混合参考、实际 LO 求解或未知厂商语义。原生混合参考自动工作点的新入口另见[专门契约](conversion-operating-point-power-wave.md)。历史原生验收记录保留；本次验证单独记录，不借用历史 Windows/macOS 结果。
 
 边界变换同时修正数值奇异检测：以缩放后的两个分母项之和为相对尺度，消去残差不超过 `64·epsilon` 时拒绝，未使用绝对阈值。50→100 Ω、Γ=3 在多个共同比例尺度下均报错；Γ=3+1e-8 的可解相邻配置仍接受。该检查避免把精确数学极点的舍入残差当作有效分母，但不保证所有病态反馈网络具有良好条件数。
 

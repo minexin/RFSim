@@ -60,7 +60,7 @@ cmake --build build-sdk-consumer --config Release
 ctest --test-dir build-sdk-consumer -C Release --output-on-failure
 ```
 
-仅安装 C++ SDK 时执行三个独立 C++ 消费者，不创建 C 消费者。数值错误按现有 C++ API 抛出异常；调用方应在自己的边界处理 `std::exception`。通道按器件加入顺序及器件内通道顺序排列；参考阻抗、单位和 C/P 契约见[变频功率波参考](conversion-power-wave.md)。
+仅安装 C++ SDK 时执行独立 C++ 消费者，不创建 C 消费者。数值错误按现有 C++ API 抛出异常；调用方应在自己的边界处理 `std::exception`。通道按器件加入顺序及器件内通道顺序排列；参考阻抗、单位和 C/P 契约见[变频功率波参考](conversion-power-wave.md)。
 
 ## 无 Python 的完整原生回归
 
@@ -83,7 +83,7 @@ ctest --test-dir build-native -C Debug --output-on-failure
 - `coherent_pipeline.hpp`：`CoherentPipeline` 的不可变有类型相干流、混频/线性/多项式/共同驱动压缩，以及[限幅/高阶放大器与失真传播](coherent-pipeline-amplifiers.md)；[调用、历史与固定边界](coherent-pipeline.md)。
 - `network.hpp`：`LinearNetwork`，连接及等效 S；`frequency_conversion.hpp` / `conversion_network.hpp`：`FrequencyConversionModel`、`FrequencyConversionNetwork` 和完整 C/P 结果。
 - `conversion_power_wave.hpp`：模型、仿射偏置、内生噪声和源/负载边界的功率波参考变换。仅声明新参考不会自动保留旧物理边界。
-- `conversion_operating_point.hpp`：`solve_conversion_operating_point`，收敛后的线性化器件及偏置可用于后续噪声分析；混合复参考自动工作点尚未支持。
+- `conversion_operating_point.hpp`：`solve_conversion_operating_point` 保留公共实参考契约；[solve_conversion_operating_point_power_waves](conversion-operating-point-power-wave.md) 支持逐通道复参考。两者均返回收敛点的波、原坐标 Jacobian、偏置和噪声。
 - `optimization.hpp`：`minimize_bounded`；`monte_carlo.hpp`：`run_monte_carlo`。完整无 Python 例子是 [LC 匹配](../examples/optimize_lc_match.cpp)和[容差分析](../examples/monte_carlo_resistor.cpp)。
 
 频率 Hz、阻抗 Ω、功率 W、噪声 C/P 为 W/Hz；RF 采用 RMS 功率波，幅度为 sqrt(W)，DC 保留实自由度。`SMatrix.values` 按行优先存储。dBm 是显示或明示参数单位，不能与 W 混用。
@@ -91,6 +91,8 @@ ctest --test-dir build-native -C Debug --output-on-failure
 优化/Monte Carlo 的求值回调由调用者同步执行网络构造、参数赋值和结果投影，应返回规定维数的有限实数，并自行管理捕获对象的生命周期与外部状态。没有隐含 Python 字段选择器或自动并行；确定性重放还要求回调本身确定。取消在评估之间检查，不中断正在执行的回调。不要只看是否抛异常判断成功，还须检查返回的停止原因、有效样本/有限点状态及失败记录。详细异常、失败与取消约定见[优化](optimization.md)及[Monte Carlo](monte-carlo.md)。
 
 转换 API 和相干流管线安装消费者各在两个独立 translation unit 中编译链接，检查 header-only 的 ODR/linkage；后者在两处调用限幅/高阶模型及传播模式，Release 检查不受 NDEBUG 影响；安装目录整体移动后再通过新前缀消费，避免依赖原安装位置。
+
+混合参考自动工作点另有双翻译单元 `operating_power_wave_consumer`，从安装头文件检查全部参数、默认调用、物理连线及接受点导数噪声，详见[调用契约与命令](conversion-operating-point-power-wave.md)。
 
 ## 数值功能与 Python 装配边界
 

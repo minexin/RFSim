@@ -195,7 +195,7 @@ AM/PM 与高阶放大器在收敛工作点后重建噪声及参考温度实验�
 | `test_singular_transforms_and_complex_dc_boundaries_fail_without_mutation` | `test_boundary_relative_singularity` 的五尺度极点与可解邻例；原生无效坐标/DC 约束 | 极点修正已有直接 C++ 保护；保留不可变输入及 DC 物理限制，Python deepcopy 形状无需迁移 |
 | `test_extreme_references_follow_independent_norton_thevenin_formulas` | `test_wide_reference_precision` 已覆盖 1 Ω 匹配器件/源、1e−24…1e24 的信号/偏置/C/P 相对精度 | 新 Python 的 75 Ω 非匹配器件及 45+3j Ω 源是额外独立 fixture；若删此套件，应补到纯 C++，避免只剩匹配特例 |
 | `test_ideal_through_needs_no_invertible_physical_z` | 原生转换理想直通；`power_wave_reference_test`/`power_wave_network_test` 的复参考直通和奇异 Z | 机制已覆盖；转换 API 的同一复参考往返可作小型强化，不需要为此构造物理 Z 的逆 |
-| `test_explicit_vectors_rejected_for_automatic_operating_point` | `test_linear_lift_and_failures` 拒绝混合参考非线性工作点 | Python 的显式向量（包括全50 Ω）拒绝是包装策略；原生混合参考限制必须继续明确，不能写成已支持 |
+| `test_explicit_vectors_rejected_for_automatic_operating_point` | `test_linear_lift_and_failures` 保留既有公共实参考工作点入口的拒绝行为；原生另有[混合参考新入口](conversion-operating-point-power-wave.md) | Python 的显式向量（包括全50 Ω）拒绝仍是包装策略；新增原生入口不改变 C/Python/JSON 自动工作点的限制 |
 | `test_noise_reference_experiment_coordinate_invariance` | `test_linear_lift_and_failures` 比較参考实验；新增七通道原生参考检查 gain/NF/温度 | 物理主要覆盖；Python 返回字段数及附加参考元数据属绑定契约 |
 
 ## 六、新增 14 项 JSON/CLI 回归逐项对照

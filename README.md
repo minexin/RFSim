@@ -104,6 +104,8 @@ Windows 本机可运行 `scripts/build-msvc.ps1` 自动定位已有 VS 工具链
 
 [自动非线性工作点](docs/conversion-operating-point.md)支持固定器件方程、阻尼 Newton、物理反馈和收敛噪声；双线性混频器和公共基波压缩放大器已接入 C/Python/JSON，提供混合器件与反馈网络示例。
 
+[原生混合参考工作点](docs/conversion-operating-point-power-wave.md)提供独立 C++17 入口，保留逐通道复参考、物理接线及收敛点 Jacobian/C/P；既有公共实参考和 C/Python/JSON 自动求解契约不变。
+
 [压缩放大器工作点接口](docs/amplifier-linearization.md)提供 C++/C/Python/JSON 接口，保留公共总驱动的跨频点导数，支持混合器件、非线性反馈及收敛噪声求解。
 
 [高阶多项式工作点导数](docs/polynomial-linearization.md)提供零至十一阶 C++/C/Python/JSON 接口、完整频点规划、DC/谐波/互调 A/B 与混合网络反馈噪声。
@@ -126,6 +128,6 @@ Windows 本机可运行 `scripts/build-msvc.ps1` 自动定位已有 VS 工具链
 
 - [原生变频网络的复功率波参考](docs/conversion-power-wave.md)
 
-[固定泵变频复参考接口](docs/conversion-power-wave.md)贯通 C/Python/JSON，支持局部坐标物理连线、仿射波及完整 C/P 的原生重归一化；自动非线性混合参考与厂商验收仍未完成。
+[固定泵变频复参考接口](docs/conversion-power-wave.md)贯通 C/Python/JSON，支持局部坐标物理连线、仿射波及完整 C/P 的原生重归一化；跨语言自动非线性混合参考与厂商验收仍未完成。
 
 [开发用原生高阶参考重放](docs/native-reference-replay.md)：独立于 C ABI 的四操作探针，在主动禁止产品包导入时重放五个既有套件和 1,413 个实测输入 holdout；保留名义失败、缺项、校准分离及 diagnostic-only 状态。纯 SDK 不安装探针或依赖 Python，完整 Python 退役和 SystemVue 兼容仍未完成。

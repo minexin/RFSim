@@ -30,17 +30,18 @@ struct ConversionOperatingResult {
     std::vector<Complex> output_offset;
 };
 
-// Damped Newton on a - boundary(F(a)). Callbacks must evaluate a fixed device
-// law and its exact local derivative, with no hidden change of parameters.
-inline ConversionOperatingResult
-solve_conversion_operating_point(const std::vector<ConversionDevice> &devices,
-                                 const std::vector<ConversionPortConnection> &connections,
-                                 const std::vector<ConversionNonlinearDevice> &nonlinear,
-                                 const std::vector<Complex> &initial = {},
-                                 const ConversionOperatingOptions &options = {},
-                                 bool loaded_noise = false,
-                                 const ConversionNoise *additional_source_noise = nullptr,
-                                 const std::vector<Complex> &fixed_offset = {}) {
+namespace conversion_operating_detail {
+// Share the iteration and failure contracts, while keeping coordinate admission
+// explicit at the public entry points.
+inline ConversionOperatingResult solve(const std::vector<ConversionDevice> &devices,
+                                       const std::vector<ConversionPortConnection> &connections,
+                                       const std::vector<ConversionNonlinearDevice> &nonlinear,
+                                       const std::vector<Complex> &initial,
+                                       const ConversionOperatingOptions &options,
+                                       bool loaded_noise,
+                                       const ConversionNoise *additional_source_noise,
+                                       const std::vector<Complex> &fixed_offset,
+                                       bool power_waves) {
     if (devices.empty() || options.max_iterations == 0 || options.max_iterations > 200 ||
         options.max_backtracks > 40 || !std::isfinite(options.relative_tolerance) ||
         options.relative_tolerance <= 0. || options.relative_tolerance > .01 ||
@@ -48,9 +49,11 @@ solve_conversion_operating_point(const std::vector<ConversionDevice> &devices,
         throw std::invalid_argument("invalid conversion operating-point options");
     }
     const double spacing = devices.front().model.spacing_hz();
-    const double reference = devices.front().model.reference_ohms();
+    // The network's scalar reference is only a legacy admission policy. In the
+    // explicit path every device supplies its own complete local coordinates.
+    const double reference = power_waves ? 50. : devices.front().model.reference_ohms();
     std::vector<std::size_t> offsets;
-    std::vector<Complex> source, reflection;
+    std::vector<Complex> source, reflection, references;
     std::vector<ConversionChannel> channels;
     FrequencyConversionNetwork topology(spacing, reference);
     for (const auto &device : devices) {
@@ -61,19 +64,28 @@ solve_conversion_operating_point(const std::vector<ConversionDevice> &devices,
                                                     device.model.channels(),
                                                     conversion_detail::zero(n),
                                                     conversion_detail::zero(n),
-                                                    reference);
+                                                    device.model.reference_impedances_ohms());
         // Validate the original grid/reference too, before replacing the model.
-        if (device.model.spacing_hz() != spacing || device.model.reference_ohms() != reference) {
+        if (device.model.spacing_hz() != spacing ||
+            (!power_waves && device.model.reference_ohms() != reference)) {
             throw std::invalid_argument("operating-point device grid/reference differs");
         }
-        topology.add(validation);
+        if (power_waves) {
+            topology.add_power_waves(std::move(validation));
+        } else {
+            topology.add(std::move(validation));
+        }
         source.insert(source.end(), device.source.begin(), device.source.end());
         reflection.insert(reflection.end(), device.reflection.begin(), device.reflection.end());
+        const auto &local_references = device.model.reference_impedances_ohms();
+        references.insert(references.end(), local_references.begin(), local_references.end());
         channels.insert(
             channels.end(), device.model.channels().begin(), device.model.channels().end());
     }
     const auto total = source.size();
     std::vector<std::size_t> partner(total, total);
+    auto boundary_self = reflection;
+    std::vector<Complex> boundary_other(total);
     for (const auto &wire : connections) {
         topology.connect(wire.first_device, wire.first_port, wire.second_device, wire.second_port);
         const auto &left = devices[wire.first_device].model.channels();
@@ -84,8 +96,20 @@ solve_conversion_operating_point(const std::vector<ConversionDevice> &devices,
             }
             for (std::size_t j = 0; j < right.size(); ++j) {
                 if (right[j].port == wire.second_port && right[j].bin == left[i].bin) {
-                    partner[offsets[wire.first_device] + i] = offsets[wire.second_device] + j;
-                    partner[offsets[wire.second_device] + j] = offsets[wire.first_device] + i;
+                    const auto first = offsets[wire.first_device] + i;
+                    const auto second = offsets[wire.second_device] + j;
+                    partner[first] = second;
+                    partner[second] = first;
+                    if (power_waves) {
+                        const auto coefficients =
+                            power_wave_detail::connection(references[first], references[second]);
+                        boundary_self[first] = coefficients.first_reflection;
+                        boundary_self[second] = coefficients.second_reflection;
+                        boundary_other[first] = boundary_other[second] = coefficients.coupling;
+                    } else {
+                        boundary_self[first] = boundary_self[second] = 0.;
+                        boundary_other[first] = boundary_other[second] = 1.;
+                    }
                 }
             }
         }
@@ -132,7 +156,8 @@ solve_conversion_operating_point(const std::vector<ConversionDevice> &devices,
                 auto value = found->second->evaluate(local);
                 if (value.outgoing.size() != n || value.jacobian.channels().size() != n ||
                     value.jacobian.spacing_hz() != spacing ||
-                    value.jacobian.reference_ohms() != reference) {
+                    value.jacobian.reference_impedances_ohms() !=
+                        devices[d].model.reference_impedances_ohms()) {
                     throw std::invalid_argument("nonlinear callback dimensions/grid differ");
                 }
                 for (std::size_t i = 0; i < n; ++i) {
@@ -164,8 +189,10 @@ solve_conversion_operating_point(const std::vector<ConversionDevice> &devices,
             }
         }
         for (std::size_t i = 0; i < total; ++i) {
-            const auto expected = partner[i] == total ? source[i] + reflection[i] * e.outgoing[i]
-                                                      : e.outgoing[partner[i]];
+            auto expected = source[i] + boundary_self[i] * e.outgoing[i];
+            if (partner[i] != total) {
+                expected += boundary_other[i] * e.outgoing[partner[i]];
+            }
             if (!conversion_detail::finite(e.outgoing[i]) ||
                 !conversion_detail::finite(e.offset[i]) || !conversion_detail::finite(expected)) {
                 throw std::overflow_error("nonlinear operating-point evaluation overflow");
@@ -193,7 +220,11 @@ solve_conversion_operating_point(const std::vector<ConversionDevice> &devices,
                 device.source_noise = device.model.zero_noise();
                 device.intrinsic_noise = device.model.zero_noise();
             }
-            network.add(std::move(device));
+            if (power_waves) {
+                network.add_power_waves(std::move(device));
+            } else {
+                network.add(std::move(device));
+            }
         }
         for (const auto &wire : connections) {
             network.connect(
@@ -247,5 +278,52 @@ solve_conversion_operating_point(const std::vector<ConversionDevice> &devices,
     result.linearized_devices = std::move(current.devices);
     result.output_offset = std::move(current.offset);
     return result;
+}
+} // namespace conversion_operating_detail
+
+// Damped Newton on a - boundary(F(a)), requiring one common real reference.
+// Callbacks evaluate a fixed device law and its exact local derivative.
+inline ConversionOperatingResult
+solve_conversion_operating_point(const std::vector<ConversionDevice> &devices,
+                                 const std::vector<ConversionPortConnection> &connections,
+                                 const std::vector<ConversionNonlinearDevice> &nonlinear,
+                                 const std::vector<Complex> &initial = {},
+                                 const ConversionOperatingOptions &options = {},
+                                 bool loaded_noise = false,
+                                 const ConversionNoise *additional_source_noise = nullptr,
+                                 const std::vector<Complex> &fixed_offset = {}) {
+    return conversion_operating_detail::solve(devices,
+                                              connections,
+                                              nonlinear,
+                                              initial,
+                                              options,
+                                              loaded_noise,
+                                              additional_source_noise,
+                                              fixed_offset,
+                                              false);
+}
+
+// Explicit per-channel Kurokawa power-wave coordinates. Physical connections
+// preserve V and opposite inward I, including each side's self-reflection.
+// Each callback's exact channel order, grid and complete reference vector must
+// match its original device; no nonlinear law or boundary is renormalized here.
+inline ConversionOperatingResult solve_conversion_operating_point_power_waves(
+    const std::vector<ConversionDevice> &devices,
+    const std::vector<ConversionPortConnection> &connections,
+    const std::vector<ConversionNonlinearDevice> &nonlinear,
+    const std::vector<Complex> &initial = {},
+    const ConversionOperatingOptions &options = {},
+    bool loaded_noise = false,
+    const ConversionNoise *additional_source_noise = nullptr,
+    const std::vector<Complex> &fixed_offset = {}) {
+    return conversion_operating_detail::solve(devices,
+                                              connections,
+                                              nonlinear,
+                                              initial,
+                                              options,
+                                              loaded_noise,
+                                              additional_source_noise,
+                                              fixed_offset,
+                                              true);
 }
 } // namespace rfmodel
