@@ -491,3 +491,7 @@ set_tests_properties(touchstone_writer_installed PROPERTIES TIMEOUT 300)
 add_executable(external_s_factorization_test tests/linear/external_s_factorization_test.cpp)
 target_link_libraries(external_s_factorization_test PRIVATE RFModel::rfmodel)
 add_test(NAME external_s_factorization_test COMMAND external_s_factorization_test)
+
+add_executable(phd_fixed_pump_network_test tests/nonlinear/phd_fixed_pump_network_test.cpp)
+target_link_libraries(phd_fixed_pump_network_test PRIVATE RFModel::rfmodel)
+add_test(NAME phd_fixed_pump_network_test COMMAND phd_fixed_pump_network_test)

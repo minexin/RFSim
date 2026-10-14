@@ -17,3 +17,5 @@
 
 原生固定泵浦 PHD 系数切片（显式 RMS 功率波 F/S/T、受限扰动 Jacobian、
 不提供通用网络或 Newton 适配器）见 [PHD 系数契约](phd-coefficient-contract.md)。
+输出匹配、谐波反馈和非泵小扰动可使用拥有完整约束的
+[固定泵确定性网络](phd-fixed-pump-network.md)，每个非泵通道必须显式给出有效入射扰动上限。

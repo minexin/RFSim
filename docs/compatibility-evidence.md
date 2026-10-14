@@ -23,6 +23,8 @@ writer 可移植性修复已取得精确提交跨平台 CI 成功；line 共振�
   并有泵钳位扰动 Jacobian。2362 项专项检查及严格 C++17 阶段证据见
   [系数契约](phd-coefficient-contract.md)。这不是厂商文件解析、系数提取、
   插值/外推、参考变换或完整泵 Newton 导数；不从 F/S/T 推断本征噪声。
+  [固定泵网络](phd-fixed-pump-network.md)扩展为受约束确定性匹配/谐波反馈，
+  保持泵源精确固定、禁止泵端接线，并要求逐非泵扰动上限；不证明任意负载的物理精度。
 - SDK：内部工程归档、来源及哈希校验、提取与 installed-only 双 TU 示例已实现。
   示例实际扫描匹配 6 dB 衰减器和无损 50 Ω、1 ns 传输线并核对波与送达功率。
   `main.cpp` 仅补 clang-format 19.1.7 空白格式，`network.cpp` 不变。

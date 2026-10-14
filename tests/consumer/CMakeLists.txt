@@ -85,3 +85,7 @@ add_test(NAME installed_basic_api_contract_consumer COMMAND basic_api_contract_c
 add_executable(transmission_line_consumer ../models/transmission_line_test.cpp)
 target_link_libraries(transmission_line_consumer PRIVATE RFModel::rfmodel)
 add_test(NAME installed_transmission_line_consumer COMMAND transmission_line_consumer)
+
+add_executable(phd_fixed_pump_network_consumer phd_fixed_pump_network.cpp phd_fixed_pump_network_probe.cpp)
+target_link_libraries(phd_fixed_pump_network_consumer PRIVATE RFModel::rfmodel)
+add_test(NAME installed_phd_fixed_pump_network_consumer COMMAND phd_fixed_pump_network_consumer)

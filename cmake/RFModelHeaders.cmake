@@ -72,6 +72,7 @@ set(RFMODEL_PUBLIC_HEADERS
     noise/phase_noise.hpp
     noise/power_wave_noise.hpp
     nonlinear/phd_coefficient_slice.hpp
+    nonlinear/phd_fixed_pump_network.hpp
     nonlinear/am_pm.hpp
     nonlinear/amplifier_model.hpp
     nonlinear/fundamental_compression.hpp

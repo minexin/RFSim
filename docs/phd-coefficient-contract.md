@@ -77,13 +77,14 @@ claim that pump changes leave output unchanged.
 
 The public API deliberately provides no `FrequencyConversionModel`,
 `ConversionDevice`, `ConversionLinearization`, or `ModelAdapter::operating_point`
-factory. Existing general network solvers do not carry an enforceable pump clamp.
+factory. The general network solvers do not themselves carry an enforceable pump
+clamp.
 Do not reconstruct an unrestricted device from the scalar derivative entries or
-use this restricted tangent in a varying-pump Newton solve. A later integration
-must explicitly enforce the pump coordinate throughout the solve and define the
-small-perturbation validity contract. The present affine feedback test is a
-separate scalar analytic oracle under an externally fixed pump, not a general
-network adapter.
+use this restricted tangent in a varying-pump Newton solve. The dedicated
+[fixed-pump network](phd-fixed-pump-network.md) owns and enforces
+that restriction throughout its deterministic solve, with mandatory caller-supplied
+perturbation bounds. It does not expose its internal conversion representation
+or make the slice usable as a general network or Newton adapter.
 
 Noise data are unavailable. This slice neither declares noiselessness nor
 supplies a noise figure. No zero-noise convenience object is exposed.
