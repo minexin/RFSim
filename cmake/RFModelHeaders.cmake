@@ -46,6 +46,7 @@ set(RFMODEL_PUBLIC_HEADERS
     io/tabulated_model.hpp
     io/tabulated_noise_model.hpp
     io/touchstone.hpp
+    io/touchstone_writer.hpp
     linear/linear_analysis.hpp
     linear/linear_path.hpp
     linear/network.hpp

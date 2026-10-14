@@ -25,7 +25,7 @@ ctest --test-dir build -C Release --output-on-failure
 
 ## 主要能力与验证边界
 
-- [Touchstone](docs/touchstone-two.md)、多端口网络、频率扫描、混合复参考阻抗、S/Z/Y 转换及噪声协方差。
+- [Touchstone 导入](docs/touchstone-two.md)及[2.0 S 参数流导出](docs/touchstone-writer.md)、多端口网络、频率扫描、混合复参考阻抗、S/Z/Y 转换及噪声协方差。
 - RLC、理想器件、[频率相关电缆](docs/frequency-dependent-cable.md)、滤波器、[链路噪声](docs/linear-path-noise.md)及功率后处理。
 - [相干流管线](docs/coherent-pipeline.md)、来源历史、多项式及[限幅/高阶放大器](docs/coherent-pipeline-amplifiers.md)、失真传播与共同压缩。
 - [变频功率波](docs/conversion-power-wave.md)、[复参考工作点](docs/conversion-operating-point-power-wave.md)、[接受工作点本征噪声](docs/conversion-operating-noise.md)、结构扩频、完整 C/P、加载噪声和相位噪声。

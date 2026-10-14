@@ -477,3 +477,13 @@ add_test(NAME parameter_vector_solver_test COMMAND parameter_vector_solver_test)
 add_executable(conversion_wave_solve_test tests/conversion/conversion_wave_solve_test.cpp)
 target_link_libraries(conversion_wave_solve_test PRIVATE RFModel::rfmodel)
 add_test(NAME conversion_wave_solve_test COMMAND conversion_wave_solve_test)
+
+add_executable(touchstone_writer_test tests/io/touchstone_writer_test.cpp)
+target_link_libraries(touchstone_writer_test PRIVATE RFModel::rfmodel)
+add_test(NAME touchstone_writer_test COMMAND touchstone_writer_test)
+add_test(NAME touchstone_writer_installed COMMAND ${CMAKE_COMMAND}
+    -DSOURCE=${CMAKE_CURRENT_SOURCE_DIR}
+    -DBINARY=${CMAKE_CURRENT_BINARY_DIR}/touchstone-writer-installed
+    -DGENERATOR=${CMAKE_GENERATOR} -DCOMPILER=${CMAKE_CXX_COMPILER}
+    -DCONFIG=$<CONFIG> -P ${CMAKE_CURRENT_SOURCE_DIR}/tests/cmake/check_touchstone_writer_install.cmake)
+set_tests_properties(touchstone_writer_installed PROPERTIES TIMEOUT 300)
