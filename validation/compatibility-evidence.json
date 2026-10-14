@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
   "snapshot": {
-    "source_commit": "a2bbfd5dd3366082620cbd0ebf99dbf11628bd40",
+    "source_commit": "87cd75d356f62693a59500af088277382c42ac5b",
     "date_utc": "2026-10-14",
     "scope": "Bounded current C++ capability/evidence summary; stage-specific local records and exact-commit CI, not whole-catalog acceptance. No new SystemVue execution.",
-    "integration_note": "Frozen evidence overlay on the named published line-resonance source commit; documentation, developer-only evidence checker/schema and whitespace-only SDK example overlay. Source baseline a2bbfd5 has exact-commit CI run 38615005226 18/18 success. Source baseline CI does not cover the later overlay commit; verify that commit separately after publication. No public release, license selection or new vendor compatibility is established."
+    "integration_note": "Frozen source baseline 87cd75d356f62693a59500af088277382c42ac5b (tree 1b56e3611e1c352e3edf624666c95a7e75231d80), exact CI 38641741754 18/18 success. This later overlay changes docs/validation snapshots only; no numerical implementation, thresholds, checker/schema logic or SDK example changes. Its future commit CI is not yet claimed and must be verified independently; source success is not overlay success. Historical records remain stage-specific. No new SystemVue execution or public release decision."
   },
   "catalog": {
     "inventory": "validation/systemvue-2023-rf-catalog.json",
@@ -84,7 +84,7 @@
       "vendor_evidence": "not_executed",
       "remaining": [
         "Input-admission/truncation and double representability limits remain; no arbitrary-condition-number guarantee.",
-        "Exact integrated-commit cross-platform gates must be verified separately."
+        "Exact integrated-stage CI is recorded separately; no later-commit or vendor acceptance is inferred."
       ]
     },
     {
@@ -219,7 +219,7 @@
     },
     {
       "id": "native_fixed_pump_phd_slice",
-      "contract": "Owned explicit native RMS power-wave single-amplitude F/S/T slice with prescribed harmonic-1 pump phase, fixed positive real per-port references/plane IDs, strict real-DC gauge, and a typed pump-clamped perturbation Jacobian; 1\u2013512 channels.",
+      "contract": "Owned explicit native RMS power-wave single-amplitude F/S/T slice with prescribed harmonic-1 pump phase, fixed positive real per-port references/plane IDs, strict real-DC gauge, and a typed pump-clamped perturbation Jacobian; 1–512 channels.",
       "implementation": "bounded",
       "references": [
         "docs/phd-coefficient-contract.md",
@@ -243,13 +243,15 @@
         "docs/model-adapters.md",
         "docs/coherent-highorder-amplifier.md",
         "docs/rf-design-catalog.md",
-        "docs/phd-coefficient-contract.md"
+        "docs/phd-coefficient-contract.md",
+        "docs/rfamp-op1db-parameter-pilot.md"
       ],
       "numerical_evidence": "The separately listed native fixed-pump coefficient slice does not establish automatic extraction, vendor data interpretation or full pump derivatives.",
       "vendor_evidence": "not_executed",
       "remaining": [
         "Vendor coefficient normalization/imports, coefficient extraction, amplitude/frequency interpolation, full pump derivatives, validity ranges and general operating-point integration remain unimplemented.",
-        "Microstrip/switch/array/antenna dedicated families and vendor parameter/default/enum/table translation need individual assessment; host callbacks are not catalog acceptance."
+        "Microstrip/switch/array/antenna dedicated families and vendor parameter/default/enum/table translation need individual assessment; host callbacks are not catalog acceptance.",
+        "RFAMP parameter-law work still needs two raw A/B parameter conditions with measured complex input and original provenance; freeze B extraction/prediction before C holdout and retain D restore control per the existing pilot. No new acquisition is reported."
       ]
     },
     {
@@ -282,7 +284,7 @@
       "numerical_evidence": "Engineering integrity/provenance, negative archive and installed-consumer checks; this feature adds no numerical model or vendor acceptance evidence. Minimum CMake 3.20.5 fixture exercised locally.",
       "vendor_evidence": "not_executed",
       "remaining": [
-        "Exact published integration commit must pass all existing CI jobs before its clean engineering artifacts are accepted.",
+        "Exact source baseline 87cd75d CI has passed 18/18; the later doc-only overlay still needs its own exact-commit CI. Stage-local installed results are not a rerun on that overlay.",
         "Public distribution, license selection, release version/tag and API stability decisions remain open; this is an internal engineering candidate."
       ]
     },
@@ -332,7 +334,7 @@
       "vendor_evidence": "not_executed",
       "remaining": [
         "This is a matched 6 dB attenuator and lossless 50-ohm 1 ns line example, not a physical cable or SystemVue acceptance.",
-        "The original stage format checks omitted examples; the current whitespace-only overlay corrects main.cpp."
+        "Historical example main.cpp whitespace formatting was integrated in 3160ba; the current doc-only overlay changes no example source."
       ]
     },
     {
@@ -367,8 +369,60 @@
       "vendor_evidence": "not_executed",
       "remaining": [
         "General frequency-delay multiplication remains rounded binary64 and overflow is rejected; no all-input accuracy guarantee.",
-        "Uniform-line evidence is not frequency-dependent RLGC coverage; separately identified RLGC intermediate-overflow boundaries remain unfinished and are not included in this snapshot.",
+        "Uniform-line evidence is separate from the now integrated bounded RLGC scaled-arithmetic fix below; neither establishes all-input accuracy.",
         "No new SystemVue execution or vendor transmission-line acceptance."
+      ]
+    },
+    {
+      "id": "rlgc_scaled_arithmetic",
+      "contract": "Constant per-length R/L/G/C uniform line with exponent-separated normalization and scaled scattering arithmetic; avoids avoidable intermediate overflow while retaining final representability rejection.",
+      "implementation": "bounded",
+      "references": [
+        "docs/rlgc-transmission-line.md",
+        "tests/models/rlgc_transmission_line_test.cpp",
+        "validation/engineering-evidence-summary-20261014.json"
+      ],
+      "numerical_evidence": "Rebound strict C++17 Debug/Release each 161 full, 149 pure native with developer references, 16 full and 14 pure installed consumers: 680/680. Independent 400-digit review passed 1485/1554 candidates; 69 huge low-loss phase cases excluded, not passed. Exact integrated CI 38624386322 18/18.",
+      "vendor_evidence": "not_executed",
+      "remaining": [
+        "Final normalized a/b/x overflow is rejected; extreme low-loss electrical length remains binary64 phase-limited.",
+        "Constant R/L/G/C only; no frequency-dependent skin/dielectric law, geometry extraction, coupled multiconductor model or new SystemVue acceptance."
+      ]
+    },
+    {
+      "id": "linear_external_s",
+      "contract": "LinearNetwork::external_s factors I-C*S once per frequency and solves selected RHS columns; dense O(n^3 + m*n^2), existing solve and numerical thresholds unchanged.",
+      "implementation": "bounded",
+      "references": [
+        "docs/linear-external-s-factorization.md",
+        "tests/linear/external_s_factorization_test.cpp",
+        "validation/linear-external-s-benchmark-20261014.csv",
+        "validation/engineering-evidence-summary-20261014.json"
+      ],
+      "numerical_evidence": "Strict C++17 Debug/Release each 162 full, 150 pure native, 16 full and 14 pure installed consumers: 684/684. Independent physical V/I oracle and unchanged legacy extraction comparison; seven alternating warmed timing samples per path. CI 38632765095 18/18.",
+      "vendor_evidence": "not_executed",
+      "remaining": [
+        "No cross-frequency cache, sparse solver, inverse or noise refactor.",
+        "Local medians 96/32 ports 36.917249 to 3.446269 ms; 160/2 ports 9.699459 to 4.920278 ms, zero observed entrywise difference. These are fixed-case measurements, not portable speed guarantees.",
+        "ASan/UBSan passed with detect_leaks=0; LeakSanitizer blocked by ptrace. No new vendor acceptance."
+      ]
+    },
+    {
+      "id": "phd_fixed_pump_network",
+      "contract": "Owning C++17 PhdFixedPumpNetwork closes one frozen F/S/T slice against explicit deterministic affine environments and mixed-reference physical wiring with an exact prescribed pump and explicit per-nonpump perturbation limits.",
+      "implementation": "bounded",
+      "references": [
+        "docs/phd-fixed-pump-network.md",
+        "docs/phd-coefficient-contract.md",
+        "tests/nonlinear/phd_fixed_pump_network_test.cpp",
+        "validation/engineering-evidence-summary-20261014.json"
+      ],
+      "numerical_evidence": "Strict C++17 Debug/Release each 163 full, 151 pure native, 17 full and 15 pure installed consumers: 692/692. 112 focused strict/UBSan checks; independent real 2x2/two-feedback-harmonic, V/I and cubic Fourier oracles. External supplemental 18-check probe passed strict/UBSan and four installed prefixes; separate from committed regression counts. CI 38641741754 18/18.",
+      "vendor_evidence": "not_executed",
+      "remaining": [
+        "One frozen amplitude, exact pump source and zero reflection; pump physical port cannot be wired. Nonpump limits bound declared domain, not physical accuracy.",
+        "No vendor file/units/coefficient acceptance, extraction, interpolation/extrapolation, reference transformation, varying-pump Newton derivative or arbitrary-load nonlinear accuracy.",
+        "No noise input/output or inferred intrinsic noise law; absence of noise quantities does not imply a noiseless device. No new SystemVue execution."
       ]
     }
   ],
@@ -564,6 +618,54 @@
       "expected_jobs": 18,
       "evidence": "validation/compatibility-line-ci-38615005226.json",
       "url": "https://github.com/minexin/RFSim/actions/runs/38615005226"
+    },
+    {
+      "id": "engineering_evidence",
+      "commit": "3160ba57b4dcb228dca775300a09fb66429389e8",
+      "run_id": 38617787622,
+      "status": "success",
+      "verified_successful_jobs": 18,
+      "expected_jobs": 18,
+      "evidence": "validation/compatibility-engineering-ci-38617787622.json",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38617787622",
+      "verified_failed_jobs": 0,
+      "verified_cancelled_jobs": 0
+    },
+    {
+      "id": "rlgc_scaled_arithmetic",
+      "commit": "7a59e5e812f677acc84b75e77d77db787a545291",
+      "run_id": 38624386322,
+      "status": "success",
+      "verified_successful_jobs": 18,
+      "expected_jobs": 18,
+      "evidence": "validation/compatibility-rlgc-ci-38624386322.json",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38624386322",
+      "verified_failed_jobs": 0,
+      "verified_cancelled_jobs": 0
+    },
+    {
+      "id": "linear_external_s",
+      "commit": "c9bc6cfe66e2b1d211848d89b103e19b6e735abf",
+      "run_id": 38632765095,
+      "status": "success",
+      "verified_successful_jobs": 18,
+      "expected_jobs": 18,
+      "evidence": "validation/compatibility-linear-s-ci-38632765095.json",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38632765095",
+      "verified_failed_jobs": 0,
+      "verified_cancelled_jobs": 0
+    },
+    {
+      "id": "phd_fixed_pump_network",
+      "commit": "87cd75d356f62693a59500af088277382c42ac5b",
+      "run_id": 38641741754,
+      "status": "success",
+      "verified_successful_jobs": 18,
+      "expected_jobs": 18,
+      "evidence": "validation/compatibility-phd-network-ci-38641741754.json",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38641741754",
+      "verified_failed_jobs": 0,
+      "verified_cancelled_jobs": 0
     }
   ],
   "release_gates": [

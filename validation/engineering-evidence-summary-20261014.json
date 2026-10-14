@@ -121,7 +121,7 @@
         "archive_gates": "passed; source/inventory/hash/containment checks and Release consumer",
         "extracted_Debug": "1/1; direct execution passed"
       },
-      "format_limit": "Historical include/src/tests format scope did not cover this example. The current evidence overlay formats both example cpp files; only main.cpp changes, whitespace only.",
+      "format_limit": "Historical include/src/tests format scope did not cover this example. The historical 3160ba evidence overlay formats both example cpp files; only main.cpp changes, whitespace only.",
       "sources": [
         {
           "artifact_name": "sdk-consumer-rebound-delivery/manifest.json",
@@ -332,8 +332,263 @@
       "limits": [
         "No new SystemVue execution.",
         "Pure native count includes developer reference tests, unlike older pure-SDK-only stage counts.",
-        "Uncommitted RLGC intermediate-overflow work is excluded."
+        "RLGC work was excluded at this historical uniform-line stage; later bounded integration is recorded separately below."
       ]
+    },
+    {
+      "id": "rlgc_scaled_arithmetic",
+      "integrated_commit": "7a59e5e812f677acc84b75e77d77db787a545291",
+      "local_base": "3160ba57b4dcb228dca775300a09fb66429389e8",
+      "local_candidate_commit": "afba0ccdba5968bf8bb904cb6b513d31f79918b1",
+      "integrated_tree": "55de18c458f8b60ca906f7c985b76fe5dfdc1465",
+      "patch_sha256": "319c438743399e1ff5ea651b3192377d6eb47631ccceb93b5a1ee025abb2d543",
+      "sources": [
+        {
+          "artifact_name": "rlgc-scaled-evidence/rebound/final-manifest.json",
+          "sha256": "3cbe6d48717a25d4346290a878f3a9ffde815372d3e9435615056e2b7c5c28b8",
+          "availability": "External local audit artifact; not embedded or required by the product."
+        },
+        {
+          "artifact_name": "rlgc-scaled-evidence/manifest.json",
+          "sha256": "d0fa3875e6095d7424bc615d209ec956dfb160756d7716931331cb99228f5b46",
+          "availability": "External local audit artifact; not embedded or required by the product."
+        }
+      ],
+      "ci": "Exact integrated commit run 38624386322: 18/18 success; no later overlay coverage.",
+      "limits": [
+        "Final normalized a/b/x overflow is rejected; extreme low-loss electrical length remains binary64 phase-limited.",
+        "Constant R/L/G/C only; no frequency-dependent skin/dielectric law, geometry extraction, coupled multiconductor model or new SystemVue acceptance."
+      ],
+      "checks": [
+        {
+          "gate": "full-debug-test",
+          "passed": 161,
+          "total": 161,
+          "log": "full-debug-test.log",
+          "log_sha256": "d3e705111fa3a45a4343f08c9b6bc6a34895d988c28be0b9406e29c29963ce1e"
+        },
+        {
+          "gate": "full-debug-consumer-test",
+          "passed": 16,
+          "total": 16,
+          "log": "full-debug-consumer-test.log",
+          "log_sha256": "3265d1686c5a0ae681cdd46e3c1d2c106af639dbc6d6569014ea8e4b949f141f"
+        },
+        {
+          "gate": "pure-native-debug-test",
+          "passed": 149,
+          "total": 149,
+          "log": "pure-native-debug-test.log",
+          "log_sha256": "36f238a685d9ea698f0ca09d55fa668eeba13eff16e760fee9102c9c012cfb68"
+        },
+        {
+          "gate": "pure-native-debug-consumer-test",
+          "passed": 14,
+          "total": 14,
+          "log": "pure-native-debug-consumer-test.log",
+          "log_sha256": "0204563eb7843ed304db1c2e746c9d86587be39be7d442c59d8488fda6db989c"
+        },
+        {
+          "gate": "full-release-test",
+          "passed": 161,
+          "total": 161,
+          "log": "full-release-test.log",
+          "log_sha256": "5ce22c021306456c165e855cb0f697f445708c63bd2afe623a850d6654fa845f"
+        },
+        {
+          "gate": "full-release-consumer-test",
+          "passed": 16,
+          "total": 16,
+          "log": "full-release-consumer-test.log",
+          "log_sha256": "0a575b2f41498174e35e6d5bea07cd37bcb142219726eaad12d9a51a4b3ec23e"
+        },
+        {
+          "gate": "pure-native-release-test",
+          "passed": 149,
+          "total": 149,
+          "log": "pure-native-release-test.log",
+          "log_sha256": "66de6b915142807b0decc502cd9d9fd81db2950d39ea1fc49d8630672d4a3523"
+        },
+        {
+          "gate": "pure-native-release-consumer-test",
+          "passed": 14,
+          "total": 14,
+          "log": "pure-native-release-consumer-test.log",
+          "log_sha256": "1d1290871a7448a41986a189b2489fd9add0b88b7ecc3b6fbe1b607f01a67362"
+        }
+      ],
+      "total_passed": 680,
+      "independent_review": {
+        "precision_decimal_digits": 400,
+        "passed": 1485,
+        "excluded_huge_low_loss_phase": 69,
+        "total_candidates": 1554
+      },
+      "candidate_tree": "55de18c458f8b60ca906f7c985b76fe5dfdc1465",
+      "candidate_identity": "Rebound candidate source tree equals integrated source tree; original focused review retained separately."
+    },
+    {
+      "id": "linear_external_s",
+      "integrated_commit": "c9bc6cfe66e2b1d211848d89b103e19b6e735abf",
+      "local_base": "7a59e5e812f677acc84b75e77d77db787a545291",
+      "local_candidate_commit": "38a681211ab8aa43f56bf063ee97fd3d787b235d",
+      "integrated_tree": "42d122b20f4ad7fa46a9cafb80cefa7b3f85d3b3",
+      "patch_sha256": "704cd4053217cdcdfe31d6f9268db4c38bd5f4064c940cd5de646c6504a7fe06",
+      "sources": [
+        {
+          "artifact_name": "linear-s-build/manifest.json",
+          "sha256": "a0e19c2885f46d7412803ca623f2ce0ed4a423c70ab707977ba56df65a9428ab",
+          "availability": "External local audit artifact; not embedded or required by the product."
+        }
+      ],
+      "ci": "Exact integrated commit run 38632765095: 18/18 success; no later overlay coverage.",
+      "limits": [
+        "No cross-frequency cache, sparse solver, inverse or noise refactor.",
+        "Local medians 96/32 ports 36.917249 to 3.446269 ms; 160/2 ports 9.699459 to 4.920278 ms, zero observed entrywise difference. These are fixed-case measurements, not portable speed guarantees.",
+        "ASan/UBSan passed with detect_leaks=0; LeakSanitizer blocked by ptrace. No new vendor acceptance."
+      ],
+      "checks": {
+        "full-debug": {
+          "passed": 162,
+          "installed_consumers_passed": 16
+        },
+        "pure-native-debug": {
+          "passed": 150,
+          "installed_consumers_passed": 14
+        },
+        "full-release": {
+          "passed": 162,
+          "installed_consumers_passed": 16
+        },
+        "pure-native-release": {
+          "passed": 150,
+          "installed_consumers_passed": 14
+        }
+      },
+      "total_passed": 684,
+      "focused": {
+        "strict_release_tests_passed": [
+          "external_s_factorization_test",
+          "external_s_test",
+          "network_test",
+          "mixed_reference_network_test",
+          "power_wave_network_test",
+          "linear_analysis_test",
+          "linear_path_test",
+          "sweep_test"
+        ],
+        "sanitizer": "ASan+UBSan passed with detect_leaks=0; LeakSanitizer unsupported under ptrace",
+        "cmake_release_tests_passed": 2,
+        "format": "clang-format 19 dry-run passed",
+        "warnings": "g++ 14.2.0 -std=c++17 -Wall -Wextra -Werror -pedantic -O2 -DNDEBUG",
+        "source_note": "focused test receipts predate documentation-only amend from 0e6685a; code/test/benchmark unchanged"
+      },
+      "strict_cpp17_extensions_off": true,
+      "candidate_identity": "Verified local candidate source tree equals the exact integrated commit tree. Local commit identity remains distinct; integrated cross-platform CI is recorded separately. Source/installed header hashes verified in the manifest.",
+      "benchmark": {
+        "samples_per_case_per_path": 7,
+        "order": "alternating, after agreement/warmup",
+        "case_96_32": {
+          "legacy_median_ms": 36.917249,
+          "factored_median_ms": 3.446269,
+          "max_difference": 0
+        },
+        "case_160_2": {
+          "legacy_median_ms": 9.699459,
+          "factored_median_ms": 4.920278,
+          "max_difference": 0
+        }
+      },
+      "candidate_tree": "42d122b20f4ad7fa46a9cafb80cefa7b3f85d3b3"
+    },
+    {
+      "id": "phd_fixed_pump_network",
+      "integrated_commit": "87cd75d356f62693a59500af088277382c42ac5b",
+      "local_base": "c9bc6cfe66e2b1d211848d89b103e19b6e735abf",
+      "local_candidate_commit": "1993a391a7d6b1a62dbece2512eea59d4b7ce65f",
+      "integrated_tree": "1b56e3611e1c352e3edf624666c95a7e75231d80",
+      "patch_sha256": "cb427d95876588154d3d9bc85a8663fb4d956f8f0cc506a351631e2dc6b56ec6",
+      "sources": [
+        {
+          "artifact_name": "phd-fixed-pump-gates/manifest.json",
+          "sha256": "c313810b3ced135369e134024d9ff962a065c879db97c57e144ae09df9e86aea",
+          "availability": "External local audit artifact; not embedded or required by the product."
+        },
+        {
+          "artifact_name": "phd-fixed-pump-gates/probes/supplemental-manifest.json",
+          "sha256": "562424cae80f3a10308e646ef0aaa2827479caf66ce3840270f8d320a8e4dd0a",
+          "availability": "External local audit artifact; not embedded or required by the product."
+        }
+      ],
+      "ci": "Exact integrated commit run 38641741754: 18/18 success; no later overlay coverage.",
+      "limits": [
+        "One frozen amplitude, exact pump source and zero reflection; pump physical port cannot be wired. Nonpump limits bound declared domain, not physical accuracy.",
+        "No vendor file/units/coefficient acceptance, extraction, interpolation/extrapolation, reference transformation, varying-pump Newton derivative or arbitrary-load nonlinear accuracy.",
+        "No noise input/output or inferred intrinsic noise law; absence of noise quantities does not imply a noiseless device. No new SystemVue execution."
+      ],
+      "checks": {
+        "full-debug": {
+          "passed": 163,
+          "installed_consumers_passed": 17
+        },
+        "pure-native-debug": {
+          "passed": 151,
+          "installed_consumers_passed": 15
+        },
+        "full-release": {
+          "passed": 163,
+          "installed_consumers_passed": 17
+        },
+        "pure-native-release": {
+          "passed": 151,
+          "installed_consumers_passed": 15
+        }
+      },
+      "total_passed": 692,
+      "focused": {
+        "strict_cpp17_checks": 112,
+        "ubsan_checks": 112,
+        "installed_two_tu": "passed after final header installed by fresh CMake configure/install",
+        "header_sha256": "93527c042c209c2ea4f3446017180352a8c02798d7fb7102f3fc93a6b75b8e12",
+        "format": "clang-format 19.1.7 passed",
+        "diff_check": "passed"
+      },
+      "strict_cpp17_extensions_off": true,
+      "candidate_identity": "Verified local candidate source tree equals the exact integrated commit tree. Local commit identity remains distinct; integrated cross-platform CI is recorded separately. Source/installed header hashes verified in the manifest.",
+      "supplemental_probe": {
+        "scope": "External supplementary probe, not part of frozen committed regression suite",
+        "source_tree_unchanged": true,
+        "compiler_flags": "-std=c++17 -Wall -Wextra -Werror -pedantic-errors",
+        "ubsan_flags": "-fsanitize=undefined -fno-sanitize-recover=all",
+        "installed_runs_note": "Each uses only its named installed include prefix, with the same strict compiler flags; configuration names identify installed provenance, not additional optimization flags.",
+        "results": {
+          "strict": {
+            "checks": 18,
+            "log_sha256": "0ff639f6c7ad26cc4efb7d90d2bdd4788b776ab875ab0b219aa6c8b897640e3a"
+          },
+          "ubsan": {
+            "checks": 18,
+            "log_sha256": "0ff639f6c7ad26cc4efb7d90d2bdd4788b776ab875ab0b219aa6c8b897640e3a"
+          },
+          "full-debug": {
+            "checks": 18,
+            "log_sha256": "0ff639f6c7ad26cc4efb7d90d2bdd4788b776ab875ab0b219aa6c8b897640e3a"
+          },
+          "pure-native-debug": {
+            "checks": 18,
+            "log_sha256": "0ff639f6c7ad26cc4efb7d90d2bdd4788b776ab875ab0b219aa6c8b897640e3a"
+          },
+          "full-release": {
+            "checks": 18,
+            "log_sha256": "0ff639f6c7ad26cc4efb7d90d2bdd4788b776ab875ab0b219aa6c8b897640e3a"
+          },
+          "pure-native-release": {
+            "checks": 18,
+            "log_sha256": "0ff639f6c7ad26cc4efb7d90d2bdd4788b776ab875ab0b219aa6c8b897640e3a"
+          }
+        }
+      },
+      "candidate_tree": "1b56e3611e1c352e3edf624666c95a7e75231d80"
     }
   ],
   "limits": [
@@ -365,7 +620,7 @@
   },
   "rebound_overlay_checks": {
     "base": "a2bbfd5dd3366082620cbd0ebf99dbf11628bd40",
-    "scope": "Current overlay rebound checks on published line source base; metadata/example checks only, not a rerun of all historical numerical suites. Source CI run 38615005226 passed 18/18; future overlay-commit CI remains separate.",
+    "scope": "Historical 3160ba overlay rebound checks on published line source base; metadata/example checks only, not a rerun of all historical numerical suites. Source CI run 38615005226 passed 18/18. Overlay CI was future at preparation; subsequently exact 3160ba run 38617787622 passed 18/18, recorded separately. Neither run covers the current doc-only overlay.",
     "checker_self_test": "33 invalid metadata mutations rejected; no numerical or vendor tests executed",
     "example_format": "clang-format 19.1.7 --dry-run --Werror main.cpp network.cpp passed",
     "main_cpp_nonwhitespace_sha256": "deb4ffc1e6e76197bbd4c7201d2322573be843298dd8e83a5eab63130002cd71",

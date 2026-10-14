@@ -1,10 +1,12 @@
 # 当前 C++ 能力与证据
 
 [机读映射](../validation/compatibility-evidence.json)是当前兼容摘要的权威索引，
-本覆盖层冻结的源基线为 `a2bbfd5dd3366082620cbd0ebf99dbf11628bd40`，不是全目录验收清单。
-writer 可移植性修复已取得精确提交跨平台 CI 成功；line 共振修复已集成，精确源提交 CI 38615005226 已 18/18 成功。
+本覆盖层冻结的源基线为 `87cd75d356f62693a59500af088277382c42ac5b`，不是全目录验收清单。
+源树为 `1b56e3611e1c352e3edf624666c95a7e75231d80`，精确源提交 CI 38641741754 已 18/18 成功。
+writer、均匀线、RLGC、线性 S 提取和固定泵 PHD 网络的各阶段成功分别记录。
 后续覆盖层提交仍须单独核验 CI，不能继承源基线成功。
-本覆盖层包含文档、开发用证据 checker/schema 逻辑及 SDK 示例空白格式修正；不改数值实现。
+本覆盖层仅更新 docs/validation 文档与证据快照，不改数值实现、阈值、既有 checker/schema 或示例。
+先前 `3160ba` 覆盖层的工具与格式改动属于历史记录，不是本轮改动。
 它分列实现范围、独立数值证据、厂商归档状态、剩余问题及发布门禁。
 `implemented` 只表示所述 C++ 契约存在；`bounded_pass` 只表示指定厂商子集通过。
 没有总兼容率或整体通过标志。243 项目录只作库存，不计作实现数量。
@@ -27,7 +29,7 @@ writer 可移植性修复已取得精确提交跨平台 CI 成功；line 共振�
   保持泵源精确固定、禁止泵端接线，并要求逐非泵扰动上限；不证明任意负载的物理精度。
 - SDK：内部工程归档、来源及哈希校验、提取与 installed-only 双 TU 示例已实现。
   示例实际扫描匹配 6 dB 衰减器和无损 50 Ω、1 ns 传输线并核对波与送达功率。
-  `main.cpp` 仅补 clang-format 19.1.7 空白格式，`network.cpp` 不变。
+  历史 `3160ba` 中 `main.cpp` 仅补 clang-format 19.1.7 空白格式，`network.cpp` 不变。
   内部 ZIP 不代表正式发布；许可、版本、标签及 API 稳定性仍需用户决策。
 - Touchstone：已有有界导入及新增 C++17 单端 S 流导出（2.0 / Hz / RI / Full，
   1–1024 端口、64 MiB payload 上限）。拒绝非空噪声样本；不采样模型、重归一化或导出 PHD。
@@ -43,7 +45,36 @@ writer 可移植性修复已取得精确提交跨平台 CI 成功；line 共振�
 161/161 完整、149/149 纯原生（均启用开发参考测试）、16/16 完整安装消费者和
 14/14 纯安装消费者，总计 680/680。该阶段局部候选与已集成提交源树一致；
 精确源提交跨平台 CI 已 18/18 成功。一般频率延迟乘积的精度与溢出限制保留，
-独立发现的 RLGC 中间溢出边界尚未闭合，不纳入本轮成功证据。
+该历史均匀线阶段未覆盖 RLGC；随后 RLGC 有界修复及验证见下文。
+
+## 最新原生阶段与集成入口
+
+当前可直接使用纯 C++17 函数/类型 API；[SDK 接入](cpp-sdk.md)、
+[确定性变频波](conversion-wave-solve.md)、[线性外部 S 提取](linear-external-s-factorization.md)、
+[均匀线](transmission-line.md)、[RLGC 线](rlgc-transmission-line.md)、
+[PHD 系数切片](phd-coefficient-contract.md)、[固定泵 PHD 网络](phd-fixed-pump-network.md)及
+[Touchstone 导出](touchstone-writer.md)给出具体契约。开发用 Python 采集、oracle 和证据工具保留；
+这不恢复已退役的 Python 产品接口。
+
+- RLGC 缩放算术：避免归一化和散射转换中的可避免中间溢出，最终 a/b/x 不可表示仍拒绝。
+  重绑定严格 C++17 Debug/Release 各 161 完整、149 纯原生（含开发参考）、16 完整安装和
+  14 纯安装消费者，合计 680/680。独立 400 位审查 1485/1554；69 个巨大低损耗相位案例
+  明确排除，不计通过。极大电长度仍受 binary64 相位限制。常数 RLGC 不代表频变材料律、
+  几何提取、多导体耦合或厂商传输线验收。
+- 线性外部 S：每频率一次分解、只求所选 RHS，稠密成本 O(n³ + mn²)；原 solve 和阈值不变。
+  各配置 162 完整、150 纯原生、16/14 安装消费者，合计 684/684。独立物理 V/I oracle 与
+  旧提取路径分别对照。七次交替暖机采样：96/32 端口中位数 36.917249→3.446269 ms，
+  160/2 端口 9.699459→4.920278 ms；均未观察到矩阵差异。这是单机定例，不是普遍速度承诺。
+  没有跨频缓存、稀疏求解或噪声重构。ASan/UBSan 使用 detect_leaks=0；ptrace 下 LSan 不可用，
+  不声称泄漏检查通过。
+- 固定泵 PHD 网络：各配置 163 完整、151 纯原生、17/15 安装消费者，合计 692/692；
+  112 项严格/UBSan 专项检查，独立实 2×2、双反馈谐波、V/I 与立方 Fourier 小扰动 oracle。
+  另有外部 18 项补充探针覆盖环境共轭、DC 接线/偏置等，严格/UBSan 和四个安装前缀通过，
+  不并入冻结回归计数。泵入射精确固定、反射为零、泵物理端口禁接线；逐非泵扰动上限由调用方
+  声明，不能当作物理精度证明。仅一片固定振幅，不支持任意负载非线性精度、变泵 Newton、
+  厂商系数导入或噪声推断；没有噪声量不表示器件无噪声。
+
+以上均为各阶段候选的本地记录；精确集成提交的跨平台 CI 另列。无新增本地 SystemVue 实测。
 
 ## 精确提交与运行
 
@@ -63,6 +94,11 @@ writer 可移植性修复已取得精确提交跨平台 CI 成功；line 共振�
 - SDK 数值示例 `45bafd674b46f9a7f35353631f72c131a0edc5c1`：[38598650770](https://github.com/minexin/RFSim/actions/runs/38598650770)
 - Touchstone decimal 可移植性 `a987c3dc116f31477f6c97fb23d0c3a4a22f2f3c`：[38607571844](https://github.com/minexin/RFSim/actions/runs/38607571844)
 - 均匀线共振修复 `a2bbfd5dd3366082620cbd0ebf99dbf11628bd40`：[38615005226](https://github.com/minexin/RFSim/actions/runs/38615005226)
+
+- 工程证据覆盖层 `3160ba57b4dcb228dca775300a09fb66429389e8`：[38617787622](https://github.com/minexin/RFSim/actions/runs/38617787622)
+- RLGC 缩放算术 `7a59e5e812f677acc84b75e77d77db787a545291`：[38624386322](https://github.com/minexin/RFSim/actions/runs/38624386322)
+- 线性外部 S 分解 `c9bc6cfe66e2b1d211848d89b103e19b6e735abf`：[38632765095](https://github.com/minexin/RFSim/actions/runs/38632765095)
+- 固定泵 PHD 网络 `87cd75d356f62693a59500af088277382c42ac5b`：[38641741754](https://github.com/minexin/RFSim/actions/runs/38641741754)
 
 原失败也保留：pilot `2752af6a5010a7c5ee5fbeddda42c360cf54ff97`
 [38579642585](https://github.com/minexin/RFSim/actions/runs/38579642585) 为 16 成功、2 失败；
@@ -89,6 +125,20 @@ writer `a88dcc041917e30a620a6f06a98caa56042b5b04`
 历史 Python/JSON 叙述按[退役说明](python-interface-retirement.md)阅读；产品 Python 接口已退役，
 开发用证据脚本不是恢复 Python 产品。
 
+## 尚需外部证据与发布选择
+
+- RFAMP 参数律：仍缺 A/B 两组原始条件采集。沿用[既有 OP1dB pilot](rfamp-op1db-parameter-pilot.md)，
+  保留实际复输入、参数/单位、版本、来源与原始输出；B 提取及 C 预测须先冻结，再看 C holdout，
+  D 是恢复对照，不增独立预测数量。现有固定 profile 和显式系数归档不能替代参数律证据。
+- PHD：仍需厂商文件格式、单位/波定义、参考面/阻抗及系数参考证据；变泵数据和导数验证缺失。
+  当前原生固定切片/固定泵网络不能替代这些外部证据。
+- 其他厂商噪声、ZPORT/CS 归一化、DC 偏置/器件线性化、PLL 及专用器件族逐项未证实；
+  [目录与覆盖边界](rf-design-catalog.md)不是整体兼容验收。原始 RFPwrIn、级联和衰减器噪声失败保留。
+- 正式许可、公开分发、版本/标签和 API 稳定性需要用户的产品选择；本轮未发布或选定许可。
+
+这些是后续依赖清单，不是新的操作要求，也不表示全项目完成或可计算总百分比。
+未来覆盖层本身的精确提交 CI 仍须单独核验，不将源基线 CI 写成未来成功，不为追录自身 CI 迭代源基线。
+
 ## 校验与维护
 
 [JSON Schema](../validation/compatibility-evidence.schema.json)使用 Draft 2020-12。
@@ -97,7 +147,7 @@ Python 包或第三方模块。它验证所用 schema 子集、路径、唯一 I
 终态矩阵与成功/失败/取消计数；所有快照均强制逐 job SHA/run/status 绑定。
 早期快照逐 job 字段根据独立重新取得的原始 CI 数据补全。
 自测注入错误引用、重复 ID、虚假 CI 成功及 job 身份/状态/计数篡改，检查拒绝行为。
-此处 checker/schema 是开发证据工具逻辑变更，默认 C++ SDK 构建不依赖它。
+checker/schema 是既有开发证据工具，本轮未改其逻辑，默认 C++ SDK 构建不依赖它。
 
 该工具只校验证据元数据，不验证自由文本数值/厂商结论真实性，不执行 C++ 数值测试，
 也不将归档失败提升为通过。新增实现应有明确契约与独立数值测试，再引用实际记录；
