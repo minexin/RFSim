@@ -14,3 +14,6 @@
 失配二端口的换能、工作和可用功率增益见 [power-gain.md](power-gain.md)。
 
 各级端口功率及累计增益预算见 [linear-path.md](linear-path.md)。
+
+原生固定泵浦 PHD 系数切片（显式 RMS 功率波 F/S/T、受限扰动 Jacobian、
+不提供通用网络或 Newton 适配器）见 [PHD 系数契约](phd-coefficient-contract.md)。

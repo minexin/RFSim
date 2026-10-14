@@ -453,3 +453,7 @@ add_test(NAME noise_factor_test COMMAND noise_factor_test)
 add_executable(noise_factor_integration_test tests/noise/noise_factor_integration_test.cpp)
 target_link_libraries(noise_factor_integration_test PRIVATE RFModel::rfmodel)
 add_test(NAME noise_factor_integration_test COMMAND noise_factor_integration_test)
+
+add_executable(phd_coefficient_slice_test tests/nonlinear/phd_coefficient_slice_test.cpp)
+target_link_libraries(phd_coefficient_slice_test PRIVATE RFModel::rfmodel)
+add_test(NAME phd_coefficient_slice_test COMMAND phd_coefficient_slice_test)

@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
   "snapshot": {
-    "source_commit": "0d7afc5d6738147a407c2ea16c3d693a31343128",
+    "source_commit": "d64ac59c380bc1bd3367846c68646d60585da382",
     "date_utc": "2026-10-14",
-    "scope": "Bounded current C++ capability/evidence summary, not whole-catalog acceptance. Documentation overlay only; no new SystemVue execution.",
-    "integration_note": "Includes accepted-state intrinsic noise providers at this verified source commit; final documentation/integration commit must pass its own exact-commit CI. PHD work underway is excluded until independently verified."
+    "scope": "Bounded current C++ capability/evidence summary with the native fixed-pump PHD implementation overlay on the source commit, not whole-catalog acceptance. No new SystemVue execution.",
+    "integration_note": "Includes accepted-state intrinsic noise and independently verified native fixed-pump PHD coefficients. PHD local Debug/Release/relocated-SDK evidence is linked separately; final PHD integration commit must pass its own exact-commit CI. No vendor PHD file or numerical compatibility is established."
   },
   "catalog": {
     "inventory": "validation/systemvue-2023-rf-catalog.json",
@@ -218,18 +218,37 @@
       ]
     },
     {
+      "id": "native_fixed_pump_phd_slice",
+      "contract": "Owned explicit native RMS power-wave single-amplitude F/S/T slice with prescribed harmonic-1 pump phase, fixed positive real per-port references/plane IDs, strict real-DC gauge, and a typed pump-clamped perturbation Jacobian; 1–512 channels.",
+      "implementation": "bounded",
+      "references": [
+        "docs/phd-coefficient-contract.md",
+        "include/rfmodel/nonlinear/phd_coefficient_slice.hpp",
+        "tests/nonlinear/phd_coefficient_slice_test.cpp",
+        "validation/phd-coefficient-slice-validation-20261014.json"
+      ],
+      "numerical_evidence": "2,362 native checks including independent complex fixtures, phase covariance, long-double cubic Fourier normalization/derivatives, ordinary LTI/DC reduction, affine feedback and ownership. Linux strict C++17 Debug/Release each pass 155 core/reference tests, 14 full relocated consumers and 12 pure-C++ relocated consumers; final integration CI is separate.",
+      "vendor_evidence": "not_executed",
+      "remaining": [
+        "The single-amplitude slice excludes pump perturbations and does not provide full pump Newton derivatives; F/r is not a derivative. No unrestricted conversion/device/operating-point adapter is exposed.",
+        "Paper voltage pseudowaves are not native RMS power-wave coefficients. Vendor parsing, extraction, interpolation/extrapolation, reference conversion and SystemVue2023 coefficient/numerical acceptance remain unverified or absent.",
+        "No intrinsic noise law or noise figure is inferred from F/S/T."
+      ]
+    },
+    {
       "id": "automatic_rfamp_and_phd",
-      "contract": "No automatic arbitrary RFAMP odd-order coefficient translation or concrete PHD model/schema/importer/adapter in this snapshot.",
+      "contract": "No automatic arbitrary RFAMP odd-order coefficient translation, vendor PHD coefficient schema/importer, or unrestricted varying-pump PHD operating-point adapter.",
       "implementation": "absent",
       "references": [
         "docs/model-adapters.md",
         "docs/coherent-highorder-amplifier.md",
-        "docs/rf-design-catalog.md"
+        "docs/rf-design-catalog.md",
+        "docs/phd-coefficient-contract.md"
       ],
-      "numerical_evidence": "Generic callback/Jacobian infrastructure is not a concrete model implementation.",
+      "numerical_evidence": "The separately listed native fixed-pump coefficient slice does not establish automatic extraction, vendor data interpretation or full pump derivatives.",
       "vendor_evidence": "not_executed",
       "remaining": [
-        "Define PHD coefficient normalization, reference/phase, operating-point dependence, interpolation and validity.",
+        "Vendor coefficient normalization/imports, coefficient extraction, amplitude/frequency interpolation, full pump derivatives, validity ranges and general operating-point integration remain unimplemented.",
         "Microstrip/switch/array/antenna dedicated families and vendor parameter/default/enum/table translation need individual assessment; host callbacks are not catalog acceptance."
       ]
     },

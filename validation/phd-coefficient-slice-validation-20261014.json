@@ -1,0 +1,131 @@
+{
+  "stage": "native explicit fixed-pump PHD coefficient slice",
+  "date_utc": "2026-10-14",
+  "base_commit": "d64ac59c380bc1bd3367846c68646d60585da382",
+  "gated_source_base_commit": "0d7afc5d6738147a407c2ea16c3d693a31343128",
+  "source_sha256": {
+    "cmake/RFModelHeaders.cmake": "0a181fe4698165c06e698741e14356400fc427ee00b776fd71a5e517d6141d9a",
+    "cmake/RFModelTests.cmake": "d59d69624f048ac0ce138946573aa5a42dc0b23002572cd1e7c7bf5ea5630066",
+    "docs/acceptance-matrix.md": "02855ee29806bbcc4926bf5de5c767cd03568c5c442fa00067abd57e4ae77669",
+    "docs/api.md": "2c73aef3549ec01bdbcabe06d1a5a78c340da9674c6b75bcc74785410e3d1c86",
+    "docs/phd-coefficient-contract.md": "0090e2b5f57c17d2d00f94b1f5d75591b5a75883b65b3c416276ec6aa422f3e8",
+    "docs/systemvue-2023-matrix.md": "fd61a575b03adec32e1ec32d1f5bc59b0ffcb8f411c048c4aef2fb47a0f8fcc0",
+    "include/rfmodel/nonlinear/phd_coefficient_slice.hpp": "4d37aba7add20c85062ab35c7b0765a35cf5e465d55846b9f1af65bb1f24350f",
+    "tests/consumer/CMakeLists.txt": "82c61294450e5719fc2dd2c7576eada5e68086f3855c5ba0bc45f616a3acaf54",
+    "tests/consumer/phd_coefficient_slice.cpp": "410ff46145e74e6c09bfaeb6c5bb7b36992be02207173ff3bc721468bd751e7e",
+    "tests/consumer/phd_coefficient_slice_probe.cpp": "0840d7e705e3f247f31c718774970447b6d525670579ce94c5d557302afdbfde",
+    "tests/nonlinear/phd_coefficient_slice_test.cpp": "2d8715489ce3b5e58c79bb2712b8743a7fa428f5b5d7dcdcc9a3a678e3434b34",
+    "validation/compatibility-evidence.json": "b1a6a82b216d2a09cb1635656dde901465269314ab487c08d8bbc61ceaf8c775"
+  },
+  "gated_source_manifest": {
+    "all_repository_files": 870,
+    "canonical_all_repository_hashes_sha256": "92cba0d51c573f7a976b63617c91281d9953daba8ec883108c53ea6e6c160552",
+    "compiled_or_verified_aggregate_sha256": "86cb586f48f3b4386a822ce2ee5f6395f8b04092c79959f3b20dbe71da6ebbac",
+    "definition": "Sorted path + space + SHA256 + newline over all include/src/tests/cmake/examples/scripts/reference files and root CMakeLists.txt. Complete external gate manifest retains every repository file hash; compiled files rechecked after final documentation-only base reconciliation."
+  },
+  "environment": {
+    "compiler": "g++ (Debian 14.2.0-19) 14.2.0",
+    "platform": "Linux cloud workspace",
+    "language": "C++17; extensions OFF",
+    "cmake": "3.31.6"
+  },
+  "configurations": {
+    "Debug": {
+      "full_core_and_archived_reference": {
+        "passed": 155,
+        "failed": 0,
+        "last_test_log_sha256": "a4caecac1b6b28fdffa3cc04b9180a07303043c93e12dc9e913224226ad587ec",
+        "strict_cpp17_extensions_off": true
+      },
+      "relocated_full_sdk": {
+        "passed": 14,
+        "failed": 0,
+        "last_test_log_sha256": "6887690cbf8afa751eb90eafb14ae149e6db84d09fd2b7f9c28dda7e4713b6ef",
+        "strict_cpp17_extensions_off": true
+      },
+      "all_options_off_relocated_cpp_sdk": {
+        "passed": 12,
+        "failed": 0,
+        "last_test_log_sha256": "ff5efd063f766213a30426e6f9e3636a46bf0c159cc12a320c8d58b894cb8092",
+        "strict_cpp17_extensions_off": true,
+        "c_compiler_discovered": false,
+        "python_discovered": false
+      },
+      "installed_header_sha256": {
+        "relocated": "4d37aba7add20c85062ab35c7b0765a35cf5e465d55846b9f1af65bb1f24350f",
+        "pure-relocated": "4d37aba7add20c85062ab35c7b0765a35cf5e465d55846b9f1af65bb1f24350f"
+      }
+    },
+    "Release": {
+      "full_core_and_archived_reference": {
+        "passed": 155,
+        "failed": 0,
+        "last_test_log_sha256": "56c4612ee05d28af1edc2300ac450418a4a99e8339f9e6d09432e54c2e5184d5",
+        "strict_cpp17_extensions_off": true
+      },
+      "relocated_full_sdk": {
+        "passed": 14,
+        "failed": 0,
+        "last_test_log_sha256": "79781fc028ac291e316e8596870b6d2c3f7f4fb82b7931ab4ec07e9859d1eacd",
+        "strict_cpp17_extensions_off": true
+      },
+      "all_options_off_relocated_cpp_sdk": {
+        "passed": 12,
+        "failed": 0,
+        "last_test_log_sha256": "6930a4f4c9ecbce06bf6037a84dd5df3c4ed209133e5b1e9497f7be1e42bfc8b",
+        "strict_cpp17_extensions_off": true,
+        "c_compiler_discovered": false,
+        "python_discovered": false
+      },
+      "installed_header_sha256": {
+        "relocated": "4d37aba7add20c85062ab35c7b0765a35cf5e465d55846b9f1af65bb1f24350f",
+        "pure-relocated": "4d37aba7add20c85062ab35c7b0765a35cf5e465d55846b9f1af65bb1f24350f"
+      }
+    }
+  },
+  "focused": {
+    "unit_checks": 2362,
+    "warning_flags": "-std=c++17 -Wall -Wextra -Wpedantic -Werror",
+    "standalone_header": "passed",
+    "two_translation_unit_consumer": "passed",
+    "asan_ubsan_unit_and_consumer": "passed",
+    "leak_sanitizer": "unavailable under runner ptrace; ASAN_OPTIONS=detect_leaks=0"
+  },
+  "independent_oracles": [
+    "hand-expanded complex F/S/T outputs",
+    "integer-power phase covariance including negative direct exponents",
+    "real and imaginary finite differences of every nonpump positive-frequency input; real-only DC",
+    "long-double ordered cubic Fourier convolution with independent native RMS/DC normalization",
+    "ordinary equal-harmonic linear scattering reduction including DC gauge",
+    "pure conjugate response and nonzero affine baseline",
+    "scalar two-by-two affine loaded feedback versus checked-evaluator fixed-point iteration",
+    "strict metadata, shape, finite/DC/pump validation; 512-channel boundary; copied/moved/detached lifetimes"
+  ],
+  "safety_boundary": [
+    "No public FrequencyConversionModel, ConversionDevice, ConversionLinearization or ModelAdapter operating-point factory",
+    "Typed Jacobian and evaluators reject nonzero pump perturbation; total-wave evaluator requires exact frozen pump coordinate",
+    "Explicit native RMS power-wave data, fixed positive real port references and reference-plane identifiers",
+    "Single-amplitude slice has no full pump Newton derivative; F/r is not a derivative",
+    "Noise unavailable; no inferred zero-noise model or noise figure"
+  ],
+  "not_claimed": [
+    "SystemVue2023 coefficient conventions or numerical parity",
+    "vendor parsing or conversion of paper voltage pseudowaves",
+    "coefficient extraction, interpolation or extrapolation",
+    "arbitrary-network or changing-pump operating-point integration",
+    "Windows/MSVC or macOS local execution; remote CI remains separate"
+  ],
+  "source_reference": {
+    "url": "https://www.janverspecht.com/pdf/phd_ieeemicrowavemagazine.pdf",
+    "scope": "Phase exponents and perturbation exclusion from equations5–18; paper equations1–2 use voltage pseudowaves, not native RMS power waves."
+  },
+  "documentation_base_reconciliation": {
+    "gated_source_base": "0d7afc5d6738147a407c2ea16c3d693a31343128",
+    "final_patch_base": "d64ac59c380bc1bd3367846c68646d60585da382",
+    "existing_gated_source_files_unchanged": true,
+    "additional_verified_file_sha256": {
+      "scripts/reference/check_compatibility_evidence.py": "b6d5e01791211c455e5b05ff3856cc9ce11eb7c17145804beaa8b192eee3f7ce"
+    },
+    "additional_verification": "python3 scripts/reference/check_compatibility_evidence.py --self-test: schema valid, 9 negative cases rejected"
+  }
+}
