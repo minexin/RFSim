@@ -678,10 +678,96 @@ void test_invalid_and_unsupported_files() {
         TabulatedNoiseModel::from_data("unphysical", unphysical);
     });
 }
+
+void test_decimal_number_boundaries() {
+    // Exact binary literals are independent of both decimal parsing and the writer.
+    const std::vector<std::pair<std::string, double>> cases = {
+        {"+0", 0.},
+        {"-0.0e+9999", -0.},
+        {".5", 0x1p-1},
+        {"1.", 1.},
+        {"+1.25E+2", 125.},
+        {"-2.5e-1", -0x1p-2},
+        {"4.9406564584124654e-324", 0x1p-1074},
+        {"+2.4703282292062328e-324", 0x1p-1074},
+        {"-4.9406564584124654e-324", -0x1p-1074},
+        {"9.8813129168249309e-324", 0x1p-1073},
+        {"2.2250738585072009e-308", 0x0.fffffffffffffp-1022},
+        {"2.2250738585072012e-308", 0x1p-1022},
+        {"-2.2250738585072012e-308", -0x1p-1022},
+        {"2.2250738585072014e-308", 0x1p-1022},
+        {"1.7976931348623157e+308", 0x1.fffffffffffffp+1023},
+        {"-1.7976931348623157e+308", -0x1.fffffffffffffp+1023},
+        {"1.0000000000000002", 0x1.0000000000001p0},
+    };
+    Fixture file("numeric.s1p");
+    for (const auto &entry : cases) {
+        const auto actual =
+            file.read("# Hz S RI R 50\n1 " + entry.first + " 0\n").matrices[0].values[0].real();
+        require(actual == entry.second && std::signbit(actual) == std::signbit(entry.second),
+                "decimal boundary mismatch");
+    }
+    for (const std::string token : {"",
+                                    "+",
+                                    "-",
+                                    ".",
+                                    "1e",
+                                    "1e+",
+                                    "1e-",
+                                    "1e2x",
+                                    "1.0.0",
+                                    "1,5",
+                                    "0x1p-1",
+                                    "NaN",
+                                    "Inf",
+                                    "-Infinity",
+                                    "1e309",
+                                    "-1e309",
+                                    "1.7976931348623159e308",
+                                    "1e-9999",
+                                    "-1e-9999",
+                                    "2.4703282292062327e-324",
+                                    " 1",
+                                    "1 ",
+                                    "1\t",
+                                    "--1",
+                                    "+-1"}) {
+        rejects<std::runtime_error>([&] {
+            touchstone_detail::number(token);
+        });
+    }
+    rejects<std::runtime_error>([] {
+        touchstone_detail::number(std::string("1\0x", 3));
+    });
+
+    // A comma-decimal C++ global locale must not affect numeric interpretation.
+    struct Comma : std::numpunct<char> {
+        char do_decimal_point() const override {
+            return ',';
+        }
+    };
+
+    const auto original = std::locale();
+
+    struct Restore {
+        std::locale original;
+
+        ~Restore() {
+            std::locale::global(original);
+        }
+    } restore{original};
+
+    std::locale::global(std::locale(original, new Comma));
+    require(touchstone_detail::number("+1.25e-1") == 0x1p-3, "numeric locale isolation");
+    rejects<std::runtime_error>([] {
+        touchstone_detail::number("1,25");
+    });
+}
 } // namespace
 
 int main() {
     try {
+        test_decimal_number_boundaries();
         test_orders_formats_and_metadata();
         test_triangles_and_multiline_references();
         test_cartesian_interpolation_with_unequal_references();

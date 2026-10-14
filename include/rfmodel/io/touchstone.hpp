@@ -102,11 +102,49 @@ inline std::string trim(const std::string &s) {
 }
 
 inline double number(const std::string &s) {
+    // Validate the complete decimal token before interpreting stream range errors.
+    // In particular, a nonzero significand that rounds to zero is underflow, not zero.
+    std::size_t position = 0;
+    if (position < s.size() && (s[position] == '+' || s[position] == '-')) {
+        ++position;
+    }
+    bool nonzero = false;
+    const auto digits = [&] {
+        const auto start = position;
+        while (position < s.size() && s[position] >= '0' && s[position] <= '9') {
+            nonzero = nonzero || s[position] != '0';
+            ++position;
+        }
+        return position != start;
+    };
+    bool significand = digits();
+    if (position < s.size() && s[position] == '.') {
+        ++position;
+        significand = digits() || significand;
+    }
+    const bool nonzero_significand = nonzero;
+    bool exponent = true;
+    if (position < s.size() && (s[position] == 'e' || s[position] == 'E')) {
+        ++position;
+        if (position < s.size() && (s[position] == '+' || s[position] == '-')) {
+            ++position;
+        }
+        exponent = digits();
+    }
+    if (!significand || !exponent || position != s.size()) {
+        throw std::runtime_error("invalid finite Touchstone number: " + s);
+    }
     std::istringstream input(s);
     input.imbue(std::locale::classic());
-    double value;
-    if (!(input >> value) || input.peek() != std::char_traits<char>::eof() ||
-        !std::isfinite(value)) {
+    double value = 0.;
+    input >> value;
+    // libc++ and MSVC may set failbit on strtod's ERANGE even when the
+    // conversion produced a representable nonzero subnormal. Include the
+    // min-normal rounding boundary, but never forgive overflow or badbit.
+    const bool tiny = value != 0. && std::abs(value) <= std::numeric_limits<double>::min();
+    if (input.bad() || (input.fail() && !tiny) ||
+        input.rdbuf()->sgetc() != std::char_traits<char>::eof() || !std::isfinite(value) ||
+        (value == 0. && nonzero_significand)) {
         throw std::runtime_error("invalid finite Touchstone number: " + s);
     }
     return value;

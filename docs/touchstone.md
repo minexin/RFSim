@@ -79,3 +79,18 @@ reference_ohms=None, reference_temperature_k=290.)` 从已打开的数据快照�
 两个配置的 C API、噪声参考转换和 Python 专项复测通过。安装消费者各 2/2，
 安装后的 Release 动态库通过 38 项 Python 测试；measured-noise.json 通过 CLI。
 80 个 C/C++ 文件格式检查通过。示例仍是合成数据，尚无本功能的 SystemVue 实测对照。
+
+## Decimal numeric range
+
+Numeric tokens use an optional sign, decimal digits with an optional decimal point,
+and an optional `e`/`E` exponent with an optional sign. At least one significand
+digit and, when present, one exponent digit are required. Parsing uses the classic
+locale without changing the application's global locale. Hexadecimal numbers,
+NaN/Inf, comma decimals and trailing characters are rejected.
+
+Finite nonzero subnormals, the minimum-normal rounding boundary and signed zero
+are preserved. A nonzero decimal significand that rounds to zero is rejected as
+underflow; overflow is rejected as well. Some C++ standard libraries report
+`failbit` for a successfully converted nonzero tiny value because their C
+conversion reports `ERANGE`. Only that finite tiny result is accepted after full
+token validation; ordinary range failures and `badbit` remain errors.

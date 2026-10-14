@@ -1,6 +1,8 @@
 #include "rfmodel/io/touchstone_writer.hpp"
 #include "../support/test_support.hpp"
 #include <cstdio>
+#include <cstdlib>
+#include <clocale>
 #include <iomanip>
 #include <iostream>
 
@@ -220,12 +222,22 @@ void precision() {
     d.reference_impedance_ohms = std::numeric_limits<double>::denorm_min();
     d.reference_impedances_ohms = {max};
     const auto text = serialize(d);
-    // Independent standard-library token extraction checks every payload double.
+    // Independent C conversion oracle: this test never changes the initial C locale.
+    // strtod may set ERANGE for a representable subnormal; compare the returned
+    // value against the independent expected doubles instead of discarding it.
+    require(std::string(std::localeconv()->decimal_point) == ".", "oracle C locale");
     std::istringstream values(text.substr(text.find("[Network Data]\n") + 15));
     values.imbue(std::locale::classic());
     for (std::size_t i = 0; i < d.frequencies_hz.size(); ++i) {
         double f{}, re{}, im{};
-        require(static_cast<bool>(values >> f >> re >> im), "extreme numeric extraction");
+        for (double *value : {&f, &re, &im}) {
+            std::string token;
+            require(static_cast<bool>(values >> token), "extreme numeric extraction");
+            char *end = nullptr;
+            *value = std::strtod(token.c_str(), &end);
+            require(end == token.c_str() + token.size() && std::isfinite(*value),
+                    "independent decimal conversion");
+        }
         require(identical(f, d.frequencies_hz[i]) &&
                     identical(re, d.matrices[i].values[0].real()) &&
                     identical(im, d.matrices[i].values[0].imag()),
