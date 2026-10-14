@@ -46,6 +46,40 @@ analysis. The collector attaches to this session; it does not open a workspace.
 Keep the saved copy unchanged between runs. No software installation, security
 setting change, credential entry or execution-policy change is part of this procedure.
 
+### Existing Windows checkout: one-file migration check
+
+An existing checkout of `2752af6` made with Git `core.autocrlf=true` may retain
+CRLF bytes in the unchanged plan after updating to the byte-preservation fix.
+A fresh checkout is protected, but an attribute-only upgrade need not rewrite
+an already present file. If preparation says `Frozen pilot plan changed`, stop
+before any analysis. Inspect only this file, including staged edits, and its hash:
+
+```powershell
+git diff -- validation/rfamp-op1db-pilot-plan.json
+git diff --cached -- validation/rfamp-op1db-pilot-plan.json
+Get-FileHash -Algorithm SHA256 -LiteralPath validation/rfamp-op1db-pilot-plan.json
+```
+
+The canonical SHA-256 is
+`1436ad0e2139919882de558861f049d2c3e5ec67332b13a25f5bbd74158937c8`.
+If it already matches, no restoration is needed. Only the known newline-only
+stale hash `050ade7d5032c5a14a4ef699c9df9950d8f8500798ac46e32306bce6aa184f18`
+is eligible for the following migration. First preserve any intentional edits
+separately; do not discard staged or working changes you want to keep. After
+updating to the fixed revision and confirming that this is solely the known
+newline mismatch, restore only the frozen plan from HEAD:
+
+```powershell
+if ((Get-FileHash -Algorithm SHA256 -LiteralPath validation/rfamp-op1db-pilot-plan.json).Hash -ne '050ade7d5032c5a14a4ef699c9df9950d8f8500798ac46e32306bce6aa184f18') { throw 'Unexpected plan hash; preserve and inspect, do not restore.' }
+git restore --source=HEAD --worktree -- validation/rfamp-op1db-pilot-plan.json
+Get-FileHash -Algorithm SHA256 -LiteralPath validation/rfamp-op1db-pilot-plan.json
+```
+
+Verify the canonical hash before preparing again. For any other mismatch,
+preserve the file and investigate; do not overwrite it. Do not use repository-wide
+reset/clean, global newline normalization, or a changed expected hash. The collector
+does not repair files automatically, and this procedure runs no SystemVue analysis.
+
 The following example assumes the checkout is `D:\RFModel`; substitute its actual
 absolute path consistently. Use new, empty preparation, run and packet paths.
 

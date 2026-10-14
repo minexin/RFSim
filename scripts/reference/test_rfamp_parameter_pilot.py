@@ -133,6 +133,59 @@ class PilotTests(unittest.TestCase):
                         with self.assertRaisesRegex(ValueError, 'Frozen pilot plan changed'):
                             pilot.frozen_plan()
 
+    def test_attribute_only_upgrade_requires_scoped_plan_restore(self):
+        expected = pilot.PLAN.read_bytes()
+        attributes = (pilot.ROOT / '.gitattributes').read_bytes()
+        rule = b'/validation/rfamp-op1db-pilot-plan.json -text'
+        old_attributes = b''.join(line for line in attributes.splitlines(keepends=True)
+                                  if line.strip() != rule)
+        relative_plan = 'validation/rfamp-op1db-pilot-plan.json'
+        stale_sha256 = '050ade7d5032c5a14a4ef699c9df9950d8f8500798ac46e32306bce6aa184f18'
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            plan = root / relative_plan
+            plan.parent.mkdir()
+            plan.write_bytes(expected)
+            attribute_file = root / '.gitattributes'
+            attribute_file.write_bytes(old_attributes)
+            control = root / 'unrelated.txt'
+            control.write_bytes(b'original\n')
+            def git(*args):
+                return subprocess.run(['git', '-c', 'core.autocrlf=true',
+                                      '-c', 'user.name=Offline Fixture', '-c', 'user.email=fixture@example.invalid',
+                                      '-c', 'commit.gpgsign=false', '-C', str(root), *args],
+                                      capture_output=True, check=True, timeout=30).stdout
+            git('init', '--quiet')
+            git('add', '.')
+            git('commit', '--quiet', '-m', 'Unprotected plan')
+            old = git('rev-parse', 'HEAD').decode().strip()
+            attribute_file.write_bytes(attributes)
+            git('add', '.gitattributes')
+            git('commit', '--quiet', '-m', 'Protect unchanged plan blob')
+            new = git('rev-parse', 'HEAD').decode().strip()
+            self.assertEqual(git('rev-parse', old + ':' + relative_plan),
+                             git('rev-parse', new + ':' + relative_plan))
+            git('checkout', '--quiet', '--detach', old)
+            plan.unlink()
+            git('checkout-index', '--all', '--force')
+            self.assertEqual(pilot.digest(plan.read_bytes()), stale_sha256)
+            git('checkout', '--quiet', '--detach', new)
+            # An attribute-only upgrade does not rematerialize the unchanged blob.
+            self.assertEqual(pilot.digest(plan.read_bytes()), stale_sha256)
+            self.assertTrue(git('diff', '--', relative_plan))
+            with patch.object(pilot, 'PLAN', plan):
+                with self.assertRaisesRegex(ValueError, 'Frozen pilot plan changed'):
+                    pilot.frozen_plan()
+                backup = root / 'preserved-plan-copy.json'
+                backup.write_bytes(plan.read_bytes())
+                control.write_bytes(b'intentional unrelated edits\n')
+                git('restore', '--source=HEAD', '--worktree', '--', relative_plan)
+                self.assertEqual(plan.read_bytes(), expected)
+                pilot.frozen_plan()
+                self.assertEqual(pilot.digest(backup.read_bytes()), stale_sha256)
+                self.assertEqual(control.read_bytes(), b'intentional unrelated edits\n')
+                self.assertFalse(git('diff', '--', relative_plan))
+
     @unittest.skipUnless(sys.platform == 'win32', 'PowerShell AST parsing requires Windows; no SystemVue invoked')
     def test_powershell_syntax_only(self):
         with tempfile.TemporaryDirectory() as temp:
