@@ -1,0 +1,240 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/minexin/RFSim/blob/main/validation/compatibility-evidence.schema.json",
+  "title": "RFModel bounded compatibility evidence map",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "snapshot": {
+      "type": "object",
+      "properties": {
+        "source_commit": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "date_utc": {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+        },
+        "scope": {
+          "type": "string",
+          "minLength": 1
+        },
+        "integration_note": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "source_commit",
+        "date_utc",
+        "scope",
+        "integration_note"
+      ],
+      "additionalProperties": false
+    },
+    "catalog": {
+      "type": "object",
+      "properties": {
+        "inventory": {
+          "type": "string",
+          "minLength": 1
+        },
+        "unique_part_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "meaning": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "inventory",
+        "unique_part_count",
+        "meaning"
+      ],
+      "additionalProperties": false
+    },
+    "capabilities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "contract": {
+            "type": "string",
+            "minLength": 1
+          },
+          "implementation": {
+            "type": "string",
+            "enum": [
+              "implemented",
+              "bounded",
+              "absent",
+              "pending",
+              "not_assessed"
+            ]
+          },
+          "references": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 1
+          },
+          "numerical_evidence": {
+            "type": "string",
+            "minLength": 1
+          },
+          "vendor_evidence": {
+            "type": "string",
+            "enum": [
+              "bounded_pass",
+              "mixed_pass_fail",
+              "failed",
+              "diagnostic",
+              "not_executed"
+            ]
+          },
+          "remaining": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 1
+          }
+        },
+        "required": [
+          "id",
+          "contract",
+          "implementation",
+          "references",
+          "numerical_evidence",
+          "vendor_evidence",
+          "remaining"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 1
+    },
+    "ci": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "commit": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{40}$"
+          },
+          "run_id": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "success",
+              "pending",
+              "failed",
+              "not_run"
+            ]
+          },
+          "verified_successful_jobs": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "expected_jobs": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "evidence": {
+            "type": "string",
+            "minLength": 1
+          },
+          "url": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "id",
+          "commit",
+          "run_id",
+          "status",
+          "verified_successful_jobs",
+          "expected_jobs",
+          "evidence",
+          "url"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 1
+    },
+    "release_gates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "open",
+              "closed",
+              "decision_required"
+            ]
+          },
+          "closure": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "id",
+          "status",
+          "closure"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 1
+    },
+    "supersedes_current_claims": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1
+    },
+    "history_policy": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "required": [
+    "schema_version",
+    "snapshot",
+    "catalog",
+    "capabilities",
+    "ci",
+    "release_gates",
+    "supersedes_current_claims",
+    "history_policy"
+  ],
+  "additionalProperties": false
+}

@@ -38,4 +38,4 @@ ctest --test-dir build -C Release --output-on-failure
 
 工程回归和独立物理参考不等于厂商验收。已有 SystemVue 采集中的失败、缺项与 diagnostic-only 结论继续保留；本次接口迁移不改变其判定。旧文档中的 Python/JSON 示例属于历史接口，当前集成请使用上述 C++ 指南。
 
-[长期路线](docs/roadmap.md) · [兼容矩阵](docs/systemvue-2023-matrix.md) · [RF Design 参数目录](docs/rf-design-catalog.md) · [历史构建记录](docs/build-validation.md) · [原生归档参考重放](docs/native-reference-replay.md)
+[当前能力与证据](docs/compatibility-evidence.md) · [长期路线](docs/roadmap.md) · [兼容矩阵](docs/systemvue-2023-matrix.md) · [RF Design 参数目录](docs/rf-design-catalog.md) · [历史构建记录](docs/build-validation.md) · [原生归档参考重放](docs/native-reference-replay.md)

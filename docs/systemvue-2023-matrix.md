@@ -5,19 +5,36 @@
 状态以实现和证据为准，不以版本计划代替验收。已完成部分 SystemVue 单器件与
 链路采集，存在通过点和已知差异；下表不表示任一整类能力已全面兼容。
 
+## 当前 C++ 能力摘要（2026-10-14）
+
+权威机读索引为 [能力与证据映射](../validation/compatibility-evidence.json)，
+[字段 schema](../validation/compatibility-evidence.schema.json) 与
+[阅读/校验说明](compatibility-evidence.md) 分别约束结构和判定范围。
+实现、独立数学测试、归档厂商通过/失败以及发布门禁分开记录。
+
 | 能力 | 当前实现 | 主要剩余项 |
 |---|---|---|
-| Linear Analysis | N 端口网络、等效 S、F/S/ZPORT 与 W/Hz 相关噪声扫描；C++/C/Python/线性 JSON 内部独立复参考接线，RF 前馈线性阶段复参考与公共波边界，原生固定泵变频网络逐通道复参考及 C/P/偏置变换 | 变频复参考 C/Python/JSON、混合参考非线性工作点、厂商 ZPORT/CS 对照、DC 线性化与完整后处理 |
-| RF System Analysis | 线性频率扫描、功率原语、源/LO 相干的线性—混频—基波压缩前馈图与谱快照 JSON/CLI；固定泵噪声图、显式频带噪声/载噪比测量及一阶相噪边带与跨器件共享参考相位增益、给定混频工作点的 RF/LO 扰动、绝对波仿射装配及一致性检查、通用 C++ 阻尼工作点迭代及双线性混频/公共基波压缩 C/Python/JSON 混合器件自动求解 | 完整路径/预算语义、调制谱、其他非线性器件工作点适配/实际 LO 驱动、PLL 传递函数与 PNCP、非线性工作点与噪声联合分析 |
-| 终端、衰减器、延迟线 | 反射边界、理想匹配损耗和延迟 | 器件级噪声、型号参数与官方模块逐项对照 |
-| Filter/Cable/Coupler/Splitter | 表格 S、理想无损四类 Butterworth/Chebyshev I、匹配延迟、隔离功分与正交耦合原语 | 非理想参数、其他滤波原型、完整目录与厂商行为对照 |
-| LNA/PA 小信号与噪声 | 静态 S 原语、标量噪声/Friis | 专用器件、噪声参数转换与官方数值对照 |
-| 非线性/PHD | 十一阶多项式、显式 IP/IMN 转换、P1dB/饱和与共同限幅、C++/C/Python/JSON 来源传播、公共基波压缩导数与反馈工作点 C++/C/Python/JSON 接口、完整电压多项式及共同限幅高阶放大器的 C++/C/Python/JSON 谐波/互调导数与混合器件求解 | 多端口限幅、重叠谱/来源语义、AM-PM、高阶标定、其他非线性网络适配、高阶厂商压缩规则的导数、PHD；饱和参考带警告，仅用于诊断 |
-| Mixer | 固定 LO 混频与相干组传播；直接/共轭矩阵、DC、多器件物理接线、线性器件接入、反射反馈、C/P 噪声、热负载功率流、显式频带参考 NF 及给定 RF/LO 工作点增量模型的 C++/C/Python/JSON | 厂商自动选频与频谱削减、宽带/热负载 NF 约定、厂商转换矩阵标定、LO 驱动、压缩、杂散/泄漏和变频噪声实测 |
-| 参数优化/Monte Carlo | C++/C/Python 有界优化、JSON 系统参数绑定、组合目标与 LC/镜像抑制解析回归；C++/C/Python/JSON Monte Carlo 独立分布、参数绑定、多指标统计、重放和电阻/相位容差案例 | 高斯 copula 与联合统计已接入 C/C++/Python/JSON v2；其他依赖模型及厂商对照仍缺 |
-| GUI | 后置 | 核心接口稳定后推进 |
+| Linear Analysis | C++ N 端口、F/S/ZPORT、独立复参考物理接线、S/Z/Y、W/Hz 相关噪声及二端口噪声参数 | 厂商 ZPORT/CS/噪声归一化与逐频对照；通用器件 DC 偏置线性化 |
+| 非线性工作点 | 直接/共轭 Jacobian、阻尼求解、仿射偏置、[混合复参考工作点](conversion-operating-point-power-wave.md)、[接受工作点本征噪声提供器](conversion-operating-noise.md)与冻结 C/P | 厂商反馈/噪声语义、实际器件噪声律与跨器件本征相关 |
+| RF System Analysis | 类型化相干/转换图、来源传播、结构扩频、加载噪声、显式频带与相噪测量 | 路径/驱动功率/预算、完整调制谱、PLL/PNCP 与厂商测量约定；保留 RFPwrIn 失败 |
+| 线性模型 | RLC、理想器件、表格 S/噪声、频率相关电缆及滤波器等原生模型 | 完整目录逐器件参数与行为验收；通用回调不是器件兼容通过 |
+| 显式非线性模型 | 十一阶电压多项式、公共压缩/限幅、[高阶适配器](model-adapters.md)工作点/相干入口 | 自动 RFAMP 系数、合并总谱、次级失真、PHD 具体模型；显式系数重放不替代这些能力 |
+| Mixer | 固定泵转换与 C/P；[三端口双线性适配器](model-adapters.md)以实际求解 LO 驱动且保持固定归一化 | 厂商压缩、泄漏/杂散、噪声、自动选频/削减；三端口适配器不虚构上述能力 |
+| 噪声数值稳定性 | PSD 因子域传播、补偿及缩放算术，见[阶段证据](../validation/noise-factor-propagation-validation-20261014.json) | 输入截断、可表示性和条件数限制仍在；不新增厂商通过项 |
+| AM/PM | 显式校准 PointDerivative 相位律与导数组合；有限无告警归档通过 | 实际输出功率须由调用者给定；完整网络 AM-AM、多音、DataPoints 与连续旁路律未验收 |
+| 参数任务 | C++ 类型化有界优化、参数绑定、相关 Monte Carlo、统计及重放 | 厂商约定对照；已退役 JSON 字段分发不是当前产品要求 |
+| 交付与 GUI | header-only C++17、可选 C ABI、原生 S CSV CLI；GUI 后置 | Python 包/wheel/Python-JSON CLI 已退役；发布与许可决策尚未完成 |
 
-[线性分析输出细表](linear-analysis-compatibility.md) 保留官方本机帮助来源。历史六配置 CI 与当前本地 Windows/Linux 验收分别记录，详见 [构建记录](build-validation.md)；当前阶段 macOS 和远程运行尚未验证。已从本机 RF Design 索引建立 [243 项目录基线](rf-design-catalog.md)，逐项参数和行为验收仍待完成。
+[线性输出细表](linear-analysis-compatibility.md)保留官方帮助来源。
+[当前提交绑定验证](compatibility-evidence.md)区分云端阶段与最终集成门禁；
+历史计数见[构建记录](build-validation.md)。[243 项目录](rf-design-catalog.md)
+只是库存基线，不是已实现或兼容数量。
+
+## 保留的分阶段证据与历史接口
+
+下列记录保留原阶段范围、通过点和失败点。其中 C/Python/JSON、wheel 等字样
+描述当时入口，不表示当前仍交付这些已退役产品接口；模型后续实现状态以本页
+当前摘要与机读映射为准。没有重新执行 SystemVue，也没有更改原容差或失败判定。
 
 基波压缩/饱和的七点参考、原生接口与边界见 [饱和基波模型](saturating-fundamental.md)。
 谐波小信号及压缩区差异见 [截点模型](intercept-amplifier.md)，不能以基波吻合替代

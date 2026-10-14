@@ -1,0 +1,323 @@
+{
+  "schema_version": 1,
+  "snapshot": {
+    "source_commit": "0d7afc5d6738147a407c2ea16c3d693a31343128",
+    "date_utc": "2026-10-14",
+    "scope": "Bounded current C++ capability/evidence summary, not whole-catalog acceptance. Documentation overlay only; no new SystemVue execution.",
+    "integration_note": "Includes accepted-state intrinsic noise providers at this verified source commit; final documentation/integration commit must pass its own exact-commit CI. PHD work underway is excluded until independently verified."
+  },
+  "catalog": {
+    "inventory": "validation/systemvue-2023-rf-catalog.json",
+    "unique_part_count": 243,
+    "meaning": "Inventory only; not implemented or compatible count."
+  },
+  "capabilities": [
+    {
+      "id": "linear_power_waves",
+      "contract": "C++ N-port frequency scans, independent complex power-wave references, physical interconnection, S/Z/Y and noise-parameter processing.",
+      "implementation": "implemented",
+      "references": [
+        "docs/power-wave-references.md",
+        "docs/power-wave-noise.md",
+        "docs/linear-analysis-compatibility.md"
+      ],
+      "numerical_evidence": "Independent analytic and native regression coverage; this map does not rerun the numerical suite.",
+      "vendor_evidence": "not_executed",
+      "remaining": [
+        "SystemVue ZPORT wave definition and CS normalization/units, frequency/reference-dependent S/Z/Y and noise-parameter acceptance remain open."
+      ]
+    },
+    {
+      "id": "mixed_reference_operating_point",
+      "contract": "C++ nonlinear accepted-point solve with direct/conjugate Jacobians, mixed complex reference V/I wiring, affine offsets and fixed supplied C/P.",
+      "implementation": "implemented",
+      "references": [
+        "docs/conversion-operating-point-power-wave.md",
+        "docs/conversion-operating-point-power-wave-validation.md",
+        "tests/conversion/conversion_operating_point_power_wave_test.cpp"
+      ],
+      "numerical_evidence": "Independent roots, V/I continuity, Jacobian noise and installed multi-TU coverage documented in the linked stage record.",
+      "vendor_evidence": "not_executed",
+      "remaining": [
+        "General device DC bias/model linearization is not established by a DC frequency bin.",
+        "Vendor feedback and working-point/noise joint acceptance remain open."
+      ]
+    },
+    {
+      "id": "highorder_adapter",
+      "contract": "Owned explicit-coefficient highorder ModelAdapter with distinct working-point generating-bin and coherent source-history contracts.",
+      "implementation": "bounded",
+      "references": [
+        "docs/model-adapters.md",
+        "tests/models/highorder_model_adapter_test.cpp",
+        "validation/highorder-model-adapter-validation-20261014.json"
+      ],
+      "numerical_evidence": "Independent Fourier/root/derivative and ownership tests; CI entry highorder binds execution to its source commit.",
+      "vendor_evidence": "not_executed",
+      "remaining": [
+        "No automatic RFAMP coefficient inference, fixed linear S, intrinsic noise or ordinary spectrum capability supplied by this factory."
+      ]
+    },
+    {
+      "id": "bilinear_adapter",
+      "contract": "Three-port RF/LO/IF operating-point adapter with fixed LO normalization and actual solved LO waves.",
+      "implementation": "bounded",
+      "references": [
+        "docs/model-adapters.md",
+        "tests/models/bilinear_mixer_adapter_test.cpp",
+        "validation/bilinear-mixer-adapter-validation-20261014.json"
+      ],
+      "numerical_evidence": "Independent Fourier/time-domain derivatives, feedback root and V/I boundaries; CI entry bilinear binds execution.",
+      "vendor_evidence": "not_executed",
+      "remaining": [
+        "No inferred mixer noise, compression, leakage/spurs, vendor frequency selection or complete mixer compatibility."
+      ]
+    },
+    {
+      "id": "noise_factor_propagation",
+      "contract": "Retained PSD-factor propagation and Hermitian Gram construction with scaled compensated arithmetic for finite extreme results.",
+      "implementation": "implemented",
+      "references": [
+        "validation/noise-factor-propagation-validation-20261014.json"
+      ],
+      "numerical_evidence": "Strict GCC C++17 Debug/Release 153/153, relocated full consumers 12/12 and pure consumers 10/10 per configuration recorded for this stage only.",
+      "vendor_evidence": "not_executed",
+      "remaining": [
+        "Input-admission/truncation and double representability limits remain; no arbitrary-condition-number guarantee.",
+        "Exact integrated-commit cross-platform gates must be verified separately."
+      ]
+    },
+    {
+      "id": "accepted_state_noise_provider",
+      "contract": "Explicit C++ accepted-state intrinsic C/P providers invoked exactly once after deterministic convergence; frozen owning snapshots feed subsequent measurements and noise-factor experiments.",
+      "implementation": "bounded",
+      "references": [
+        "docs/conversion-operating-noise.md",
+        "tests/conversion/conversion_operating_noise_test.cpp",
+        "validation/accepted-state-intrinsic-noise-validation-20261014.json"
+      ],
+      "numerical_evidence": "Strict C++17 Debug/Release 154/154, relocated full SDK 13/13 and pure SDK 11/11 per configuration; 638 focused checks and independent scalar/quadrature/V-I reference review recorded for the provider stage.",
+      "vendor_evidence": "not_executed",
+      "remaining": [
+        "No vendor noise law, coefficients, C ABI or ModelAdapter stationary-noise semantics added; supplied provider defines the model.",
+        "No cross-device intrinsic or intrinsic/source correlations; callback side effects cannot be rolled back.",
+        "Provider snapshots replace complete registered intrinsic blocks; loaded_noise=false still computes outgoing noise."
+      ]
+    },
+    {
+      "id": "coherent_nonlinear_archive",
+      "contract": "Explicit polynomial/highorder and coherent propagation models, with bounded archived deterministic-source comparisons.",
+      "implementation": "bounded",
+      "references": [
+        "docs/coherent-highorder-amplifier.md",
+        "docs/systemvue-highorder-input-reference.md",
+        "docs/systemvue-spectrum-reduction.md",
+        "docs/systemvue-unity-gain-diagnostic.md"
+      ],
+      "numerical_evidence": "Explicit model native replay and independent numerical model tests are distinct from vendor parameter identification.",
+      "vendor_evidence": "mixed_pass_fail",
+      "remaining": [
+        "1413 archived source terms passed using explicit coefficients and measured actual input; not automatic RFAMP behavior.",
+        "Two nominal 0 dB cascade failures remain. Equivalent gain 1.00000023 is diagnostic only.",
+        "Earlier 12 missing double-tone origins were restored with UseSpecReduction off; complete reduction/merged NodeTotal and recursive secondary distortion semantics remain open."
+      ]
+    },
+    {
+      "id": "point_derivative_am_pm",
+      "contract": "Explicit calibrated SystemVue2023PointDerivativeAmPm: supplied actual output power to phase and mathematical derivative composition.",
+      "implementation": "bounded",
+      "references": [
+        "docs/systemvue-am-pm-adapter.md",
+        "docs/systemvue-am-pm-existing-reference.md",
+        "validation/am-pm-adapter-validation-20261013.json"
+      ],
+      "numerical_evidence": "Native phase/derivative and adapter composition regressions; mathematical derivatives do not establish vendor derivative semantics.",
+      "vendor_evidence": "bounded_pass",
+      "remaining": [
+        "549/549 no-warning registered points are separate from 37 warning diagnostic points and four extra endpoints.",
+        "Original analytic mapping 110/586 registered points (zero-phase controls) remains failed; calibration does not overwrite it.",
+        "No complete network AM-AM power prediction, multitone phase selection, memory/frequency law or DataPoints acceptance."
+      ]
+    },
+    {
+      "id": "datapoints_am_pm",
+      "contract": "Archived finite fixed-table candidate study; no general DataPoints product model.",
+      "implementation": "absent",
+      "references": [
+        "docs/systemvue-am-pm-datapoints-raw-axis-study.md",
+        "docs/systemvue-am-pm-datapoints-order-study.md",
+        "docs/systemvue-am-pm-datapoints-allocation-study.md",
+        "validation/am-pm-datapoints-allocation-diagnostic-20261014.json"
+      ],
+      "numerical_evidence": "Candidate scoring/controls are research evidence, not product numerical implementation tests.",
+      "vendor_evidence": "mixed_pass_fail",
+      "remaining": [
+        "Allocation study completed: output-discrete 8/8 new configurations, input-discrete 2/8; six divergent cases 6/6 versus 0/6.",
+        "Fixed-table finite success is not a continuous law, bypass interval or derivative contract.",
+        "Original smooth-spline and nominal-zero-only failures remain; -0.000001 dBm zero increment and +0.000001 dBm nonzero increment do not establish exact boundaries."
+      ]
+    },
+    {
+      "id": "attenuator_noise_archive",
+      "contract": "Explicit passive thermal-noise models with retained SystemVue attenuation/noise discrepancy.",
+      "implementation": "bounded",
+      "references": [
+        "docs/systemvue-attenuator-offline-audit.md",
+        "validation/systemvue-2023-attenuator-offline-diagnostic.json"
+      ],
+      "numerical_evidence": "Independent SI-kT reference agrees with RFModel in the linked offline audit.",
+      "vendor_evidence": "failed",
+      "remaining": [
+        "ATTN_Linear 1 dB output noise relative residual approximately 9.8915667e-7 exceeds original 1e-7 tolerance; retain failure."
+      ]
+    },
+    {
+      "id": "rf_system_measurements",
+      "contract": "Typed coherent/conversion graph, explicit frequency planning, noise/phase-noise and channel measurements.",
+      "implementation": "bounded",
+      "references": [
+        "docs/cpp-simulation-api.md",
+        "docs/systemvue-coherent-network.md",
+        "docs/systemvue-shared-compression.md"
+      ],
+      "numerical_evidence": "Independent model and integration regressions, not complete vendor path/budget acceptance.",
+      "vendor_evidence": "mixed_pass_fail",
+      "remaining": [
+        "RFPwrIn failures remain; full path/drive-power/budget, reference-plane, temperature, bandwidth and sideband conventions need acceptance.",
+        "PLL/PNCP and general modulated-spectrum dedicated model families remain open."
+      ]
+    },
+    {
+      "id": "parameter_tasks",
+      "contract": "Typed C++ bounded optimization and correlated Monte Carlo with numeric parameter bindings.",
+      "implementation": "implemented",
+      "references": [
+        "docs/cpp-simulation-api.md",
+        "docs/optimization.md",
+        "docs/monte-carlo.md",
+        "tests/analysis/analysis_task_test.cpp"
+      ],
+      "numerical_evidence": "Independent analytic objectives, correlated samples and replay/cancellation tests documented in migration evidence.",
+      "vendor_evidence": "not_executed",
+      "remaining": [
+        "Vendor optimization/statistical conventions not accepted; retired JSON field-path dispatch is not a current product requirement."
+      ]
+    },
+    {
+      "id": "touchstone",
+      "contract": "Legacy and bounded Touchstone 2.0 single-ended S/noise import.",
+      "implementation": "bounded",
+      "references": [
+        "docs/touchstone-two.md",
+        "validation/touchstone-two-validation-20261013.json"
+      ],
+      "numerical_evidence": "Native parser/numerical and installed SDK tests in linked stage record.",
+      "vendor_evidence": "not_executed",
+      "remaining": [
+        "Mixed-mode, non-S parameters, information blocks and unsupported versions remain explicitly excluded; no general nonlinear/PHD file importer."
+      ]
+    },
+    {
+      "id": "automatic_rfamp_and_phd",
+      "contract": "No automatic arbitrary RFAMP odd-order coefficient translation or concrete PHD model/schema/importer/adapter in this snapshot.",
+      "implementation": "absent",
+      "references": [
+        "docs/model-adapters.md",
+        "docs/coherent-highorder-amplifier.md",
+        "docs/rf-design-catalog.md"
+      ],
+      "numerical_evidence": "Generic callback/Jacobian infrastructure is not a concrete model implementation.",
+      "vendor_evidence": "not_executed",
+      "remaining": [
+        "Define PHD coefficient normalization, reference/phase, operating-point dependence, interpolation and validity.",
+        "Microstrip/switch/array/antenna dedicated families and vendor parameter/default/enum/table translation need individual assessment; host callbacks are not catalog acceptance."
+      ]
+    },
+    {
+      "id": "product_interfaces",
+      "contract": "Header-only C++17 RFModel::rfmodel; optional retained C ABI and native S CSV CLI.",
+      "implementation": "implemented",
+      "references": [
+        "docs/python-interface-retirement.md",
+        "docs/cpp-sdk.md",
+        "validation/python-retirement-inventory-20261013.json"
+      ],
+      "numerical_evidence": "Native/installed SDK checks replace product Python surface; 503 retired Python methods must not be counted as current passes.",
+      "vendor_evidence": "not_executed",
+      "remaining": [
+        "Python package, wheel, object/JSON dispatch and Python CLI retired; host owns serialization.",
+        "C ABI capability/reference restrictions differ from richer C++ APIs."
+      ]
+    }
+  ],
+  "ci": [
+    {
+      "id": "highorder",
+      "commit": "1b1fb8511286285b6f63ea808cd68610e458fc83",
+      "run_id": 38566887480,
+      "status": "success",
+      "verified_successful_jobs": 18,
+      "expected_jobs": 18,
+      "evidence": "validation/compatibility-highorder-ci-38566887480.json",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38566887480"
+    },
+    {
+      "id": "bilinear",
+      "commit": "31b291e3ccfbd111687aec4712dc0abf6b793bdb",
+      "run_id": 38568395820,
+      "status": "success",
+      "verified_successful_jobs": 18,
+      "expected_jobs": 18,
+      "evidence": "validation/compatibility-bilinear-ci-38568395820.json",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38568395820"
+    },
+    {
+      "id": "noise_factor",
+      "commit": "f7f94f81d7f3b8d5d5931e3a7a8a7be51566b0ca",
+      "run_id": 38571067267,
+      "status": "success",
+      "verified_successful_jobs": 18,
+      "expected_jobs": 18,
+      "evidence": "validation/compatibility-noise-ci-38571067267.json",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38571067267"
+    },
+    {
+      "id": "accepted_state_noise",
+      "commit": "0d7afc5d6738147a407c2ea16c3d693a31343128",
+      "run_id": 38572379978,
+      "status": "success",
+      "verified_successful_jobs": 18,
+      "expected_jobs": 18,
+      "evidence": "validation/compatibility-accepted-ci-38572379978.json",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38572379978"
+    }
+  ],
+  "release_gates": [
+    {
+      "id": "final_commit_ci",
+      "status": "open",
+      "closure": "Verify all required core, pure SDK and archived replay jobs on the exact final integrated commit. Earlier 18/18 runs do not cover later commits."
+    },
+    {
+      "id": "installed_sdk",
+      "status": "open",
+      "closure": "Bind strict C++17 Debug/Release relocated full/pure SDK consumer evidence to final integrated code; stage results remain stage-specific."
+    },
+    {
+      "id": "vendor_acceptance",
+      "status": "open",
+      "closure": "Close named vendor discrepancies and unassessed contracts with versioned inputs/raw outputs and original tolerances; no overall compatibility claim."
+    },
+    {
+      "id": "release_product_decisions",
+      "status": "decision_required",
+      "closure": "Licensing, release packaging/version/tag and distribution are user/product decisions; this stage creates no LICENSE, release or tag."
+    }
+  ],
+  "supersedes_current_claims": [
+    "docs/systemvue-2023-matrix.md current summary table",
+    "docs/linear-analysis-compatibility.md current status",
+    "docs/build-validation.md current status pointer"
+  ],
+  "history_policy": "Preserve dated execution counts, original failures, warnings, calibration/holdout separation and raw archives. A successful scoring tool process is not vendor compatibility."
+}
