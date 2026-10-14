@@ -143,6 +143,9 @@ cmake -DARCHIVE="/absolute/path/RFModel-0.1.0-sdk-headers-g<commit>.zip" \
 然后用构建时的独立白名单验证完整清单及负载哈希。归档中的 `verify-sdk.cmake`
 也可用于解压后的自检。提取后将 `RFModel_DIR` 显式指向
 `<SDK>/lib/cmake/RFModel`，运行 `<SDK>/examples/sdk-consumer`。
+双翻译单元示例通过函数返回拥有数据的 `NetworkWaves`：构造 6 dB 匹配衰减器和
+50 Ω、1 ns 无损线，连接并扫描三个频点，检查输出复波、负载功率与增益；
+先捕获负频率异常，再继续有效扫描。RMS 功率波单位为 sqrt(W)，Release 检查仍有效。
 纯头文件 SDK 允许目标指针大小不同；完整 C ABI 包仍保留架构匹配检查。
 版本仍采用 `0.1.0 EXACT`，不接受错误版本。
 
