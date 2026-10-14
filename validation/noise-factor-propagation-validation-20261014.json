@@ -1,0 +1,206 @@
+{
+  "schema_version": 1,
+  "stage": "stable-factor-domain-noise-propagation",
+  "date_utc": "2026-10-14",
+  "base_commit": "31b291e3ccfbd111687aec4712dc0abf6b793bdb",
+  "language": "C++17",
+  "public_api_changed": false,
+  "header_sha256": "893fa57e8e6dcd5b1b17a57ad78a38f270ac72671a074174d8901087d24f2115",
+  "implementation": {
+    "input_admission": "Unchanged pivoted PSD validation; tolerance 256*n*double epsilon, existing scale floor and tiny-mode truncation retained.",
+    "propagation": "Retain original-port-order PSD factor; propagate admitted columns and construct one Hermitian Gram triangle without output PSD projection.",
+    "arithmetic": "Compensated double/FMA ordinary path; binary-scaled floating expansions for extreme products or strong cancellation; no wider long-double dependency."
+  },
+  "native_gates": {
+    "compiler": "GCC 14.2.0",
+    "cmake": "3.31.6",
+    "format": "clang-format 19.1.7",
+    "reference_tests_enabled": true,
+    "Debug": {
+      "tests_passed": 153,
+      "tests_total": 153,
+      "relocated_consumer_passed": 12,
+      "relocated_consumer_total": 12
+    },
+    "Release": {
+      "tests_passed": 153,
+      "tests_total": 153,
+      "relocated_consumer_passed": 12,
+      "relocated_consumer_total": 12
+    },
+    "cpp_dialect": "gnu++17 for full native builds; strict c++17 for installed consumers (superseded by strict rerun below)"
+  },
+  "additional_checks": [
+    "New core regression fails on base with noise matrix is not Hermitian; passes candidate.",
+    "Independent source-factor mixed real/complex reference V/I and proper/improper C/P/DC oracles pass; fail on original core.",
+    "Warning-clean -Wall -Wextra -Wpedantic -Werror plus UBSan core regression passes.",
+    "Core regression with GCC -mlong-double-64 passes; not an actual MSVC run.",
+    "Integration oracle rewritten to use only double arithmetic passes.",
+    "Installed noise_factor_consumer uses two C++17 translation units and exercises cancellation and extreme finite-result scaling.",
+    "Independent reviewer: 2000 random factor oracles, 1000 shuffled extreme cancellation cases, scalar subnormal/rank/permutation/input-admission/C/P checks pass."
+  ],
+  "benchmark_seconds": {
+    "note": "Informational single-process GCC -O2 runs under shared machine load; not performance guarantees.",
+    "n128_baseline_rank1_rank4_full": [
+      0.0295,
+      0.0247,
+      0.0255
+    ],
+    "n128_candidate_rank1_rank4_full": [
+      0.0017,
+      0.0032,
+      0.085
+    ],
+    "interpretation": "Low-rank propagation is faster; full-rank robustness has about 2.4–3.3x overhead in this harness, down from initial expansion-only ~29x."
+  },
+  "limitations": [
+    "Double output representability and original input-mode truncation still apply.",
+    "No arbitrary-condition-number relative-accuracy guarantee; upper-layer reconstruction checks are unchanged.",
+    "No new vendor/SystemVue numerical comparison or model compatibility claim.",
+    "No actual Windows/MSVC execution in this cloud gate."
+  ],
+  "reproduce": [
+    "cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug -DRFMODEL_BUILD_REFERENCE_TESTS=ON -DCMAKE_CXX_EXTENSIONS=OFF -DCMAKE_EXPORT_COMPILE_COMMANDS=ON",
+    "cmake --build build -j 4 && ctest --test-dir build --output-on-failure",
+    "Repeat with CMAKE_BUILD_TYPE=Release.",
+    "cmake --install build --prefix sdk && move sdk to a different absolute path.",
+    "cmake -S tests/consumer -B consumer -DCMAKE_PREFIX_PATH=<relocated-sdk> -DCMAKE_BUILD_TYPE=<configuration>",
+    "cmake --build consumer -j 4 && ctest --test-dir consumer --output-on-failure",
+    "Pure SDK: cmake -S . -B pure-sdk-build -DCMAKE_BUILD_TYPE=<configuration> -DCMAKE_CXX_EXTENSIONS=OFF -DBUILD_TESTING=OFF -DRFMODEL_BUILD_C_API=OFF -DRFMODEL_BUILD_CLI=OFF -DRFMODEL_BUILD_EXAMPLES=OFF -DRFMODEL_BUILD_REFERENCE_TESTS=OFF -DRFMODEL_BUILD_PYTHON_TESTS=OFF -DRFMODEL_REQUIRE_PYTHON_TESTS=OFF",
+    "Build, install, move prefix, and configure/build/test tests/consumer against that relocated pure SDK separately for Debug and Release."
+  ],
+  "external_gate_logs": [
+    {
+      "name": "validated-test-Debug.log",
+      "sha256": "87b4210049ecb49bf10e73109a60a7d40042a56a90f96d28dc0301d545628ed8"
+    },
+    {
+      "name": "final-test-Release.log",
+      "sha256": "bd891b44434ee8ce960f51bbfad8ec5611f7975059bbbd0d9825a1ebde9d5a3a"
+    },
+    {
+      "name": "consumer-validated-test-Debug.log",
+      "sha256": "a6aea2b91264f7b9f77984b48b283564c3bba6f8374920d5b38944870233a7fc"
+    },
+    {
+      "name": "consumer-final-test-Release.log",
+      "sha256": "622290605ca6eeea5ee2230d173d4eaf0233e75b603fc49b3d26eded5609dcdc"
+    },
+    {
+      "name": "strict-test-Debug.log",
+      "sha256": "1ee90e6007c2f37d81819ccee9dc41ccdc1c9c3253dfa6842e62e0c55080376b"
+    },
+    {
+      "name": "consumer-strict-test-Debug.log",
+      "sha256": "11a22440d6cc0f84578b6bf73a725bf85ccf881aeede8d05e2142a0e2e664f08"
+    },
+    {
+      "name": "pure-consumer-test-Debug.log",
+      "sha256": "a0fff9cfc98952d75bc716f8506c9dd66e191a1e20fe8833f2cc84f4817a1d46"
+    },
+    {
+      "name": "pure-configure-Debug.log",
+      "sha256": "af3b4385d39750f83342478415e828f866175eb1f5d8f6d67c707bb19effc36f"
+    },
+    {
+      "name": "pure-consumer-configure-Debug.log",
+      "sha256": "1aa0febcd6219cb903dcdbcb0a6fafd0278298d19c6babc6340379050ac19d8a"
+    },
+    {
+      "name": "strict-test-Release.log",
+      "sha256": "6f5cde45b6a069e28e61e248fb87ca1bc606780bfb74e4915b955d763664df8e"
+    },
+    {
+      "name": "consumer-strict-test-Release.log",
+      "sha256": "22e736ba8bda376d7b92da10a2b0daee414eff419db7f3d222316c680faf03a5"
+    },
+    {
+      "name": "pure-consumer-test-Release.log",
+      "sha256": "dcf45374422eed8419706ec9cd20339151bae7c82472f5a9746539a2c0cda0a3"
+    },
+    {
+      "name": "pure-configure-Release.log",
+      "sha256": "4f62ff0dac169b677ca1c0065b8dbe086f9f53ec7adf87c56a162b69aab2669c"
+    },
+    {
+      "name": "pure-consumer-configure-Release.log",
+      "sha256": "acb3499984845f45cc18ac1b9ee2c3c79c3d7de67b31f05563f9182e7baaee49"
+    }
+  ],
+  "strict_native_gates": {
+    "compiler": "GCC 14.2.0",
+    "cmake": "3.31.6",
+    "CMAKE_CXX_EXTENSIONS": "OFF",
+    "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
+    "reference_tests_enabled": true,
+    "Debug": {
+      "tests_passed": 153,
+      "tests_total": 153,
+      "full_sdk_relocated_consumers_passed": 12,
+      "full_sdk_relocated_consumers_total": 12
+    },
+    "Release": {
+      "tests_passed": 153,
+      "tests_total": 153,
+      "full_sdk_relocated_consumers_passed": 12,
+      "full_sdk_relocated_consumers_total": 12
+    }
+  },
+  "pure_cpp_sdk_gates": {
+    "options_off": [
+      "BUILD_TESTING",
+      "RFMODEL_BUILD_C_API",
+      "RFMODEL_BUILD_CLI",
+      "RFMODEL_BUILD_EXAMPLES",
+      "RFMODEL_BUILD_REFERENCE_TESTS",
+      "RFMODEL_BUILD_PYTHON_TESTS",
+      "RFMODEL_REQUIRE_PYTHON_TESTS"
+    ],
+    "CMAKE_CXX_EXTENSIONS": "OFF",
+    "installed_then_relocated": true,
+    "Debug": {
+      "passed": 10,
+      "total": 10
+    },
+    "Release": {
+      "passed": 10,
+      "total": 10
+    },
+    "sdk_and_consumers_no_c_compiler_discovery": true,
+    "sdk_and_consumers_no_python_interpreter_discovery": true,
+    "consumer_includes_installed_headers_only": true,
+    "note": "Header-only SDK has no translation units; its independent consumers compile17 C++ translation units per configuration. C ABI consumers are absent."
+  },
+  "compile_command_verification": {
+    "Debug": {
+      "cpp_translation_units": 117,
+      "strict_cxx17": true,
+      "compile_commands_sha256": "360b49efc9d73ef676f8fe166bbebd54514524f18ea27089ae189fd3ceae8251"
+    },
+    "consumer-strict-Debug": {
+      "cpp_translation_units": 17,
+      "strict_cxx17": true,
+      "compile_commands_sha256": "e9b39707a5b132db864f66ba1da82a88d17992c6e4c69e87030e5edd23723843"
+    },
+    "pure-consumer-Debug": {
+      "cpp_translation_units": 17,
+      "strict_cxx17": true,
+      "compile_commands_sha256": "13aa4bafd7d1040c569efdb697c7df623c9909f6ac5aa419c4d6295055667c2f"
+    },
+    "Release": {
+      "cpp_translation_units": 117,
+      "strict_cxx17": true,
+      "compile_commands_sha256": "88b832ebc708aa2328dc496aa0d40c4c30de330e6fd1f9c5a99d5c2d39601705"
+    },
+    "consumer-strict-Release": {
+      "cpp_translation_units": 17,
+      "strict_cxx17": true,
+      "compile_commands_sha256": "fc9571adf2182ef17488174275c7e74bca5b2066b2673521a5524019f5070c63"
+    },
+    "pure-consumer-Release": {
+      "cpp_translation_units": 17,
+      "strict_cxx17": true,
+      "compile_commands_sha256": "ed6df12b8e94fe401c7d26e9fb1a008083e3ec16494977a30d7547be941b142e"
+    }
+  }
+}

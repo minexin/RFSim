@@ -28,9 +28,17 @@ inline void finite_matrix(const SMatrix &m) {
     }
 }
 
-// Pivoted semidefinite Cholesky; return a PSD reconstruction. Roundoff below
-// the tolerance is discarded, including a final numerically zero block.
-inline SMatrix psd_matrix(const SMatrix &input, double scale_floor = 0.) {
+// Normalized factor in original port order: C = scale * L * L^H.
+// Keep the admitted rank so propagation never reconstructs C before applying H.
+struct PsdFactor {
+    SMatrix values;
+    double scale;
+    std::size_t rank;
+};
+
+// Pivoted semidefinite Cholesky. Input admission and discarded tiny modes use
+// the same tolerance as psd_matrix, including the final numerically zero block.
+inline PsdFactor psd_factor(const SMatrix &input, double scale_floor = 0.) {
     finite_matrix(input);
     const auto n = input.ports;
     double scale = scale_floor;
@@ -41,7 +49,7 @@ inline SMatrix psd_matrix(const SMatrix &input, double scale_floor = 0.) {
         throw std::overflow_error("noise scale overflow");
     }
     if (scale == 0) {
-        return input;
+        return {input, 0., 0};
     }
     const double tolerance = 256 * n * std::numeric_limits<double>::epsilon();
     SMatrix work = input, factor{n, std::vector<Complex>(n * n)};
@@ -59,6 +67,7 @@ inline SMatrix psd_matrix(const SMatrix &input, double scale_floor = 0.) {
     for (std::size_t i = 0; i < n; ++i) {
         order[i] = i;
     }
+    std::size_t rank = 0;
     for (std::size_t k = 0; k < n; ++k) {
         std::size_t pivot = k;
         for (std::size_t i = k + 1; i < n; ++i) {
@@ -86,6 +95,7 @@ inline SMatrix psd_matrix(const SMatrix &input, double scale_floor = 0.) {
             std::swap(factor(k, j), factor(pivot, j));
         }
         std::swap(order[k], order[pivot]);
+        ++rank;
         factor(k, k) = std::sqrt(work(k, k).real());
         for (std::size_t i = k + 1; i < n; ++i) {
             factor(i, k) = work(i, k) / factor(k, k);
@@ -96,18 +106,177 @@ inline SMatrix psd_matrix(const SMatrix &input, double scale_floor = 0.) {
             }
         }
     }
+    SMatrix original{n, std::vector<Complex>(n * n)};
+    for (std::size_t i = 0; i < n; ++i) {
+        for (std::size_t k = 0; k < rank; ++k) {
+            original(order[i], k) = factor(i, k);
+        }
+    }
+    finite_matrix(original);
+    return {std::move(original), scale, rank};
+}
+
+inline SMatrix psd_matrix(const SMatrix &input, double scale_floor = 0.) {
+    const auto factor = psd_factor(input, scale_floor);
+    const auto n = input.ports;
     SMatrix result{n, std::vector<Complex>(n * n)};
     for (std::size_t i = 0; i < n; ++i) {
         for (std::size_t j = 0; j < n; ++j) {
             Complex value = 0.;
-            for (std::size_t k = 0; k < n; ++k) {
-                value += factor(i, k) * std::conj(factor(j, k));
+            for (std::size_t k = 0; k < factor.rank; ++k) {
+                value += factor.values(i, k) * std::conj(factor.values(j, k));
             }
-            result(order[i], order[j]) = value * scale;
+            result(i, j) = value * factor.scale;
         }
     }
     finite_matrix(result);
     return result;
+}
+
+// Binary-scaled floating expansion. Keeping nonoverlapping residuals prevents
+// large cancelling terms from erasing a small surviving term. Products and sums
+// never need a wider long double range, including on MSVC.
+struct ScaledReal {
+    double value = 0.;
+    int exponent = 0;
+};
+
+inline ScaledReal normalized(double value, int exponent = 0) {
+    int shift = 0;
+    const auto fraction = std::frexp(value, &shift);
+    return {fraction, value == 0. ? 0 : exponent + shift};
+}
+
+class ScaledSum {
+    std::vector<ScaledReal> partials_;
+
+public:
+    void add(double value, int exponent) {
+        auto x = normalized(value, exponent);
+        if (x.value == 0.) {
+            return;
+        }
+        std::size_t count = 0;
+        for (auto y : partials_) {
+            if (x.value == 0.) {
+                x = y;
+                continue;
+            }
+            if (x.exponent < y.exponent ||
+                (x.exponent == y.exponent && std::abs(x.value) < std::abs(y.value))) {
+                std::swap(x, y);
+            }
+            const int difference = x.exponent - y.exponent;
+            if (difference > 53) {
+                // The smaller operand cannot change the larger double, but
+                // must survive in case later terms cancel the larger operand.
+                partials_[count++] = y;
+                continue;
+            }
+            const double small = std::scalbn(y.value, -difference);
+            const double high = x.value + small;
+            const double low = small - (high - x.value); // FastTwoSum
+            if (low != 0.) {
+                partials_[count++] = normalized(low, x.exponent);
+            }
+            x = normalized(high, x.exponent);
+        }
+        partials_.resize(count);
+        if (x.value != 0.) {
+            partials_.push_back(x);
+        }
+    }
+
+    void product(ScaledReal a, ScaledReal b, double sign = 1.) {
+        if (a.value == 0. || b.value == 0.) {
+            return;
+        }
+        const double high = a.value * b.value;
+        const double low = std::fma(a.value, b.value, -high);
+        add(sign * high, a.exponent + b.exponent);
+        add(sign * low, a.exponent + b.exponent);
+    }
+
+    ScaledReal value() const {
+        if (partials_.empty()) {
+            return {};
+        }
+        const int exponent = partials_.back().exponent;
+        double value = 0.;
+        for (const auto &p : partials_) {
+            value += std::scalbn(p.value, p.exponent - exponent);
+        }
+        return normalized(value, exponent);
+    }
+};
+
+// Compensated ordinary-range path. Difficult exponent ranges or severe
+// cancellation use the scaled expansion instead. Product residuals are kept so
+// the fast path does not turn cancellation into a covariance-scale error.
+class OrdinarySum {
+    double sum_ = 0., correction_ = 0., magnitude_ = 0.;
+    bool safe_ = true;
+
+public:
+    void product(double a, double b, double sign = 1.) {
+        if (a == 0. || b == 0.) {
+            return;
+        }
+        const double product = a * b;
+        // Headroom also keeps the FMA residual (up to 106 significand
+        // bits below a product) representable and dense sums finite.
+        if (!std::isfinite(product) || std::abs(product) < 0x1p-900 ||
+            std::abs(product) > 0x1p900) {
+            safe_ = false;
+            return;
+        }
+        const double term = sign * product;
+        const double next = sum_ + term;
+        correction_ +=
+            (std::abs(sum_) >= std::abs(term) ? (sum_ - next) + term : (term - next) + sum_) +
+            sign * std::fma(a, b, -product);
+        sum_ = next;
+        magnitude_ += std::abs(term);
+    }
+
+    bool finish(double &value) const {
+        value = sum_ + correction_;
+        return safe_ && std::isfinite(value) && std::isfinite(magnitude_) &&
+               (magnitude_ == 0. || (std::abs(value) >= 1e-8 * magnitude_ &&
+                                     std::abs(value) >= std::numeric_limits<double>::min()));
+    }
+};
+
+inline void ordinary_product(
+    OrdinarySum &real, OrdinarySum &imag, Complex a, Complex b, bool conjugate = false) {
+    real.product(a.real(), b.real());
+    real.product(a.imag(), b.imag(), conjugate ? 1. : -1.);
+    imag.product(a.imag(), b.real());
+    imag.product(a.real(), b.imag(), conjugate ? -1. : 1.);
+}
+
+struct ScaledComplex {
+    ScaledReal real, imag;
+};
+
+inline ScaledComplex scaled(Complex value) {
+    return {normalized(value.real()), normalized(value.imag())};
+}
+
+inline void complex_product(ScaledSum &real,
+                            ScaledSum &imag,
+                            const ScaledComplex &a,
+                            const ScaledComplex &b,
+                            bool conjugate = false) {
+    real.product(a.real, b.real);
+    real.product(a.imag, b.imag, conjugate ? 1. : -1.);
+    imag.product(a.imag, b.real);
+    imag.product(a.real, b.imag, conjugate ? -1. : 1.);
+}
+
+inline double physical_value(ScaledReal value, double scale) {
+    const auto source = normalized(scale);
+    return std::scalbn(value.value * source.value, value.exponent + source.exponent);
 }
 } // namespace noise_detail
 
@@ -166,26 +335,88 @@ inline NoiseCorrelation independent_noise(const std::vector<NoiseCorrelation> &b
 // Square transfer map: outgoing noise = transfer * source noise.
 inline NoiseCorrelation propagate_noise(const SMatrix &transfer, const NoiseCorrelation &source) {
     noise_detail::finite_matrix(transfer);
-    auto c = noise_detail::psd_matrix(source.watts_per_hz);
-    if (transfer.ports != c.ports) {
+    auto factor = noise_detail::psd_factor(source.watts_per_hz);
+    const auto n = factor.values.ports;
+    if (transfer.ports != n) {
         throw std::invalid_argument("noise transfer dimensions differ");
     }
-    const auto n = c.ports;
-    SMatrix intermediate{n, std::vector<Complex>(n * n)}, result = intermediate;
+    std::vector<noise_detail::ScaledComplex> propagated(n * factor.rank);
+    std::vector<Complex> ordinary(n * factor.rank);
+    std::vector<bool> bounded(n, true);
     for (std::size_t i = 0; i < n; ++i) {
-        for (std::size_t j = 0; j < n; ++j) {
+        for (std::size_t j = 0; j < factor.rank; ++j) {
+            noise_detail::OrdinarySum fast_real, fast_imag;
             for (std::size_t k = 0; k < n; ++k) {
-                intermediate(i, j) += transfer(i, k) * c(k, j);
+                noise_detail::ordinary_product(
+                    fast_real, fast_imag, transfer(i, k), factor.values(k, j));
+            }
+            double real_value = 0., imag_value = 0.;
+            auto &entry = propagated[i * factor.rank + j];
+            if (fast_real.finish(real_value) && fast_imag.finish(imag_value)) {
+                entry = noise_detail::scaled({real_value, imag_value});
+            } else {
+                noise_detail::ScaledSum real, imag;
+                for (std::size_t k = 0; k < n; ++k) {
+                    noise_detail::complex_product(real,
+                                                  imag,
+                                                  noise_detail::scaled(transfer(i, k)),
+                                                  noise_detail::scaled(factor.values(k, j)));
+                }
+                entry = {real.value(), imag.value()};
+            }
+            const bool safe = (entry.real.value == 0. ||
+                               (entry.real.exponent >= -400 && entry.real.exponent <= 400)) &&
+                              (entry.imag.value == 0. ||
+                               (entry.imag.exponent >= -400 && entry.imag.exponent <= 400));
+            bounded[i] = bounded[i] && safe;
+            if (safe) {
+                ordinary[i * factor.rank + j] = {
+                    std::scalbn(entry.real.value, entry.real.exponent),
+                    std::scalbn(entry.imag.value, entry.imag.exponent)};
             }
         }
     }
+    SMatrix result{n, std::vector<Complex>(n * n)};
     for (std::size_t i = 0; i < n; ++i) {
-        for (std::size_t j = 0; j < n; ++j) {
-            for (std::size_t k = 0; k < n; ++k) {
-                result(i, j) += intermediate(i, k) * std::conj(transfer(j, k));
+        for (std::size_t j = 0; j <= i; ++j) {
+            noise_detail::ScaledReal real_value, imag_value;
+            bool finished = false;
+            if (bounded[i] && bounded[j]) {
+                noise_detail::OrdinarySum real, imag;
+                for (std::size_t k = 0; k < factor.rank; ++k) {
+                    noise_detail::ordinary_product(real,
+                                                   imag,
+                                                   ordinary[i * factor.rank + k],
+                                                   ordinary[j * factor.rank + k],
+                                                   true);
+                }
+                double re = 0., im = 0.;
+                finished = real.finish(re) && (i == j || imag.finish(im));
+                if (finished) {
+                    real_value = noise_detail::normalized(re);
+                    imag_value = noise_detail::normalized(im);
+                }
             }
+            if (!finished) {
+                noise_detail::ScaledSum real, imag;
+                for (std::size_t k = 0; k < factor.rank; ++k) {
+                    noise_detail::complex_product(real,
+                                                  imag,
+                                                  propagated[i * factor.rank + k],
+                                                  propagated[j * factor.rank + k],
+                                                  true);
+                }
+                real_value = real.value();
+                imag_value = imag.value();
+            }
+            const Complex value{noise_detail::physical_value(real_value, factor.scale),
+                                i == j ? 0.
+                                       : noise_detail::physical_value(imag_value, factor.scale)};
+            result(i, j) = value;
+            result(j, i) = std::conj(value);
         }
     }
-    return {noise_detail::psd_matrix(result)};
+    noise_detail::finite_matrix(result);
+    return {std::move(result)};
 }
 } // namespace rfmodel
