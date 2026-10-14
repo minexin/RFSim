@@ -1,0 +1,53 @@
+{
+  "date_utc": "2026-10-14",
+  "base_commit": "bba764eae0ca37b336d3ad4740d6463582d0d39c",
+  "implementation_payload_sha256": "5ed98548af863ec595964b8b922e2c15bf660d503912a49ebcd786f9fa062430",
+  "source_sha256": {
+    "cmake/RFModelTests.cmake": "c1996efaef7678674c179ac153b4b3a792c1ff096255c03a43b2764aafd09b6a",
+    "docs/model-adapters.md": "6ea9afa6a8696b3cc98bc80d8354b84d2d5c09dc98a9990837f4f80fd467d4d6",
+    "include/rfmodel/adapters/builtin_model_adapters.hpp": "310585a4e562871de13b969cb95eda3740927833096ac0298f0ad0576c7dd2e8",
+    "tests/models/highorder_model_adapter_test.cpp": "5d7fca57cd39c6c8043f29d7bed73d58452f65df76b7d83d1a840a39a35858cb",
+    "tests/consumer/model_adapter.cpp": "4047dc8c6d230d29947adf3998543c562a7aa0c00a754ce973a0058c327113a9",
+    "tests/consumer/model_adapter_probe.cpp": "97760290157ada9b6fb33b22408259a07dacbe4a19692250c6b8f4ec72125b54"
+  },
+  "scope": "Owning built-in CoherentHighOrderAmplifier ModelAdapter; no new vendor compatibility claim.",
+  "toolchain": {
+    "compiler": "g++ (Debian 14.2.0-19) 14.2.0",
+    "cmake": "3.31.6",
+    "clang_format": "19.1.7"
+  },
+  "configurations": {
+    "Debug": {
+      "full_ctest_passed": 150,
+      "full_ctest_total": 150,
+      "relocated_cpp_sdk_consumers_passed": 9,
+      "relocated_cpp_sdk_consumers_total": 9,
+      "gate_log_sha256": "97addeecc0c80669a185dc61422eb18c9b44b75f9165da2da9f8b236fea24242"
+    },
+    "Release": {
+      "full_ctest_passed": 150,
+      "full_ctest_total": 150,
+      "relocated_cpp_sdk_consumers_passed": 9,
+      "relocated_cpp_sdk_consumers_total": 9,
+      "gate_log_sha256": "3e1ce214fa1ca15c1804f11accc4a10beb3b0202ea8bdaf037a375ae9a6c7eb6"
+    }
+  },
+  "focused_checks": {
+    "strict_gnu_cpp17": "passed",
+    "undefined_behavior_sanitizer": "passed",
+    "canonical_format_changed_cpp_files": "passed",
+    "git_apply_check_against_base": "passed"
+  },
+  "not_run": [
+    "MSVC, AppleClang and remote CI for this payload",
+    "SystemVue execution; no model formulas or vendor coefficients changed"
+  ],
+  "commands": {
+    "configure": "cmake -S SOURCE -B BUILD -DCMAKE_BUILD_TYPE=CONFIG -DCMAKE_CXX_EXTENSIONS=OFF -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DBUILD_TESTING=ON -DRFMODEL_BUILD_C_API=ON -DRFMODEL_BUILD_CLI=ON -DRFMODEL_BUILD_EXAMPLES=ON -DRFMODEL_BUILD_REFERENCE_TESTS=ON -DPython3_EXECUTABLE=python",
+    "build": "cmake --build BUILD --parallel 2",
+    "test": "ctest --test-dir BUILD -C CONFIG --output-on-failure -j2",
+    "sdk": "Configure all product/testing options OFF, install to install-cpp, rename to relocated-cpp, configure tests/consumer with CMAKE_PREFIX_PATH=relocated-cpp, build --parallel 2 and ctest -j2",
+    "sanitizer": "g++ -std=c++17 -O1 -g -fsanitize=undefined -fno-sanitize-recover=all -Wall -Wextra -Werror -pedantic -Iinclude tests/models/highorder_model_adapter_test.cpp; run executable",
+    "format": "clang-format 19.1.7 --dry-run --Werror on four changed C++ files"
+  }
+}

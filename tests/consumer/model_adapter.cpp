@@ -6,6 +6,7 @@
 
 rfmodel::ModelAdapter make_installed_adapter();
 double installed_vendor_phase();
+rfmodel::ModelAdapter make_installed_highorder_adapter();
 
 int main() {
     using namespace rfmodel;
@@ -47,6 +48,34 @@ int main() {
         std::abs(mixed.outgoing_noise.covariance(6, 6).real() / (1.380649e-23 * 290.) - 1.5) >
             1e-12) {
         return 6;
+    }
+    const auto highorder = make_installed_highorder_adapter();
+    const auto caps = highorder.capabilities();
+    if (caps.linear || caps.noise || caps.spectrum || !caps.operating_point || !caps.coherent) {
+        return 7;
+    }
+    const auto high_local = highorder.linearize({1e8, {{0, 1}, {1, 1}, {1, 2}}, {.01, 0., 0.}});
+    const double harmonic = .1 * std::sqrt(75. / 2.) * .01 * .01;
+    if (std::abs(high_local.outgoing[2] - harmonic) > 1e-14) {
+        return 8;
+    }
+    const auto plan = [] {
+        CoherentSystem graph(1e8, 75., {{"rf", "clock"}});
+        auto source = graph.input("in", {{1, SpectrumKind::source, 1., 1, .01}});
+        make_installed_highorder_adapter().coherent_stage(graph, "amp", {source}, {"out"});
+        return graph.compile();
+    }();
+    for (int i = 0; i < 2; ++i) {
+        Complex measured{};
+        const auto result = plan.execute();
+        for (const auto &component : result.stream("out").reduction.components) {
+            if (component.bin == 2) {
+                measured += component.amplitude;
+            }
+        }
+        if (std::abs(measured - harmonic) > 1e-14) {
+            return 9;
+        }
     }
     return 0;
 }

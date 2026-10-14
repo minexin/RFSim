@@ -434,3 +434,7 @@ add_test(NAME sdk_configuration_test COMMAND ${CMAKE_COMMAND}
     -DGENERATOR=${CMAKE_GENERATOR}
     -DCOMPILER=${CMAKE_CXX_COMPILER}
     -P ${CMAKE_CURRENT_SOURCE_DIR}/tests/cmake/check_sdk_configuration.cmake)
+
+add_executable(highorder_model_adapter_test tests/models/highorder_model_adapter_test.cpp)
+target_link_libraries(highorder_model_adapter_test PRIVATE RFModel::rfmodel)
+add_test(NAME highorder_model_adapter_test COMMAND highorder_model_adapter_test)

@@ -10,3 +10,8 @@ rfmodel::ModelAdapter make_installed_adapter() {
 double installed_vendor_phase() {
     return rfmodel::SystemVue2023PointDerivativeAmPm(-5., 10.).response(.01).phase_rad;
 }
+
+rfmodel::ModelAdapter make_installed_highorder_adapter() {
+    return rfmodel::adapt_highorder_amplifier(
+        "installed high-order", {20., 20., 23., {.1}, 75.}, {1});
+}

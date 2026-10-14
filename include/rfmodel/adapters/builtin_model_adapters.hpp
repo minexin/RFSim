@@ -1,6 +1,7 @@
 #pragma once
 #include "rfmodel/adapters/model_adapter.hpp"
 #include "rfmodel/conversion/amplifier_linearization.hpp"
+#include "rfmodel/conversion/highorder_linearization.hpp"
 #include "rfmodel/conversion/polynomial_linearization.hpp"
 #include "rfmodel/nonlinear/polynomial_amplifier.hpp"
 #include <type_traits>
@@ -94,6 +95,54 @@ inline ModelAdapter adapt_polynomial_amplifier(MatchedPolynomialAmplifier model,
             return CoherentSystem::StageEvaluation{{result.output}, std::move(stats)};
         };
     }
+    return {std::move(descriptor), std::move(functions)};
+}
+
+// Two independent views of the same immutable model: resolved-wave local
+// derivatives use generating_bins; source-history propagation uses mode/cutoff.
+// Empty generating_bins explicitly disables local product generation only.
+inline ModelAdapter
+adapt_highorder_amplifier(std::string name,
+                          CoherentHighOrderAmplifier model,
+                          std::vector<int> generating_bins,
+                          std::size_t max_source_order = 11,
+                          AmplifierInputMode mode = AmplifierInputMode::sources_only) {
+    if (max_source_order == 0 || max_source_order > 256 ||
+        (mode != AmplifierInputMode::sources_only &&
+         mode != AmplifierInputMode::propagate_distortion)) {
+        throw std::invalid_argument("invalid high-order adapter source policy");
+    }
+    std::set<int> unique;
+    if (generating_bins.size() > 512) {
+        throw std::invalid_argument("too many high-order adapter generating bins");
+    }
+    for (auto bin : generating_bins) {
+        if (bin <= 0 || !unique.insert(bin).second) {
+            throw std::invalid_argument("invalid high-order adapter generating bin");
+        }
+    }
+    const double reference = model.reference_ohms();
+    ModelDescriptor descriptor{{"rfmodel.coherent_highorder_amplifier", "1", "", ""},
+                               std::move(name),
+                               {{0, "in", reference}, {1, "out", reference}}};
+    auto owned = std::make_shared<const CoherentHighOrderAmplifier>(std::move(model));
+    ModelFunctions functions;
+    functions.operating_point =
+        [owned, generating_bins = std::move(generating_bins)](const ModelOperatingPoint &point) {
+            return linearize_highorder_amplifier(
+                point.spacing_hz, point.channels, point.incident, *owned, generating_bins);
+        };
+    functions.coherent = [owned, max_source_order, mode](auto &pipeline, const auto &inputs) {
+        auto result = pipeline.highorder_amplifier(inputs.at(0), *owned, max_source_order, mode);
+        return CoherentSystem::StageEvaluation{
+            {result.output},
+            CoherentSystem::StageStatistics{result.input_power_w,
+                                            {},
+                                            result.operating_point,
+                                            std::move(result.nonlinear_counts),
+                                            result.direct_contribution_count,
+                                            result.discarded_direct_contributions}};
+    };
     return {std::move(descriptor), std::move(functions)};
 }
 

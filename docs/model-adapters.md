@@ -49,6 +49,15 @@
 
 `adapt_polynomial_amplifier(model, identity, max_source_order)` 额外提供工作点及相干适配。工作点和频谱保留 DC；相干接口沿用 RF 投影及来源阶数截断，不包含 DC 反馈。非零常数项的模型保留线性/频谱/工作点能力，关闭相干能力。`max_source_order` 为 1..256，与已有管线相同，不等于电压多项式最高十一阶。
 
+`adapt_highorder_amplifier(name, model, generating_bins, max_source_order=11, mode=AmplifierInputMode::sources_only)` 拥有一个不可变的 `CoherentHighOrderAmplifier` 快照，仅声明工作点和相干能力；不声明固定线性 S、内生噪声或普通频谱能力。物理端口为 0→1，两个端口使用模型自身的公共正实参考。实例名必须非空；内置身份为 `rfmodel.coherent_highorder_amplifier`、修订 `1`，不附加厂商兼容含义。
+
+两个入口的选择规则刻意独立：
+
+- 工作点是已解析的完整复波坐标。必填 `generating_bins` 只决定哪些输入 RF 频点生成新产品；空集合表示只传播直接增益，正整数频点不可重复，顺序不限。每次评估要求这些频点存在于输入，并要求所有直接及生成 RF 输出通道闭合。所有输入 RF 波（包括未选中的失真频点）共同驱动压缩和限幅；输出侧入射不驱动模型。DC 被阻断且入射必须为零。该视图不能区分同频多个来源。
+- 相干入口完全不读取 `generating_bins`；按来源种类和历史生成产品。`sources_only` 拒绝失真输入，`propagate_distortion` 传播失真而不产生二次混频。`max_source_order` 必须在 1..256，包含 RF/LO 的完整来源因子，截断直接及生成贡献，但不从物理总驱动中剔除它们。此截断不作用于工作点入口。
+
+模型、频点选择和策略均按值持有；`operating_device()` 回调及编译后的相干计划可在原模型、适配器和构图器销毁后重复执行。参数、参考或通道错误沿用现有异常契约；未闭合频网不会自动补点。仍须由宿主提供显式高阶电压系数、频网、接线和噪声；不推导 SystemVue 自动 RFAMP 系数，也不将两个不同语义入口宣称为总频谱兼容实现。数值及所有权测试见 `tests/models/highorder_model_adapter_test.cpp`，安装后的双翻译单元覆盖见 `tests/consumer/model_adapter*.cpp`。
+
 `adapt_saturating_amplifier(name, model, reference)` 提供公共基波压缩的工作点和相干能力，不虚构噪声或完整谐波模型。其他组合可用 `ModelDescriptor + ModelFunctions` 显式构造。
 
 ```cpp
