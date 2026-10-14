@@ -90,6 +90,49 @@ class PilotTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'Command disagrees'):
             archive.extract(raw, status, raw['raw_capture_sha256'])
 
+    def test_frozen_plan_survives_real_git_autocrlf_checkout(self):
+        expected = pilot.PLAN.read_bytes()
+        self.assertEqual(pilot.digest(expected), pilot.PLAN_SHA256)
+        attributes = (pilot.ROOT / '.gitattributes').read_bytes()
+        rule = b'/validation/rfamp-op1db-pilot-plan.json -text'
+        for protected in (False, True):
+            with self.subTest(protected=protected), tempfile.TemporaryDirectory() as temp:
+                root = Path(temp)
+                plan = root / 'validation/rfamp-op1db-pilot-plan.json'
+                plan.parent.mkdir()
+                plan.write_bytes(expected)
+                selected = attributes if protected else b''.join(
+                    line for line in attributes.splitlines(keepends=True) if line.strip() != rule)
+                (root / '.gitattributes').write_bytes(selected)
+                control = root / 'newline-control.txt'
+                control.write_bytes(b'first line\nsecond line\n')
+                def git(*args):
+                    return subprocess.run(['git', '-c', 'core.autocrlf=true', '-C', str(root), *args],
+                                          capture_output=True, check=True, timeout=30)
+                git('init', '--quiet')
+                git('add', '.gitattributes', 'validation/rfamp-op1db-pilot-plan.json', 'newline-control.txt')
+                # Force a genuine working-tree materialization, not an index up-to-date shortcut.
+                plan.unlink()
+                control.unlink()
+                git('checkout-index', '--all', '--force')
+                self.assertEqual(control.read_bytes(), b'first line\r\nsecond line\r\n')
+                with patch.object(pilot, 'PLAN', plan):
+                    if not protected:
+                        self.assertNotEqual(plan.read_bytes(), expected)
+                        self.assertEqual(plan.read_bytes(), expected.replace(b'\n', b'\r\n'))
+                        with self.assertRaisesRegex(ValueError, 'Frozen pilot plan changed'):
+                            pilot.frozen_plan()
+                        continue
+                    self.assertEqual(plan.read_bytes(), expected)
+                    self.assertEqual(pilot.digest(plan.read_bytes()), pilot.PLAN_SHA256)
+                    pilot.frozen_plan()
+                    semantic = expected.replace(b'"first_op1db_dbm": 20', b'"first_op1db_dbm": 22', 1)
+                    self.assertNotEqual(json.loads(semantic), json.loads(expected))
+                    for mutation in (expected.replace(b'\n', b'\r\n'), semantic):
+                        plan.write_bytes(mutation)
+                        with self.assertRaisesRegex(ValueError, 'Frozen pilot plan changed'):
+                            pilot.frozen_plan()
+
     @unittest.skipUnless(sys.platform == 'win32', 'PowerShell AST parsing requires Windows; no SystemVue invoked')
     def test_powershell_syntax_only(self):
         with tempfile.TemporaryDirectory() as temp:

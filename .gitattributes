@@ -19,3 +19,4 @@
 /validation/am-pm-datapoints-input-spectrum-reference-20261014.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 /validation/am-pm-datapoints-observations-20261012.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 /validation/am-pm-existing-reference-evidence-20261012.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+/validation/rfamp-op1db-pilot-plan.json -text
