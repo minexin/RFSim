@@ -1,6 +1,8 @@
 #pragma once
+#include <cmath>
 #include <complex>
 #include <cstddef>
+#include <limits>
 #include <stdexcept>
 #include <string>
 #include <vector>
@@ -25,7 +27,8 @@ struct SMatrix {
     std::vector<Complex> values;
 
     std::size_t index(std::size_t row, std::size_t column) const {
-        if (row >= ports || column >= ports) {
+        if (row >= ports || column >= ports ||
+            row > (std::numeric_limits<std::size_t>::max() - column) / ports) {
             throw std::out_of_range("S matrix port index");
         }
         return row * ports + column;
@@ -62,8 +65,14 @@ class StaticSParameterModel final : public RFDeviceModel, public SParameterProvi
 public:
     StaticSParameterModel(std::string n, std::vector<PortInfo> p, SMatrix s)
         : name_(std::move(n)), ports_(std::move(p)), s_(std::move(s)) {
-        if (s_.ports != ports_.size() || s_.values.size() != s_.ports * s_.ports) {
+        if ((s_.ports && s_.ports > std::numeric_limits<std::size_t>::max() / s_.ports) ||
+            s_.ports != ports_.size() || s_.values.size() != s_.ports * s_.ports) {
             throw std::invalid_argument("S matrix dimensions");
+        }
+        for (const auto value : s_.values) {
+            if (!std::isfinite(value.real()) || !std::isfinite(value.imag())) {
+                throw std::invalid_argument("nonfinite S parameter");
+            }
         }
     }
 

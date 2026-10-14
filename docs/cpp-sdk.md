@@ -150,3 +150,22 @@ cmake -DARCHIVE="/absolute/path/RFModel-0.1.0-sdk-headers-g<commit>.zip" \
 `-developer`，manifest 将 `source_commit` 设为 null，记录 observed HEAD 和 dirty，
 不把未提交内容冒充精确提交候选。打包前源码变化需要重新配置，已有同名产物不覆盖。
 测试使用独立临时 Git fixture，身份仅用于 fixture，不修改用户 Git 配置。
+
+## 基础数值 API 的失败契约
+
+以下收紧只影响畸形输入或非有限结果，函数类型和 C ABI 保持不变：
+
+- `SMatrix::index` 及 const/non-const `operator()` 对端口越界、索引乘加回绕抛出
+  `std::out_of_range`；`operator()` 也对存储不足抛出该异常。`index` 仅计算索引，
+  不验证存储长度。没有新增端口数上限。
+- `evaluate_two_port` 要求 `ports == 2`、恰好四个有限复数 S 元素，且两个入射波的
+  实部、虚部均有限；违反这些条件抛出 `std::invalid_argument`。有限输入计算出非有限
+  出射波时抛出 `std::overflow_error`。主动增益、非互易 S、复激励和零激励仍合法，
+  不新增无源性或互易性限制，也不改变原计算公式。
+- `interpolate_s` 仅接受 `OutOfBand::Reject` 和 `OutOfBand::Clamp`；非法枚举值在
+  带内、端点、单样本及带外查询中均抛出 `std::invalid_argument`。
+- `StaticSParameterModel` 构造时对维度乘法溢出、维度/存储不匹配以及任一非有限 S
+  分量抛出 `std::invalid_argument`。它仍忽略查询频率（包括负值和非有限值），
+  保留零端口、名称、端口 id 和参考阻抗元数据的历史语义，不引入 1024 端口上限。
+
+这些检查不修改传入矩阵；失败后可以继续使用有效输入调用 API。

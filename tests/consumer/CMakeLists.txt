@@ -76,3 +76,7 @@ add_test(NAME installed_operating_noise_consumer COMMAND operating_noise_consume
 add_executable(phd_coefficient_slice_consumer phd_coefficient_slice.cpp phd_coefficient_slice_probe.cpp)
 target_link_libraries(phd_coefficient_slice_consumer PRIVATE RFModel::rfmodel)
 add_test(NAME installed_phd_coefficient_slice_consumer COMMAND phd_coefficient_slice_consumer)
+
+add_executable(basic_api_contract_consumer basic_api_contract.cpp basic_api_contract_probe.cpp)
+target_link_libraries(basic_api_contract_consumer PRIVATE RFModel::rfmodel)
+add_test(NAME installed_basic_api_contract_consumer COMMAND basic_api_contract_consumer)

@@ -466,3 +466,7 @@ if(NOT RFMODEL_BUILD_C_API)
         -DCOMPILER=${CMAKE_CXX_COMPILER}
         -P ${CMAKE_CURRENT_SOURCE_DIR}/tests/cmake/check_sdk_archive.cmake)
 endif()
+
+add_executable(basic_api_contract_test tests/core/basic_api_contract_test.cpp)
+target_link_libraries(basic_api_contract_test PRIVATE RFModel::rfmodel)
+add_test(NAME basic_api_contract_test COMMAND basic_api_contract_test)

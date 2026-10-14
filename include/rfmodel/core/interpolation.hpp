@@ -33,6 +33,9 @@ inline void validate_s_data(const TouchstoneData &d) {
 
 inline SMatrix
 interpolate_s(const TouchstoneData &d, double f, OutOfBand policy = OutOfBand::Reject) {
+    if (policy != OutOfBand::Reject && policy != OutOfBand::Clamp) {
+        throw std::invalid_argument("invalid out-of-band policy");
+    }
     validate_s_data(d);
     if (!std::isfinite(f) || f < 0) {
         throw std::invalid_argument("invalid query frequency");
