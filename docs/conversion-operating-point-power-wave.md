@@ -65,3 +65,7 @@ ctest --test-dir build-op-consumer -C Release \
 消费者只链接安装后的 `RFModel::rfmodel`，无需 C ABI、Python 或 JSON。
 
 完整独立物理基准、失败契约及实际构建范围见[本阶段验证记录](conversion-operating-point-power-wave-validation.md)。
+
+## Accepted-state intrinsic noise
+
+The [explicit intrinsic-noise provider entry](conversion-operating-noise.md) retains each channel’s full complex reference and freezes complete accepted-state C/P for measurements and noise experiments.

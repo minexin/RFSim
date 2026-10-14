@@ -68,3 +68,7 @@ add_test(NAME installed_legacy_headers_consumer COMMAND legacy_headers_consumer)
 add_executable(noise_factor_consumer noise_factor.cpp noise_factor_probe.cpp)
 target_link_libraries(noise_factor_consumer PRIVATE RFModel::rfmodel)
 add_test(NAME installed_noise_factor_consumer COMMAND noise_factor_consumer)
+
+add_executable(operating_noise_consumer operating_noise.cpp operating_noise_probe.cpp)
+target_link_libraries(operating_noise_consumer PRIVATE RFModel::rfmodel)
+add_test(NAME installed_operating_noise_consumer COMMAND operating_noise_consumer)

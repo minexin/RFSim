@@ -13,6 +13,31 @@ struct ConversionNonlinearDevice {
     std::function<ConversionLinearization(const std::vector<Complex> &)> evaluate;
 };
 
+// Borrowed local accepted-state views, valid only during the synchronous provider
+// call. outgoing includes the original fixed offset; fixed_output_offset is that
+// original offset, not the derived affine linearization offset. Do not retain
+// these references. Provider captures must outlive the call and support any
+// concurrent solves made by the caller.
+struct ConversionAcceptedState {
+    const FrequencyConversionModel &jacobian;
+    const std::vector<Complex> &incident;
+    const std::vector<Complex> &outgoing;
+    const std::vector<Complex> &fixed_output_offset;
+};
+
+// Owns both the local coordinate labels and the complete intrinsic C/P block.
+struct ConversionIntrinsicNoiseSnapshot {
+    double spacing_hz;
+    std::vector<ConversionChannel> channels;
+    std::vector<Complex> reference_impedances_ohms;
+    ConversionNoise noise;
+};
+
+struct ConversionIntrinsicNoiseProvider {
+    std::size_t device;
+    std::function<ConversionIntrinsicNoiseSnapshot(const ConversionAcceptedState &)> evaluate;
+};
+
 struct ConversionPortConnection {
     std::size_t first_device, first_port, second_device, second_port;
 };
@@ -33,20 +58,31 @@ struct ConversionOperatingResult {
 namespace conversion_operating_detail {
 // Share the iteration and failure contracts, while keeping coordinate admission
 // explicit at the public entry points.
-inline ConversionOperatingResult solve(const std::vector<ConversionDevice> &devices,
-                                       const std::vector<ConversionPortConnection> &connections,
-                                       const std::vector<ConversionNonlinearDevice> &nonlinear,
-                                       const std::vector<Complex> &initial,
-                                       const ConversionOperatingOptions &options,
-                                       bool loaded_noise,
-                                       const ConversionNoise *additional_source_noise,
-                                       const std::vector<Complex> &fixed_offset,
-                                       bool power_waves) {
+inline ConversionOperatingResult
+solve(const std::vector<ConversionDevice> &devices,
+      const std::vector<ConversionPortConnection> &connections,
+      const std::vector<ConversionNonlinearDevice> &nonlinear,
+      const std::vector<Complex> &initial,
+      const ConversionOperatingOptions &options,
+      bool loaded_noise,
+      const ConversionNoise *additional_source_noise,
+      const std::vector<Complex> &fixed_offset,
+      bool power_waves,
+      const std::vector<ConversionIntrinsicNoiseProvider> &providers = {}) {
     if (devices.empty() || options.max_iterations == 0 || options.max_iterations > 200 ||
         options.max_backtracks > 40 || !std::isfinite(options.relative_tolerance) ||
         options.relative_tolerance <= 0. || options.relative_tolerance > .01 ||
         !std::isfinite(options.absolute_tolerance) || options.absolute_tolerance <= 0.) {
         throw std::invalid_argument("invalid conversion operating-point options");
+    }
+    // Reject all registration errors before invoking any deterministic callback.
+    // A provider may also be attached to a deterministically linear device.
+    std::map<std::size_t, const ConversionIntrinsicNoiseProvider *> noise_callbacks;
+    for (const auto &entry : providers) {
+        if (entry.device >= devices.size() || !entry.evaluate ||
+            !noise_callbacks.emplace(entry.device, &entry).second) {
+            throw std::invalid_argument("invalid or repeated intrinsic noise provider");
+        }
     }
     const double spacing = devices.front().model.spacing_hz();
     // The network's scalar reference is only a legacy admission policy. In the
@@ -267,6 +303,37 @@ inline ConversionOperatingResult solve(const std::vector<ConversionDevice> &devi
         }
         ++result.iterations;
     }
+    // Freeze complete intrinsic noise blocks only after convergence, in device
+    // index order. This is outside all trial/backtracking exception handling.
+    // Exceptions propagate without publishing a partial result; external callback
+    // side effects cannot be rolled back, so providers should be pure.
+    for (const auto &entry : noise_callbacks) {
+        const auto d = entry.first, first = offsets[d];
+        const auto &model = current.devices[d].model;
+        const auto n = model.channels().size();
+        const std::vector<Complex> local_incident(incident.begin() + first,
+                                                  incident.begin() + first + n);
+        const std::vector<Complex> local_outgoing(current.outgoing.begin() + first,
+                                                  current.outgoing.begin() + first + n);
+        const std::vector<Complex> local_fixed =
+            fixed_offset.empty() ? std::vector<Complex>(n)
+                                 : std::vector<Complex>(fixed_offset.begin() + first,
+                                                        fixed_offset.begin() + first + n);
+        auto snapshot =
+            entry.second->evaluate({model, local_incident, local_outgoing, local_fixed});
+        if (snapshot.spacing_hz != model.spacing_hz() || snapshot.channels.size() != n ||
+            snapshot.reference_impedances_ohms != model.reference_impedances_ohms()) {
+            throw std::invalid_argument("intrinsic noise snapshot grid/reference differs");
+        }
+        for (std::size_t i = 0; i < n; ++i) {
+            if (snapshot.channels[i].port != model.channels()[i].port ||
+                snapshot.channels[i].bin != model.channels()[i].bin) {
+                throw std::invalid_argument("intrinsic noise snapshot channel order differs");
+            }
+        }
+        model.validate_noise(snapshot.noise);
+        current.devices[d].intrinsic_noise = std::move(snapshot.noise);
+    }
     // Noise uses the accepted point's Jacobian. Return that same point and the
     // exact nonlinear device outputs; boundary mismatch is the reported tolerance,
     // rather than replacing these waves with one extra affine Newton step.
@@ -325,5 +392,52 @@ inline ConversionOperatingResult solve_conversion_operating_point_power_waves(
                                               additional_source_noise,
                                               fixed_offset,
                                               true);
+}
+
+// Accepted-state intrinsic noise is computed even when loaded_noise is false:
+// that flag suppresses loaded incident/cross statistics, not outgoing noise.
+// Existing solver names deliberately keep their original function types.
+inline ConversionOperatingResult solve_conversion_operating_point_with_intrinsic_noise(
+    const std::vector<ConversionDevice> &devices,
+    const std::vector<ConversionPortConnection> &connections,
+    const std::vector<ConversionNonlinearDevice> &nonlinear,
+    const std::vector<ConversionIntrinsicNoiseProvider> &providers,
+    const std::vector<Complex> &initial = {},
+    const ConversionOperatingOptions &options = {},
+    bool loaded_noise = false,
+    const ConversionNoise *additional_source_noise = nullptr,
+    const std::vector<Complex> &fixed_offset = {}) {
+    return conversion_operating_detail::solve(devices,
+                                              connections,
+                                              nonlinear,
+                                              initial,
+                                              options,
+                                              loaded_noise,
+                                              additional_source_noise,
+                                              fixed_offset,
+                                              false,
+                                              providers);
+}
+
+inline ConversionOperatingResult solve_conversion_operating_point_power_waves_with_intrinsic_noise(
+    const std::vector<ConversionDevice> &devices,
+    const std::vector<ConversionPortConnection> &connections,
+    const std::vector<ConversionNonlinearDevice> &nonlinear,
+    const std::vector<ConversionIntrinsicNoiseProvider> &providers,
+    const std::vector<Complex> &initial = {},
+    const ConversionOperatingOptions &options = {},
+    bool loaded_noise = false,
+    const ConversionNoise *additional_source_noise = nullptr,
+    const std::vector<Complex> &fixed_offset = {}) {
+    return conversion_operating_detail::solve(devices,
+                                              connections,
+                                              nonlinear,
+                                              initial,
+                                              options,
+                                              loaded_noise,
+                                              additional_source_noise,
+                                              fixed_offset,
+                                              true,
+                                              providers);
 }
 } // namespace rfmodel

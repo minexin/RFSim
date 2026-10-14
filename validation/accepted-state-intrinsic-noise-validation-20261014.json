@@ -1,0 +1,166 @@
+{
+  "stage": "accepted-state intrinsic noise providers",
+  "date_utc": "2026-10-14",
+  "base_commit": "f7f94f81d7f3b8d5d5931e3a7a8a7be51566b0ca",
+  "base_tree": "9cadc36923ab8de0725c3c389e8de373b526bfb6",
+  "prerequisite_noise_matrix_sha256": "893fa57e8e6dcd5b1b17a57ad78a38f270ac72671a074174d8901087d24f2115",
+  "source_sha256": {
+    "README.md": "8e6549b72476744addf8f40404a1b371757c226cfaf39c94020d48f401443b22",
+    "cmake/RFModelTests.cmake": "624985b513298c5fd2b76f7922ad4c9b0d35d2e1f14cb04e703ded1e3f1ad3ef",
+    "docs/conversion-operating-noise.md": "280bd2dd16ffd7da4e3f9669c281f585204ea1ccb949c808972f6edbc77d1e99",
+    "docs/conversion-operating-point-power-wave.md": "f365981dfdcd42aa808e232884d1c8cc745a0834c9c1e4d4c995841b4cb7864b",
+    "docs/conversion-operating-point.md": "3207c6d2512568ccd860fdc2823bccb100024b6b09699b77d4cfc2e5317bb2ec",
+    "include/rfmodel/conversion/conversion_operating_point.hpp": "3978bbcc89717e8fc984a8c9bc7ab03524d0e7a89faf5e03f62b1b2ade84732c",
+    "include/rfmodel/conversion/conversion_simulation.hpp": "fe118bfca059b33dd21498ed817c9e649b0ece8f8926f0d5e74882bb52908d01",
+    "tests/consumer/CMakeLists.txt": "988c28263b16b78c5199f2c63f607e7badce5468f5df9ae97b5f3ad3d8d76f71",
+    "tests/consumer/operating_noise.cpp": "3a2e505822bc631ef02a142e4581bfe8035d94769c68bf7d01c0c9e2d331587c",
+    "tests/consumer/operating_noise_probe.cpp": "1c169b78818c11d437fdc0f2d98e5e4102094400971b5d19f7caf93d1b17d214",
+    "tests/conversion/conversion_operating_noise_test.cpp": "58990080fb9c2ea931b051d5d43fbcfc1ddb71497a9ac831909945062aa670fe"
+  },
+  "combined_gate_source_manifest": {
+    "file_count": 863,
+    "canonical_sorted_json_sha256": "abdc6b4d2ef36e44ee7467010d0e77d8f4ec3d8a4b61606c4880e8544487866b",
+    "definition": "All repository source, tests, fixtures and documentation at gate time, excluding only this stage evidence and prerequisite noise-factor evidence JSON. Canonical compact sorted JSON maps paths to SHA-256. All files rechecked unchanged after alignment to the published base commit."
+  },
+  "environment": {
+    "compiler": "g++ (Debian 14.2.0-19) 14.2.0",
+    "cmake": "3.31.6",
+    "language": "strict C++17, extensions OFF",
+    "platform": "Linux cloud workspace"
+  },
+  "configurations": {
+    "Debug": {
+      "full_build": "passed",
+      "full_ctest": {
+        "passed": 154,
+        "failed": 0,
+        "last_test_log_sha256": "5a0dee2f06201196344c9d308376d19e04faca14e68abce185a27115109ebdf1"
+      },
+      "relocated_full_sdk": {
+        "passed": 13,
+        "failed": 0,
+        "includes_c_tests": 2,
+        "last_test_log_sha256": "3b01691c469f269773f77f0564e412da4c5564f747f82108ba7829dc4796e49b"
+      },
+      "all_options_off_pure_cpp_sdk": {
+        "passed": 11,
+        "failed": 0,
+        "c_compiler_discovered": false,
+        "python_discovered": false,
+        "last_test_log_sha256": "43b72297a924cafce9db759149f440e8926d3faea1080a8a1b189269dfe2cd03"
+      },
+      "installed_header_sha256": {
+        "relocated": {
+          "include/rfmodel/conversion/conversion_operating_point.hpp": "3978bbcc89717e8fc984a8c9bc7ab03524d0e7a89faf5e03f62b1b2ade84732c",
+          "include/rfmodel/conversion/conversion_simulation.hpp": "fe118bfca059b33dd21498ed817c9e649b0ece8f8926f0d5e74882bb52908d01",
+          "include/rfmodel/noise/noise_matrix.hpp": "893fa57e8e6dcd5b1b17a57ad78a38f270ac72671a074174d8901087d24f2115"
+        },
+        "pure-relocated": {
+          "include/rfmodel/conversion/conversion_operating_point.hpp": "3978bbcc89717e8fc984a8c9bc7ab03524d0e7a89faf5e03f62b1b2ade84732c",
+          "include/rfmodel/conversion/conversion_simulation.hpp": "fe118bfca059b33dd21498ed817c9e649b0ece8f8926f0d5e74882bb52908d01",
+          "include/rfmodel/noise/noise_matrix.hpp": "893fa57e8e6dcd5b1b17a57ad78a38f270ac72671a074174d8901087d24f2115"
+        }
+      },
+      "strict_cpp17": {
+        "full": {
+          "cpp_translation_units": 118,
+          "strict_std_cpp17": true,
+          "compile_commands_sha256": "1a8d9d22e31a737093694a904e3f49b9c53355a9ba574232b2e02d0e1671cc3d"
+        },
+        "full_sdk": {
+          "cpp_translation_units": 19,
+          "strict_std_cpp17": true,
+          "compile_commands_sha256": "91985e2d08794c861a3888b36c49ecb49a83f26e3c0a57654aff99f8c922d23e"
+        },
+        "pure_cpp_sdk": {
+          "cpp_translation_units": 19,
+          "strict_std_cpp17": true,
+          "compile_commands_sha256": "48c3c4a5c32956865712f66d345595a87daca66a3d3063e345aa3333b3d55f64"
+        }
+      }
+    },
+    "Release": {
+      "full_build": "passed",
+      "full_ctest": {
+        "passed": 154,
+        "failed": 0,
+        "last_test_log_sha256": "148a014e888b2d2c642e6f60ef5fd442f4e02081b13a69a6ee8fadf27b9e97c7"
+      },
+      "relocated_full_sdk": {
+        "passed": 13,
+        "failed": 0,
+        "includes_c_tests": 2,
+        "last_test_log_sha256": "ca48ec2768b6f91446207f98e336dcceadd63c74e42da01add51210fdfb95461"
+      },
+      "all_options_off_pure_cpp_sdk": {
+        "passed": 11,
+        "failed": 0,
+        "c_compiler_discovered": false,
+        "python_discovered": false,
+        "last_test_log_sha256": "77cded184f0d7e2224431139f285184341b32fd0a8e6607b059d6ce1ef1ab3ca"
+      },
+      "installed_header_sha256": {
+        "relocated": {
+          "include/rfmodel/conversion/conversion_operating_point.hpp": "3978bbcc89717e8fc984a8c9bc7ab03524d0e7a89faf5e03f62b1b2ade84732c",
+          "include/rfmodel/conversion/conversion_simulation.hpp": "fe118bfca059b33dd21498ed817c9e649b0ece8f8926f0d5e74882bb52908d01",
+          "include/rfmodel/noise/noise_matrix.hpp": "893fa57e8e6dcd5b1b17a57ad78a38f270ac72671a074174d8901087d24f2115"
+        },
+        "pure-relocated": {
+          "include/rfmodel/conversion/conversion_operating_point.hpp": "3978bbcc89717e8fc984a8c9bc7ab03524d0e7a89faf5e03f62b1b2ade84732c",
+          "include/rfmodel/conversion/conversion_simulation.hpp": "fe118bfca059b33dd21498ed817c9e649b0ece8f8926f0d5e74882bb52908d01",
+          "include/rfmodel/noise/noise_matrix.hpp": "893fa57e8e6dcd5b1b17a57ad78a38f270ac72671a074174d8901087d24f2115"
+        }
+      },
+      "strict_cpp17": {
+        "full": {
+          "cpp_translation_units": 118,
+          "strict_std_cpp17": true,
+          "compile_commands_sha256": "54c42a3224d1d7fc85fa586e7cdcf3ff5a6f9c07e33fe4b0fa3fc7aaa6b1b2d8"
+        },
+        "full_sdk": {
+          "cpp_translation_units": 19,
+          "strict_std_cpp17": true,
+          "compile_commands_sha256": "50885cb9262fd1c6e6a06839a1875b172d178976b93e54730b4536877337d45b"
+        },
+        "pure_cpp_sdk": {
+          "cpp_translation_units": 19,
+          "strict_std_cpp17": true,
+          "compile_commands_sha256": "1b06bfde18cf29ab48d4f4869f8b597c1cdbef7df45d8645c298930c0cb42d22"
+        }
+      }
+    }
+  },
+  "focused_checks": {
+    "strict_warnings_ubsan": {
+      "passed": true,
+      "checks": 638,
+      "maximum_noise_absolute_error": 5.7232174218146495e-25,
+      "flags": "-std=c++17 -O1 -g -Wall -Wextra -Wpedantic -Werror -fsanitize=undefined -fno-sanitize-recover=all",
+      "log_sha256": "26e3d18fde7d2d226cf1088a96f349ae49fcfa29b2825f6718bcb0b9d0c147fe"
+    },
+    "asan_ubsan": "638 checks passed with ASAN_OPTIONS=detect_leaks=0; LeakSanitizer unavailable under ptrace",
+    "format": "clang-format 19.1.7 dry-run passed for all changed C++ files",
+    "independent_review": {
+      "decision": "APPROVE; no blockers",
+      "review_manifest_canonical_sha256": "110835ca9b353c0dd6cd82896f75dd230b36beaf5d9fee617ebfda0a8ae78e7a",
+      "probe_results_sha256": "dcb838d800fe0e8cd555d5045b669a7c38d55a76f13b051c878aa043ea409fa3",
+      "coverage": "Independent proper/improper/DC cubic feedback, accepted fixed offset, frozen NF, mixed-reference physical Norton circuit C/P/cross/net and malformed/exception contracts under UBSan"
+    }
+  },
+  "gate_log_sha256": "bd348f072e8165851edcc01c9955438f0985e33a961e1995946fb22477bcafff",
+  "coverage": [
+    "Accepted-state incident/outgoing/original fixed offset/Jacobian borrowed synchronous context and owning explicitly labeled intrinsic C/P snapshot.",
+    "Exactly once after convergence in device-index order; no provider during backtracking or before deterministic convergence; complete replacement and unregistered/source-noise preservation.",
+    "Independent scalar bisection and quadrature oracles for nonlinear proper/improper/DC feedback, variable drive, fixed offsets, loose accepted points and thermal-scale checks.",
+    "Physical V/I mixed-reference Norton noise oracle, cross-frequency correlated real DC/RF, loaded cross C/P and net noise.",
+    "Frozen measurements and multi-temperature NF, retained accepted-device replay, metadata/storage/PSD/DC validation and failure atomicity.",
+    "Original solver function-pointer types and request aggregate compatibility; relocated two-translation-unit installed provider consumer."
+  ],
+  "limits": [
+    "No ModelAdapter noise capability or vendor coefficients changed.",
+    "No C ABI or SystemVue equivalence/acceptance claim.",
+    "loaded_noise=false still computes outgoing noise; no signal-only mode introduced.",
+    "Callback external side effects cannot be rolled back; callbacks should be pure.",
+    "Remote publication and CI are not claimed by this local validation record."
+  ]
+}

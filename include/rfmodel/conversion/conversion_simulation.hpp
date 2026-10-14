@@ -47,6 +47,7 @@ struct ConversionSimulationRequest {
     bool loaded_noise{false};
     std::vector<ConversionChannelMeasurementRequest> measurements;
     std::vector<ConversionNoiseExperiment> noise_experiments;
+    std::vector<ConversionIntrinsicNoiseProvider> intrinsic_noise_providers;
 };
 
 struct ConversionChannelState {
@@ -68,7 +69,8 @@ struct ConversionSimulationResult {
     std::vector<std::pair<std::string, ConversionNoiseAnalysis>> noise_experiments;
     std::optional<ConversionOperatingDiagnostics> operating_point;
     // The accepted Jacobian/noise/offset snapshot, ready for further native
-    // analysis. No post-convergence callback re-evaluation is performed.
+    // analysis. Deterministic callbacks are not re-evaluated after convergence;
+    // accepted-state intrinsic noise providers are invoked exactly once.
     std::vector<ConversionDevice> accepted_devices;
     std::vector<Complex> output_offset;
     std::optional<ConversionNoise> additional_source_noise;
@@ -83,7 +85,8 @@ analyze_conversion_simulation(ConversionSimulationRequest request) {
         request.phase_noise.size() > 512 || request.measurements.size() > 512 ||
         request.noise_experiments.size() > 512 ||
         (!request.operating_point &&
-         (!request.nonlinear.empty() || !request.initial_incident.empty()))) {
+         (!request.nonlinear.empty() || !request.initial_incident.empty() ||
+          !request.intrinsic_noise_providers.empty()))) {
         throw std::invalid_argument("invalid conversion simulation request");
     }
     using Key = std::tuple<std::size_t, std::size_t, int>;
@@ -215,14 +218,16 @@ analyze_conversion_simulation(ConversionSimulationRequest request) {
     const auto *extra =
         request.additional_source_noise ? &*request.additional_source_noise : nullptr;
     if (request.operating_point) {
-        auto solved = solve_conversion_operating_point_power_waves(request.devices,
-                                                                   request.connections,
-                                                                   request.nonlinear,
-                                                                   request.initial_incident,
-                                                                   *request.operating_point,
-                                                                   loaded,
-                                                                   extra,
-                                                                   request.output_offset);
+        auto solved = solve_conversion_operating_point_power_waves_with_intrinsic_noise(
+            request.devices,
+            request.connections,
+            request.nonlinear,
+            request.intrinsic_noise_providers,
+            request.initial_incident,
+            *request.operating_point,
+            loaded,
+            extra,
+            request.output_offset);
         result.waves = std::move(solved.waves);
         result.accepted_devices = std::move(solved.linearized_devices);
         result.output_offset = std::move(solved.output_offset);
