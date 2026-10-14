@@ -1,4 +1,7 @@
 # Included from the project root to retain target and CTest paths.
+add_executable(model_conversion_adapter_test tests/models/model_conversion_adapter_test.cpp)
+target_link_libraries(model_conversion_adapter_test PRIVATE RFModel::rfmodel)
+add_test(NAME model_conversion_adapter_test COMMAND model_conversion_adapter_test)
 add_executable(model_adapter_test tests/models/model_adapter_test.cpp)
 target_link_libraries(model_adapter_test PRIVATE RFModel::rfmodel)
 add_test(NAME model_adapter_test COMMAND model_adapter_test)

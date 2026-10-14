@@ -61,6 +61,18 @@ auto result = rfmodel::analyze_spectrum({1e8, {{10, .02}}}, 50., {stage});
 
 完整运行例见 `examples/analysis/model_adapter.cpp`，自定义反馈器件见 `tests/models/model_adapter_test.cpp`。
 
+## 线性模型接入变频网络
+
+`conversion_device(spacing_hz, bins, noise_policy)` 将适配器的固定线性 S 参数和可选内生噪声采样为拥有数据的 `ConversionDevice`，可交给 `FrequencyConversionNetwork` 或工作点网络中的固定线性器件槽。它不会把模型的小信号 S 参数当作非线性大信号工作点；需要后者时仍使用 `operating_device()`。
+
+`bins` 必须非负、严格递增，`spacing_hz` 有限且为正，总通道数不超过 512。返回通道按频点优先、物理端口 ID 次序排列：`index = frequency_index * port_count + port_id`。整个请求网格在调用提供器前验证；每个频点的 S 和启用的噪声各求值一次。矩阵和逐通道参考阻抗全部复制进快照，后续求解不再调用适配器。回调失败不返回部分器件，回调自身的外部副作用不能回滚。
+
+噪声策略没有默认值：`ModelNoisePolicy::require_model_noise` 要求模型具有噪声能力，缺失时抛 `ModelCapabilityUnavailable`；`omit_intrinsic_noise` 显式忽略内生噪声且不调用噪声提供器。后者不代表该器件物理无噪声。跨频点噪声相关为零，同频端口相关完整保留；正频点的平稳噪声 `P=0`，DC 为实噪声 `P=C`。DC 的参考阻抗及 S/噪声必须符合已有实数契约，返回前验证完整 C/P 合法性。需要跨频点相关、非平稳噪声或频率相关参考坐标时，应直接构造相应底层转换器件。
+
+返回器件的源波、反射边界及源噪声均初始化为零，由宿主按实验配置填写。采用复参考或非公共实参考时使用 `network.add_power_waves(device)`，保持物理 V/I 接线；公共实参考与网络一致时可用 `add(device)`。
+
+`examples/analysis/model_adapter.cpp` 展示有热噪声的衰减器接理想混频器；`tests/models/model_conversion_adapter_test.cpp` 独立验证镜像折叠噪声、上下边带相关、SSB/DSB 噪声因子、复参考反馈闭式解、频点采样及 DC 约束。该入口不增加厂商器件兼容通过项。
+
 ## 相干图扩展、所有权和失败
 
 `CoherentSystem::stage(name, inputs, output_names, operation)` 是宿主扩展入口。回调收到当前执行的 `CoherentPipeline` 和本阶段输入句柄，返回 `StageEvaluation{outputs, statistics}`。输出数量必须与声明一致，每个句柄必须属于当前管线；可返回已有输入的别名。构图时检查输入所有权、名称冲突及图预算，检查失败不会发布新定义。

@@ -26,6 +26,8 @@ RFModel 的交付入口是安装后的 `RFModel::rfmodel`。宿主用 C++ 类型
 
 ## 频率扩展与混合参考
 
+线性模型可先通过 `ModelAdapter::conversion_device(spacing_hz, bins, noise_policy)` 采样 S 和内生噪声，直接得到拥有数据的 `ConversionDevice`。噪声必须显式选择使用模型数据或忽略；返回通道为频点优先顺序，保留每端口参考及 DC 的 C=P 约束。见[适配契约](model-adapters.md)。
+
 先构造 `ConversionGrid`，再使用 `plan().channels` 建立器件模型。`expand(device, seeds, generated_reference, boundary)` 生成局部数据；`global_noise` 保留跨器件 C/P。`align_device`/`align_vector` 处理已有模型的 bin-major 与规划的 port-major 顺序差异。新增外部通道可设置统一边界和热噪声；接线端不会被赋予外部边界。DC 参考和波为实数，DC 热噪声具有 C=P。
 
 扩展后的参考是模型坐标元数据。宿主应在构建模型时使用对应参考，已有模型需使用 `renormalize_power_waves` 及边界变换保留物理电路，不能只改标签。

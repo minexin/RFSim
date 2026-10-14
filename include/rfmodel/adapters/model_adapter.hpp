@@ -24,6 +24,12 @@ struct ModelCapabilities {
     bool linear{}, noise{}, spectrum{}, operating_point{}, coherent{};
 };
 
+// Required at conversion sampling: absence of noise data is never silently zero.
+enum class ModelNoisePolicy {
+    require_model_noise,
+    omit_intrinsic_noise
+};
+
 struct ModelOperatingPoint {
     double spacing_hz;
     std::vector<ConversionChannel> channels;
@@ -154,6 +160,57 @@ public:
 
     std::size_t add_to(LinearNetwork &network, double hz) const {
         return network.add_power_waves(s_parameters(hz), references());
+    }
+
+    // Sample the declared stationary linear response, not a nonlinear operating point.
+    // Channel order is frequency-major, then dense physical port ID. The returned
+    // snapshot owns its matrices; source, reflection and source noise start at zero.
+    ConversionDevice conversion_device(double spacing_hz,
+                                       const std::vector<int> &bins,
+                                       ModelNoisePolicy noise_policy) const {
+        require_capability(bool(functions_.scattering), "linear");
+        if (noise_policy != ModelNoisePolicy::require_model_noise &&
+            noise_policy != ModelNoisePolicy::omit_intrinsic_noise) {
+            throw std::invalid_argument("invalid model noise policy");
+        }
+        const bool with_noise = noise_policy == ModelNoisePolicy::require_model_noise;
+        if (with_noise) {
+            require_capability(bool(functions_.noise), "noise");
+        }
+        const auto ports = descriptor_.ports.size();
+        if (!std::isfinite(spacing_hz) || spacing_hz <= 0. || bins.empty() || bins.size() > 512 ||
+            ports > 512 / bins.size()) {
+            throw std::invalid_argument("invalid model conversion grid");
+        }
+        const auto refs = references();
+        // Validate the entire grid before invoking any potentially stateful provider.
+        for (std::size_t k = 0; k < bins.size(); ++k) {
+            if (bins[k] < 0 || (k && bins[k] <= bins[k - 1]) ||
+                !std::isfinite(bins[k] * spacing_hz)) {
+                throw std::invalid_argument("model conversion bins must increase and be finite");
+            }
+            if (bins[k] == 0) {
+                for (auto ref : refs) {
+                    if (ref.imag() != 0.) {
+                        throw std::invalid_argument("DC model conversion requires real references");
+                    }
+                }
+            }
+        }
+        std::vector<SMatrix> samples;
+        std::vector<NoiseCorrelation> noise;
+        samples.reserve(bins.size());
+        noise.reserve(bins.size());
+        for (auto bin : bins) {
+            const double hz = bin * spacing_hz;
+            samples.push_back(s_parameters(hz));
+            noise.push_back(with_noise ? noise_correlation(hz)
+                                       : NoiseCorrelation{conversion_detail::zero(ports)});
+        }
+        auto result = lift_linear_conversion(
+            spacing_hz, bins, samples, noise, std::vector<std::vector<Complex>>(bins.size(), refs));
+        result.model.validate_noise(result.intrinsic_noise);
+        return result;
     }
 
     PowerWaveSpectrum transmit(const PowerWaveSpectrum &incident) const {
