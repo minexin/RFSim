@@ -4,6 +4,7 @@ param(
     [ValidateRange(-180,180)][double]$SourcePhaseDeg = 0,
     [ValidateSet(2,3,5,7,9,11)][int]$MaximumOrder = 3,
     [ValidateRange(-10,20)][double]$SecondGainDb = 10,
+    [double]$FirstOp1dbDbm = 20,
     [ValidateSet(100,140)][int]$ReverseIsolationDb = 100,
     [ValidateSet(1,1000000)][double]$ChannelBandwidthHz = 1000000,
     [switch]$SecondarySpectrum,
@@ -13,6 +14,12 @@ param(
     [ValidateSet(-140,-50,50,140)][int]$SecondaryRangeDb = -50
 )
 $ErrorActionPreference = 'Stop'
+# dBm can be negative. Reject only non-finite/unrepresentable positive SI power.
+$firstOp1dbW = [Math]::Pow(10, ($FirstOp1dbDbm - 30) / 10)
+if ([double]::IsNaN($FirstOp1dbDbm) -or [double]::IsInfinity($FirstOp1dbDbm) -or
+    [double]::IsInfinity($firstOp1dbW) -or $firstOp1dbW -le 0) {
+    throw 'First-stage OP1dB must convert to finite positive watts.'
+}
 if ($null -ne $SecondSourcePowerDbm -and (-not $TwoTone.IsPresent -or
     [double]::IsNaN($SecondSourcePowerDbm) -or [double]::IsInfinity($SecondSourcePowerDbm))) {
     throw 'Second source power requires two-tone mode and a finite value.'
@@ -192,7 +199,7 @@ public static class CascadeReference
     public static Node[] Run(double power, double phase, int order, double secondGain,
                              double channelBandwidth, bool secondary, int secondaryRange,
                              bool twoTone, int reverseIsolation, double secondPower,
-                             bool spectrumReduction)
+                             bool spectrumReduction, double firstOp1db)
     {
         object active = Marshal.GetActiveObject("Genesys.Application");
         try
@@ -250,7 +257,7 @@ public static class CascadeReference
                         string[] values = {
                             i == 1 ? "10" : secondGain.ToString("R", CultureInfo.InvariantCulture),
                             "3",
-                            "20",
+                            i == 1 ? firstOp1db.ToString("R", CultureInfo.InvariantCulture) : "20",
                             "23",
                             "40",
                             "30",
@@ -359,7 +366,8 @@ $nodes = [CascadeReference]::Run(
     $TwoTone.IsPresent,
     $ReverseIsolationDb,
     $effectiveSecondPowerDbm,
-    (-not $DisableSpectrumReduction.IsPresent)
+    (-not $DisableSpectrumReduction.IsPresent),
+    $FirstOp1dbDbm
 )
 [ordered]@{
     run_started_utc = [CascadeReference]::Started
@@ -372,6 +380,7 @@ $nodes = [CascadeReference]::Run(
     second_source_power_dbm = $effectiveSecondPowerDbm
     source_phase_deg = $SourcePhaseDeg
     maximum_order = $MaximumOrder
+    first_op1db_dbm = $FirstOp1dbDbm
     second_gain_db = $SecondGainDb
     reverse_isolation_db = $ReverseIsolationDb
     channel_bandwidth_hz = $ChannelBandwidthHz

@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "stage": "rfamp-op1db-pilot-offline-preparation",
+  "date_utc": "2026-10-14",
+  "classification": "offline_acquisition_readiness_not_vendor_compatibility",
+  "base_commit": "1a6d1bb60b2513aaff6648acd70c5e50788e9f65",
+  "base_tree": "6aa4024781f8200c3b88cc964217abafcb1b3497",
+  "plan_path": "validation/rfamp-op1db-pilot-plan.json",
+  "plan_sha256": "1436ad0e2139919882de558861f049d2c3e5ec67332b13a25f5bbd74158937c8",
+  "source_files_sha256": {
+    "cmake/NativeReferenceReplay.cmake": "92ec950e6ad6b9c8b96fac448bcf459acdb7142f64e95180d723255d935d0c0f",
+    "docs/rfamp-op1db-parameter-pilot.md": "2e59e9fd715c342c8bae66ad83d4c4931d1c51a01aeff3df536090e001e08622",
+    "scripts/reference/archive-cascade-reference.py": "20b87d5df321d37495571eea93935ca27e156e01d9ed9da5be37a0721e5ca5ac",
+    "scripts/reference/capture-cascade-reference.ps1": "9d4c45fa14506d92d67b19c6d0f9b1a82575835f9e986fed46876dada7902b6c",
+    "scripts/reference/compare-cascade-amplifier.py": "e340f4cb84e3722a0cd7d23d54cc7e83b7f1ef437559e79f4c0952ee20ccaf1a",
+    "scripts/reference/rfamp-parameter-pilot.py": "3d1382fd7d2baf29419e40eebbe916838f605cd3eb71ace62f8f4d0a6249f485",
+    "scripts/reference/run-systemvue-reference.py": "e3c7e9b6772031b21c8414a627a541495b3997ad8fd4c0754d7f7c5289190e67",
+    "scripts/reference/test_rfamp_parameter_pilot.py": "e80df22b092cfec556f824d314ff1b79c46af57522cd3020b98f5b3740a97340",
+    "validation/rfamp-op1db-pilot-plan.json": "1436ad0e2139919882de558861f049d2c3e5ec67332b13a25f5bbd74158937c8"
+  },
+  "gates": {
+    "pilot": {
+      "methods": 9,
+      "passed": 8,
+      "skipped": 1,
+      "skip_reason": "Windows-only PowerShell AST parser"
+    },
+    "existing_runner": {
+      "methods": 17,
+      "passed": 14,
+      "skipped": 3,
+      "skip_reason": "existing Windows-only tests"
+    },
+    "existing_native_replay": {
+      "highorder_input_reference": 7,
+      "highorder_model_reference": 1,
+      "diagnose_eleventh_order": 8,
+      "diagnose_highorder_amplifier": 7,
+      "diagnose_spectrum_reduction": 7
+    },
+    "diff_check": "passed",
+    "independent_review": "approved exact patch SHA256"
+  },
+  "ctest_registration": {
+    "name": "native_rfamp_parameter_pilot",
+    "result": "passed",
+    "scope": "developer-only reference tests"
+  },
+  "native_replay_probe": {
+    "origin": "unchanged SDK-stage Debug native replay probe",
+    "sha256": "b6edf388f84b232beced5c5af4729df9aab1fcf480839db1a979a2fa6c5a33fb",
+    "new_native_build_for_this_stage": false
+  },
+  "limits": [
+    "No local computer or live SystemVue execution performed.",
+    "No vendor capture was generated or fabricated. Mutated test fixtures exist only in temporary test directories.",
+    "Windows PowerShell AST parser test is pending Windows CI; Linux skipped it. Parsing does not invoke the scripts or SystemVue.",
+    "C# compilation and SystemVue COM runtime behavior remain unverified.",
+    "No coefficient extraction or law fitting is implemented. No compatibility denominator or tolerance was changed.",
+    "Four-run pilot examines only first-stage OP1dB dependence and a two-tone holdout at one new profile.",
+    "Python and PowerShell are developer evidence tools, not product runtime dependencies."
+  ],
+  "preservation": {
+    "historical_vendor_json_unchanged": true,
+    "native_sources_unchanged": true,
+    "sdk_packaging_cmake_and_ci_unchanged": true
+  }
+}

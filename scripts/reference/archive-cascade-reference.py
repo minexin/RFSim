@@ -52,6 +52,11 @@ def extract(raw, status, digest):
     )
     if submitted_second_power != second_power:
         raise ValueError("Command disagrees with second source power")
+    first_op1db = raw.get("first_op1db_dbm", 20)
+    comparison.runner.op1db_watts(first_op1db)
+    submitted_op1db = float(argument("-FirstOp1dbDbm")) if "-FirstOp1dbDbm" in command else 20
+    if submitted_op1db != first_op1db:
+        raise ValueError("Command disagrees with first-stage OP1dB")
     # Collector commands always contain Windows paths, including during offline replay.
     protected = PureWindowsPath(argument("-WorkspacePath"))
     if (
@@ -66,14 +71,14 @@ def extract(raw, status, digest):
         comparison.ROOT + "System3_Design3_Data",
         comparison.ROOT + "System3_Data_Folder/System3_Design3_Data_Path1",
     }
-    _, parameters = comparison.inspect(capture)
+    _, parameters = comparison.inspect(capture, allow_parameter_pilot=True)
     exact.update(comparison.ROOT + k for k in parameters)
     exact.update(comparison.ROOT + "Design3/PartList/" + name for name in comparison.TOPOLOGY)
     variables = ["IDNo", "IDName", "RFElemList", "RFPwrIn"]
     variables += [k + str(port) for k in ("F", "P", "ID", "V", "Z") for port in (2, 3)]
     exact.update(comparison.ROOT + comparison.SPECTRUM + k for k in variables)
     capture["nodes"] = [n for n in raw["nodes"] if n["path"] in exact]
-    comparison.inspect(capture)
+    comparison.inspect(capture, allow_parameter_pilot=True)
     for port in (2, 3):
         comparison.spectrum(capture, port)
     return capture
@@ -98,6 +103,7 @@ def main():
         key = tuple(capture[k] for k in comparison.META) + (
             capture.get("second_source_power_dbm", capture["source_power_dbm"]),
             capture.get("spectrum_reduction", True),
+            capture.get("first_op1db_dbm", 20),
         )
         if key in seen:
             raise ValueError("Duplicate configuration")

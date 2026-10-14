@@ -96,7 +96,7 @@ def equal(actual, expected):
     return math.isclose(finite(actual), expected, rel_tol=1e-12, abs_tol=0.0)
 
 
-def inspect(capture):
+def inspect(capture, *, allow_parameter_pilot=False):
     runner.validate_capture(capture, "cascade")
     # Independently require a fresh main spectrum dataset as well as the path dataset.
     mirror = dict(
@@ -127,6 +127,12 @@ def inspect(capture):
     for key in ("two_tone", "secondary_spectrum"):
         if type(capture[key]) is not bool:
             raise ValueError("Expected explicit boolean metadata")
+    first_op1db = finite(capture.get("first_op1db_dbm", 20))
+    first_op1db_w = runner.op1db_watts(first_op1db)
+    if "first_op1db_dbm" in capture:
+        runner.validate_op1db_script(capture)
+    if first_op1db != 20 and not allow_parameter_pilot:
+        raise ValueError("Changed RFAMP profile requires parameter-pilot analysis; old coefficients are not applicable")
     power, phase = finite(capture["source_power_dbm"]), finite(capture["source_phase_deg"])
     second_power = finite(capture.get("second_source_power_dbm", power))
     if not -60 <= second_power <= 5 or (not capture["two_tone"] and second_power != power):
@@ -175,7 +181,7 @@ def inspect(capture):
         parameters = {
             "G": 10 ** ((10 if index == 1 else gain) / 10),
             "NF": 10**0.3,
-            "OP1dB": 0.1,
+            "OP1dB": first_op1db_w if index == 1 else 0.1,
             "OPSAT": 10 ** (-0.7),
             "OIP2": 10.0,
             "OIP3": 1.0,

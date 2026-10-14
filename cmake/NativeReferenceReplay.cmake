@@ -97,7 +97,7 @@ foreach(suite IN ITEMS highorder_model_reference highorder_input_reference
 endforeach()
 # Acquisition guards and frozen hypothesis scoring use only archived JSON and
 # Python's standard library; they do not accept a native-probe argument.
-foreach(suite IN ITEMS archive_am_pm_datapoints_zero_study
+foreach(suite IN ITEMS rfamp_parameter_pilot archive_am_pm_datapoints_zero_study
         archive_am_pm_datapoints_zero_acquisition diagnose_am_pm_datapoints_zero_study
         prepare_am_pm_datapoints_raw_axis_study diagnose_am_pm_datapoints_raw_axis_study
         archive_am_pm_datapoints_raw_axis_acquisition report_am_pm_datapoints_raw_axis_study

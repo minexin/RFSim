@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "classification": "frozen_preparation_not_live_evidence",
+  "systemvue_version": "2023.0.0.11903",
+  "workspace": "build-reference/RFModel_CascadeIntermods.wsv",
+  "analysis_budget": 4,
+  "automatic_retry": false,
+  "runs": [
+    {"run_id": "A-baseline", "first_op1db_dbm": 20, "frequencies_hz": [1000000000], "powers_dbm": [5], "phases_deg": [0], "role": "baseline_identification"},
+    {"run_id": "B-op1db21", "first_op1db_dbm": 21, "frequencies_hz": [1000000000], "powers_dbm": [5], "phases_deg": [0], "role": "changed_profile_identification"},
+    {"run_id": "C-two-tone-holdout", "first_op1db_dbm": 21, "frequencies_hz": [1000000000, 1100000000], "powers_dbm": [5, 5], "phases_deg": [0, 90], "role": "independent_transfer_holdout"},
+    {"run_id": "D-restore-baseline", "first_op1db_dbm": 20, "frequencies_hz": [1000000000], "powers_dbm": [5], "phases_deg": [0], "role": "end_control_not_new_prediction"}
+  ],
+  "fixed": {
+    "first_gain_db": 10, "second_gain_db": -10, "second_op1db_dbm": 20,
+    "opsat_dbm": 23, "oip2_dbm": 40, "oip3_dbm": 30, "nf_db": 3,
+    "riso_db": 140, "zref_ohms": 50, "zin_ohms": 50, "zout_ohms": 50,
+    "source_and_output_ohms": 50, "source_bandwidth_hz": 1, "channel_bandwidth_hz": 1000000,
+    "maximum_order": 11, "harmonics": true, "intermods": true, "coherent_im": true,
+    "show_totals": true, "noise": false, "phase_noise": false, "secondary_spectrum": false,
+    "spectrum_reduction": false, "elim_spec": 0, "ignore_power_dbm": -200,
+    "am_to_pm_mode": 0, "enable_pn": 0, "frequency_mode": 0, "port_param_type": 0
+  },
+  "reference_planes": {"first_input_port": 1, "first_output_port": 3, "second_output_port": 2},
+  "input_wave": "V1_peak/sqrt(2*50 ohm), measured complex voltage; no nominal-power substitute",
+  "output_wave": "V3_peak/sqrt(2*Z3), with archived complex Z retained and V/P/Z consistency checked",
+  "relative_complex_wave_tolerance": 1e-7,
+  "analysis": [
+    "Extract H5/H7/H9/H11 independently at A and B using measured input and existing common-limiter convention.",
+    "Test unchanged coefficients with changed common response at B; report residual, do not assume parameter dependence.",
+    "Freeze B coefficients, normalization, code hashes and prediction before examining C. Acquisition tool does not fit coefficients or enforce analyst blinding.",
+    "Predict independent source terms at C with frozen B coefficients. Preserve missing/low-power terms and warnings; never zero-fill, refit or widen tolerance.",
+    "A and D are controls and do not increase the independent prediction denominator. Common-response mismatch must not be forced into coefficient changes."
+  ],
+  "stop": "Stop on invalid identity, warning, stale data, mismatch, failed collection or unresolved timeout. Preserve every attempt; do not resubmit or start subsequent analyses. Restore original state without another analysis after resolving any running collector.",
+  "boundary": "One OP1dB dependence pilot only; no proprietary coefficient law, automatic RFAMP factory or complete SystemVue compatibility claim. No new native coefficients or vendor measurements supplied."
+}

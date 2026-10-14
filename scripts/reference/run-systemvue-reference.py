@@ -1,5 +1,6 @@
 """Run the guarded COM collector without UI automation or automatic retries."""
 import argparse
+import hashlib
 import json
 import math
 import os
@@ -28,6 +29,29 @@ CANCELLATION_WARNING = (
     "undesired signals, or the path begins on a node containing no source. Enable the 'Allow Path to Begin "
     "on Internal Node' option when the path doesn't begin at a source."
 )
+
+
+def op1db_watts(dbm):
+    """No arbitrary dBm clamp: require representable, finite positive SI power."""
+    if type(dbm) not in (float, int) or not math.isfinite(dbm):
+        raise ValueError("First-stage OP1dB must be finite")
+    try:
+        watts = 10 ** ((dbm - 30) / 10)
+    except OverflowError:
+        raise ValueError("First-stage OP1dB must convert to finite positive watts") from None
+    if not math.isfinite(watts) or watts <= 0:
+        raise ValueError("First-stage OP1dB must convert to finite positive watts")
+    return watts
+
+
+def validate_op1db_script(capture):
+    """Bind the two new-profile OP1dB requests to the actual submitted script."""
+    script = capture["submitted_script"]
+    for stage, expected in ((1, capture["first_op1db_dbm"]), (2, 20)):
+        token = f"wsdoc.Designs.Design3.PartList.RFAmp{stage}.ParamSet.OP1dB.Set"
+        values = re.findall(r'^Call ' + re.escape(token) + r'\("([^"\r\n]+)"\)\r?$', script, re.MULTILINE)
+        if script.count(token) != 1 or len(values) != 1 or float(values[0]) != expected:
+            raise ValueError("Submitted OP1dB script disagrees with request")
 
 
 def validate_capture(capture, case, *, allow_compression_warning=False, allow_cancellation_warning=False):
@@ -85,6 +109,14 @@ def execute(command, output_directory, case, timeout_seconds, *, compression_dia
 
     save()
     try:
+        if case == "cascade" and "-File" in command:
+            collector = Path(command[command.index("-File") + 1])
+            status["source_sha256"] = {}
+            for name, source in (("collector.ps1", collector), ("runner.py", Path(__file__))):
+                content = source.read_bytes()
+                (output_directory / name).write_bytes(content)
+                status["source_sha256"][name] = hashlib.sha256(content).hexdigest()
+            save()
         with (output_directory / "capture.json").open("wb") as stdout, \
                 (output_directory / "stderr.log").open("wb") as stderr:
             process = subprocess.Popen(command, stdout=stdout, stderr=stderr)
@@ -105,6 +137,21 @@ def execute(command, output_directory, case, timeout_seconds, *, compression_dia
         capture = json.loads((output_directory / "capture.json").read_text(encoding="utf-8-sig"))
         validate_capture(capture, case, allow_compression_warning=compression_diagnostic,
                          allow_cancellation_warning=cancellation_diagnostic)
+        if case == "cascade" and ("first_op1db_dbm" in capture or "-FirstOp1dbDbm" in command):
+            if command.count("-FirstOp1dbDbm") > 1 or "first_op1db_dbm" not in capture:
+                raise ValueError("Missing OP1dB metadata or duplicate request")
+            requested = float(command[command.index("-FirstOp1dbDbm") + 1]) if "-FirstOp1dbDbm" in command else 20
+            if capture["first_op1db_dbm"] != requested:
+                raise ValueError("Requested first-stage OP1dB disagrees with capture")
+            for stage, dbm in ((1, requested), (2, 20)):
+                suffix = f"/Design3/PartList/RFAmp{stage}/ParamSet/OP1dB"
+                nodes = [n for n in capture["nodes"] if n["path"].endswith(suffix)]
+                if (len(nodes) != 1 or nodes[0].get("evaluation_error") or
+                        type(nodes[0].get("data")) not in (float, int) or
+                        not math.isclose(nodes[0]["data"], op1db_watts(dbm), rel_tol=1e-12, abs_tol=0)):
+                    raise ValueError("OP1dB SI readback mismatch: " + suffix)
+            validate_op1db_script(capture)
+            status["submitted_script_sha256"] = hashlib.sha256(capture["submitted_script"].encode("utf-8")).hexdigest()
         status["state"] = "captured_diagnostic" if diagnostic else "captured"
         status["eligible_for_compatibility"] = not diagnostic
         status["detail"] = ("Diagnostic capture only; preserve warning and exclude from compatibility acceptance."
@@ -138,6 +185,7 @@ def main():
     parser.add_argument("--cascade-max-order", type=int, choices=(2, 3, 5, 7, 9, 11))
     parser.add_argument("--cascade-phase-deg", type=float)
     parser.add_argument("--cascade-second-gain-db", type=float)
+    parser.add_argument("--cascade-first-op1db-dbm", type=float)
     parser.add_argument("--coherent-phase-deg", type=float)
     parser.add_argument("--coherent-length-rad", type=float)
     parser.add_argument("--coherent-locked", action="store_true")
@@ -172,6 +220,7 @@ def main():
             args.cascade_max_order,
             args.cascade_phase_deg,
             args.cascade_second_gain_db,
+            args.cascade_first_op1db_dbm,
             args.cascade_channel_bandwidth_hz,
             args.cascade_secondary_range_db,
             args.cascade_riso_db,
@@ -192,6 +241,11 @@ def main():
     ):
         parser.error("Cascade second power requires two-tone mode and finite -60 to 5 dBm")
     if args.case == "cascade":
+        if args.cascade_first_op1db_dbm is not None:
+            try:
+                op1db_watts(args.cascade_first_op1db_dbm)
+            except ValueError as error:
+                parser.error(str(error))
         if (
             args.source_power_dbm is None
             or not math.isfinite(args.source_power_dbm)
@@ -274,6 +328,8 @@ def main():
                    "-ChannelBandwidthHz", str(args.cascade_channel_bandwidth_hz or 1e6),
                    "-SecondaryRangeDb", str(args.cascade_secondary_range_db or -50),
                    "-ReverseIsolationDb", str(args.cascade_riso_db or 100)]
+        if args.cascade_first_op1db_dbm is not None:
+            command.extend(["-FirstOp1dbDbm", str(args.cascade_first_op1db_dbm)])
         if args.cascade_secondary_spectrum:
             command.append("-SecondarySpectrum")
         if args.cascade_disable_spectrum_reduction:
