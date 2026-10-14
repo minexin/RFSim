@@ -164,9 +164,8 @@ Experiment make_experiment(double reference_scale) {
     return experiment;
 }
 
-void check_signal(const rf::ConversionResult &result,
-                  const Vector &references,
-                  const Physical &expected) {
+template <class Result>
+void check_signal(const Result &result, const Vector &references, const Physical &expected) {
     require(result.incident.size() == count && result.outgoing.size() == count,
             "signal dimensions");
     require(std::isfinite(result.relative_residual) && result.relative_residual >= 0. &&
@@ -259,6 +258,10 @@ void run_example(double reference_scale) {
     const auto result = experiment.network.analyze(true);
     check_signal(result, experiment.references, circuit(carrier));
     check_noise(result, experiment.references);
+    check_signal(experiment.network.solve_waves(), experiment.references, circuit(carrier));
+    check_signal(experiment.network.solve_waves(experiment.affine_offset),
+                 experiment.references,
+                 circuit(carrier, {.003, -.001}, {-.002, .004}));
     check_signal(experiment.network.analyze(true, nullptr, experiment.affine_offset),
                  experiment.references,
                  circuit(carrier, {.003, -.001}, {-.002, .004}));

@@ -47,3 +47,5 @@ RFModel 的交付入口是安装后的 `RFModel::rfmodel`。宿主用 C++ 类型
 频率 Hz、阻抗 ohm、功率 W、C/P 为 W/Hz，RF 波幅为 sqrt(W)。`SMatrix.values` 行优先。C++ API 抛出标准异常，宿主在插件/仿真软件边界捕获。C++17 头文件 API 需由宿主重新编译；跨编译器二进制集成可使用保留的 C ABI，但新增编排层目前以 C++ 类型 API 为准。
 
 旧 JSON 文档的文本解析、动态字段路径、Python CLI 和 wheel 已退役；宿主负责自己的文件格式、UI 与序列化。它们不再是公开产品入口。迁移对应表和回归证据见 [退役记录](python-interface-retirement.md)。完整 SystemVue 兼容仍未完成。
+
+纯确定性变频求解可使用独立 `ConversionWaveResult` 与模型/网络 `solve_waves`；噪声边界、极端数值回退和 Newton 快路径见[契约说明](conversion-wave-solve.md)。

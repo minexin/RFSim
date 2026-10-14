@@ -17,6 +17,12 @@ struct ConversionNoise {
     SMatrix complementary;
 };
 
+// Deterministic waves only. This result deliberately has no noise quantities.
+struct ConversionWaveResult {
+    std::vector<Complex> incident, outgoing;
+    double relative_residual{};
+};
+
 struct ConversionResult {
     std::vector<Complex> incident, outgoing;
     ConversionNoise outgoing_noise;
@@ -120,6 +126,190 @@ class FrequencyConversionModel {
             }
         }
         return noise_detail::psd_matrix(q);
+    }
+
+    struct WaveSystem {
+        SMatrix equation;
+        std::vector<std::size_t> partner;
+        std::vector<Complex> boundary_self, boundary_other;
+    };
+
+    void validate_wave_inputs(const std::vector<Complex> &source,
+                              const std::vector<Complex> &reflection,
+                              const std::vector<Complex> &output_offset) const {
+        const auto n = channels_.size();
+        if (!output_offset.empty()) {
+            if (output_offset.size() != n) {
+                throw std::invalid_argument("conversion output offset dimensions differ");
+            }
+            for (std::size_t i = 0; i < n; ++i) {
+                if (!conversion_detail::finite(output_offset[i]) ||
+                    (channels_[i].bin == 0 && output_offset[i].imag() != 0.)) {
+                    throw std::invalid_argument("invalid conversion output offset or complex DC");
+                }
+            }
+        }
+        if (source.size() != n || reflection.size() != n) {
+            throw std::invalid_argument("conversion boundary dimensions differ");
+        }
+    }
+
+    WaveSystem wave_system(const std::vector<Complex> &source,
+                           const std::vector<Complex> &reflection,
+                           const std::vector<std::pair<std::size_t, std::size_t>> &connections,
+                           const std::vector<Complex> &output_offset,
+                           const ConversionNoise *source_noise = nullptr) const {
+        const auto n = channels_.size(), m = 2 * n;
+        validate_wave_inputs(source, reflection, output_offset);
+        std::vector<std::size_t> partner(n, n);
+        auto boundary_self = reflection;
+        std::vector<Complex> boundary_other(n);
+        for (const auto &connection : connections) {
+            const auto a = connection.first, b = connection.second;
+            if (a >= n || b >= n || a == b || partner[a] != n || partner[b] != n ||
+                channels_[a].bin != channels_[b].bin) {
+                throw std::invalid_argument("invalid conversion connection");
+            }
+            partner[a] = b;
+            partner[b] = a;
+            const auto wire = power_wave_detail::connection(references_[a], references_[b]);
+            boundary_self[a] = wire.first_reflection;
+            boundary_self[b] = wire.second_reflection;
+            boundary_other[a] = boundary_other[b] = wire.coupling;
+            for (auto index : {a, b}) {
+                if (source[index] != Complex{} || reflection[index] != Complex{}) {
+                    throw std::invalid_argument("connected channel cannot have a boundary drive");
+                }
+                if (source_noise) {
+                    for (std::size_t j = 0; j < n; ++j) {
+                        if (source_noise->covariance(index, j) != Complex{} ||
+                            source_noise->covariance(j, index) != Complex{} ||
+                            source_noise->complementary(index, j) != Complex{} ||
+                            source_noise->complementary(j, index) != Complex{}) {
+                            throw std::invalid_argument(
+                                "connected channel cannot have boundary noise");
+                        }
+                    }
+                }
+            }
+        }
+        auto equation = conversion_detail::zero(m);
+        for (std::size_t j = 0; j < n; ++j) {
+            if (!conversion_detail::finite(source[j]) ||
+                !conversion_detail::finite(reflection[j]) ||
+                (channels_[j].bin == 0 && (source[j].imag() != 0. || reflection[j].imag() != 0.))) {
+                throw std::invalid_argument("invalid conversion boundary or complex DC");
+            }
+            const auto subtract = [&](std::size_t destination, Complex coefficient) {
+                for (std::size_t i = 0; i < m; ++i) {
+                    equation(i, 2 * destination) -= quadrature_(i, 2 * j) * coefficient.real() +
+                                                    quadrature_(i, 2 * j + 1) * coefficient.imag();
+                    equation(i, 2 * destination + 1) +=
+                        quadrature_(i, 2 * j) * coefficient.imag() -
+                        quadrature_(i, 2 * j + 1) * coefficient.real();
+                }
+            };
+            subtract(j, boundary_self[j]);
+            if (partner[j] != n) {
+                subtract(partner[j], boundary_other[j]);
+            }
+        }
+        for (std::size_t i = 0; i < m; ++i) {
+            equation(i, i) += 1.;
+        }
+        noise_detail::finite_matrix(equation);
+        return {std::move(equation),
+                std::move(partner),
+                std::move(boundary_self),
+                std::move(boundary_other)};
+    }
+
+    template <typename Result>
+    void finish_waves(Result &result,
+                      const WaveSystem &system,
+                      const std::vector<Complex> &source,
+                      const std::vector<Complex> &output_offset) const {
+        const auto n = channels_.size();
+        const auto &partner = system.partner;
+        const auto &boundary_self = system.boundary_self;
+        const auto &boundary_other = system.boundary_other;
+        for (std::size_t i = 0; i < n; ++i) {
+            result.incident[i] = boundary_self[i] * result.outgoing[i] + source[i];
+            if (partner[i] != n) {
+                result.incident[i] += boundary_other[i] * result.outgoing[partner[i]];
+            }
+            if (!conversion_detail::finite(result.outgoing[i]) ||
+                !conversion_detail::finite(result.incident[i])) {
+                throw std::overflow_error("conversion waves overflow");
+            }
+        }
+        for (std::size_t i = 0; i < n; ++i) {
+            Complex residual = -result.outgoing[i];
+            double scale = std::abs(result.outgoing[i]);
+            if (!output_offset.empty()) {
+                residual += output_offset[i];
+                scale += std::abs(output_offset[i]);
+            }
+            for (std::size_t j = 0; j < n; ++j) {
+                const auto first = direct_(i, j) * result.incident[j];
+                const auto second = conjugate_(i, j) * std::conj(result.incident[j]);
+                residual += first + second;
+                scale += std::abs(first) + std::abs(second);
+            }
+            if (!std::isfinite(scale) || !conversion_detail::finite(residual)) {
+                throw std::overflow_error("conversion residual overflow");
+            }
+            if (scale > 0.) {
+                result.relative_residual =
+                    std::max(result.relative_residual, std::abs(residual) / scale);
+            }
+        }
+        if (result.relative_residual > 512 * n * std::numeric_limits<double>::epsilon()) {
+            throw std::domain_error("conversion residual exceeds tolerance");
+        }
+    }
+
+    template <typename Result>
+    void transferred_waves(Result &result,
+                           const WaveSystem &system,
+                           const SMatrix &inverse,
+                           const SMatrix &transfer,
+                           const std::vector<Complex> &source,
+                           const std::vector<Complex> &output_offset) const {
+        const auto n = channels_.size(), m = 2 * n;
+        result.incident.resize(n);
+        result.outgoing.resize(n);
+        std::vector<double> outgoing(m);
+        for (std::size_t i = 0; i < m; ++i) {
+            for (std::size_t j = 0; j < n; ++j) {
+                outgoing[i] += transfer(i, 2 * j).real() * source[j].real() +
+                               transfer(i, 2 * j + 1).real() * source[j].imag();
+                if (!output_offset.empty()) {
+                    outgoing[i] += inverse(i, 2 * j).real() * output_offset[j].real() +
+                                   inverse(i, 2 * j + 1).real() * output_offset[j].imag();
+                }
+            }
+        }
+        for (std::size_t i = 0; i < n; ++i) {
+            result.outgoing[i] = {outgoing[2 * i], outgoing[2 * i + 1]};
+        }
+        finish_waves(result, system, source, output_offset);
+    }
+
+    // Preserve the full API's order of operations in exceptional numeric ranges,
+    // without accepting, validating, or propagating any noise.
+    ConversionWaveResult transferred_wave_solve(const WaveSystem &system,
+                                                const std::vector<Complex> &source,
+                                                const std::vector<Complex> &output_offset) const {
+        auto identity = conversion_detail::zero(system.equation.ports);
+        for (std::size_t i = 0; i < identity.ports; ++i) {
+            identity(i, i) = 1.;
+        }
+        const auto inverse = parameter_detail::solve(system.equation, identity, 1.);
+        const auto transfer = conversion_detail::multiply(inverse, quadrature_);
+        ConversionWaveResult result;
+        transferred_waves(result, system, inverse, transfer, source, output_offset);
+        return result;
     }
 
 public:
@@ -233,6 +423,65 @@ public:
         quadrature_noise(noise);
     }
 
+    // Pure deterministic entry point: no C/P is accepted, validated, or propagated.
+    // A boundary or intrinsic-noise validity check requires analyze/validate_noise.
+    // Normal-range equations use one vector RHS. Detected overflow/underflow risk
+    // uses the full deterministic transfer order, without noise, to preserve range.
+    ConversionWaveResult
+    solve_waves(const std::vector<Complex> &source,
+                const std::vector<Complex> &reflection,
+                const std::vector<std::pair<std::size_t, std::size_t>> &connections = {},
+                const std::vector<Complex> &output_offset = {}) const {
+        const auto n = channels_.size(), m = 2 * n;
+        const auto system = wave_system(source, reflection, connections, output_offset);
+        std::vector<Complex> rhs(m);
+        bool range_loss = false;
+        const auto unsafe = [](double value) {
+            return !std::isfinite(value) || std::fpclassify(value) == FP_SUBNORMAL;
+        };
+        for (std::size_t i = 0; i < m; ++i) {
+            double sum = 0.;
+            const auto add_product = [&](double coefficient, double value) {
+                const double product = coefficient * value;
+                range_loss = range_loss || unsafe(product) ||
+                             (coefficient != 0. && value != 0. && product == 0.);
+                sum += product;
+                range_loss = range_loss || unsafe(sum);
+            };
+            for (std::size_t j = 0; j < n; ++j) {
+                add_product(quadrature_(i, 2 * j).real(), source[j].real());
+                add_product(quadrature_(i, 2 * j + 1).real(), source[j].imag());
+            }
+            if (!output_offset.empty()) {
+                sum += i % 2 == 0 ? output_offset[i / 2].real() : output_offset[i / 2].imag();
+                range_loss = range_loss || unsafe(sum);
+            }
+            rhs[i] = sum;
+        }
+        if (range_loss) {
+            return transferred_wave_solve(system, source, output_offset);
+        }
+        std::vector<Complex> outgoing;
+        try {
+            outgoing = parameter_detail::solve(system.equation, rhs, 1.);
+        } catch (const std::overflow_error &) {
+            return transferred_wave_solve(system, source, output_offset);
+        }
+        for (std::size_t i = 0; i < m; ++i) {
+            if (unsafe(outgoing[i].real()) || (outgoing[i] == Complex{} && rhs[i] != Complex{})) {
+                return transferred_wave_solve(system, source, output_offset);
+            }
+        }
+        ConversionWaveResult result;
+        result.incident.resize(n);
+        result.outgoing.resize(n);
+        for (std::size_t i = 0; i < n; ++i) {
+            result.outgoing[i] = {outgoing[2 * i].real(), outgoing[2 * i + 1].real()};
+        }
+        finish_waves(result, system, source, output_offset);
+        return result;
+    }
+
     // a=Gamma*b+source. Source and intrinsic noises are independent; correlations
     // within either set, including across frequencies, are retained in C and P.
     ConversionResult
@@ -244,130 +493,24 @@ public:
             bool loaded_noise = false,
             const std::vector<Complex> &output_offset = {}) const {
         const auto n = channels_.size(), m = 2 * n;
-        if (!output_offset.empty()) {
-            if (output_offset.size() != n) {
-                throw std::invalid_argument("conversion output offset dimensions differ");
-            }
-            for (std::size_t i = 0; i < n; ++i) {
-                if (!conversion_detail::finite(output_offset[i]) ||
-                    (channels_[i].bin == 0 && output_offset[i].imag() != 0.)) {
-                    throw std::invalid_argument("invalid conversion output offset or complex DC");
-                }
-            }
-        }
-        if (source.size() != n || reflection.size() != n) {
-            throw std::invalid_argument("conversion boundary dimensions differ");
-        }
+        validate_wave_inputs(source, reflection, output_offset);
+        // The full API always validates and propagates C/P, even if loaded_noise is false.
         auto source_q = quadrature_noise(source_noise);
         auto intrinsic_q = quadrature_noise(intrinsic_noise);
-        std::vector<std::size_t> partner(n, n);
-        auto boundary_self = reflection;
-        std::vector<Complex> boundary_other(n);
-        for (const auto &connection : connections) {
-            const auto a = connection.first, b = connection.second;
-            if (a >= n || b >= n || a == b || partner[a] != n || partner[b] != n ||
-                channels_[a].bin != channels_[b].bin) {
-                throw std::invalid_argument("invalid conversion connection");
-            }
-            partner[a] = b;
-            partner[b] = a;
-            const auto wire = power_wave_detail::connection(references_[a], references_[b]);
-            boundary_self[a] = wire.first_reflection;
-            boundary_self[b] = wire.second_reflection;
-            boundary_other[a] = boundary_other[b] = wire.coupling;
-            for (auto index : {a, b}) {
-                if (source[index] != Complex{} || reflection[index] != Complex{}) {
-                    throw std::invalid_argument("connected channel cannot have a boundary drive");
-                }
-                for (std::size_t j = 0; j < n; ++j) {
-                    if (source_noise.covariance(index, j) != Complex{} ||
-                        source_noise.covariance(j, index) != Complex{} ||
-                        source_noise.complementary(index, j) != Complex{} ||
-                        source_noise.complementary(j, index) != Complex{}) {
-                        throw std::invalid_argument("connected channel cannot have boundary noise");
-                    }
-                }
-            }
-        }
-        auto equation = conversion_detail::zero(m), identity = equation;
-        for (std::size_t j = 0; j < n; ++j) {
-            if (!conversion_detail::finite(source[j]) ||
-                !conversion_detail::finite(reflection[j]) ||
-                (channels_[j].bin == 0 && (source[j].imag() != 0. || reflection[j].imag() != 0.))) {
-                throw std::invalid_argument("invalid conversion boundary or complex DC");
-            }
-            const auto subtract = [&](std::size_t destination, Complex coefficient) {
-                for (std::size_t i = 0; i < m; ++i) {
-                    equation(i, 2 * destination) -= quadrature_(i, 2 * j) * coefficient.real() +
-                                                    quadrature_(i, 2 * j + 1) * coefficient.imag();
-                    equation(i, 2 * destination + 1) +=
-                        quadrature_(i, 2 * j) * coefficient.imag() -
-                        quadrature_(i, 2 * j + 1) * coefficient.real();
-                }
-            };
-            subtract(j, boundary_self[j]);
-            if (partner[j] != n) {
-                subtract(partner[j], boundary_other[j]);
-            }
-        }
+        const auto system =
+            wave_system(source, reflection, connections, output_offset, &source_noise);
+        const auto &equation = system.equation;
+        const auto &partner = system.partner;
+        const auto &boundary_self = system.boundary_self;
+        const auto &boundary_other = system.boundary_other;
+        auto identity = conversion_detail::zero(m);
         for (std::size_t i = 0; i < m; ++i) {
-            equation(i, i) += 1.;
             identity(i, i) = 1.;
         }
-        noise_detail::finite_matrix(equation);
         const auto inverse = parameter_detail::solve(equation, identity, 1.);
         const auto transfer = conversion_detail::multiply(inverse, quadrature_);
         ConversionResult result;
-        result.incident.resize(n);
-        result.outgoing.resize(n);
-        std::vector<double> outgoing(m);
-        for (std::size_t i = 0; i < m; ++i) {
-            for (std::size_t j = 0; j < n; ++j) {
-                outgoing[i] += transfer(i, 2 * j).real() * source[j].real() +
-                               transfer(i, 2 * j + 1).real() * source[j].imag();
-                if (!output_offset.empty()) {
-                    outgoing[i] += inverse(i, 2 * j).real() * output_offset[j].real() +
-                                   inverse(i, 2 * j + 1).real() * output_offset[j].imag();
-                }
-            }
-        }
-        for (std::size_t i = 0; i < n; ++i) {
-            result.outgoing[i] = {outgoing[2 * i], outgoing[2 * i + 1]};
-        }
-        for (std::size_t i = 0; i < n; ++i) {
-            result.incident[i] = boundary_self[i] * result.outgoing[i] + source[i];
-            if (partner[i] != n) {
-                result.incident[i] += boundary_other[i] * result.outgoing[partner[i]];
-            }
-            if (!conversion_detail::finite(result.outgoing[i]) ||
-                !conversion_detail::finite(result.incident[i])) {
-                throw std::overflow_error("conversion waves overflow");
-            }
-        }
-        for (std::size_t i = 0; i < n; ++i) {
-            Complex residual = -result.outgoing[i];
-            double scale = std::abs(result.outgoing[i]);
-            if (!output_offset.empty()) {
-                residual += output_offset[i];
-                scale += std::abs(output_offset[i]);
-            }
-            for (std::size_t j = 0; j < n; ++j) {
-                const auto first = direct_(i, j) * result.incident[j];
-                const auto second = conjugate_(i, j) * std::conj(result.incident[j]);
-                residual += first + second;
-                scale += std::abs(first) + std::abs(second);
-            }
-            if (!std::isfinite(scale) || !conversion_detail::finite(residual)) {
-                throw std::overflow_error("conversion residual overflow");
-            }
-            if (scale > 0.) {
-                result.relative_residual =
-                    std::max(result.relative_residual, std::abs(residual) / scale);
-            }
-        }
-        if (result.relative_residual > 512 * n * std::numeric_limits<double>::epsilon()) {
-            throw std::domain_error("conversion residual exceeds tolerance");
-        }
+        transferred_waves(result, system, inverse, transfer, source, output_offset);
         auto total = propagate_noise(transfer, {source_q}).watts_per_hz;
         const auto intrinsic = propagate_noise(inverse, {intrinsic_q}).watts_per_hz;
         for (std::size_t i = 0; i < total.values.size(); ++i) {

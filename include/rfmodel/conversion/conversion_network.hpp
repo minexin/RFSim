@@ -45,6 +45,46 @@ class FrequencyConversionNetwork {
         return result;
     }
 
+    struct WaveAssembly {
+        FrequencyConversionModel model;
+        std::vector<Complex> source, reflection;
+    };
+
+    WaveAssembly assemble_waves() const {
+        if (devices_.empty()) {
+            throw std::invalid_argument("empty conversion network");
+        }
+        auto a = conversion_detail::zero(total_), b = a;
+        std::vector<Complex> source(total_), reflection(total_);
+        std::vector<ConversionChannel> channels;
+        std::size_t next_port = 0;
+        for (std::size_t d = 0; d < devices_.size(); ++d) {
+            const auto &device = devices_[d];
+            const auto offset = offsets_[d];
+            const auto &local = device.model.channels();
+            std::map<std::size_t, std::size_t> global_ports;
+            for (std::size_t i = 0; i < local.size(); ++i) {
+                if (!global_ports.count(local[i].port)) {
+                    global_ports.emplace(local[i].port, next_port++);
+                }
+                channels.push_back({global_ports.at(local[i].port), local[i].bin});
+                source[offset + i] = device.source[i];
+                reflection[offset + i] = device.reflection[i];
+                for (std::size_t j = 0; j < local.size(); ++j) {
+                    a(offset + i, offset + j) = device.model.direct()(i, j);
+                    b(offset + i, offset + j) = device.model.conjugate()(i, j);
+                }
+            }
+        }
+        return {FrequencyConversionModel(spacing_,
+                                         std::move(channels),
+                                         std::move(a),
+                                         std::move(b),
+                                         reference_impedances_ohms()),
+                std::move(source),
+                std::move(reflection)};
+    }
+
 public:
     FrequencyConversionNetwork(double spacing_hz, double reference_ohms = 50.)
         : spacing_(spacing_hz), reference_(reference_ohms) {
@@ -143,34 +183,30 @@ public:
         }
     }
 
+    // Deterministic-only solve. Stored device C/P is neither consumed nor PSD-validated
+    // here; add/add_power_waves still enforce finite entries and dimensions.
+    // Use analyze to validate/propagate noise, including boundary-noise restrictions.
+    ConversionWaveResult solve_waves(const std::vector<Complex> &output_offset = {}) const {
+        const auto assembly = assemble_waves();
+        return assembly.model.solve_waves(
+            assembly.source, assembly.reflection, connections_, output_offset);
+    }
+
     // Additional source noise may correlate external channels across devices. It is
     // independent of the per-device source blocks and is validated before addition.
     ConversionResult analyze(bool loaded_noise = false,
                              const ConversionNoise *additional_source_noise = nullptr,
                              const std::vector<Complex> &output_offset = {}) const {
-        if (devices_.empty()) {
-            throw std::invalid_argument("empty conversion network");
-        }
-        auto a = conversion_detail::zero(total_), b = a;
-        ConversionNoise source_noise{a, a}, intrinsic_noise{a, a};
-        std::vector<Complex> source(total_), reflection(total_);
-        std::vector<ConversionChannel> channels;
-        std::size_t next_port = 0;
+        const auto assembly = assemble_waves();
+        const auto &combined = assembly.model;
+        const auto &source = assembly.source;
+        const auto &reflection = assembly.reflection;
+        auto source_noise = combined.zero_noise(), intrinsic_noise = combined.zero_noise();
         for (std::size_t d = 0; d < devices_.size(); ++d) {
             const auto &device = devices_[d];
-            const auto offset = offsets_[d];
-            const auto &local = device.model.channels();
-            std::map<std::size_t, std::size_t> global_ports;
-            for (std::size_t i = 0; i < local.size(); ++i) {
-                if (!global_ports.count(local[i].port)) {
-                    global_ports.emplace(local[i].port, next_port++);
-                }
-                channels.push_back({global_ports.at(local[i].port), local[i].bin});
-                source[offset + i] = device.source[i];
-                reflection[offset + i] = device.reflection[i];
-                for (std::size_t j = 0; j < local.size(); ++j) {
-                    a(offset + i, offset + j) = device.model.direct()(i, j);
-                    b(offset + i, offset + j) = device.model.conjugate()(i, j);
+            const auto offset = offsets_[d], n = device.model.channels().size();
+            for (std::size_t i = 0; i < n; ++i) {
+                for (std::size_t j = 0; j < n; ++j) {
                     source_noise.covariance(offset + i, offset + j) =
                         device.source_noise.covariance(i, j);
                     source_noise.complementary(offset + i, offset + j) =
@@ -182,8 +218,6 @@ public:
                 }
             }
         }
-        const FrequencyConversionModel combined(
-            spacing_, channels, a, b, reference_impedances_ohms());
         if (additional_source_noise) {
             combined.validate_noise(source_noise);
             combined.validate_noise(*additional_source_noise);

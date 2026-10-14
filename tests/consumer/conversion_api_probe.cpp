@@ -15,7 +15,14 @@ bool conversion_api_odr_probe() {
                              boundary.reflection,
                              boundary.source_noise,
                              original.zero_noise()});
-    const auto result = network.analyze(true);
+    const auto full = network.analyze(true);
+    const rfmodel::ConversionWaveResult result = network.solve_waves();
+    const auto model_waves = change.model.solve_waves(boundary.source, boundary.reflection);
+    if (std::abs(result.outgoing[0] - full.outgoing[0]) > 1e-12 ||
+        std::abs(model_waves.outgoing[0] - result.outgoing[0]) > 1e-12 ||
+        result.relative_residual > 1e-12) {
+        return false;
+    }
     const rfmodel::Complex z{75., 10.};
     const auto voltage =
         (std::conj(z) * result.incident[0] + z * result.outgoing[0]) / std::sqrt(z.real());

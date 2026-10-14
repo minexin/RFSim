@@ -712,6 +712,12 @@ void validation_and_failure_counts() {
     invalid = device;
     invalid.source_noise.covariance(0, 0) = -1e-12;
     reject_before({invalid}, {good});
+    invalid = device;
+    invalid.intrinsic_noise.complementary(0, 0) = 1e-12;
+    reject_before({invalid}, {good});
+    invalid = device;
+    invalid.source_noise.complementary(0, 0) = 1e-12;
+    reject_before({invalid}, {good});
     auto extra = device.model.zero_noise();
     extra.complementary(0, 0) = 1e-12;
     reject_before({device}, {good}, &extra);

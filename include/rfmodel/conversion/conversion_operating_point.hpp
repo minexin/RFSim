@@ -249,13 +249,9 @@ solve(const std::vector<ConversionDevice> &devices,
         }
         return e;
     };
-    auto solve = [&](const Evaluation &e, bool noise) {
+    auto make_network = [&](const Evaluation &e) {
         FrequencyConversionNetwork network(spacing, reference);
         for (auto device : e.devices) {
-            if (!noise) {
-                device.source_noise = device.model.zero_noise();
-                device.intrinsic_noise = device.model.zero_noise();
-            }
             if (power_waves) {
                 network.add_power_waves(std::move(device));
             } else {
@@ -266,8 +262,7 @@ solve(const std::vector<ConversionDevice> &devices,
             network.connect(
                 wire.first_device, wire.first_port, wire.second_device, wire.second_port);
         }
-        return network.analyze(
-            noise && loaded_noise, noise ? additional_source_noise : nullptr, e.offset);
+        return network;
     };
     ConversionOperatingResult result;
     auto current = evaluate(incident);
@@ -275,7 +270,7 @@ solve(const std::vector<ConversionDevice> &devices,
         if (result.iterations == options.max_iterations) {
             throw std::runtime_error("conversion operating point exceeded iteration limit");
         }
-        const auto candidate = solve(current, false).incident;
+        const auto candidate = make_network(current).solve_waves(current.offset).incident;
         bool accepted = false;
         double alpha = 1.;
         for (std::size_t backtrack = 0; backtrack <= options.max_backtracks; ++backtrack) {
@@ -337,7 +332,8 @@ solve(const std::vector<ConversionDevice> &devices,
     // Noise uses the accepted point's Jacobian. Return that same point and the
     // exact nonlinear device outputs; boundary mismatch is the reported tolerance,
     // rather than replacing these waves with one extra affine Newton step.
-    result.waves = solve(current, true);
+    result.waves =
+        make_network(current).analyze(loaded_noise, additional_source_noise, current.offset);
     result.waves.incident = incident;
     result.waves.outgoing = current.outgoing;
     result.waves.relative_residual = current.relative_residual;
