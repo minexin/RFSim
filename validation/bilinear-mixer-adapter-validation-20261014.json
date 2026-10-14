@@ -1,0 +1,70 @@
+{
+  "date_utc": "2026-10-14",
+  "stage": "Owning fixed-normalization bilinear mixer ModelAdapter",
+  "base_commit": "1b1fb8511286285b6f63ea808cd68610e458fc83",
+  "source_files_sha256": {
+    "cmake/RFModelTests.cmake": "40cbf91d3267bbca56840db0f5ba9d53ee7e65b2b54133e1a05fdf1140190e66",
+    "docs/model-adapters.md": "92aaa3e86849a96507de174a330a2f55643417295c0ae9ee3161fe769bbc5563",
+    "include/rfmodel/adapters/builtin_model_adapters.hpp": "37a322cc53f807aedff1f7f576e460b6643af9bde9de769435b015cb31fda8bb",
+    "tests/consumer/model_adapter.cpp": "a1ce729a53bc7276abfccd7ba3c428646d7ab6c8df57791f7e792e0670fdd223",
+    "tests/consumer/model_adapter_probe.cpp": "49d6c6ac80a7d83aedfb1da4e9e566b8af6efa38a99c94575bfb0d685764d258",
+    "tests/models/bilinear_mixer_adapter_test.cpp": "f21007bb14128ec2405c18cc130281934af0bae74307c641ba49bec4bc19097a"
+  },
+  "combined_source_manifest": {
+    "file_count": 854,
+    "canonical_sorted_json_sha256": "2abca5bc8d22a721d9edf9d013ccd2fa1739ba49b5b9ee14b91b09203ef2bfbe",
+    "definition": "SHA-256 of compact sorted JSON mapping every base tracked path plus tests/models/bilinear_mixer_adapter_test.cpp to its SHA-256; excludes this newly added evidence file."
+  },
+  "environment": {
+    "compiler": "g++ (Debian 14.2.0-19) 14.2.0",
+    "cmake": "3.31.6",
+    "language": "C++17",
+    "platform": "Linux cloud workspace"
+  },
+  "configurations": {
+    "Debug": {
+      "full_build": "passed",
+      "ctest": {
+        "passed": 151,
+        "failed": 0
+      },
+      "relocated_cpp_sdk": {
+        "passed": 9,
+        "failed": 0
+      },
+      "installed_header_sha256": "37a322cc53f807aedff1f7f576e460b6643af9bde9de769435b015cb31fda8bb",
+      "gate_log_sha256": "e7e6b5ac4f9d73bb18a708f81fe7ecdfbcd69b7211e9e993b2ebb642f805ff57"
+    },
+    "Release": {
+      "full_build": "passed",
+      "ctest": {
+        "passed": 151,
+        "failed": 0
+      },
+      "relocated_cpp_sdk": {
+        "passed": 9,
+        "failed": 0
+      },
+      "installed_header_sha256": "37a322cc53f807aedff1f7f576e460b6643af9bde9de769435b015cb31fda8bb",
+      "gate_log_sha256": "8f2b0f356cf51fb935fff324f44c67439903f567d639eeeab5c0ef3642ce431e"
+    }
+  },
+  "focused_checks": {
+    "strict_warnings_ubsan": "passed: -std=c++17 -O1 -g -Wall -Wextra -Wpedantic -Werror -fsanitize=undefined -fno-sanitize-recover=all",
+    "clang_format_19": "passed for changed C++ files",
+    "independent_review": "No remaining findings; independent time-domain probe passed 11375 checks against relocated SDK headers."
+  },
+  "coverage": [
+    "Independent signed-Fourier convolution and real/imaginary Jacobian directions, including DC, folded conjugation, coincident products, multiple LO tones, arbitrary channel ordering and ignored IF incidence.",
+    "Fixed LO normalization, J(a)a=2F(a), zero-input full closure, eager parameter validation and unavailable capabilities.",
+    "Driven RF12/LO10 through matched linear pad; analytic DC feedback root with accepted Jacobian and affine offset.",
+    "Complex IF2 and IF22 physical voltage/current continuity from 75-ohm mixer to 50-ohm load through explicit power-wave solver.",
+    "Copied adapter and retained operating_device lifetime, including relocated installed two-translation-unit consumer."
+  ],
+  "limits": [
+    "No new intrinsic noise or coherent mixer model.",
+    "No solver, frequency-planning, C/Python ABI or existing IdealRealMixer semantics changes.",
+    "No new vendor or SystemVue compatibility claim.",
+    "Remote CI and publication are not claimed by this local validation record."
+  ]
+}

@@ -6,6 +6,7 @@
 
 rfmodel::ModelAdapter make_installed_adapter();
 double installed_vendor_phase();
+rfmodel::ConversionNonlinearDevice make_installed_bilinear_device();
 rfmodel::ModelAdapter make_installed_highorder_adapter();
 
 int main() {
@@ -76,6 +77,22 @@ int main() {
         if (std::abs(measured - harmonic) > 1e-14) {
             return 9;
         }
+    }
+    // The callback crosses a translation unit and outlives both owning adapters.
+    const auto mixer_device = make_installed_bilinear_device();
+    const Complex rf{.2, -.3}, lo{.8, .4};
+    const auto mixer = mixer_device.evaluate({.7, lo, -.6, rf});
+    if (mixer_device.device != 3 || std::abs(mixer.outgoing[0] - .5 * rf * std::conj(lo)) > 1e-14 ||
+        std::abs(mixer.outgoing[2] - .5 * rf * lo) > 1e-14 || mixer.outgoing[1] != Complex{} ||
+        mixer.outgoing[3] != Complex{} ||
+        mixer.jacobian.reference_impedances_ohms() != std::vector<Complex>(4, 75.)) {
+        return 10;
+    }
+    const auto mixer_here = adapt_bilinear_mixer("second translation unit", 0., 2., 75.);
+    const auto mixer_local =
+        mixer_here.linearize({1e6, {{2, 2}, {1, 10}, {2, 22}, {0, 12}}, {.7, lo, -.6, rf}});
+    if (mixer_local.outgoing != mixer.outgoing) {
+        return 11;
     }
     return 0;
 }

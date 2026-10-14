@@ -438,3 +438,7 @@ add_test(NAME sdk_configuration_test COMMAND ${CMAKE_COMMAND}
 add_executable(highorder_model_adapter_test tests/models/highorder_model_adapter_test.cpp)
 target_link_libraries(highorder_model_adapter_test PRIVATE RFModel::rfmodel)
 add_test(NAME highorder_model_adapter_test COMMAND highorder_model_adapter_test)
+
+add_executable(bilinear_mixer_adapter_test tests/models/bilinear_mixer_adapter_test.cpp)
+target_link_libraries(bilinear_mixer_adapter_test PRIVATE RFModel::rfmodel)
+add_test(NAME bilinear_mixer_adapter_test COMMAND bilinear_mixer_adapter_test)

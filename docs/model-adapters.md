@@ -82,6 +82,43 @@ auto result = rfmodel::analyze_spectrum({1e8, {{10, .02}}}, 50., {stage});
 
 `examples/analysis/model_adapter.cpp` 展示有热噪声的衰减器接理想混频器；`tests/models/model_conversion_adapter_test.cpp` 独立验证镜像折叠噪声、上下边带相关、SSB/DSB 噪声因子、复参考反馈闭式解、频点采样及 DC 约束。该入口不增加厂商器件兼容通过项。
 
+## 固定归一化三端口双线性混频器
+
+`adapt_bilinear_mixer(name, gain_db, lo_reference_amplitude, reference_ohms = 50.)`
+拥有参数快照，身份为 `rfmodel.bilinear_mixer`、修订 `1`。三个物理端口固定为
+`0: RF`、`1: LO`、`2: IF`；仅提供 `operating_point` 能力。线性、噪声、普通频谱及
+相干入口均不可用，也不能调用 `conversion_device()` 隐式生成线性/无噪声快照。
+原有两端口 `IdealRealMixer` 的给定 LO 和频谱行为保持不变。
+
+工厂复用 `linearize_bilinear_mixer`，固定
+`k = 10^(gain_db/20) / lo_reference_amplitude`，其中参考 LO 幅度单位为 `sqrt(W)`。
+实波约定为 `x(t) = a_DC + sqrt(2) Re(sum a_n exp(inθ))`，输出满足
+`y(t) = sqrt(2) k x_RF(t) x_LO(t)`。实际 LO 来自当前网络解，允许零、DC 或多谱线；
+增大实际 LO 会相应增大输出，不能用当前泵幅度重新归一化。构造时检查固定参数、
+正实公共参考和归一化的有限可表示性。
+
+调用者显式提供每对 RF/LO 通道的和频与绝对差频 IF 通道，即使当前输入全为零也检查
+完整闭包。通道可任意交错排序，输出与 Jacobian 保留原顺序。IF 入射波被忽略；
+RF/LO 出射波及 IF 输入导数列为零。DC 入射波必须实数。适配器不自动扩展频点。
+返回的是真实出射 `F(a)`；求解器自行形成仿射偏置。双线性齐次关系为
+`J(a)a = 2F(a)`，故该器件的仿射偏置为 `-F(a)`。
+
+```cpp
+auto mixer = rfmodel::adapt_bilinear_mixer("M1", 0., 2., 75.);
+auto nonlinear = mixer.operating_device(
+    0, 1e6, {{0, 12}, {1, 10}, {2, 2}, {2, 22}});
+// 将 nonlinear 与同网格、同参考的 ConversionDevice 槽交给工作点求解器。
+```
+
+不同器件参考阻抗的物理接线使用 `solve_conversion_operating_point_power_waves`；
+例如本器件 75 Ω IF 接 50 Ω 负载，需要真实 V/I 边界变换，不能仅改参考标签。
+回调及适配器副本在原适配器销毁后仍拥有完整参数。该入口不新增混频器噪声、自动杂散、
+频率规划、求解算法或 SystemVue 兼容结论。
+
+`tests/models/bilinear_mixer_adapter_test.cpp` 使用独立 Fourier/时域乘积导数、
+已知反馈根及 V/I 边界验证接口；安装后双翻译单元消费者验证工厂和回调所有权。
+实际执行证据与具体代码版本绑定，不能从接口说明推断新增厂商验收。
+
 ## 相干图扩展、所有权和失败
 
 `CoherentSystem::stage(name, inputs, output_names, operation)` 是宿主扩展入口。回调收到当前执行的 `CoherentPipeline` 和本阶段输入句柄，返回 `StageEvaluation{outputs, statistics}`。输出数量必须与声明一致，每个句柄必须属于当前管线；可返回已有输入的别名。构图时检查输入所有权、名称冲突及图预算，检查失败不会发布新定义。

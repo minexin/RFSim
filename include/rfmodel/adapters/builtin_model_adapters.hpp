@@ -1,6 +1,7 @@
 #pragma once
 #include "rfmodel/adapters/model_adapter.hpp"
 #include "rfmodel/conversion/amplifier_linearization.hpp"
+#include "rfmodel/conversion/mixer_linearization.hpp"
 #include "rfmodel/conversion/highorder_linearization.hpp"
 #include "rfmodel/conversion/polynomial_linearization.hpp"
 #include "rfmodel/nonlinear/polynomial_amplifier.hpp"
@@ -143,6 +144,46 @@ adapt_highorder_amplifier(std::string name,
                                             result.direct_contribution_count,
                                             result.discarded_direct_contributions}};
     };
+    return {std::move(descriptor), std::move(functions)};
+}
+
+// Three physical ports, with the actual RF and LO waves supplied by the network.
+// The fixed normalization never follows the current pump magnitude.
+inline ModelAdapter adapt_bilinear_mixer(std::string name,
+                                         double gain_db,
+                                         double lo_reference_amplitude,
+                                         double reference_ohms = 50.) {
+    // Reuse the native parameter checks on a closed, zero DC operating point.
+    // This rejects unrepresentable normalization at construction, before use.
+    linearize_bilinear_mixer(1.,
+                             {{0, 0}, {1, 0}, {2, 0}},
+                             {0., 0., 0.},
+                             gain_db,
+                             lo_reference_amplitude,
+                             0,
+                             1,
+                             2,
+                             reference_ohms);
+    ModelDescriptor descriptor{
+        {"rfmodel.bilinear_mixer", "1", "", ""},
+        std::move(name),
+        {{0, "RF", reference_ohms}, {1, "LO", reference_ohms}, {2, "IF", reference_ohms}}};
+    ModelFunctions functions;
+    functions.operating_point =
+        [gain_db, lo_reference_amplitude, reference_ohms](const ModelOperatingPoint &point) {
+            auto result = linearize_bilinear_mixer(point.spacing_hz,
+                                                   point.channels,
+                                                   point.incident,
+                                                   gain_db,
+                                                   lo_reference_amplitude,
+                                                   0,
+                                                   1,
+                                                   2,
+                                                   reference_ohms);
+            // The solver needs F(a), not the bilinear affine offset -F(a).
+            return ConversionLinearization{std::move(result.incremental_model),
+                                           std::move(result.operating_outgoing)};
+        };
     return {std::move(descriptor), std::move(functions)};
 }
 

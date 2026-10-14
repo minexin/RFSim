@@ -15,3 +15,9 @@ rfmodel::ModelAdapter make_installed_highorder_adapter() {
     return rfmodel::adapt_highorder_amplifier(
         "installed high-order", {20., 20., 23., {.1}, 75.}, {1});
 }
+
+rfmodel::ConversionNonlinearDevice make_installed_bilinear_device() {
+    auto adapter = rfmodel::adapt_bilinear_mixer("owned mixer", 0., 2., 75.);
+    auto copy = adapter;
+    return copy.operating_device(3, 1e6, {{2, 2}, {1, 10}, {2, 22}, {0, 12}});
+}
