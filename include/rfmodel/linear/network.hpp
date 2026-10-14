@@ -87,13 +87,12 @@ public:
     // All remaining ports must already be connected or terminated without sources.
     SMatrix external_s(const std::vector<std::size_t> &ports) const {
         validate_external_ports(ports);
+        // Matched external boundaries have zero reflection/coupling already.
+        // Factor only once at this frequency; do not form an n-column inverse.
+        const auto system = factor_external_system();
         SMatrix result{ports.size(), std::vector<Complex>(ports.size() * ports.size())};
         for (std::size_t column = 0; column < ports.size(); ++column) {
-            auto excitation = *this;
-            for (std::size_t i = 0; i < ports.size(); ++i) {
-                excitation.terminate(ports[i], {}, i == column ? Complex{1, 0} : Complex{});
-            }
-            const auto waves = excitation.solve();
+            const auto waves = solve_external_column(system, ports[column]);
             for (std::size_t row = 0; row < ports.size(); ++row) {
                 result(row, column) = waves.outgoing[ports[row]];
             }
@@ -102,6 +101,116 @@ public:
     }
 
 private:
+    // This factorization intentionally retains solve()'s pivot threshold,
+    // arithmetic order and per-excitation residual/finite-response checks.
+    // Lower entries record elimination history, NOT a row-permuted L factor:
+    // replay each pivot followed by its elimination before the next pivot.
+    struct ExternalSystem {
+        SMatrix s, original, factors;
+        std::vector<std::size_t> pivots;
+        double norm{};
+    };
+
+    ExternalSystem factor_external_system() const {
+        const auto n = boundaries_.size();
+        SMatrix s{n, std::vector<Complex>(n * n)};
+        for (const auto &block : blocks_) {
+            for (std::size_t r = 0; r < block.s.ports; ++r) {
+                for (std::size_t c = 0; c < block.s.ports; ++c) {
+                    s(block.offset + r, block.offset + c) = block.s(r, c);
+                }
+            }
+        }
+        SMatrix matrix{n, std::vector<Complex>(n * n)};
+        double norm = 0;
+        for (std::size_t r = 0; r < n; ++r) {
+            const auto &b = boundaries_[r];
+            double row_norm = 0;
+            for (std::size_t c = 0; c < n; ++c) {
+                matrix(r, c) = (r == c ? Complex{1, 0} : Complex{}) - b.reflection * s(r, c);
+                if (b.partner != r) {
+                    matrix(r, c) -= b.coupling * s(b.partner, c);
+                }
+                if (!finite(matrix(r, c))) {
+                    throw std::runtime_error("network coefficient overflow");
+                }
+                row_norm += std::abs(matrix(r, c));
+            }
+            norm = std::max(norm, row_norm);
+        }
+        ExternalSystem system{
+            std::move(s), matrix, std::move(matrix), std::vector<std::size_t>(n), norm};
+        auto &factors = system.factors;
+        const double threshold = 64 * std::numeric_limits<double>::epsilon() * n * norm;
+        for (std::size_t k = 0; k < n; ++k) {
+            std::size_t pivot = k;
+            for (std::size_t r = k + 1; r < n; ++r) {
+                if (std::abs(factors(r, k)) > std::abs(factors(pivot, k))) {
+                    pivot = r;
+                }
+            }
+            if (std::abs(factors(pivot, k)) <= threshold) {
+                throw std::runtime_error("singular or ill-conditioned network");
+            }
+            system.pivots[k] = pivot;
+            // Earlier lower columns are the saved history and must not move.
+            for (std::size_t c = k; c < n; ++c) {
+                std::swap(factors(k, c), factors(pivot, c));
+            }
+            for (std::size_t r = k + 1; r < n; ++r) {
+                const Complex factor = factors(r, k) / factors(k, k);
+                factors(r, k) = factor;
+                for (std::size_t c = k + 1; c < n; ++c) {
+                    factors(r, c) -= factor * factors(k, c);
+                }
+            }
+        }
+        return system;
+    }
+
+    static NetworkWaves solve_external_column(const ExternalSystem &system, std::size_t port) {
+        const auto n = system.s.ports;
+        const auto &matrix = system.factors;
+        std::vector<Complex> rhs(n);
+        rhs[port] = 1.;
+        for (std::size_t k = 0; k < n; ++k) {
+            std::swap(rhs[k], rhs[system.pivots[k]]);
+            for (std::size_t r = k + 1; r < n; ++r) {
+                rhs[r] -= matrix(r, k) * rhs[k];
+            }
+        }
+        NetworkWaves result{std::vector<Complex>(n), std::vector<Complex>(n), 0};
+        for (std::size_t r = n; r-- > 0;) {
+            Complex value = rhs[r];
+            for (std::size_t c = r + 1; c < n; ++c) {
+                value -= matrix(r, c) * result.incident[c];
+            }
+            result.incident[r] = value / matrix(r, r);
+            if (!finite(result.incident[r])) {
+                throw std::runtime_error("network solution overflow");
+            }
+        }
+        double residual = 0, amplitude = 0;
+        for (std::size_t r = 0; r < n; ++r) {
+            Complex error = r == port ? Complex{-1, 0} : Complex{};
+            for (std::size_t c = 0; c < n; ++c) {
+                result.outgoing[r] += system.s(r, c) * result.incident[c];
+                error += system.original(r, c) * result.incident[c];
+            }
+            if (!finite(result.outgoing[r]) || !finite(error)) {
+                throw std::runtime_error("network response overflow");
+            }
+            residual = std::max(residual, std::abs(error));
+            amplitude = std::max(amplitude, std::abs(result.incident[r]));
+        }
+        const double scale = system.norm * amplitude + 1.;
+        result.relative_residual = scale > 0 ? residual / scale : residual;
+        if (!std::isfinite(result.relative_residual) || result.relative_residual > 1e-10) {
+            throw std::runtime_error("network residual exceeds tolerance");
+        }
+        return result;
+    }
+
     SMatrix noise_transfer() const {
         const auto n = boundaries_.size();
         SMatrix s{n, std::vector<Complex>(n * n)}, matrix = s, identity = s;

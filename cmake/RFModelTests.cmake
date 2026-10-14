@@ -487,3 +487,7 @@ add_test(NAME touchstone_writer_installed COMMAND ${CMAKE_COMMAND}
     -DGENERATOR=${CMAKE_GENERATOR} -DCOMPILER=${CMAKE_CXX_COMPILER}
     -DCONFIG=$<CONFIG> -P ${CMAKE_CURRENT_SOURCE_DIR}/tests/cmake/check_touchstone_writer_install.cmake)
 set_tests_properties(touchstone_writer_installed PROPERTIES TIMEOUT 300)
+
+add_executable(external_s_factorization_test tests/linear/external_s_factorization_test.cpp)
+target_link_libraries(external_s_factorization_test PRIVATE RFModel::rfmodel)
+add_test(NAME external_s_factorization_test COMMAND external_s_factorization_test)
