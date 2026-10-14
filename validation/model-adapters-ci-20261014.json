@@ -1,0 +1,183 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-14",
+  "scope": "Model capabilities and coherent stage adapters",
+  "code_commit": "9e28976a392dc5a5f68663568f278f60faa12606",
+  "run_id": 38551810204,
+  "url": "https://github.com/minexin/RFSim/actions/runs/38551810204",
+  "workflow": "Cross-platform C++17",
+  "status": "completed",
+  "conclusion": "success",
+  "created_at": "2026-10-14T10:45:37Z",
+  "updated_at": "2026-10-14T10:51:56Z",
+  "successful_jobs": 18,
+  "jobs": [
+    {
+      "databaseId": 115811303992,
+      "name": "Native archived replay / ubuntu-latest / Debug",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-10-14T10:45:40Z",
+      "completedAt": "2026-10-14T10:48:35Z",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38551810204/job/115811303992"
+    },
+    {
+      "databaseId": 115811304337,
+      "name": "Native archived replay / ubuntu-latest / Release",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-10-14T10:45:40Z",
+      "completedAt": "2026-10-14T10:48:25Z",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38551810204/job/115811304337"
+    },
+    {
+      "databaseId": 115811304342,
+      "name": "build (windows-latest, Release)",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-10-14T10:45:40Z",
+      "completedAt": "2026-10-14T10:51:29Z",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38551810204/job/115811304342"
+    },
+    {
+      "databaseId": 115811304347,
+      "name": "Native archived replay / windows-latest / Debug",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-10-14T10:45:40Z",
+      "completedAt": "2026-10-14T10:51:39Z",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38551810204/job/115811304347"
+    },
+    {
+      "databaseId": 115811304368,
+      "name": "build (windows-latest, Debug)",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-10-14T10:45:40Z",
+      "completedAt": "2026-10-14T10:48:53Z",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38551810204/job/115811304368"
+    },
+    {
+      "databaseId": 115811304392,
+      "name": "build (ubuntu-latest, Debug)",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-10-14T10:45:40Z",
+      "completedAt": "2026-10-14T10:47:26Z",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38551810204/job/115811304392"
+    },
+    {
+      "databaseId": 115811304417,
+      "name": "C++ SDK / windows-latest / Debug",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-10-14T10:45:40Z",
+      "completedAt": "2026-10-14T10:49:02Z",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38551810204/job/115811304417"
+    },
+    {
+      "databaseId": 115811304445,
+      "name": "build (ubuntu-latest, Release)",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-10-14T10:45:40Z",
+      "completedAt": "2026-10-14T10:48:51Z",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38551810204/job/115811304445"
+    },
+    {
+      "databaseId": 115811304447,
+      "name": "Native archived replay / macos-latest / Debug",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-10-14T10:45:43Z",
+      "completedAt": "2026-10-14T10:49:55Z",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38551810204/job/115811304447"
+    },
+    {
+      "databaseId": 115811304466,
+      "name": "build (macos-latest, Release)",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-10-14T10:45:46Z",
+      "completedAt": "2026-10-14T10:49:06Z",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38551810204/job/115811304466"
+    },
+    {
+      "databaseId": 115811304481,
+      "name": "build (macos-latest, Debug)",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-10-14T10:45:46Z",
+      "completedAt": "2026-10-14T10:48:40Z",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38551810204/job/115811304481"
+    },
+    {
+      "databaseId": 115811304494,
+      "name": "C++ SDK / ubuntu-latest / Debug",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-10-14T10:45:40Z",
+      "completedAt": "2026-10-14T10:48:17Z",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38551810204/job/115811304494"
+    },
+    {
+      "databaseId": 115811304496,
+      "name": "Native archived replay / macos-latest / Release",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-10-14T10:45:44Z",
+      "completedAt": "2026-10-14T10:50:46Z",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38551810204/job/115811304496"
+    },
+    {
+      "databaseId": 115811304506,
+      "name": "C++ SDK / windows-latest / Release",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-10-14T10:45:40Z",
+      "completedAt": "2026-10-14T10:51:09Z",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38551810204/job/115811304506"
+    },
+    {
+      "databaseId": 115811304561,
+      "name": "C++ SDK / ubuntu-latest / Release",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-10-14T10:45:40Z",
+      "completedAt": "2026-10-14T10:49:20Z",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38551810204/job/115811304561"
+    },
+    {
+      "databaseId": 115811304590,
+      "name": "Native archived replay / windows-latest / Release",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-10-14T10:45:40Z",
+      "completedAt": "2026-10-14T10:50:42Z",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38551810204/job/115811304590"
+    },
+    {
+      "databaseId": 115811304788,
+      "name": "C++ SDK / macos-latest / Release",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-10-14T10:45:47Z",
+      "completedAt": "2026-10-14T10:48:56Z",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38551810204/job/115811304788"
+    },
+    {
+      "databaseId": 115811304892,
+      "name": "C++ SDK / macos-latest / Debug",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-10-14T10:48:49Z",
+      "completedAt": "2026-10-14T10:51:55Z",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38551810204/job/115811304892"
+    }
+  ],
+  "local_evidence": "validation/model-adapters-validation-20261014.json",
+  "limits": [
+    "This CI result applies to the exact code_commit; subsequent evidence-only commits are not the tested head.",
+    "Archived replay does not establish new SystemVue device compatibility, DataPoints acceptance, or PHD implementation."
+  ]
+}

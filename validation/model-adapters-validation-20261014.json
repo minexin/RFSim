@@ -216,8 +216,10 @@
     }
   ],
   "ci": {
-    "status": "not_yet_pushed",
-    "evidence_scope": "Local results do not claim remote or cross-platform success"
+    "status": "success",
+    "code_commit": "9e28976a392dc5a5f68663568f278f60faa12606",
+    "evidence": "validation/model-adapters-ci-20261014.json",
+    "evidence_scope": "18 cross-platform CI jobs passed for code_commit; initial local failures and targeted reruns remain recorded separately"
   },
   "compatibility": {
     "new_systemvue_runs": 0,

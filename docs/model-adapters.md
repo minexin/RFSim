@@ -17,6 +17,8 @@
 
 2026-10-14 本地验收：MSVC x64 Debug/Release 均完成 clean-first 全量构建。148 项完整回归首轮分别通过 146/148、147/148：SDK 配置测试的示例清单漏列新增目标，修正后两配置均通过；Debug 归档协议测试在并行构建期间触发 240 秒超时，停止其他负载后的单项复跑在 114.96 秒通过，未修改超时或数值阈值。两配置的 148 项测试均已有通过证据，但不称首轮全绿。纯 C++ SDK 经安装重定位后，独立消费者各 9/9；221 个 C/C++ 文件格式检查通过。远程 CI 结果以绑定具体提交的记录为准。
 
+远程验收：代码提交 `9e28976a392dc5a5f68663568f278f60faa12606` 的 [CI 38551810204](https://github.com/minexin/RFSim/actions/runs/38551810204) 已全部通过（18/18）：Windows、Ubuntu、macOS 的 Debug/Release 核心构建、纯 C++ SDK 和原生归档重放。逐作业结果见 `validation/model-adapters-ci-20261014.json`。该结果绑定上述代码提交，后续验收记录提交仅修改文档及证据；归档重放不构成新增 SystemVue 器件兼容结论。
+
 ## 类型与能力
 
 公共入口是 `<rfmodel/adapters/model_adapter.hpp>`，常用工厂位于 `<rfmodel/adapters/builtin_model_adapters.hpp>`。
