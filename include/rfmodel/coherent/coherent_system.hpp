@@ -62,6 +62,14 @@ public:
         StageStatistics statistics;
     };
 
+    struct StageEvaluation {
+        std::vector<CoherentPipeline::Stream> outputs;
+        StageStatistics statistics;
+    };
+
+    using StageOperation = std::function<StageEvaluation(
+        CoherentPipeline &, const std::vector<CoherentPipeline::Stream> &)>;
+
 private:
     using RuntimeStreams = std::vector<CoherentPipeline::Stream>;
     using Action = std::function<StageStatistics(CoherentPipeline &, RuntimeStreams &)>;
@@ -254,6 +262,43 @@ public:
         return Plan(owner_, definition_);
     }
 
+    // The callback owns its captures and composes pipeline operations. It must
+    // preserve source provenance using those operations, not seed new sources.
+    // A failed execution publishes no Result; external side effects cannot roll back.
+    std::vector<Stream> stage(std::string name,
+                              const std::vector<Stream> &inputs,
+                              std::vector<std::string> outputs,
+                              StageOperation operation) {
+        if (!operation || inputs.empty() || inputs.size() > 4096) {
+            throw std::invalid_argument("invalid coherent stage operation/inputs");
+        }
+        std::vector<std::size_t> selected;
+        for (auto input : inputs) {
+            selected.push_back(index(input));
+        }
+        const auto count = outputs.size();
+        return append(
+            std::move(name),
+            std::move(outputs),
+            [selected = std::move(selected), count, operation = std::move(operation)](
+                auto &pipeline, auto &streams) {
+                std::vector<CoherentPipeline::Stream> local;
+                for (auto index : selected) {
+                    local.push_back(streams.at(index));
+                }
+                auto evaluated = operation(pipeline, local);
+                if (evaluated.outputs.size() != count) {
+                    throw std::invalid_argument("coherent stage output count differs");
+                }
+                for (auto output : evaluated.outputs) {
+                    pipeline.inspect(output); // Reject foreign or stale handles before publication.
+                }
+                streams.insert(streams.end(), evaluated.outputs.begin(), evaluated.outputs.end());
+                return evaluated.statistics;
+            },
+            1);
+    }
+
     Stream input(std::string name, std::vector<CoherentComponent> sources) {
         // Validate before changing the graph, including undeclared group IDs.
         reduce_coherent_components(definition_->spacing, sources);
@@ -359,42 +404,35 @@ public:
                       Stream input,
                       std::vector<double> coefficients,
                       std::size_t max_source_order) {
-        const auto selected = index(input);
-        const auto stage = output;
-        return append(
-                   stage,
-                   {std::move(output)},
-                   [selected, coefficients = std::move(coefficients), max_source_order](
-                       auto &pipeline, auto &streams) {
-                       auto result = pipeline.polynomial(
-                           streams.at(selected), coefficients, max_source_order);
-                       streams.push_back(result.output);
-                       StageStatistics stats;
-                       stats.polynomial = std::move(result.counts);
-                       return stats;
-                   },
-                   1)
+        const auto name = output;
+        return stage(name,
+                     {input},
+                     {std::move(output)},
+                     [coefficients = std::move(coefficients), max_source_order](auto &pipeline,
+                                                                                auto &streams) {
+                         auto result =
+                             pipeline.polynomial(streams.at(0), coefficients, max_source_order);
+                         StageStatistics stats;
+                         stats.polynomial = std::move(result.counts);
+                         return StageEvaluation{{result.output}, std::move(stats)};
+                     })
             .front();
     }
 
     Stream fundamental_compression(std::string output,
                                    Stream input,
                                    SaturatingFundamentalCompression model) {
-        const auto selected = index(input);
-        const auto stage = output;
-        return append(
-                   stage,
-                   {std::move(output)},
-                   [selected, model = std::move(model)](auto &pipeline, auto &streams) {
-                       const auto result =
-                           pipeline.compress_fundamentals(streams.at(selected), model);
-                       streams.push_back(result.output);
-                       StageStatistics stats;
-                       stats.input_power_w = result.input_power_w;
-                       stats.common_amplitude_gain = result.common_amplitude_gain;
-                       return stats;
-                   },
-                   1)
+        const auto name = output;
+        return stage(name,
+                     {input},
+                     {std::move(output)},
+                     [model = std::move(model)](auto &pipeline, auto &streams) {
+                         const auto result = pipeline.compress_fundamentals(streams.at(0), model);
+                         StageStatistics stats;
+                         stats.input_power_w = result.input_power_w;
+                         stats.common_amplitude_gain = result.common_amplitude_gain;
+                         return StageEvaluation{{result.output}, std::move(stats)};
+                     })
             .front();
     }
 
@@ -402,22 +440,21 @@ public:
                              Stream input,
                              CoherentLimitedAmplifier model,
                              AmplifierInputMode mode = AmplifierInputMode::sources_only) {
-        const auto selected = index(input);
-        const auto stage = output;
-        return append(
-                   stage,
-                   {std::move(output)},
-                   [selected, model = std::move(model), mode](auto &pipeline, auto &streams) {
-                       auto result = pipeline.limited_amplifier(streams.at(selected), model, mode);
-                       streams.push_back(result.output);
-                       return StageStatistics{result.input_power_w,
-                                              {},
-                                              result.operating_point,
-                                              std::move(result.nonlinear_counts),
-                                              result.direct_contribution_count,
-                                              result.discarded_direct_contributions};
-                   },
-                   1)
+        const auto name = output;
+        return stage(name,
+                     {input},
+                     {std::move(output)},
+                     [model = std::move(model), mode](auto &pipeline, auto &streams) {
+                         auto result = pipeline.limited_amplifier(streams.at(0), model, mode);
+                         return StageEvaluation{
+                             {result.output},
+                             StageStatistics{result.input_power_w,
+                                             {},
+                                             result.operating_point,
+                                             std::move(result.nonlinear_counts),
+                                             result.direct_contribution_count,
+                                             result.discarded_direct_contributions}};
+                     })
             .front();
     }
 
@@ -426,24 +463,23 @@ public:
                                CoherentHighOrderAmplifier model,
                                std::size_t max_source_order,
                                AmplifierInputMode mode = AmplifierInputMode::sources_only) {
-        const auto selected = index(input);
-        const auto stage = output;
-        return append(
-                   stage,
-                   {std::move(output)},
-                   [selected, model = std::move(model), max_source_order, mode](auto &pipeline,
-                                                                                auto &streams) {
-                       auto result = pipeline.highorder_amplifier(
-                           streams.at(selected), model, max_source_order, mode);
-                       streams.push_back(result.output);
-                       return StageStatistics{result.input_power_w,
-                                              {},
-                                              result.operating_point,
-                                              std::move(result.nonlinear_counts),
-                                              result.direct_contribution_count,
-                                              result.discarded_direct_contributions};
-                   },
-                   1)
+        const auto name = output;
+        return stage(name,
+                     {input},
+                     {std::move(output)},
+                     [model = std::move(model), max_source_order, mode](auto &pipeline,
+                                                                        auto &streams) {
+                         auto result = pipeline.highorder_amplifier(
+                             streams.at(0), model, max_source_order, mode);
+                         return StageEvaluation{
+                             {result.output},
+                             StageStatistics{result.input_power_w,
+                                             {},
+                                             result.operating_point,
+                                             std::move(result.nonlinear_counts),
+                                             result.direct_contribution_count,
+                                             result.discarded_direct_contributions}};
+                     })
             .front();
     }
 };

@@ -1,4 +1,10 @@
 # Included from the project root to retain target and CTest paths.
+add_executable(model_adapter_test tests/models/model_adapter_test.cpp)
+target_link_libraries(model_adapter_test PRIVATE RFModel::rfmodel)
+add_test(NAME model_adapter_test COMMAND model_adapter_test)
+add_executable(coherent_stage_test tests/coherent/coherent_stage_test.cpp)
+target_link_libraries(coherent_stage_test PRIVATE RFModel::rfmodel)
+add_test(NAME coherent_stage_test COMMAND coherent_stage_test)
 add_executable(coherent_system_test tests/coherent/coherent_system_test.cpp)
 target_link_libraries(coherent_system_test PRIVATE RFModel::rfmodel)
 add_test(NAME coherent_system_test COMMAND coherent_system_test)

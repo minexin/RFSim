@@ -1,0 +1,228 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-14",
+  "baseline_commit": "a08bbd456cd6d1d7628ff5335373d2cb57134442",
+  "scope": "C++17 model capabilities, model-owned adapters, coherent stage extension, vendor phase boundary",
+  "local_status": "passed_after_targeted_reruns",
+  "clean_first_build": {
+    "compiler": "MSVC 19.44.35228.0",
+    "architecture": "x64",
+    "Debug": "passed",
+    "Release": "passed"
+  },
+  "initial_full_runs": {
+    "Release": {
+      "path": "build-reference/module-layout-full/model-adapters-release.xml",
+      "sha256": "d2fc14ade1c403d60a709bf23f459507f4dc2d609e8c0bc1ad10f12c1752895b",
+      "tests": 148,
+      "failures": 1,
+      "failed_tests": [
+        "sdk_configuration_test"
+      ]
+    },
+    "Debug": {
+      "path": "build-reference/module-layout-full/model-adapters-debug.xml",
+      "sha256": "5da15ac5598de9c8878379ec739a2ecb7a9c3e9d08765569629f3b8d7e2b3164",
+      "tests": 148,
+      "failures": 2,
+      "failed_tests": [
+        "native_replay_protocol",
+        "sdk_configuration_test"
+      ]
+    }
+  },
+  "focused_reruns": {
+    "Release": {
+      "path": "build-reference/module-layout-full/model-adapters-release-retry.xml",
+      "sha256": "3536ab9252307ac08efeff36a20b18d35a6e1c286d2400674acac4565613a7f3",
+      "tests": 1,
+      "failures": 0,
+      "failed_tests": []
+    },
+    "Debug": {
+      "path": "build-reference/module-layout-full/model-adapters-debug-retry.xml",
+      "sha256": "ee69cfadc7b180adf613d14dbadf433fd5895228c4443562b710e3d002af251c",
+      "tests": 2,
+      "failures": 0,
+      "failed_tests": []
+    }
+  },
+  "initial_failures": [
+    {
+      "cause": "Explicit example target inventory still listed six instead of seven targets",
+      "configurations": [
+        "Debug",
+        "Release"
+      ],
+      "test": "sdk_configuration_test",
+      "correction": "Add model_adapter_example and retain exact-name/count checks"
+    },
+    {
+      "cause": "240 second timeout during concurrent compilation; isolated retry passed without timeout changes",
+      "configurations": [
+        "Debug"
+      ],
+      "test": "native_replay_protocol",
+      "correction": "Rerun without concurrent build/test load"
+    }
+  ],
+  "effective_test_coverage": {
+    "unresolved_failures": 0,
+    "Debug": 148,
+    "Release": 148,
+    "single_clean_full_run_claim": false
+  },
+  "relocated_cpp_sdk": {
+    "c_api_enabled": false,
+    "multi_translation_unit_adapter_consumer": true,
+    "Debug": {
+      "path": "build-reference/model-adapter-consumer/adapter-consumer-debug.xml",
+      "sha256": "bbde8fc2470d972b2bf4093b549cc43e8aca5c6d49dd79becc4fefb51918c60f",
+      "tests": 9,
+      "failures": 0,
+      "failed_tests": []
+    },
+    "python_discovered": false,
+    "Release": {
+      "path": "build-reference/model-adapter-consumer/adapter-consumer-release.xml",
+      "sha256": "fccf322cd2b26c4f17064e957d0730baa405159d3867d1c96f36563e5231e126",
+      "tests": 9,
+      "failures": 0,
+      "failed_tests": []
+    }
+  },
+  "formatting": {
+    "status": "passed",
+    "checked_files": 221
+  },
+  "vendor_phase_relocation": {
+    "formula_and_calibration_constants_unchanged": true,
+    "method": "Compare original generic law and vendor class to relocated bodies after removing whitespace"
+  },
+  "source_files_sha256": [
+    {
+      "path": "cmake/RFModelExamples.cmake",
+      "sha256": "0772d020f93e16c0c7a8c0af89eee14c15245a25986d53303167d4b54b14ffa5"
+    },
+    {
+      "path": "cmake/RFModelHeaders.cmake",
+      "sha256": "5a0a6be9eb51fcc986d8b8490150866c0cf408b82ae5817e214f69bea8e2b20c"
+    },
+    {
+      "path": "cmake/RFModelTests.cmake",
+      "sha256": "0da748e1794934565f19ad94c05c036ffc29cd2f9f7c58a2658df90316652b74"
+    },
+    {
+      "path": "examples/analysis/model_adapter.cpp",
+      "sha256": "20f0d5a27bcfd725d32e6ce02ccc7959a9434b73ad40e6325582dbe3938ada43"
+    },
+    {
+      "path": "include/rfmodel/adapters/builtin_model_adapters.hpp",
+      "sha256": "cf072c1090d2ab297ca6bb1d9f0a82141cdfd23810f2261fc35b8faea925446f"
+    },
+    {
+      "path": "include/rfmodel/adapters/model_adapter.hpp",
+      "sha256": "6a49ee1843dff16714cf1fa0bd8d81794b1f1b2b6ef4b4030bd4528b0236a9d6"
+    },
+    {
+      "path": "include/rfmodel/adapters/systemvue2023_am_pm.hpp",
+      "sha256": "1bb61d3003a5c738c4755c17d96f1940d16d32eaa494a5f0687f1371c773de24"
+    },
+    {
+      "path": "include/rfmodel/coherent/coherent_pipeline.hpp",
+      "sha256": "7563352395802e352ff1a36045ac2f42c96c2ab70b2652839eaf67806e08a3aa"
+    },
+    {
+      "path": "include/rfmodel/coherent/coherent_system.hpp",
+      "sha256": "eab99a5f285acad2fa2b30370228c9691979f5795b0f95ea7f70a918ad1d514a"
+    },
+    {
+      "path": "include/rfmodel/conversion/am_pm_linearization.hpp",
+      "sha256": "33a3856f7e556f61ac90432000b7a1972662fa61ab085adbb6936524e5b1e582"
+    },
+    {
+      "path": "include/rfmodel/conversion/output_phase_linearization.hpp",
+      "sha256": "766bbb22b8195f5fd4f46553b6f9f2b0b3f5914b6267fc53ea9f45fb475d1025"
+    },
+    {
+      "path": "include/rfmodel/nonlinear/am_pm.hpp",
+      "sha256": "9639361af73fe178295eed44433e2828668dd0f40ccc58955dca76d0a694b991"
+    },
+    {
+      "path": "include/rfmodel/nonlinear/point_derivative_am_pm.hpp",
+      "sha256": "19d1082ed07cbc6253073a74bdf5568d6eb8d7bf46fb69de2bf1ea97c04daa95"
+    },
+    {
+      "path": "tests/cmake/check_sdk_configuration.cmake",
+      "sha256": "46ca7c150bb904382901b5b6e03bd0f269979ed7f16253cae67a218e62c7a092"
+    },
+    {
+      "path": "tests/coherent/coherent_stage_test.cpp",
+      "sha256": "6b8703b2364885b3f9d472bdbfbb6f1570cca9b06cc20dc6adbf5d8cbdb004d2"
+    },
+    {
+      "path": "tests/consumer/CMakeLists.txt",
+      "sha256": "0a8ba1d35ea580e1f2729fa3ac637dcd14e5b1d0027dd110af0ea618ee523656"
+    },
+    {
+      "path": "tests/consumer/model_adapter_probe.cpp",
+      "sha256": "902853d53d3dc28c6758b8956eccc2a21e22455cf48a63f2d9da04e089ce16b1"
+    },
+    {
+      "path": "tests/consumer/model_adapter.cpp",
+      "sha256": "366c54724b401aeab99723a59328690450bf45ab092cb083a6ee510dd63bb63f"
+    },
+    {
+      "path": "tests/models/model_adapter_test.cpp",
+      "sha256": "c9dc361ac3300f466701c60c01812fd2bb68648fabe0058905da74ca281e630a"
+    }
+  ],
+  "local_evidence_sha256": [
+    {
+      "path": "build-reference/model-adapters-debug-build.log",
+      "sha256": "e76cd04ab58e3fe88d0e475895a0a1e94234dcc8c37a0cc2273bd5e0bf68a1da"
+    },
+    {
+      "path": "build-reference/model-adapters-release-build.log",
+      "sha256": "7afa0a36f5deb0054718131009add587cb179b9af4626aa6b369c3e116415308"
+    },
+    {
+      "path": "build-reference/model-adapters-debug-tests.log",
+      "sha256": "8442877d21b783ff9ab35de5ca03581471bf32f4681779bfd94a2dbf16c2f841"
+    },
+    {
+      "path": "build-reference/model-adapters-release-tests.log",
+      "sha256": "b9dde162f89206634f4a2a9b19aacfbe89f58d6ec789d7f2a3a11268c89cd943"
+    },
+    {
+      "path": "build-reference/model-adapters-debug-retry.log",
+      "sha256": "0b8a9226237d2ff25a4df40a309cd97aa443e58c0a782176d9b1b611a2bcb654"
+    },
+    {
+      "path": "build-reference/model-adapters-release-retry.log",
+      "sha256": "454859149628a859f834c65e2ba96a8ad8cb9d755c18461633427fc52c012bbc"
+    },
+    {
+      "path": "build-reference/model-adapter-sdk-install.log",
+      "sha256": "2cfa4fb8f69f4f3d43cd69b90bfb4b0a9e03b63e0d80afbda5130f17e9473844"
+    },
+    {
+      "path": "build-reference/model-adapter-consumer-debug-build.log",
+      "sha256": "75505c25fd970a6f8a2ecbf5f0fc50d9d14631f9bded637350cb50d3e360710f"
+    },
+    {
+      "path": "build-reference/model-adapter-consumer-release-build.log",
+      "sha256": "d768bd463461be6b14075e4816c57a6261bc30d77568b71fade843e740e7ce5a"
+    }
+  ],
+  "ci": {
+    "status": "not_yet_pushed",
+    "evidence_scope": "Local results do not claim remote or cross-platform success"
+  },
+  "compatibility": {
+    "new_systemvue_runs": 0,
+    "datapoints_accepted": false,
+    "phd_implemented": false,
+    "whole_device_compatibility_claim": false
+  }
+}

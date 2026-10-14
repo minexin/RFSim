@@ -1,4 +1,9 @@
 # Included from the project root to retain example target/output paths.
+    add_executable(model_adapter_example examples/analysis/model_adapter.cpp)
+    target_link_libraries(model_adapter_example PRIVATE RFModel::rfmodel)
+    if(BUILD_TESTING)
+        add_test(NAME model_adapter_example COMMAND model_adapter_example)
+    endif()
     add_executable(frequency_dependent_cable_example examples/linear/frequency_dependent_cable.cpp)
     target_link_libraries(frequency_dependent_cable_example PRIVATE RFModel::rfmodel)
     if(BUILD_TESTING)

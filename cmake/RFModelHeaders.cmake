@@ -1,6 +1,9 @@
 # Canonical public header inventory. Add new headers to their owning module here.
 # Flat include compatibility is generated in the build tree, not duplicated in source.
 set(RFMODEL_PUBLIC_HEADERS
+    adapters/model_adapter.hpp
+    adapters/builtin_model_adapters.hpp
+    adapters/systemvue2023_am_pm.hpp
     analysis/analysis_task.hpp
     analysis/group_delay.hpp
     analysis/measurements.hpp
@@ -34,6 +37,7 @@ set(RFMODEL_PUBLIC_HEADERS
     conversion/highorder_linearization.hpp
     conversion/mixer_linearization.hpp
     conversion/polynomial_linearization.hpp
+    conversion/output_phase_linearization.hpp
     core/device_model.hpp
     core/interpolation.hpp
     core/linear_solver.hpp
@@ -74,6 +78,7 @@ set(RFMODEL_PUBLIC_HEADERS
     nonlinear/multitone_amplifier.hpp
     nonlinear/nonlinear_spectrum.hpp
     nonlinear/polynomial_amplifier.hpp
+    nonlinear/point_derivative_am_pm.hpp
     nonlinear/polynomial_intercepts.hpp
     nonlinear/polynomial_limits.hpp
     nonlinear/power_wave_spectrum.hpp

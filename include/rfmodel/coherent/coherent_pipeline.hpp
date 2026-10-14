@@ -600,6 +600,14 @@ public:
         return state_->usage;
     }
 
+    double spacing_hz() const noexcept {
+        return spacing_;
+    }
+
+    double reference_impedance_ohms() const noexcept {
+        return reference_;
+    }
+
     Stream seed(const std::vector<CoherentComponent> &sources) {
         const Operation operation(active_);
         const auto input = reduce_coherent_components(spacing_, sources);

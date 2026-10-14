@@ -7,6 +7,7 @@
 - [代码目录与模块归属](docs/repository-layout.md)
 - [C++ SDK 安装与调用](docs/cpp-sdk.md)：可独立安装、移动并消费，不依赖 Python 或 C ABI。
 - [仿真编排 API](docs/cpp-simulation-api.md)：线性/频谱分析、相干系统图、扩频与变频工作点、相位噪声及测量、参数化优化和 Monte Carlo。
+- [模型能力与适配](docs/model-adapters.md)：显式能力查询、模型值所有权、通用相干阶段与厂商版本边界。
 - [完整 C++ 安装消费者](tests/consumer/simulation_tasks.cpp)：直接组合相干图、频率规划、转换分析和参数任务。
 - [Python 接口退役及功能迁移记录](docs/python-interface-retirement.md)：产品包、wheel、Python/JSON CLI 已移除；独立开发采集与参考工具保留。
 
