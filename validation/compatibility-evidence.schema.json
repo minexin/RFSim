@@ -157,7 +157,7 @@
           },
           "expected_jobs": {
             "type": "integer",
-            "minimum": 0
+            "const": 18
           },
           "evidence": {
             "type": "string",
@@ -166,6 +166,14 @@
           "url": {
             "type": "string",
             "minLength": 1
+          },
+          "verified_failed_jobs": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "verified_cancelled_jobs": {
+            "type": "integer",
+            "minimum": 0
           }
         },
         "required": [
@@ -176,7 +184,9 @@
           "verified_successful_jobs",
           "expected_jobs",
           "evidence",
-          "url"
+          "url",
+          "verified_failed_jobs",
+          "verified_cancelled_jobs"
         ],
         "additionalProperties": false
       },

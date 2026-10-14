@@ -1,0 +1,387 @@
+{
+  "schema_version": 1,
+  "date_utc": "2026-10-14",
+  "classification": "stage_specific_local_engineering_evidence_not_vendor_acceptance",
+  "no_new_systemvue_execution": true,
+  "stages": [
+    {
+      "id": "core_api_contract",
+      "integrated_commit": "89c93d57d23d9aeea150a21468662a7d00fe10d9",
+      "local_base": "0d18e464bd825a2851cd5bda2706395d5a6915d6",
+      "patch_sha256": "bb974b7cb8ecbfc1e50de7e59a17be8a05c71ca812e0a499414a5e55fa622dea",
+      "standard": "C++17",
+      "extensions": false,
+      "flags": "-Wall -Wextra -Wpedantic -pedantic-errors",
+      "results": {
+        "native_with_developer_reference": {
+          "Debug": "157/157",
+          "Release": "157/157"
+        },
+        "default_native": {
+          "Debug": "130/130",
+          "Release": "130/130"
+        },
+        "full_installed_consumers": {
+          "Debug": "15/15",
+          "Release": "15/15"
+        },
+        "pure_sdk_installed_consumers": {
+          "Debug": "13/13",
+          "Release": "13/13"
+        },
+        "clang_format": "19.1.7 PASS",
+        "focused_release_werror": "PASS",
+        "ubsan": "PASS",
+        "asan_ubsan": "PASS; leak detection disabled due to host limitation",
+        "review": "APPROVE independent frozen-patch review"
+      },
+      "source": {
+        "artifact_name": "core-contract-evidence/results.json",
+        "sha256": "7de19510c344698bcb0c22fa956fe48d96c954d04cd3ffa9778e4689fc232055",
+        "availability": "External local audit artifact; not embedded or required by the product."
+      }
+    },
+    {
+      "id": "deterministic_wave",
+      "integrated_commit": "1a0f5ffcd27d9efad09ecd59b238a8e622900367",
+      "local_base": "89c93d57d23d9aeea150a21468662a7d00fe10d9",
+      "patch_sha256": "dd09e9cf101bb2db8744e4812092ab847e3b82b9f118e9866054563ddc75e0d3",
+      "results": {
+        "Debug_full_with_native": {
+          "passed": 159,
+          "failed": 0,
+          "log": "rf-wave-debug-final-ctest.log"
+        },
+        "Release_full_with_native": {
+          "passed": 159,
+          "failed": 0,
+          "log": "rf-wave-release-final-ctest.log"
+        },
+        "Release_pure_SDK": {
+          "passed": 112,
+          "failed": 0,
+          "log": "rf-wave-sdk-ctest.log"
+        },
+        "Debug_pure_SDK": {
+          "passed": 112,
+          "failed": 0,
+          "log": "rf-wave-sdk-debug-ctest.log"
+        },
+        "Debug_full_installed_consumer": {
+          "passed": 15,
+          "failed": 0,
+          "log": "rf-wave-debug-consumer-ctest.log"
+        },
+        "Release_full_installed_consumer": {
+          "passed": 15,
+          "failed": 0,
+          "log": "rf-wave-release-consumer-ctest.log"
+        },
+        "Release_pure_installed_consumer": {
+          "passed": 13,
+          "failed": 0,
+          "log": "rf-wave-sdk-consumer-ctest.log"
+        },
+        "Debug_pure_installed_consumer": {
+          "passed": 13,
+          "failed": 0,
+          "log": "rf-wave-sdk-debug-consumer-ctest.log"
+        }
+      },
+      "sanitizers": {
+        "ASan_UBSan_affected_test_binaries": 5,
+        "passed": 5,
+        "LeakSanitizer": "blocked: ptrace environment; original fatal log retained; detect_leaks=0 for ASan/UBSan"
+      },
+      "format": "full include/src/tests clang-format 19.1.7 dry-run passed; benchmark separately formatted; git diff --check passed",
+      "warnings": "Full project strict C++17 (-std=c++17, CXX_EXTENSIONS=OFF, -pedantic-errors). All-warning -Werror is blocked by existing analysis_task_test missing field initializers and preexisting range-loop copies; affected strict -Werror tests passed. No unrelated warning fixes.",
+      "benchmark": {
+        "channels": 256,
+        "samples": 5,
+        "baseline_nonlinear_median_ms": 18074.528102,
+        "candidate_nonlinear_median_ms": 11804.202148,
+        "scope": "Normal 16/64/128/256 and extreme fallback are separate; five samples; no timing threshold. Static baseline includes mandatory outgoing C/P from analyze(false). Both nonlinear timings include full initial validation and final noise analysis. Dense factorization remains cubic. Sequential timed run after builds, shared-host noise remains possible.",
+        "not_claimed": "No pure-solver 42x speedup, asymptotic improvement or vendor performance acceptance."
+      },
+      "source": {
+        "artifact_name": "wave-evidence/results.json",
+        "sha256": "8555028277088f357e68a11c63cca314d0648496bee642f578f712e44ed73a68",
+        "availability": "External local audit artifact; not embedded or required by the product."
+      }
+    },
+    {
+      "id": "sdk_example",
+      "integrated_commit": "45bafd674b46f9a7f35353631f72c131a0edc5c1",
+      "local_base": "1a0f5ffcd27d9efad09ecd59b238a8e622900367",
+      "patch_sha256": "2ab2db797357774f7e8ad004468c1047bbe897358cfec594b226c4573f9f4103",
+      "toolchain": "CMake 3.20.5; GNU C++ 14.2.0; C++17",
+      "results": {
+        "installed_Debug": "1/1; direct execution passed",
+        "installed_Release": "1/1; direct execution passed",
+        "archive_gates": "passed; source/inventory/hash/containment checks and Release consumer",
+        "extracted_Debug": "1/1; direct execution passed"
+      },
+      "format_limit": "Historical include/src/tests format scope did not cover this example. The current evidence overlay formats both example cpp files; only main.cpp changes, whitespace only.",
+      "sources": [
+        {
+          "artifact_name": "sdk-consumer-rebound-delivery/manifest.json",
+          "sha256": "2ea33b1a898234f97708264f310688f4a881d7fa9988db8cecfe9808c2d6c22e",
+          "availability": "External local audit artifact; not embedded or required by the product."
+        },
+        {
+          "artifact_name": "sdk-consumer-rebound-delivery/README.txt",
+          "sha256": "e7b09a233ee10f7b8add7016124c8892cff9d90df0e6bd32b973db9a7042193d",
+          "availability": "External local audit artifact; not embedded or required by the product."
+        },
+        {
+          "artifact_name": "sdk-consumer-rebound-delivery/installed-Debug.log",
+          "sha256": "cdde92599e124fe8717441defb26605c1010a259f3b76bd25e8e20c6ac8c31ab",
+          "availability": "External local audit artifact; not embedded or required by the product."
+        },
+        {
+          "artifact_name": "sdk-consumer-rebound-delivery/installed-Release.log",
+          "sha256": "5fdfc6038a7fc2d8c54bafcd1b998de29075fa079549467f9e66731280cd1da6",
+          "availability": "External local audit artifact; not embedded or required by the product."
+        },
+        {
+          "artifact_name": "sdk-consumer-rebound-delivery/archive-gates.log",
+          "sha256": "cee53ca0f251342a8bd73cbb931f3000a7ac839128bbc136a32ec275c82735e2",
+          "availability": "External local audit artifact; not embedded or required by the product."
+        },
+        {
+          "artifact_name": "sdk-consumer-rebound-delivery/archive-debug.log",
+          "sha256": "101b0edd478ee69ddd982efd5334d0797aa6e51caca6dc3632c088ae2bb770e5",
+          "availability": "External local audit artifact; not embedded or required by the product."
+        }
+      ]
+    },
+    {
+      "id": "touchstone_writer",
+      "integrated_commit": "a88dcc041917e30a620a6f06a98caa56042b5b04",
+      "local_base": "45bafd674b46f9a7f35353631f72c131a0edc5c1",
+      "candidate_tree": "3d1343092f19b3507be61621382ee02f6ccb24dd",
+      "patch_sha256": "f87ab3322be72fa4cc1bb21827098ffb41a624ef5dbc075a7e3e6b409fc54712",
+      "checks": {
+        "full_debug": {
+          "log": "final-debug.log",
+          "passed": 161,
+          "total": 161,
+          "seconds": 74.55,
+          "log_sha256": "acaa471cf4af337be83e4f93de5f03134cac2531ffd5fa58661cad61019d6d1f"
+        },
+        "full_release": {
+          "log": "final-release.log",
+          "passed": 161,
+          "total": 161,
+          "seconds": 50.81,
+          "log_sha256": "a13c969b5dbe3d00d6e9ce0cb3f1b145a646a654b55e65a23b420c2f790debd2"
+        },
+        "pure_debug": {
+          "log": "final-pure-debug.log",
+          "passed": 122,
+          "total": 122,
+          "seconds": 16.78,
+          "log_sha256": "05b382a162a666a132a73b8f6b91fe2e9ab9116b428be1bf20cf831205f251ec"
+        },
+        "pure_release": {
+          "log": "final-pure-release.log",
+          "passed": 122,
+          "total": 122,
+          "seconds": 16.89,
+          "log_sha256": "6013f1159467e7f9846dcbdf4efc0191083c0d842fab2a8642ba4033bfce4741"
+        },
+        "asan_ubsan": {
+          "log": "final-sanitizer.log",
+          "result": "passed",
+          "leak_detection": false,
+          "log_sha256": "a9e34cb3a83860bea94f3cdc169a187893ffea04275f9217cced8440be145134"
+        },
+        "format": {
+          "log": "final-format.log",
+          "result": "passed",
+          "log_sha256": "ee01a0aa48e0f99d6dfc7ac31174772020bc0675f991a815bbb33a95ca5e6267"
+        },
+        "lsan_environment_limit": {
+          "log": "sanitizer.log",
+          "result": "blocked: LeakSanitizer cannot run under ptrace",
+          "log_sha256": "a6d55f753cfe63b1b3fbe0062b8500cd80b9960f92ad3ef64bd5fa94b454ad1e"
+        }
+      },
+      "toolchain": {
+        "g++": "14.2.0",
+        "cmake": "3.31.6",
+        "clang-format": "19.1.7",
+        "standard": "C++17; extensions OFF; -pedantic-errors"
+      },
+      "installed_coverage": "Each full/pure configuration includes a relocated two-TU writer consumer; pure suites also include sdk_archive_test and sdk_configuration_test.",
+      "sources": [
+        {
+          "artifact_name": "touchstone-evidence/manifest.json",
+          "sha256": "d18ab3733e62716e168a01cd38048ca3f138f1a3bbfd5cc97c29d1075f057941",
+          "availability": "External local audit artifact; not embedded or required by the product."
+        },
+        {
+          "artifact_name": "touchstone-evidence/validation.md",
+          "sha256": "8f6e1ff093a0ef27a0cc2517a654ae953bcfd1a1f51ee12667535b6e78db5292",
+          "availability": "External local audit artifact; not embedded or required by the product."
+        }
+      ],
+      "cross_platform_ci": "Original writer commit a88dcc041917e30a620a6f06a98caa56042b5b04 run 38600226155 failed: 14 success, 3 failure, 1 cancelled. The subsequent decimal portability fix a987c3dc116f31477f6c97fb23d0c3a4a22f2f3c run 38607571844 completed 18/18 success; the original failure remains historical evidence."
+    },
+    {
+      "id": "touchstone_decimal_portability",
+      "integrated_commit": "a987c3dc116f31477f6c97fb23d0c3a4a22f2f3c",
+      "local_base": "a88dcc041917e30a620a6f06a98caa56042b5b04",
+      "patch_sha256": "90e00407f99438409a9b70fb2cb0f652b3858c635f4384e53350dd2fef27867a",
+      "contract": "Strict complete decimal grammar; recover classic-stream ERANGE/failbit only for fully consumed finite nonzero tiny results <= double::min with no badbit. Reject true underflow to zero, overflow, suffixes and nondecimal tokens. Writer precision unchanged.",
+      "results": {
+        "GCC_strict_full_Debug_Release": "161/161 each",
+        "GCC_strict_pure_Debug_Release": "122/122 each",
+        "Linux_clang19_libcxx19": "Focused reader/writer Debug/Release and four installed-consumer configurations passed; not macOS execution.",
+        "independent_random_roundtrip": "99954 bit-exact cases for each of libstdc++ and libc++; de_DE global-locale isolation passed.",
+        "ASan_UBSan": "passed; LeakSanitizer disabled"
+      },
+      "ci": "Exact commit a987c3dc116f31477f6c97fb23d0c3a4a22f2f3c run 38607571844: 18/18 completed success, including macOS core and pure SDK Debug/Release. Original a88 writer failure retained.",
+      "sources": [
+        {
+          "artifact_name": "touchstone-portability-evidence/manifest.json",
+          "sha256": "fe0b64c04a1309cdd7fea30de412d382583a3fa5b09838432e1e36a53e49a343",
+          "availability": "External local audit artifact; not required by product."
+        },
+        {
+          "artifact_name": "touchstone-portability-evidence/validation.md",
+          "sha256": "ee281f436324f895ac2fc49ab1092fc8ebc81fed528c12945f12b3198b6a1467",
+          "availability": "External local audit artifact; not required by product."
+        }
+      ]
+    },
+    {
+      "id": "uniform_line_resonance",
+      "integrated_commit": "a2bbfd5dd3366082620cbd0ebf99dbf11628bd40",
+      "local_base": "a987c3dc116f31477f6c97fb23d0c3a4a22f2f3c",
+      "local_candidate_commit": "60eb670edf033c643f1d04089b4ffa612c89e147",
+      "candidate_tree": "37e5bd0089e4526f5b4cb2a1498552136f7e1458",
+      "patch_sha256": "ef137b24734d706db15141fd9b8b393c0cafbff4b9272ba6bc47ece8b80365cd",
+      "checks": {
+        "debug": {
+          "passed": 161,
+          "total": 161,
+          "exit": 0,
+          "log": "rebound/debug-test.log",
+          "sha256": "9254370cbc6668cb93d7a837729015011f832c0b7051799f45c389707b425f90"
+        },
+        "pure-native-debug": {
+          "passed": 149,
+          "total": 149,
+          "exit": 0,
+          "log": "rebound/pure-native-debug-test.log",
+          "sha256": "55082ff55aec0bd96c8ee4116c866424082dca93141dd56a9c4c7768b50a6da0"
+        },
+        "full-consumer-debug": {
+          "passed": 16,
+          "total": 16,
+          "exit": 0,
+          "log": "rebound/full-consumer-debug-test.log",
+          "sha256": "36175c63968ba0e4059ee1e8fdc4cdb5e50d204b6eacbf356fbfdc30f2e054fe"
+        },
+        "pure-consumer-debug": {
+          "passed": 14,
+          "total": 14,
+          "exit": 0,
+          "log": "rebound/pure-consumer-debug-test.log",
+          "sha256": "30d501c6f1bee1efccf3201a2e3ea3a6aaa0e604b7fcfdb680f8b9fe01ee43a2"
+        },
+        "release": {
+          "passed": 161,
+          "total": 161,
+          "exit": 0,
+          "log": "rebound/release-test.log",
+          "sha256": "46befc24aec1f6e482f6be67576e742b1851686e987aa2bba5f269b4872af911"
+        },
+        "pure-native-release": {
+          "passed": 149,
+          "total": 149,
+          "exit": 0,
+          "log": "rebound/pure-native-release-test.log",
+          "sha256": "c34da1dfc9d011df1393acf84aea45a028556ec18b972837e83a49dc0874e36f"
+        },
+        "full-consumer-release": {
+          "passed": 16,
+          "total": 16,
+          "exit": 0,
+          "log": "rebound/full-consumer-release-test.log",
+          "sha256": "1da192645326a4a44605f0f296cfc239c9eaf1d6c9a2e8ff302ca5ad23a13737"
+        },
+        "pure-consumer-release": {
+          "passed": 14,
+          "total": 14,
+          "exit": 0,
+          "log": "rebound/pure-consumer-release-test.log",
+          "sha256": "6ab486685681c7c4dc0ad8cd5a0b3a1c18151d6e40678d63810ec6fb7ca28b93"
+        }
+      },
+      "candidate_identity": "Local gates executed at candidate 60eb670; its source tree equals published a2bbfd5. Local commit is not a remote commit.",
+      "ci": "Exact published source commit a2bbfd5dd3366082620cbd0ebf99dbf11628bd40 run 38615005226 completed 18/18 success. Does not cover a later evidence overlay commit.",
+      "sources": [
+        {
+          "artifact_name": "line-resonance-delivery/manifest.json",
+          "sha256": "32f713578f2d78757b99e7f4f9dfcd89a8c079a4953aacdca9c5875aa2a6c4e2",
+          "availability": "External local audit artifact; not required by product."
+        }
+      ],
+      "limits": [
+        "No new SystemVue execution.",
+        "Pure native count includes developer reference tests, unlike older pure-SDK-only stage counts.",
+        "Uncommitted RLGC intermediate-overflow work is excluded."
+      ]
+    }
+  ],
+  "limits": [
+    "Counts describe historical frozen stage candidates, not a rerun on the final documentation overlay.",
+    "Local Linux tests and exact-commit cross-platform CI are distinct from live SystemVue acceptance.",
+    "LeakSanitizer was blocked by the ptrace environment; ASan/UBSan results with detect_leaks=0 do not establish leak-check success.",
+    "No public release, release tag or LICENSE decision is made. Python product interfaces remain retired; developer evidence tooling remains."
+  ],
+  "preparation_overlay_checks": {
+    "base": "a88dcc041917e30a620a6f06a98caa56042b5b04",
+    "scope": "Preparation overlay only; rerun after final integration. Developer checker/schema changes are not product numerical changes.",
+    "checker_self_test": "31 invalid metadata mutations rejected at preparation; later rebound adds two duplicate-matrix cases. No numerical or vendor tests executed.",
+    "example_format": "clang-format 19.1.7 --dry-run --Werror main.cpp network.cpp passed",
+    "main_cpp_nonwhitespace_sha256": "deb4ffc1e6e76197bbd4c7201d2322573be843298dd8e83a5eab63130002cd71",
+    "main_cpp_change": "Whitespace-stripped bytes identical to base",
+    "network_cpp_change": "Raw bytes identical to base",
+    "relocated_pure_sdk_example": {
+      "toolchain": "CMake 3.20.5; GNU C++ 14.2.0; strict C++17",
+      "Debug": "1/1 passed",
+      "Release": "1/1 passed",
+      "method": "Fresh configure with BUILD_TESTING/C_API/CLI/EXAMPLES OFF, install, rename installation prefix, independently configure examples/sdk-consumer with CMAKE_PREFIX_PATH and -Wall -Wextra -Wpedantic -pedantic-errors, build and ctest.",
+      "log_sha256": {
+        "Debug": "cbe3aed999e79798b2ecbd030ced2c4cc86ca2b023e9964936573a90b1f530a6",
+        "Release": "7f0437848dddb7d7969efc28192777b59eb8de1de183b1694672bad8d29eca02"
+      }
+    },
+    "markdown_local_links": "all resolve",
+    "git_diff_check": "passed"
+  },
+  "rebound_overlay_checks": {
+    "base": "a2bbfd5dd3366082620cbd0ebf99dbf11628bd40",
+    "scope": "Current overlay rebound checks on published line source base; metadata/example checks only, not a rerun of all historical numerical suites. Source CI run 38615005226 passed 18/18; future overlay-commit CI remains separate.",
+    "checker_self_test": "33 invalid metadata mutations rejected; no numerical or vendor tests executed",
+    "example_format": "clang-format 19.1.7 --dry-run --Werror main.cpp network.cpp passed",
+    "main_cpp_nonwhitespace_sha256": "deb4ffc1e6e76197bbd4c7201d2322573be843298dd8e83a5eab63130002cd71",
+    "main_cpp_change": "Whitespace-stripped bytes identical to base",
+    "network_cpp_change": "Raw bytes identical to base",
+    "relocated_pure_sdk_example": {
+      "toolchain": "CMake 3.20.5; GNU C++ 14.2.0; strict C++17",
+      "Debug": "1/1 passed",
+      "Release": "1/1 passed",
+      "method": "Fresh configure with BUILD_TESTING/C_API/CLI/EXAMPLES OFF, install, rename installation prefix, independently configure examples/sdk-consumer with CMAKE_PREFIX_PATH and -Wall -Wextra -Wpedantic -pedantic-errors, build and ctest.",
+      "log_sha256": {
+        "Debug": "912adf515811de082c835b231c9cfacd7c75c4412c0b079f73e119eed71bb99a",
+        "Release": "bf6c7d8e6912953cbfa3fa2437a30f62d83083fd1e61f74444eaa7beceebcbcb"
+      }
+    },
+    "markdown_local_links": "all resolve",
+    "git_diff_check": "passed"
+  }
+}

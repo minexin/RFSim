@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
   "snapshot": {
-    "source_commit": "ddd2e4be64a628f3e21cd954a6f752144f3e944c",
+    "source_commit": "a2bbfd5dd3366082620cbd0ebf99dbf11628bd40",
     "date_utc": "2026-10-14",
-    "scope": "Bounded current C++ capability/evidence summary with the engineering SDK archive overlay on the source commit, not whole-catalog acceptance. No new SystemVue execution.",
-    "integration_note": "The base contains native fixed-pump PHD coefficients. This overlay adds internal header-only SDK archive production, actual Git provenance, integrity/containment checks and installed-only consumers. Local developer archives are explicitly dirty and do not identify an exact source commit; the final published archive integration commit needs its own exact-commit CI. No public release, license selection or new vendor compatibility is established."
+    "scope": "Bounded current C++ capability/evidence summary; stage-specific local records and exact-commit CI, not whole-catalog acceptance. No new SystemVue execution.",
+    "integration_note": "Frozen evidence overlay on the named published line-resonance source commit; documentation, developer-only evidence checker/schema and whitespace-only SDK example overlay. Source baseline a2bbfd5 has exact-commit CI run 38615005226 18/18 success. Source baseline CI does not cover the later overlay commit; verify that commit separately after publication. No public release, license selection or new vendor compatibility is established."
   },
   "catalog": {
     "inventory": "validation/systemvue-2023-rf-catalog.json",
@@ -285,6 +285,91 @@
         "Exact published integration commit must pass all existing CI jobs before its clean engineering artifacts are accepted.",
         "Public distribution, license selection, release version/tag and API stability decisions remain open; this is an internal engineering candidate."
       ]
+    },
+    {
+      "id": "foundational_api_contracts",
+      "contract": "Strict DeviceModel port/noise-provider shape contracts, finite interpolation results and explicit linear-solver numerical-failure handling.",
+      "implementation": "bounded",
+      "references": [
+        "docs/cpp-sdk.md",
+        "tests/core/basic_api_contract_test.cpp",
+        "validation/engineering-evidence-summary-20261014.json"
+      ],
+      "numerical_evidence": "Strict C++17 Debug/Release each 157/157 full/reference tests, 15/15 full and 13/13 pure installed consumers for the frozen API stage.",
+      "vendor_evidence": "not_executed",
+      "remaining": [
+        "These input and numerical error contracts are not a general conditioning guarantee or vendor-model acceptance."
+      ]
+    },
+    {
+      "id": "deterministic_conversion_waves",
+      "contract": "Owning deterministic ConversionWaveResult and vector-RHS solve; Newton candidates avoid noise propagation while initial validation and accepted-state noise analysis/provider behavior remain.",
+      "implementation": "bounded",
+      "references": [
+        "docs/conversion-wave-solve.md",
+        "tests/conversion/conversion_wave_solve_test.cpp",
+        "validation/engineering-evidence-summary-20261014.json"
+      ],
+      "numerical_evidence": "Debug/Release each 159/159 full, 112/112 pure SDK, 15/15 full and 13/13 pure installed consumers at this stage; bounded N=256 nonlinear five-sample median 18.075 s to 11.804 s.",
+      "vendor_evidence": "not_executed",
+      "remaining": [
+        "Dense factorization remains cubic; extreme-range fallback preserves the prior deterministic operation order.",
+        "solve_waves does not validate or propagate noise. analyze(false) still computes outgoing C/P.",
+        "Performance is shared-host, fixed-case end-to-end evidence, not a 42x pure-solver or vendor speedup."
+      ]
+    },
+    {
+      "id": "installed_sdk_network_example",
+      "contract": "Standalone installed-only two-TU C++17 attenuator plus transmission-line network sweep with analytic wave, delivered-power and error-boundary assertions.",
+      "implementation": "bounded",
+      "references": [
+        "examples/sdk-consumer/README.md",
+        "examples/sdk-consumer/main.cpp",
+        "examples/sdk-consumer/network.cpp",
+        "validation/engineering-evidence-summary-20261014.json"
+      ],
+      "numerical_evidence": "Installed and extracted archive examples passed Debug/Release; CMake 3.20.5 exercised; exact stage CI separately recorded.",
+      "vendor_evidence": "not_executed",
+      "remaining": [
+        "This is a matched 6 dB attenuator and lossless 50-ohm 1 ns line example, not a physical cable or SystemVue acceptance.",
+        "The original stage format checks omitted examples; the current whitespace-only overlay corrects main.cpp."
+      ]
+    },
+    {
+      "id": "touchstone_v2_writer",
+      "contract": "Native C++17 single-ended S stream writer emitting Touchstone 2.0 / Hz / RI / Full, 1-1024 ports and a fixed 64 MiB payload budget.",
+      "implementation": "bounded",
+      "references": [
+        "docs/touchstone-writer.md",
+        "tests/io/touchstone_writer_test.cpp",
+        "validation/engineering-evidence-summary-20261014.json"
+      ],
+      "numerical_evidence": "Local strict C++17 Debug/Release each 161/161 full and 122/122 pure SDK tests, including relocated two-TU consumers and archive checks; independent byte goldens, numeric extraction and failure tests.",
+      "vendor_evidence": "not_executed",
+      "remaining": [
+        "Nonempty noise samples are rejected; no nonlinear/PHD export, model sampling or reference renormalization.",
+        "The caller owns files, synchronization, flush/close and final I/O checks. A short or throwing destination write can leave a prefix; no atomicity/durability guarantee.",
+        "No live SystemVue import or simulation acceptance.",
+        "Exact original writer CI 38600226155 failed: 14 success, 3 failure, 1 cancelled. The separately verified decimal portability fix a987c3dc116f31477f6c97fb23d0c3a4a22f2f3c run 38607571844 completed 18/18 success, including macOS Debug/Release. This later success does not rewrite the original writer failure or cover the pending final overlay."
+      ]
+    },
+    {
+      "id": "uniform_line_resonance",
+      "contract": "Constant real-impedance uniform transmission line with quarter-cycle reduction, cancellation-resistant coupling and scaled tiny-loss/phase handling; original model and rejection boundary retained.",
+      "implementation": "bounded",
+      "references": [
+        "docs/transmission-line.md",
+        "tests/models/transmission_line_test.cpp",
+        "tests/fixtures/transmission_line_oracle.hpp",
+        "validation/engineering-evidence-summary-20261014.json"
+      ],
+      "numerical_evidence": "100-digit independent ABCD fixed oracle with exact binary64 inputs; rebound local Linux Debug/Release each 161/161 full, 149/149 pure native with developer references, 16/16 full installed consumers and 14/14 pure installed consumers. Local candidate tree equals integrated source tree; exact published source-commit CI 38615005226 completed 18/18 success.",
+      "vendor_evidence": "not_executed",
+      "remaining": [
+        "General frequency-delay multiplication remains rounded binary64 and overflow is rejected; no all-input accuracy guarantee.",
+        "Uniform-line evidence is not frequency-dependent RLGC coverage; separately identified RLGC intermediate-overflow boundaries remain unfinished and are not included in this snapshot.",
+        "No new SystemVue execution or vendor transmission-line acceptance."
+      ]
     }
   ],
   "ci": [
@@ -296,7 +381,9 @@
       "verified_successful_jobs": 18,
       "expected_jobs": 18,
       "evidence": "validation/compatibility-highorder-ci-38566887480.json",
-      "url": "https://github.com/minexin/RFSim/actions/runs/38566887480"
+      "url": "https://github.com/minexin/RFSim/actions/runs/38566887480",
+      "verified_failed_jobs": 0,
+      "verified_cancelled_jobs": 0
     },
     {
       "id": "bilinear",
@@ -306,7 +393,9 @@
       "verified_successful_jobs": 18,
       "expected_jobs": 18,
       "evidence": "validation/compatibility-bilinear-ci-38568395820.json",
-      "url": "https://github.com/minexin/RFSim/actions/runs/38568395820"
+      "url": "https://github.com/minexin/RFSim/actions/runs/38568395820",
+      "verified_failed_jobs": 0,
+      "verified_cancelled_jobs": 0
     },
     {
       "id": "noise_factor",
@@ -316,7 +405,9 @@
       "verified_successful_jobs": 18,
       "expected_jobs": 18,
       "evidence": "validation/compatibility-noise-ci-38571067267.json",
-      "url": "https://github.com/minexin/RFSim/actions/runs/38571067267"
+      "url": "https://github.com/minexin/RFSim/actions/runs/38571067267",
+      "verified_failed_jobs": 0,
+      "verified_cancelled_jobs": 0
     },
     {
       "id": "accepted_state_noise",
@@ -326,7 +417,153 @@
       "verified_successful_jobs": 18,
       "expected_jobs": 18,
       "evidence": "validation/compatibility-accepted-ci-38572379978.json",
-      "url": "https://github.com/minexin/RFSim/actions/runs/38572379978"
+      "url": "https://github.com/minexin/RFSim/actions/runs/38572379978",
+      "verified_failed_jobs": 0,
+      "verified_cancelled_jobs": 0
+    },
+    {
+      "id": "evidence_documentation",
+      "commit": "d64ac59c380bc1bd3367846c68646d60585da382",
+      "run_id": 38574445472,
+      "status": "success",
+      "verified_successful_jobs": 18,
+      "expected_jobs": 18,
+      "evidence": "validation/compatibility-docs-ci-38574445472.json",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38574445472",
+      "verified_failed_jobs": 0,
+      "verified_cancelled_jobs": 0
+    },
+    {
+      "id": "native_phd",
+      "commit": "ddd2e4be64a628f3e21cd954a6f752144f3e944c",
+      "run_id": 38575586569,
+      "status": "success",
+      "verified_successful_jobs": 18,
+      "expected_jobs": 18,
+      "evidence": "validation/compatibility-phd-ci-38575586569.json",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38575586569",
+      "verified_failed_jobs": 0,
+      "verified_cancelled_jobs": 0
+    },
+    {
+      "id": "sdk_archive",
+      "commit": "1a6d1bb60b2513aaff6648acd70c5e50788e9f65",
+      "run_id": 38578171209,
+      "status": "success",
+      "verified_successful_jobs": 18,
+      "expected_jobs": 18,
+      "evidence": "validation/compatibility-sdk-ci-38578171209.json",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38578171209",
+      "verified_failed_jobs": 0,
+      "verified_cancelled_jobs": 0
+    },
+    {
+      "id": "pilot_newline_fix",
+      "commit": "8b555eecb9e878949703b2640a0bfd039ba518c6",
+      "run_id": 38581465433,
+      "status": "success",
+      "verified_successful_jobs": 18,
+      "expected_jobs": 18,
+      "evidence": "validation/compatibility-pilot-fix-ci-38581465433.json",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38581465433",
+      "verified_failed_jobs": 0,
+      "verified_cancelled_jobs": 0
+    },
+    {
+      "id": "pilot_migration_fix",
+      "commit": "0d18e464bd825a2851cd5bda2706395d5a6915d6",
+      "run_id": 38583782458,
+      "status": "success",
+      "verified_successful_jobs": 18,
+      "expected_jobs": 18,
+      "evidence": "validation/compatibility-pilot-upgrade-ci-38583782458.json",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38583782458",
+      "verified_failed_jobs": 0,
+      "verified_cancelled_jobs": 0
+    },
+    {
+      "id": "core_api_contract",
+      "commit": "89c93d57d23d9aeea150a21468662a7d00fe10d9",
+      "run_id": 38595759547,
+      "status": "success",
+      "verified_successful_jobs": 18,
+      "expected_jobs": 18,
+      "evidence": "validation/compatibility-core-api-ci-38595759547.json",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38595759547",
+      "verified_failed_jobs": 0,
+      "verified_cancelled_jobs": 0
+    },
+    {
+      "id": "deterministic_wave",
+      "commit": "1a0f5ffcd27d9efad09ecd59b238a8e622900367",
+      "run_id": 38597218325,
+      "status": "success",
+      "verified_successful_jobs": 18,
+      "expected_jobs": 18,
+      "evidence": "validation/compatibility-wave-ci-38597218325.json",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38597218325",
+      "verified_failed_jobs": 0,
+      "verified_cancelled_jobs": 0
+    },
+    {
+      "id": "sdk_example",
+      "commit": "45bafd674b46f9a7f35353631f72c131a0edc5c1",
+      "run_id": 38598650770,
+      "status": "success",
+      "verified_successful_jobs": 18,
+      "expected_jobs": 18,
+      "evidence": "validation/compatibility-sdk-example-ci-38598650770.json",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38598650770",
+      "verified_failed_jobs": 0,
+      "verified_cancelled_jobs": 0
+    },
+    {
+      "id": "pilot_failed",
+      "commit": "2752af6a5010a7c5ee5fbeddda42c360cf54ff97",
+      "run_id": 38579642585,
+      "status": "failed",
+      "verified_successful_jobs": 16,
+      "expected_jobs": 18,
+      "evidence": "validation/compatibility-pilot-failed-ci-38579642585.json",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38579642585",
+      "verified_failed_jobs": 2,
+      "verified_cancelled_jobs": 0
+    },
+    {
+      "id": "writer_failed",
+      "commit": "a88dcc041917e30a620a6f06a98caa56042b5b04",
+      "run_id": 38600226155,
+      "status": "failed",
+      "verified_successful_jobs": 14,
+      "expected_jobs": 18,
+      "evidence": "validation/compatibility-writer-failed-ci-38600226155.json",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38600226155",
+      "verified_failed_jobs": 3,
+      "verified_cancelled_jobs": 1
+    },
+    {
+      "id": "touchstone_decimal_portability",
+      "commit": "a987c3dc116f31477f6c97fb23d0c3a4a22f2f3c",
+      "run_id": 38607571844,
+      "status": "success",
+      "verified_successful_jobs": 18,
+      "verified_failed_jobs": 0,
+      "verified_cancelled_jobs": 0,
+      "expected_jobs": 18,
+      "evidence": "validation/compatibility-touchstone-portability-ci-38607571844.json",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38607571844"
+    },
+    {
+      "id": "uniform_line_resonance",
+      "commit": "a2bbfd5dd3366082620cbd0ebf99dbf11628bd40",
+      "run_id": 38615005226,
+      "status": "success",
+      "verified_successful_jobs": 18,
+      "verified_failed_jobs": 0,
+      "verified_cancelled_jobs": 0,
+      "expected_jobs": 18,
+      "evidence": "validation/compatibility-line-ci-38615005226.json",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38615005226"
     }
   ],
   "release_gates": [

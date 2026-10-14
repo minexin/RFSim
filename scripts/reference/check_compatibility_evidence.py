@@ -54,20 +54,39 @@ def file_reference(path):
     return target
 
 
-def validate_successful_run(run, evidence):
+def validate_ci_run(run, evidence):
     require(evidence.get('commit') == run['commit'], 'CI commit mismatch')
     require(evidence.get('run_id') == run['run_id'], 'CI run mismatch')
+    require(run['expected_jobs'] == 18, 'Unexpected CI matrix size')
     jobs = evidence.get('jobs', [])
-    require(len(jobs) == run['expected_jobs'] == run['verified_successful_jobs'],
-            'Incomplete successful CI run')
     require(len({job['id'] for job in jobs}) == len(jobs), 'Duplicate CI job')
-    require(all(job['conclusion'] == 'success' for job in jobs), 'Failed CI job')
+    for job in jobs:
+        require(job.get('head_sha') == run['commit'], 'CI job commit mismatch')
+        require(job.get('run_id') == run['run_id'], 'CI job run mismatch')
+        if run['status'] in ('success', 'failed'):
+            require(job.get('status')
+                    == 'completed', 'Nonterminal CI job')
+            require(job.get('conclusion') in ('success', 'failure', 'cancelled'),
+                    'Unexpected terminal CI conclusion')
+    for field, conclusion in (('verified_successful_jobs', 'success'),
+                              ('verified_failed_jobs', 'failure'),
+                              ('verified_cancelled_jobs', 'cancelled')):
+        require(run[field] == sum(job.get('conclusion') == conclusion for job in jobs),
+                'CI conclusion count mismatch')
+    if run['status'] not in ('success', 'failed'):
+        return
+    require(len(jobs) == run['expected_jobs'], 'Incomplete terminal CI run')
+    if run['status'] == 'success':
+        require(all(job['conclusion'] == 'success' for job in jobs), 'Failed CI job')
+    else:
+        require(run['verified_failed_jobs'] > 0, 'Failed CI run without failure')
     expected = set()
     for platform in ('ubuntu-latest', 'windows-latest', 'macos-latest'):
         for configuration in ('Debug', 'Release'):
             expected.add(f'build ({platform}, {configuration})')
             expected.add(f'C++ SDK / {platform} / {configuration}')
             expected.add(f'Native archived replay / {platform} / {configuration}')
+    require(len(jobs) == len(expected), 'Duplicate CI matrix member')
     require({job['name'] for job in jobs} == expected, 'CI matrix identity mismatch')
 
 
@@ -87,8 +106,7 @@ def validate(data, schema):
         require(run['url'] == f"https://github.com/minexin/RFSim/actions/runs/{run['run_id']}",
                 'CI URL/run mismatch')
         require(run['verified_successful_jobs'] <= run['expected_jobs'], 'Impossible CI count')
-        if run['status'] == 'success':
-            validate_successful_run(run, evidence)
+        validate_ci_run(run, evidence)
 
 
 def self_test(data, schema):
@@ -113,12 +131,55 @@ def self_test(data, schema):
     evidence = json.loads(file_reference(data['ci'][0]['evidence']).read_text())
     evidence['jobs'][0]['name'] = 'build (unverified-platform, Release)'
     try:
-        validate_successful_run(data['ci'][0], evidence)
+        validate_ci_run(data['ci'][0], evidence)
     except ValueError:
         pass
     else:
         raise AssertionError('Invalid CI matrix identity was accepted')
-    print(f'{len(mutations) + 1} invalid-evidence mutations rejected')
+    for run_under_test in (data['ci'][0], next(row for row in data['ci']
+                                              if row['status'] == 'failed')):
+        original = json.loads(file_reference(run_under_test['evidence']).read_text())
+        job_mutations = [
+            lambda e: e['jobs'][0].update(head_sha='0' * 40),
+            lambda e: e['jobs'][0].update(run_id=0),
+            lambda e: e['jobs'][0].update(status='in_progress'),
+            lambda e: e['jobs'][0].update(conclusion='skipped'),
+            lambda e: e['jobs'].pop(),
+            lambda e: e.update(commit='0' * 40),
+            lambda e: e.update(run_id=0),
+        ]
+        for mutation in job_mutations:
+            evidence = copy.deepcopy(original)
+            mutation(evidence)
+            try:
+                validate_ci_run(run_under_test, evidence)
+            except ValueError:
+                continue
+            raise AssertionError('Invalid CI evidence was accepted')
+        for field in ('verified_successful_jobs', 'verified_failed_jobs',
+                      'verified_cancelled_jobs', 'expected_jobs'):
+            run = copy.deepcopy(run_under_test)
+            run[field] += 1
+            try:
+                validate_ci_run(run, original)
+            except ValueError:
+                continue
+            raise AssertionError('Invalid CI count was accepted')
+        evidence = copy.deepcopy(original)
+        duplicate = copy.deepcopy(next(job for job in evidence['jobs']
+                                       if job['conclusion'] == 'success'))
+        duplicate['id'] = max(job['id'] for job in evidence['jobs']) + 1
+        evidence['jobs'].append(duplicate)
+        run = copy.deepcopy(run_under_test)
+        run['expected_jobs'] += 1
+        run['verified_successful_jobs'] += 1
+        try:
+            validate_ci_run(run, evidence)
+        except ValueError:
+            pass
+        else:
+            raise AssertionError('Duplicate CI matrix member with adjusted counts was accepted')
+    print(f'{len(mutations) + 1 + 2 * (len(job_mutations) + 5)} invalid-evidence mutations rejected')
 
 
 if __name__ == '__main__':

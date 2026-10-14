@@ -6,109 +6,163 @@
       "id": 115866855964,
       "name": "build (macos-latest, Debug)",
       "conclusion": "success",
-      "completed_at": "2026-10-14T13:05:12Z"
+      "completed_at": "2026-10-14T13:05:12Z",
+      "head_sha": "31b291e3ccfbd111687aec4712dc0abf6b793bdb",
+      "run_id": 38568395820,
+      "status": "completed"
     },
     {
       "id": 115866856415,
       "name": "Native archived replay / macos-latest / Release",
       "conclusion": "success",
-      "completed_at": "2026-10-14T13:07:15Z"
+      "completed_at": "2026-10-14T13:07:15Z",
+      "head_sha": "31b291e3ccfbd111687aec4712dc0abf6b793bdb",
+      "run_id": 38568395820,
+      "status": "completed"
     },
     {
       "id": 115866856465,
       "name": "Native archived replay / windows-latest / Debug",
       "conclusion": "success",
-      "completed_at": "2026-10-14T13:05:17Z"
+      "completed_at": "2026-10-14T13:05:17Z",
+      "head_sha": "31b291e3ccfbd111687aec4712dc0abf6b793bdb",
+      "run_id": 38568395820,
+      "status": "completed"
     },
     {
       "id": 115866856479,
       "name": "build (ubuntu-latest, Release)",
       "conclusion": "success",
-      "completed_at": "2026-10-14T13:05:42Z"
+      "completed_at": "2026-10-14T13:05:42Z",
+      "head_sha": "31b291e3ccfbd111687aec4712dc0abf6b793bdb",
+      "run_id": 38568395820,
+      "status": "completed"
     },
     {
       "id": 115866856522,
       "name": "Native archived replay / windows-latest / Release",
       "conclusion": "success",
-      "completed_at": "2026-10-14T13:07:02Z"
+      "completed_at": "2026-10-14T13:07:02Z",
+      "head_sha": "31b291e3ccfbd111687aec4712dc0abf6b793bdb",
+      "run_id": 38568395820,
+      "status": "completed"
     },
     {
       "id": 115866856538,
       "name": "Native archived replay / ubuntu-latest / Release",
       "conclusion": "success",
-      "completed_at": "2026-10-14T13:04:33Z"
+      "completed_at": "2026-10-14T13:04:33Z",
+      "head_sha": "31b291e3ccfbd111687aec4712dc0abf6b793bdb",
+      "run_id": 38568395820,
+      "status": "completed"
     },
     {
       "id": 115866856547,
       "name": "C++ SDK / macos-latest / Release",
       "conclusion": "success",
-      "completed_at": "2026-10-14T13:05:22Z"
+      "completed_at": "2026-10-14T13:05:22Z",
+      "head_sha": "31b291e3ccfbd111687aec4712dc0abf6b793bdb",
+      "run_id": 38568395820,
+      "status": "completed"
     },
     {
       "id": 115866856569,
       "name": "build (windows-latest, Debug)",
       "conclusion": "success",
-      "completed_at": "2026-10-14T13:05:20Z"
+      "completed_at": "2026-10-14T13:05:20Z",
+      "head_sha": "31b291e3ccfbd111687aec4712dc0abf6b793bdb",
+      "run_id": 38568395820,
+      "status": "completed"
     },
     {
       "id": 115866856605,
       "name": "Native archived replay / macos-latest / Debug",
       "conclusion": "success",
-      "completed_at": "2026-10-14T13:09:09Z"
+      "completed_at": "2026-10-14T13:09:09Z",
+      "head_sha": "31b291e3ccfbd111687aec4712dc0abf6b793bdb",
+      "run_id": 38568395820,
+      "status": "completed"
     },
     {
       "id": 115866856639,
       "name": "build (macos-latest, Release)",
       "conclusion": "success",
-      "completed_at": "2026-10-14T13:05:24Z"
+      "completed_at": "2026-10-14T13:05:24Z",
+      "head_sha": "31b291e3ccfbd111687aec4712dc0abf6b793bdb",
+      "run_id": 38568395820,
+      "status": "completed"
     },
     {
       "id": 115866856650,
       "name": "C++ SDK / windows-latest / Release",
       "conclusion": "success",
-      "completed_at": "2026-10-14T13:09:04Z"
+      "completed_at": "2026-10-14T13:09:04Z",
+      "head_sha": "31b291e3ccfbd111687aec4712dc0abf6b793bdb",
+      "run_id": 38568395820,
+      "status": "completed"
     },
     {
       "id": 115866856677,
       "name": "C++ SDK / ubuntu-latest / Release",
       "conclusion": "success",
-      "completed_at": "2026-10-14T13:05:20Z"
+      "completed_at": "2026-10-14T13:05:20Z",
+      "head_sha": "31b291e3ccfbd111687aec4712dc0abf6b793bdb",
+      "run_id": 38568395820,
+      "status": "completed"
     },
     {
       "id": 115866856678,
       "name": "C++ SDK / macos-latest / Debug",
       "conclusion": "success",
-      "completed_at": "2026-10-14T13:04:13Z"
+      "completed_at": "2026-10-14T13:04:13Z",
+      "head_sha": "31b291e3ccfbd111687aec4712dc0abf6b793bdb",
+      "run_id": 38568395820,
+      "status": "completed"
     },
     {
       "id": 115866856757,
       "name": "build (windows-latest, Release)",
       "conclusion": "success",
-      "completed_at": "2026-10-14T13:05:35Z"
+      "completed_at": "2026-10-14T13:05:35Z",
+      "head_sha": "31b291e3ccfbd111687aec4712dc0abf6b793bdb",
+      "run_id": 38568395820,
+      "status": "completed"
     },
     {
       "id": 115866856788,
       "name": "C++ SDK / ubuntu-latest / Debug",
       "conclusion": "success",
-      "completed_at": "2026-10-14T13:04:32Z"
+      "completed_at": "2026-10-14T13:04:32Z",
+      "head_sha": "31b291e3ccfbd111687aec4712dc0abf6b793bdb",
+      "run_id": 38568395820,
+      "status": "completed"
     },
     {
       "id": 115866856919,
       "name": "C++ SDK / windows-latest / Debug",
       "conclusion": "success",
-      "completed_at": "2026-10-14T13:05:07Z"
+      "completed_at": "2026-10-14T13:05:07Z",
+      "head_sha": "31b291e3ccfbd111687aec4712dc0abf6b793bdb",
+      "run_id": 38568395820,
+      "status": "completed"
     },
     {
       "id": 115866857054,
       "name": "Native archived replay / ubuntu-latest / Debug",
       "conclusion": "success",
-      "completed_at": "2026-10-14T13:04:34Z"
+      "completed_at": "2026-10-14T13:04:34Z",
+      "head_sha": "31b291e3ccfbd111687aec4712dc0abf6b793bdb",
+      "run_id": 38568395820,
+      "status": "completed"
     },
     {
       "id": 115866857101,
       "name": "build (ubuntu-latest, Debug)",
       "conclusion": "success",
-      "completed_at": "2026-10-14T13:04:30Z"
+      "completed_at": "2026-10-14T13:04:30Z",
+      "head_sha": "31b291e3ccfbd111687aec4712dc0abf6b793bdb",
+      "run_id": 38568395820,
+      "status": "completed"
     }
   ]
 }

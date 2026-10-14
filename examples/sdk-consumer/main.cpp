@@ -38,13 +38,12 @@ int main() {
             const auto output = rfmodel::port_power(waves.incident[3], waves.outgoing[3]);
             const double load_w = output.outgoing_w - output.incident_w;
             const double gain_db = rfmodel::power_gain_db(load_w, source_w);
-            const auto expected_wave = std::polar(
-                std::sqrt(source_w) * std::pow(10., -6. / 20.),
-                -2. * 3.14159265358979323846 * frequency_hz * 1e-9);
+            const auto expected_wave =
+                std::polar(std::sqrt(source_w) * std::pow(10., -6. / 20.),
+                           -2. * 3.14159265358979323846 * frequency_hz * 1e-9);
             require(std::abs(waves.outgoing[3] - expected_wave) < 1e-12,
                     "output amplitude/phase differs from analytic matched cascade");
-            require(std::abs(waves.outgoing[0]) < 1e-12 &&
-                        std::abs(waves.incident[3]) < 1e-12,
+            require(std::abs(waves.outgoing[0]) < 1e-12 && std::abs(waves.incident[3]) < 1e-12,
                     "source/load are not matched");
             require(std::abs(load_w - source_w * std::pow(10., -6. / 10.)) < 1e-15 &&
                         std::abs(gain_db + 6.) < 1e-10,

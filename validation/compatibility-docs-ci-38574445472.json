@@ -1,0 +1,169 @@
+{
+  "commit": "d64ac59c380bc1bd3367846c68646d60585da382",
+  "run_id": 38574445472,
+  "source_snapshot_sha256": "420ad7ec51f97643b2a23587bad7b97bc91cf84e0f7b81c563f765276c4a438f",
+  "jobs": [
+    {
+      "id": 115887743494,
+      "name": "Native archived replay / macos-latest / Release",
+      "conclusion": "success",
+      "completed_at": "2026-10-14T13:50:12Z",
+      "head_sha": "d64ac59c380bc1bd3367846c68646d60585da382",
+      "run_id": 38574445472,
+      "status": "completed"
+    },
+    {
+      "id": 115887743552,
+      "name": "C++ SDK / windows-latest / Debug",
+      "conclusion": "success",
+      "completed_at": "2026-10-14T13:47:34Z",
+      "head_sha": "d64ac59c380bc1bd3367846c68646d60585da382",
+      "run_id": 38574445472,
+      "status": "completed"
+    },
+    {
+      "id": 115887743640,
+      "name": "C++ SDK / macos-latest / Release",
+      "conclusion": "success",
+      "completed_at": "2026-10-14T13:51:31Z",
+      "head_sha": "d64ac59c380bc1bd3367846c68646d60585da382",
+      "run_id": 38574445472,
+      "status": "completed"
+    },
+    {
+      "id": 115887743654,
+      "name": "Native archived replay / windows-latest / Debug",
+      "conclusion": "success",
+      "completed_at": "2026-10-14T13:50:49Z",
+      "head_sha": "d64ac59c380bc1bd3367846c68646d60585da382",
+      "run_id": 38574445472,
+      "status": "completed"
+    },
+    {
+      "id": 115887743670,
+      "name": "Native archived replay / macos-latest / Debug",
+      "conclusion": "success",
+      "completed_at": "2026-10-14T13:50:16Z",
+      "head_sha": "d64ac59c380bc1bd3367846c68646d60585da382",
+      "run_id": 38574445472,
+      "status": "completed"
+    },
+    {
+      "id": 115887743685,
+      "name": "build (windows-latest, Release)",
+      "conclusion": "success",
+      "completed_at": "2026-10-14T13:52:00Z",
+      "head_sha": "d64ac59c380bc1bd3367846c68646d60585da382",
+      "run_id": 38574445472,
+      "status": "completed"
+    },
+    {
+      "id": 115887743686,
+      "name": "C++ SDK / ubuntu-latest / Release",
+      "conclusion": "success",
+      "completed_at": "2026-10-14T13:49:20Z",
+      "head_sha": "d64ac59c380bc1bd3367846c68646d60585da382",
+      "run_id": 38574445472,
+      "status": "completed"
+    },
+    {
+      "id": 115887743704,
+      "name": "C++ SDK / macos-latest / Debug",
+      "conclusion": "success",
+      "completed_at": "2026-10-14T13:47:19Z",
+      "head_sha": "d64ac59c380bc1bd3367846c68646d60585da382",
+      "run_id": 38574445472,
+      "status": "completed"
+    },
+    {
+      "id": 115887743730,
+      "name": "Native archived replay / ubuntu-latest / Debug",
+      "conclusion": "success",
+      "completed_at": "2026-10-14T13:48:16Z",
+      "head_sha": "d64ac59c380bc1bd3367846c68646d60585da382",
+      "run_id": 38574445472,
+      "status": "completed"
+    },
+    {
+      "id": 115887743808,
+      "name": "build (windows-latest, Debug)",
+      "conclusion": "success",
+      "completed_at": "2026-10-14T13:49:07Z",
+      "head_sha": "d64ac59c380bc1bd3367846c68646d60585da382",
+      "run_id": 38574445472,
+      "status": "completed"
+    },
+    {
+      "id": 115887743820,
+      "name": "C++ SDK / ubuntu-latest / Debug",
+      "conclusion": "success",
+      "completed_at": "2026-10-14T13:47:12Z",
+      "head_sha": "d64ac59c380bc1bd3367846c68646d60585da382",
+      "run_id": 38574445472,
+      "status": "completed"
+    },
+    {
+      "id": 115887743827,
+      "name": "Native archived replay / windows-latest / Release",
+      "conclusion": "success",
+      "completed_at": "2026-10-14T13:50:09Z",
+      "head_sha": "d64ac59c380bc1bd3367846c68646d60585da382",
+      "run_id": 38574445472,
+      "status": "completed"
+    },
+    {
+      "id": 115887743842,
+      "name": "build (ubuntu-latest, Debug)",
+      "conclusion": "success",
+      "completed_at": "2026-10-14T13:48:19Z",
+      "head_sha": "d64ac59c380bc1bd3367846c68646d60585da382",
+      "run_id": 38574445472,
+      "status": "completed"
+    },
+    {
+      "id": 115887743846,
+      "name": "build (macos-latest, Debug)",
+      "conclusion": "success",
+      "completed_at": "2026-10-14T13:47:26Z",
+      "head_sha": "d64ac59c380bc1bd3367846c68646d60585da382",
+      "run_id": 38574445472,
+      "status": "completed"
+    },
+    {
+      "id": 115887743882,
+      "name": "Native archived replay / ubuntu-latest / Release",
+      "conclusion": "success",
+      "completed_at": "2026-10-14T13:47:56Z",
+      "head_sha": "d64ac59c380bc1bd3367846c68646d60585da382",
+      "run_id": 38574445472,
+      "status": "completed"
+    },
+    {
+      "id": 115887743935,
+      "name": "C++ SDK / windows-latest / Release",
+      "conclusion": "success",
+      "completed_at": "2026-10-14T13:50:24Z",
+      "head_sha": "d64ac59c380bc1bd3367846c68646d60585da382",
+      "run_id": 38574445472,
+      "status": "completed"
+    },
+    {
+      "id": 115887743971,
+      "name": "build (macos-latest, Release)",
+      "conclusion": "success",
+      "completed_at": "2026-10-14T13:47:59Z",
+      "head_sha": "d64ac59c380bc1bd3367846c68646d60585da382",
+      "run_id": 38574445472,
+      "status": "completed"
+    },
+    {
+      "id": 115887743989,
+      "name": "build (ubuntu-latest, Release)",
+      "conclusion": "success",
+      "completed_at": "2026-10-14T13:48:15Z",
+      "head_sha": "d64ac59c380bc1bd3367846c68646d60585da382",
+      "run_id": 38574445472,
+      "status": "completed"
+    }
+  ]
+}
