@@ -68,3 +68,5 @@
 正式证据为[采集链清单](../validation/am-pm-datapoints-allocation-captures-20261014.json)、[观测数据](../validation/am-pm-datapoints-allocation-observations-20261014.json)和[完整诊断](../validation/am-pm-datapoints-allocation-diagnostic-20261014.json)。本地完整诊断已经核验保留的原始文件；离线与 CI 复算检查提交内的来源和观测，不声称访问本地完整工作区。
 
 报告命令为 `python -I -S scripts/reference/report-am-pm-datapoints-allocation-study.py validation/am-pm-datapoints-allocation-plan-20261014.json validation/am-pm-datapoints-allocation-observations-20261014.json <新的输出路径> --capture-manifest validation/am-pm-datapoints-allocation-captures-20261014.json`；原始文件完整时添加 `--raw-root .`。成功退出表示完整采集及控制门控通过，候选失败完整保留，不代表产品兼容验收。
+
+[本地工程验证](../validation/am-pm-datapoints-allocation-validation-20261014.json)绑定实现提交 `b1853ad`：Windows/MSVC Debug、Release 全目标构建通过，各自 CTest **145/145**，其中安装后 SDK 隔离协议回放各 **33/33**。本轮制备、归一化、评分、归档、报告五组测试分别通过 **12/12、24/24、21/21、57/57、9/9**；实际 Ubuntu WSL 也通过全部 **123 项**。未改动 C++ 头文件或 ABI，使用增量构建，未执行 clean-first。证据记录逐配置构建清单、源码哈希及 Git 换行差异；五步运行日志未逐步记录 HEAD，这一证据限制也明确保留。远程发布与 CI 结果另行记录，不能由本地验证推定。
