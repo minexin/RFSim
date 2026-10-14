@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
   "snapshot": {
-    "source_commit": "d64ac59c380bc1bd3367846c68646d60585da382",
+    "source_commit": "ddd2e4be64a628f3e21cd954a6f752144f3e944c",
     "date_utc": "2026-10-14",
-    "scope": "Bounded current C++ capability/evidence summary with the native fixed-pump PHD implementation overlay on the source commit, not whole-catalog acceptance. No new SystemVue execution.",
-    "integration_note": "Includes accepted-state intrinsic noise and independently verified native fixed-pump PHD coefficients. PHD local Debug/Release/relocated-SDK evidence is linked separately; final PHD integration commit must pass its own exact-commit CI. No vendor PHD file or numerical compatibility is established."
+    "scope": "Bounded current C++ capability/evidence summary with the engineering SDK archive overlay on the source commit, not whole-catalog acceptance. No new SystemVue execution.",
+    "integration_note": "The base contains native fixed-pump PHD coefficients. This overlay adds internal header-only SDK archive production, actual Git provenance, integrity/containment checks and installed-only consumers. Local developer archives are explicitly dirty and do not identify an exact source commit; the final published archive integration commit needs its own exact-commit CI. No public release, license selection or new vendor compatibility is established."
   },
   "catalog": {
     "inventory": "validation/systemvue-2023-rf-catalog.json",
@@ -219,7 +219,7 @@
     },
     {
       "id": "native_fixed_pump_phd_slice",
-      "contract": "Owned explicit native RMS power-wave single-amplitude F/S/T slice with prescribed harmonic-1 pump phase, fixed positive real per-port references/plane IDs, strict real-DC gauge, and a typed pump-clamped perturbation Jacobian; 1–512 channels.",
+      "contract": "Owned explicit native RMS power-wave single-amplitude F/S/T slice with prescribed harmonic-1 pump phase, fixed positive real per-port references/plane IDs, strict real-DC gauge, and a typed pump-clamped perturbation Jacobian; 1\u2013512 channels.",
       "implementation": "bounded",
       "references": [
         "docs/phd-coefficient-contract.md",
@@ -266,6 +266,24 @@
       "remaining": [
         "Python package, wheel, object/JSON dispatch and Python CLI retired; host owns serialization.",
         "C ABI capability/reference restrictions differ from richer C++ APIs."
+      ]
+    },
+    {
+      "id": "engineering_sdk_archive",
+      "contract": "Opt-in internal C++17 header-only ZIP derived from an allowlisted fresh install tree, real Git identity, sorted payload hashes and archive checksum, self-contained two-TU consumer, bounded extraction and installed-only validation.",
+      "implementation": "implemented",
+      "references": [
+        "docs/cpp-sdk.md",
+        "cmake/RFModelPackaging.cmake",
+        "cmake/sdk/ExtractSDK.cmake",
+        "examples/sdk-consumer/CMakeLists.txt",
+        "tests/cmake/check_sdk_archive.cmake"
+      ],
+      "numerical_evidence": "Engineering integrity/provenance, negative archive and installed-consumer checks; this feature adds no numerical model or vendor acceptance evidence. Minimum CMake 3.20.5 fixture exercised locally.",
+      "vendor_evidence": "not_executed",
+      "remaining": [
+        "Exact published integration commit must pass all existing CI jobs before its clean engineering artifacts are accepted.",
+        "Public distribution, license selection, release version/tag and API stability decisions remain open; this is an internal engineering candidate."
       ]
     }
   ],
@@ -330,7 +348,7 @@
     {
       "id": "release_product_decisions",
       "status": "decision_required",
-      "closure": "Licensing, release packaging/version/tag and distribution are user/product decisions; this stage creates no LICENSE, release or tag."
+      "closure": "Internal engineering SDK packaging is implemented. Public distribution, licensing, release version/tag and API stability remain user/product decisions; this stage creates no LICENSE, public release or tag."
     }
   ],
   "supersedes_current_claims": [

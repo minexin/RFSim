@@ -1,0 +1,4 @@
+# Metadata from the fresh native producer configuration, never shipped directly.
+set(sdk_producer_os "@CMAKE_SYSTEM_NAME@")
+set(sdk_producer_compiler "@CMAKE_CXX_COMPILER_ID@ @CMAKE_CXX_COMPILER_VERSION@")
+set(sdk_producer_cmake "@CMAKE_VERSION@")

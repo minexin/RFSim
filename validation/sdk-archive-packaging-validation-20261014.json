@@ -1,0 +1,212 @@
+{
+  "schema_version": 1,
+  "stage": "internal-header-only-engineering-sdk-archive",
+  "date_utc": "2026-10-14",
+  "base_commit": "ddd2e4be64a628f3e21cd954a6f752144f3e944c",
+  "status": "local_engineering_validation_passed_remote_platform_ci_pending",
+  "scope": "Header-only internal SDK artifact engineering. No public release, tag, license selection, numerical model change or new SystemVue execution.",
+  "source_binding": {
+    "pre_evidence_file_count": 890,
+    "excludes": [
+      "validation/sdk-archive-packaging-validation-20261014.json"
+    ],
+    "canonical_source_tree_sha256": "e71f0ffc85b3252d24b7106427cadd3c2988d2151d6d946045fd7a662ad495d8",
+    "canonical_source_tree_hash_recipe": "SHA-256 of UTF-8 concatenation of sorted Git tracked/intent-to-add file path, NUL, lowercase SHA-256 of file bytes, LF; this evidence file excluded.",
+    "changed_files": [
+      {
+        "path": ".github/workflows/build.yml",
+        "sha256": "990eba96d0d2b8d5d15807cdb50da403b0ec24d042c6b7c23cb616b0a30c9a02"
+      },
+      {
+        "path": "CMakeLists.txt",
+        "sha256": "0aae0ac551e67c9659f8cb4307f776470fd3b0596faef1e823ae4bd77ecc3a4f"
+      },
+      {
+        "path": "README.md",
+        "sha256": "f984e9320e325e4dd8b861d9e6b0208596d9151d24923e45cd5b6be99f83fb42"
+      },
+      {
+        "path": "cmake/RFModelPackaging.cmake",
+        "sha256": "30285e46bfa9b8cfab3612e0c852eb9856bebc93e9eadcccb00be3f93ab4403d"
+      },
+      {
+        "path": "cmake/RFModelTests.cmake",
+        "sha256": "107e46d1321a0a23773a1a758457b533dec485111a667075cb6b2b34231c4ef1"
+      },
+      {
+        "path": "cmake/sdk/ExtractSDK.cmake",
+        "sha256": "640dddb08961628232c52907a22ddb12e55e4f576740bfcd13c96c51b7ffedf2"
+      },
+      {
+        "path": "cmake/sdk/PackageSDK.cmake.in",
+        "sha256": "7b845f4af45bbe8f35733b44859a799bfcb24954fb3a2339a967fe4f9b15cda2"
+      },
+      {
+        "path": "cmake/sdk/Producer.cmake.in",
+        "sha256": "cdb8d33692660e037f778394348041ec7739f5b8938364164755912b51a1e75d"
+      },
+      {
+        "path": "cmake/sdk/README.md",
+        "sha256": "bd864fca62743021e12b4cd27edd1ca58f25ed75152071643a85cde32322747c"
+      },
+      {
+        "path": "cmake/sdk/VerifySDK.cmake.in",
+        "sha256": "423ac7f9a54cbd361ef067d4a474a78408c36e3df3a81f6fee406f0699f951d4"
+      },
+      {
+        "path": "docs/cpp-sdk.md",
+        "sha256": "675eac76cf4216b7f57a777b63efe9247f460f1088d52883441b6fd59be9fc14"
+      },
+      {
+        "path": "docs/systemvue-2023-matrix.md",
+        "sha256": "692049eede5c1f0e083eb81f24d46a1c54a91f6cd908e246dbdaef461d506abe"
+      },
+      {
+        "path": "examples/sdk-consumer/CMakeLists.txt",
+        "sha256": "db45802793afe9637a8de5e8df4cca2a9ac671e0b1b4dd63b52e869e1cef0eca"
+      },
+      {
+        "path": "examples/sdk-consumer/README.md",
+        "sha256": "825dbe9146147ebef43db70c7536ec4094f7ba824c011b46e9ddda172c71a9ee"
+      },
+      {
+        "path": "examples/sdk-consumer/main.cpp",
+        "sha256": "b97e4b0855017839a473656acb96c60858a5ddf8f59dcef24594d095222fa502"
+      },
+      {
+        "path": "examples/sdk-consumer/network.cpp",
+        "sha256": "f31d158d4e5daa61a6e50401869c553f24f93b0bbf137eca42368884fb2490c8"
+      },
+      {
+        "path": "tests/cmake/check_sdk_archive.cmake",
+        "sha256": "ed606a2880abf05fc8ab99d53a5da1dfcc8a10104c5e9a67b5ca9e54dac235ce"
+      },
+      {
+        "path": "validation/compatibility-evidence.json",
+        "sha256": "888a363650b4eb079ee4db2ead43b7cbf74076fa3f5a4122799ce33e052c3e7f"
+      }
+    ],
+    "post_native_gate_changes": [
+      "cmake/sdk/ExtractSDK.cmake",
+      "cmake/sdk/README.md",
+      "docs/cpp-sdk.md",
+      "docs/systemvue-2023-matrix.md",
+      "examples/sdk-consumer/CMakeLists.txt",
+      "tests/cmake/check_sdk_archive.cmake",
+      "validation/compatibility-evidence.json"
+    ],
+    "post_native_gate_note": "Only packaging/extraction scripts, packaged example CMake settings, fixture tests and evidence/documentation changed after full native gates. Native implementation and full consumer sources match the native-gated hash snapshot. All affected archive, consumer and example checks were rerun on the final payload."
+  },
+  "tools": {
+    "platform": "Linux x86_64",
+    "compiler": "GNU 14.2.0",
+    "normal_cmake": "3.31.6",
+    "minimum_cmake_executed": "3.20.5",
+    "minimum_cmake_result": "pass: complete packaging, clean/dirty provenance, negative archive, version/architecture and standalone example fixture suite",
+    "minimum_tool_origin": "Pinned cmake==3.20.5 package installed into an isolated workspace tools directory; system/default installation unchanged."
+  },
+  "configurations": {
+    "debug": {
+      "native_strict_cpp17": {
+        "passed": 155,
+        "total": 155
+      },
+      "full_installed_consumers": {
+        "passed": 14,
+        "total": 14
+      },
+      "archive_pure_consumers": {
+        "passed": 12,
+        "total": 12
+      },
+      "shipped_two_tu_example": {
+        "passed": 1,
+        "total": 1
+      },
+      "archive_fixtures": "pass",
+      "strict_cpp17_compile_commands": "verified -std=c++17, no GNU dialect",
+      "installed_only_headers": "verified from extracted SDK, no source include paths",
+      "archive_name": "RFModel-0.1.0-sdk-headers-gddd2e4be64a6-developer.zip",
+      "archive_sha256": "08df2e556fe6c8cb3fa68193ae62f8f7133d61121819de6e5eac8d05d0926de7",
+      "payload_file_count": 177,
+      "dirty": true,
+      "source_commit": null
+    },
+    "release": {
+      "native_strict_cpp17": {
+        "passed": 155,
+        "total": 155
+      },
+      "full_installed_consumers": {
+        "passed": 14,
+        "total": 14
+      },
+      "archive_pure_consumers": {
+        "passed": 12,
+        "total": 12
+      },
+      "shipped_two_tu_example": {
+        "passed": 1,
+        "total": 1
+      },
+      "archive_fixtures": "pass",
+      "strict_cpp17_compile_commands": "verified -std=c++17, no GNU dialect",
+      "installed_only_headers": "verified from extracted SDK, no source include paths",
+      "archive_name": "RFModel-0.1.0-sdk-headers-gddd2e4be64a6-developer.zip",
+      "archive_sha256": "f5d5132cfb065a013d0855f20ec97a179178d5034766397679c6272a818bc939",
+      "payload_file_count": 177,
+      "dirty": true,
+      "source_commit": null
+    }
+  },
+  "archive_security_checks": [
+    "Exact source-derived allowlist; canonical inventory independent of manifest claims.",
+    "SHA-256 and sizes for every payload file; archive checksum covers manifest.",
+    "Reject unsafe/traversal/absolute/drive names, duplicates/case collisions, links and unexpected files before extraction.",
+    "Extract into a new path with spaces; never overwrite an existing extraction directory.",
+    "32 MiB compressed archive, 512-byte sidecar, 8 MiB/file, 64 MiB total, 512 entries, bounded names/listings.",
+    "Highly compressed oversized allowlisted README and oversized sidecar rejected before extraction.",
+    "Mutation, missing file, extra file, wrong version and bad identity rejected.",
+    "Pure headers accept synthetic pointer-size mismatch; C ABI package rejects mismatch.",
+    "Fresh configuration avoids poisoned caller exports/install scripts/verifier/compatibility wrappers.",
+    "Actual Git worktree root, HEAD, tracked/untracked cleanliness, source snapshots and hidden-index flags checked."
+  ],
+  "identity_boundary": {
+    "local_archives": "explicit dirty developer artifacts",
+    "source_commit": null,
+    "observed_head": "ddd2e4be64a628f3e21cd954a6f752144f3e944c",
+    "clean_identity_test": "Real disposable local Git fixture commits; no invented identity for the source worktree and no user/global Git configuration changes.",
+    "remote_clean_artifact_status": "pending exact published integration commit CI"
+  },
+  "remote_validation": {
+    "windows": "pending",
+    "macos": "pending",
+    "linux_exact_published_commit": "pending",
+    "matrix": "Existing 18 jobs; six C++ SDK jobs package/extract/consume, no additional matrix."
+  },
+  "log_sha256": {
+    "minimum-cmake-fixtures.log": "cee53ca0f251342a8bd73cbb931f3000a7ac839128bbc136a32ec275c82735e2",
+    "cmake-3.20-version.log": "fcea46d8afb4786a2f1c7a55b277198f1f4b3f2bc783eda2bf97329e1887c933",
+    "compatibility-evidence-self-test.log": "5f8be6ca914bf35fb2a6a27a6eb0b7d832b8997e9dd22b72e3cdd79d4e8baabb",
+    "test-debug.log": "d726721b9234cecba23df0614546d25c603ba60bbd1d6e1893312b3583c95b0f",
+    "consumer-test-debug.log": "cd9d973fb9439c9f89d113a2978b0fd91387aff839a0f31c634162eaea751f01",
+    "verified-pure-consumer-test-debug.log": "a3c8fb4865582a448733182795f574c5d165188b3f80138e50c691798376c490",
+    "verified-example-test-debug.log": "04dd3d622843f1b4087b96c37b03b43ce9108fe571ad5c6031dda1884b313343",
+    "verified-fixtures-debug.log": "add01dfbe8668393cef6d66dc99dbbbcf469ae5ee7843b19c1a0a287681c28a5",
+    "test-release.log": "29617bb14030185e5a28851b53d6acf4b3a53fce3a03dd4712082e270e9795b1",
+    "consumer-test-release.log": "7a023cc2b0706af2ccea85a0a9b755706b185e6a5a9202b9fb2a443787cafda6",
+    "verified-pure-consumer-test-release.log": "26c2f22b8d46076e8593a1a1493b4e3193414bc0583223c397d8e2fb1a70c92e",
+    "verified-example-test-release.log": "2d35f510f1a02bc000e173132f22405ab28096490d8c159ca90e201d5700aa91",
+    "verified-fixtures-release.log": "add01dfbe8668393cef6d66dc99dbbbcf469ae5ee7843b19c1a0a287681c28a5"
+  },
+  "compatibility_evidence_self_test": {
+    "result": "pass",
+    "invalid_mutations_rejected": 9
+  },
+  "limitations": [
+    "Hash integrity is not a publisher signature. Use a trusted publisher and distribution channel; these bounded checks are not a generic hostile-archive sandbox.",
+    "Cross-compiled production is unsupported; extracted header-only SDK supports cross consumers.",
+    "Public distribution, license grant, release/tag and API stability decisions remain open.",
+    "Local native test success does not establish vendor compatibility."
+  ]
+}

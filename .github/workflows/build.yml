@@ -70,27 +70,40 @@ jobs:
         run: |
           cmake --build build-native --config ${{ matrix.configuration }} --parallel 2
           ctest --test-dir build-native -C ${{ matrix.configuration }} --output-on-failure
-          ctest --test-dir build-native -C ${{ matrix.configuration }} --show-only=json-v1 > native-tests.json
-      - name: Configure and install header-only SDK
+          ctest --test-dir build-native -C ${{ matrix.configuration }} --show-only=json-v1 > build-native/native-tests.json
+      - name: Package clean header-only engineering SDK
         run: |
-          cmake -S . -B build-sdk -DCMAKE_BUILD_TYPE=${{ matrix.configuration }} -DBUILD_TESTING=OFF -DRFMODEL_BUILD_C_API=OFF -DRFMODEL_BUILD_CLI=OFF -DRFMODEL_BUILD_EXAMPLES=OFF
-          cmake --build build-sdk --config ${{ matrix.configuration }}
-          cmake --install build-sdk --config ${{ matrix.configuration }} --prefix "$PWD/install-cpp"
-          mv install-cpp relocated-cpp
-      - name: Consume relocated SDK from independent multi-translation-unit project
+          cmake -S . -B build-sdk -DCMAKE_BUILD_TYPE=${{ matrix.configuration }} -DBUILD_TESTING=OFF -DRFMODEL_BUILD_C_API=OFF -DRFMODEL_BUILD_CLI=OFF -DRFMODEL_BUILD_EXAMPLES=OFF -DCMAKE_INSTALL_LIBDIR=lib -DRFMODEL_ENABLE_SDK_PACKAGING=ON
+          cmake -DCONFIG=${{ matrix.configuration }} -P build-sdk/PackageSDK.cmake
+      - name: Verify and extract SDK into a new path with spaces
         run: |
-          cmake -S tests/consumer -B consumer-cpp -DCMAKE_BUILD_TYPE=${{ matrix.configuration }} -DCMAKE_PREFIX_PATH="$PWD/relocated-cpp"
-          cmake --build consumer-cpp --config ${{ matrix.configuration }} --parallel 2
-          ctest --test-dir consumer-cpp -C ${{ matrix.configuration }} --output-on-failure
+          archives=("$PWD"/build-sdk/sdk-artifacts/*.zip)
+          test "${#archives[@]}" -eq 1
+          archive="${archives[0]}"
+          cmake -DARCHIVE="$archive" -DDESTINATION="$PWD/build-extracted/sdk with spaces" -DVERIFIER="$PWD/build-sdk/VerifySDK.cmake" -P build-sdk/ExtractSDK.cmake
+          name="$(basename "$archive" .zip)"
+          printf '%s\n' "$PWD/build-extracted/sdk with spaces/$name" > build-sdk/extracted-root.txt
+      - name: Consume extracted SDK and packaged two-translation-unit example
+        run: |
+          sdk="$(cat build-sdk/extracted-root.txt)"
+          cmake -S tests/consumer -B build-consumer-cpp -DCMAKE_BUILD_TYPE=${{ matrix.configuration }} -DRFModel_DIR="$sdk/lib/cmake/RFModel" -DCMAKE_FIND_USE_PACKAGE_REGISTRY=OFF -DCMAKE_FIND_USE_SYSTEM_PACKAGE_REGISTRY=OFF
+          cmake --build build-consumer-cpp --config ${{ matrix.configuration }} --parallel 2
+          ctest --test-dir build-consumer-cpp -C ${{ matrix.configuration }} --output-on-failure
+          cmake -S "$sdk/examples/sdk-consumer" -B build-sdk-example -DCMAKE_BUILD_TYPE=${{ matrix.configuration }} -DRFModel_DIR="$sdk/lib/cmake/RFModel" -DCMAKE_FIND_USE_PACKAGE_REGISTRY=OFF -DCMAKE_FIND_USE_SYSTEM_PACKAGE_REGISTRY=OFF
+          cmake --build build-sdk-example --config ${{ matrix.configuration }} --parallel 2
+          ctest --test-dir build-sdk-example -C ${{ matrix.configuration }} --output-on-failure
       - name: Preserve native SDK verification evidence
         if: always()
         uses: actions/upload-artifact@v7
         with:
           name: cpp-sdk-${{ matrix.os }}-${{ matrix.configuration }}
           path: |
-            native-tests.json
+            build-native/native-tests.json
             build-native/Testing/Temporary/LastTest.log
-            consumer-cpp/Testing/Temporary/LastTest.log
+            build-consumer-cpp/Testing/Temporary/LastTest.log
+            build-sdk-example/Testing/Temporary/LastTest.log
+            build-sdk/sdk-artifacts/*.zip
+            build-sdk/sdk-artifacts/*.zip.sha256
   native-reference:
     name: Native archived replay / ${{ matrix.os }} / ${{ matrix.configuration }}
     strategy:
@@ -110,6 +123,8 @@ jobs:
       - uses: actions/setup-python@v7
         with:
           python-version: '3.12'
+      - name: Check compatibility evidence schema and rejection cases
+        run: python scripts/reference/check_compatibility_evidence.py --self-test
       - name: Test reference inventory tools
         run: python scripts/reference/test_extract_rf_models.py
       - name: Test reference parameter metadata

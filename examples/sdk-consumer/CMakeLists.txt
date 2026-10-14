@@ -1,0 +1,8 @@
+cmake_minimum_required(VERSION 3.20)
+project(RFModelSDKExample LANGUAGES CXX)
+find_package(RFModel 0.1.0 EXACT CONFIG REQUIRED)
+add_executable(sdk_example main.cpp network.cpp)
+target_link_libraries(sdk_example PRIVATE RFModel::rfmodel)
+set_target_properties(sdk_example PROPERTIES CXX_STANDARD 17 CXX_STANDARD_REQUIRED ON CXX_EXTENSIONS OFF)
+enable_testing()
+add_test(NAME sdk_example COMMAND sdk_example)

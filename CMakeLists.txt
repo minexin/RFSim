@@ -12,6 +12,7 @@ target_include_directories(rfmodel INTERFACE
     $<INSTALL_INTERFACE:include>)
 include(GNUInstallDirs)
 option(RFMODEL_BUILD_C_API "Build the shared C ABI for linear networks" ON)
+option(RFMODEL_BUILD_CLI "Build the batch S parameter CSV exporter" ON)
 if(RFMODEL_BUILD_C_API)
     enable_language(C)
     add_library(rfmodel_c SHARED src/api/c_api.cpp)
@@ -34,8 +35,12 @@ install(EXPORT RFModelTargets NAMESPACE RFModel:: DESTINATION ${CMAKE_INSTALL_LI
 configure_package_config_file(cmake/RFModelConfig.cmake.in
     ${CMAKE_CURRENT_BINARY_DIR}/RFModelConfig.cmake
     INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/RFModel)
+set(rfmodel_version_arch)
+if(NOT RFMODEL_BUILD_C_API AND NOT RFMODEL_BUILD_CLI)
+    set(rfmodel_version_arch ARCH_INDEPENDENT)
+endif()
 write_basic_package_version_file(${CMAKE_CURRENT_BINARY_DIR}/RFModelConfigVersion.cmake
-    VERSION ${PROJECT_VERSION} COMPATIBILITY ExactVersion)
+    VERSION ${PROJECT_VERSION} COMPATIBILITY ExactVersion ${rfmodel_version_arch})
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/RFModelConfig.cmake
     ${CMAKE_CURRENT_BINARY_DIR}/RFModelConfigVersion.cmake
     DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/RFModel)
@@ -50,7 +55,6 @@ endif()
 if(RFMODEL_BUILD_PYTHON_TESTS OR RFMODEL_REQUIRE_PYTHON_TESTS)
     message(FATAL_ERROR "Python product interfaces have been retired; use RFMODEL_BUILD_REFERENCE_TESTS for independent developer tools")
 endif()
-option(RFMODEL_BUILD_CLI "Build the batch S parameter CSV exporter" ON)
 if(RFMODEL_BUILD_CLI)
 add_executable(rfmodel_cli src/cli/rfmodel_cli.cpp)
 target_link_libraries(rfmodel_cli PRIVATE RFModel::rfmodel)
@@ -62,4 +66,9 @@ endif()
 
 if(RFMODEL_BUILD_EXAMPLES)
     include(cmake/RFModelExamples.cmake)
+endif()
+
+option(RFMODEL_ENABLE_SDK_PACKAGING "Generate scripts for internal header-only SDK archives" OFF)
+if(RFMODEL_ENABLE_SDK_PACKAGING)
+    include(cmake/RFModelPackaging.cmake)
 endif()

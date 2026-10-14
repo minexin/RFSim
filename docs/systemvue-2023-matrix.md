@@ -24,7 +24,7 @@
 | 噪声数值稳定性 | PSD 因子域传播、补偿及缩放算术，见[阶段证据](../validation/noise-factor-propagation-validation-20261014.json) | 输入截断、可表示性和条件数限制仍在；不新增厂商通过项 |
 | AM/PM | 显式校准 PointDerivative 相位律与导数组合；有限无告警归档通过 | 实际输出功率须由调用者给定；完整网络 AM-AM、多音、DataPoints 与连续旁路律未验收 |
 | 参数任务 | C++ 类型化有界优化、参数绑定、相关 Monte Carlo、统计及重放 | 厂商约定对照；已退役 JSON 字段分发不是当前产品要求 |
-| 交付与 GUI | header-only C++17、可选 C ABI、原生 S CSV CLI；GUI 后置 | Python 包/wheel/Python-JSON CLI 已退役；发布与许可决策尚未完成 |
+| 交付与 GUI | header-only C++17、可选 C ABI、原生 S CSV CLI；[内部工程 SDK 归档](cpp-sdk.md)含实际 Git 身份、哈希及独立消费者；GUI 后置 | Python 产品入口已退役；归档不是公开发布，许可与分发决策未完成；不新增厂商兼容通过项 |
 
 [线性输出细表](linear-analysis-compatibility.md)保留官方帮助来源。
 [当前提交绑定验证](compatibility-evidence.md)区分云端阶段与最终集成门禁；

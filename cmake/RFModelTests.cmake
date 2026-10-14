@@ -457,3 +457,12 @@ add_test(NAME noise_factor_integration_test COMMAND noise_factor_integration_tes
 add_executable(phd_coefficient_slice_test tests/nonlinear/phd_coefficient_slice_test.cpp)
 target_link_libraries(phd_coefficient_slice_test PRIVATE RFModel::rfmodel)
 add_test(NAME phd_coefficient_slice_test COMMAND phd_coefficient_slice_test)
+
+if(NOT RFMODEL_BUILD_C_API)
+    add_test(NAME sdk_archive_test COMMAND ${CMAKE_COMMAND}
+        -DSOURCE=${CMAKE_CURRENT_SOURCE_DIR}
+        -DBINARY=${CMAKE_CURRENT_BINARY_DIR}/sdk-archive-test
+        -DGENERATOR=${CMAKE_GENERATOR}
+        -DCOMPILER=${CMAKE_CXX_COMPILER}
+        -P ${CMAKE_CURRENT_SOURCE_DIR}/tests/cmake/check_sdk_archive.cmake)
+endif()
