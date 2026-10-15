@@ -1,0 +1,92 @@
+{
+  "schema_version": 1,
+  "classification": "completed_four_run_local_acquisition_not_full_compatibility",
+  "created_utc": "2026-10-15T10:12:10.664944+00:00",
+  "pre_C_guard": {
+    "classification": "C_guard_passed_before_analysis",
+    "utc": "2026-10-15T09:56:50.187684+00:00",
+    "pre_C_commit": "1ba041510e91d35c3d389a67a04be5822b1f92b1",
+    "freeze_sha256": "882094c660e6a9f60e68a59f928ffe67d30614b762d0edc786ac59a66bab0d6a",
+    "pre_C_parameter_units_sha256": "2e6432ed41196d22df2c102347835b39053243b15ef7d88d99ccd0d57696fe72",
+    "runtime": {
+      "protocol": 1,
+      "build_id": "663bf7dbcc2b8c4942b563d6ca5c5698d80083de7651f1ba95e5f6bc0f7888b0",
+      "executable_sha256": "7691fe1d60126513a4c4514d14fcd6adfc8fbf1049df9f9290d1279562454e1e",
+      "build_manifest_sha256": "74a0acb074dad1c1b244241d2001990ca2ba91307162273223a2c7372b16604b"
+    },
+    "analyses_already_submitted": 2,
+    "planned_next": "C-two-tone-holdout",
+    "passed": true
+  },
+  "formal_files_sha256": {
+    "ab": "4a8f15a1d4688bbd4586d20f5a32e373d8d321ca6017fc30656f9014f48522ef",
+    "freeze": "882094c660e6a9f60e68a59f928ffe67d30614b762d0edc786ac59a66bab0d6a",
+    "registration": "8cc5fbcbb7d389ddc9474cf27a029169154229b8c396482a553ff84bee2a8605",
+    "c": "069f6df35cda1c4b05244ea3dcc3dc42baef3cc567ebde91dd8e48712f29060d",
+    "c-score": "af1f66399c9a41303c812b0ec6285a98f80384c843f399c58fbf988a920e9d06",
+    "d": "83235a1fab09785a82f1943057ebaf6c8f7cacc18d0cbd9c9297400a571f9bfe"
+  },
+  "raw_runs_sha256": {
+    "A-baseline": {
+      "capture.json": "c53979539ee47c7a1c9c04dd421703e276b0e92fa49056e91c0b299680ce961a",
+      "status.json": "be9d6555dfe6edf156cfff9b0a97705fb02d354ba7d0d8f6f1cbfe5aebac7aa8",
+      "stderr.log": "822e7f7f679c6e3fe2ecaf7c9b02c19bb489e5abeae9899735def55b86048c7a",
+      "collector.ps1": "dbc924c2613f5a92018c0a827970d99b3bf82745aafe3224304c68d0c8fe9424",
+      "runner.py": "58cdb38621b132cd8e40748bfd38c81aa60e7ad3a3073ac9e43df21ec8dd4890",
+      "parameter-units.json": "b0860a635d48078efdab57eace4b217e90e8702b8b994eec0841af76fc2452fd"
+    },
+    "B-op1db21": {
+      "capture.json": "f9a2b8b0147962011f84c9ffd2be569ce3865700db1e96b30bbc5f0c27687e17",
+      "status.json": "1938506fa34097879e5b909d3b742a292e4f686b78e24d86a4d8efe78e100c16",
+      "stderr.log": "5bcee43ebd19f520461659d3362123660eb0494bc8d7e58153d1eeadbdeab159",
+      "collector.ps1": "dbc924c2613f5a92018c0a827970d99b3bf82745aafe3224304c68d0c8fe9424",
+      "runner.py": "58cdb38621b132cd8e40748bfd38c81aa60e7ad3a3073ac9e43df21ec8dd4890",
+      "parameter-units.json": "65a4115b1fe28a110e9ef522634bcda17705ae58080361ac8921d10c01d50a90"
+    },
+    "C-two-tone-holdout": {
+      "capture.json": "744f4c29d007b56da8c9d115a1a480385a0a931367174c88203bb54a1993b464",
+      "status.json": "e00234d381b090f28faf9e86aa22eeb0896f4e60ae59782f03d455cdfe2c1dd7",
+      "stderr.log": "289f41dac8a5df572a6647ab3e7da5cb731a955b64d3bcf62b35a88db921cbcf",
+      "collector.ps1": "dbc924c2613f5a92018c0a827970d99b3bf82745aafe3224304c68d0c8fe9424",
+      "runner.py": "58cdb38621b132cd8e40748bfd38c81aa60e7ad3a3073ac9e43df21ec8dd4890",
+      "parameter-units.json": "19b2f9afb9109b74dff5543012bda704757cebaf5f509d2d8b49dd8ba269564a"
+    },
+    "D-restore-baseline": {
+      "capture.json": "fcaf0f8e6c12dc9185a4ead9c29a5f07ee9e0547530ba53e653ee0e224b84342",
+      "status.json": "9539b9427c80de8d89ae747e60ece3b2afb79104e4e2e9c06a05db8bdc21812e",
+      "stderr.log": "8ba0a9c0c975d1a512a7110de5f114c9d2421272d865e3bdcdda9a3fbd648cd6",
+      "collector.ps1": "dbc924c2613f5a92018c0a827970d99b3bf82745aafe3224304c68d0c8fe9424",
+      "runner.py": "58cdb38621b132cd8e40748bfd38c81aa60e7ad3a3073ac9e43df21ec8dd4890",
+      "parameter-units.json": "c7ec4e04da2bcea29ade6342395560239868456934a1aeb53d8d9349cd8978c4"
+    }
+  },
+  "local_evidence_sha256": {
+    "build-reference/op1db-pilot-20261015/packet/manifest.json": "c0496945f97a5d017a001bfa30f5e4f20aff23e86d6307e3b473c6f153b04191",
+    "build-reference/op1db-pilot-20261015/packet/parameter-units-manifest.json": "115bb31da0154a1cca108123024f1c8b35637279ad3700b5d6e83b790504c1c4",
+    "build-reference/op1db-pilot-20261015/packet-completion.json": "a035778dca8191526672125f29ff55e177a21179018f9ad8275cf764bbe42b23",
+    "build-reference/op1db-pilot-20261015/C-guard.json": "df8a58f4ddf28e1a226581659d8bf106e429334f1789f5f8973b5f25afd40b95",
+    "build-reference/op1db-pilot-20261015/pre-C-parameter-units.json": "2e6432ed41196d22df2c102347835b39053243b15ef7d88d99ccd0d57696fe72",
+    "build-reference/op1db-pilot-20261015/session-restoration.log": "32851ea7a4d2196fa19548f38637dd4223221b163bd54f44b0b4731f86d94b9a",
+    "build-reference/op1db-pilot-20261015/session-restored.json": "4d930df046e654ed5be8a96f296a4bfe5adc127173c467678f8ba78efaa3db25",
+    "build-reference/op1db-pilot-20261015/session-blank-before.wsv": "d5d21a9cdcfe3a33ee8bedefdb26cc4b9a2a77d11ae86f12a2aa3c5ef1f2b451",
+    "build-reference/op1db-pilot-20261015/RFModel_CascadeIntermods-after-pilot.wsv": "a009f1ff791cc5cbef749e370e607789fa9096f3d5935c95b678caae0d36a2ef"
+  },
+  "analyses_submitted": 4,
+  "analysis_retries": 0,
+  "all_analysis_statuses_captured": true,
+  "session_restored_utc": "2026-10-15T10:02:20.1316880Z",
+  "session_restored_workspace_names": [
+    "session-blank-before"
+  ],
+  "session_manager_errors": "",
+  "systemvue_version": "2023.0.0.11903",
+  "reference_workspace_sha256_after": "21e4b28eadd10919537434bc2e706d17fcf41e8691cc9406dea36ca69464487f",
+  "reference_workspace_unchanged": true,
+  "parameter_unit_reader_sha256": "575de4d58f0544ededac1cffc07d1abb226b145f4e53929ff26faa8439311905",
+  "limits": [
+    "Full proprietary workspace files and complete raw capture trees remain local and ignored.",
+    "Only selected numerical nodes and source/status/unit evidence are published.",
+    "C is the independent holdout; A/B identification and D restoration contribute zero independent predictions.",
+    "Pre-C registration commit was pushed before the guarded C acquisition in this session; the guard binds the local commit and frozen runtime."
+  ]
+}

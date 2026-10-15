@@ -38,6 +38,7 @@ SUITES = (
     "test_diagnose_am_pm_parameter_study.py",
     "test_systemvue_am_pm_adapter.py",
     "test_analyze_rfamp_op1db_pilot.py",
+    "test_report_rfamp_op1db_pilot.py",
 )
 PURE_PYTHON_SUITES = (
     "test_archive_am_pm_datapoints_zero_study.py",
@@ -84,6 +85,11 @@ RFAMP_OP1DB_FIXTURES = (
     "rfamp-op1db-pilot-plan.json",
     "rfamp-op1db-pilot-ab-20261015.json",
     "rfamp-op1db-pilot-freeze-20261015.json",
+    "rfamp-op1db-pilot-registration-20261015.json",
+    "rfamp-op1db-pilot-c-20261015.json",
+    "rfamp-op1db-pilot-c-score-20261015.json",
+    "rfamp-op1db-pilot-d-20261015.json",
+    "rfamp-op1db-pilot-completion-20261015.json",
 )
 # Frozen before stage-3A implementation; these are archival identities, not
 # hashes regenerated from the files under test. Keep the historical bytes.

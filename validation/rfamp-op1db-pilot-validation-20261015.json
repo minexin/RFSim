@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "classification": "local_completed_OP1dB_pilot_regression",
+  "created_utc": "2026-10-15T10:17:37.084297+00:00",
+  "base_commit": "1ba041510e91d35c3d389a67a04be5822b1f92b1",
+  "product_cpp_changed": false,
+  "toolchain": "Windows MSVC 19.44 / Visual Studio 2022, C++17",
+  "tests": [
+    {
+      "configuration": "Debug",
+      "ctest_passed": 5,
+      "ctest_failed": 0,
+      "includes": [
+        "native_replay_protocol",
+        "native_analyze_rfamp_op1db_pilot",
+        "native_report_rfamp_op1db_pilot",
+        "dc_operating_point_test",
+        "frozen_small_signal_test"
+      ]
+    },
+    {
+      "configuration": "Release",
+      "ctest_passed": 4,
+      "ctest_failed": 0,
+      "includes": [
+        "native_analyze_rfamp_op1db_pilot",
+        "native_report_rfamp_op1db_pilot",
+        "dc_operating_point_test",
+        "frozen_small_signal_test"
+      ]
+    }
+  ],
+  "replay_report_sha256": "cf3bd6cfeb1ba64b7f80ddaf09b7a8750bf10917a7cab098f2701fed7dcb78fd",
+  "logs_sha256": {
+    "build-reference/op1db-pilot-20261015/post-C-configure.log": "518ea83dd233700a87fb90d5d1527431d88994475321f04bc63c76e3aa36e253",
+    "build-reference/op1db-pilot-20261015/post-C-build-Debug.log": "88ef7d225029ecb2885a599ff4524f0ecb6ed989d0e53d23026bba6224fb5011",
+    "build-reference/op1db-pilot-20261015/DC-build-Debug.log": "0ab8aba408ab08bc94ec85c70fcab1fe57e38ef981a9ca92df4b7f132ee9f06b",
+    "build-reference/op1db-pilot-20261015/post-C-build-Release.log": "1707aa69a9e2c93c9c68543d8df5974cb55d1a5cced335df6c515eaaf08cb5d1",
+    "build-reference/op1db-pilot-20261015/post-C-ctest-Debug.log": "d995e586700787866734de94522c91663d6ea3bbbcd6dee846383cb9ed2829b9",
+    "build-reference/op1db-pilot-20261015/post-C-ctest-Release.log": "484eccb34e75f5e16ed530c864cf020a7aeaff63bbf5ac820b9daa131f5bd8cb",
+    "build-reference/op1db-pilot-20261015/post-C-audit-initial-run-local-id-mismatch.json": "5ed6981f641ca30b2190cc5cf8128b56691237b23f80e82c13dc6189f5e86f5f"
+  },
+  "incidents": [
+    "First post-C direct-array audit failed on run-local numeric ID equality; original F/P/V/Z arrays were already exact. The corrected independent audit resolves original IDNo/IDName mappings and separately records unequal raw IDs. Initial failed report retained.",
+    "First combined Debug build completed native probe/oracle, then failed on a nonexistent rfmodel_dc_operating_point_test target. Correct existing dc_operating_point_test/frozen_small_signal_test targets subsequently built and passed. No source or tolerance changes."
+  ],
+  "limits": [
+    "No new SystemVue analyses during replay or tests.",
+    "Cross-platform CI for this post-C change is pending at creation.",
+    "DC native analytic tests are not vendor DC validation."
+  ]
+}

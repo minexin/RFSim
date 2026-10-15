@@ -196,6 +196,8 @@ jobs:
             validation/am-pm-datapoints-allocation-observations-20261014.json \
             build-reference/am-pm-datapoints-allocation-replay.json \
             --capture-manifest validation/am-pm-datapoints-allocation-captures-20261014.json
+          python -I -S scripts/reference/report-rfamp-op1db-pilot.py \
+            --native-probe "$probe" --output build-reference/rfamp-op1db-pilot-replay.json
       - name: Preserve replay verification evidence
         if: always()
         uses: actions/upload-artifact@v7
@@ -210,6 +212,7 @@ jobs:
             build-reference/am-pm-datapoints-raw-axis-replay.json
             build-reference/am-pm-datapoints-order-replay.json
             build-reference/am-pm-datapoints-allocation-replay.json
+            build-reference/rfamp-op1db-pilot-replay.json
             build-reference/**/*.manifest.json
             build-reference/reference-installed-sdk/consumer-build/Testing/Temporary/LastTest.log
           if-no-files-found: warn
