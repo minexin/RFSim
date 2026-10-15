@@ -73,6 +73,7 @@ set(RFMODEL_PUBLIC_HEADERS
     noise/noise_figure.hpp
     noise/noise_matrix.hpp
     noise/noise_renormalization.hpp
+    noise/locked_pi_pll.hpp
     noise/phase_noise.hpp
     noise/power_wave_noise.hpp
     nonlinear/dc_operating_point.hpp

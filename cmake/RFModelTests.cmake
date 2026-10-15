@@ -533,3 +533,7 @@ add_test(NAME xparameter_data_test COMMAND xparameter_data_test)
 add_executable(xparameter_catalog_test tests/io/xparameter_catalog_test.cpp)
 target_link_libraries(xparameter_catalog_test PRIVATE RFModel::rfmodel)
 add_test(NAME xparameter_catalog_test COMMAND xparameter_catalog_test)
+
+add_executable(locked_pi_pll_test tests/noise/locked_pi_pll_test.cpp)
+target_link_libraries(locked_pi_pll_test PRIVATE rfmodel)
+add_test(NAME locked_pi_pll_test COMMAND locked_pi_pll_test)

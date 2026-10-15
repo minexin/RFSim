@@ -99,6 +99,8 @@
 
 [共享参考相噪](shared-phase-noise.md)：全局相关源 C/P、多载波参考相位增益及跨支路共同相噪相消回归。
 
+[已锁定 PI PLL 独立噪声预算](locked-pi-pll.md)：零延迟原生小信号复传递、五独立源 PSD 与单输出相关边带桥接；不含捕获锁定、PNCP 或厂商兼容。
+
 [RF/LO 工作点线性化](mixer-linearization.md)：双线性乘积导数、LO 相噪及共享时钟和/差传播的 C++/C/Python/JSON 接口。
 
 [绝对波仿射网络](affine-conversion.md)：确定性偏置、给定混频工作点的网络一致性检查及 C++/C/Python/JSON 接口。

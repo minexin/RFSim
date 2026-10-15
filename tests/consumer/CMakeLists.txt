@@ -98,3 +98,7 @@ add_test(NAME installed_xparameter_data_consumer COMMAND xparameter_data_consume
 add_executable(xparameter_catalog_consumer xparameter_catalog.cpp xparameter_catalog_probe.cpp)
 target_link_libraries(xparameter_catalog_consumer PRIVATE RFModel::rfmodel)
 add_test(NAME installed_xparameter_catalog_consumer COMMAND xparameter_catalog_consumer)
+
+add_executable(locked_pi_pll_consumer locked_pi_pll.cpp locked_pi_pll_probe.cpp)
+target_link_libraries(locked_pi_pll_consumer PRIVATE RFModel::rfmodel)
+add_test(NAME installed_locked_pi_pll_consumer COMMAND locked_pi_pll_consumer)
