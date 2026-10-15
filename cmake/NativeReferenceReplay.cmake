@@ -36,7 +36,11 @@ file(GLOB_RECURSE reference_sources CONFIGURE_DEPENDS RELATIVE "${CMAKE_CURRENT_
 list(APPEND reference_sources CMakeLists.txt cmake/NativeReferenceReplay.cmake
     cmake/RFModelHeaders.cmake cmake/RFModelTests.cmake cmake/RFModelExamples.cmake
     tests/reference/reference_highorder_probe.cpp tests/reference/reference_highorder_oracle.cpp
-    tests/cmake/check_native_replay_install.cmake tests/reference_consumer/CMakeLists.txt)
+    tests/cmake/check_native_replay_install.cmake tests/reference_consumer/CMakeLists.txt
+    scripts/reference/probe-xparameter-data.cpp
+    scripts/reference/installed-xparameter-probe/CMakeLists.txt
+    scripts/reference/installed-xparameter-probe/odr.cpp
+    tests/cmake/check_xparameter_replay_install.cmake)
 list(SORT reference_sources)
 set(reference_files "")
 set(reference_content "")
@@ -120,3 +124,12 @@ add_test(NAME native_replay_installed_sdk COMMAND "${CMAKE_COMMAND}"
     "-DSOURCE_REVISION=${reference_revision}"
     -P "${CMAKE_CURRENT_SOURCE_DIR}/tests/cmake/check_native_replay_install.cmake")
 set_tests_properties(native_replay_installed_sdk PROPERTIES TIMEOUT 300)
+
+# Developer-only format replay; autonomous synthetic inputs, no vendor runtime.
+add_test(NAME xparameter_installed_replay_contract COMMAND ${CMAKE_COMMAND}
+    -DSOURCE=${CMAKE_CURRENT_SOURCE_DIR}
+    -DBINARY=${CMAKE_CURRENT_BINARY_DIR}/xparameter-replay-contract
+    -DGENERATOR=${CMAKE_GENERATOR} -DCOMPILER=${CMAKE_CXX_COMPILER}
+    -DPYTHON=${Python3_EXECUTABLE} -DCONFIG=$<CONFIG>
+    -P ${CMAKE_CURRENT_SOURCE_DIR}/tests/cmake/check_xparameter_replay_install.cmake)
+set_tests_properties(xparameter_installed_replay_contract PROPERTIES TIMEOUT 300)

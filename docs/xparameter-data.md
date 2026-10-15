@@ -112,3 +112,12 @@ step, not something performed by adding this reader.
 
 The [focused validation record](../validation/xparameter-data-validation-20261015.json)
 records the checks actually run and the unrun full-vendor/full-repository gates.
+
+## Developer-only installed-file replay
+
+[Installed X-parameter format replay](installed-xparameter-replay.md) compiles the
+native probe against an explicit installed SDK and compares bounded summaries of
+four selected local vendor examples with immutable prior format evidence. Its
+opt-in CTest gate uses only synthetic fixtures. It does not launch SystemVue,
+perform simulations, or establish numerical model compatibility; actual local
+vendor-file replay is a separate validation step.
