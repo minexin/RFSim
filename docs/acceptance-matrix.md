@@ -2,6 +2,11 @@
 
 > 接口更新（2026-10-13）：Python 产品包、wheel 和 Python/JSON CLI 已退役。本页涉及这些入口的命令与验证属于历史记录；当前 C++ 入口及迁移范围见 [退役记录](python-interface-retirement.md)。保留的物理结论与厂商差异不因退役而改变。
 
+## 历史里程碑规划
+
+下表保留早期 M1–M5 范围划分，不代表当前能力缺失、完成比例或发布承诺。
+当前状态按[能力与证据](compatibility-evidence.md)及其[机读映射](../validation/compatibility-evidence.json)逐项核验。
+
 | 能力 | M1 | 后续 |
 |---|---:|---:|
 | 二端口/N 端口 S 参数 | ✅ | - |
@@ -15,7 +20,16 @@
 
 每项后续能力均需提供参考结果、机器可读输入输出和误差阈值，不能只以示例运行成功作为验收。
 
-## 独立复参考阻抗（2026-10-09）
+## 当前原生增量与未关闭验收（2026-10-15）
+
+- 已实现有界 locked PI PLL、显式共享复相位响应、有限频带相位/时间 RMS jitter；不代表 PNCP、锁定过程或厂商验收。
+- 已实现独立线性 MNA 的 R/C/L、理想电压/电流源与 DC/AC，以及要求完整加载状态唯一的复参考端口 S；非 SPICE/非线性 MNA/瞬态。
+- Touchstone 2.0 raw 两端口噪声序列化已实现，GammaOpt 幅角转换有量化；installed MNA 热噪声示例显式要求均温被动模型，不提供通用噪声推断。
+- raw reader/catalog 和 installed-SDK 只读重放工具已实现，实际四个安装文件重放仍未运行；不代表 PHD 系数到模型转换。
+- RFAMP A/B/C/D 已完成，冻结 B 的单 profile C holdout 为 380/380 独立来源；原阈值与失败保留。DC/RC 八次分析提交、零项比较验收。
+- 原始档案、独立数学检查、逐提交 CI 与厂商验收分别记录。243 项目录仍为库存，不算实现数；release/license/stable-ABI 选择与最终提交门禁仍开放。
+
+## 独立复参考阻抗（2026-10-09，历史接口记录）
 
 已实现逐频率/端口的功率波 S 与内生噪声重归一化，以及物理 Z/Y 转换；C++、C ABI、Python、线性 JSON 入口齐备。解析负载、多端口电压电流、净功率和热噪声关系用于独立验证。SystemVue 的 ZPORT/CS 语义和复参考数值对照仍未验收，见[接口及证据边界](power-wave-references.md)。
 

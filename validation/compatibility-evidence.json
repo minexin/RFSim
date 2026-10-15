@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
   "snapshot": {
-    "source_commit": "8b6105ac7295afc72376c206c477edd73d52e8b7",
+    "source_commit": "5c5812e0f81ef4fa45893784f9f9e7430170e218",
     "date_utc": "2026-10-15",
-    "scope": "Bounded current C++ capability/evidence summary, including archived RFAMP holdout, eight DC/RC vendor analysis submissions with zero accepted comparisons, and installed PHD format diagnostics; not whole-catalog acceptance.",
-    "integration_note": "Frozen codebase 8b6105ac7295afc72376c206c477edd73d52e8b7, tree 1e30ab41d63f823f26f7b239977016eac0041d28. Reader e633109022aa6e447127361952ad1ccab24e4039 exact CI 38756583678 passed 18/18. Catalog codebase CI 38764883668 passed all 18 required jobs on that exact source commit. This later docs/validation-only overlay changes no implementation, thresholds, checker/schema or SDK example; its own CI must be verified independently. Source-code CI success is not overlay success, and recording overlay CI must not trigger a self-referential source-baseline update. Historical stage statements remain stage-specific. This refresh performs no SystemVue execution and makes no release decision. Later PLL candidates are outside this frozen source."
+    "scope": "Bounded current C++ capability/evidence summary through locked PI PLL, explicit shared complex phase response, finite-band jitter, installed SDK workflows, read-only X-parameter replay tools, linear MNA, loaded power-wave S, raw two-port Touchstone noise serialization and an explicit isothermal MNA/ModelAdapter/conversion SDK example. Includes archived RFAMP holdout, eight DC/RC submissions with zero accepted comparisons and installed PHD format diagnostics; not whole-catalog acceptance.",
+    "integration_note": "Frozen source 5c5812e0f81ef4fa45893784f9f9e7430170e218, tree 29d6961e28f7d9f4f1c99c30e9028b1c81b7a2f2; exact source CI 38815413675 passed all 18 required jobs. 10 newly indexed integrated-stage runs are verified against complete REST run/jobs snapshots with SHA-256 byte bindings, not text counts. Earlier raw-reader/catalog and vendor records remain unchanged. This later docs/validation and strict-evidence-checker overlay changes no numerical implementation, thresholds, SDK example or acceptance conditions; its own exact-commit CI remains separately required. Recording overlay CI must not trigger self-referential source-baseline updates. No SystemVue execution, actual four-file installed X-parameter replay, release or license decision occurred in this refresh. Local and remote stage results remain bound to their listed source identities, not this overlay."
   },
   "catalog": {
     "inventory": "validation/systemvue-2023-rf-catalog.json",
@@ -184,7 +184,7 @@
       "vendor_evidence": "mixed_pass_fail",
       "remaining": [
         "RFPwrIn failures remain; full path/drive-power/budget, reference-plane, temperature, bandwidth and sideband conventions need acceptance.",
-        "PLL/PNCP and general modulated-spectrum dedicated model families remain open."
+        "An already-locked ideal PI small-signal PLL, explicit shared complex phase response and finite-band phase/time jitter are separately implemented below. PNCP, acquisition/locking, full-band/period/cycle-to-cycle/differential jitter, general modulated-spectrum families and vendor PLL acceptance remain open."
       ]
     },
     {
@@ -237,7 +237,7 @@
     },
     {
       "id": "automatic_rfamp_and_phd",
-      "contract": "No automatic arbitrary RFAMP odd-order coefficient translation, vendor PHD coefficient-to-model importer, or unrestricted varying-pump PHD operating-point adapter. Separate bounded raw reader/catalog utilities do not supply these model semantics.",
+      "contract": "No automatic arbitrary RFAMP odd-order coefficient translation, vendor PHD coefficient-to-model importer, or unrestricted varying-pump PHD operating-point adapter. Separate bounded raw reader/catalog and installed-SDK replay tools do not supply these model semantics.",
       "implementation": "absent",
       "references": [
         "docs/model-adapters.md",
@@ -253,7 +253,7 @@
       "numerical_evidence": "The separately listed native fixed-pump coefficient slice does not establish automatic extraction, vendor data interpretation or full pump derivatives.",
       "vendor_evidence": "diagnostic",
       "remaining": [
-        "Installed PHD/X-parameter examples and help were inspected locally for format, axes and selected coefficients. Full original vendor files have not been parsed in the cloud; legacy normalization, physical reference planes, complete coefficient conversion, extraction, interpolation and varying-pump derivatives remain unaccepted.",
+        "Installed PHD/X-parameter examples and help were inspected locally for format, axes and selected coefficients. The read-only installed-SDK replay tool is implemented, but the actual four vendor files have not been replayed through it or fully parsed in the cloud. Legacy normalization, physical reference planes, coefficient conversion, extraction, interpolation and varying-pump derivatives remain unaccepted.",
         "Microstrip/switch/array/antenna dedicated families and vendor parameter/default/enum/table translation need individual assessment; host callbacks are not catalog acceptance.",
         "RFAMP A/B/C/D acquisition is complete: frozen B coefficients predict 380/380 independent C origins at the original 1e-7 tolerance; D is restoration control, not an independent prediction. This bounded profile does not identify the proprietary parameter law."
       ]
@@ -288,7 +288,7 @@
       "numerical_evidence": "Engineering integrity/provenance, negative archive and installed-consumer checks; this feature adds no numerical model or vendor acceptance evidence. Minimum CMake 3.20.5 fixture exercised locally.",
       "vendor_evidence": "not_executed",
       "remaining": [
-        "Local raw-reader and catalog full/pure SDK gates passed on their rebound source trees; exact-source CI is separately recorded below. The later docs-only overlay requires its own exact-commit CI; local stage results are not a rerun on that overlay.",
+        "Local raw-reader and catalog full/pure SDK gates passed on their rebound source trees; exact-source CI is separately recorded below. The later documentation/evidence-checker overlay requires its own exact-commit CI; local stage results are not a rerun on that overlay.",
         "Public distribution, license selection, release version/tag and API stability decisions remain open; this is an internal engineering candidate."
       ]
     },
@@ -338,22 +338,22 @@
       "vendor_evidence": "not_executed",
       "remaining": [
         "This is a matched 6 dB attenuator and lossless 50-ohm 1 ns line example, not a physical cable or SystemVue acceptance.",
-        "Historical example main.cpp whitespace formatting was integrated in 3160ba; the current doc-only overlay changes no example source."
+        "Historical example main.cpp whitespace formatting was integrated in 3160ba; the current documentation/evidence-checker overlay changes no example source."
       ]
     },
     {
       "id": "touchstone_v2_writer",
-      "contract": "Native C++17 single-ended S stream writer emitting Touchstone 2.0 / Hz / RI / Full, 1-1024 ports and a fixed 64 MiB payload budget.",
+      "contract": "Native C++17 single-ended S stream writer emitting Touchstone 2.0 / Hz / RI / Full, 1-1024 ports and a fixed 64 MiB payload budget, with optional raw two-port noise serialization added in the later stage below.",
       "implementation": "bounded",
       "references": [
         "docs/touchstone-writer.md",
         "tests/io/touchstone_writer_test.cpp",
         "validation/engineering-evidence-summary-20261014.json"
       ],
-      "numerical_evidence": "Local strict C++17 Debug/Release each 161/161 full and 122/122 pure SDK tests, including relocated two-TU consumers and archive checks; independent byte goldens, numeric extraction and failure tests.",
+      "numerical_evidence": "Original S-only stage: Local strict C++17 Debug/Release each 161/161 full and 122/122 pure SDK tests, including relocated two-TU consumers and archive checks; independent byte goldens, numeric extraction and failure tests.",
       "vendor_evidence": "not_executed",
       "remaining": [
-        "Nonempty noise samples are rejected; no nonlinear/PHD export, model sampling or reference renormalization.",
+        "The original S-only stage rejected nonempty noise; the separately recorded raw two-port noise extension now serializes it. No nonlinear/PHD export, model sampling or reference renormalization.",
         "The caller owns files, synchronization, flush/close and final I/O checks. A short or throwing destination write can leave a prefix; no atomicity/durability guarantee.",
         "No live SystemVue import or simulation acceptance.",
         "Exact original writer CI 38600226155 failed: 14 success, 3 failure, 1 cancelled. The separately verified decimal portability fix a987c3dc116f31477f6c97fb23d0c3a4a22f2f3c run 38607571844 completed 18/18 success, including macOS Debug/Release. This later success does not rewrite the original writer failure or cover the pending final overlay."
@@ -444,7 +444,7 @@
       "vendor_evidence": "diagnostic",
       "remaining": [
         "Eight dedicated SystemVue analyses were submitted; zero DC/small-signal comparisons were accepted. Some analyses executed successfully; model-entry failures and original RC numerical/frequency/boundary failures remain.",
-        "No ideal voltage sources, inductors, MNA, DAE or transient model; callback derivative correctness belongs to the supplied model. No automatic vendor device law.",
+        "This grounded analytic-callback API itself has no ideal voltage sources, inductors, MNA, DAE or transient model; the separate bounded linear MNA API now supports R/C/L and independent sources. No nonlinear MNA or automatic vendor device law is implied; callback derivative correctness belongs to the supplied model.",
         "Raw ZIP retains 147 files with manifest hashes; ten vendor documentation files remain local. No accepted physical V/I/Y result or subsequent vendor S comparison."
       ]
     },
@@ -531,6 +531,153 @@
         "Only AN/FB suffix syntax is interpreted; S/T/XY/XZ/AM/AP/FI/FV remain unsupported suffix families, with unknown fields retained raw.",
         "No normalization, units or coefficient semantics, pump inference, default reference/plane, tolerance/nearest selection or interpolation; missing fields remain missing.",
         "This raw row catalog does not assess the 243-part RF Design inventory, construct native model slices/adapters or establish full vendor-file/numerical compatibility."
+      ]
+    },
+    {
+      "id": "locked_pi_pll",
+      "contract": "C++17 already-locked continuous-time ideal PI PLL at zero loop delay, with explicit physical units, five complex transfer functions, five independent one-sided phase-noise budget contributions and a single-output wave-sideband bridge.",
+      "implementation": "bounded",
+      "references": [
+        "docs/locked-pi-pll.md",
+        "tests/noise/locked_pi_pll_test.cpp",
+        "tests/consumer/locked_pi_pll.cpp"
+      ],
+      "numerical_evidence": "Independent canonical pole/transfer oracle, direct node equations, identities, limits, PSD/SSB factor-two, complex C/P and numerical rejection tests; exact 599268d CI 38773377200 verified all 18 jobs.",
+      "vendor_evidence": "not_executed",
+      "remaining": [
+        "No acquisition, physical locking proof, PNCP, fractional-N spur simulation, arbitrary loop filter/delay, inferred device noise or vendor acceptance. Positive real N is only an effective ratio.",
+        "The budget assumes independent sources; correlated/shared outputs require explicit source decomposition and complex responses. Phase rad^2/Hz is not wave W/Hz; sampled sidebands do not imply full-band jitter."
+      ]
+    },
+    {
+      "id": "complex_phase_response",
+      "contract": "Owning explicit shared-reference phase-response groups with complex H(+f), H(-f)=conj(H), full covariance C/complementary P and a mixed-reference conversion-source preparation adapter.",
+      "implementation": "bounded",
+      "references": [
+        "docs/complex-phase-response.md",
+        "tests/noise/phase_response_test.cpp",
+        "tests/consumer/phase_response.cpp"
+      ],
+      "numerical_evidence": "Independent complex cross-C/P, coincident sidebands, cancellation, coordinate-reference and source ownership tests; exact 1e2dbfb CI 38779870896 verified all 18 jobs.",
+      "vendor_evidence": "not_executed",
+      "remaining": [
+        "Caller supplies common process, one-sided reference phase PSD, complex responses and positive grid-aligned offsets; no inference from names, abs(H) or output total PSD.",
+        "Finite-offset small-angle source model only, no causal/stability/lock or SystemVue/PNCP claim; no DC/cross-DC/negative-frequency sidebands, interpolation or higher-order sidebands. Distinct groups and repeated helper calls add independent processes."
+      ]
+    },
+    {
+      "id": "finite_band_phase_jitter",
+      "contract": "Owning explicit one-sided phase-PSD integration over a caller-selected covered finite offset band using linear rad^2/Hz versus Hz interpolation; returns phase variance, phase RMS and time RMS for an explicit physical carrier.",
+      "implementation": "bounded",
+      "references": [
+        "docs/phase-jitter.md",
+        "tests/noise/phase_jitter_test.cpp",
+        "tests/consumer/phase_jitter.cpp"
+      ],
+      "numerical_evidence": "White/linear PSD analytic integrals, clipping/additivity, grid and carrier scaling, sparse power-law distinction, ownership and normal-range rejection tests; exact b2dcccf CI 38790793537 verified all 18 jobs.",
+      "vendor_evidence": "not_executed",
+      "remaining": [
+        "No extrapolation, default/full bandwidth, adaptive sampling, automatic phase-PSD extraction from wave noise or implicit carrier inference. Sparse-grid integration is not continuous-spectrum accuracy.",
+        "Not full-band, period, cycle-to-cycle, peak-to-peak or differential jitter; large numeric variance does not prove small-angle validity. No PNCP or vendor jitter acceptance."
+      ]
+    },
+    {
+      "id": "installed_native_workflows",
+      "contract": "Two installed-only dual-translation-unit C++17 integration examples: shared-reference locked PI PLL plus independent VCO phase noise/finite-band jitter, and owning frozen DC small-signal model/adapter with explicit optional noise.",
+      "implementation": "bounded",
+      "references": [
+        "examples/pll-phase-jitter-sdk/README.md",
+        "examples/frozen-adapter-sdk/README.md",
+        "docs/cpp-sdk.md"
+      ],
+      "numerical_evidence": "Release-active independent analytic/matrix oracles and installed-SDK CTests; exact 3f75c58 CI 38793055242 verified all 18 jobs. Integration examples supplement rather than replace numerical regressions.",
+      "vendor_evidence": "not_executed",
+      "remaining": [
+        "Examples compose existing native APIs and explicit caller model/noise assumptions; no new SystemVue execution, differential jitter API, automatic thermal law or vendor model acceptance.",
+        "Internal engineering workflows do not establish public release, a stable ABI or a chosen license."
+      ]
+    },
+    {
+      "id": "installed_xparameter_replay",
+      "contract": "Read-only developer orchestration of an installed-only native typed-text probe for four exact installed X-parameter examples, with immutable historical hashes, bounded capture, strict field/type/order scoring and retained failure receipts.",
+      "implementation": "bounded",
+      "references": [
+        "docs/installed-xparameter-replay.md",
+        "scripts/reference/replay-installed-xparameter-evidence.py",
+        "validation/systemvue-xparameter-format-evidence-20261015.json"
+      ],
+      "numerical_evidence": "Synthetic native legacy/v2 parsing, scorer mutations, installed-only probe compilation, output protection, retained failures and bounded one-shot capture tests; exact c2c3252 CI 38795700296 verified all 18 jobs.",
+      "vendor_evidence": "not_executed",
+      "remaining": [
+        "Actual four-file installed vendor replay has not run; cloud synthetic fixtures are not vendor-file acceptance. Four files represent three unique content hashes.",
+        "A future selected-file pass would compare only archived format/count/sample fields, not independently validate all coefficient values or numerical models. No SystemVue/COM/simulation execution, full vendor-file upload, normalization/model conversion or Python product API."
+      ]
+    },
+    {
+      "id": "bounded_linear_mna",
+      "contract": "Separate owning C++17 bounded linear MNA for positive R/C/L elements and independent voltage/current sources, with exact DC open/short treatment, real DC and positive-frequency complex RMS AC solutions and physical power.",
+      "implementation": "bounded",
+      "references": [
+        "docs/bounded-linear-mna.md",
+        "tests/mna/linear_network_test.cpp",
+        "tests/cmake/check_linear_mna_install.cmake"
+      ],
+      "numerical_evidence": "Independent exact circuits, power balance, structural singularity, normal-range/scaling/order/ownership and budgets; installed-only two-TU consumer. Exact 5c24a778 CI 38804226969 verified all 18 jobs.",
+      "vendor_evidence": "not_executed",
+      "remaining": [
+        "No SPICE parser, nonlinear MNA, transient/DAE, automatic noise law, sweep API or vendor equivalence. Grounded nonlinear DC/frozen APIs are separate and unchanged.",
+        "At most 256 unknowns/4096 elements, normal-or-zero checked arithmetic, structural/pivot rejection and explicit physical/backward residual gates. No gmin, pseudoinverse, arbitrary conditioning or forward-accuracy guarantee; tolerances are not relaxed."
+      ]
+    },
+    {
+      "id": "mna_power_wave_s",
+      "contract": "Single-positive-frequency incremental RMS Kurokawa power-wave S from a source-deactivated, reference-loaded owning MNA network with independent complex per-port references, one factorization and separately accepted RHS solves.",
+      "implementation": "bounded",
+      "references": [
+        "docs/mna-power-wave-s.md",
+        "tests/mna/test_power_wave_s.cpp",
+        "tests/mna/factorization_test.cpp",
+        "tests/cmake/check_mna_power_wave_s_install.cmake"
+      ],
+      "numerical_evidence": "Independent short/open/load/through/port-Z fixtures, physical composition and renormalization, source deactivation, singular/range/budget/ownership and factorization/refinement checks; exact 5ddc39e CI 38810746626 verified all 18 jobs.",
+      "vendor_evidence": "not_executed",
+      "remaining": [
+        "Requires unique full loaded state; floating differential common-mode gauges, redundant branch currents, hidden resonances and isolated nodes are rejected even if port S alone could be unique. No gauge choice, state removal, pseudoinverse or gmin.",
+        "No nonlinear/DC operating point, DC S, sweep, noise, affine output bias, C ABI/CLI or SystemVue equivalence. Complex-reference physical load boundary and load-owned S are distinct. Existing MNA residual and resource boundaries remain."
+      ]
+    },
+    {
+      "id": "touchstone_v2_raw_noise_writer",
+      "contract": "Native Touchstone 2.0 stream export of existing raw two-port noise samples: independent ordered noise grid, Fmin in dB, GammaOpt in magnitude/degrees and physical Rn in ohms; empty-noise S output remains byte-identical.",
+      "implementation": "bounded",
+      "references": [
+        "docs/touchstone-writer.md",
+        "tests/io/touchstone_writer_test.cpp",
+        "tests/cmake/check_touchstone_writer_install.cmake"
+      ],
+      "numerical_evidence": "Independent golden byte strings/five-column extraction, signed-zero/subnormal/polar range limits, legacy-Rn conversion, existing-reader round trips, stream failures and actual 64 MiB budgets; exact f603bcf CI 38813359905 verified all 18 jobs. Reader implementation is unchanged.",
+      "vendor_evidence": "not_executed",
+      "remaining": [
+        "GammaOpt Cartesian-to-MA conversion is rounded, not lossless: no bitwise complex round trip, componentwise relative-error bound, original angle/winding or decimal spelling preservation. Explicit zero-angle/range rejection remains conservative.",
+        "Raw values are serialized without fitting, clamping, covariance reconstruction, physical realizability validation, model sampling or renormalization. GammaOpt stays referenced to option-line R; Rn is physical ohms.",
+        "No live SystemVue import/simulation acceptance; original writer CI failure is retained. Caller still owns files, final I/O and synchronization; partial writes can leave a prefix."
+      ]
+    },
+    {
+      "id": "installed_mna_noise_workflow",
+      "contract": "Installed-only owning dual-TU C++17 example combining a source-free series R/L MNA circuit, complex-reference S, explicit isothermal passive thermal covariance, ModelAdapter, loaded linear-network noise and a six-channel stationary conversion snapshot.",
+      "implementation": "bounded",
+      "references": [
+        "examples/mna-noise-sdk/README.md",
+        "examples/mna-noise-sdk/mna_noise.cpp",
+        "tests/cmake/check_mna_noise_install.cmake"
+      ],
+      "numerical_evidence": "Independent direct physical RL/Johnson-source oracles check all S/C entries, loaded V/I/power and equilibrium, coordinate renormalization, cascaded off-diagonal covariance, changed R/L/T, ownership and missing/zero noise; exact 5c5812e CI 38815413675 verified all 18 jobs.",
+      "vendor_evidence": "not_executed",
+      "remaining": [
+        "Uniform equilibrium temperature and known passive composition are explicit host assumptions. Source deactivation or a numerical passivity check alone does not establish thermal equilibrium, physical temperature or an arbitrary MNA noise law.",
+        "No new MNA/noise solver, nonuniform-temperature/active/nonequilibrium model, nonlinear/transient physics or automatic noise inference. The stationary positive-bin conversion snapshot is not a mixer, cross-frequency intrinsic-noise model, coherent/spectrum capability or new vendor acceptance.",
+        "Existing covariance admission/truncation, floating-point conditioning and range boundaries still apply; no arbitrary dynamic-range or all-reference numerical equivalence guarantee. Internal SDK example only; Python/C API product interfaces, release/license/stable-ABI decisions and vendor thresholds are unchanged."
       ]
     }
   ],
@@ -858,6 +1005,146 @@
       "expected_jobs": 18,
       "evidence": "validation/compatibility-xparameter-catalog-ci-38764883668.json",
       "url": "https://github.com/minexin/RFSim/actions/runs/38764883668"
+    },
+    {
+      "id": "native_evidence_refresh",
+      "commit": "85b5a9c78098310f4f5afb2af7fd2ce2bec0210a",
+      "run_id": 38767456505,
+      "status": "success",
+      "verified_successful_jobs": 18,
+      "verified_failed_jobs": 0,
+      "verified_cancelled_jobs": 0,
+      "expected_jobs": 18,
+      "evidence": "validation/compatibility-refresh-ci-38767456505.json",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38767456505",
+      "raw_snapshot": "validation/compatibility-raw-ci-38767456505.json",
+      "raw_snapshot_sha256": "448e218acb2262c8f92e80df44b435d126d6626845a596846c7ca9b2d9305921"
+    },
+    {
+      "id": "locked_pi_pll",
+      "commit": "599268d2c99aaf4b31b374f0a76172f4137044c2",
+      "run_id": 38773377200,
+      "status": "success",
+      "verified_successful_jobs": 18,
+      "verified_failed_jobs": 0,
+      "verified_cancelled_jobs": 0,
+      "expected_jobs": 18,
+      "evidence": "validation/compatibility-pll-ci-38773377200.json",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38773377200",
+      "raw_snapshot": "validation/compatibility-raw-ci-38773377200.json",
+      "raw_snapshot_sha256": "ce0557cc69574248f7467e548fb52415941fa32ea82ae9c35a323c532ae7fe78"
+    },
+    {
+      "id": "complex_phase_response",
+      "commit": "1e2dbfba0b00a63a8b2779098ae41ae65647e079",
+      "run_id": 38779870896,
+      "status": "success",
+      "verified_successful_jobs": 18,
+      "verified_failed_jobs": 0,
+      "verified_cancelled_jobs": 0,
+      "expected_jobs": 18,
+      "evidence": "validation/compatibility-complex-phase-ci-38779870896.json",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38779870896",
+      "raw_snapshot": "validation/compatibility-raw-ci-38779870896.json",
+      "raw_snapshot_sha256": "c6111801d06e30a7f1cc1d4d038ea02e266a7a0e55f44a9981435647697a4feb"
+    },
+    {
+      "id": "finite_band_phase_jitter",
+      "commit": "b2dcccf819d2ee0451f208b2e94334c927b8f374",
+      "run_id": 38790793537,
+      "status": "success",
+      "verified_successful_jobs": 18,
+      "verified_failed_jobs": 0,
+      "verified_cancelled_jobs": 0,
+      "expected_jobs": 18,
+      "evidence": "validation/compatibility-phase-jitter-ci-38790793537.json",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38790793537",
+      "raw_snapshot": "validation/compatibility-raw-ci-38790793537.json",
+      "raw_snapshot_sha256": "c8454c19e366cec44e7eaf01f2d743b5f04f069844f73e24de588a6529433126"
+    },
+    {
+      "id": "installed_native_workflows",
+      "commit": "3f75c58f4471d24aaf8c2f908ada678da9379a91",
+      "run_id": 38793055242,
+      "status": "success",
+      "verified_successful_jobs": 18,
+      "verified_failed_jobs": 0,
+      "verified_cancelled_jobs": 0,
+      "expected_jobs": 18,
+      "evidence": "validation/compatibility-native-sdk-ci-38793055242.json",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38793055242",
+      "raw_snapshot": "validation/compatibility-raw-ci-38793055242.json",
+      "raw_snapshot_sha256": "7c133f29f3db990786fdb7d7dfa16e9edf68d9ef46e1a9805ee9788379ec358d"
+    },
+    {
+      "id": "installed_xparameter_replay",
+      "commit": "c2c3252aacb75642adc6ad294009d75b6d13db91",
+      "run_id": 38795700296,
+      "status": "success",
+      "verified_successful_jobs": 18,
+      "verified_failed_jobs": 0,
+      "verified_cancelled_jobs": 0,
+      "expected_jobs": 18,
+      "evidence": "validation/compatibility-replay-ci-38795700296.json",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38795700296",
+      "raw_snapshot": "validation/compatibility-raw-ci-38795700296.json",
+      "raw_snapshot_sha256": "947a3328f281fdfa35f5152869fba88eda8de9bf8446690c020815f13b015957"
+    },
+    {
+      "id": "bounded_linear_mna",
+      "commit": "5c24a778e15c2ef666e5747104b4218ece04dbf8",
+      "run_id": 38804226969,
+      "status": "success",
+      "verified_successful_jobs": 18,
+      "verified_failed_jobs": 0,
+      "verified_cancelled_jobs": 0,
+      "expected_jobs": 18,
+      "evidence": "validation/compatibility-linear-mna-ci-38804226969.json",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38804226969",
+      "raw_snapshot": "validation/compatibility-raw-ci-38804226969.json",
+      "raw_snapshot_sha256": "542dbc0ba0d4bf30d5b1262ac89b7982613696bb8a6656645024887a783c7fa5"
+    },
+    {
+      "id": "mna_power_wave_s",
+      "commit": "5ddc39e74cb5a8a9e75536abfe75e532e6fd1929",
+      "run_id": 38810746626,
+      "status": "success",
+      "verified_successful_jobs": 18,
+      "verified_failed_jobs": 0,
+      "verified_cancelled_jobs": 0,
+      "expected_jobs": 18,
+      "evidence": "validation/compatibility-mna-port-ci-38810746626.json",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38810746626",
+      "raw_snapshot": "validation/compatibility-raw-ci-38810746626.json",
+      "raw_snapshot_sha256": "9db219238a7d2954f4e7ae89f4327ed16b34fd9c95ddac6e03be2a72185924ac"
+    },
+    {
+      "id": "touchstone_v2_raw_noise_writer",
+      "commit": "f603bcf42e1db12fdd50704b0c73d9a189d557de",
+      "run_id": 38813359905,
+      "status": "success",
+      "verified_successful_jobs": 18,
+      "verified_failed_jobs": 0,
+      "verified_cancelled_jobs": 0,
+      "expected_jobs": 18,
+      "evidence": "validation/compatibility-touchstone-noise-ci-38813359905.json",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38813359905",
+      "raw_snapshot": "validation/compatibility-raw-ci-38813359905.json",
+      "raw_snapshot_sha256": "24e4f5c9759941fb4e1c30aa9fd0b6b2d36fa5c8a46033b2794256d1ff6f3643"
+    },
+    {
+      "id": "installed_mna_noise_workflow",
+      "commit": "5c5812e0f81ef4fa45893784f9f9e7430170e218",
+      "run_id": 38815413675,
+      "status": "success",
+      "verified_successful_jobs": 18,
+      "verified_failed_jobs": 0,
+      "verified_cancelled_jobs": 0,
+      "expected_jobs": 18,
+      "evidence": "validation/compatibility-mna-noise-sdk-ci-38815413675.json",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38815413675",
+      "raw_snapshot": "validation/compatibility-raw-ci-38815413675.json",
+      "raw_snapshot_sha256": "a6d38f86f5123179e9a6a130785e543c8fd7b698b8eeabc6d367eeb973938359"
     }
   ],
   "release_gates": [

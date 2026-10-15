@@ -14,20 +14,23 @@
 
 | 能力 | 当前实现 | 主要剩余项 |
 |---|---|---|
-| Linear Analysis | C++ N 端口、F/S/ZPORT、独立复参考物理接线、S/Z/Y、W/Hz 相关噪声及二端口噪声参数 | 厂商 ZPORT/CS/噪声归一化与逐频对照；[接地 DC、解析 G/C 和冻结小信号已实现](dc-bias-small-signal.md)，厂商 DC/RC 未验收；MNA/理想电压源/电感/瞬态仍不支持 |
+| Linear Analysis | C++ N 端口、F/S/ZPORT、独立复参考物理接线、S/Z/Y、W/Hz 相关噪声及二端口噪声参数 | 厂商 ZPORT/CS/噪声归一化与逐频对照；[接地 DC、解析 G/C 和冻结小信号已实现](dc-bias-small-signal.md)，厂商 DC/RC 未验收；独立[线性 MNA](bounded-linear-mna.md)支持 R/C/L、独立电压/电流源，[复参考加载 S](mna-power-wave-s.md)已实现；非线性 MNA/瞬态仍不支持 |
 | 非线性工作点 | 直接/共轭 Jacobian、阻尼求解、仿射偏置、[混合复参考工作点](conversion-operating-point-power-wave.md)、[接受工作点本征噪声提供器](conversion-operating-noise.md)与冻结 C/P | 厂商反馈/噪声语义、实际器件噪声律与跨器件本征相关 |
-| RF System Analysis | 类型化相干/转换图、来源传播、结构扩频、加载噪声、显式频带与相噪测量 | 路径/驱动功率/预算、完整调制谱、PLL/PNCP 与厂商测量约定；保留 RFPwrIn 失败 |
+| RF System Analysis | 类型化相干/转换图、来源传播、结构扩频、加载噪声、显式频带与相噪测量 | 路径/驱动功率/预算、完整调制谱、PNCP 与厂商测量约定；保留 RFPwrIn 失败 |
+| PLL/相位/jitter | [已锁定理想 PI 小信号](locked-pi-pll.md)、[显式共享复 H 与完整 C/P](complex-phase-response.md)、[有限频带 phase/time RMS](phase-jitter.md) | 不支持捕获/锁定过程、PNCP、任意环路或全带/周期/周期间/差分 jitter；无厂商验收 |
 | 线性模型 | RLC、理想器件、表格 S/噪声、频率相关电缆及滤波器等原生模型 | 完整目录逐器件参数与行为验收；通用回调不是器件兼容通过 |
 | 显式非线性模型 | 十一阶电压多项式、公共压缩/限幅、[高阶适配器](model-adapters.md)工作点/相干入口 | 自动 RFAMP 系数、合并总谱、次级失真、完整 PHD 文件及变泵浦工作点；原生固定切片不替代这些能力 |
 | 原生 PHD 固定泵浦 | [显式单幅度 RMS 功率波 F/S/T 切片](phd-coefficient-contract.md)、相位冻结、严格 DC gauge、参考面、拥有数据的受限 Jacobian、[有界固定泵确定性网络](phd-fixed-pump-network.md)；独立数学测试 | 不支持泵浦扰动或完整泵浦导数；无通用网络/工作点适配器、厂商系数到模型转换/提取/插值、噪声推断或 SystemVue2023 数值兼容结论 |
-| PHD/X-parameter 原始数据工具 | [受限 typed-text reader](xparameter-data.md)与[version-2 raw catalog/精确选择](xparameter-catalog.md)已实现 | 原始安装文件未全量云端解析；不提供系数归一化、模型转换、缺失值填充、插值或厂商数值验收；raw行目录不是243项器件覆盖 |
+| PHD/X-parameter 原始数据工具 | [受限 typed-text reader](xparameter-data.md)、[version-2 raw catalog/精确选择](xparameter-catalog.md)及[只读 installed-SDK 重放工具](installed-xparameter-replay.md)已实现 | 实际四文件重放未运行，云端 synthetic fixture 不算厂商格式通过；原始安装文件未全量云端解析；不提供系数归一化、模型转换、缺失值填充、插值或厂商数值验收；raw行目录不是243项器件覆盖 |
+| Touchstone 导出 | [S/可选 raw 两端口噪声流导出](touchstone-writer.md)，64 MiB 上限，空噪声保留原字节 | GammaOpt MA 舍入非无损；不采样/拟合/构造噪声模型，无 SystemVue 导入验收；原失败保留 |
+| MNA SDK 热噪声组合 | [source-free R/L、显式均温、ModelAdapter 与六通道 conversion 示例](../examples/mna-noise-sdk/README.md) | 不是通用 MNA 噪声推断/新 solver；不覆盖非均温/主动/非平衡或厂商验收 |
 | Mixer | 固定泵转换与 C/P；[三端口双线性适配器](model-adapters.md)以实际求解 LO 驱动且保持固定归一化 | 厂商压缩、泄漏/杂散、噪声、自动选频/削减；三端口适配器不虚构上述能力 |
 | 噪声数值稳定性 | PSD 因子域传播、补偿及缩放算术，见[阶段证据](../validation/noise-factor-propagation-validation-20261014.json) | 输入截断、可表示性和条件数限制仍在；不新增厂商通过项 |
 | AM/PM | 显式校准 PointDerivative 相位律与导数组合；有限无告警归档通过 | 实际输出功率须由调用者给定；完整网络 AM-AM、多音、DataPoints 与连续旁路律未验收 |
 | 显式节点噪声 | 冻结参考加载网络传播调用方给定完整节点电流协方差 | 不从 G 推断噪声、温度或端接噪声；无厂商验收 |
 | 原生表格 AM/AM、AM/PM | [显式斜率 Hermite 表格、解析导数、model/coherent adapter](tabulated-amplifier.md) | 无外推或自动噪声；不等于 SystemVue DataPoints 验收 |
 | 参数任务 | C++ 类型化有界优化、参数绑定、相关 Monte Carlo、统计及重放 | 厂商约定对照；已退役 JSON 字段分发不是当前产品要求 |
-| 交付与 GUI | header-only C++17、可选 C ABI、原生 S CSV CLI；[内部工程 SDK 归档](cpp-sdk.md)含实际 Git 身份、哈希及独立消费者；GUI 后置 | Python 产品入口已退役；归档不是公开发布，许可与分发决策未完成；不新增厂商兼容通过项 |
+| 交付与 GUI | header-only C++17、可选 C ABI、原生 S CSV CLI；[内部工程 SDK 归档](cpp-sdk.md)含实际 Git 身份、哈希及独立消费者；含 [PLL/jitter 与 frozen adapter 示例](cpp-sdk.md)；GUI 后置 | Python 产品入口已退役；归档不是公开发布，许可与分发决策未完成；不新增厂商兼容通过项 |
 
 [线性输出细表](linear-analysis-compatibility.md)保留官方帮助来源。
 [当前提交绑定验证](compatibility-evidence.md)区分云端阶段与最终集成门禁；

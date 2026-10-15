@@ -1,0 +1,2848 @@
+{
+  "checked_at": "2026-10-15T17:10:22.535Z",
+  "run": {
+    "id": 38773377200,
+    "name": "Cross-platform C++17",
+    "node_id": "WFR_kwLOUY2fcM8AAAAJBxLIsA",
+    "head_branch": "main",
+    "head_sha": "599268d2c99aaf4b31b374f0a76172f4137044c2",
+    "path": ".github/workflows/build.yml",
+    "display_title": "Add locked PI-PLL small-signal transfer and independent phase-noise b…",
+    "run_number": 213,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "workflow_id": 364353142,
+    "check_suite_id": 105076036081,
+    "check_suite_node_id": "CS_kwDOUY2fcM8AAAAYdwUR8Q",
+    "url": "https://api.github.com/repos/minexin/RFSim/actions/runs/38773377200",
+    "html_url": "https://github.com/minexin/RFSim/actions/runs/38773377200",
+    "pull_requests": [],
+    "created_at": "2026-10-15T16:58:03Z",
+    "updated_at": "2026-10-15T17:08:39Z",
+    "actor": {
+      "login": "minexin",
+      "id": 33479317,
+      "node_id": "MDQ6VXNlcjMzNDc5MzE3",
+      "avatar_url": "https://avatars.githubusercontent.com/u/33479317?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/minexin",
+      "html_url": "https://github.com/minexin",
+      "followers_url": "https://api.github.com/users/minexin/followers",
+      "following_url": "https://api.github.com/users/minexin/following{/other_user}",
+      "gists_url": "https://api.github.com/users/minexin/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/minexin/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/minexin/subscriptions",
+      "organizations_url": "https://api.github.com/users/minexin/orgs",
+      "repos_url": "https://api.github.com/users/minexin/repos",
+      "events_url": "https://api.github.com/users/minexin/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/minexin/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "run_attempt": 1,
+    "referenced_workflows": [],
+    "run_started_at": "2026-10-15T16:58:03Z",
+    "triggering_actor": {
+      "login": "minexin",
+      "id": 33479317,
+      "node_id": "MDQ6VXNlcjMzNDc5MzE3",
+      "avatar_url": "https://avatars.githubusercontent.com/u/33479317?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/minexin",
+      "html_url": "https://github.com/minexin",
+      "followers_url": "https://api.github.com/users/minexin/followers",
+      "following_url": "https://api.github.com/users/minexin/following{/other_user}",
+      "gists_url": "https://api.github.com/users/minexin/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/minexin/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/minexin/subscriptions",
+      "organizations_url": "https://api.github.com/users/minexin/orgs",
+      "repos_url": "https://api.github.com/users/minexin/repos",
+      "events_url": "https://api.github.com/users/minexin/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/minexin/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "jobs_url": "https://api.github.com/repos/minexin/RFSim/actions/runs/38773377200/jobs",
+    "logs_url": "https://api.github.com/repos/minexin/RFSim/actions/runs/38773377200/logs",
+    "check_suite_url": "https://api.github.com/repos/minexin/RFSim/check-suites/105076036081",
+    "artifacts_url": "https://api.github.com/repos/minexin/RFSim/actions/runs/38773377200/artifacts",
+    "cancel_url": "https://api.github.com/repos/minexin/RFSim/actions/runs/38773377200/cancel",
+    "rerun_url": "https://api.github.com/repos/minexin/RFSim/actions/runs/38773377200/rerun",
+    "previous_attempt_url": null,
+    "workflow_url": "https://api.github.com/repos/minexin/RFSim/actions/workflows/364353142",
+    "head_commit": {
+      "id": "599268d2c99aaf4b31b374f0a76172f4137044c2",
+      "tree_id": "864d30ecd1c22312f5772408b8ca739b58673418",
+      "message": "Add locked PI-PLL small-signal transfer and independent phase-noise budget",
+      "timestamp": "2026-10-15T16:57:46Z",
+      "author": {
+        "name": "minexin",
+        "email": "33479317+minexin@users.noreply.github.com"
+      },
+      "committer": {
+        "name": "minexin",
+        "email": "33479317+minexin@users.noreply.github.com"
+      }
+    },
+    "repository": {
+      "id": 1368235888,
+      "node_id": "R_kgDOUY2fcA",
+      "name": "RFSim",
+      "full_name": "minexin/RFSim",
+      "private": false,
+      "owner": {
+        "login": "minexin",
+        "id": 33479317,
+        "node_id": "MDQ6VXNlcjMzNDc5MzE3",
+        "avatar_url": "https://avatars.githubusercontent.com/u/33479317?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/minexin",
+        "html_url": "https://github.com/minexin",
+        "followers_url": "https://api.github.com/users/minexin/followers",
+        "following_url": "https://api.github.com/users/minexin/following{/other_user}",
+        "gists_url": "https://api.github.com/users/minexin/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/minexin/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/minexin/subscriptions",
+        "organizations_url": "https://api.github.com/users/minexin/orgs",
+        "repos_url": "https://api.github.com/users/minexin/repos",
+        "events_url": "https://api.github.com/users/minexin/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/minexin/received_events",
+        "type": "User",
+        "user_view_type": "public",
+        "site_admin": false
+      },
+      "html_url": "https://github.com/minexin/RFSim",
+      "description": null,
+      "fork": false,
+      "url": "https://api.github.com/repos/minexin/RFSim",
+      "forks_url": "https://api.github.com/repos/minexin/RFSim/forks",
+      "keys_url": "https://api.github.com/repos/minexin/RFSim/keys{/key_id}",
+      "collaborators_url": "https://api.github.com/repos/minexin/RFSim/collaborators{/collaborator}",
+      "teams_url": "https://api.github.com/repos/minexin/RFSim/teams",
+      "hooks_url": "https://api.github.com/repos/minexin/RFSim/hooks",
+      "issue_events_url": "https://api.github.com/repos/minexin/RFSim/issues/events{/number}",
+      "events_url": "https://api.github.com/repos/minexin/RFSim/events",
+      "assignees_url": "https://api.github.com/repos/minexin/RFSim/assignees{/user}",
+      "branches_url": "https://api.github.com/repos/minexin/RFSim/branches{/branch}",
+      "tags_url": "https://api.github.com/repos/minexin/RFSim/tags",
+      "blobs_url": "https://api.github.com/repos/minexin/RFSim/git/blobs{/sha}",
+      "git_tags_url": "https://api.github.com/repos/minexin/RFSim/git/tags{/sha}",
+      "git_refs_url": "https://api.github.com/repos/minexin/RFSim/git/refs{/sha}",
+      "trees_url": "https://api.github.com/repos/minexin/RFSim/git/trees{/sha}",
+      "statuses_url": "https://api.github.com/repos/minexin/RFSim/statuses/{sha}",
+      "languages_url": "https://api.github.com/repos/minexin/RFSim/languages",
+      "stargazers_url": "https://api.github.com/repos/minexin/RFSim/stargazers",
+      "contributors_url": "https://api.github.com/repos/minexin/RFSim/contributors",
+      "subscribers_url": "https://api.github.com/repos/minexin/RFSim/subscribers",
+      "subscription_url": "https://api.github.com/repos/minexin/RFSim/subscription",
+      "commits_url": "https://api.github.com/repos/minexin/RFSim/commits{/sha}",
+      "git_commits_url": "https://api.github.com/repos/minexin/RFSim/git/commits{/sha}",
+      "comments_url": "https://api.github.com/repos/minexin/RFSim/comments{/number}",
+      "issue_comment_url": "https://api.github.com/repos/minexin/RFSim/issues/comments{/number}",
+      "contents_url": "https://api.github.com/repos/minexin/RFSim/contents/{+path}",
+      "compare_url": "https://api.github.com/repos/minexin/RFSim/compare/{base}...{head}",
+      "merges_url": "https://api.github.com/repos/minexin/RFSim/merges",
+      "archive_url": "https://api.github.com/repos/minexin/RFSim/{archive_format}{/ref}",
+      "downloads_url": "https://api.github.com/repos/minexin/RFSim/downloads",
+      "issues_url": "https://api.github.com/repos/minexin/RFSim/issues{/number}",
+      "pulls_url": "https://api.github.com/repos/minexin/RFSim/pulls{/number}",
+      "milestones_url": "https://api.github.com/repos/minexin/RFSim/milestones{/number}",
+      "notifications_url": "https://api.github.com/repos/minexin/RFSim/notifications{?since,all,participating}",
+      "labels_url": "https://api.github.com/repos/minexin/RFSim/labels{/name}",
+      "releases_url": "https://api.github.com/repos/minexin/RFSim/releases{/id}",
+      "deployments_url": "https://api.github.com/repos/minexin/RFSim/deployments"
+    },
+    "head_repository": {
+      "id": 1368235888,
+      "node_id": "R_kgDOUY2fcA",
+      "name": "RFSim",
+      "full_name": "minexin/RFSim",
+      "private": false,
+      "owner": {
+        "login": "minexin",
+        "id": 33479317,
+        "node_id": "MDQ6VXNlcjMzNDc5MzE3",
+        "avatar_url": "https://avatars.githubusercontent.com/u/33479317?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/minexin",
+        "html_url": "https://github.com/minexin",
+        "followers_url": "https://api.github.com/users/minexin/followers",
+        "following_url": "https://api.github.com/users/minexin/following{/other_user}",
+        "gists_url": "https://api.github.com/users/minexin/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/minexin/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/minexin/subscriptions",
+        "organizations_url": "https://api.github.com/users/minexin/orgs",
+        "repos_url": "https://api.github.com/users/minexin/repos",
+        "events_url": "https://api.github.com/users/minexin/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/minexin/received_events",
+        "type": "User",
+        "user_view_type": "public",
+        "site_admin": false
+      },
+      "html_url": "https://github.com/minexin/RFSim",
+      "description": null,
+      "fork": false,
+      "url": "https://api.github.com/repos/minexin/RFSim",
+      "forks_url": "https://api.github.com/repos/minexin/RFSim/forks",
+      "keys_url": "https://api.github.com/repos/minexin/RFSim/keys{/key_id}",
+      "collaborators_url": "https://api.github.com/repos/minexin/RFSim/collaborators{/collaborator}",
+      "teams_url": "https://api.github.com/repos/minexin/RFSim/teams",
+      "hooks_url": "https://api.github.com/repos/minexin/RFSim/hooks",
+      "issue_events_url": "https://api.github.com/repos/minexin/RFSim/issues/events{/number}",
+      "events_url": "https://api.github.com/repos/minexin/RFSim/events",
+      "assignees_url": "https://api.github.com/repos/minexin/RFSim/assignees{/user}",
+      "branches_url": "https://api.github.com/repos/minexin/RFSim/branches{/branch}",
+      "tags_url": "https://api.github.com/repos/minexin/RFSim/tags",
+      "blobs_url": "https://api.github.com/repos/minexin/RFSim/git/blobs{/sha}",
+      "git_tags_url": "https://api.github.com/repos/minexin/RFSim/git/tags{/sha}",
+      "git_refs_url": "https://api.github.com/repos/minexin/RFSim/git/refs{/sha}",
+      "trees_url": "https://api.github.com/repos/minexin/RFSim/git/trees{/sha}",
+      "statuses_url": "https://api.github.com/repos/minexin/RFSim/statuses/{sha}",
+      "languages_url": "https://api.github.com/repos/minexin/RFSim/languages",
+      "stargazers_url": "https://api.github.com/repos/minexin/RFSim/stargazers",
+      "contributors_url": "https://api.github.com/repos/minexin/RFSim/contributors",
+      "subscribers_url": "https://api.github.com/repos/minexin/RFSim/subscribers",
+      "subscription_url": "https://api.github.com/repos/minexin/RFSim/subscription",
+      "commits_url": "https://api.github.com/repos/minexin/RFSim/commits{/sha}",
+      "git_commits_url": "https://api.github.com/repos/minexin/RFSim/git/commits{/sha}",
+      "comments_url": "https://api.github.com/repos/minexin/RFSim/comments{/number}",
+      "issue_comment_url": "https://api.github.com/repos/minexin/RFSim/issues/comments{/number}",
+      "contents_url": "https://api.github.com/repos/minexin/RFSim/contents/{+path}",
+      "compare_url": "https://api.github.com/repos/minexin/RFSim/compare/{base}...{head}",
+      "merges_url": "https://api.github.com/repos/minexin/RFSim/merges",
+      "archive_url": "https://api.github.com/repos/minexin/RFSim/{archive_format}{/ref}",
+      "downloads_url": "https://api.github.com/repos/minexin/RFSim/downloads",
+      "issues_url": "https://api.github.com/repos/minexin/RFSim/issues{/number}",
+      "pulls_url": "https://api.github.com/repos/minexin/RFSim/pulls{/number}",
+      "milestones_url": "https://api.github.com/repos/minexin/RFSim/milestones{/number}",
+      "notifications_url": "https://api.github.com/repos/minexin/RFSim/notifications{?since,all,participating}",
+      "labels_url": "https://api.github.com/repos/minexin/RFSim/labels{/name}",
+      "releases_url": "https://api.github.com/repos/minexin/RFSim/releases{/id}",
+      "deployments_url": "https://api.github.com/repos/minexin/RFSim/deployments"
+    }
+  },
+  "jobs": {
+    "total_count": 18,
+    "jobs": [
+      {
+        "id": 116554678658,
+        "run_id": 38773377200,
+        "workflow_name": "Cross-platform C++17",
+        "head_branch": "main",
+        "run_url": "https://api.github.com/repos/minexin/RFSim/actions/runs/38773377200",
+        "run_attempt": 1,
+        "node_id": "CR_kwDOUY2fcM8AAAAbIzNBgg",
+        "head_sha": "599268d2c99aaf4b31b374f0a76172f4137044c2",
+        "url": "https://api.github.com/repos/minexin/RFSim/actions/jobs/116554678658",
+        "html_url": "https://github.com/minexin/RFSim/actions/runs/38773377200/job/116554678658",
+        "status": "completed",
+        "conclusion": "success",
+        "created_at": "2026-10-15T16:58:04Z",
+        "started_at": "2026-10-15T16:58:06Z",
+        "completed_at": "2026-10-15T17:04:44Z",
+        "name": "Native archived replay / windows-latest / Release",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1,
+            "started_at": "2026-10-15T16:58:07Z",
+            "completed_at": "2026-10-15T16:58:08Z"
+          },
+          {
+            "name": "Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2,
+            "started_at": "2026-10-15T16:58:08Z",
+            "completed_at": "2026-10-15T16:58:20Z"
+          },
+          {
+            "name": "Run actions/setup-python@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3,
+            "started_at": "2026-10-15T16:58:20Z",
+            "completed_at": "2026-10-15T16:58:20Z"
+          },
+          {
+            "name": "Check compatibility evidence schema and rejection cases",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4,
+            "started_at": "2026-10-15T16:58:20Z",
+            "completed_at": "2026-10-15T16:58:22Z"
+          },
+          {
+            "name": "Test reference inventory tools",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5,
+            "started_at": "2026-10-15T16:58:22Z",
+            "completed_at": "2026-10-15T16:58:24Z"
+          },
+          {
+            "name": "Test reference parameter metadata",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6,
+            "started_at": "2026-10-15T16:58:24Z",
+            "completed_at": "2026-10-15T16:58:26Z"
+          },
+          {
+            "name": "Test reference result validation",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7,
+            "started_at": "2026-10-15T16:58:26Z",
+            "completed_at": "2026-10-15T16:58:26Z"
+          },
+          {
+            "name": "Test background reference runner",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8,
+            "started_at": "2026-10-15T16:58:26Z",
+            "completed_at": "2026-10-15T16:58:27Z"
+          },
+          {
+            "name": "Test antenna reference validation",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 9,
+            "started_at": "2026-10-15T16:58:27Z",
+            "completed_at": "2026-10-15T16:58:27Z"
+          },
+          {
+            "name": "Test antenna power sweep validation",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 10,
+            "started_at": "2026-10-15T16:58:27Z",
+            "completed_at": "2026-10-15T16:58:27Z"
+          },
+          {
+            "name": "Test antenna nonlinear parameter audit",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 11,
+            "started_at": "2026-10-15T16:58:27Z",
+            "completed_at": "2026-10-15T16:58:27Z"
+          },
+          {
+            "name": "Test compression diagnostic",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 12,
+            "started_at": "2026-10-15T16:58:27Z",
+            "completed_at": "2026-10-15T16:58:27Z"
+          },
+          {
+            "name": "Test saturation warning diagnostic",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 13,
+            "started_at": "2026-10-15T16:58:27Z",
+            "completed_at": "2026-10-15T16:58:27Z"
+          },
+          {
+            "name": "Test Python retirement and independent capture imports",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 14,
+            "started_at": "2026-10-15T16:58:27Z",
+            "completed_at": "2026-10-15T16:58:29Z"
+          },
+          {
+            "name": "Configure explicit developer replay without the C ABI",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 15,
+            "started_at": "2026-10-15T16:58:29Z",
+            "completed_at": "2026-10-15T16:58:50Z"
+          },
+          {
+            "name": "Build probes",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 16,
+            "started_at": "2026-10-15T16:58:50Z",
+            "completed_at": "2026-10-15T16:59:03Z"
+          },
+          {
+            "name": "Replay frozen evidence, protocol faults and installed SDK",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 17,
+            "started_at": "2026-10-15T16:59:03Z",
+            "completed_at": "2026-10-15T17:04:26Z"
+          },
+          {
+            "name": "Record replay identity and evidence",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 18,
+            "started_at": "2026-10-15T17:04:26Z",
+            "completed_at": "2026-10-15T17:04:39Z"
+          },
+          {
+            "name": "Preserve replay verification evidence",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 19,
+            "started_at": "2026-10-15T17:04:39Z",
+            "completed_at": "2026-10-15T17:04:41Z"
+          },
+          {
+            "name": "Post Run actions/setup-python@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 37,
+            "started_at": "2026-10-15T17:04:41Z",
+            "completed_at": "2026-10-15T17:04:41Z"
+          },
+          {
+            "name": "Post Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 38,
+            "started_at": "2026-10-15T17:04:41Z",
+            "completed_at": "2026-10-15T17:04:43Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 39,
+            "started_at": "2026-10-15T17:04:43Z",
+            "completed_at": "2026-10-15T17:04:43Z"
+          }
+        ],
+        "check_run_url": "https://api.github.com/repos/minexin/RFSim/check-runs/116554678658",
+        "labels": [
+          "windows-latest"
+        ],
+        "runner_id": 1000002848,
+        "runner_name": "GitHub Actions 1000002848",
+        "runner_group_id": 0,
+        "runner_group_name": "GitHub Actions"
+      },
+      {
+        "id": 116554678788,
+        "run_id": 38773377200,
+        "workflow_name": "Cross-platform C++17",
+        "head_branch": "main",
+        "run_url": "https://api.github.com/repos/minexin/RFSim/actions/runs/38773377200",
+        "run_attempt": 1,
+        "node_id": "CR_kwDOUY2fcM8AAAAbIzNCBA",
+        "head_sha": "599268d2c99aaf4b31b374f0a76172f4137044c2",
+        "url": "https://api.github.com/repos/minexin/RFSim/actions/jobs/116554678788",
+        "html_url": "https://github.com/minexin/RFSim/actions/runs/38773377200/job/116554678788",
+        "status": "completed",
+        "conclusion": "success",
+        "created_at": "2026-10-15T16:58:04Z",
+        "started_at": "2026-10-15T16:58:11Z",
+        "completed_at": "2026-10-15T17:03:17Z",
+        "name": "Native archived replay / macos-latest / Debug",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1,
+            "started_at": "2026-10-15T16:58:11Z",
+            "completed_at": "2026-10-15T16:58:13Z"
+          },
+          {
+            "name": "Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2,
+            "started_at": "2026-10-15T16:58:13Z",
+            "completed_at": "2026-10-15T16:58:16Z"
+          },
+          {
+            "name": "Run actions/setup-python@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3,
+            "started_at": "2026-10-15T16:58:16Z",
+            "completed_at": "2026-10-15T16:58:16Z"
+          },
+          {
+            "name": "Check compatibility evidence schema and rejection cases",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4,
+            "started_at": "2026-10-15T16:58:16Z",
+            "completed_at": "2026-10-15T16:58:17Z"
+          },
+          {
+            "name": "Test reference inventory tools",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5,
+            "started_at": "2026-10-15T16:58:17Z",
+            "completed_at": "2026-10-15T16:58:17Z"
+          },
+          {
+            "name": "Test reference parameter metadata",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6,
+            "started_at": "2026-10-15T16:58:17Z",
+            "completed_at": "2026-10-15T16:58:18Z"
+          },
+          {
+            "name": "Test reference result validation",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7,
+            "started_at": "2026-10-15T16:58:18Z",
+            "completed_at": "2026-10-15T16:58:18Z"
+          },
+          {
+            "name": "Test background reference runner",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8,
+            "started_at": "2026-10-15T16:58:18Z",
+            "completed_at": "2026-10-15T16:58:19Z"
+          },
+          {
+            "name": "Test antenna reference validation",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 9,
+            "started_at": "2026-10-15T16:58:19Z",
+            "completed_at": "2026-10-15T16:58:19Z"
+          },
+          {
+            "name": "Test antenna power sweep validation",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 10,
+            "started_at": "2026-10-15T16:58:19Z",
+            "completed_at": "2026-10-15T16:58:19Z"
+          },
+          {
+            "name": "Test antenna nonlinear parameter audit",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 11,
+            "started_at": "2026-10-15T16:58:19Z",
+            "completed_at": "2026-10-15T16:58:19Z"
+          },
+          {
+            "name": "Test compression diagnostic",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 12,
+            "started_at": "2026-10-15T16:58:19Z",
+            "completed_at": "2026-10-15T16:58:19Z"
+          },
+          {
+            "name": "Test saturation warning diagnostic",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 13,
+            "started_at": "2026-10-15T16:58:19Z",
+            "completed_at": "2026-10-15T16:58:19Z"
+          },
+          {
+            "name": "Test Python retirement and independent capture imports",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 14,
+            "started_at": "2026-10-15T16:58:19Z",
+            "completed_at": "2026-10-15T16:58:20Z"
+          },
+          {
+            "name": "Configure explicit developer replay without the C ABI",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 15,
+            "started_at": "2026-10-15T16:58:20Z",
+            "completed_at": "2026-10-15T16:58:24Z"
+          },
+          {
+            "name": "Build probes",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 16,
+            "started_at": "2026-10-15T16:58:24Z",
+            "completed_at": "2026-10-15T16:58:28Z"
+          },
+          {
+            "name": "Replay frozen evidence, protocol faults and installed SDK",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 17,
+            "started_at": "2026-10-15T16:58:28Z",
+            "completed_at": "2026-10-15T17:02:44Z"
+          },
+          {
+            "name": "Record replay identity and evidence",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 18,
+            "started_at": "2026-10-15T17:02:44Z",
+            "completed_at": "2026-10-15T17:03:07Z"
+          },
+          {
+            "name": "Preserve replay verification evidence",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 19,
+            "started_at": "2026-10-15T17:03:07Z",
+            "completed_at": "2026-10-15T17:03:10Z"
+          },
+          {
+            "name": "Post Run actions/setup-python@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 37,
+            "started_at": "2026-10-15T17:03:10Z",
+            "completed_at": "2026-10-15T17:03:10Z"
+          },
+          {
+            "name": "Post Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 38,
+            "started_at": "2026-10-15T17:03:10Z",
+            "completed_at": "2026-10-15T17:03:11Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 39,
+            "started_at": "2026-10-15T17:03:11Z",
+            "completed_at": "2026-10-15T17:03:14Z"
+          }
+        ],
+        "check_run_url": "https://api.github.com/repos/minexin/RFSim/check-runs/116554678788",
+        "labels": [
+          "macos-latest"
+        ],
+        "runner_id": 1000002836,
+        "runner_name": "GitHub Actions 1000002836",
+        "runner_group_id": 0,
+        "runner_group_name": "GitHub Actions"
+      },
+      {
+        "id": 116554678871,
+        "run_id": 38773377200,
+        "workflow_name": "Cross-platform C++17",
+        "head_branch": "main",
+        "run_url": "https://api.github.com/repos/minexin/RFSim/actions/runs/38773377200",
+        "run_attempt": 1,
+        "node_id": "CR_kwDOUY2fcM8AAAAbIzNCVw",
+        "head_sha": "599268d2c99aaf4b31b374f0a76172f4137044c2",
+        "url": "https://api.github.com/repos/minexin/RFSim/actions/jobs/116554678871",
+        "html_url": "https://github.com/minexin/RFSim/actions/runs/38773377200/job/116554678871",
+        "status": "completed",
+        "conclusion": "success",
+        "created_at": "2026-10-15T16:58:04Z",
+        "started_at": "2026-10-15T16:58:11Z",
+        "completed_at": "2026-10-15T17:02:18Z",
+        "name": "C++ SDK / macos-latest / Debug",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1,
+            "started_at": "2026-10-15T16:58:11Z",
+            "completed_at": "2026-10-15T16:58:13Z"
+          },
+          {
+            "name": "Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2,
+            "started_at": "2026-10-15T16:58:13Z",
+            "completed_at": "2026-10-15T16:58:16Z"
+          },
+          {
+            "name": "Configure native C++ tests without Python or C ABI",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3,
+            "started_at": "2026-10-15T16:58:16Z",
+            "completed_at": "2026-10-15T16:58:21Z"
+          },
+          {
+            "name": "Build and test native C++ API",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4,
+            "started_at": "2026-10-15T16:58:21Z",
+            "completed_at": "2026-10-15T17:01:28Z"
+          },
+          {
+            "name": "Package clean header-only engineering SDK",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5,
+            "started_at": "2026-10-15T17:01:28Z",
+            "completed_at": "2026-10-15T17:01:34Z"
+          },
+          {
+            "name": "Verify and extract SDK into a new path with spaces",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6,
+            "started_at": "2026-10-15T17:01:34Z",
+            "completed_at": "2026-10-15T17:01:34Z"
+          },
+          {
+            "name": "Consume extracted SDK and packaged two-translation-unit example",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7,
+            "started_at": "2026-10-15T17:01:34Z",
+            "completed_at": "2026-10-15T17:02:10Z"
+          },
+          {
+            "name": "Preserve native SDK verification evidence",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8,
+            "started_at": "2026-10-15T17:02:10Z",
+            "completed_at": "2026-10-15T17:02:12Z"
+          },
+          {
+            "name": "Post Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 16,
+            "started_at": "2026-10-15T17:02:12Z",
+            "completed_at": "2026-10-15T17:02:13Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 17,
+            "started_at": "2026-10-15T17:02:13Z",
+            "completed_at": "2026-10-15T17:02:17Z"
+          }
+        ],
+        "check_run_url": "https://api.github.com/repos/minexin/RFSim/check-runs/116554678871",
+        "labels": [
+          "macos-latest"
+        ],
+        "runner_id": 1000002837,
+        "runner_name": "GitHub Actions 1000002837",
+        "runner_group_id": 0,
+        "runner_group_name": "GitHub Actions"
+      },
+      {
+        "id": 116554678891,
+        "run_id": 38773377200,
+        "workflow_name": "Cross-platform C++17",
+        "head_branch": "main",
+        "run_url": "https://api.github.com/repos/minexin/RFSim/actions/runs/38773377200",
+        "run_attempt": 1,
+        "node_id": "CR_kwDOUY2fcM8AAAAbIzNCaw",
+        "head_sha": "599268d2c99aaf4b31b374f0a76172f4137044c2",
+        "url": "https://api.github.com/repos/minexin/RFSim/actions/jobs/116554678891",
+        "html_url": "https://github.com/minexin/RFSim/actions/runs/38773377200/job/116554678891",
+        "status": "completed",
+        "conclusion": "success",
+        "created_at": "2026-10-15T16:58:04Z",
+        "started_at": "2026-10-15T16:58:06Z",
+        "completed_at": "2026-10-15T17:05:46Z",
+        "name": "C++ SDK / windows-latest / Release",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1,
+            "started_at": "2026-10-15T16:58:07Z",
+            "completed_at": "2026-10-15T16:58:08Z"
+          },
+          {
+            "name": "Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2,
+            "started_at": "2026-10-15T16:58:08Z",
+            "completed_at": "2026-10-15T16:58:14Z"
+          },
+          {
+            "name": "Configure native C++ tests without Python or C ABI",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3,
+            "started_at": "2026-10-15T16:58:14Z",
+            "completed_at": "2026-10-15T16:58:43Z"
+          },
+          {
+            "name": "Build and test native C++ API",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4,
+            "started_at": "2026-10-15T16:58:43Z",
+            "completed_at": "2026-10-15T17:04:29Z"
+          },
+          {
+            "name": "Package clean header-only engineering SDK",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5,
+            "started_at": "2026-10-15T17:04:29Z",
+            "completed_at": "2026-10-15T17:04:40Z"
+          },
+          {
+            "name": "Verify and extract SDK into a new path with spaces",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6,
+            "started_at": "2026-10-15T17:04:40Z",
+            "completed_at": "2026-10-15T17:04:41Z"
+          },
+          {
+            "name": "Consume extracted SDK and packaged two-translation-unit example",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7,
+            "started_at": "2026-10-15T17:04:41Z",
+            "completed_at": "2026-10-15T17:05:41Z"
+          },
+          {
+            "name": "Preserve native SDK verification evidence",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8,
+            "started_at": "2026-10-15T17:05:41Z",
+            "completed_at": "2026-10-15T17:05:42Z"
+          },
+          {
+            "name": "Post Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 16,
+            "started_at": "2026-10-15T17:05:42Z",
+            "completed_at": "2026-10-15T17:05:44Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 17,
+            "started_at": "2026-10-15T17:05:44Z",
+            "completed_at": "2026-10-15T17:05:44Z"
+          }
+        ],
+        "check_run_url": "https://api.github.com/repos/minexin/RFSim/check-runs/116554678891",
+        "labels": [
+          "windows-latest"
+        ],
+        "runner_id": 1000002849,
+        "runner_name": "GitHub Actions 1000002849",
+        "runner_group_id": 0,
+        "runner_group_name": "GitHub Actions"
+      },
+      {
+        "id": 116554678899,
+        "run_id": 38773377200,
+        "workflow_name": "Cross-platform C++17",
+        "head_branch": "main",
+        "run_url": "https://api.github.com/repos/minexin/RFSim/actions/runs/38773377200",
+        "run_attempt": 1,
+        "node_id": "CR_kwDOUY2fcM8AAAAbIzNCcw",
+        "head_sha": "599268d2c99aaf4b31b374f0a76172f4137044c2",
+        "url": "https://api.github.com/repos/minexin/RFSim/actions/jobs/116554678899",
+        "html_url": "https://github.com/minexin/RFSim/actions/runs/38773377200/job/116554678899",
+        "status": "completed",
+        "conclusion": "success",
+        "created_at": "2026-10-15T16:58:04Z",
+        "started_at": "2026-10-15T16:58:06Z",
+        "completed_at": "2026-10-15T17:05:01Z",
+        "name": "C++ SDK / ubuntu-latest / Release",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1,
+            "started_at": "2026-10-15T16:58:07Z",
+            "completed_at": "2026-10-15T16:58:08Z"
+          },
+          {
+            "name": "Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2,
+            "started_at": "2026-10-15T16:58:08Z",
+            "completed_at": "2026-10-15T16:58:09Z"
+          },
+          {
+            "name": "Configure native C++ tests without Python or C ABI",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3,
+            "started_at": "2026-10-15T16:58:09Z",
+            "completed_at": "2026-10-15T16:58:10Z"
+          },
+          {
+            "name": "Build and test native C++ API",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4,
+            "started_at": "2026-10-15T16:58:10Z",
+            "completed_at": "2026-10-15T17:03:50Z"
+          },
+          {
+            "name": "Package clean header-only engineering SDK",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5,
+            "started_at": "2026-10-15T17:03:50Z",
+            "completed_at": "2026-10-15T17:03:52Z"
+          },
+          {
+            "name": "Verify and extract SDK into a new path with spaces",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6,
+            "started_at": "2026-10-15T17:03:52Z",
+            "completed_at": "2026-10-15T17:03:53Z"
+          },
+          {
+            "name": "Consume extracted SDK and packaged two-translation-unit example",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7,
+            "started_at": "2026-10-15T17:03:53Z",
+            "completed_at": "2026-10-15T17:04:57Z"
+          },
+          {
+            "name": "Preserve native SDK verification evidence",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8,
+            "started_at": "2026-10-15T17:04:57Z",
+            "completed_at": "2026-10-15T17:04:59Z"
+          },
+          {
+            "name": "Post Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 16,
+            "started_at": "2026-10-15T17:04:59Z",
+            "completed_at": "2026-10-15T17:04:59Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 17,
+            "started_at": "2026-10-15T17:04:59Z",
+            "completed_at": "2026-10-15T17:05:00Z"
+          }
+        ],
+        "check_run_url": "https://api.github.com/repos/minexin/RFSim/check-runs/116554678899",
+        "labels": [
+          "ubuntu-latest"
+        ],
+        "runner_id": 1000002839,
+        "runner_name": "GitHub Actions 1000002839",
+        "runner_group_id": 0,
+        "runner_group_name": "GitHub Actions"
+      },
+      {
+        "id": 116554678919,
+        "run_id": 38773377200,
+        "workflow_name": "Cross-platform C++17",
+        "head_branch": "main",
+        "run_url": "https://api.github.com/repos/minexin/RFSim/actions/runs/38773377200",
+        "run_attempt": 1,
+        "node_id": "CR_kwDOUY2fcM8AAAAbIzNChw",
+        "head_sha": "599268d2c99aaf4b31b374f0a76172f4137044c2",
+        "url": "https://api.github.com/repos/minexin/RFSim/actions/jobs/116554678919",
+        "html_url": "https://github.com/minexin/RFSim/actions/runs/38773377200/job/116554678919",
+        "status": "completed",
+        "conclusion": "success",
+        "created_at": "2026-10-15T16:58:04Z",
+        "started_at": "2026-10-15T16:58:06Z",
+        "completed_at": "2026-10-15T17:08:38Z",
+        "name": "build (windows-latest, Release)",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1,
+            "started_at": "2026-10-15T16:58:07Z",
+            "completed_at": "2026-10-15T16:58:07Z"
+          },
+          {
+            "name": "Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2,
+            "started_at": "2026-10-15T16:58:07Z",
+            "completed_at": "2026-10-15T16:58:15Z"
+          },
+          {
+            "name": "Configure",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3,
+            "started_at": "2026-10-15T16:58:15Z",
+            "completed_at": "2026-10-15T16:58:44Z"
+          },
+          {
+            "name": "Build",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4,
+            "started_at": "2026-10-15T16:58:44Z",
+            "completed_at": "2026-10-15T17:04:22Z"
+          },
+          {
+            "name": "Test core and CLI",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5,
+            "started_at": "2026-10-15T17:04:22Z",
+            "completed_at": "2026-10-15T17:07:02Z"
+          },
+          {
+            "name": "Install package",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6,
+            "started_at": "2026-10-15T17:07:02Z",
+            "completed_at": "2026-10-15T17:07:02Z"
+          },
+          {
+            "name": "Configure independent consumer",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7,
+            "started_at": "2026-10-15T17:07:02Z",
+            "completed_at": "2026-10-15T17:07:06Z"
+          },
+          {
+            "name": "Build independent consumer",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8,
+            "started_at": "2026-10-15T17:07:06Z",
+            "completed_at": "2026-10-15T17:08:33Z"
+          },
+          {
+            "name": "Test installed package",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 9,
+            "started_at": "2026-10-15T17:08:33Z",
+            "completed_at": "2026-10-15T17:08:34Z"
+          },
+          {
+            "name": "Preserve verification evidence",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 10,
+            "started_at": "2026-10-15T17:08:34Z",
+            "completed_at": "2026-10-15T17:08:34Z"
+          },
+          {
+            "name": "Post Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 20,
+            "started_at": "2026-10-15T17:08:34Z",
+            "completed_at": "2026-10-15T17:08:37Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 21,
+            "started_at": "2026-10-15T17:08:37Z",
+            "completed_at": "2026-10-15T17:08:37Z"
+          }
+        ],
+        "check_run_url": "https://api.github.com/repos/minexin/RFSim/check-runs/116554678919",
+        "labels": [
+          "windows-latest"
+        ],
+        "runner_id": 1000002847,
+        "runner_name": "GitHub Actions 1000002847",
+        "runner_group_id": 0,
+        "runner_group_name": "GitHub Actions"
+      },
+      {
+        "id": 116554678924,
+        "run_id": 38773377200,
+        "workflow_name": "Cross-platform C++17",
+        "head_branch": "main",
+        "run_url": "https://api.github.com/repos/minexin/RFSim/actions/runs/38773377200",
+        "run_attempt": 1,
+        "node_id": "CR_kwDOUY2fcM8AAAAbIzNCjA",
+        "head_sha": "599268d2c99aaf4b31b374f0a76172f4137044c2",
+        "url": "https://api.github.com/repos/minexin/RFSim/actions/jobs/116554678924",
+        "html_url": "https://github.com/minexin/RFSim/actions/runs/38773377200/job/116554678924",
+        "status": "completed",
+        "conclusion": "success",
+        "created_at": "2026-10-15T16:58:04Z",
+        "started_at": "2026-10-15T16:58:10Z",
+        "completed_at": "2026-10-15T17:02:52Z",
+        "name": "build (macos-latest, Release)",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1,
+            "started_at": "2026-10-15T16:58:10Z",
+            "completed_at": "2026-10-15T16:58:11Z"
+          },
+          {
+            "name": "Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2,
+            "started_at": "2026-10-15T16:58:11Z",
+            "completed_at": "2026-10-15T16:58:14Z"
+          },
+          {
+            "name": "Configure",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3,
+            "started_at": "2026-10-15T16:58:14Z",
+            "completed_at": "2026-10-15T16:58:22Z"
+          },
+          {
+            "name": "Build",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4,
+            "started_at": "2026-10-15T16:58:22Z",
+            "completed_at": "2026-10-15T17:00:50Z"
+          },
+          {
+            "name": "Test core and CLI",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5,
+            "started_at": "2026-10-15T17:00:50Z",
+            "completed_at": "2026-10-15T17:02:04Z"
+          },
+          {
+            "name": "Install package",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6,
+            "started_at": "2026-10-15T17:02:04Z",
+            "completed_at": "2026-10-15T17:02:04Z"
+          },
+          {
+            "name": "Configure independent consumer",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7,
+            "started_at": "2026-10-15T17:02:04Z",
+            "completed_at": "2026-10-15T17:02:05Z"
+          },
+          {
+            "name": "Build independent consumer",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8,
+            "started_at": "2026-10-15T17:02:05Z",
+            "completed_at": "2026-10-15T17:02:45Z"
+          },
+          {
+            "name": "Test installed package",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 9,
+            "started_at": "2026-10-15T17:02:45Z",
+            "completed_at": "2026-10-15T17:02:45Z"
+          },
+          {
+            "name": "Preserve verification evidence",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 10,
+            "started_at": "2026-10-15T17:02:45Z",
+            "completed_at": "2026-10-15T17:02:47Z"
+          },
+          {
+            "name": "Post Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 20,
+            "started_at": "2026-10-15T17:02:47Z",
+            "completed_at": "2026-10-15T17:02:47Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 21,
+            "started_at": "2026-10-15T17:02:47Z",
+            "completed_at": "2026-10-15T17:02:50Z"
+          }
+        ],
+        "check_run_url": "https://api.github.com/repos/minexin/RFSim/check-runs/116554678924",
+        "labels": [
+          "macos-latest"
+        ],
+        "runner_id": 1000002840,
+        "runner_name": "GitHub Actions 1000002840",
+        "runner_group_id": 0,
+        "runner_group_name": "GitHub Actions"
+      },
+      {
+        "id": 116554679011,
+        "run_id": 38773377200,
+        "workflow_name": "Cross-platform C++17",
+        "head_branch": "main",
+        "run_url": "https://api.github.com/repos/minexin/RFSim/actions/runs/38773377200",
+        "run_attempt": 1,
+        "node_id": "CR_kwDOUY2fcM8AAAAbIzNC4w",
+        "head_sha": "599268d2c99aaf4b31b374f0a76172f4137044c2",
+        "url": "https://api.github.com/repos/minexin/RFSim/actions/jobs/116554679011",
+        "html_url": "https://github.com/minexin/RFSim/actions/runs/38773377200/job/116554679011",
+        "status": "completed",
+        "conclusion": "success",
+        "created_at": "2026-10-15T16:58:04Z",
+        "started_at": "2026-10-15T16:58:06Z",
+        "completed_at": "2026-10-15T17:05:02Z",
+        "name": "build (ubuntu-latest, Release)",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1,
+            "started_at": "2026-10-15T16:58:07Z",
+            "completed_at": "2026-10-15T16:58:08Z"
+          },
+          {
+            "name": "Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2,
+            "started_at": "2026-10-15T16:58:08Z",
+            "completed_at": "2026-10-15T16:58:10Z"
+          },
+          {
+            "name": "Configure",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3,
+            "started_at": "2026-10-15T16:58:10Z",
+            "completed_at": "2026-10-15T16:58:11Z"
+          },
+          {
+            "name": "Build",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4,
+            "started_at": "2026-10-15T16:58:11Z",
+            "completed_at": "2026-10-15T17:02:04Z"
+          },
+          {
+            "name": "Test core and CLI",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5,
+            "started_at": "2026-10-15T17:02:04Z",
+            "completed_at": "2026-10-15T17:03:54Z"
+          },
+          {
+            "name": "Install package",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6,
+            "started_at": "2026-10-15T17:03:54Z",
+            "completed_at": "2026-10-15T17:03:54Z"
+          },
+          {
+            "name": "Configure independent consumer",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7,
+            "started_at": "2026-10-15T17:03:54Z",
+            "completed_at": "2026-10-15T17:03:54Z"
+          },
+          {
+            "name": "Build independent consumer",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8,
+            "started_at": "2026-10-15T17:03:54Z",
+            "completed_at": "2026-10-15T17:04:57Z"
+          },
+          {
+            "name": "Test installed package",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 9,
+            "started_at": "2026-10-15T17:04:57Z",
+            "completed_at": "2026-10-15T17:04:57Z"
+          },
+          {
+            "name": "Preserve verification evidence",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 10,
+            "started_at": "2026-10-15T17:04:57Z",
+            "completed_at": "2026-10-15T17:04:59Z"
+          },
+          {
+            "name": "Post Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 20,
+            "started_at": "2026-10-15T17:04:59Z",
+            "completed_at": "2026-10-15T17:04:59Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 21,
+            "started_at": "2026-10-15T17:04:59Z",
+            "completed_at": "2026-10-15T17:04:59Z"
+          }
+        ],
+        "check_run_url": "https://api.github.com/repos/minexin/RFSim/check-runs/116554679011",
+        "labels": [
+          "ubuntu-latest"
+        ],
+        "runner_id": 1000002843,
+        "runner_name": "GitHub Actions 1000002843",
+        "runner_group_id": 0,
+        "runner_group_name": "GitHub Actions"
+      },
+      {
+        "id": 116554679016,
+        "run_id": 38773377200,
+        "workflow_name": "Cross-platform C++17",
+        "head_branch": "main",
+        "run_url": "https://api.github.com/repos/minexin/RFSim/actions/runs/38773377200",
+        "run_attempt": 1,
+        "node_id": "CR_kwDOUY2fcM8AAAAbIzNC6A",
+        "head_sha": "599268d2c99aaf4b31b374f0a76172f4137044c2",
+        "url": "https://api.github.com/repos/minexin/RFSim/actions/jobs/116554679016",
+        "html_url": "https://github.com/minexin/RFSim/actions/runs/38773377200/job/116554679016",
+        "status": "completed",
+        "conclusion": "success",
+        "created_at": "2026-10-15T16:58:04Z",
+        "started_at": "2026-10-15T16:58:10Z",
+        "completed_at": "2026-10-15T17:03:51Z",
+        "name": "C++ SDK / macos-latest / Release",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1,
+            "started_at": "2026-10-15T16:58:10Z",
+            "completed_at": "2026-10-15T16:58:11Z"
+          },
+          {
+            "name": "Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2,
+            "started_at": "2026-10-15T16:58:11Z",
+            "completed_at": "2026-10-15T16:58:14Z"
+          },
+          {
+            "name": "Configure native C++ tests without Python or C ABI",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3,
+            "started_at": "2026-10-15T16:58:14Z",
+            "completed_at": "2026-10-15T16:58:19Z"
+          },
+          {
+            "name": "Build and test native C++ API",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4,
+            "started_at": "2026-10-15T16:58:19Z",
+            "completed_at": "2026-10-15T17:02:53Z"
+          },
+          {
+            "name": "Package clean header-only engineering SDK",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5,
+            "started_at": "2026-10-15T17:02:53Z",
+            "completed_at": "2026-10-15T17:02:57Z"
+          },
+          {
+            "name": "Verify and extract SDK into a new path with spaces",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6,
+            "started_at": "2026-10-15T17:02:57Z",
+            "completed_at": "2026-10-15T17:02:57Z"
+          },
+          {
+            "name": "Consume extracted SDK and packaged two-translation-unit example",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7,
+            "started_at": "2026-10-15T17:02:57Z",
+            "completed_at": "2026-10-15T17:03:45Z"
+          },
+          {
+            "name": "Preserve native SDK verification evidence",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8,
+            "started_at": "2026-10-15T17:03:45Z",
+            "completed_at": "2026-10-15T17:03:46Z"
+          },
+          {
+            "name": "Post Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 16,
+            "started_at": "2026-10-15T17:03:46Z",
+            "completed_at": "2026-10-15T17:03:47Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 17,
+            "started_at": "2026-10-15T17:03:47Z",
+            "completed_at": "2026-10-15T17:03:49Z"
+          }
+        ],
+        "check_run_url": "https://api.github.com/repos/minexin/RFSim/check-runs/116554679016",
+        "labels": [
+          "macos-latest"
+        ],
+        "runner_id": 1000002841,
+        "runner_name": "GitHub Actions 1000002841",
+        "runner_group_id": 0,
+        "runner_group_name": "GitHub Actions"
+      },
+      {
+        "id": 116554679060,
+        "run_id": 38773377200,
+        "workflow_name": "Cross-platform C++17",
+        "head_branch": "main",
+        "run_url": "https://api.github.com/repos/minexin/RFSim/actions/runs/38773377200",
+        "run_attempt": 1,
+        "node_id": "CR_kwDOUY2fcM8AAAAbIzNDFA",
+        "head_sha": "599268d2c99aaf4b31b374f0a76172f4137044c2",
+        "url": "https://api.github.com/repos/minexin/RFSim/actions/jobs/116554679060",
+        "html_url": "https://github.com/minexin/RFSim/actions/runs/38773377200/job/116554679060",
+        "status": "completed",
+        "conclusion": "success",
+        "created_at": "2026-10-15T16:58:04Z",
+        "started_at": "2026-10-15T17:02:25Z",
+        "completed_at": "2026-10-15T17:07:32Z",
+        "name": "Native archived replay / macos-latest / Release",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1,
+            "started_at": "2026-10-15T17:02:25Z",
+            "completed_at": "2026-10-15T17:02:27Z"
+          },
+          {
+            "name": "Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2,
+            "started_at": "2026-10-15T17:02:27Z",
+            "completed_at": "2026-10-15T17:02:31Z"
+          },
+          {
+            "name": "Run actions/setup-python@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3,
+            "started_at": "2026-10-15T17:02:31Z",
+            "completed_at": "2026-10-15T17:02:32Z"
+          },
+          {
+            "name": "Check compatibility evidence schema and rejection cases",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4,
+            "started_at": "2026-10-15T17:02:32Z",
+            "completed_at": "2026-10-15T17:02:32Z"
+          },
+          {
+            "name": "Test reference inventory tools",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5,
+            "started_at": "2026-10-15T17:02:32Z",
+            "completed_at": "2026-10-15T17:02:33Z"
+          },
+          {
+            "name": "Test reference parameter metadata",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6,
+            "started_at": "2026-10-15T17:02:33Z",
+            "completed_at": "2026-10-15T17:02:34Z"
+          },
+          {
+            "name": "Test reference result validation",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7,
+            "started_at": "2026-10-15T17:02:34Z",
+            "completed_at": "2026-10-15T17:02:34Z"
+          },
+          {
+            "name": "Test background reference runner",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8,
+            "started_at": "2026-10-15T17:02:34Z",
+            "completed_at": "2026-10-15T17:02:35Z"
+          },
+          {
+            "name": "Test antenna reference validation",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 9,
+            "started_at": "2026-10-15T17:02:35Z",
+            "completed_at": "2026-10-15T17:02:35Z"
+          },
+          {
+            "name": "Test antenna power sweep validation",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 10,
+            "started_at": "2026-10-15T17:02:35Z",
+            "completed_at": "2026-10-15T17:02:35Z"
+          },
+          {
+            "name": "Test antenna nonlinear parameter audit",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 11,
+            "started_at": "2026-10-15T17:02:35Z",
+            "completed_at": "2026-10-15T17:02:35Z"
+          },
+          {
+            "name": "Test compression diagnostic",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 12,
+            "started_at": "2026-10-15T17:02:35Z",
+            "completed_at": "2026-10-15T17:02:35Z"
+          },
+          {
+            "name": "Test saturation warning diagnostic",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 13,
+            "started_at": "2026-10-15T17:02:35Z",
+            "completed_at": "2026-10-15T17:02:35Z"
+          },
+          {
+            "name": "Test Python retirement and independent capture imports",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 14,
+            "started_at": "2026-10-15T17:02:35Z",
+            "completed_at": "2026-10-15T17:02:36Z"
+          },
+          {
+            "name": "Configure explicit developer replay without the C ABI",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 15,
+            "started_at": "2026-10-15T17:02:36Z",
+            "completed_at": "2026-10-15T17:02:42Z"
+          },
+          {
+            "name": "Build probes",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 16,
+            "started_at": "2026-10-15T17:02:42Z",
+            "completed_at": "2026-10-15T17:02:48Z"
+          },
+          {
+            "name": "Replay frozen evidence, protocol faults and installed SDK",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 17,
+            "started_at": "2026-10-15T17:02:48Z",
+            "completed_at": "2026-10-15T17:07:00Z"
+          },
+          {
+            "name": "Record replay identity and evidence",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 18,
+            "started_at": "2026-10-15T17:07:00Z",
+            "completed_at": "2026-10-15T17:07:23Z"
+          },
+          {
+            "name": "Preserve replay verification evidence",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 19,
+            "started_at": "2026-10-15T17:07:23Z",
+            "completed_at": "2026-10-15T17:07:26Z"
+          },
+          {
+            "name": "Post Run actions/setup-python@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 37,
+            "started_at": "2026-10-15T17:07:26Z",
+            "completed_at": "2026-10-15T17:07:26Z"
+          },
+          {
+            "name": "Post Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 38,
+            "started_at": "2026-10-15T17:07:26Z",
+            "completed_at": "2026-10-15T17:07:27Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 39,
+            "started_at": "2026-10-15T17:07:27Z",
+            "completed_at": "2026-10-15T17:07:31Z"
+          }
+        ],
+        "check_run_url": "https://api.github.com/repos/minexin/RFSim/check-runs/116554679060",
+        "labels": [
+          "macos-latest"
+        ],
+        "runner_id": 1000002853,
+        "runner_name": "GitHub Actions 1000002853",
+        "runner_group_id": 0,
+        "runner_group_name": "GitHub Actions"
+      },
+      {
+        "id": 116554679076,
+        "run_id": 38773377200,
+        "workflow_name": "Cross-platform C++17",
+        "head_branch": "main",
+        "run_url": "https://api.github.com/repos/minexin/RFSim/actions/runs/38773377200",
+        "run_attempt": 1,
+        "node_id": "CR_kwDOUY2fcM8AAAAbIzNDJA",
+        "head_sha": "599268d2c99aaf4b31b374f0a76172f4137044c2",
+        "url": "https://api.github.com/repos/minexin/RFSim/actions/jobs/116554679076",
+        "html_url": "https://github.com/minexin/RFSim/actions/runs/38773377200/job/116554679076",
+        "status": "completed",
+        "conclusion": "success",
+        "created_at": "2026-10-15T16:58:04Z",
+        "started_at": "2026-10-15T16:58:06Z",
+        "completed_at": "2026-10-15T17:01:03Z",
+        "name": "Native archived replay / ubuntu-latest / Debug",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1,
+            "started_at": "2026-10-15T16:58:06Z",
+            "completed_at": "2026-10-15T16:58:07Z"
+          },
+          {
+            "name": "Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2,
+            "started_at": "2026-10-15T16:58:07Z",
+            "completed_at": "2026-10-15T16:58:09Z"
+          },
+          {
+            "name": "Run actions/setup-python@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3,
+            "started_at": "2026-10-15T16:58:09Z",
+            "completed_at": "2026-10-15T16:58:09Z"
+          },
+          {
+            "name": "Check compatibility evidence schema and rejection cases",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4,
+            "started_at": "2026-10-15T16:58:09Z",
+            "completed_at": "2026-10-15T16:58:12Z"
+          },
+          {
+            "name": "Test reference inventory tools",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5,
+            "started_at": "2026-10-15T16:58:12Z",
+            "completed_at": "2026-10-15T16:58:13Z"
+          },
+          {
+            "name": "Test reference parameter metadata",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6,
+            "started_at": "2026-10-15T16:58:13Z",
+            "completed_at": "2026-10-15T16:58:15Z"
+          },
+          {
+            "name": "Test reference result validation",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7,
+            "started_at": "2026-10-15T16:58:15Z",
+            "completed_at": "2026-10-15T16:58:15Z"
+          },
+          {
+            "name": "Test background reference runner",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8,
+            "started_at": "2026-10-15T16:58:15Z",
+            "completed_at": "2026-10-15T16:58:16Z"
+          },
+          {
+            "name": "Test antenna reference validation",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 9,
+            "started_at": "2026-10-15T16:58:16Z",
+            "completed_at": "2026-10-15T16:58:16Z"
+          },
+          {
+            "name": "Test antenna power sweep validation",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 10,
+            "started_at": "2026-10-15T16:58:16Z",
+            "completed_at": "2026-10-15T16:58:16Z"
+          },
+          {
+            "name": "Test antenna nonlinear parameter audit",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 11,
+            "started_at": "2026-10-15T16:58:16Z",
+            "completed_at": "2026-10-15T16:58:16Z"
+          },
+          {
+            "name": "Test compression diagnostic",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 12,
+            "started_at": "2026-10-15T16:58:16Z",
+            "completed_at": "2026-10-15T16:58:16Z"
+          },
+          {
+            "name": "Test saturation warning diagnostic",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 13,
+            "started_at": "2026-10-15T16:58:16Z",
+            "completed_at": "2026-10-15T16:58:16Z"
+          },
+          {
+            "name": "Test Python retirement and independent capture imports",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 14,
+            "started_at": "2026-10-15T16:58:16Z",
+            "completed_at": "2026-10-15T16:58:18Z"
+          },
+          {
+            "name": "Configure explicit developer replay without the C ABI",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 15,
+            "started_at": "2026-10-15T16:58:18Z",
+            "completed_at": "2026-10-15T16:58:22Z"
+          },
+          {
+            "name": "Build probes",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 16,
+            "started_at": "2026-10-15T16:58:22Z",
+            "completed_at": "2026-10-15T16:58:28Z"
+          },
+          {
+            "name": "Replay frozen evidence, protocol faults and installed SDK",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 17,
+            "started_at": "2026-10-15T16:58:28Z",
+            "completed_at": "2026-10-15T17:00:54Z"
+          },
+          {
+            "name": "Record replay identity and evidence",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 18,
+            "started_at": "2026-10-15T17:00:54Z",
+            "completed_at": "2026-10-15T17:01:01Z"
+          },
+          {
+            "name": "Preserve replay verification evidence",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 19,
+            "started_at": "2026-10-15T17:01:01Z",
+            "completed_at": "2026-10-15T17:01:02Z"
+          },
+          {
+            "name": "Post Run actions/setup-python@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 37,
+            "started_at": "2026-10-15T17:01:02Z",
+            "completed_at": "2026-10-15T17:01:02Z"
+          },
+          {
+            "name": "Post Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 38,
+            "started_at": "2026-10-15T17:01:02Z",
+            "completed_at": "2026-10-15T17:01:02Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 39,
+            "started_at": "2026-10-15T17:01:02Z",
+            "completed_at": "2026-10-15T17:01:02Z"
+          }
+        ],
+        "check_run_url": "https://api.github.com/repos/minexin/RFSim/check-runs/116554679076",
+        "labels": [
+          "ubuntu-latest"
+        ],
+        "runner_id": 1000002844,
+        "runner_name": "GitHub Actions 1000002844",
+        "runner_group_id": 0,
+        "runner_group_name": "GitHub Actions"
+      },
+      {
+        "id": 116554679129,
+        "run_id": 38773377200,
+        "workflow_name": "Cross-platform C++17",
+        "head_branch": "main",
+        "run_url": "https://api.github.com/repos/minexin/RFSim/actions/runs/38773377200",
+        "run_attempt": 1,
+        "node_id": "CR_kwDOUY2fcM8AAAAbIzNDWQ",
+        "head_sha": "599268d2c99aaf4b31b374f0a76172f4137044c2",
+        "url": "https://api.github.com/repos/minexin/RFSim/actions/jobs/116554679129",
+        "html_url": "https://github.com/minexin/RFSim/actions/runs/38773377200/job/116554679129",
+        "status": "completed",
+        "conclusion": "success",
+        "created_at": "2026-10-15T16:58:04Z",
+        "started_at": "2026-10-15T16:58:06Z",
+        "completed_at": "2026-10-15T17:02:30Z",
+        "name": "build (ubuntu-latest, Debug)",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1,
+            "started_at": "2026-10-15T16:58:07Z",
+            "completed_at": "2026-10-15T16:58:09Z"
+          },
+          {
+            "name": "Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2,
+            "started_at": "2026-10-15T16:58:09Z",
+            "completed_at": "2026-10-15T16:58:11Z"
+          },
+          {
+            "name": "Configure",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3,
+            "started_at": "2026-10-15T16:58:11Z",
+            "completed_at": "2026-10-15T16:58:14Z"
+          },
+          {
+            "name": "Build",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4,
+            "started_at": "2026-10-15T16:58:14Z",
+            "completed_at": "2026-10-15T17:00:23Z"
+          },
+          {
+            "name": "Test core and CLI",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5,
+            "started_at": "2026-10-15T17:00:23Z",
+            "completed_at": "2026-10-15T17:01:47Z"
+          },
+          {
+            "name": "Install package",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6,
+            "started_at": "2026-10-15T17:01:47Z",
+            "completed_at": "2026-10-15T17:01:47Z"
+          },
+          {
+            "name": "Configure independent consumer",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7,
+            "started_at": "2026-10-15T17:01:47Z",
+            "completed_at": "2026-10-15T17:01:47Z"
+          },
+          {
+            "name": "Build independent consumer",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8,
+            "started_at": "2026-10-15T17:01:47Z",
+            "completed_at": "2026-10-15T17:02:26Z"
+          },
+          {
+            "name": "Test installed package",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 9,
+            "started_at": "2026-10-15T17:02:26Z",
+            "completed_at": "2026-10-15T17:02:26Z"
+          },
+          {
+            "name": "Preserve verification evidence",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 10,
+            "started_at": "2026-10-15T17:02:26Z",
+            "completed_at": "2026-10-15T17:02:28Z"
+          },
+          {
+            "name": "Post Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 20,
+            "started_at": "2026-10-15T17:02:28Z",
+            "completed_at": "2026-10-15T17:02:28Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 21,
+            "started_at": "2026-10-15T17:02:28Z",
+            "completed_at": "2026-10-15T17:02:28Z"
+          }
+        ],
+        "check_run_url": "https://api.github.com/repos/minexin/RFSim/check-runs/116554679129",
+        "labels": [
+          "ubuntu-latest"
+        ],
+        "runner_id": 1000002846,
+        "runner_name": "GitHub Actions 1000002846",
+        "runner_group_id": 0,
+        "runner_group_name": "GitHub Actions"
+      },
+      {
+        "id": 116554679134,
+        "run_id": 38773377200,
+        "workflow_name": "Cross-platform C++17",
+        "head_branch": "main",
+        "run_url": "https://api.github.com/repos/minexin/RFSim/actions/runs/38773377200",
+        "run_attempt": 1,
+        "node_id": "CR_kwDOUY2fcM8AAAAbIzNDXg",
+        "head_sha": "599268d2c99aaf4b31b374f0a76172f4137044c2",
+        "url": "https://api.github.com/repos/minexin/RFSim/actions/jobs/116554679134",
+        "html_url": "https://github.com/minexin/RFSim/actions/runs/38773377200/job/116554679134",
+        "status": "completed",
+        "conclusion": "success",
+        "created_at": "2026-10-15T16:58:04Z",
+        "started_at": "2026-10-15T16:58:06Z",
+        "completed_at": "2026-10-15T17:03:52Z",
+        "name": "Native archived replay / windows-latest / Debug",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1,
+            "started_at": "2026-10-15T16:58:07Z",
+            "completed_at": "2026-10-15T16:58:08Z"
+          },
+          {
+            "name": "Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2,
+            "started_at": "2026-10-15T16:58:08Z",
+            "completed_at": "2026-10-15T16:58:16Z"
+          },
+          {
+            "name": "Run actions/setup-python@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3,
+            "started_at": "2026-10-15T16:58:16Z",
+            "completed_at": "2026-10-15T16:58:16Z"
+          },
+          {
+            "name": "Check compatibility evidence schema and rejection cases",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4,
+            "started_at": "2026-10-15T16:58:16Z",
+            "completed_at": "2026-10-15T16:58:17Z"
+          },
+          {
+            "name": "Test reference inventory tools",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5,
+            "started_at": "2026-10-15T16:58:17Z",
+            "completed_at": "2026-10-15T16:58:19Z"
+          },
+          {
+            "name": "Test reference parameter metadata",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6,
+            "started_at": "2026-10-15T16:58:19Z",
+            "completed_at": "2026-10-15T16:58:21Z"
+          },
+          {
+            "name": "Test reference result validation",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7,
+            "started_at": "2026-10-15T16:58:21Z",
+            "completed_at": "2026-10-15T16:58:21Z"
+          },
+          {
+            "name": "Test background reference runner",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8,
+            "started_at": "2026-10-15T16:58:21Z",
+            "completed_at": "2026-10-15T16:58:21Z"
+          },
+          {
+            "name": "Test antenna reference validation",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 9,
+            "started_at": "2026-10-15T16:58:21Z",
+            "completed_at": "2026-10-15T16:58:22Z"
+          },
+          {
+            "name": "Test antenna power sweep validation",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 10,
+            "started_at": "2026-10-15T16:58:22Z",
+            "completed_at": "2026-10-15T16:58:22Z"
+          },
+          {
+            "name": "Test antenna nonlinear parameter audit",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 11,
+            "started_at": "2026-10-15T16:58:22Z",
+            "completed_at": "2026-10-15T16:58:22Z"
+          },
+          {
+            "name": "Test compression diagnostic",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 12,
+            "started_at": "2026-10-15T16:58:22Z",
+            "completed_at": "2026-10-15T16:58:22Z"
+          },
+          {
+            "name": "Test saturation warning diagnostic",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 13,
+            "started_at": "2026-10-15T16:58:22Z",
+            "completed_at": "2026-10-15T16:58:22Z"
+          },
+          {
+            "name": "Test Python retirement and independent capture imports",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 14,
+            "started_at": "2026-10-15T16:58:22Z",
+            "completed_at": "2026-10-15T16:58:24Z"
+          },
+          {
+            "name": "Configure explicit developer replay without the C ABI",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 15,
+            "started_at": "2026-10-15T16:58:24Z",
+            "completed_at": "2026-10-15T16:58:41Z"
+          },
+          {
+            "name": "Build probes",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 16,
+            "started_at": "2026-10-15T16:58:41Z",
+            "completed_at": "2026-10-15T16:58:48Z"
+          },
+          {
+            "name": "Replay frozen evidence, protocol faults and installed SDK",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 17,
+            "started_at": "2026-10-15T16:58:48Z",
+            "completed_at": "2026-10-15T17:03:30Z"
+          },
+          {
+            "name": "Record replay identity and evidence",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 18,
+            "started_at": "2026-10-15T17:03:30Z",
+            "completed_at": "2026-10-15T17:03:47Z"
+          },
+          {
+            "name": "Preserve replay verification evidence",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 19,
+            "started_at": "2026-10-15T17:03:47Z",
+            "completed_at": "2026-10-15T17:03:48Z"
+          },
+          {
+            "name": "Post Run actions/setup-python@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 37,
+            "started_at": "2026-10-15T17:03:48Z",
+            "completed_at": "2026-10-15T17:03:48Z"
+          },
+          {
+            "name": "Post Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 38,
+            "started_at": "2026-10-15T17:03:48Z",
+            "completed_at": "2026-10-15T17:03:51Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 39,
+            "started_at": "2026-10-15T17:03:51Z",
+            "completed_at": "2026-10-15T17:03:51Z"
+          }
+        ],
+        "check_run_url": "https://api.github.com/repos/minexin/RFSim/check-runs/116554679134",
+        "labels": [
+          "windows-latest"
+        ],
+        "runner_id": 1000002850,
+        "runner_name": "GitHub Actions 1000002850",
+        "runner_group_id": 0,
+        "runner_group_name": "GitHub Actions"
+      },
+      {
+        "id": 116554679150,
+        "run_id": 38773377200,
+        "workflow_name": "Cross-platform C++17",
+        "head_branch": "main",
+        "run_url": "https://api.github.com/repos/minexin/RFSim/actions/runs/38773377200",
+        "run_attempt": 1,
+        "node_id": "CR_kwDOUY2fcM8AAAAbIzNDbg",
+        "head_sha": "599268d2c99aaf4b31b374f0a76172f4137044c2",
+        "url": "https://api.github.com/repos/minexin/RFSim/actions/jobs/116554679150",
+        "html_url": "https://github.com/minexin/RFSim/actions/runs/38773377200/job/116554679150",
+        "status": "completed",
+        "conclusion": "success",
+        "created_at": "2026-10-15T16:58:04Z",
+        "started_at": "2026-10-15T16:58:06Z",
+        "completed_at": "2026-10-15T17:02:21Z",
+        "name": "C++ SDK / ubuntu-latest / Debug",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1,
+            "started_at": "2026-10-15T16:58:07Z",
+            "completed_at": "2026-10-15T16:58:08Z"
+          },
+          {
+            "name": "Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2,
+            "started_at": "2026-10-15T16:58:08Z",
+            "completed_at": "2026-10-15T16:58:10Z"
+          },
+          {
+            "name": "Configure native C++ tests without Python or C ABI",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3,
+            "started_at": "2026-10-15T16:58:10Z",
+            "completed_at": "2026-10-15T16:58:11Z"
+          },
+          {
+            "name": "Build and test native C++ API",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4,
+            "started_at": "2026-10-15T16:58:11Z",
+            "completed_at": "2026-10-15T17:01:37Z"
+          },
+          {
+            "name": "Package clean header-only engineering SDK",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5,
+            "started_at": "2026-10-15T17:01:37Z",
+            "completed_at": "2026-10-15T17:01:38Z"
+          },
+          {
+            "name": "Verify and extract SDK into a new path with spaces",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6,
+            "started_at": "2026-10-15T17:01:38Z",
+            "completed_at": "2026-10-15T17:01:38Z"
+          },
+          {
+            "name": "Consume extracted SDK and packaged two-translation-unit example",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7,
+            "started_at": "2026-10-15T17:01:38Z",
+            "completed_at": "2026-10-15T17:02:18Z"
+          },
+          {
+            "name": "Preserve native SDK verification evidence",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8,
+            "started_at": "2026-10-15T17:02:18Z",
+            "completed_at": "2026-10-15T17:02:19Z"
+          },
+          {
+            "name": "Post Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 16,
+            "started_at": "2026-10-15T17:02:19Z",
+            "completed_at": "2026-10-15T17:02:19Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 17,
+            "started_at": "2026-10-15T17:02:19Z",
+            "completed_at": "2026-10-15T17:02:19Z"
+          }
+        ],
+        "check_run_url": "https://api.github.com/repos/minexin/RFSim/check-runs/116554679150",
+        "labels": [
+          "ubuntu-latest"
+        ],
+        "runner_id": 1000002845,
+        "runner_name": "GitHub Actions 1000002845",
+        "runner_group_id": 0,
+        "runner_group_name": "GitHub Actions"
+      },
+      {
+        "id": 116554679157,
+        "run_id": 38773377200,
+        "workflow_name": "Cross-platform C++17",
+        "head_branch": "main",
+        "run_url": "https://api.github.com/repos/minexin/RFSim/actions/runs/38773377200",
+        "run_attempt": 1,
+        "node_id": "CR_kwDOUY2fcM8AAAAbIzNDdQ",
+        "head_sha": "599268d2c99aaf4b31b374f0a76172f4137044c2",
+        "url": "https://api.github.com/repos/minexin/RFSim/actions/jobs/116554679157",
+        "html_url": "https://github.com/minexin/RFSim/actions/runs/38773377200/job/116554679157",
+        "status": "completed",
+        "conclusion": "success",
+        "created_at": "2026-10-15T16:58:04Z",
+        "started_at": "2026-10-15T16:58:06Z",
+        "completed_at": "2026-10-15T17:06:25Z",
+        "name": "C++ SDK / windows-latest / Debug",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1,
+            "started_at": "2026-10-15T16:58:07Z",
+            "completed_at": "2026-10-15T16:58:08Z"
+          },
+          {
+            "name": "Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2,
+            "started_at": "2026-10-15T16:58:08Z",
+            "completed_at": "2026-10-15T16:58:18Z"
+          },
+          {
+            "name": "Configure native C++ tests without Python or C ABI",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3,
+            "started_at": "2026-10-15T16:58:18Z",
+            "completed_at": "2026-10-15T16:58:48Z"
+          },
+          {
+            "name": "Build and test native C++ API",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4,
+            "started_at": "2026-10-15T16:58:48Z",
+            "completed_at": "2026-10-15T17:05:18Z"
+          },
+          {
+            "name": "Package clean header-only engineering SDK",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5,
+            "started_at": "2026-10-15T17:05:18Z",
+            "completed_at": "2026-10-15T17:05:37Z"
+          },
+          {
+            "name": "Verify and extract SDK into a new path with spaces",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6,
+            "started_at": "2026-10-15T17:05:37Z",
+            "completed_at": "2026-10-15T17:05:38Z"
+          },
+          {
+            "name": "Consume extracted SDK and packaged two-translation-unit example",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7,
+            "started_at": "2026-10-15T17:05:38Z",
+            "completed_at": "2026-10-15T17:06:20Z"
+          },
+          {
+            "name": "Preserve native SDK verification evidence",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8,
+            "started_at": "2026-10-15T17:06:20Z",
+            "completed_at": "2026-10-15T17:06:22Z"
+          },
+          {
+            "name": "Post Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 16,
+            "started_at": "2026-10-15T17:06:22Z",
+            "completed_at": "2026-10-15T17:06:24Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 17,
+            "started_at": "2026-10-15T17:06:24Z",
+            "completed_at": "2026-10-15T17:06:24Z"
+          }
+        ],
+        "check_run_url": "https://api.github.com/repos/minexin/RFSim/check-runs/116554679157",
+        "labels": [
+          "windows-latest"
+        ],
+        "runner_id": 1000002838,
+        "runner_name": "GitHub Actions 1000002838",
+        "runner_group_id": 0,
+        "runner_group_name": "GitHub Actions"
+      },
+      {
+        "id": 116554679197,
+        "run_id": 38773377200,
+        "workflow_name": "Cross-platform C++17",
+        "head_branch": "main",
+        "run_url": "https://api.github.com/repos/minexin/RFSim/actions/runs/38773377200",
+        "run_attempt": 1,
+        "node_id": "CR_kwDOUY2fcM8AAAAbIzNDnQ",
+        "head_sha": "599268d2c99aaf4b31b374f0a76172f4137044c2",
+        "url": "https://api.github.com/repos/minexin/RFSim/actions/jobs/116554679197",
+        "html_url": "https://github.com/minexin/RFSim/actions/runs/38773377200/job/116554679197",
+        "status": "completed",
+        "conclusion": "success",
+        "created_at": "2026-10-15T16:58:04Z",
+        "started_at": "2026-10-15T16:58:11Z",
+        "completed_at": "2026-10-15T17:02:56Z",
+        "name": "build (macos-latest, Debug)",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1,
+            "started_at": "2026-10-15T16:58:12Z",
+            "completed_at": "2026-10-15T16:58:13Z"
+          },
+          {
+            "name": "Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2,
+            "started_at": "2026-10-15T16:58:13Z",
+            "completed_at": "2026-10-15T16:58:16Z"
+          },
+          {
+            "name": "Configure",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3,
+            "started_at": "2026-10-15T16:58:16Z",
+            "completed_at": "2026-10-15T16:58:24Z"
+          },
+          {
+            "name": "Build",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4,
+            "started_at": "2026-10-15T16:58:24Z",
+            "completed_at": "2026-10-15T17:00:48Z"
+          },
+          {
+            "name": "Test core and CLI",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5,
+            "started_at": "2026-10-15T17:00:48Z",
+            "completed_at": "2026-10-15T17:02:09Z"
+          },
+          {
+            "name": "Install package",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6,
+            "started_at": "2026-10-15T17:02:09Z",
+            "completed_at": "2026-10-15T17:02:10Z"
+          },
+          {
+            "name": "Configure independent consumer",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7,
+            "started_at": "2026-10-15T17:02:10Z",
+            "completed_at": "2026-10-15T17:02:11Z"
+          },
+          {
+            "name": "Build independent consumer",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8,
+            "started_at": "2026-10-15T17:02:11Z",
+            "completed_at": "2026-10-15T17:02:49Z"
+          },
+          {
+            "name": "Test installed package",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 9,
+            "started_at": "2026-10-15T17:02:49Z",
+            "completed_at": "2026-10-15T17:02:50Z"
+          },
+          {
+            "name": "Preserve verification evidence",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 10,
+            "started_at": "2026-10-15T17:02:50Z",
+            "completed_at": "2026-10-15T17:02:51Z"
+          },
+          {
+            "name": "Post Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 20,
+            "started_at": "2026-10-15T17:02:51Z",
+            "completed_at": "2026-10-15T17:02:52Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 21,
+            "started_at": "2026-10-15T17:02:52Z",
+            "completed_at": "2026-10-15T17:02:54Z"
+          }
+        ],
+        "check_run_url": "https://api.github.com/repos/minexin/RFSim/check-runs/116554679197",
+        "labels": [
+          "macos-latest"
+        ],
+        "runner_id": 1000002842,
+        "runner_name": "GitHub Actions 1000002842",
+        "runner_group_id": 0,
+        "runner_group_name": "GitHub Actions"
+      },
+      {
+        "id": 116554679511,
+        "run_id": 38773377200,
+        "workflow_name": "Cross-platform C++17",
+        "head_branch": "main",
+        "run_url": "https://api.github.com/repos/minexin/RFSim/actions/runs/38773377200",
+        "run_attempt": 1,
+        "node_id": "CR_kwDOUY2fcM8AAAAbIzNE1w",
+        "head_sha": "599268d2c99aaf4b31b374f0a76172f4137044c2",
+        "url": "https://api.github.com/repos/minexin/RFSim/actions/jobs/116554679511",
+        "html_url": "https://github.com/minexin/RFSim/actions/runs/38773377200/job/116554679511",
+        "status": "completed",
+        "conclusion": "success",
+        "created_at": "2026-10-15T16:58:04Z",
+        "started_at": "2026-10-15T16:58:06Z",
+        "completed_at": "2026-10-15T17:00:07Z",
+        "name": "Native archived replay / ubuntu-latest / Release",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1,
+            "started_at": "2026-10-15T16:58:07Z",
+            "completed_at": "2026-10-15T16:58:08Z"
+          },
+          {
+            "name": "Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2,
+            "started_at": "2026-10-15T16:58:08Z",
+            "completed_at": "2026-10-15T16:58:10Z"
+          },
+          {
+            "name": "Run actions/setup-python@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3,
+            "started_at": "2026-10-15T16:58:10Z",
+            "completed_at": "2026-10-15T16:58:10Z"
+          },
+          {
+            "name": "Check compatibility evidence schema and rejection cases",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4,
+            "started_at": "2026-10-15T16:58:10Z",
+            "completed_at": "2026-10-15T16:58:10Z"
+          },
+          {
+            "name": "Test reference inventory tools",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5,
+            "started_at": "2026-10-15T16:58:10Z",
+            "completed_at": "2026-10-15T16:58:10Z"
+          },
+          {
+            "name": "Test reference parameter metadata",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6,
+            "started_at": "2026-10-15T16:58:10Z",
+            "completed_at": "2026-10-15T16:58:11Z"
+          },
+          {
+            "name": "Test reference result validation",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7,
+            "started_at": "2026-10-15T16:58:11Z",
+            "completed_at": "2026-10-15T16:58:11Z"
+          },
+          {
+            "name": "Test background reference runner",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8,
+            "started_at": "2026-10-15T16:58:11Z",
+            "completed_at": "2026-10-15T16:58:11Z"
+          },
+          {
+            "name": "Test antenna reference validation",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 9,
+            "started_at": "2026-10-15T16:58:11Z",
+            "completed_at": "2026-10-15T16:58:11Z"
+          },
+          {
+            "name": "Test antenna power sweep validation",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 10,
+            "started_at": "2026-10-15T16:58:11Z",
+            "completed_at": "2026-10-15T16:58:11Z"
+          },
+          {
+            "name": "Test antenna nonlinear parameter audit",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 11,
+            "started_at": "2026-10-15T16:58:11Z",
+            "completed_at": "2026-10-15T16:58:11Z"
+          },
+          {
+            "name": "Test compression diagnostic",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 12,
+            "started_at": "2026-10-15T16:58:11Z",
+            "completed_at": "2026-10-15T16:58:11Z"
+          },
+          {
+            "name": "Test saturation warning diagnostic",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 13,
+            "started_at": "2026-10-15T16:58:11Z",
+            "completed_at": "2026-10-15T16:58:11Z"
+          },
+          {
+            "name": "Test Python retirement and independent capture imports",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 14,
+            "started_at": "2026-10-15T16:58:11Z",
+            "completed_at": "2026-10-15T16:58:12Z"
+          },
+          {
+            "name": "Configure explicit developer replay without the C ABI",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 15,
+            "started_at": "2026-10-15T16:58:12Z",
+            "completed_at": "2026-10-15T16:58:13Z"
+          },
+          {
+            "name": "Build probes",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 16,
+            "started_at": "2026-10-15T16:58:13Z",
+            "completed_at": "2026-10-15T16:58:16Z"
+          },
+          {
+            "name": "Replay frozen evidence, protocol faults and installed SDK",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 17,
+            "started_at": "2026-10-15T16:58:16Z",
+            "completed_at": "2026-10-15T16:59:59Z"
+          },
+          {
+            "name": "Record replay identity and evidence",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 18,
+            "started_at": "2026-10-15T16:59:59Z",
+            "completed_at": "2026-10-15T17:00:03Z"
+          },
+          {
+            "name": "Preserve replay verification evidence",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 19,
+            "started_at": "2026-10-15T17:00:03Z",
+            "completed_at": "2026-10-15T17:00:05Z"
+          },
+          {
+            "name": "Post Run actions/setup-python@v7",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 37,
+            "started_at": "2026-10-15T17:00:05Z",
+            "completed_at": "2026-10-15T17:00:05Z"
+          },
+          {
+            "name": "Post Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 38,
+            "started_at": "2026-10-15T17:00:05Z",
+            "completed_at": "2026-10-15T17:00:05Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 39,
+            "started_at": "2026-10-15T17:00:05Z",
+            "completed_at": "2026-10-15T17:00:05Z"
+          }
+        ],
+        "check_run_url": "https://api.github.com/repos/minexin/RFSim/check-runs/116554679511",
+        "labels": [
+          "ubuntu-latest"
+        ],
+        "runner_id": 1000002852,
+        "runner_name": "GitHub Actions 1000002852",
+        "runner_group_id": 0,
+        "runner_group_name": "GitHub Actions"
+      },
+      {
+        "id": 116554679590,
+        "run_id": 38773377200,
+        "workflow_name": "Cross-platform C++17",
+        "head_branch": "main",
+        "run_url": "https://api.github.com/repos/minexin/RFSim/actions/runs/38773377200",
+        "run_attempt": 1,
+        "node_id": "CR_kwDOUY2fcM8AAAAbIzNFJg",
+        "head_sha": "599268d2c99aaf4b31b374f0a76172f4137044c2",
+        "url": "https://api.github.com/repos/minexin/RFSim/actions/jobs/116554679590",
+        "html_url": "https://github.com/minexin/RFSim/actions/runs/38773377200/job/116554679590",
+        "status": "completed",
+        "conclusion": "success",
+        "created_at": "2026-10-15T16:58:04Z",
+        "started_at": "2026-10-15T16:58:07Z",
+        "completed_at": "2026-10-15T17:02:24Z",
+        "name": "build (windows-latest, Debug)",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1,
+            "started_at": "2026-10-15T16:58:07Z",
+            "completed_at": "2026-10-15T16:58:08Z"
+          },
+          {
+            "name": "Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2,
+            "started_at": "2026-10-15T16:58:08Z",
+            "completed_at": "2026-10-15T16:58:15Z"
+          },
+          {
+            "name": "Configure",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3,
+            "started_at": "2026-10-15T16:58:15Z",
+            "completed_at": "2026-10-15T16:58:30Z"
+          },
+          {
+            "name": "Build",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4,
+            "started_at": "2026-10-15T16:58:30Z",
+            "completed_at": "2026-10-15T16:59:55Z"
+          },
+          {
+            "name": "Test core and CLI",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5,
+            "started_at": "2026-10-15T16:59:55Z",
+            "completed_at": "2026-10-15T17:01:52Z"
+          },
+          {
+            "name": "Install package",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6,
+            "started_at": "2026-10-15T17:01:52Z",
+            "completed_at": "2026-10-15T17:01:52Z"
+          },
+          {
+            "name": "Configure independent consumer",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7,
+            "started_at": "2026-10-15T17:01:52Z",
+            "completed_at": "2026-10-15T17:01:55Z"
+          },
+          {
+            "name": "Build independent consumer",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8,
+            "started_at": "2026-10-15T17:01:55Z",
+            "completed_at": "2026-10-15T17:02:18Z"
+          },
+          {
+            "name": "Test installed package",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 9,
+            "started_at": "2026-10-15T17:02:18Z",
+            "completed_at": "2026-10-15T17:02:18Z"
+          },
+          {
+            "name": "Preserve verification evidence",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 10,
+            "started_at": "2026-10-15T17:02:18Z",
+            "completed_at": "2026-10-15T17:02:20Z"
+          },
+          {
+            "name": "Post Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 20,
+            "started_at": "2026-10-15T17:02:20Z",
+            "completed_at": "2026-10-15T17:02:21Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 21,
+            "started_at": "2026-10-15T17:02:21Z",
+            "completed_at": "2026-10-15T17:02:22Z"
+          }
+        ],
+        "check_run_url": "https://api.github.com/repos/minexin/RFSim/check-runs/116554679590",
+        "labels": [
+          "windows-latest"
+        ],
+        "runner_id": 1000002851,
+        "runner_name": "GitHub Actions 1000002851",
+        "runner_group_id": 0,
+        "runner_group_name": "GitHub Actions"
+      }
+    ]
+  }
+}

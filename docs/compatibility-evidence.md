@@ -1,11 +1,13 @@
 # 当前 C++ 能力与证据
 
 [机读映射](../validation/compatibility-evidence.json)是当前兼容摘要的权威索引，
-本轮冻结源码基线为 `8b6105ac7295afc72376c206c477edd73d52e8b7`，不是全目录验收清单。
-源码树为 `1e30ab41d63f823f26f7b239977016eac0041d28`。raw reader 与 raw catalog 已集成；catalog 精确 CI 38764883668 已核验全部 18 作业成功。
-后继 PLL 候选不在此冻结范围内，相关缺口保持开放。
-各阶段 CI 只属于所列精确源码提交；后续 docs-only 覆盖层仍须单独核验，不能继承源码成功。
-本覆盖层仅更新 docs/validation 文档与证据快照，不改数值实现、阈值、既有 checker/schema 或示例。
+本轮冻结源码基线为 `5c5812e0f81ef4fa45893784f9f9e7430170e218`，不是全目录验收清单。
+源码树为 `29d6961e28f7d9f4f1c99c30e9028b1c81b7a2f2`。已包括 locked PI PLL、共享复相位响应、
+有限频带 jitter、installed SDK 示例、只读 X-parameter 重放工具、线性 MNA、MNA→S、
+Touchstone raw 两端口噪声导出及显式等温 MNA/ModelAdapter/conversion SDK 示例。
+源基线精确 CI 38815413675 已从完整原始 REST run/jobs 核验全部 18 作业成功。
+各阶段 CI 只属于所列精确源码提交；后续文档/证据校验覆盖层仍须单独核验，不能继承源码成功。
+本覆盖层仅更新 docs/validation 与严格证据校验，不改数值实现、原阈值、验收条件或 SDK 示例。
 先前 `3160ba` 覆盖层的工具与格式改动属于历史记录，不是本轮改动。
 它分列实现范围、独立数值证据、厂商归档状态、剩余问题及发布门禁。
 `implemented` 只表示所述 C++ 契约存在；`bounded_pass` 只表示指定厂商子集通过。
@@ -32,7 +34,8 @@
   历史 `3160ba` 中 `main.cpp` 仅补 clang-format 19.1.7 空白格式，`network.cpp` 不变。
   内部 ZIP 不代表正式发布；许可、版本、标签及 API 稳定性仍需用户决策。
 - Touchstone：已有有界导入及新增 C++17 单端 S 流导出（2.0 / Hz / RI / Full，
-  1–1024 端口、64 MiB payload 上限）。拒绝非空噪声样本；不采样模型、重归一化或导出 PHD。
+  1–1024 端口、64 MiB payload 上限）。原 S-only 阶段拒绝非空噪声；后续 raw 两端口噪声
+  序列化已集成，见下文。不采样模型、重归一化或导出 PHD。
   本地阶段完整各 161/161、纯 SDK 各 122/122；但原 writer 跨平台 CI 失败，不能据此称全平台通过。
   后续 decimal 可移植性修复 `a987c3d` 的独立运行已 18/18 成功，含 macOS Debug/Release；
   原 writer 失败保留，修复后成功不覆盖尚待冻结的最终覆盖层。
@@ -80,7 +83,8 @@
 
 - [接地 DC 与冻结小信号](dc-bias-small-signal.md)：显式 I(V)/Q(V) 及解析导数、
   接受点 G/C 数值快照、逐频 Schur 约化和复功率波转换已实现。有限源专项属于
-  `dddc059` 的 18/18 CI。没有 MNA、理想电压源、电感、DAE、瞬态或自动厂商器件律。
+  `dddc059` 的 18/18 CI。该接地非线性 API 不支持理想电压源或电感；独立线性 MNA
+  已支持 R/C/L 与独立电压/电流源，见下节。仍无非线性 MNA、DAE、瞬态或自动厂商器件律。
 - 显式节点电流噪声：调用方提供完整 A²/Hz 协方差，冻结加载系统传播到出射 W/Hz；
   不从 G 推断噪声、温度或端接噪声，不重调 DC callback。原 CI 14 成功/4 失败保留；
   预抵消导纳尺度修复后 `a0218741` 的 CI 18/18 成功。
@@ -101,7 +105,53 @@
   （两个 legacy 文件内容相同）及安装帮助，记录格式、轴、哈希与所选系数。
   原始厂商文件尚未在云端全量解析；格式检查不等于系数转换、参考面或数值兼容验收。
 
-## 有界 raw reader 与 raw catalog
+## 原生 PLL、相位噪声与有限带宽 jitter
+
+- [locked PI PLL](locked-pi-pll.md)：已锁定、连续时间、理想 PI、零环路延迟的有界小信号模型。
+  五个复传递函数与五项独立一侧相位噪声预算，单位显式；另有单输出波边带桥接。
+  不模拟锁定/捕获、PNCP、fractional-N 杂散或任意环路滤波器，不推断器件噪声律。
+- [共享复相位响应](complex-phase-response.md)：调用方给定共同参考过程、一侧 rad²/Hz 与复 H，
+  显式生成完整 C/P 和跨输出相关，并可转换到局部复参考。重叠边带先合并潜变量系数；
+  不以 |H| 或单输出总 PSD 代替复互谱，也不由名称推断同钟。它不是 PLL 或稳定性证明。
+- [有限频带 jitter](phase-jitter.md)：显式载频、完整覆盖的正频偏区间和 Hz 轴上的线性 PSD
+  插值，返回相位方差、相位 RMS、时间 RMS。不外推、不默认全带，不自动从波噪声推断相位谱；
+  不提供 period/cycle-to-cycle/peak-to-peak/differential jitter 或厂商验收。
+- [PLL 相噪/jitter](../examples/pll-phase-jitter-sdk/README.md)和
+  [冻结偏置 adapter](../examples/frozen-adapter-sdk/README.md)为两个 installed-only 双 TU 示例，
+  以独立 oracle 检查现有接口组合。示例不增加厂商通过项，也不关闭 release/license/stable-ABI 门禁。
+
+这些阶段已集成到 main 并通过各自精确提交的 18 作业 CI，完整绑定见下文；数学与工程通过不等于厂商 PLL/PNCP 兼容。
+
+## 独立线性 MNA 与复参考 S
+
+[有界线性 MNA](bounded-linear-mna.md)拥有 R/C/L、独立电压/电流源和数值结果，
+支持实 DC 与正频率复 RMS AC。DC 电容精确开路、电感精确电压约束并保留支路电流。
+它与接地非线性 DC/冻结小信号 API 分开，不是 SPICE、非线性 MNA、瞬态/DAE 或自动噪声模型。
+
+[MNA 功率波 S](mna-power-wave-s.md)对去激励后的参考加载系统单次分解、逐列独立验收，
+支持逐端口复参考、理想短路及物理接线。要求整个加载状态唯一；即使端口 S 可能唯一，
+浮动差分 common-mode gauge、冗余理想支路电流、隐藏共振与孤立节点也拒绝。
+没有 gauge 选择、gmin、伪逆、状态删除或前向精度保证；保留 256 未知数/4096 元件预算、
+正规数或精确零的保守算术域及原物理/后向残差门禁。无 DC-S、仿射输出偏置、扫频或噪声 API。
+原生独立电路/物理恒等式、失败边界和安装消费者证据不构成 SystemVue DC/RC/S 验收。
+
+[等温 MNA→ModelAdapter→conversion 示例](../examples/mna-noise-sdk/README.md)将 source-free
+R/L 电路、复参考 S 和调用方明确的均温被动热噪声组合，检查完整 off-diagonal C、物理负载、
+级联与六通道 stationary snapshot。独立物理 RL/Johnson 源 oracle 负责验证；这不是 MNA
+自动噪声推断，去激励或数值无源检查也不证明真实温度、热平衡或器件噪声律。
+无新 solver、混频本征噪声、非均温/主动器件模型或厂商采集。已有协方差准入/截断与浮点
+条件限制仍适用，不承诺任意动态范围或任意参考下的数值完全等价。
+
+## Touchstone raw 两端口噪声导出
+
+[writer 扩展](touchstone-writer.md)现可导出现有 raw noise samples：独立有序噪声网格、
+Fmin dB、GammaOpt 幅角及物理 Rn Ω；空噪声的 S-only 输出保持逐字节不变，reader 未改。
+不拟合、钳位、构造协方差、校验模型级物理可实现性或自动重归一化。GammaOpt 仍引用 option-line R。
+Cartesian→MA 必有舍入，不承诺复数逐位往返、原角度/圈数/十进制拼写，或各分量相对精度；
+轴附近小分量可显著失真，显式零角度下溢和保守范围拒绝仍保留。64 MiB 预算与部分写入失败边界不变。
+精确 f603bcf CI 38813359905 的 18 作业成功仅是此格式阶段证据，不改写原 writer 失败或建立 SystemVue 导入验收。
+
+## 有界 raw reader、raw catalog 与只读重放工具
 
 [原生文本 reader](xparameter-data.md)已实现 legacy/version-2 的受限 typed-data 读取，
 保留词法 token、来源和拥有数据，限制输入及表示规模；不是厂商系数到模型的 importer。
@@ -113,9 +163,15 @@ S/T 等其他后缀家族不解析，不推断物理单位、泵、参考面或 
 重绑定本地 reader 门禁 678/678，catalog 686/686；catalog 每配置为 174 完整测试、19 完整安装消费者、
 133 纯测试和17纯安装消费者，均含 Debug/Release。来源树及外部完整门禁 manifest 哈希见
 [集成工程摘要](../validation/xparameter-integration-evidence-20261015.json)。原 focused validation 中
-当时 pending/unrun 的文字保留；这些后续门禁不改变原历史，也不是本轮 docs-only 的数值重跑。
+当时 pending/unrun 的文字保留；这些后续门禁不改变原历史，也不是本轮覆盖层的数值重跑。
 reader 与 catalog 的精确源码 CI 均已核验 18/18 成功；覆盖层自身 CI 仍须独立核验。原始安装文件仍未在云端全量解析，
 无新增 SystemVue 数值兼容结论。
+
+[installed-SDK 重放工具](installed-xparameter-replay.md)已实现：只读四个固定厂商文件、
+由 C++ reader 全量解析，以旧归档哈希及登记的格式/行列/样本字段严格评分，保留失败。
+云端门禁使用 synthetic fixtures；实际四文件本地重放尚未运行。四个文件有三个不同内容哈希，
+即使未来选定文件格式重放通过，也不独立验证所有系数值、模型数值、归一化或参考面。
+工具不运行 SystemVue/COM，不上传完整厂商文件；Python 仅为开发编排与评分。
 
 ## 精确提交与运行
 
@@ -150,10 +206,24 @@ reader 与 catalog 的精确源码 CI 均已核验 18/18 成功；覆盖层自�
 
 - raw catalog `8b6105ac7295afc72376c206c477edd73d52e8b7`：[38764883668](https://github.com/minexin/RFSim/actions/runs/38764883668)
 
+- 前次能力证据覆盖层 `85b5a9c78098310f4f5afb2af7fd2ce2bec0210a`：[38767456505](https://github.com/minexin/RFSim/actions/runs/38767456505)
+- locked PI PLL `599268d2c99aaf4b31b374f0a76172f4137044c2`：[38773377200](https://github.com/minexin/RFSim/actions/runs/38773377200)
+- 共享复相位响应 `1e2dbfba0b00a63a8b2779098ae41ae65647e079`：[38779870896](https://github.com/minexin/RFSim/actions/runs/38779870896)
+- 有限频带 jitter `b2dcccf819d2ee0451f208b2e94334c927b8f374`：[38790793537](https://github.com/minexin/RFSim/actions/runs/38790793537)
+- 两个 installed SDK 工作流 `3f75c58f4471d24aaf8c2f908ada678da9379a91`：[38793055242](https://github.com/minexin/RFSim/actions/runs/38793055242)
+- 只读 installed X-parameter 重放工具 `c2c3252aacb75642adc6ad294009d75b6d13db91`：[38795700296](https://github.com/minexin/RFSim/actions/runs/38795700296)
+- 有界线性 MNA `5c24a778e15c2ef666e5747104b4218ece04dbf8`：[38804226969](https://github.com/minexin/RFSim/actions/runs/38804226969)
+- MNA 复参考功率波 S `5ddc39e74cb5a8a9e75536abfe75e532e6fd1929`：[38810746626](https://github.com/minexin/RFSim/actions/runs/38810746626)
+
+- Touchstone raw 两端口噪声 writer `f603bcf42e1db12fdd50704b0c73d9a189d557de`：[38813359905](https://github.com/minexin/RFSim/actions/runs/38813359905)
+- 显式等温 MNA 噪声 SDK 示例 `5c5812e0f81ef4fa45893784f9f9e7430170e218`：[38815413675](https://github.com/minexin/RFSim/actions/runs/38815413675)
+
 frozen noise 原提交 `2033fd33c47a49f0b3ce33b322e97dfe5cc77cc9` 的
 [38705856824](https://github.com/minexin/RFSim/actions/runs/38705856824) 为 14 成功、4 失败。
 新严格快照直接取自实际 REST jobs 的 head_sha/run_id/status，保留旧阶段原格式快照。
-当前机读索引为 27 个不同运行、486 个逐作业记录；重复引用旧阶段记录不新增运行数。
+当前机读索引从实际列表核算为 37 个不同运行、666 个逐作业记录。新增 10 个运行均保留
+完整原始 REST run/jobs JSON、SHA-256 及逐 job 归一化映射；checker 核验原始字节、run/head、
+完整 18 作业矩阵和每项 job 的身份/终态，不把本段文字计数当证据。旧 27 份快照原样保留。
 
 原失败也保留：pilot `2752af6a5010a7c5ee5fbeddda42c360cf54ff97`
 [38579642585](https://github.com/minexin/RFSim/actions/runs/38579642585) 为 16 成功、2 失败；
@@ -184,7 +254,7 @@ writer `a88dcc041917e30a620a6f06a98caa56042b5b04`
 
 - RFAMP 参数律：A/B/C/D 及 380 来源有限 holdout 已完成，尚不能识别专有系数律或推广到其他参数、频率与全级联。保持预注册、原始实际复输入及原容差，不重新要求已完成的采集。
 - PHD：安装格式与帮助已检查；legacy 归一化、完整系数转换、参考面与复阻抗映射、变泵数据和导数验证仍缺。格式证据不能替代独立厂商数值预测。
-- 其他厂商噪声、ZPORT/CS 归一化、DC/RC 验收、PLL 及专用器件族逐项未证实；原生 grounded DC/G/C 能力已存在，但不闭合厂商验收。[目录与覆盖边界](rf-design-catalog.md)只是库存。原始 RFPwrIn、级联和衰减器噪声失败保留。
+- 其他厂商噪声、ZPORT/CS 归一化、DC/RC 验收、PLL/PNCP 及专用器件族逐项未证实；原生 grounded DC/G/C、线性 MNA/S 与有界 PLL/相位能力已存在，但不闭合厂商验收。[目录与覆盖边界](rf-design-catalog.md)只是库存。原始 RFPwrIn、级联和衰减器噪声失败保留。
 - 正式许可、公开分发、版本/标签和 API 稳定性需要用户的产品选择；本轮未发布或选定许可。
 
 这些是后续依赖清单，不是新的操作要求，也不表示全项目完成或可计算总百分比。
@@ -197,8 +267,11 @@ writer `a88dcc041917e30a620a6f06a98caa56042b5b04`
 Python 包或第三方模块。它验证所用 schema 子集、路径、唯一 ID、目录库存、CI 提交/运行绑定、
 终态矩阵与成功/失败/取消计数；所有快照均强制逐 job SHA/run/status 绑定。
 早期快照逐 job 字段根据独立重新取得的原始 CI 数据补全。
-自测注入错误引用、重复 ID、虚假 CI 成功及 job 身份/状态/计数篡改，检查拒绝行为。
-checker/schema 是既有开发证据工具，本轮未改其逻辑，默认 C++ SDK 构建不依赖它。
+自测注入错误引用、重复 ID/运行、虚假 CI 成功及 job 身份/状态/计数篡改，检查拒绝行为。
+本轮新增原始 REST 快照路径/hash 绑定：还校验原始运行/完整 jobs 与归一化记录的一致性，
+拒绝原始字节篡改、重新计算 hash 后的错误身份及缺失/不完整绑定。只有明确列出的原 27 个
+历史运行可沿用 normalized-only 格式，新增运行不能删除 raw 字段降级；历史快照不重写。
+checker/schema 是开发证据工具，默认 C++ SDK 构建不依赖它；不恢复 Python 产品接口。
 
 该工具只校验证据元数据，不验证自由文本数值/厂商结论真实性，不执行 C++ 数值测试，
 也不将归档失败提升为通过。新增实现应有明确契约与独立数值测试，再引用实际记录；
