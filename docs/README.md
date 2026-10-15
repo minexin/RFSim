@@ -122,3 +122,5 @@
 - [RF 线性阶段的混合参考接线](power-wave-stages.md)
 
 - [原生变频网络的复功率波参考](conversion-power-wave.md)
+
+[显式复数相位响应源](complex-phase-response.md)：逐频偏共享参考 H、完整 cross-phase C/P 与独立复参考归一化的原生 C++17 生成器。

@@ -102,3 +102,7 @@ add_test(NAME installed_xparameter_catalog_consumer COMMAND xparameter_catalog_c
 add_executable(locked_pi_pll_consumer locked_pi_pll.cpp locked_pi_pll_probe.cpp)
 target_link_libraries(locked_pi_pll_consumer PRIVATE RFModel::rfmodel)
 add_test(NAME installed_locked_pi_pll_consumer COMMAND locked_pi_pll_consumer)
+
+add_executable(phase_response_consumer phase_response.cpp phase_response_probe.cpp)
+target_link_libraries(phase_response_consumer PRIVATE RFModel::rfmodel)
+add_test(NAME installed_phase_response_consumer COMMAND phase_response_consumer)

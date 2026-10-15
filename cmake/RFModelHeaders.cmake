@@ -33,6 +33,7 @@ set(RFMODEL_PUBLIC_HEADERS
     conversion/conversion_network.hpp
     conversion/conversion_operating_point.hpp
     conversion/conversion_power_wave.hpp
+    conversion/conversion_phase_response.hpp
     conversion/conversion_simulation.hpp
     conversion/frequency_conversion.hpp
     conversion/highorder_linearization.hpp
@@ -75,6 +76,7 @@ set(RFMODEL_PUBLIC_HEADERS
     noise/noise_renormalization.hpp
     noise/locked_pi_pll.hpp
     noise/phase_noise.hpp
+    noise/phase_response.hpp
     noise/power_wave_noise.hpp
     nonlinear/dc_operating_point.hpp
     nonlinear/phd_coefficient_slice.hpp

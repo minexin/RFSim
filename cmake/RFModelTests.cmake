@@ -537,3 +537,7 @@ add_test(NAME xparameter_catalog_test COMMAND xparameter_catalog_test)
 add_executable(locked_pi_pll_test tests/noise/locked_pi_pll_test.cpp)
 target_link_libraries(locked_pi_pll_test PRIVATE rfmodel)
 add_test(NAME locked_pi_pll_test COMMAND locked_pi_pll_test)
+
+add_executable(phase_response_test tests/noise/phase_response_test.cpp)
+target_link_libraries(phase_response_test PRIVATE RFModel::rfmodel)
+add_test(NAME phase_response_test COMMAND phase_response_test)
