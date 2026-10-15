@@ -107,3 +107,8 @@ consumer. This native foundation establishes no SystemVue2023 coefficient-file
 or numerical compatibility. It includes no vendor parser, coefficient extraction,
 amplitude/frequency interpolation, extrapolation, de-embedding, full pump
 Jacobian, nonlinear operating-point callback, or inferred noise model.
+
+The [installed SystemVue example review](systemvue-xparameter-format-evidence-20261015.md)
+records actual legacy PHD and version-2 X-parameter layouts, power-wave equations,
+reference impedances and unresolved normalization/reference-plane conditions.
+It is format evidence only and does not change this native API's compatibility boundary.

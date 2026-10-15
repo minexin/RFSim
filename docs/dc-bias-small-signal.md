@@ -175,3 +175,7 @@ Focused tests use analytic dividers, scalar bisection, nonproportional RC Schur,
 independent determinant-based physical V/I power reconstruction, active singular
 boundaries, ownership/callback counts, explicit-domain recovery, and relocated
 installed two-translation-unit consumers. They make no new vendor-validation claim.
+
+The [2026-10-15 local comparison review](dc-bias-systemvue-verification-20261015.md)
+adds explicit finite-source two-node V/I checks and records the still-unresolved
+SystemVue model/export prerequisites. No vendor DC acquisition is counted as passed.

@@ -1,0 +1,320 @@
+{
+  "schema_version": 1,
+  "classification": "native_analytic_verified_vendor_acquisition_not_ready",
+  "created_utc": "2026-10-15T10:35:13.063538+00:00",
+  "base_commit": "586fd46f43319ab2db384958452ffefddd055831",
+  "systemvue_version": "2023.0.0.11903",
+  "vendor_analyses_submitted_for_this_DC_study": 0,
+  "vendor_numeric_comparisons_passed": 0,
+  "vendor_workspace_constructed": false,
+  "native_tests": {
+    "dc_operating_point": {
+      "Windows_Debug_checks": 316,
+      "Windows_Release_checks": 316
+    },
+    "frozen_small_signal_with_explicit_finite_source": {
+      "Windows_Debug_checks": 90,
+      "Windows_Release_checks": 90,
+      "Ubuntu_GCC_strict_Cpp17_checks": 91
+    },
+    "GCC_check_count_note": "Existing numerical-range path accepts a representable extreme result on GCC and checks it; MSVC rejects that extreme range. No new finite-source check is skipped."
+  },
+  "sources_sha256": {
+    "docs/dc-bias-small-signal.md": "4f392f87a95b798682269713aa100fc5f134220d3ef245aedf64d4246f256f63",
+    "tests/nonlinear/dc_operating_point_test.cpp": "4894a1c0d2a649c8347b4e5ad33eeabb6a7937cbed4039e8da7c20d78d127f36",
+    "tests/linear/frozen_small_signal_test.cpp": "0aebd3e1d67fd9c5e91664cdf05b6d6a607eb07e84b9b56cfec496c307008d1a",
+    "include/rfmodel/nonlinear/dc_operating_point.hpp": "c7db2039997f2236cdea3474597fbfa93d22962bb4faea147912c437e0291cd0",
+    "include/rfmodel/linear/frozen_small_signal.hpp": "6256f0dd05740d717896794972c37912b6043ffc61d61c881af5cc5593259155"
+  },
+  "local_evidence_sha256": {
+    "build-reference/dc-phd-review-20261015/dc-Debug.log": "14d1f76934cf1dad6f88e5818d17e516c8312fe602ad8fc597f060d0c83b6453",
+    "build-reference/dc-phd-review-20261015/dc-Release.log": "14d1f76934cf1dad6f88e5818d17e516c8312fe602ad8fc597f060d0c83b6453",
+    "build-reference/dc-phd-review-20261015/frozen-Debug.log": "342ae607496344714e391deb054f8ab39066c4bf3b3d518787141e1dd9d5a652",
+    "build-reference/dc-phd-review-20261015/frozen-Release.log": "342ae607496344714e391deb054f8ab39066c4bf3b3d518787141e1dd9d5a652",
+    "build-reference/dc-phd-review-20261015/finite-source-Debug.log": "23f61db0252fbf3c11f1a5da770759cb3dcdf48e8f6ce8b48f9990b634161967",
+    "build-reference/dc-phd-review-20261015/finite-source-Release.log": "23f61db0252fbf3c11f1a5da770759cb3dcdf48e8f6ce8b48f9990b634161967",
+    "build-reference/dc-phd-review-20261015/finite-source-gcc.log": "cefecf7c803e98a3d6d979a6be616bb38620be628b943282e84a7f757c442570",
+    "build-reference/dc-phd-review-20261015/finite-source-build-Debug.log": "1ae003ad4fc102a22b654b6276631d4c2640826e22a7439f87604fe3359cbd74",
+    "build-reference/dc-phd-review-20261015/finite-source-build-Release.log": "ede32612cf5c26de9ae82cba724a0b0cf486d03055abf12dc7f8ab712b3e37ec",
+    "build-reference/dc-phd-review-20261015/finite-source-build-gcc.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "build-reference/dc-phd-review-20261015/dc-capabilities-before.json": "6f556779e8d9ece833dd46a76e730394fdaab8e2d5521c0ec7d6b974df1d8edc",
+    "build-reference/dc-phd-review-20261015/inspect-dc-capabilities.ps1": "7176edb172855f52458d634a70e825bc197ad248961ba3c0b302e9cadde6382b",
+    "build-reference/dc-phd-review-20261015/additional-probe-help-evidence.json": "68fabb8a65b51be9a4d3c1f3e46af8625dddc73d718a7d52cfce2302a01013a9"
+  },
+  "local_test_stdout": {
+    "dc-Debug.log": "root=0.68232780382834712 G=0.004793427391263292 C=5.1901410868949378e-09 updates=5 batches=7\n316 DC checks passed\n",
+    "dc-Release.log": "root=0.68232780382834712 G=0.004793427391263292 C=5.1901410868949378e-09 updates=5 batches=7\n316 DC checks passed\n",
+    "frozen-Debug.log": "frozen small-signal focused tests passed: 69 checks; VI residual=2.8609792490763984e-17 A; power residual=1.1102230246251565e-16 W; wave power=0.63198222312131924 W\n",
+    "frozen-Release.log": "frozen small-signal focused tests passed: 69 checks; VI residual=2.8609792490763984e-17 A; power residual=1.1102230246251565e-16 W; wave power=0.63198222312131924 W\n",
+    "finite-source-Debug.log": "finite_Rs_ohm=1000 Vs_rms_volt=1 f_hz=0 V1=(0.4545454545454547,0) V2=(0.18181818181818191,0) source_current_ampere=(0.00054545454545454537,0)\nfinite_Rs_ohm=1000 Vs_rms_volt=1 f_hz=1000 V1=(0.45451303868422893,-0.003582653521775502) V2=(0.18181930831176932,-0.00051931497929964224) source_current_ampere=(0.0005454869613157711,3.5826535217755022e-06)\nfinite_Rs_ohm=1000 Vs_rms_volt=1 f_hz=1000000 V1=(0.011442668024723194,-0.066010801370684533) V2=(0.0098699947160844539,-0.043305204600424668) source_current_ampere=(0.00098855733197527685,6.6010801370684533e-05)\nfrozen small-signal focused tests passed: 90 checks; VI residual=2.8609792490763984e-17 A; power residual=1.1102230246251565e-16 W; wave power=0.63198222312131924 W\n",
+    "finite-source-Release.log": "finite_Rs_ohm=1000 Vs_rms_volt=1 f_hz=0 V1=(0.4545454545454547,0) V2=(0.18181818181818191,0) source_current_ampere=(0.00054545454545454537,0)\nfinite_Rs_ohm=1000 Vs_rms_volt=1 f_hz=1000 V1=(0.45451303868422893,-0.003582653521775502) V2=(0.18181930831176932,-0.00051931497929964224) source_current_ampere=(0.0005454869613157711,3.5826535217755022e-06)\nfinite_Rs_ohm=1000 Vs_rms_volt=1 f_hz=1000000 V1=(0.011442668024723194,-0.066010801370684533) V2=(0.0098699947160844539,-0.043305204600424668) source_current_ampere=(0.00098855733197527685,6.6010801370684533e-05)\nfrozen small-signal focused tests passed: 90 checks; VI residual=2.8609792490763984e-17 A; power residual=1.1102230246251565e-16 W; wave power=0.63198222312131924 W\n",
+    "finite-source-gcc.log": "finite_Rs_ohm=1000 Vs_rms_volt=1 f_hz=0 V1=(0.45454545454545442,0) V2=(0.18181818181818177,0) source_current_ampere=(0.00054545454545454569,-0)\nfinite_Rs_ohm=1000 Vs_rms_volt=1 f_hz=1000 V1=(0.45451303868422865,-0.0035826535217754981) V2=(0.18181930831176915,-0.00051931497929964083) source_current_ampere=(0.00054548696131577132,3.5826535217754983e-06)\nfinite_Rs_ohm=1000 Vs_rms_volt=1 f_hz=1000000 V1=(0.011442668024723202,-0.066010801370684533) V2=(0.0098699947160844608,-0.043305204600424682) source_current_ampere=(0.00098855733197527685,6.6010801370684533e-05)\nfrozen small-signal focused tests passed: 91 checks; VI residual=2.8609792490763984e-17 A; power residual=1.1102230246251565e-16 W; wave power=0.63198222312131924 W\n"
+  },
+  "help_qch": {
+    "path": "C:/Program Files/Keysight/SystemVue2023/Help/systemvue.qch",
+    "sha256": "eacdae962108181a917525b8e233d5b33d97f683674d1c79007c1c2b7a24bd83",
+    "resources": [
+      {
+        "resource": "sim/Linear_Analysis.html",
+        "sha256": "adee44143b11a98c71611b052a805ca0b80421ad4664d0b22629acb54d3b6eab",
+        "bytes": 4896
+      },
+      {
+        "resource": "sim/Linear_Analysis_Output.html",
+        "sha256": "e5285cefa53ebb2e31ef4ca23975b69b7535f870b7e46aba4a4552b75c1b66bd",
+        "bytes": 10238
+      },
+      {
+        "resource": "sim/Linear_Analysis_Properties.html",
+        "sha256": "a189fe150fc3cab1403851652f5fc1be25196e3e11c40b355143b271a7bb0668",
+        "bytes": 9558
+      },
+      {
+        "resource": "sim/Spectrasys_DC_Voltages.html",
+        "sha256": "f6f62cf98592ad3ca28acd928a67813120926b63f44ed2f771653eaeea338c32",
+        "bytes": 4298
+      },
+      {
+        "resource": "sim/Spectrasys_DC_Currents.html",
+        "sha256": "002e7e74471979116248083d64602dacb1821488f6a73986e31beba8c3164c88",
+        "bytes": 4042
+      },
+      {
+        "resource": "rfdesign/RES.html",
+        "sha256": "3c13ab340ece02577af6f2090f50cb1261cd915f577f88e6e1eaf61e85e9294c",
+        "bytes": 7349
+      },
+      {
+        "resource": "rfdesign/CAP.html",
+        "sha256": "fb5e41bcf641ba7582c0b86443154d1067b750a27dff26a20d0270db18e1af8b",
+        "bytes": 6457
+      },
+      {
+        "resource": "rfdesign/VDC.html",
+        "sha256": "3752e39ba57425b5573ab3835474a6c242026c9e7403d3690ffbb2118919455d",
+        "bytes": 5168
+      },
+      {
+        "resource": "rfdesign/IDC.html",
+        "sha256": "6e39c63cdedc86740911901e1212a8303701995eaa32db37f757dab05e350b89",
+        "bytes": 4538
+      },
+      {
+        "resource": "rfdesign/Circuit_Link.html",
+        "sha256": "e74b727901b5176f3b12b389c58ebdeec47003664c02b1a664e0c61ef0c32a2e",
+        "bytes": 33004
+      },
+      {
+        "resource": "rfdesign/IPROBE.html",
+        "sha256": "0801504504fcce7423c16b0a0d74e43891047642ff69147250573a2a4869d130",
+        "bytes": 4595
+      },
+      {
+        "resource": "rfdesign/Current_Probe_Part.html",
+        "sha256": "bfc21bfd8e5a859510e4b725877b34e39d12bcefc38ff73689ab85550be72089",
+        "bytes": 3561
+      },
+      {
+        "resource": "sim/Spectrasys_Voltage_DC.html",
+        "sha256": "9005b5055f38344c011297cb7f7d5ee50fa34b269eb018933bd49d66cbad8cdf",
+        "bytes": 5154
+      },
+      {
+        "resource": "sim/Voltage_Measurements.html",
+        "sha256": "0e8805dd78aae3b3bb0cddb0cec244b47cdd6e5592a9f6f19328501e8639046b",
+        "bytes": 11840
+      },
+      {
+        "resource": "sim/DC_Baseband_and_Zero_IF.html",
+        "sha256": "34e7ce5b76fa8a98916c58241eb24fffa5ab8572336283534599756e99ff2195",
+        "bytes": 17284
+      },
+      {
+        "resource": "rfdesign/Nonlinear_Category.html",
+        "sha256": "eb5ddd8ef71a3385ca0162aa4a15f0ea7c7d30952127ae1ba25f1120aa48341f",
+        "bytes": 2895
+      }
+    ]
+  },
+  "comparison_case_contract": {
+    "ground_node": 0,
+    "current_signs": {
+      "device": "positive into device terminal",
+      "injection": "positive into node",
+      "physical_source": "(Vs-Vnode)/Rs into node"
+    },
+    "normalization": "DC volts/amperes; AC native RMS V/I; Y siemens; capacitance farads; frequency Hz; reference impedance is a wave coordinate, not an extra termination",
+    "cases": [
+      {
+        "case": "divider",
+        "Vs_volt": 3,
+        "Rs_ohm": 1000,
+        "load_ohm": 2000,
+        "Norton_injection_ampere": 0.003,
+        "retained_source_conductance_siemens": 0.001,
+        "expected_node_volt": 2,
+        "expected_load_current_ampere": 0.001,
+        "expected_total_g_siemens": 0.0015,
+        "native_absolute_tolerances": {
+          "V_volt": 1e-14,
+          "I_ampere": 1e-17,
+          "G_siemens": 1e-18
+        }
+      },
+      {
+        "case": "cubic_current_and_bias_charge",
+        "Vs_volt": 2,
+        "Rs_ohm": 1000,
+        "Norton_injection_ampere": 0.002,
+        "device_I_ampere": ".001*v + .002*v^3",
+        "device_Q_coulomb": "1e-9*v + 3e-9*v^3",
+        "expected_bias_volt": 0.6823278038283471,
+        "expected_device_current_ampere": 0.0013176721961732241,
+        "expected_total_g_siemens": 0.004793427391263292,
+        "expected_c_farad": 5.190141086894938e-09,
+        "expected_charge_coulomb": 1.6353443923456627e-09,
+        "native_absolute_tolerances": {
+          "V_volt": 1e-10,
+          "G_siemens": 1e-12,
+          "C_farad": 1e-18,
+          "Q_coulomb": 1e-18
+        }
+      },
+      {
+        "case": "two_node_nonproportional_RC",
+        "Vs_rms_volt": 1,
+        "Rs_ohm": 1000,
+        "Norton_ac_injection_ampere": [
+          0.001,
+          0
+        ],
+        "ground_branches": {
+          "node1": {
+            "R_ohm": 1000,
+            "C_farad": 1e-09,
+            "R_is_the_source_resistance": true
+          },
+          "node2": {
+            "R_ohm": 333.3333333333333,
+            "C_farad": 2e-09
+          }
+        },
+        "node1_node2_branch": {
+          "R_ohm": 500,
+          "C_farad": 4e-09
+        },
+        "G_row_major_siemens": [
+          0.003,
+          -0.002,
+          -0.002,
+          0.005
+        ],
+        "C_row_major_farad": [
+          5e-09,
+          -4e-09,
+          -4e-09,
+          6e-09
+        ],
+        "native_wave_references_ohm": [
+          50,
+          75
+        ],
+        "independent_determinant_expectations": [
+          {
+            "frequency_hz": 0,
+            "external_y_siemens": [
+              0.0022,
+              0.0
+            ],
+            "node1_rms_volt": [
+              0.45454545454545453,
+              0.0
+            ],
+            "node2_rms_volt": [
+              0.18181818181818182,
+              0.0
+            ],
+            "physical_source_current_ampere": [
+              0.0005454545454545454,
+              0.0
+            ]
+          },
+          {
+            "frequency_hz": 1000,
+            "external_y_siemens": [
+              0.0022000202118007944,
+              1.7341439054427914e-05
+            ],
+            "node1_rms_volt": [
+              0.45451303868422854,
+              -0.0035826535217754947
+            ],
+            "node2_rms_volt": [
+              0.18181930831176915,
+              -0.0005193149792996403
+            ],
+            "physical_source_current_ampere": [
+              0.0005454869613157714,
+              3.5826535217754945e-06
+            ]
+          },
+          {
+            "frequency_hz": 1000000,
+            "external_y_siemens": [
+              0.0025494092775047916,
+              0.01470710756148325
+            ],
+            "node1_rms_volt": [
+              0.0114426680247232,
+              -0.06601080137068453
+            ],
+            "node2_rms_volt": [
+              0.009869994716084459,
+              -0.04330520460042467
+            ],
+            "physical_source_current_ampere": [
+              0.0009885573319752768,
+              6.601080137068453e-05
+            ]
+          }
+        ],
+        "native_near_rule": "abs(actual-expected) <= 2e-12 * max(1,abs(actual),abs(expected))"
+      }
+    ]
+  },
+  "ordering": [
+    "Verify topology, finite source impedance, ground, node/terminal direction, physical units and port reference readbacks before analysis.",
+    "Acquire complete original physical V/I and nodal or external Y; keep source resistance exactly once.",
+    "Compare against native analytic cases with original criteria; preserve mismatches.",
+    "Only then compare S with matching RMS/power-wave references."
+  ],
+  "verified_vendor_capabilities": [
+    "RES, CAP, VDC and IDC models documented with ohm, pF, V and A units.",
+    "Linear Analysis documents automatic internal DC bias before linearization when nonlinear parts exist.",
+    "Linear Analysis output documents S/F/ZPORT and optional CS; stoy is documented postprocessing.",
+    "Spectrasys DC_V/DC_I are user-entered supply-budget values, not solved DC node V/I.",
+    "Circuit Link uses HB; automatic port isolators/matching can alter a comparison boundary.",
+    "IPROBE current probe is documented with an IDC parameter; the inspected help does not specify independent current-dataset export or polarity.",
+    "Spectrasys VDC is a spectral path measurement distinct from DC_V supply budgeting; DC spectra have coherent peak-value semantics.",
+    "The RF nonlinear category lists Circuit Link and X-parameters, without an arbitrary current/charge model entry in the inspected category."
+  ],
+  "unresolved": [
+    "No verified independent internal-node DC or AC V/I export pathway for these cases.",
+    "No verified supported model entry for the requested cubic I(v) together with bias charge Q(v); absence was not asserted for all product capabilities.",
+    "Vendor AC amplitude convention must be confirmed for the actual source and output fields before converting RMS values.",
+    "No SystemVue DC comparison workspace has been constructed or run; a circuit contract is prepared only."
+  ],
+  "no_assumptions": [
+    "No SPICE/MNA interface added to RFModel.",
+    "No hidden ideal-voltage constraint, transient solver, implicit noise law, or Gmin equivalence claimed.",
+    "Existing published nodal-noise code was preserved; current main is newer than the cited cloud snapshot.",
+    "No reference project was modified or additional analysis submitted during this readiness investigation."
+  ],
+  "tested_source_before_whitespace_only_format": {
+    "path": "build-reference/dc-phd-review-20261015/frozen_small_signal_test-tested-before-format.cpp",
+    "sha256": "0e5414ae66d249e36f4bcc1032a992429219b2d24139731d812eb6c72f62a7ec",
+    "non_whitespace_bytes_unchanged": true
+  },
+  "format": "clang-format dry-run passes; only output-expression line wrapping changed after tests",
+  "last_reviewed_utc": "2026-10-15T10:44:51.446487+00:00"
+}

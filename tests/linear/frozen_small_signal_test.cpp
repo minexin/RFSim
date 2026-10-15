@@ -136,6 +136,35 @@ int main() {
     near(two.external_y(f, {1})(0, 0), expected);
     near(expected, {.0025494092775047916, .01470710756148325});
     near(two.external_s(f, {1}, {{50, 20}})(0, 0), {-.04278057549138256, -.7808770594538037});
+    // A 1 V RMS source through 1 kohm: the .001 S source conductance is
+    // already in G(1,1). Drive only its .001 A Norton injection, without
+    // adding another matched termination. Reference impedances are coordinates.
+    for (double frequency : {0., 1e3, 1e6}) {
+        const Complex ya{.001, 2 * pi * frequency * 1e-9};
+        const Complex yab{.002, 2 * pi * frequency * 4e-9};
+        const Complex yb{.003, 2 * pi * frequency * 2e-9};
+        const auto determinant = ya * yb + yab * (ya + yb);
+        const Complex expected_v1 = .001 * (yab + yb) / determinant;
+        const Complex expected_v2 = .001 * yab / determinant;
+        auto driven = two.linear_network(frequency, {1, 2}, {{50, 0}, {75, 0}});
+        driven.terminate(0, 1., .001 * std::sqrt(50.));
+        driven.terminate(1, 1., 0.);
+        const auto waves = driven.solve();
+        const auto v1 = std::sqrt(50.) * (waves.incident[0] + waves.outgoing[0]);
+        const auto v2 = std::sqrt(75.) * (waves.incident[1] + waves.outgoing[1]);
+        const auto i1 = (waves.incident[0] - waves.outgoing[0]) / std::sqrt(50.);
+        const auto i2 = (waves.incident[1] - waves.outgoing[1]) / std::sqrt(75.);
+        near(v1, expected_v1);
+        near(v2, expected_v2);
+        near(i1, .001);
+        near(i2, 0.);
+        near(.001 * (1. - v1), Complex(0, 2 * pi * frequency * 1e-9) * v1 + yab * (v1 - v2));
+        near(yab * (v2 - v1) + yb * v2, 0.);
+        near(two.external_y(frequency, {1})(0, 0), .001 / v1);
+        std::cout << std::setprecision(17) << "finite_Rs_ohm=1000 Vs_rms_volt=1 f_hz=" << frequency
+                  << " V1=" << v1 << " V2=" << v2 << " source_current_ampere=" << .001 * (1. - v1)
+                  << '\n';
+    }
     // Three-node, two external ports plus one internal; preserve explicit order.
     const double ga = .002, gb = .003, gg = .004, gp = .001, gq = .005;
     const double ca = 2e-9, cb = 3e-9, cg = 1e-9, cp = 4e-9, cq = 5e-9;

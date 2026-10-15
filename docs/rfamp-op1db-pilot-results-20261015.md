@@ -135,6 +135,10 @@ The [replay tool](../scripts/reference/report-rfamp-op1db-pilot.py) and ten regr
 tests check the completed observations, immutable registration, changed data,
 changed support, end-control drift, time ordering and absence of post-C fitting.
 CI repeats the native replay on archived observations; it does not run SystemVue.
+The [exact-commit CI record](../validation/rfamp-op1db-pilot-ci-20261015.json)
+confirms that commit `586fd46f43319ab2db384958452ffefddd055831` passed all 18
+Windows, Ubuntu and macOS Debug/Release jobs, including native archived replay.
+That CI run does not cover the subsequent local DC finite-source test additions.
 The [local regression record](../validation/rfamp-op1db-pilot-validation-20261015.json)
 records five passing Debug CTest entries (including isolated native replay) and
 four passing Release entries. The requested native DC and frozen-small-signal

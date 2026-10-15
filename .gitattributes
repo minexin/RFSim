@@ -23,3 +23,5 @@
 /validation/rfamp-op1db-pilot-*-20261015.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 /scripts/reference/analyze-rfamp-op1db-pilot.py -text
 /scripts/reference/capture-cascade-parameter-units.ps1 -text
+/validation/dc-bias-systemvue-readiness-20261015.json -text
+/validation/systemvue-xparameter-format-evidence-20261015.json -text

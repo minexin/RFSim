@@ -1,0 +1,472 @@
+{
+  "schema_version": 1,
+  "classification": "installed_vendor_format_evidence_no_simulation",
+  "created_utc": "2026-10-15T10:30:00.782026+00:00",
+  "systemvue_version": "2023.0.0.11903",
+  "files": [
+    {
+      "path": "C:/Program Files/Keysight/SystemVue2023/Examples/RF Architecture Design/RF Design Kit/X Parameters/ZFL_11AD_PHDModel.mdf",
+      "bytes": 165058,
+      "sha256": "6e7e8f439e740a221228d9067582ff797a4db9e1f59103f0ea8a0cb42afab052",
+      "block_counts": {
+        "PHDModelData": 4
+      },
+      "metadata_blocks": {},
+      "coefficient_block_outer_variables": [
+        [
+          "VAR fund_1(real) = 500000000"
+        ],
+        [
+          "VAR fund_1(real) = 1e+009"
+        ],
+        [
+          "VAR fund_1(real) = 1.5e+009"
+        ],
+        [
+          "VAR fund_1(real) = 2e+009"
+        ]
+      ],
+      "legacy_constants": [
+        [
+          "# ANMax_1_1(real) = 0.166544233",
+          "# z0(real) = 50"
+        ]
+      ],
+      "coefficient_rows_per_block": [
+        20,
+        20,
+        20,
+        20
+      ],
+      "coefficient_columns_per_row": [
+        79,
+        79,
+        79,
+        79
+      ],
+      "first_block_column_families": {
+        "AN": 1,
+        "FB": 6,
+        "S": 36,
+        "T": 36
+      },
+      "AN_raw_ranges": {
+        "AN_1_1": {
+          "min": 0.0288948963,
+          "max": 0.166544233,
+          "first": 0.0294954308
+        }
+      },
+      "first_row_small_sample": {
+        "FB_2_1": [
+          -0.0751489568,
+          0.555220186
+        ],
+        "FB_2_2": [
+          0.0333027914,
+          0.0106572701
+        ],
+        "FB_2_3": [
+          -0.00411803186,
+          0.0149974174
+        ],
+        "S_2_1_1_1": [
+          -0.563206932,
+          4.18902719
+        ],
+        "T_2_1_1_1": [
+          0.0,
+          0.0
+        ]
+      },
+      "leading_comments": [
+        "! Created 09-Apr-2008 17:26:25"
+      ],
+      "all_data_group_shapes_checked": true,
+      "reference_plane_identification": "Not established by inspected schema or port names",
+      "numerical_model_compatibility": false
+    },
+    {
+      "path": "C:/Program Files/Keysight/SystemVue2023/Examples/RF Architecture Design/RF Design Kit/X Parameters/X-param_BalAmp_ZFL11AD.mdf",
+      "bytes": 165058,
+      "sha256": "6e7e8f439e740a221228d9067582ff797a4db9e1f59103f0ea8a0cb42afab052",
+      "block_counts": {
+        "PHDModelData": 4
+      },
+      "metadata_blocks": {},
+      "coefficient_block_outer_variables": [
+        [
+          "VAR fund_1(real) = 500000000"
+        ],
+        [
+          "VAR fund_1(real) = 1e+009"
+        ],
+        [
+          "VAR fund_1(real) = 1.5e+009"
+        ],
+        [
+          "VAR fund_1(real) = 2e+009"
+        ]
+      ],
+      "legacy_constants": [
+        [
+          "# ANMax_1_1(real) = 0.166544233",
+          "# z0(real) = 50"
+        ]
+      ],
+      "coefficient_rows_per_block": [
+        20,
+        20,
+        20,
+        20
+      ],
+      "coefficient_columns_per_row": [
+        79,
+        79,
+        79,
+        79
+      ],
+      "first_block_column_families": {
+        "AN": 1,
+        "FB": 6,
+        "S": 36,
+        "T": 36
+      },
+      "AN_raw_ranges": {
+        "AN_1_1": {
+          "min": 0.0288948963,
+          "max": 0.166544233,
+          "first": 0.0294954308
+        }
+      },
+      "first_row_small_sample": {
+        "FB_2_1": [
+          -0.0751489568,
+          0.555220186
+        ],
+        "FB_2_2": [
+          0.0333027914,
+          0.0106572701
+        ],
+        "FB_2_3": [
+          -0.00411803186,
+          0.0149974174
+        ],
+        "S_2_1_1_1": [
+          -0.563206932,
+          4.18902719
+        ],
+        "T_2_1_1_1": [
+          0.0,
+          0.0
+        ]
+      },
+      "leading_comments": [
+        "! Created 09-Apr-2008 17:26:25"
+      ],
+      "all_data_group_shapes_checked": true,
+      "reference_plane_identification": "Not established by inspected schema or port names",
+      "numerical_model_compatibility": false
+    },
+    {
+      "path": "C:/Program Files/Keysight/SystemVue2023/Examples/RF Architecture Design/RF Design Kit/X Parameters/Multitone_Volterra_X-device.xnp",
+      "bytes": 2085420,
+      "sha256": "ead7ff6f423933b271873628e598c7db8f4025d12ffa70af13d6a85575eb17d2",
+      "block_counts": {
+        "XParamAttributes": 1,
+        "XParamPortData": 1,
+        "XParamData": 5
+      },
+      "metadata_blocks": {
+        "XParamAttributes": [
+          {
+            "Index": 0,
+            "Version": 2.0,
+            "NumPorts": 2,
+            "NumFundFreqs": 1
+          }
+        ],
+        "XParamPortData": [
+          {
+            "PortNumber": 1,
+            "RefZ0": [
+              50.0,
+              0.0
+            ],
+            "PortName": "Undefined"
+          },
+          {
+            "PortNumber": 2,
+            "RefZ0": [
+              50.0,
+              0.0
+            ],
+            "PortName": "Output"
+          }
+        ]
+      },
+      "coefficient_block_outer_variables": [
+        [
+          "VAR fund_1(real) = 1e+06"
+        ],
+        [
+          "VAR fund_1(real) = 2.575e+07"
+        ],
+        [
+          "VAR fund_1(real) = 5.05e+07"
+        ],
+        [
+          "VAR fund_1(real) = 7.525e+07"
+        ],
+        [
+          "VAR fund_1(real) = 1e+08"
+        ]
+      ],
+      "legacy_constants": [],
+      "coefficient_rows_per_block": [
+        31,
+        31,
+        31,
+        31,
+        31
+      ],
+      "coefficient_columns_per_row": [
+        407,
+        407,
+        407,
+        407,
+        407
+      ],
+      "first_block_column_families": {
+        "AN": 1,
+        "FB": 14,
+        "S": 196,
+        "T": 196
+      },
+      "AN_raw_ranges": {
+        "AN_1_1": {
+          "min": 0.00316228,
+          "max": 0.0562341,
+          "first": 0.00316228
+        }
+      },
+      "first_row_small_sample": {
+        "FB_2_1": [
+          0.00642144,
+          0.00765277
+        ],
+        "FB_2_2": [
+          0.0,
+          0.0
+        ],
+        "FB_2_3": [
+          -2.14866e-06,
+          -2.56068e-06
+        ],
+        "FB_2_4": [
+          0.0,
+          0.0
+        ],
+        "FB_2_5": [
+          -1.20739e-09,
+          -1.43891e-09
+        ]
+      },
+      "leading_comments": [
+        "! Created Tue Mar 15 15:48:17 2011",
+        "! Version = 2.0",
+        "! HB_MaxOrder = 9",
+        "! XParamMaxOrder = 7",
+        "! NumExtractedPorts = 2",
+        "! fund_1=[1 MHz->100 MHz]   NumPts=5",
+        "! GM_2_1=0   NumPts=1",
+        "! GP_2_1=0   NumPts=1",
+        "! AN_1_1=[10e-06(-20.000000dBm)->3.16228e-03(5.000000dBm)]   NumPts=31"
+      ],
+      "all_data_group_shapes_checked": true,
+      "reference_plane_identification": "Not established by inspected schema or port names",
+      "numerical_model_compatibility": false
+    },
+    {
+      "path": "C:/Program Files/Keysight/SystemVue2023/Examples/RF Architecture Design/RF Design Kit/X Parameters/AMP_Xparams.mdf",
+      "bytes": 1125774,
+      "sha256": "9fd411496639465a2403dcc9902dd7921d40c244001f9c457127b5178386d4b7",
+      "block_counts": {
+        "XParamAttributes": 1,
+        "XParamPortData": 1,
+        "XParamData": 5
+      },
+      "metadata_blocks": {
+        "XParamAttributes": [
+          {
+            "Index": 0,
+            "Version": 2.0,
+            "NumPorts": 3,
+            "NumFundFreqs": 2
+          }
+        ],
+        "XParamPortData": [
+          {
+            "PortNumber": 1,
+            "RefZ0": [
+              50.0,
+              0.0
+            ],
+            "PortName": "Undefined"
+          },
+          {
+            "PortNumber": 2,
+            "RefZ0": [
+              50.0,
+              0.0
+            ],
+            "PortName": "Undefined"
+          },
+          {
+            "PortNumber": 3,
+            "RefZ0": [
+              50.0,
+              0.0
+            ],
+            "PortName": "Undefined"
+          }
+        ]
+      },
+      "coefficient_block_outer_variables": [
+        [
+          "VAR fund_1(real) = 1e+09",
+          "VAR fund_2(real) = 1.2e+09",
+          "VAR VDC_3(real) = 10",
+          "VAR AN_1_1_0(real) = 0.001"
+        ],
+        [
+          "VAR fund_1(real) = 1e+09",
+          "VAR fund_2(real) = 1.2e+09",
+          "VAR VDC_3(real) = 10",
+          "VAR AN_1_1_0(real) = 0.00316228"
+        ],
+        [
+          "VAR fund_1(real) = 1e+09",
+          "VAR fund_2(real) = 1.2e+09",
+          "VAR VDC_3(real) = 10",
+          "VAR AN_1_1_0(real) = 0.01"
+        ],
+        [
+          "VAR fund_1(real) = 1e+09",
+          "VAR fund_2(real) = 1.2e+09",
+          "VAR VDC_3(real) = 10",
+          "VAR AN_1_1_0(real) = 0.0316228"
+        ],
+        [
+          "VAR fund_1(real) = 1e+09",
+          "VAR fund_2(real) = 1.2e+09",
+          "VAR VDC_3(real) = 10",
+          "VAR AN_1_1_0(real) = 0.1"
+        ]
+      ],
+      "legacy_constants": [],
+      "coefficient_rows_per_block": [
+        5,
+        5,
+        5,
+        5,
+        5
+      ],
+      "coefficient_columns_per_row": [
+        1202,
+        1202,
+        1202,
+        1202,
+        1202
+      ],
+      "first_block_column_families": {
+        "AN": 1,
+        "FI": 1,
+        "FB": 24,
+        "S": 576,
+        "T": 576,
+        "XY": 24
+      },
+      "AN_raw_ranges": {
+        "AN_1_0_1": {
+          "min": 0.001,
+          "max": 0.1,
+          "first": 0.001
+        }
+      },
+      "first_row_small_sample": {
+        "FI_3": 0.0133849,
+        "FB_2_0_1": [
+          0.000932938,
+          0.00631275
+        ],
+        "FB_2_0_2": [
+          5.54274e-06,
+          -2.05094e-05
+        ],
+        "FB_2_0_3": [
+          6.20086e-07,
+          -4.29281e-07
+        ],
+        "FB_2_1_m2": [
+          -2.06795e-07,
+          9.04205e-07
+        ]
+      },
+      "leading_comments": [
+        "! Created Fri Nov 20 10:45:46 2009",
+        "! Version = 2.0",
+        "! HB_MaxOrder = 3",
+        "! XParamMaxOrder = 3",
+        "! NumExtractedPorts = 3",
+        "! fund_1=1 GHz   NumPts=1",
+        "! fund_2=1.2 GHz   NumPts=1",
+        "! VDC_3=10   NumPts=1",
+        "! ZM_2_1_0=50   NumPts=1",
+        "! ZP_2_1_0=0   NumPts=1",
+        "! AN_1_1_0=[1e-06(-30.000000dBm)->10e-03(10.000000dBm)]   NumPts=5",
+        "! AN_1_0_1=[1e-06(-30.000000dBm)->10e-03(10.000000dBm)]   NumPts=5"
+      ],
+      "all_data_group_shapes_checked": true,
+      "reference_plane_identification": "Not established by inspected schema or port names",
+      "numerical_model_compatibility": false
+    }
+  ],
+  "README": {
+    "sha256": "57bf1805378486c252352f3cbeafdf3388fbad4a3d9d8a2a3ad44410d09e22e8",
+    "content": "AMP_Xparams.mdl:\n\n\tThis x-parameters file is extracted from an AMP designed in Keysight ADS.  The extraction is performed under the following conditions:\n\t(1) 2 fundamental frequencies (2 tones): 1GHz and 1.2GHz\n\t(2) Power sweep at each frequency from -30 dBm to 10 dBm at 10 dB step\n\t(3) DC bias is at 10 Volts\n\t(4) The maximum order (harmonic number) of the fundamental(s) that will be considered is 5\n\t(5) The maximum mixing order is 3"
+  },
+  "help": {
+    "path": "C:/Program Files/Keysight/SystemVue2023/Help/systemvue.qch",
+    "sha256": "eacdae962108181a917525b8e233d5b33d97f683674d1c79007c1c2b7a24bd83",
+    "resources": [
+      {
+        "qch_resource": "rfdesign/XPARAMS.html",
+        "bytes": 66641,
+        "sha256": "a06057b38e73203f346a06eaa5ce0acfd9e07745cdbc0fe4f554d747570b125f"
+      },
+      {
+        "qch_resource": "users/Theory_of_Operation.html",
+        "bytes": 12042,
+        "sha256": "e8661e49a47782153567afdc6c83ab9b6107349bdb322e91b858ede227832d1a"
+      },
+      {
+        "qch_resource": "docimages/portdata_eqn.gif",
+        "bytes": 3651,
+        "sha256": "20a1c15ece0cad7fa94d6f4dbf6e5c88959c20d1bc9f0d28f46d12e3ebe7fa78"
+      },
+      {
+        "qch_resource": "docimages/xnp_eqn1.gif",
+        "bytes": 3777,
+        "sha256": "a3d9f6c5f96104bb22ecd009e08f6cd27355b9a67f12b13a46e8fb3cfaaeef81"
+      }
+    ]
+  },
+  "inspector_source_sha256_lf": "4e175f6659f1f4f9460fc835600c5be248244299b125e3cb34cf1a0c037986fb",
+  "limits": [
+    "Selected installed examples, not a complete vendor parser or compatibility claim.",
+    "No vendor model was imported, evaluated, fitted or simulated.",
+    "Legacy pre-2.0 normalization and physical reference planes remain unresolved.",
+    "Header comments and README statements are evidence, not authoritative numerical axis units."
+  ]
+}
