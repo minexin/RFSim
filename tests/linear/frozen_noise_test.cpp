@@ -131,6 +131,12 @@ void failure_contracts() {
     rejects<std::domain_error>([&] {
         active.external_noise(1., {1}, {50.}, {{1, {0.}}});
     });
+    for (double g : {-.03125, std::nextafter(-.03125, 0.)}) {
+        const auto cancelled = fixture({g}, {0.});
+        rejects<std::domain_error>([&] {
+            cancelled.external_noise(1., {1}, {32.}, {{1, {0.}}});
+        });
+    }
     // The loaded physical circuit can be solvable when an open-circuit internal
     // Schur block is singular. Noise uses the full nodal boundary, not Yii^-1.
     const auto internal_singular = fixture({2., -1., -1., 0.}, {0., 0., 0., 0.});

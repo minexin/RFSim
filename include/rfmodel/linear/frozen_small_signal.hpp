@@ -344,20 +344,31 @@ public:
         const auto y = nodal_y(f);
         using frozen_detail::Wide;
         std::vector<Wide> a(n * n), rhs(n * p);
+        std::vector<long double> row_scale(n);
         for (std::size_t r = 0; r < n; ++r) {
             for (std::size_t c = 0; c < n; ++c) {
                 a[r * n + c] = y(c, r); // transpose, not conjugate transpose
+                row_scale[r] += std::abs(a[r * n + c]);
             }
         }
         for (std::size_t k = 0; k < p; ++k) {
             const auto i = nodes[k] - 1;
             const Wide z = references_ohm[k];
-            a[i * n + i] = frozen_detail::checked(a[i * n + i] + frozen_detail::divide(1.L, z));
+            const auto load = frozen_detail::divide(1.L, z);
+            a[i * n + i] = frozen_detail::checked(a[i * n + i] + load);
+            row_scale[i] += std::abs(load);
             rhs[i * p + k] = frozen_detail::divide(std::sqrt(z.real()), z);
         }
         // (Y+Yref)V=j, b_k=sqrt(Re z_k)*V_k/z_k for a_k=0.
         // Transposed solves need only p right-hand sides instead of n.
-        const auto solved = frozen_detail::solve(std::move(a), std::move(rhs), n, p, 0.L, true);
+        // Retain the pre-cancellation admittance scale. In particular a nearly
+        // cancelled active conductance and load must not turn its own rounding
+        // residual into the reference scale for deciding nonsingularity.
+        const auto scale = *std::max_element(row_scale.begin(), row_scale.end());
+        if (!std::isfinite(scale)) {
+            throw std::overflow_error("small-signal loaded admittance scale overflow");
+        }
+        const auto solved = frozen_detail::solve(std::move(a), std::move(rhs), n, p, scale, true);
         SMatrix transfer{n, std::vector<Complex>(n * n)};
         for (std::size_t k = 0; k < p; ++k) {
             for (std::size_t i = 0; i < n; ++i) {

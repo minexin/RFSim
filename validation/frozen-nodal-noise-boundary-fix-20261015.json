@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-15",
+  "failed_code_commit": "2033fd33c47a49f0b3ce33b322e97dfe5cc77cc9",
+  "failed_ci_run": 38705856824,
+  "observed_failed_job": 116324981860,
+  "failure": "Ubuntu Debug frozen_noise_test: expected exception was not raised",
+  "root_cause": "Extended precision retains residual after near cancellation of active conductance and reference load; scaling by the cancelled matrix alone admits a numerically singular boundary",
+  "fix": "Use pre-cancellation transposed row admittance and reference-load magnitude as pivot scale floor",
+  "windows_local_tests": [
+    {
+      "configuration": "Debug",
+      "tests": 6,
+      "failures": 0,
+      "skipped": 0,
+      "path": "build-reference/module-layout-full/frozen-noise-fixed-Debug.xml",
+      "sha256": "9257b2ebce2a7955d69dbe8c62d220fedb58d54b61dc5b6e3497aeb4d6fa9032"
+    },
+    {
+      "configuration": "Release",
+      "tests": 6,
+      "failures": 0,
+      "skipped": 0,
+      "path": "build-reference/module-layout-full/frozen-noise-fixed-Release.xml",
+      "sha256": "40e58bc1283a4be048badcd4745ffd7fcba33f0efebb0d350722b3ba57047b6d"
+    }
+  ],
+  "linux_before_after": {
+    "environment": "Local Ubuntu WSL GCC C++17",
+    "baseline_exit": 1,
+    "baseline_log": "build-reference/frozen-noise-linux-baseline.log",
+    "fixed_exit": 0,
+    "fixed_log": "build-reference/frozen-noise-linux-fixed.log",
+    "test_source": "Same revised test compiled against baseline header and fixed header",
+    "compiler_flags": "-std=c++17; fixed build also -Wall -Wextra -Wpedantic"
+  },
+  "sources": [
+    {
+      "path": "include/rfmodel/linear/frozen_small_signal.hpp",
+      "sha256": "6256f0dd05740d717896794972c37912b6043ffc61d61c881af5cc5593259155"
+    },
+    {
+      "path": "tests/linear/frozen_noise_test.cpp",
+      "sha256": "f770cea785fa9e127113695c62f42eddcc071bdc2294c6d74c971911451d2361"
+    }
+  ],
+  "ci_status": "fix_not_yet_pushed",
+  "vendor_compatibility_claim": false
+}

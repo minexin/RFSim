@@ -73,7 +73,10 @@ Yii can therefore be acceptable for noise if the full loaded system is well pose
 even though `external_y`/`external_s` reject that internal Schur complement. A
 singular or ill-conditioned loaded boundary fails even for zero supplied noise.
 Existing frozen-solver numerical range and backward-error rules apply to the
-transfer, and existing noise PSD admission tolerances apply to Q. No clipping or
+transfer. The pivot threshold retains the pre-cancellation admittance/load scale,
+so an almost cancelled active conductance and reference termination fail explicitly
+even when extended precision retains a tiny nonzero residual. Existing noise PSD
+admission tolerances apply to Q. No clipping or
 implicit uncorrelated approximation is performed.
 
 For a resistor with conductance g at T, the caller may explicitly supply
