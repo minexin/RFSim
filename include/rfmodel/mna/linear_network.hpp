@@ -302,28 +302,61 @@ struct LinearResult {
     Diagnostics diagnostics;
 };
 
-inline LinearResult solve_matrix(const std::vector<Complex> &physical,
-                                 const std::vector<Complex> &rhs,
-                                 std::size_t nv,
-                                 const SolveOptions &o) {
-    const std::size_t n = rhs.size();
-    LinearResult result{{}, {}};
+// RHS stages are separate because legacy single-RHS solves must keep their
+// range checks interleaved with assembly scaling and elimination. Multi-RHS
+// callers replay exactly the same operations against one shared factorization.
+struct PreparedRhs {
+    std::vector<Complex> dimensionless, equilibrated, eliminated;
+};
+
+struct Factorization {
+    std::size_t n, nv;
+    SolveOptions options;
+    std::vector<Complex> physical, dimensionless, equilibrated, lu, columns;
+    std::vector<double> row_scales;
+    std::vector<Complex> elimination_factors;
+    std::vector<std::size_t> pivots;
+    Diagnostics diagnostics;
+};
+
+inline Factorization factor_matrix(const std::vector<Complex> &physical,
+                                   std::size_t n,
+                                   std::size_t nv,
+                                   const SolveOptions &o,
+                                   PreparedRhs *initial = nullptr) {
+    Factorization factor{n,
+                         nv,
+                         o,
+                         physical,
+                         {},
+                         {},
+                         physical,
+                         std::vector<Complex>(n),
+                         std::vector<double>(4 * n),
+                         std::vector<Complex>(n * n),
+                         std::vector<std::size_t>(n),
+                         {}};
     if (!n) {
-        return result;
+        return factor;
     }
-    std::vector<Complex> a(physical), b(rhs), columns(n);
+    auto &a = factor.lu;
+    auto &columns = factor.columns;
     for (std::size_t j = 0; j < n; ++j) {
         columns[j] = j < nv ? o.voltage_scale_v : o.current_scale_a;
     }
     for (std::size_t i = 0; i < n; ++i) {
         const double row_unit = i < nv ? o.current_scale_a : o.voltage_scale_v;
-        b[i] = divide(b[i], row_unit);
+        if (initial) {
+            initial->eliminated[i] = divide(initial->eliminated[i], row_unit);
+        }
         for (std::size_t j = 0; j < n; ++j) {
             a[i * n + j] = divide(multiply(a[i * n + j], columns[j]), row_unit);
         }
     }
-    const auto dimensionless = a;
-    const auto dimensionless_rhs = b;
+    factor.dimensionless = a;
+    if (initial) {
+        initial->dimensionless = initial->eliminated;
+    }
     std::vector<int> re(n, 0), ce(n, 0);
     // Bounded exact powers of two; each pass targets a maximum in [1,2).
     for (int pass = 0; pass < 4; ++pass) {
@@ -340,7 +373,10 @@ inline LinearResult solve_matrix(const std::vector<Complex> &physical,
             for (std::size_t j = 0; j < n; ++j) {
                 a[i * n + j] = multiply(a[i * n + j], scale);
             }
-            b[i] = multiply(b[i], scale);
+            factor.row_scales[static_cast<std::size_t>(pass) * n + i] = scale;
+            if (initial) {
+                initial->eliminated[i] = multiply(initial->eliminated[i], scale);
+            }
             re[i] += e;
         }
         for (std::size_t j = 0; j < n; ++j) {
@@ -362,10 +398,10 @@ inline LinearResult solve_matrix(const std::vector<Complex> &physical,
     }
     for (const auto &exponents : {re, ce}) {
         for (int e : exponents) {
-            result.diagnostics.min_equilibration_exponent =
-                std::min(result.diagnostics.min_equilibration_exponent, e);
-            result.diagnostics.max_equilibration_exponent =
-                std::max(result.diagnostics.max_equilibration_exponent, e);
+            factor.diagnostics.min_equilibration_exponent =
+                std::min(factor.diagnostics.min_equilibration_exponent, e);
+            factor.diagnostics.max_equilibration_exponent =
+                std::max(factor.diagnostics.max_equilibration_exponent, e);
         }
     }
     // Conservative dimension-dependent rejection threshold for roundoff-sized
@@ -373,10 +409,13 @@ inline LinearResult solve_matrix(const std::vector<Complex> &physical,
     const double pivot_tolerance =
         std::max(o.pivot_relative_tolerance,
                  64 * std::numeric_limits<double>::epsilon() * static_cast<double>(n));
-    result.diagnostics.effective_pivot_tolerance = pivot_tolerance;
-    const auto equilibrated = a;
-    const auto equilibrated_rhs = b;
-    std::vector<std::size_t> pivots(n);
+    factor.diagnostics.effective_pivot_tolerance = pivot_tolerance;
+    factor.equilibrated = a;
+    if (initial) {
+        initial->equilibrated = initial->eliminated;
+    }
+    auto &pivots = factor.pivots;
+    auto &elimination_factors = factor.elimination_factors;
     std::vector<double> rowmax(n, 0);
     for (std::size_t i = 0; i < n; ++i) {
         for (std::size_t j = 0; j < n; ++j) {
@@ -396,23 +435,78 @@ inline LinearResult solve_matrix(const std::vector<Complex> &physical,
         if (best <= pivot_tolerance) {
             fail(Failure::singular_or_ill_conditioned, "MNA scaled pivot rejected");
         }
-        result.diagnostics.min_scaled_pivot = std::min(result.diagnostics.min_scaled_pivot, best);
+        factor.diagnostics.min_scaled_pivot = std::min(factor.diagnostics.min_scaled_pivot, best);
         pivots[k] = pivot;
         if (pivot != k) {
             for (std::size_t j = 0; j < n; ++j) {
                 std::swap(a[k * n + j], a[pivot * n + j]);
             }
-            std::swap(b[k], b[pivot]);
+            if (initial) {
+                std::swap(initial->eliminated[k], initial->eliminated[pivot]);
+            }
             std::swap(rowmax[k], rowmax[pivot]);
         }
         for (std::size_t i = k + 1; i < n; ++i) {
-            const Complex factor = divide(a[i * n + k], a[k * n + k]);
-            a[i * n + k] = factor;
+            const Complex multiplier = divide(a[i * n + k], a[k * n + k]);
+            a[i * n + k] = multiplier;
+            // Earlier L columns can move in later row pivots. Save chronological
+            // multipliers separately to replay the original RHS operation order.
+            elimination_factors[k * n + i] = multiplier;
             for (std::size_t j = k + 1; j < n; ++j) {
-                a[i * n + j] = checked(a[i * n + j] - multiply(factor, a[k * n + j]));
+                a[i * n + j] = checked(a[i * n + j] - multiply(multiplier, a[k * n + j]));
             }
-            b[i] = checked(b[i] - multiply(factor, b[k]));
+            if (initial) {
+                initial->eliminated[i] =
+                    checked(initial->eliminated[i] - multiply(multiplier, initial->eliminated[k]));
+            }
         }
+    }
+    return factor;
+}
+
+inline PreparedRhs prepare_rhs(const Factorization &factor, const std::vector<Complex> &rhs) {
+    const auto n = factor.n;
+    PreparedRhs prepared{{}, {}, rhs};
+    auto &b = prepared.eliminated;
+    for (std::size_t i = 0; i < n; ++i) {
+        b[i] = divide(
+            b[i], i < factor.nv ? factor.options.current_scale_a : factor.options.voltage_scale_v);
+    }
+    prepared.dimensionless = b;
+    // Do not replace these four products with a single accumulated scale: that
+    // changes intermediate range rejection in the normal-or-zero arithmetic.
+    for (std::size_t pass = 0; pass < 4; ++pass) {
+        for (std::size_t i = 0; i < n; ++i) {
+            b[i] = multiply(b[i], factor.row_scales[pass * n + i]);
+        }
+    }
+    prepared.equilibrated = b;
+    for (std::size_t k = 0; k < n; ++k) {
+        std::swap(b[k], b[factor.pivots[k]]);
+        for (std::size_t i = k + 1; i < n; ++i) {
+            b[i] = checked(b[i] - multiply(factor.elimination_factors[k * n + i], b[k]));
+        }
+    }
+    return prepared;
+}
+
+inline LinearResult solve_factored(const Factorization &factor,
+                                   const std::vector<Complex> &rhs,
+                                   const PreparedRhs &prepared) {
+    const auto n = factor.n, nv = factor.nv;
+    const auto &o = factor.options;
+    const auto &physical = factor.physical;
+    const auto &dimensionless = factor.dimensionless;
+    const auto &equilibrated = factor.equilibrated;
+    const auto &a = factor.lu;
+    const auto &columns = factor.columns;
+    const auto &pivots = factor.pivots;
+    const auto &dimensionless_rhs = prepared.dimensionless;
+    const auto &equilibrated_rhs = prepared.equilibrated;
+    const auto &b = prepared.eliminated;
+    LinearResult result{{}, factor.diagnostics};
+    if (!n) {
+        return result;
     }
     std::vector<Complex> x(n);
     for (std::size_t end = n; end != 0; --end) {
@@ -522,7 +616,24 @@ inline LinearResult solve_matrix(const std::vector<Complex> &physical,
     fail(Failure::residual_failure, "MNA physical or backward residual rejected");
 }
 
-inline void validate_topology(const Network &network, bool ac) {
+inline LinearResult solve_factored(const Factorization &factor, const std::vector<Complex> &rhs) {
+    return solve_factored(factor, rhs, prepare_rhs(factor, rhs));
+}
+
+inline LinearResult solve_matrix(const std::vector<Complex> &physical,
+                                 const std::vector<Complex> &rhs,
+                                 std::size_t nv,
+                                 const SolveOptions &o) {
+    if (rhs.empty()) {
+        return {{}, {}};
+    }
+    PreparedRhs prepared{{}, {}, rhs};
+    const auto factor = factor_matrix(physical, rhs.size(), nv, o, &prepared);
+    return solve_factored(factor, rhs, prepared);
+}
+
+template <class AddReferences>
+inline void validate_topology(const Network &network, bool ac, AddReferences add_references) {
     const std::size_t count = network.node_count();
     std::vector<std::size_t> references(count), constraints(count);
     for (std::size_t i = 0; i < count; ++i) {
@@ -547,6 +658,9 @@ inline void validate_topology(const Network &network, bool ac) {
             constraints[p] = n;
         }
     }
+    add_references([&](NodeId p, NodeId n) {
+        references[root(references, p.value)] = root(references, n.value);
+    });
     const auto ground_root = root(references, 0);
     for (std::size_t i = 1; i < count; ++i) {
         if (root(references, i) != ground_root) {
@@ -555,17 +669,29 @@ inline void validate_topology(const Network &network, bool ac) {
     }
 }
 
-inline AcSolution
-solve(const Network &network, bool ac, double frequency_hz, const SolveOptions &o) {
-    validate_options(o);
-    if (ac && !positive(frequency_hz)) {
-        fail(Failure::invalid_input, "AC frequency must be finite normal and positive");
-    }
-    const double omega = ac ? product(6.283185307179586476925286766559, frequency_hz) : 0;
-    if (!normal_or_zero(omega)) {
-        fail(Failure::range_error, "AC angular frequency overflow");
-    }
-    validate_topology(network, ac);
+inline void validate_topology(const Network &network, bool ac) {
+    validate_topology(network, ac, [](const auto &) {
+    });
+}
+
+enum class SourceMode {
+    physical_excitation,
+    incremental_zero
+};
+
+struct Assembly {
+    std::size_t voltage_unknowns, internal_unknowns, unknowns;
+    std::vector<std::size_t> branch;
+    std::vector<Complex> matrix, rhs;
+};
+
+// Assembly is shared by legacy DC/AC and loaded incremental AC. Topology is a
+// separate gate: a bare singular circuit can become uniquely solvable with ports.
+inline Assembly assemble(const Network &network,
+                         bool ac,
+                         double omega,
+                         SourceMode source_mode,
+                         std::size_t extra_unknowns = 0) {
     const auto &elements = network.elements();
     const std::size_t nv = network.node_count() - 1;
     std::size_t n = nv;
@@ -578,6 +704,11 @@ solve(const Network &network, bool ac, double frequency_hz, const SolveOptions &
             }
         }
     }
+    const auto internal_unknowns = n;
+    if (extra_unknowns > 256 || n > 256 - extra_unknowns) {
+        fail(Failure::budget_exceeded, "MNA augmented unknown budget exceeded");
+    }
+    n += extra_unknowns;
     if (n > 256 || elements.size() > 4096 ||
         (n && n > std::numeric_limits<std::size_t>::max() / n)) {
         fail(Failure::budget_exceeded, "MNA assembly budget exceeded");
@@ -588,7 +719,9 @@ solve(const Network &network, bool ac, double frequency_hz, const SolveOptions &
     };
     for (std::size_t k = 0; k < elements.size(); ++k) {
         const auto &e = elements[k];
-        const auto source = ac ? e.source.ac_rms : Complex{e.source.dc, 0};
+        const auto source = source_mode == SourceMode::incremental_zero
+                                ? Complex{}
+                                : (ac ? e.source.ac_rms : Complex{e.source.dc, 0});
         if (e.kind == Kind::resistor || e.kind == Kind::capacitor) {
             const Complex y = e.kind == Kind::resistor ? divide(Complex{1, 0}, e.value)
                                                        : Complex{0, product(omega, e.value)};
@@ -627,7 +760,25 @@ solve(const Network &network, bool ac, double frequency_hz, const SolveOptions &
             }
         }
     }
-    auto solved = solve_matrix(a, b, nv, o);
+    return {nv, internal_unknowns, n, std::move(branch), std::move(a), std::move(b)};
+}
+
+inline AcSolution
+solve(const Network &network, bool ac, double frequency_hz, const SolveOptions &o) {
+    validate_options(o);
+    if (ac && !positive(frequency_hz)) {
+        fail(Failure::invalid_input, "AC frequency must be finite normal and positive");
+    }
+    const double omega = ac ? product(6.283185307179586476925286766559, frequency_hz) : 0;
+    if (!normal_or_zero(omega)) {
+        fail(Failure::range_error, "AC angular frequency overflow");
+    }
+    validate_topology(network, ac);
+    const auto assembled = assemble(network, ac, omega, SourceMode::physical_excitation);
+    const auto &elements = network.elements();
+    const auto nv = assembled.voltage_unknowns;
+    const auto &branch = assembled.branch;
+    auto solved = solve_matrix(assembled.matrix, assembled.rhs, nv, o);
     AcSolution out{{}, {}, solved.diagnostics};
     out.node_voltage.push_back(0);
     for (std::size_t j = 0; j < nv; ++j) {

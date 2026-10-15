@@ -43,6 +43,7 @@ set(RFMODEL_PUBLIC_HEADERS
     core/device_model.hpp
     core/interpolation.hpp
     mna/linear_network.hpp
+    mna/power_wave_s.hpp
     core/linear_solver.hpp
     core/network_parameters.hpp
     core/power_wave_reference.hpp

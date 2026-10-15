@@ -572,3 +572,17 @@ add_test(NAME linear_mna_installed COMMAND ${CMAKE_COMMAND}
     -DGENERATOR=${CMAKE_GENERATOR} -DCOMPILER=${CMAKE_CXX_COMPILER}
     -DCONFIG=$<CONFIG> -P ${CMAKE_CURRENT_SOURCE_DIR}/tests/cmake/check_linear_mna_install.cmake)
 set_tests_properties(linear_mna_installed PROPERTIES TIMEOUT 300)
+
+add_executable(mna_power_wave_s_test tests/mna/test_power_wave_s.cpp)
+target_link_libraries(mna_power_wave_s_test PRIVATE RFModel::rfmodel)
+add_test(NAME mna_power_wave_s_test COMMAND mna_power_wave_s_test)
+add_test(NAME mna_power_wave_s_installed COMMAND ${CMAKE_COMMAND}
+    -DSOURCE=${CMAKE_CURRENT_SOURCE_DIR}
+    -DBINARY=${CMAKE_CURRENT_BINARY_DIR}/mna-power-wave-s-installed
+    -DGENERATOR=${CMAKE_GENERATOR} -DCOMPILER=${CMAKE_CXX_COMPILER}
+    -DCONFIG=$<CONFIG> -P ${CMAKE_CURRENT_SOURCE_DIR}/tests/cmake/check_mna_power_wave_s_install.cmake)
+set_tests_properties(mna_power_wave_s_installed PROPERTIES TIMEOUT 300)
+
+add_executable(mna_factorization_test tests/mna/factorization_test.cpp)
+target_link_libraries(mna_factorization_test PRIVATE RFModel::rfmodel)
+add_test(NAME mna_factorization_test COMMAND mna_factorization_test)

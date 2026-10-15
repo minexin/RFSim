@@ -3,7 +3,8 @@
 `rfmodel/mna/linear_network.hpp` provides a separate `rfmodel::mna` API for
 linear resistor/capacitor/inductor networks and independent voltage/current
 sources. It does not change `DcNetwork`, its Newton solver, or frozen small-signal
-contracts. No nonlinear device, SPICE parser, transient/DAE, noise, S extraction,
+contracts. [Incremental port S extraction](mna-power-wave-s.md) is provided by
+a separate header. No nonlinear device, SPICE parser, transient/DAE, noise,
 frequency sweep, or vendor equivalence is implied.
 
 ## Building and results
