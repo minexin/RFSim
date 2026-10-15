@@ -94,3 +94,7 @@ add_test(NAME installed_phd_fixed_pump_network_consumer COMMAND phd_fixed_pump_n
 add_executable(xparameter_data_consumer xparameter_data.cpp xparameter_data_probe.cpp)
 target_link_libraries(xparameter_data_consumer PRIVATE RFModel::rfmodel)
 add_test(NAME installed_xparameter_data_consumer COMMAND xparameter_data_consumer)
+
+add_executable(xparameter_catalog_consumer xparameter_catalog.cpp xparameter_catalog_probe.cpp)
+target_link_libraries(xparameter_catalog_consumer PRIVATE RFModel::rfmodel)
+add_test(NAME installed_xparameter_catalog_consumer COMMAND xparameter_catalog_consumer)

@@ -529,3 +529,7 @@ set_tests_properties(dc_bias_installed PROPERTIES TIMEOUT 300)
 add_executable(xparameter_data_test tests/io/xparameter_data_test.cpp)
 target_link_libraries(xparameter_data_test PRIVATE RFModel::rfmodel)
 add_test(NAME xparameter_data_test COMMAND xparameter_data_test)
+
+add_executable(xparameter_catalog_test tests/io/xparameter_catalog_test.cpp)
+target_link_libraries(xparameter_catalog_test PRIVATE RFModel::rfmodel)
+add_test(NAME xparameter_catalog_test COMMAND xparameter_catalog_test)

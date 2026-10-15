@@ -49,6 +49,7 @@ set(RFMODEL_PUBLIC_HEADERS
     io/touchstone.hpp
     io/touchstone_writer.hpp
     io/xparameter_data.hpp
+    io/xparameter_catalog.hpp
     linear/frozen_small_signal.hpp
     linear/linear_analysis.hpp
     linear/linear_path.hpp
