@@ -1,10 +1,10 @@
 # 当前 C++ 能力与证据
 
 [机读映射](../validation/compatibility-evidence.json)是当前兼容摘要的权威索引，
-本覆盖层冻结的源基线为 `87cd75d356f62693a59500af088277382c42ac5b`，不是全目录验收清单。
-源树为 `1b56e3611e1c352e3edf624666c95a7e75231d80`，精确源提交 CI 38641741754 已 18/18 成功。
-writer、均匀线、RLGC、线性 S 提取和固定泵 PHD 网络的各阶段成功分别记录。
-后续覆盖层提交仍须单独核验 CI，不能继承源基线成功。
+本轮冻结源码基线为 `8b6105ac7295afc72376c206c477edd73d52e8b7`，不是全目录验收清单。
+源码树为 `1e30ab41d63f823f26f7b239977016eac0041d28`。raw reader 与 raw catalog 已集成；catalog 精确 CI 38764883668 已核验全部 18 作业成功。
+后继 PLL 候选不在此冻结范围内，相关缺口保持开放。
+各阶段 CI 只属于所列精确源码提交；后续 docs-only 覆盖层仍须单独核验，不能继承源码成功。
 本覆盖层仅更新 docs/validation 文档与证据快照，不改数值实现、阈值、既有 checker/schema 或示例。
 先前 `3160ba` 覆盖层的工具与格式改动属于历史记录，不是本轮改动。
 它分列实现范围、独立数值证据、厂商归档状态、剩余问题及发布门禁。
@@ -23,7 +23,7 @@ writer、均匀线、RLGC、线性 S 提取和固定泵 PHD 网络的各阶段�
   42 倍提速或渐近复杂度改善，稠密分解仍为三次复杂度。
 - 原生 PHD：显式 F/S/T、单振幅、固定泵相位与实正参考的有界系数切片已实现，
   并有泵钳位扰动 Jacobian。2362 项专项检查及严格 C++17 阶段证据见
-  [系数契约](phd-coefficient-contract.md)。这不是厂商文件解析、系数提取、
+  [系数契约](phd-coefficient-contract.md)。这不是厂商系数到模型转换、系数提取、
   插值/外推、参考变换或完整泵 Newton 导数；不从 F/S/T 推断本征噪声。
   [固定泵网络](phd-fixed-pump-network.md)扩展为受约束确定性匹配/谐波反馈，
   保持泵源精确固定、禁止泵端接线，并要求逐非泵扰动上限；不证明任意负载的物理精度。
@@ -74,7 +74,48 @@ writer、均匀线、RLGC、线性 S 提取和固定泵 PHD 网络的各阶段�
   声明，不能当作物理精度证明。仅一片固定振幅，不支持任意负载非线性精度、变泵 Newton、
   厂商系数导入或噪声推断；没有噪声量不表示器件无噪声。
 
-以上均为各阶段候选的本地记录；精确集成提交的跨平台 CI 另列。无新增本地 SystemVue 实测。
+以上为各历史原生阶段的本地记录；精确集成提交的跨平台 CI 另列。后续已完成的厂商采集见下节，本轮文档刷新不运行 SystemVue。
+
+## 2026-10-15 已集成能力与厂商证据
+
+- [接地 DC 与冻结小信号](dc-bias-small-signal.md)：显式 I(V)/Q(V) 及解析导数、
+  接受点 G/C 数值快照、逐频 Schur 约化和复功率波转换已实现。有限源专项属于
+  `dddc059` 的 18/18 CI。没有 MNA、理想电压源、电感、DAE、瞬态或自动厂商器件律。
+- 显式节点电流噪声：调用方提供完整 A²/Hz 协方差，冻结加载系统传播到出射 W/Hz；
+  不从 G 推断噪声、温度或端接噪声，不重调 DC callback。原 CI 14 成功/4 失败保留；
+  预抵消导纳尺度修复后 `a0218741` 的 CI 18/18 成功。
+- [原生表格放大器](tabulated-amplifier.md)：拥有 AM/AM、未绕回 AM/PM 与显式斜率，
+  cubic Hermite、解析直接/共轭导数及 model/coherent adapter 已实现；`71999c42` CI 18/18。
+  无外推、自动噪声、新谐波生成或 DC 导电律；不是 SystemVue DataPoints 验收。
+- [RFAMP A/B/C/D](rfamp-op1db-pilot-results-20261015.md)已完成四次无告警采集。
+  B 系数和预测器在 C 前冻结，C 的 380/380 独立来源通过原 `1e-7` 复波阈值。
+  760 条边缘观测不是 760 个独立预测；A/B 为辨识，D 仅恢复对照。
+  24 个原始文件与恢复证据由 completion 记录绑定；CI 只重放归档，不运行 SystemVue。
+  单 profile 成功不识别专有 RFAMP 参数律，也不覆盖原级联等失败。
+- [DC/RC 厂商后续](dc-bias-systemvue-followup-20261015.md)：实际提交八次分析，
+  零项 DC/小信号比较获得验收。控制及部分 RC 分析曾执行成功，不能写成零执行或全部运行失败。
+  模型创建失败和原 RC 数值、频率、边界失败完整保留，未放宽容差。
+  [147 文件原始 ZIP](../validation/dc-systemvue-followup-raw-20261015.zip)及
+  [逐文件 manifest](../validation/dc-systemvue-followup-manifest-20261015.json)保留；十份厂商文档仅本地保存。
+- [PHD 安装格式证据](systemvue-xparameter-format-evidence-20261015.md)：已本地检查四个样例
+  （两个 legacy 文件内容相同）及安装帮助，记录格式、轴、哈希与所选系数。
+  原始厂商文件尚未在云端全量解析；格式检查不等于系数转换、参考面或数值兼容验收。
+
+## 有界 raw reader 与 raw catalog
+
+[原生文本 reader](xparameter-data.md)已实现 legacy/version-2 的受限 typed-data 读取，
+保留词法 token、来源和拥有数据，限制输入及表示规模；不是厂商系数到模型的 importer。
+[version-2 raw catalog](xparameter-catalog.md)拥有行与稀疏端口元数据，提供 AN/FB 有限索引语法及
+精确 typed 条件选择；歧义拒绝，不做容差/最近点选择、默认值填充或插值。
+S/T 等其他后缀家族不解析，不推断物理单位、泵、参考面或 native model。
+它是原始行目录，不是 243 项 RF Design 器件库存的实现统计。
+
+重绑定本地 reader 门禁 678/678，catalog 686/686；catalog 每配置为 174 完整测试、19 完整安装消费者、
+133 纯测试和17纯安装消费者，均含 Debug/Release。来源树及外部完整门禁 manifest 哈希见
+[集成工程摘要](../validation/xparameter-integration-evidence-20261015.json)。原 focused validation 中
+当时 pending/unrun 的文字保留；这些后续门禁不改变原历史，也不是本轮 docs-only 的数值重跑。
+reader 与 catalog 的精确源码 CI 均已核验 18/18 成功；覆盖层自身 CI 仍须独立核验。原始安装文件仍未在云端全量解析，
+无新增 SystemVue 数值兼容结论。
 
 ## 精确提交与运行
 
@@ -100,6 +141,20 @@ writer、均匀线、RLGC、线性 S 提取和固定泵 PHD 网络的各阶段�
 - 线性外部 S 分解 `c9bc6cfe66e2b1d211848d89b103e19b6e735abf`：[38632765095](https://github.com/minexin/RFSim/actions/runs/38632765095)
 - 固定泵 PHD 网络 `87cd75d356f62693a59500af088277382c42ac5b`：[38641741754](https://github.com/minexin/RFSim/actions/runs/38641741754)
 
+- frozen nodal noise 修复 `a0218741785dba724f30c779dc2596284fae9d66`：[38706950468](https://github.com/minexin/RFSim/actions/runs/38706950468)
+- 表格 model/coherent adapter `71999c42cdafe5c01b07580a033844adcc4e0664`：[38710540300](https://github.com/minexin/RFSim/actions/runs/38710540300)
+- RFAMP holdout `586fd46f43319ab2db384958452ffefddd055831`：[38720558955](https://github.com/minexin/RFSim/actions/runs/38720558955)
+- DC 有限源与安装格式证据 `dddc0593961b3d734ee7702d96ee9d4ca370519a`：[38722607277](https://github.com/minexin/RFSim/actions/runs/38722607277)
+
+- raw reader `e633109022aa6e447127361952ad1ccab24e4039`：[38756583678](https://github.com/minexin/RFSim/actions/runs/38756583678)
+
+- raw catalog `8b6105ac7295afc72376c206c477edd73d52e8b7`：[38764883668](https://github.com/minexin/RFSim/actions/runs/38764883668)
+
+frozen noise 原提交 `2033fd33c47a49f0b3ce33b322e97dfe5cc77cc9` 的
+[38705856824](https://github.com/minexin/RFSim/actions/runs/38705856824) 为 14 成功、4 失败。
+新严格快照直接取自实际 REST jobs 的 head_sha/run_id/status，保留旧阶段原格式快照。
+当前机读索引为 27 个不同运行、486 个逐作业记录；重复引用旧阶段记录不新增运行数。
+
 原失败也保留：pilot `2752af6a5010a7c5ee5fbeddda42c360cf54ff97`
 [38579642585](https://github.com/minexin/RFSim/actions/runs/38579642585) 为 16 成功、2 失败；
 writer `a88dcc041917e30a620a6f06a98caa56042b5b04`
@@ -119,7 +174,7 @@ writer `a88dcc041917e30a620a6f06a98caa56042b5b04`
   衰减器噪声原失败不改判。衰减器约 9.8915667e-7 残差仍超过原 1e-7 阈值。
   频谱削减关闭后恢复的来源不再列为未知缺项。
 - 通用 ModelAdapter 和原生 PHD 切片不等于专用器件库或厂商参数翻译器。
-  厂商 PHD 格式/系数与条件 A/B 的用户采集仍待证据，没有新增 SystemVue 实测。
+  安装 PHD 格式已有诊断，RFAMP A/B/C/D 已采集；系数语义及更广泛数值验收仍未建立。
 
 原始报告、容差、告警、校准/独立评分边界和历史构建计数不重写。
 历史 Python/JSON 叙述按[退役说明](python-interface-retirement.md)阅读；产品 Python 接口已退役，
@@ -127,13 +182,9 @@ writer `a88dcc041917e30a620a6f06a98caa56042b5b04`
 
 ## 尚需外部证据与发布选择
 
-- RFAMP 参数律：仍缺 A/B 两组原始条件采集。沿用[既有 OP1dB pilot](rfamp-op1db-parameter-pilot.md)，
-  保留实际复输入、参数/单位、版本、来源与原始输出；B 提取及 C 预测须先冻结，再看 C holdout，
-  D 是恢复对照，不增独立预测数量。现有固定 profile 和显式系数归档不能替代参数律证据。
-- PHD：仍需厂商文件格式、单位/波定义、参考面/阻抗及系数参考证据；变泵数据和导数验证缺失。
-  当前原生固定切片/固定泵网络不能替代这些外部证据。
-- 其他厂商噪声、ZPORT/CS 归一化、DC 偏置/器件线性化、PLL 及专用器件族逐项未证实；
-  [目录与覆盖边界](rf-design-catalog.md)不是整体兼容验收。原始 RFPwrIn、级联和衰减器噪声失败保留。
+- RFAMP 参数律：A/B/C/D 及 380 来源有限 holdout 已完成，尚不能识别专有系数律或推广到其他参数、频率与全级联。保持预注册、原始实际复输入及原容差，不重新要求已完成的采集。
+- PHD：安装格式与帮助已检查；legacy 归一化、完整系数转换、参考面与复阻抗映射、变泵数据和导数验证仍缺。格式证据不能替代独立厂商数值预测。
+- 其他厂商噪声、ZPORT/CS 归一化、DC/RC 验收、PLL 及专用器件族逐项未证实；原生 grounded DC/G/C 能力已存在，但不闭合厂商验收。[目录与覆盖边界](rf-design-catalog.md)只是库存。原始 RFPwrIn、级联和衰减器噪声失败保留。
 - 正式许可、公开分发、版本/标签和 API 稳定性需要用户的产品选择；本轮未发布或选定许可。
 
 这些是后续依赖清单，不是新的操作要求，也不表示全项目完成或可计算总百分比。

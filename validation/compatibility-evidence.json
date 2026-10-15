@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
   "snapshot": {
-    "source_commit": "87cd75d356f62693a59500af088277382c42ac5b",
-    "date_utc": "2026-10-14",
-    "scope": "Bounded current C++ capability/evidence summary; stage-specific local records and exact-commit CI, not whole-catalog acceptance. No new SystemVue execution.",
-    "integration_note": "Frozen source baseline 87cd75d356f62693a59500af088277382c42ac5b (tree 1b56e3611e1c352e3edf624666c95a7e75231d80), exact CI 38641741754 18/18 success. This later overlay changes docs/validation snapshots only; no numerical implementation, thresholds, checker/schema logic or SDK example changes. Its future commit CI is not yet claimed and must be verified independently; source success is not overlay success. Historical records remain stage-specific. No new SystemVue execution or public release decision."
+    "source_commit": "8b6105ac7295afc72376c206c477edd73d52e8b7",
+    "date_utc": "2026-10-15",
+    "scope": "Bounded current C++ capability/evidence summary, including archived RFAMP holdout, eight DC/RC vendor analysis submissions with zero accepted comparisons, and installed PHD format diagnostics; not whole-catalog acceptance.",
+    "integration_note": "Frozen codebase 8b6105ac7295afc72376c206c477edd73d52e8b7, tree 1e30ab41d63f823f26f7b239977016eac0041d28. Reader e633109022aa6e447127361952ad1ccab24e4039 exact CI 38756583678 passed 18/18. Catalog codebase CI 38764883668 passed all 18 required jobs on that exact source commit. This later docs/validation-only overlay changes no implementation, thresholds, checker/schema or SDK example; its own CI must be verified independently. Source-code CI success is not overlay success, and recording overlay CI must not trigger a self-referential source-baseline update. Historical stage statements remain stage-specific. This refresh performs no SystemVue execution and makes no release decision. Later PLL candidates are outside this frozen source."
   },
   "catalog": {
     "inventory": "validation/systemvue-2023-rf-catalog.json",
@@ -39,7 +39,7 @@
       "numerical_evidence": "Independent roots, V/I continuity, Jacobian noise and installed multi-TU coverage documented in the linked stage record.",
       "vendor_evidence": "not_executed",
       "remaining": [
-        "General device DC bias/model linearization is not established by a DC frequency bin.",
+        "The separate grounded DC and frozen-small-signal capability is implemented within its stated analytic-model contract; a DC frequency bin alone does not establish device bias physics.",
         "Vendor feedback and working-point/noise joint acceptance remain open."
       ]
     },
@@ -231,27 +231,31 @@
       "vendor_evidence": "not_executed",
       "remaining": [
         "The single-amplitude slice excludes pump perturbations and does not provide full pump Newton derivatives; F/r is not a derivative. No unrestricted conversion/device/operating-point adapter is exposed.",
-        "Paper voltage pseudowaves are not native RMS power-wave coefficients. Vendor parsing, extraction, interpolation/extrapolation, reference conversion and SystemVue2023 coefficient/numerical acceptance remain unverified or absent.",
+        "Paper voltage pseudowaves are not native RMS power-wave coefficients. Separate raw text reader/catalog utilities now exist, but complete vendor-file validation, coefficient-to-model conversion, extraction, interpolation/extrapolation, reference conversion and SystemVue2023 numerical acceptance remain unverified or absent.",
         "No intrinsic noise law or noise figure is inferred from F/S/T."
       ]
     },
     {
       "id": "automatic_rfamp_and_phd",
-      "contract": "No automatic arbitrary RFAMP odd-order coefficient translation, vendor PHD coefficient schema/importer, or unrestricted varying-pump PHD operating-point adapter.",
+      "contract": "No automatic arbitrary RFAMP odd-order coefficient translation, vendor PHD coefficient-to-model importer, or unrestricted varying-pump PHD operating-point adapter. Separate bounded raw reader/catalog utilities do not supply these model semantics.",
       "implementation": "absent",
       "references": [
         "docs/model-adapters.md",
         "docs/coherent-highorder-amplifier.md",
         "docs/rf-design-catalog.md",
         "docs/phd-coefficient-contract.md",
-        "docs/rfamp-op1db-parameter-pilot.md"
+        "docs/rfamp-op1db-parameter-pilot.md",
+        "docs/rfamp-op1db-pilot-results-20261015.md",
+        "docs/systemvue-xparameter-format-evidence-20261015.md",
+        "docs/xparameter-data.md",
+        "docs/xparameter-catalog.md"
       ],
       "numerical_evidence": "The separately listed native fixed-pump coefficient slice does not establish automatic extraction, vendor data interpretation or full pump derivatives.",
-      "vendor_evidence": "not_executed",
+      "vendor_evidence": "diagnostic",
       "remaining": [
-        "Vendor coefficient normalization/imports, coefficient extraction, amplitude/frequency interpolation, full pump derivatives, validity ranges and general operating-point integration remain unimplemented.",
+        "Installed PHD/X-parameter examples and help were inspected locally for format, axes and selected coefficients. Full original vendor files have not been parsed in the cloud; legacy normalization, physical reference planes, complete coefficient conversion, extraction, interpolation and varying-pump derivatives remain unaccepted.",
         "Microstrip/switch/array/antenna dedicated families and vendor parameter/default/enum/table translation need individual assessment; host callbacks are not catalog acceptance.",
-        "RFAMP parameter-law work still needs two raw A/B parameter conditions with measured complex input and original provenance; freeze B extraction/prediction before C holdout and retain D restore control per the existing pilot. No new acquisition is reported."
+        "RFAMP A/B/C/D acquisition is complete: frozen B coefficients predict 380/380 independent C origins at the original 1e-7 tolerance; D is restoration control, not an independent prediction. This bounded profile does not identify the proprietary parameter law."
       ]
     },
     {
@@ -284,7 +288,7 @@
       "numerical_evidence": "Engineering integrity/provenance, negative archive and installed-consumer checks; this feature adds no numerical model or vendor acceptance evidence. Minimum CMake 3.20.5 fixture exercised locally.",
       "vendor_evidence": "not_executed",
       "remaining": [
-        "Exact source baseline 87cd75d CI has passed 18/18; the later doc-only overlay still needs its own exact-commit CI. Stage-local installed results are not a rerun on that overlay.",
+        "Local raw-reader and catalog full/pure SDK gates passed on their rebound source trees; exact-source CI is separately recorded below. The later docs-only overlay requires its own exact-commit CI; local stage results are not a rerun on that overlay.",
         "Public distribution, license selection, release version/tag and API stability decisions remain open; this is an internal engineering candidate."
       ]
     },
@@ -423,6 +427,110 @@
         "One frozen amplitude, exact pump source and zero reflection; pump physical port cannot be wired. Nonpump limits bound declared domain, not physical accuracy.",
         "No vendor file/units/coefficient acceptance, extraction, interpolation/extrapolation, reference transformation, varying-pump Newton derivative or arbitrary-load nonlinear accuracy.",
         "No noise input/output or inferred intrinsic noise law; absence of noise quantities does not imply a noiseless device. No new SystemVue execution."
+      ]
+    },
+    {
+      "id": "grounded_dc_frozen_small_signal",
+      "contract": "Owning grounded nodal DC solve with explicit analytic I/V and optional Q/V derivatives, accepted G/C snapshots, frequency-dependent Schur reduction and complex power-wave conversion.",
+      "implementation": "bounded",
+      "references": [
+        "docs/dc-bias-small-signal.md",
+        "docs/dc-bias-systemvue-verification-20261015.md",
+        "docs/dc-bias-systemvue-followup-20261015.md",
+        "validation/dc-systemvue-followup-20261015.json",
+        "validation/dc-systemvue-followup-manifest-20261015.json"
+      ],
+      "numerical_evidence": "Native DC and frozen small-signal executables passed 316 and 69 checks in both configurations in the linked stage. Finite-source tests are included in exact dddc059 CI 38722607277, 18/18; not a new numerical rerun.",
+      "vendor_evidence": "diagnostic",
+      "remaining": [
+        "Eight dedicated SystemVue analyses were submitted; zero DC/small-signal comparisons were accepted. Some analyses executed successfully; model-entry failures and original RC numerical/frequency/boundary failures remain.",
+        "No ideal voltage sources, inductors, MNA, DAE or transient model; callback derivative correctness belongs to the supplied model. No automatic vendor device law.",
+        "Raw ZIP retains 147 files with manifest hashes; ten vendor documentation files remain local. No accepted physical V/I/Y result or subsequent vendor S comparison."
+      ]
+    },
+    {
+      "id": "frozen_nodal_current_noise",
+      "contract": "Explicit caller-supplied stationary nodal current covariance propagated through the frozen reference-loaded system to outgoing power-wave covariance; no callback reevaluation.",
+      "implementation": "bounded",
+      "references": [
+        "docs/dc-bias-small-signal.md",
+        "validation/frozen-nodal-noise-validation-20261015.json",
+        "validation/frozen-nodal-noise-boundary-fix-20261015.json"
+      ],
+      "numerical_evidence": "Analytic thermal RC, correlated cancellation, complex-reference and active-boundary tests. Original 2033fd33 CI has 14 success and 4 failure; pre-cancellation scale fix a0218741 CI 38706950468 passes 18/18.",
+      "vendor_evidence": "not_executed",
+      "remaining": [
+        "Caller supplies full Hermitian PSD covariance in A^2/Hz and the spectral convention; no noise law, temperature or termination noise is inferred from G.",
+        "Stationary noise only; cyclostationary coupling/complementary noise needs conversion APIs. Native mathematical checks do not establish vendor noise acceptance."
+      ]
+    },
+    {
+      "id": "tabulated_amplifier_adapter",
+      "contract": "Owning native radial cubic-Hermite AM/AM and unwrapped AM/PM table with explicit endpoint slopes, analytic direct/conjugate derivatives, ModelAdapter and coherent common-drive integration.",
+      "implementation": "bounded",
+      "references": [
+        "docs/tabulated-amplifier.md",
+        "docs/model-adapters.md",
+        "validation/tabulated-model-adapter-validation-20261015.json"
+      ],
+      "numerical_evidence": "Independent native table/adapter and coherent tests in the linked stage; its original pending CI statement is historical. Exact integration 71999c42 CI 38710540300 later passed 18/18.",
+      "vendor_evidence": "not_executed",
+      "remaining": [
+        "No extrapolation, implicit slope inference, intrinsic noise, new harmonic/intermodulation bins or DC conduction law.",
+        "This explicit native contract is not SystemVue DataPoints interpolation, power-axis, zero-dBm or derivative acceptance; all old DataPoints failures remain."
+      ]
+    },
+    {
+      "id": "rfamp_op1db_holdout",
+      "contract": "One preregistered OP1dB profile with A/B identification, frozen B coefficients and predictor, independent C odd-origin holdout and D restoration control.",
+      "implementation": "bounded",
+      "references": [
+        "docs/rfamp-op1db-pilot-results-20261015.md",
+        "validation/rfamp-op1db-pilot-registration-20261015.json",
+        "validation/rfamp-op1db-pilot-freeze-20261015.json",
+        "validation/rfamp-op1db-pilot-c-score-20261015.json",
+        "validation/rfamp-op1db-pilot-replay-20261015.json",
+        "validation/rfamp-op1db-pilot-completion-20261015.json"
+      ],
+      "numerical_evidence": "Native archived replay and independent multinomial audit; completion record binds all 24 original source files. Exact 586fd46f CI 38720558955 passes 18/18; CI replays archives and does not run SystemVue.",
+      "vendor_evidence": "bounded_pass",
+      "remaining": [
+        "C passes 380/380 independent origins at original 1e-7 relative complex-wave tolerance; 760 band-edge rows are not 760 independent predictions. A/B identification and D control add no independent predictions.",
+        "Four warning-free analyses completed; no post-C fitting. The A-coefficients-on-B hypothesis still fails all 18 selected controls.",
+        "No automatic proprietary RFAMP coefficient law, whole-cascade or complete vendor-model acceptance; historical failures remain."
+      ]
+    },
+    {
+      "id": "xparameter_raw_reader",
+      "contract": "Owning bounded C++17 typed-text reader for legacy PHDModelData and version-2 raw data blocks; strict grouped rows, finite typed values, lexical/source provenance and explicit resource budgets.",
+      "implementation": "bounded",
+      "references": [
+        "docs/xparameter-data.md",
+        "validation/xparameter-data-validation-20261015.json",
+        "validation/xparameter-integration-evidence-20261015.json"
+      ],
+      "numerical_evidence": "Rebound strict C++17 Debug/Release full/pure and relocated SDK gates total 678/678; exact e6331090 CI 38756583678 passed 18/18. Original focused record remains unchanged and predates full gates.",
+      "vendor_evidence": "not_executed",
+      "remaining": [
+        "Complete original vendor files have not been parsed by this reader in the cloud; registered decimal-text samples and synthetic fixtures are not full-file acceptance.",
+        "No coefficient normalization, model conversion, inferred pump, missing-value filling, interpolation, noise or simulator execution. Legacy normalization and version-2 reference planes/current polarity remain unresolved."
+      ]
+    },
+    {
+      "id": "xparameter_raw_catalog",
+      "contract": "Owning restricted version-2 raw row catalog, sparse explicit port metadata, bounded AN/FB suffix syntax and exact typed condition selection; no first-match ambiguity fallback.",
+      "implementation": "bounded",
+      "references": [
+        "docs/xparameter-catalog.md",
+        "validation/xparameter-catalog-validation-20261015.json",
+        "validation/xparameter-integration-evidence-20261015.json"
+      ],
+      "numerical_evidence": "Rebound strict C++17 Debug/Release each 174 full tests, 19 full installed consumers, 133 pure tests and 17 pure installed consumers: 686/686. Original focused record is historical; exact published 8b6105ac CI 38764883668 passed 18/18.",
+      "vendor_evidence": "not_executed",
+      "remaining": [
+        "Only AN/FB suffix syntax is interpreted; S/T/XY/XZ/AM/AP/FI/FV remain unsupported suffix families, with unknown fields retained raw.",
+        "No normalization, units or coefficient semantics, pump inference, default reference/plane, tolerance/nearest selection or interpolation; missing fields remain missing.",
+        "This raw row catalog does not assess the 243-part RF Design inventory, construct native model slices/adapters or establish full vendor-file/numerical compatibility."
       ]
     }
   ],
@@ -666,6 +774,90 @@
       "url": "https://github.com/minexin/RFSim/actions/runs/38641741754",
       "verified_failed_jobs": 0,
       "verified_cancelled_jobs": 0
+    },
+    {
+      "id": "frozen_nodal_noise_failed",
+      "commit": "2033fd33c47a49f0b3ce33b322e97dfe5cc77cc9",
+      "run_id": 38705856824,
+      "status": "failed",
+      "verified_successful_jobs": 14,
+      "verified_failed_jobs": 4,
+      "verified_cancelled_jobs": 0,
+      "expected_jobs": 18,
+      "evidence": "validation/compatibility-frozen-nodal-noise-failed-ci-38705856824.json",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38705856824"
+    },
+    {
+      "id": "frozen_nodal_noise",
+      "commit": "a0218741785dba724f30c779dc2596284fae9d66",
+      "run_id": 38706950468,
+      "status": "success",
+      "verified_successful_jobs": 18,
+      "verified_failed_jobs": 0,
+      "verified_cancelled_jobs": 0,
+      "expected_jobs": 18,
+      "evidence": "validation/compatibility-frozen-nodal-noise-ci-38706950468.json",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38706950468"
+    },
+    {
+      "id": "tabulated_amplifier_adapter",
+      "commit": "71999c42cdafe5c01b07580a033844adcc4e0664",
+      "run_id": 38710540300,
+      "status": "success",
+      "verified_successful_jobs": 18,
+      "verified_failed_jobs": 0,
+      "verified_cancelled_jobs": 0,
+      "expected_jobs": 18,
+      "evidence": "validation/compatibility-tabulated-amplifier-adapter-ci-38710540300.json",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38710540300"
+    },
+    {
+      "id": "rfamp_op1db_holdout",
+      "commit": "586fd46f43319ab2db384958452ffefddd055831",
+      "run_id": 38720558955,
+      "status": "success",
+      "verified_successful_jobs": 18,
+      "verified_failed_jobs": 0,
+      "verified_cancelled_jobs": 0,
+      "expected_jobs": 18,
+      "evidence": "validation/compatibility-rfamp-op1db-holdout-ci-38720558955.json",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38720558955"
+    },
+    {
+      "id": "dc_finite_source_format",
+      "commit": "dddc0593961b3d734ee7702d96ee9d4ca370519a",
+      "run_id": 38722607277,
+      "status": "success",
+      "verified_successful_jobs": 18,
+      "verified_failed_jobs": 0,
+      "verified_cancelled_jobs": 0,
+      "expected_jobs": 18,
+      "evidence": "validation/compatibility-dc-finite-source-format-ci-38722607277.json",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38722607277"
+    },
+    {
+      "id": "xparameter_raw_reader",
+      "commit": "e633109022aa6e447127361952ad1ccab24e4039",
+      "run_id": 38756583678,
+      "status": "success",
+      "verified_successful_jobs": 18,
+      "verified_failed_jobs": 0,
+      "verified_cancelled_jobs": 0,
+      "expected_jobs": 18,
+      "evidence": "validation/compatibility-xparameter-reader-ci-38756583678.json",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38756583678"
+    },
+    {
+      "id": "xparameter_raw_catalog",
+      "commit": "8b6105ac7295afc72376c206c477edd73d52e8b7",
+      "run_id": 38764883668,
+      "status": "success",
+      "verified_successful_jobs": 18,
+      "verified_failed_jobs": 0,
+      "verified_cancelled_jobs": 0,
+      "expected_jobs": 18,
+      "evidence": "validation/compatibility-xparameter-catalog-ci-38764883668.json",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38764883668"
     }
   ],
   "release_gates": [

@@ -15,15 +15,15 @@
 | NF、NFmin、GammaOpt、Rn | 已有公共实参考及独立复功率波参考的 NF、NFmin、GammaOpt、物理 Rn，可由 C++ 类型化分析逐频点组合（旧 Python/JSON CLI 已退役） | SystemVue 对照及退化边界语义核验 |
 | zin/yin/groupdelay | 已有标量阻抗/导纳和区间群时延 | 输出边界与 SystemVue 对照 |
 | stoz/stoy | 已有统一正实及独立复功率波参考的 S→Z/Y 转换 | SystemVue 数值对照 |
-| 非线性器件工作点线性化 | 已有 C++ 给定模型直接/共轭 Jacobian、反馈工作点及混合复参考物理接线 | 通用器件 DC 偏置/模型线性化与厂商数值验收；DC 频点本身不证明 DC 偏置能力 |
+| 非线性器件工作点线性化 | 已有 C++ 给定模型直接/共轭 Jacobian、反馈工作点及混合复参考物理接线 | 已有独立[接地 DC/解析 G,C/冻结小信号](dc-bias-small-signal.md)；厂商 DC/RC 验收、专用器件律、MNA/理想电压源/电感/瞬态仍未实现或未验收；DC 频点本身不证明 DC 偏置能力 |
 
 厂商帮助指出该 Linear Analysis 不包含稳定圆/增益圆/噪声圆及传输线、微带设计功能，不应把这些列为必须复制的功能。该描述不替代对 RF Design 各器件模块的逐项核验。
 
 ## 当前 API
 
-`analyze_linear(grid, external_ports, builder)` 返回频率、等效 S、端口阻抗和外端口顺序。builder 返回各频点未激励的网络，支持选定外端口排序。当前逐频点重建网络，并逐端口求解；不宣称性能或完整 API 兼容。
+`analyze_linear(grid, external_ports, builder)` 返回频率、等效 S、端口阻抗和外端口顺序。builder 返回各频点未激励的网络，支持选定外端口排序。当前逐频点重建网络，external_s 每频率单次分解并求所选 RHS 列；稠密成本 O(n³ + mn²)，不含跨频缓存，不宣称完整 API 兼容。
 
-## 当前证据边界（2026-10-14）
+## 当前证据边界（2026-10-15）
 
 [混合复参考工作点](conversion-operating-point-power-wave.md)已实现，并有独立根、
 V/I 连续性、收敛 Jacobian C/P 和安装消费者回归；
@@ -31,6 +31,9 @@ V/I 连续性、收敛 Jacobian C/P 和安装消费者回归；
 保留输入准入规则，改善极端相关/抵消情况下的传播。它们不构成 SystemVue
 ZPORT/CS 或通用 DC 偏置线性化验收。[接受工作点本征噪声提供器](conversion-operating-noise.md)已集成，
 收敛后一次求值并冻结完整 C/P；它不自动提供厂商器件噪声律。
+
+[接地 DC 与冻结小信号](dc-bias-small-signal.md)已实现；显式节点电流协方差可经冻结系统传播，不自动从 G 推断器件噪声。
+[最新 DC/RC 实测](dc-bias-systemvue-followup-20261015.md)已提交八次分析，零项比较验收；执行成功的控制/RC 输出不等于物理 V/I/Y/S 通过，原容差与失败保留。
 
 全项目已有 SystemVue 归档采集、有限通过及原始失败；本表所列复参考/输出
 语义仍需各自数值对照。当前接口、证据和最终提交门禁见

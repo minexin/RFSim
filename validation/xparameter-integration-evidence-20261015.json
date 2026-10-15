@@ -1,0 +1,27 @@
+{
+  "date_utc": "2026-10-15",
+  "scope": "Rebound local native engineering gates only; no new vendor execution or full installed-vendor-file parsing. Original focused validation records retain their historical pending/unrun statements.",
+  "reader": {
+    "published_commit": "e633109022aa6e447127361952ad1ccab24e4039",
+    "source_tree": "f0437ee5331c8b95c778213a394a80541e8ea654",
+    "local_passed_checks": 678,
+    "external_full_gate_manifest_sha256": "86ff9c66d14fee15b3fd80c53e1ed88136434ca1e0762e45ff0ed0dba48d4fdb"
+  },
+  "catalog": {
+    "published_commit": "8b6105ac7295afc72376c206c477edd73d52e8b7",
+    "source_tree": "1e30ab41d63f823f26f7b239977016eac0041d28",
+    "local_passed_checks": 686,
+    "per_configuration": {
+      "full_tests": 174,
+      "full_installed_consumers": 19,
+      "pure_tests": 133,
+      "pure_installed_consumers": 17
+    },
+    "configurations": [
+      "Debug",
+      "Release"
+    ],
+    "external_full_gate_manifest_sha256": "db452413645b58d875b5195438816748e7ad1677d476524812cdbc5f7fc34d05"
+  },
+  "boundary": "Manifest hashes identify retained external gate logs, not committed vendor artifacts. Exact cross-platform run/job evidence is in compatibility-evidence.json. These gates do not validate the later docs-only overlay or any future PLL implementation."
+}

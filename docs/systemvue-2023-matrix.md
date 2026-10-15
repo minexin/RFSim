@@ -5,7 +5,7 @@
 状态以实现和证据为准，不以版本计划代替验收。已完成部分 SystemVue 单器件与
 链路采集，存在通过点和已知差异；下表不表示任一整类能力已全面兼容。
 
-## 当前 C++ 能力摘要（2026-10-14）
+## 当前 C++ 能力摘要（2026-10-15）
 
 权威机读索引为 [能力与证据映射](../validation/compatibility-evidence.json)，
 [字段 schema](../validation/compatibility-evidence.schema.json) 与
@@ -14,15 +14,18 @@
 
 | 能力 | 当前实现 | 主要剩余项 |
 |---|---|---|
-| Linear Analysis | C++ N 端口、F/S/ZPORT、独立复参考物理接线、S/Z/Y、W/Hz 相关噪声及二端口噪声参数 | 厂商 ZPORT/CS/噪声归一化与逐频对照；通用器件 DC 偏置线性化 |
+| Linear Analysis | C++ N 端口、F/S/ZPORT、独立复参考物理接线、S/Z/Y、W/Hz 相关噪声及二端口噪声参数 | 厂商 ZPORT/CS/噪声归一化与逐频对照；[接地 DC、解析 G/C 和冻结小信号已实现](dc-bias-small-signal.md)，厂商 DC/RC 未验收；MNA/理想电压源/电感/瞬态仍不支持 |
 | 非线性工作点 | 直接/共轭 Jacobian、阻尼求解、仿射偏置、[混合复参考工作点](conversion-operating-point-power-wave.md)、[接受工作点本征噪声提供器](conversion-operating-noise.md)与冻结 C/P | 厂商反馈/噪声语义、实际器件噪声律与跨器件本征相关 |
 | RF System Analysis | 类型化相干/转换图、来源传播、结构扩频、加载噪声、显式频带与相噪测量 | 路径/驱动功率/预算、完整调制谱、PLL/PNCP 与厂商测量约定；保留 RFPwrIn 失败 |
 | 线性模型 | RLC、理想器件、表格 S/噪声、频率相关电缆及滤波器等原生模型 | 完整目录逐器件参数与行为验收；通用回调不是器件兼容通过 |
 | 显式非线性模型 | 十一阶电压多项式、公共压缩/限幅、[高阶适配器](model-adapters.md)工作点/相干入口 | 自动 RFAMP 系数、合并总谱、次级失真、完整 PHD 文件及变泵浦工作点；原生固定切片不替代这些能力 |
-| 原生 PHD 固定泵浦 | [显式单幅度 RMS 功率波 F/S/T 切片](phd-coefficient-contract.md)、相位冻结、严格 DC gauge、参考面、拥有数据的受限 Jacobian、[有界固定泵确定性网络](phd-fixed-pump-network.md)；独立数学测试 | 不支持泵浦扰动或完整泵浦导数；无通用网络/工作点适配器、厂商系数文件/提取/插值、噪声推断或 SystemVue2023 数值兼容结论 |
+| 原生 PHD 固定泵浦 | [显式单幅度 RMS 功率波 F/S/T 切片](phd-coefficient-contract.md)、相位冻结、严格 DC gauge、参考面、拥有数据的受限 Jacobian、[有界固定泵确定性网络](phd-fixed-pump-network.md)；独立数学测试 | 不支持泵浦扰动或完整泵浦导数；无通用网络/工作点适配器、厂商系数到模型转换/提取/插值、噪声推断或 SystemVue2023 数值兼容结论 |
+| PHD/X-parameter 原始数据工具 | [受限 typed-text reader](xparameter-data.md)与[version-2 raw catalog/精确选择](xparameter-catalog.md)已实现 | 原始安装文件未全量云端解析；不提供系数归一化、模型转换、缺失值填充、插值或厂商数值验收；raw行目录不是243项器件覆盖 |
 | Mixer | 固定泵转换与 C/P；[三端口双线性适配器](model-adapters.md)以实际求解 LO 驱动且保持固定归一化 | 厂商压缩、泄漏/杂散、噪声、自动选频/削减；三端口适配器不虚构上述能力 |
 | 噪声数值稳定性 | PSD 因子域传播、补偿及缩放算术，见[阶段证据](../validation/noise-factor-propagation-validation-20261014.json) | 输入截断、可表示性和条件数限制仍在；不新增厂商通过项 |
 | AM/PM | 显式校准 PointDerivative 相位律与导数组合；有限无告警归档通过 | 实际输出功率须由调用者给定；完整网络 AM-AM、多音、DataPoints 与连续旁路律未验收 |
+| 显式节点噪声 | 冻结参考加载网络传播调用方给定完整节点电流协方差 | 不从 G 推断噪声、温度或端接噪声；无厂商验收 |
+| 原生表格 AM/AM、AM/PM | [显式斜率 Hermite 表格、解析导数、model/coherent adapter](tabulated-amplifier.md) | 无外推或自动噪声；不等于 SystemVue DataPoints 验收 |
 | 参数任务 | C++ 类型化有界优化、参数绑定、相关 Monte Carlo、统计及重放 | 厂商约定对照；已退役 JSON 字段分发不是当前产品要求 |
 | 交付与 GUI | header-only C++17、可选 C ABI、原生 S CSV CLI；[内部工程 SDK 归档](cpp-sdk.md)含实际 Git 身份、哈希及独立消费者；GUI 后置 | Python 产品入口已退役；归档不是公开发布，许可与分发决策未完成；不新增厂商兼容通过项 |
 
@@ -31,11 +34,15 @@
 历史计数见[构建记录](build-validation.md)。[243 项目录](rf-design-catalog.md)
 只是库存基线，不是已实现或兼容数量。
 
+2026-10-15 更新：[RFAMP A/B/C/D 与 380/380 独立 C 来源 holdout](rfamp-op1db-pilot-results-20261015.md)已完成，D 只作恢复控制，仍无自动专有系数律。
+[DC/RC 八次分析](dc-bias-systemvue-followup-20261015.md)已有实际执行但零项比较验收，原失败不改判。
+[PHD 安装格式](systemvue-xparameter-format-evidence-20261015.md)已本地检查，原始文件未全量云端解析，尚无系数/参考面/数值兼容验收。本次摘要刷新自身不执行 SystemVue。
+
 ## 保留的分阶段证据与历史接口
 
 下列记录保留原阶段范围、通过点和失败点。其中 C/Python/JSON、wheel 等字样
 描述当时入口，不表示当前仍交付这些已退役产品接口；模型后续实现状态以本页
-当前摘要与机读映射为准。没有重新执行 SystemVue，也没有更改原容差或失败判定。
+当前摘要与机读映射为准。以下各历史记录的执行范围保持当时原貌；本次摘要刷新不执行 SystemVue，也不更改原容差或失败判定。
 
 基波压缩/饱和的七点参考、原生接口与边界见 [饱和基波模型](saturating-fundamental.md)。
 谐波小信号及压缩区差异见 [截点模型](intercept-amplifier.md)，不能以基波吻合替代
