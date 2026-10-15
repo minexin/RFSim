@@ -10,7 +10,7 @@ foreach(mode IN ITEMS full pure)
     if(mode STREQUAL "pure")
         set(c_api OFF)
     endif()
-    set(root "${BINARY}/${mode}")
+    set(root "${BINARY}/${mode} writer SDK")
     run("${CMAKE_COMMAND}" -S "${SOURCE}" -B "${root}/build" -G "${GENERATOR}"
         "-DCMAKE_CXX_COMPILER=${COMPILER}" "-DCMAKE_BUILD_TYPE=${CONFIG}"
         -DCMAKE_CXX_EXTENSIONS=OFF -DBUILD_TESTING=OFF "-DRFMODEL_BUILD_C_API=${c_api}"
@@ -30,5 +30,5 @@ foreach(mode IN ITEMS full pure)
         "-DCMAKE_CXX_COMPILER=${COMPILER}" "-DCMAKE_BUILD_TYPE=${CONFIG}"
         "-DCMAKE_PREFIX_PATH=${root}/relocated")
     run("${CMAKE_COMMAND}" --build "${root}/consumer-build" --config "${CONFIG}" --parallel 2)
-    run("${CMAKE_CTEST_COMMAND}" --test-dir "${root}/consumer-build" -C "${CONFIG}" --output-on-failure)
+    run("${CMAKE_CTEST_COMMAND}" --test-dir "${root}/consumer-build" -C "${CONFIG}" --parallel 1 --output-on-failure)
 endforeach()

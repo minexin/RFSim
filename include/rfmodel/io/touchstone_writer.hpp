@@ -11,6 +11,34 @@ namespace rfmodel {
 inline constexpr std::size_t touchstone_v2_max_output_bytes = 64u * 1024u * 1024u;
 
 namespace touchstone_writer_detail {
+struct NoisePolar {
+    double magnitude;
+    double degrees;
+};
+
+inline NoisePolar noise_polar(Complex gamma) {
+    if (!std::isfinite(gamma.real()) || !std::isfinite(gamma.imag())) {
+        throw std::invalid_argument("Touchstone noise reflection components must be finite");
+    }
+    // hypot avoids intermediate squaring overflow/underflow. A nonzero input
+    // must not disappear when represented as magnitude; subnormals are allowed.
+    const auto magnitude = std::hypot(gamma.real(), gamma.imag());
+    const bool nonzero = gamma.real() != 0. || gamma.imag() != 0.;
+    if (!std::isfinite(magnitude) || (nonzero && magnitude == 0.)) {
+        throw std::invalid_argument("Touchstone noise reflection magnitude is not representable");
+    }
+    // atan2 preserves quadrants, including +/-180 for the signed imaginary zero
+    // on the negative real axis. All complex zeros have canonical angle +0.
+    constexpr double radians_to_degrees = 180. / 3.141592653589793238462643383279502884;
+    const auto radians = nonzero ? std::atan2(gamma.imag(), gamma.real()) : 0.;
+    const auto degrees = radians * radians_to_degrees;
+    if (!std::isfinite(radians) || !std::isfinite(degrees) ||
+        (gamma.imag() != 0. && radians == 0.) || (radians != 0. && degrees == 0.)) {
+        throw std::invalid_argument("Touchstone noise reflection angle conversion is out of range");
+    }
+    return {magnitude, degrees};
+}
+
 // Geometric growth capped at the payload budget. Reallocation temporarily keeps
 // the old allocation too (at most 96 MiB total payload storage at the final growth).
 class Stage : public std::streambuf {
@@ -71,7 +99,8 @@ public:
 }
 } // namespace touchstone_writer_detail
 
-// Serialize single-ended S data as Touchstone 2.0 / Hz / RI / Full.
+// Serialize single-ended S data as Touchstone 2.0 / Hz / RI / Full, with optional
+// raw two-port noise (Hz, Fmin dB, GammaOpt magnitude/degrees, physical Rn ohm).
 // Representation metadata is ignored; matrices and frequencies are already SI/RI.
 // No renormalization, model sampling, noise omission, or destination ownership.
 // Invalid input, allocation/staging failure and budget overflow never write to output.
@@ -80,8 +109,8 @@ public:
 // I/O failure throws with either exception-mask setting and may leave a prefix;
 // success means accepted by the streambuf, not atomic replacement or durability.
 inline void write_touchstone_v2(std::ostream &output, const TouchstoneData &data) {
-    if (!data.noise_samples.empty()) {
-        throw std::invalid_argument("Touchstone v2 S writer does not support noise data");
+    if (!data.noise_samples.empty() && data.ports != 2) {
+        throw std::invalid_argument("Touchstone noise data requires two ports");
     }
     const auto references = effective_reference_impedances(data);
     if (data.frequencies_hz.empty() || data.frequencies_hz.size() != data.matrices.size()) {
@@ -107,6 +136,20 @@ inline void write_touchstone_v2(std::ostream &output, const TouchstoneData &data
             }
         }
     }
+    for (std::size_t i = 0; i < data.noise_samples.size(); ++i) {
+        const auto &sample = data.noise_samples[i];
+        if (!std::isfinite(sample.frequency_hz) || sample.frequency_hz < 0. ||
+            (i ? sample.frequency_hz <= data.noise_samples[i - 1].frequency_hz
+               : sample.frequency_hz > data.frequencies_hz.back())) {
+            throw std::invalid_argument("invalid noise frequency order or first noise frequency");
+        }
+        if (!std::isfinite(sample.minimum_noise_figure_db) ||
+            !std::isfinite(sample.noise_resistance_ohms) || sample.noise_resistance_ohms < 0.) {
+            throw std::invalid_argument("noise requires finite Fmin and finite nonnegative Rn");
+        }
+        // Validate the MA conversion too, before staging or destination access.
+        (void)touchstone_writer_detail::noise_polar(sample.optimum_source_reflection);
+    }
     if (!output.rdbuf() || !output.good()) {
         throw std::ios_base::failure("Touchstone destination is not initially good");
     }
@@ -120,7 +163,11 @@ inline void write_touchstone_v2(std::ostream &output, const TouchstoneData &data
     if (data.ports == 2) {
         stage << "[Two-Port Data Order] 12_21\n";
     }
-    stage << "[Number of Frequencies] " << data.frequencies_hz.size() << "\n[Reference]";
+    stage << "[Number of Frequencies] " << data.frequencies_hz.size() << '\n';
+    if (!data.noise_samples.empty()) {
+        stage << "[Number of Noise Frequencies] " << data.noise_samples.size() << '\n';
+    }
+    stage << "[Reference]";
     for (const auto reference : references) {
         stage << ' ' << reference.real();
     }
@@ -138,6 +185,18 @@ inline void write_touchstone_v2(std::ostream &output, const TouchstoneData &data
         }
         if (data.ports < 3) {
             stage << '\n';
+        }
+    }
+    if (!data.noise_samples.empty()) {
+        stage << "[Noise Data]\n";
+        for (const auto &sample : data.noise_samples) {
+            const auto polar =
+                touchstone_writer_detail::noise_polar(sample.optimum_source_reflection);
+            // GammaOpt always uses option-line R; [Reference] is only for S.
+            // Stored Rn is already ohms, even when source metadata says Legacy.
+            stage << sample.frequency_hz << ' ' << sample.minimum_noise_figure_db << ' '
+                  << polar.magnitude << ' ' << polar.degrees << ' ' << sample.noise_resistance_ohms
+                  << '\n';
         }
     }
     stage << "[End]\n";
