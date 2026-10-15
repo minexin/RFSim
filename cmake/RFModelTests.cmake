@@ -505,3 +505,16 @@ add_test(NAME tabulated_amplifier_installed COMMAND ${CMAKE_COMMAND}
     -DGENERATOR=${CMAKE_GENERATOR} -DCOMPILER=${CMAKE_CXX_COMPILER}
     -DCONFIG=$<CONFIG> -P ${CMAKE_CURRENT_SOURCE_DIR}/tests/cmake/check_tabulated_amplifier_install.cmake)
 set_tests_properties(tabulated_amplifier_installed PROPERTIES TIMEOUT 300)
+
+add_executable(dc_operating_point_test tests/nonlinear/dc_operating_point_test.cpp)
+target_link_libraries(dc_operating_point_test PRIVATE RFModel::rfmodel)
+add_test(NAME dc_operating_point_test COMMAND dc_operating_point_test)
+add_executable(frozen_small_signal_test tests/linear/frozen_small_signal_test.cpp)
+target_link_libraries(frozen_small_signal_test PRIVATE RFModel::rfmodel)
+add_test(NAME frozen_small_signal_test COMMAND frozen_small_signal_test)
+add_test(NAME dc_bias_installed COMMAND ${CMAKE_COMMAND}
+    -DSOURCE=${CMAKE_CURRENT_SOURCE_DIR}
+    -DBINARY=${CMAKE_CURRENT_BINARY_DIR}/dc-bias-installed
+    -DGENERATOR=${CMAKE_GENERATOR} -DCOMPILER=${CMAKE_CXX_COMPILER}
+    -DCONFIG=$<CONFIG> -P ${CMAKE_CURRENT_SOURCE_DIR}/tests/cmake/check_dc_bias_install.cmake)
+set_tests_properties(dc_bias_installed PROPERTIES TIMEOUT 300)

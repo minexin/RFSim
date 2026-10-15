@@ -10,6 +10,7 @@
 - [总体架构](architecture.md)
 - [模型能力与引擎适配契约](model-adapters.md)
 - [核心接口](api.md)
+- [受限原生 DC 偏置与冻结小信号](dc-bias-small-signal.md)
 - [通道噪声积分与载噪比](channel-noise-measurements.md)
 - [变频网络热负载与噪声功率流](conversion-loaded-noise.md)
 - [变频网络参考温度噪声分析](conversion-noise-analysis.md)

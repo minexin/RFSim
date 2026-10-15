@@ -48,6 +48,7 @@ set(RFMODEL_PUBLIC_HEADERS
     io/tabulated_noise_model.hpp
     io/touchstone.hpp
     io/touchstone_writer.hpp
+    linear/frozen_small_signal.hpp
     linear/linear_analysis.hpp
     linear/linear_path.hpp
     linear/network.hpp
@@ -72,6 +73,7 @@ set(RFMODEL_PUBLIC_HEADERS
     noise/noise_renormalization.hpp
     noise/phase_noise.hpp
     noise/power_wave_noise.hpp
+    nonlinear/dc_operating_point.hpp
     nonlinear/phd_coefficient_slice.hpp
     nonlinear/phd_fixed_pump_network.hpp
     nonlinear/am_pm.hpp
