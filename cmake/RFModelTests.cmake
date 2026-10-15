@@ -541,3 +541,7 @@ add_test(NAME locked_pi_pll_test COMMAND locked_pi_pll_test)
 add_executable(phase_response_test tests/noise/phase_response_test.cpp)
 target_link_libraries(phase_response_test PRIVATE RFModel::rfmodel)
 add_test(NAME phase_response_test COMMAND phase_response_test)
+
+add_executable(phase_jitter_test tests/noise/phase_jitter_test.cpp)
+target_link_libraries(phase_jitter_test PRIVATE rfmodel)
+add_test(NAME phase_jitter_test COMMAND phase_jitter_test)

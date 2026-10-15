@@ -75,6 +75,7 @@ set(RFMODEL_PUBLIC_HEADERS
     noise/noise_matrix.hpp
     noise/noise_renormalization.hpp
     noise/locked_pi_pll.hpp
+    noise/phase_jitter.hpp
     noise/phase_noise.hpp
     noise/phase_response.hpp
     noise/power_wave_noise.hpp

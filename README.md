@@ -30,6 +30,7 @@ ctest --test-dir build -C Release --output-on-failure
 - [受限 version-2 原始目录与精确条件选择](docs/xparameter-catalog.md)：稀疏端口 metadata、拥有权行句柄与 typed exact selector；不做频率合并或模型转换。
 - RLC、理想器件、[频率相关电缆](docs/frequency-dependent-cable.md)、滤波器、[链路噪声](docs/linear-path-noise.md)及功率后处理。
 - [相干流管线](docs/coherent-pipeline.md)、来源历史、多项式及[限幅/高阶放大器](docs/coherent-pipeline-amplifiers.md)、失真传播与共同压缩。
+- [有限频偏相位方差与 RMS 抖动](docs/phase-jitter.md)：owned C++17 请求、显式一侧 rad²/Hz 与实际 Hz 线性积分；不等同于 PNCP 或厂商 jitter 验收。
 - [变频功率波](docs/conversion-power-wave.md)、[复参考工作点](docs/conversion-operating-point-power-wave.md)、[接受工作点本征噪声](docs/conversion-operating-noise.md)、结构扩频、完整 C/P、加载噪声和相位噪声。
 - [优化](docs/optimization.md)、[Monte Carlo](docs/monte-carlo.md)与新的有类型任务装配。
 - [原生表格放大器](docs/tabulated-amplifier.md)：显式半径轴、AM/AM 与展开相位的 Hermite 值/导数、变频工作点和噪声组合；不宣称 SystemVue DataPoints 兼容。
