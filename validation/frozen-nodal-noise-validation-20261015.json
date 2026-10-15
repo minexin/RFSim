@@ -68,8 +68,10 @@
     "DC reality, invalid covariance and singular boundary rejection"
   ],
   "ci": {
-    "status": "pending",
-    "scope": "No exact-head cross-platform claim until CI finishes"
+    "status": "initial_code_failed_then_corrected",
+    "initial_evidence": "validation/frozen-nodal-noise-failed-ci-38705856824.json",
+    "corrected_evidence": "validation/frozen-nodal-noise-ci-38706950468.json",
+    "scope": "Local results above describe the initial implementation; subsequent correction and reruns are recorded separately"
   },
   "compatibility": {
     "new_systemvue_runs": 0,

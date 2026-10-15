@@ -44,6 +44,8 @@
       "sha256": "f770cea785fa9e127113695c62f42eddcc071bdc2294c6d74c971911451d2361"
     }
   ],
-  "ci_status": "fix_not_yet_pushed",
+  "ci_status": "success",
+  "code_commit": "a0218741785dba724f30c779dc2596284fae9d66",
+  "ci_evidence": "validation/frozen-nodal-noise-ci-38706950468.json",
   "vendor_compatibility_claim": false
 }

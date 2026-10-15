@@ -96,6 +96,19 @@ const auto covariance = frozen.external_noise(1e6, {1}, {50.}, injection);
 // covariance.watts_per_hz(0, 0) == kT for a matched reference.
 ```
 
+2026-10-15 verification: the nodal-noise stage passed six focused Windows/MSVC
+tests in both Debug and Release, including relocated full/pure SDK consumers.
+The initial CI exposed four Ubuntu core/SDK failures on the active-load cancellation
+rejection case; those [failed results](../validation/frozen-nodal-noise-failed-ci-38705856824.json)
+remain recorded. The pre-cancellation scale correction reproduced baseline failure
+and fixed success under the same local Ubuntu/GCC toolchain; both Windows
+configurations were rerun ([local evidence](../validation/frozen-nodal-noise-boundary-fix-20261015.json)).
+Code commit `a0218741785dba724f30c779dc2596284fae9d66` then passed all 18
+Windows/Ubuntu/macOS Debug/Release core, SDK and archived-replay jobs in
+[CI 38706950468](https://github.com/minexin/RFSim/actions/runs/38706950468).
+[Per-job evidence](../validation/frozen-nodal-noise-ci-38706950468.json) is bound to
+that exact code commit; later evidence-only changes are not the tested head.
+
 ## Convergence and failures
 
 Separate fixed positive current scales Is (default 1 mA) and voltage scales Vs

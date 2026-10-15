@@ -1,0 +1,179 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-15",
+  "head_sha": "a0218741785dba724f30c779dc2596284fae9d66",
+  "run_id": 38706950468,
+  "url": "https://github.com/minexin/RFSim/actions/runs/38706950468",
+  "status": "completed",
+  "conclusion": "success",
+  "successful_jobs": 18,
+  "failed_jobs": 0,
+  "jobs": [
+    {
+      "id": 116328600883,
+      "name": "build (windows-latest, Debug)",
+      "run_id": 38706950468,
+      "head_sha": "a0218741785dba724f30c779dc2596284fae9d66",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38706950468/job/116328600883"
+    },
+    {
+      "id": 116328601019,
+      "name": "Native archived replay / windows-latest / Release",
+      "run_id": 38706950468,
+      "head_sha": "a0218741785dba724f30c779dc2596284fae9d66",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38706950468/job/116328601019"
+    },
+    {
+      "id": 116328601104,
+      "name": "C++ SDK / windows-latest / Debug",
+      "run_id": 38706950468,
+      "head_sha": "a0218741785dba724f30c779dc2596284fae9d66",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38706950468/job/116328601104"
+    },
+    {
+      "id": 116328601108,
+      "name": "build (windows-latest, Release)",
+      "run_id": 38706950468,
+      "head_sha": "a0218741785dba724f30c779dc2596284fae9d66",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38706950468/job/116328601108"
+    },
+    {
+      "id": 116328601127,
+      "name": "Native archived replay / macos-latest / Debug",
+      "run_id": 38706950468,
+      "head_sha": "a0218741785dba724f30c779dc2596284fae9d66",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38706950468/job/116328601127"
+    },
+    {
+      "id": 116328601149,
+      "name": "Native archived replay / ubuntu-latest / Release",
+      "run_id": 38706950468,
+      "head_sha": "a0218741785dba724f30c779dc2596284fae9d66",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38706950468/job/116328601149"
+    },
+    {
+      "id": 116328601159,
+      "name": "build (macos-latest, Release)",
+      "run_id": 38706950468,
+      "head_sha": "a0218741785dba724f30c779dc2596284fae9d66",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38706950468/job/116328601159"
+    },
+    {
+      "id": 116328601185,
+      "name": "build (ubuntu-latest, Debug)",
+      "run_id": 38706950468,
+      "head_sha": "a0218741785dba724f30c779dc2596284fae9d66",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38706950468/job/116328601185"
+    },
+    {
+      "id": 116328601195,
+      "name": "build (ubuntu-latest, Release)",
+      "run_id": 38706950468,
+      "head_sha": "a0218741785dba724f30c779dc2596284fae9d66",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38706950468/job/116328601195"
+    },
+    {
+      "id": 116328601204,
+      "name": "Native archived replay / macos-latest / Release",
+      "run_id": 38706950468,
+      "head_sha": "a0218741785dba724f30c779dc2596284fae9d66",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38706950468/job/116328601204"
+    },
+    {
+      "id": 116328601220,
+      "name": "C++ SDK / macos-latest / Debug",
+      "run_id": 38706950468,
+      "head_sha": "a0218741785dba724f30c779dc2596284fae9d66",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38706950468/job/116328601220"
+    },
+    {
+      "id": 116328601229,
+      "name": "Native archived replay / ubuntu-latest / Debug",
+      "run_id": 38706950468,
+      "head_sha": "a0218741785dba724f30c779dc2596284fae9d66",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38706950468/job/116328601229"
+    },
+    {
+      "id": 116328601235,
+      "name": "C++ SDK / macos-latest / Release",
+      "run_id": 38706950468,
+      "head_sha": "a0218741785dba724f30c779dc2596284fae9d66",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38706950468/job/116328601235"
+    },
+    {
+      "id": 116328601276,
+      "name": "C++ SDK / ubuntu-latest / Release",
+      "run_id": 38706950468,
+      "head_sha": "a0218741785dba724f30c779dc2596284fae9d66",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38706950468/job/116328601276"
+    },
+    {
+      "id": 116328601305,
+      "name": "Native archived replay / windows-latest / Debug",
+      "run_id": 38706950468,
+      "head_sha": "a0218741785dba724f30c779dc2596284fae9d66",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38706950468/job/116328601305"
+    },
+    {
+      "id": 116328601306,
+      "name": "build (macos-latest, Debug)",
+      "run_id": 38706950468,
+      "head_sha": "a0218741785dba724f30c779dc2596284fae9d66",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38706950468/job/116328601306"
+    },
+    {
+      "id": 116328601323,
+      "name": "C++ SDK / windows-latest / Release",
+      "run_id": 38706950468,
+      "head_sha": "a0218741785dba724f30c779dc2596284fae9d66",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38706950468/job/116328601323"
+    },
+    {
+      "id": 116328601361,
+      "name": "C++ SDK / ubuntu-latest / Debug",
+      "run_id": 38706950468,
+      "head_sha": "a0218741785dba724f30c779dc2596284fae9d66",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38706950468/job/116328601361"
+    }
+  ],
+  "local_validation": "validation/frozen-nodal-noise-boundary-fix-20261015.json",
+  "prior_failure": "validation/frozen-nodal-noise-failed-ci-38705856824.json",
+  "scope": "Exact code commit passed Windows/Ubuntu/macOS Debug/Release core, pure C++ SDK and archived replay. Subsequent evidence-only commits are not this tested head.",
+  "vendor_compatibility_claim": false
+}
