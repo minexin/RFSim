@@ -25,3 +25,6 @@
 /scripts/reference/capture-cascade-parameter-units.ps1 -text
 /validation/dc-bias-systemvue-readiness-20261015.json -text
 /validation/systemvue-xparameter-format-evidence-20261015.json -text
+
+# Complete REST snapshots are hashed as received, including their original line endings.
+/validation/compatibility-raw-ci-*.json -text
