@@ -524,3 +524,8 @@ add_test(NAME dc_bias_installed COMMAND ${CMAKE_COMMAND}
     -DGENERATOR=${CMAKE_GENERATOR} -DCOMPILER=${CMAKE_CXX_COMPILER}
     -DCONFIG=$<CONFIG> -P ${CMAKE_CURRENT_SOURCE_DIR}/tests/cmake/check_dc_bias_install.cmake)
 set_tests_properties(dc_bias_installed PROPERTIES TIMEOUT 300)
+
+# Autonomous bounded raw X-parameter format contract (no vendor runtime).
+add_executable(xparameter_data_test tests/io/xparameter_data_test.cpp)
+target_link_libraries(xparameter_data_test PRIVATE RFModel::rfmodel)
+add_test(NAME xparameter_data_test COMMAND xparameter_data_test)

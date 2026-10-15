@@ -48,6 +48,7 @@ set(RFMODEL_PUBLIC_HEADERS
     io/tabulated_noise_model.hpp
     io/touchstone.hpp
     io/touchstone_writer.hpp
+    io/xparameter_data.hpp
     linear/frozen_small_signal.hpp
     linear/linear_analysis.hpp
     linear/linear_path.hpp

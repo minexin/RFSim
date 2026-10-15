@@ -89,3 +89,8 @@ add_test(NAME installed_transmission_line_consumer COMMAND transmission_line_con
 add_executable(phd_fixed_pump_network_consumer phd_fixed_pump_network.cpp phd_fixed_pump_network_probe.cpp)
 target_link_libraries(phd_fixed_pump_network_consumer PRIVATE RFModel::rfmodel)
 add_test(NAME installed_phd_fixed_pump_network_consumer COMMAND phd_fixed_pump_network_consumer)
+
+# Installed header-only API and ODR/link check across independent translation units.
+add_executable(xparameter_data_consumer xparameter_data.cpp xparameter_data_probe.cpp)
+target_link_libraries(xparameter_data_consumer PRIVATE RFModel::rfmodel)
+add_test(NAME installed_xparameter_data_consumer COMMAND xparameter_data_consumer)

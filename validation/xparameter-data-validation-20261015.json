@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "classification": "bounded_raw_typed_text_reader_focused_validation",
+  "base_commit": "6870b477f2f08ace29f72212c620d023b3bbffca",
+  "language": "C++17",
+  "compiler": "GCC 14.2.0",
+  "format_tool": "clang-format 19.1.7",
+  "format_check": "passed",
+  "focused_debug_ctest": "passed",
+  "focused_release_ctest": "passed",
+  "installed_header_only_two_translation_unit_consumer": "passed",
+  "strict_warnings_compile": "passed -Wall -Wextra -Wpedantic -Werror -DNDEBUG",
+  "asan_ubsan": "passed with ASAN_OPTIONS=detect_leaks=0; LeakSanitizer unsupported under this environment's ptrace",
+  "synthetic_rejected_inputs": 101,
+  "evidence_text_to_value_samples": 15,
+  "evidence_unique_vendor_hashes": 3,
+  "evidence_source": "systemvue-xparameter-format-evidence-20261015.json",
+  "independent_review": "parser safety and numeric range review; header separator and custom stream exception translation fixed",
+  "limits_tested": 13,
+  "read_only_probe": "compiled with strict warnings; run only on autonomous synthetic data",
+  "full_repository_gates": "not run; awaiting parent approval of frozen candidate",
+  "full_vendor_file_parsing": "not run; complete vendor files are not present in repository",
+  "numerical_model_compatibility": false,
+  "simulation_performed": false,
+  "limitations": [
+    "Raw text-to-value tests do not establish vendor file import or numerical model compatibility.",
+    "Legacy normalization and version-2 physical reference-plane and current-polarity mappings remain unresolved.",
+    "No coefficient slices, adapters, interpolation, noise calculations or simulator execution are provided.",
+    "Only GCC Linux focused native verification was performed here; MSVC portability is not claimed as tested.",
+    "Resource limits bound input and representation counts/content, not exact allocator resident bytes."
+  ]
+}
