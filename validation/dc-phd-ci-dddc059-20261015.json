@@ -1,0 +1,189 @@
+{
+  "schema_version": 1,
+  "classification": "github_actions_exact_commit_verification",
+  "recorded_utc": "2026-10-15T11:46:21.611Z",
+  "commit": "dddc0593961b3d734ee7702d96ee9d4ca370519a",
+  "run": {
+    "id": 38722607277,
+    "url": "https://github.com/minexin/RFSim/actions/runs/38722607277",
+    "name": "Cross-platform C++17",
+    "status": "completed",
+    "conclusion": "success",
+    "created_at": "2026-10-15T10:46:12Z",
+    "updated_at": "2026-10-15T10:57:32Z"
+  },
+  "counts": {
+    "total": 18,
+    "success": 18
+  },
+  "jobs": [
+    {
+      "id": 116380591935,
+      "name": "Native archived replay / ubuntu-latest / Release",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-15T10:46:15Z",
+      "completed_at": "2026-10-15T10:49:18Z",
+      "failed_steps": []
+    },
+    {
+      "id": 116380592059,
+      "name": "C++ SDK / macos-latest / Debug",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-15T10:46:20Z",
+      "completed_at": "2026-10-15T10:50:10Z",
+      "failed_steps": []
+    },
+    {
+      "id": 116380592062,
+      "name": "Native archived replay / macos-latest / Release",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-15T10:46:22Z",
+      "completed_at": "2026-10-15T10:51:42Z",
+      "failed_steps": []
+    },
+    {
+      "id": 116380592103,
+      "name": "build (macos-latest, Release)",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-15T10:46:22Z",
+      "completed_at": "2026-10-15T10:52:40Z",
+      "failed_steps": []
+    },
+    {
+      "id": 116380592168,
+      "name": "build (windows-latest, Release)",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-15T10:46:15Z",
+      "completed_at": "2026-10-15T10:53:56Z",
+      "failed_steps": []
+    },
+    {
+      "id": 116380592177,
+      "name": "Native archived replay / ubuntu-latest / Debug",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-15T10:46:16Z",
+      "completed_at": "2026-10-15T10:49:24Z",
+      "failed_steps": []
+    },
+    {
+      "id": 116380592194,
+      "name": "build (windows-latest, Debug)",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-15T10:46:15Z",
+      "completed_at": "2026-10-15T10:52:50Z",
+      "failed_steps": []
+    },
+    {
+      "id": 116380592205,
+      "name": "build (ubuntu-latest, Debug)",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-15T10:46:15Z",
+      "completed_at": "2026-10-15T10:50:29Z",
+      "failed_steps": []
+    },
+    {
+      "id": 116380592210,
+      "name": "Native archived replay / windows-latest / Release",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-15T10:46:15Z",
+      "completed_at": "2026-10-15T10:51:21Z",
+      "failed_steps": []
+    },
+    {
+      "id": 116380592212,
+      "name": "build (macos-latest, Debug)",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-15T10:46:20Z",
+      "completed_at": "2026-10-15T10:49:03Z",
+      "failed_steps": []
+    },
+    {
+      "id": 116380592238,
+      "name": "C++ SDK / windows-latest / Release",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-15T10:46:15Z",
+      "completed_at": "2026-10-15T10:57:31Z",
+      "failed_steps": []
+    },
+    {
+      "id": 116380592245,
+      "name": "Native archived replay / macos-latest / Debug",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-15T10:49:07Z",
+      "completed_at": "2026-10-15T10:53:00Z",
+      "failed_steps": []
+    },
+    {
+      "id": 116380592279,
+      "name": "C++ SDK / ubuntu-latest / Release",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-15T10:46:15Z",
+      "completed_at": "2026-10-15T10:53:03Z",
+      "failed_steps": []
+    },
+    {
+      "id": 116380592292,
+      "name": "C++ SDK / macos-latest / Release",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-15T10:46:18Z",
+      "completed_at": "2026-10-15T10:49:43Z",
+      "failed_steps": []
+    },
+    {
+      "id": 116380592320,
+      "name": "C++ SDK / windows-latest / Debug",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-15T10:46:15Z",
+      "completed_at": "2026-10-15T10:53:20Z",
+      "failed_steps": []
+    },
+    {
+      "id": 116380592344,
+      "name": "C++ SDK / ubuntu-latest / Debug",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-15T10:46:15Z",
+      "completed_at": "2026-10-15T10:50:42Z",
+      "failed_steps": []
+    },
+    {
+      "id": 116380592364,
+      "name": "build (ubuntu-latest, Release)",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-15T10:46:15Z",
+      "completed_at": "2026-10-15T10:53:06Z",
+      "failed_steps": []
+    },
+    {
+      "id": 116380592397,
+      "name": "Native archived replay / windows-latest / Debug",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-15T10:46:15Z",
+      "completed_at": "2026-10-15T10:51:57Z",
+      "failed_steps": []
+    }
+  ],
+  "scope": [
+    "Three OSes, Debug and Release: build, C++ SDK and native archived replay.",
+    "Includes finite-source frozen-small-signal regression added in dddc059.",
+    "CI does not run SystemVue or establish vendor DC compatibility."
+  ],
+  "source": "GitHub Actions REST metadata; no new claim of downloaded full logs or artifacts."
+}

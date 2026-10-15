@@ -1,0 +1,1254 @@
+{
+  "schema_version": 1,
+  "classification": "vendor_diagnostic_acquired_DC_blocked_RC_not_accepted",
+  "created_utc": "2026-10-15T13:03:18.955227+00:00",
+  "base_code_commit": "dddc0593961b3d734ee7702d96ee9d4ca370519a",
+  "systemvue_version": "2023.0.0.11903",
+  "ci_evidence": "dc-phd-ci-dddc059-20261015.json",
+  "native_code_changed": false,
+  "native_tolerances_changed": false,
+  "rfamp_analyses_submitted": 0,
+  "analysis_submissions": 8,
+  "vendor_numeric_comparisons_passed": 0,
+  "acceptance": {
+    "complete": false,
+    "divider_bias": false,
+    "cubic_current_bias": false,
+    "cubic_charge_derivative": false,
+    "RC_small_signal": false,
+    "S_comparison": false
+  },
+  "product_boundary": {
+    "help_qch": {
+      "path": "C:/Program Files/Keysight/SystemVue2023/Help/systemvue.qch",
+      "sha256": "eacdae962108181a917525b8e233d5b33d97f683674d1c79007c1c2b7a24bd83",
+      "resources": [
+        {
+          "resource": "sim/Linear_Analysis.html",
+          "sha256": "adee44143b11a98c71611b052a805ca0b80421ad4664d0b22629acb54d3b6eab",
+          "bytes": 4896
+        },
+        {
+          "resource": "sim/Linear_Analysis_Output.html",
+          "sha256": "e5285cefa53ebb2e31ef4ca23975b69b7535f870b7e46aba4a4552b75c1b66bd",
+          "bytes": 10238
+        },
+        {
+          "resource": "sim/Linear_Analysis_Properties.html",
+          "sha256": "a189fe150fc3cab1403851652f5fc1be25196e3e11c40b355143b271a7bb0668",
+          "bytes": 9558
+        },
+        {
+          "resource": "sim/Spectrasys_DC_Voltages.html",
+          "sha256": "f6f62cf98592ad3ca28acd928a67813120926b63f44ed2f771653eaeea338c32",
+          "bytes": 4298
+        },
+        {
+          "resource": "sim/Spectrasys_DC_Currents.html",
+          "sha256": "002e7e74471979116248083d64602dacb1821488f6a73986e31beba8c3164c88",
+          "bytes": 4042
+        },
+        {
+          "resource": "rfdesign/RES.html",
+          "sha256": "3c13ab340ece02577af6f2090f50cb1261cd915f577f88e6e1eaf61e85e9294c",
+          "bytes": 7349
+        },
+        {
+          "resource": "rfdesign/CAP.html",
+          "sha256": "fb5e41bcf641ba7582c0b86443154d1067b750a27dff26a20d0270db18e1af8b",
+          "bytes": 6457
+        },
+        {
+          "resource": "rfdesign/VDC.html",
+          "sha256": "3752e39ba57425b5573ab3835474a6c242026c9e7403d3690ffbb2118919455d",
+          "bytes": 5168
+        },
+        {
+          "resource": "rfdesign/IDC.html",
+          "sha256": "6e39c63cdedc86740911901e1212a8303701995eaa32db37f757dab05e350b89",
+          "bytes": 4538
+        },
+        {
+          "resource": "rfdesign/Circuit_Link.html",
+          "sha256": "e74b727901b5176f3b12b389c58ebdeec47003664c02b1a664e0c61ef0c32a2e",
+          "bytes": 33004
+        },
+        {
+          "resource": "rfdesign/IPROBE.html",
+          "sha256": "0801504504fcce7423c16b0a0d74e43891047642ff69147250573a2a4869d130",
+          "bytes": 4595
+        },
+        {
+          "resource": "rfdesign/Current_Probe_Part.html",
+          "sha256": "bfc21bfd8e5a859510e4b725877b34e39d12bcefc38ff73689ab85550be72089",
+          "bytes": 3561
+        },
+        {
+          "resource": "sim/Spectrasys_Voltage_DC.html",
+          "sha256": "9005b5055f38344c011297cb7f7d5ee50fa34b269eb018933bd49d66cbad8cdf",
+          "bytes": 5154
+        },
+        {
+          "resource": "sim/Voltage_Measurements.html",
+          "sha256": "0e8805dd78aae3b3bb0cddb0cec244b47cdd6e5592a9f6f19328501e8639046b",
+          "bytes": 11840
+        },
+        {
+          "resource": "sim/DC_Baseband_and_Zero_IF.html",
+          "sha256": "34e7ce5b76fa8a98916c58241eb24fffa5ab8572336283534599756e99ff2195",
+          "bytes": 17284
+        },
+        {
+          "resource": "rfdesign/Nonlinear_Category.html",
+          "sha256": "eb5ddd8ef71a3385ca0162aa4a15f0ea7c7d30952127ae1ba25f1120aa48341f",
+          "bytes": 2895
+        }
+      ]
+    },
+    "resources_sha256": {
+      "sim/Linear_Co-Simulation.html": "b9dc69e0c2444bca137bd78502050dd8c314bac5b428f6d4fdcc35ce0f9742d0",
+      "sim/Non-Linear_Co-Simulation.html": "aeb07a110db0c9c5cc481aeeda34b8c8b147940a33eed1f475dc003d1b034c1e",
+      "sim/Large_and_Small_Signal_Analysis.html": "fddd44165b80e106958089488a60b98e861cff43344eab2bcea05f619d513e98",
+      "sim/Harmonic_Balance_and_Spectrasys_Differences.html": "dd9d47f556880bbd6a495d19dc19278839e2849fceda9e8e94b4f3aae00960da",
+      "sim/Non-Linear_Circuit_Simulation_Background.html": "38f9e6c0218126494f61f23f5e1b1a46e7d2c62d259420705ba2f75dd13ddea3",
+      "rfdesign/IDC.html": "6e39c63cdedc86740911901e1212a8303701995eaa32db37f757dab05e350b89",
+      "rfdesign/INP.html": "1420290aeff5d058c1c2c643fec8f93d998e62f4397e0dda1f2851ad887cdc77",
+      "rfdesign/INP_IDC.html": "43fe5306383826774bd361c95b8592d46cda04395ccac66d26412e5c32fb2333",
+      "rfdesign/IPROBE.html": "0801504504fcce7423c16b0a0d74e43891047642ff69147250573a2a4869d130",
+      "rfdesign/Input_(DC_Curr)_Part.html": "6117e4c922d34d4d6b3482ed5467eacb1f93b1450aab7cd2d097ad6d59caf745",
+      "rfdesign/Input_Port_Part.html": "2cbda4a52e6a78c67655270965e8919da5fe8151437806271c411b220ce058a4",
+      "rfdesign/OUT.html": "b8ebb0c986d7ec821195ed4c583795930d5e2f3d7951a1ff559e2ab6b21a47fb",
+      "rfdesign/Output_Port_Part.html": "25711b2e5ec8056b6114b7624fc6d9df6010cd44971ca608afa743124a50a946",
+      "rfdesign/Ports_Category.html": "fd5775874c78488ffcf67299e346baf922da7dfdac853deb4fc87c03917f2748",
+      "rfdesign/TEST_POINT.html": "efedd6093c1e2415e8c8f49467ef898ec36aeab860a834508761cd9437ec590b",
+      "rfdesign/Test_Point_Part.html": "01479343c7329c680a478ac959c930f289adc239971eb29379dcc844b3eb7326",
+      "rfdesign/VDC.html": "3752e39ba57425b5573ab3835474a6c242026c9e7403d3690ffbb2118919455d",
+      "sim/Input_Impedance_Corrected_Non_Linear_Parameters.html": "fdc37b48b38a5e4d82877a36d2d94a35a45f3bf7c91ff14c3c6f6ed4d73c5b08",
+      "sim/Input_vs_Output_1_dB_Compression.html": "97f4db045a642c715f222940b015a80c123541cab56e9e545e18e552d2f76a20",
+      "sim/Linear_Analysis.html": "adee44143b11a98c71611b052a805ca0b80421ad4664d0b22629acb54d3b6eab",
+      "sim/Linear_Analysis_Output.html": "e5285cefa53ebb2e31ef4ca23975b69b7535f870b7e46aba4a4552b75c1b66bd",
+      "sim/Linear_Analysis_Properties.html": "a189fe150fc3cab1403851652f5fc1be25196e3e11c40b355143b271a7bb0668",
+      "sim/Output_Tab.html": "919132ec24029f6494254e24b3d7560212726044524de347714ba2b2e54b19a2",
+      "sim/Port_Impedance_Usage.html": "bd608da3e4c7426d5d070f66dbf9c6212e834698548bc29ab74ecf0a65f72d8a",
+      "tutorials/Input_Parameters.html": "63224b9516705002c5c560deff9d51fbd0abf96c0f4fdadcb45f0bfdfd767be4",
+      "rfdesign/Circuit_Link.html": "e74b727901b5176f3b12b389c58ebdeec47003664c02b1a664e0c61ef0c32a2e",
+      "sim/Spectral_Propagation_and_Root_Cause_Analysis.html": "d65f05d1af5ccb3accc3fe20b81ef5b5907e7bcc344e6eeabdb2c1f514390bf8",
+      "rfdesign/MultiSource.html": "47a1fe6baf69051dc972b50a7349c2de49264f0bdeda54ab1578585b887d175b"
+    },
+    "decisive_resource": "sim/Non-Linear_Co-Simulation.html",
+    "interpretation": "Installed SystemVue 2023 help restricts nonlinear circuit co-simulation to X-parameter models and directs general nonlinear circuit simulation to Genesys. Registry entries and parameter readback do not establish usable solver support.",
+    "license_failure_inferred": false,
+    "scope": "Installed SystemVue 2023 RF circuit co-simulation path; not a claim about all other SystemVue APIs or product versions."
+  },
+  "model_entry": {
+    "registry_capture": "registry-live.json",
+    "parameters": {
+      "cubic-current": [
+        {
+          "name": "RL.C",
+          "value": [
+            1,
+            0.001,
+            0,
+            0.002
+          ]
+        },
+        {
+          "name": "Vs.VDC",
+          "value": 2
+        }
+      ],
+      "cubic-charge": [
+        {
+          "name": "RL.R",
+          "value": 2000
+        },
+        {
+          "name": "Vs.VDC",
+          "value": 2
+        },
+        {
+          "name": "ChargeProbe.C",
+          "value": [
+            1,
+            1e-09,
+            0,
+            3e-09
+          ]
+        }
+      ]
+    },
+    "polynomial_format_clue": "Genesys 2010 part catalog pp.237/241 uses C=[k,a_k,...,a_n]; [1,.001,0,.002] is the current-entry candidate.",
+    "external_format_source": "https://edadownload.software.keysight.com/eedl/Genesys/2010_05/pdf/part.pdf",
+    "charge_semantics_verified": false,
+    "charge_note": "NLCAP accepted a coefficient array but did not create a simulation model. Q(v) versus C(v) semantics remain unverified. The charge entry was a separate probe on the dummy-port node, not a completed combined cubic-bias fixture.",
+    "topologies": {
+      "divider-linear-control": [
+        {
+          "part": "DummyLoad",
+          "model": "RES",
+          "netlist": "Port_1,1|Port_2,0"
+        },
+        {
+          "part": "Port_1",
+          "model": "*INP",
+          "netlist": "Port_1,1"
+        },
+        {
+          "part": "RL",
+          "model": "RES",
+          "netlist": "Port_1,4|Port_2,0"
+        },
+        {
+          "part": "Rs",
+          "model": "RES",
+          "netlist": "Port_1,2|Port_2,3"
+        },
+        {
+          "part": "Sense",
+          "model": "IPROBE",
+          "netlist": "Port_1,3|Port_2,4"
+        },
+        {
+          "part": "Vprobe",
+          "model": "TEST_POINT",
+          "netlist": "Port_1,4"
+        },
+        {
+          "part": "Vs",
+          "model": "VDC",
+          "netlist": "Port_1,2|Port_2,0"
+        }
+      ],
+      "cubic-current-entry": [
+        {
+          "part": "DummyLoad",
+          "model": "RES",
+          "netlist": "Port_1,1|Port_2,0"
+        },
+        {
+          "part": "Port_1",
+          "model": "*INP",
+          "netlist": "Port_1,1"
+        },
+        {
+          "part": "RL",
+          "model": "NLRES",
+          "netlist": "Port_1,4|Port_2,0"
+        },
+        {
+          "part": "Rs",
+          "model": "RES",
+          "netlist": "Port_1,2|Port_2,3"
+        },
+        {
+          "part": "Sense",
+          "model": "IPROBE",
+          "netlist": "Port_1,3|Port_2,4"
+        },
+        {
+          "part": "Vprobe",
+          "model": "TEST_POINT",
+          "netlist": "Port_1,4"
+        },
+        {
+          "part": "Vs",
+          "model": "VDC",
+          "netlist": "Port_1,2|Port_2,0"
+        }
+      ],
+      "cubic-charge-entry": [
+        {
+          "part": "ChargeProbe",
+          "model": "NLCAP",
+          "netlist": "Port_1,1|Port_2,0"
+        },
+        {
+          "part": "DummyLoad",
+          "model": "RES",
+          "netlist": "Port_1,1|Port_2,0"
+        },
+        {
+          "part": "Port_1",
+          "model": "*INP",
+          "netlist": "Port_1,1"
+        },
+        {
+          "part": "RL",
+          "model": "RES",
+          "netlist": "Port_1,4|Port_2,0"
+        },
+        {
+          "part": "Rs",
+          "model": "RES",
+          "netlist": "Port_1,2|Port_2,3"
+        },
+        {
+          "part": "Sense",
+          "model": "IPROBE",
+          "netlist": "Port_1,3|Port_2,4"
+        },
+        {
+          "part": "Vprobe",
+          "model": "TEST_POINT",
+          "netlist": "Port_1,4"
+        },
+        {
+          "part": "Vs",
+          "model": "VDC",
+          "netlist": "Port_1,2|Port_2,0"
+        }
+      ]
+    },
+    "dc_output_note": "Linear control returned F/S/ZPORT and no solved node V or terminal I. IPROBE.IDC and TEST_POINT.VDC stayed input parameters; Spectrasys DC_V/DC_I are supply budgets."
+  },
+  "attempts": [
+    {
+      "name": "divider-no-port",
+      "capture": "divider-after-script-timeout.json",
+      "analysis_submitted": true,
+      "analysis_done": 1,
+      "errors": " (ERROR) The Schematic for Design 'DC_Divider' has no ports, so it cannot be simulated.\n",
+      "dataset_variables": [
+        "LogOutput"
+      ],
+      "result": "failed_no_ports",
+      "interpretation": "VBScript helper timed out; later readback proves a failed analysis did execute. No solved V/I was produced."
+    },
+    {
+      "name": "divider-internal-dc",
+      "capture": "divider-internal-dc.json",
+      "input_workspace": "divider-internal-dc-input.wsv",
+      "result_workspace": "divider-internal-dc-result.wsv",
+      "started_utc": "2026-10-15T12:18:44.2566621Z",
+      "returned_utc": null,
+      "captured_utc": "2026-10-15T12:18:45.0112615Z",
+      "analysis_submitted": true,
+      "analysis_done": 1,
+      "dataset": "divider_internal_dc_Data",
+      "dataset_timestamp": "1792066724",
+      "failure": "System.Reflection.TargetInvocationException: 调用的目标发生了异常。 ---> System.Runtime.InteropServices.COMException: 对 COM 组件的调用返回了错误 HRESULT E_FAIL。\r\n   --- 内部异常堆栈跟踪的结尾 ---\r\n   在 System.RuntimeType.InvokeDispMethod(String name, BindingFlags invokeAttr, Object target, Object[] args, Boolean[] byrefModifiers, Int32 culture, String[] namedParameters)\r\n   在 System.RuntimeType.InvokeMember(String name, BindingFlags bindingFlags, Binder binder, Object target, Object[] providedArgs, ParameterModifier[] modifiers, CultureInfo culture, String[] namedParams)\r\n   在 DCDirectRun.Run(String path, String expected, String stem)",
+      "errors": " (ERROR) Can't create model 'NLRES' for Part 'RL'.  Aborting simulation.\n (ERROR) Flattened part creation failed. Check the part's parameters, model, and symbol terminals count.\n",
+      "dataset_variables": [
+        "LogOutput"
+      ],
+      "result": "model_creation_failed_NLRES",
+      "vendor_numeric_pass": false
+    },
+    {
+      "name": "divider-linear-control",
+      "capture": "divider-linear-control.json",
+      "input_workspace": "divider-linear-control-input.wsv",
+      "result_workspace": "divider-linear-control-result.wsv",
+      "started_utc": "2026-10-15T12:21:26.5838542Z",
+      "returned_utc": "2026-10-15T12:21:26.7541945Z",
+      "captured_utc": "2026-10-15T12:21:27.3323707Z",
+      "analysis_submitted": true,
+      "analysis_done": 1,
+      "dataset": "divider_linear_control_Data",
+      "dataset_timestamp": "1792066886",
+      "failure": null,
+      "errors": "",
+      "dataset_variables": [
+        "F",
+        "S",
+        "ZPORT",
+        "LogOutput"
+      ],
+      "result": "linear_analysis_completed_but_no_solved_DC_VI",
+      "vendor_numeric_pass": false
+    },
+    {
+      "name": "cubic-current-entry",
+      "capture": "cubic-current-entry.json",
+      "input_workspace": "cubic-current-entry-input.wsv",
+      "result_workspace": "cubic-current-entry-result.wsv",
+      "started_utc": "2026-10-15T12:22:06.5794308Z",
+      "returned_utc": null,
+      "captured_utc": "2026-10-15T12:22:07.3559623Z",
+      "analysis_submitted": true,
+      "analysis_done": 1,
+      "dataset": "cubic_current_entry_Data",
+      "dataset_timestamp": "1792066926",
+      "failure": "System.Reflection.TargetInvocationException: 调用的目标发生了异常。 ---> System.Runtime.InteropServices.COMException: 对 COM 组件的调用返回了错误 HRESULT E_FAIL。\r\n   --- 内部异常堆栈跟踪的结尾 ---\r\n   在 System.RuntimeType.InvokeDispMethod(String name, BindingFlags invokeAttr, Object target, Object[] args, Boolean[] byrefModifiers, Int32 culture, String[] namedParameters)\r\n   在 System.RuntimeType.InvokeMember(String name, BindingFlags bindingFlags, Binder binder, Object target, Object[] providedArgs, ParameterModifier[] modifiers, CultureInfo culture, String[] namedParams)\r\n   在 DCDirectRun.Run(String path, String expected, String stem)",
+      "errors": " (ERROR) Can't create model 'NLRES' for Part 'RL'.  Aborting simulation.\n (ERROR) Flattened part creation failed. Check the part's parameters, model, and symbol terminals count.\n",
+      "dataset_variables": [
+        "LogOutput"
+      ],
+      "result": "model_creation_failed_NLRES",
+      "vendor_numeric_pass": false
+    },
+    {
+      "name": "cubic-charge-entry",
+      "capture": "cubic-charge-entry.json",
+      "input_workspace": "cubic-charge-entry-input.wsv",
+      "result_workspace": "cubic-charge-entry-result.wsv",
+      "started_utc": "2026-10-15T12:23:29.2735434Z",
+      "returned_utc": null,
+      "captured_utc": "2026-10-15T12:23:30.1353540Z",
+      "analysis_submitted": true,
+      "analysis_done": 1,
+      "dataset": "cubic_charge_entry_Data",
+      "dataset_timestamp": "1792067009",
+      "failure": "System.Reflection.TargetInvocationException: 调用的目标发生了异常。 ---> System.Runtime.InteropServices.COMException: 对 COM 组件的调用返回了错误 HRESULT E_FAIL。\r\n   --- 内部异常堆栈跟踪的结尾 ---\r\n   在 System.RuntimeType.InvokeDispMethod(String name, BindingFlags invokeAttr, Object target, Object[] args, Boolean[] byrefModifiers, Int32 culture, String[] namedParameters)\r\n   在 System.RuntimeType.InvokeMember(String name, BindingFlags bindingFlags, Binder binder, Object target, Object[] providedArgs, ParameterModifier[] modifiers, CultureInfo culture, String[] namedParams)\r\n   在 DCDirectRun.Run(String path, String expected, String stem)",
+      "errors": " (ERROR) Can't create model 'NLCAP' for Part 'ChargeProbe'.  Aborting simulation.\n (ERROR) Flattened part creation failed. Check the part's parameters, model, and symbol terminals count.\n",
+      "dataset_variables": [
+        "LogOutput"
+      ],
+      "result": "model_creation_failed_NLCAP",
+      "vendor_numeric_pass": false
+    },
+    {
+      "name": "rc-physical-ac",
+      "capture": "rc-physical-ac.json",
+      "input_workspace": "rc-physical-ac-input.wsv",
+      "result_workspace": "rc-physical-ac-result.wsv",
+      "started_utc": "2026-10-15T12:32:00.1642837Z",
+      "returned_utc": "2026-10-15T12:32:00.3503141Z",
+      "captured_utc": "2026-10-15T12:32:01.4261970Z",
+      "analysis_submitted": true,
+      "analysis_done": 1,
+      "dataset": "rc_physical_ac_Data",
+      "dataset_timestamp": "1792067520",
+      "failure": null,
+      "errors": " (WARNING) Maximum Order is 1 which has been increased to 3.\n",
+      "dataset_variables": [
+        "IDNo",
+        "IDName",
+        "IDTag",
+        "F1",
+        "V1",
+        "Z1",
+        "P1",
+        "ID1",
+        "F2",
+        "V2",
+        "Z2",
+        "P2",
+        "ID2",
+        "RFElemList",
+        "RFPwrIn",
+        "DC_ElemList",
+        "DC_V",
+        "DC_I",
+        "DC_P",
+        "TaElemList",
+        "Ta",
+        "LogOutput"
+      ],
+      "result": "flat_spectrum_export_not_accepted_as_physical_reference",
+      "vendor_numeric_pass": false
+    },
+    {
+      "name": "rc-hierarchy-ac",
+      "capture": "rc-hierarchy-ac.json",
+      "input_workspace": "rc-hierarchy-ac-input.wsv",
+      "result_workspace": "rc-hierarchy-ac-result.wsv",
+      "started_utc": "2026-10-15T12:49:23.9206154Z",
+      "returned_utc": "2026-10-15T12:49:24.1204970Z",
+      "captured_utc": "2026-10-15T12:49:26.0804124Z",
+      "analysis_submitted": true,
+      "analysis_done": 1,
+      "dataset": "rc_hierarchy_ac_Data",
+      "dataset_timestamp": "1792068564",
+      "failure": null,
+      "errors": " (WARNING) No spectrum data will be placed in the dataset since ALL parts have been disabled for saving data as specified on the 'Output' tab of the System Analysis.\n",
+      "dataset_variables": [
+        "IDNo",
+        "IDName",
+        "IDTag",
+        "RFElemList",
+        "RFPwrIn",
+        "DC_ElemList",
+        "DC_V",
+        "DC_I",
+        "DC_P",
+        "TaElemList",
+        "Ta",
+        "LogOutput"
+      ],
+      "result": "no_spectra_wrong_output_property_type",
+      "vendor_numeric_pass": false
+    },
+    {
+      "name": "rc-hierarchy-physical",
+      "capture": "rc-hierarchy-physical.json",
+      "input_workspace": "rc-hierarchy-physical-input.wsv",
+      "result_workspace": "rc-hierarchy-physical-result.wsv",
+      "started_utc": "2026-10-15T12:50:48.8084807Z",
+      "returned_utc": "2026-10-15T12:50:48.9973568Z",
+      "captured_utc": "2026-10-15T12:50:50.9964070Z",
+      "analysis_submitted": true,
+      "analysis_done": 1,
+      "dataset": "rc_hierarchy_physical_Data",
+      "dataset_timestamp": "1792068648",
+      "failure": null,
+      "errors": "",
+      "dataset_variables": [
+        "IDNo",
+        "IDName",
+        "IDTag",
+        "F2",
+        "V2",
+        "Z2",
+        "P2",
+        "ID2",
+        "F1",
+        "V1",
+        "Z1",
+        "P1",
+        "ID1",
+        "RFElemList",
+        "RFPwrIn",
+        "DC_ElemList",
+        "DC_V",
+        "DC_I",
+        "DC_P",
+        "TaElemList",
+        "Ta",
+        "LogOutput"
+      ],
+      "result": "voltage_exported_numeric_comparison_failed",
+      "vendor_numeric_pass": false
+    }
+  ],
+  "rc_diagnostic": {
+    "capture": "rc-hierarchy-physical.json",
+    "analysis_done": 1,
+    "errors": "",
+    "topology": {
+      "core": [
+        {
+          "part": "C1",
+          "model": "CAP",
+          "netlist": "Port_1,1|Port_2,0"
+        },
+        {
+          "part": "C12",
+          "model": "CAP",
+          "netlist": "Port_1,1|Port_2,2"
+        },
+        {
+          "part": "C2",
+          "model": "CAP",
+          "netlist": "Port_1,2|Port_2,0"
+        },
+        {
+          "part": "Input",
+          "model": "*INP",
+          "netlist": "Port_1,1"
+        },
+        {
+          "part": "Output",
+          "model": "*OUT",
+          "netlist": "Port_1,2"
+        },
+        {
+          "part": "R12",
+          "model": "RES",
+          "netlist": "Port_1,1|Port_2,2"
+        },
+        {
+          "part": "R2",
+          "model": "RES",
+          "netlist": "Port_1,2|Port_2,0"
+        }
+      ],
+      "top": [
+        {
+          "part": "Probe",
+          "model": "TEST_POINT",
+          "netlist": "Port_1,2"
+        },
+        {
+          "part": "RCblock",
+          "model": "RC_Core",
+          "netlist": "Input,1|Output,2"
+        },
+        {
+          "part": "Source",
+          "model": "MultiSource",
+          "netlist": "1,1"
+        }
+      ]
+    },
+    "parameter_readback": "rc-hierarchy-output-prepared.json",
+    "conductance_siemens": [
+      [
+        0.003,
+        -0.002
+      ],
+      [
+        -0.002,
+        0.005
+      ]
+    ],
+    "capacitance_farad": [
+      [
+        5e-09,
+        -4e-09
+      ],
+      [
+        -4e-09,
+        6e-09
+      ]
+    ],
+    "source": {
+      "thevenin_rms_volt": 1,
+      "resistance_ohm": 1000,
+      "available_power_watt": 0.00025,
+      "frequency_hz": [
+        1000,
+        1000000
+      ]
+    },
+    "reference_definition": "Vs/Rs Norton injection with the physical Rs conductance included once. Analytic 2x2 determinant formulas match the unchanged native fixture.",
+    "tolerance": "abs(actual-expected) <= 2e-12*max(1,abs(actual),abs(expected))",
+    "direct_voltage_export": true,
+    "direct_current_export": false,
+    "current_export": "Derived from raw node voltage and known source resistance, not a vendor current channel.",
+    "Y_export": "Derived as (Vs/Rs)/V1 from raw voltage; includes physical source conductance. Not an independent vendor Y output.",
+    "s_parameters_used": false,
+    "numeric_pass": false,
+    "comparisons": [
+      {
+        "source_center_hz": 1000,
+        "observations": [
+          {
+            "node": 1,
+            "spectrum_id": 30,
+            "spectrum_name": "{1}D[(Source.RC_1k)],Source",
+            "raw_array_indices_zero_based": [
+              6,
+              7
+            ],
+            "exported_axis_hz": [
+              999.5,
+              1000.5
+            ],
+            "center_row_present": false,
+            "raw_voltage_peak": {
+              "real": 0.642778515170404,
+              "imag": -0.005064103845728332
+            },
+            "voltage_rms": {
+              "real": 0.45451304687801275,
+              "imag": -0.0035808621699473775
+            }
+          },
+          {
+            "node": 2,
+            "spectrum_id": 28,
+            "spectrum_name": "{1}D[(Source.RC_1k)],Source,RCblock",
+            "raw_array_indices_zero_based": [
+              6,
+              7
+            ],
+            "exported_axis_hz": [
+              999.5,
+              1000.5
+            ],
+            "center_row_present": false,
+            "raw_voltage_peak": {
+              "real": 0.2571313112846156,
+              "imag": -0.0007340548346765697
+            },
+            "voltage_rms": {
+              "real": 0.1818192938647407,
+              "imag": -0.0005190551513625725
+            }
+          }
+        ],
+        "checks": {
+          "V1_rms_volt": {
+            "observed": {
+              "real": 0.45451304687801275,
+              "imag": -0.0035808621699473775
+            },
+            "expected": {
+              "real": 0.4545130386842286,
+              "imag": -0.0035826535217754947
+            },
+            "abs_error": 1.7913705675256625e-06,
+            "threshold": 2e-12,
+            "passed": false
+          },
+          "V2_rms_volt": {
+            "observed": {
+              "real": 0.1818192938647407,
+              "imag": -0.0005190551513625725
+            },
+            "expected": {
+              "real": 0.1818193083117691,
+              "imag": -0.0005193149792996397
+            },
+            "abs_error": 2.60229271048489e-07,
+            "threshold": 2e-12,
+            "passed": false
+          },
+          "source_current_derived_amp": {
+            "observed": {
+              "real": 0.0005454869531219872,
+              "imag": 3.5808621699473777e-06
+            },
+            "expected": {
+              "real": 0.0005454869613157713,
+              "imag": 3.5826535217754945e-06
+            },
+            "abs_error": 1.791370567525042e-09,
+            "threshold": 2e-12,
+            "passed": false
+          },
+          "Y1_including_Rs_derived_siemens": {
+            "observed": {
+              "real": 0.0022000203087960213,
+              "imag": 1.7332768665270014e-05
+            },
+            "expected": {
+              "real": 0.002200020211800794,
+              "imag": 1.7341439054427908e-05
+            },
+            "abs_error": 8.670931681396809e-09,
+            "threshold": 2e-12,
+            "passed": false
+          }
+        },
+        "passed": false,
+        "axis_rule": "Documented center-frequency characterization; raw CW edge values retained without interpolation. Frequency correspondence is not accepted as verified.",
+        "lower_edge_diagnostic_voltage_errors": [
+          2.4213126326943634e-08,
+          1.3322034940424713e-08
+        ]
+      },
+      {
+        "source_center_hz": 1000000,
+        "observations": [
+          {
+            "node": 1,
+            "spectrum_id": 31,
+            "spectrum_name": "{2}D[(Source.RC_1M)],Source",
+            "raw_array_indices_zero_based": [
+              8,
+              9
+            ],
+            "exported_axis_hz": [
+              999999.5,
+              1000000.5
+            ],
+            "center_row_present": false,
+            "raw_voltage_peak": {
+              "real": 0.642778515170404,
+              "imag": -0.005064103845728332
+            },
+            "voltage_rms": {
+              "real": 0.45451304687801275,
+              "imag": -0.0035808621699473775
+            }
+          },
+          {
+            "node": 2,
+            "spectrum_id": 29,
+            "spectrum_name": "{2}D[(Source.RC_1M)],Source,RCblock",
+            "raw_array_indices_zero_based": [
+              8,
+              9
+            ],
+            "exported_axis_hz": [
+              999999.5,
+              1000000.5
+            ],
+            "center_row_present": false,
+            "raw_voltage_peak": {
+              "real": 0.2571313112846156,
+              "imag": -0.0007340548346765697
+            },
+            "voltage_rms": {
+              "real": 0.1818192938647407,
+              "imag": -0.0005190551513625725
+            }
+          }
+        ],
+        "checks": {
+          "V1_rms_volt": {
+            "observed": {
+              "real": 0.45451304687801275,
+              "imag": -0.0035808621699473775
+            },
+            "expected": {
+              "real": 0.011442668024723206,
+              "imag": -0.06601080137068453
+            },
+            "abs_error": 0.4474470448285532,
+            "threshold": 2e-12,
+            "passed": false
+          },
+          "V2_rms_volt": {
+            "observed": {
+              "real": 0.1818192938647407,
+              "imag": -0.0005190551513625725
+            },
+            "expected": {
+              "real": 0.009869994716084466,
+              "imag": -0.043305204600424675
+            },
+            "abs_error": 0.17719259595815945,
+            "threshold": 2e-12,
+            "passed": false
+          },
+          "source_current_derived_amp": {
+            "observed": {
+              "real": 0.0005454869531219872,
+              "imag": 3.5808621699473777e-06
+            },
+            "expected": {
+              "real": 0.0009885573319752768,
+              "imag": 6.601080137068453e-05
+            },
+            "abs_error": 0.00044744704482855326,
+            "threshold": 2e-12,
+            "passed": false
+          },
+          "Y1_including_Rs_derived_siemens": {
+            "observed": {
+              "real": 0.0022000203087960213,
+              "imag": 1.7332768665270014e-05
+            },
+            "expected": {
+              "real": 0.0025494092775047933,
+              "imag": 0.01470710756148325
+            },
+            "abs_error": 0.014693929226560399,
+            "threshold": 2e-12,
+            "passed": false
+          }
+        },
+        "passed": false,
+        "axis_rule": "Documented center-frequency characterization; raw CW edge values retained without interpolation. Frequency correspondence is not accepted as verified.",
+        "lower_edge_diagnostic_voltage_errors": [
+          0.4474470382325594,
+          0.17719259154344813
+        ]
+      }
+    ],
+    "raw_dataset_extract": {
+      "IDNo": {
+        "Data": {
+          "dimensions": [
+            8
+          ],
+          "values": [
+            0,
+            6,
+            28,
+            29,
+            12,
+            18,
+            30,
+            31
+          ]
+        },
+        "ByAnalysis": 1,
+        "Description": "Spectrum Identification Map"
+      },
+      "IDName": {
+        "Data": {
+          "dimensions": [
+            8
+          ],
+          "values": [
+            "Node Total from 'Probe'",
+            "Node Total from 'RCblock'",
+            "{1}D[(Source.RC_1k)],Source,RCblock",
+            "{2}D[(Source.RC_1M)],Source,RCblock",
+            "Node Total from 'RCblock'",
+            "Node Total from 'Source'",
+            "{1}D[(Source.RC_1k)],Source",
+            "{2}D[(Source.RC_1M)],Source"
+          ]
+        },
+        "ByAnalysis": 1,
+        "Description": "Spectrum Identification",
+        "IndepValue": "Designs\\rc_hierarchy_physical_Data\\Eqns\\VarBlock\\IDNo"
+      },
+      "IDTag": {
+        "Data": {
+          "dimensions": [
+            8
+          ],
+          "values": [
+            0,
+            0,
+            126223,
+            124903,
+            0,
+            0,
+            84719,
+            83399
+          ]
+        },
+        "ByAnalysis": 1,
+        "Description": "Spectrum Tag",
+        "IndepValue": "Designs\\rc_hierarchy_physical_Data\\Eqns\\VarBlock\\IDNo"
+      },
+      "F1": {
+        "Data": {
+          "dimensions": [
+            10
+          ],
+          "values": [
+            999.5,
+            1000.5,
+            1000.501,
+            999999.499,
+            999999.5,
+            1000000.5,
+            999.5,
+            1000.5,
+            999999.5,
+            1000000.5
+          ]
+        },
+        "Unit": 1003,
+        "ByAnalysis": 1,
+        "PlotType": "Spectrum"
+      },
+      "V1": {
+        "Data": {
+          "dimensions": [
+            20
+          ],
+          "values": [
+            0.642778515170404,
+            -0.005064103845728332,
+            0.642778515170404,
+            -0.005064103845728332,
+            3.16227766e-16,
+            0,
+            3.16227766e-16,
+            0,
+            0.642778515170404,
+            -0.005064103845728332,
+            0.642778515170404,
+            -0.005064103845728332,
+            0.642778515170404,
+            -0.005064103845728332,
+            0.642778515170404,
+            -0.005064103845728332,
+            0.642778515170404,
+            -0.005064103845728332,
+            0.642778515170404,
+            -0.005064103845728332
+          ]
+        },
+        "Unit": 9007,
+        "ByAnalysis": 1,
+        "IndepValue": "Designs\\rc_hierarchy_physical_Data\\Eqns\\VarBlock\\F1|Designs\\rc_hierarchy_physical_Data\\Eqns\\VarBlock\\ID1"
+      },
+      "Z1": {
+        "Data": {
+          "dimensions": [
+            20
+          ],
+          "values": [
+            833.1454191774982,
+            -12.033727020521294,
+            833.1454191774982,
+            -12.033727020521294,
+            833.1454191774982,
+            -12.033727020521294,
+            833.1454191774982,
+            -12.033727020521294,
+            833.1454191774982,
+            -12.033727020521294,
+            833.1454191774982,
+            -12.033727020521294,
+            833.1454191774982,
+            -12.033727020521294,
+            833.1454191774982,
+            -12.033727020521294,
+            833.1454191774982,
+            -12.033727020521294,
+            833.1454191774982,
+            -12.033727020521294
+          ]
+        },
+        "Unit": 2000,
+        "ByAnalysis": 1,
+        "IndepValue": "Designs\\rc_hierarchy_physical_Data\\Eqns\\VarBlock\\F1|Designs\\rc_hierarchy_physical_Data\\Eqns\\VarBlock\\ID1"
+      },
+      "P1": {
+        "Data": {
+          "dimensions": [
+            10
+          ],
+          "values": [
+            0.00024791811427387993,
+            0.00024791811427387993,
+            6.00010153734104e-35,
+            6.00010153734104e-35,
+            0.00024791811427387993,
+            0.00024791811427387993,
+            0.00024791811427387993,
+            0.00024791811427387993,
+            0.00024791811427387993,
+            0.00024791811427387993
+          ]
+        },
+        "Unit": 11000,
+        "ByAnalysis": 1,
+        "IndepValue": "Designs\\rc_hierarchy_physical_Data\\Eqns\\VarBlock\\F1|Designs\\rc_hierarchy_physical_Data\\Eqns\\VarBlock\\ID1"
+      },
+      "ID1": {
+        "Data": {
+          "dimensions": [
+            10
+          ],
+          "values": [
+            18,
+            18,
+            18,
+            18,
+            18,
+            18,
+            30,
+            30,
+            31,
+            31
+          ]
+        },
+        "ByAnalysis": 1
+      },
+      "F2": {
+        "Data": {
+          "dimensions": [
+            10
+          ],
+          "values": [
+            999.5,
+            1000.5,
+            1000.501,
+            999999.499,
+            999999.5,
+            1000000.5,
+            999.5,
+            1000.5,
+            999999.5,
+            1000000.5
+          ]
+        },
+        "Unit": 1003,
+        "ByAnalysis": 1,
+        "PlotType": "Spectrum"
+      },
+      "V2": {
+        "Data": {
+          "dimensions": [
+            20
+          ],
+          "values": [
+            0.2571313112846156,
+            -0.0007340548346765697,
+            0.2571313112846156,
+            -0.0007340548346765697,
+            3.16227766e-16,
+            0,
+            3.16227766e-16,
+            0,
+            0.2571313112846156,
+            -0.0007340548346765697,
+            0.2571313112846156,
+            -0.0007340548346765697,
+            0.2571313112846156,
+            -0.0007340548346765697,
+            0.2571313112846156,
+            -0.0007340548346765697,
+            0.2571313112846156,
+            -0.0007340548346765697,
+            0.2571313112846156,
+            -0.0007340548346765697
+          ]
+        },
+        "Unit": 9007,
+        "ByAnalysis": 1,
+        "IndepValue": "Designs\\rc_hierarchy_physical_Data\\Eqns\\VarBlock\\F2|Designs\\rc_hierarchy_physical_Data\\Eqns\\VarBlock\\ID2"
+      },
+      "Z2": {
+        "Data": {
+          "dimensions": [
+            20
+          ],
+          "values": [
+            10000000000,
+            0,
+            10000000000,
+            0,
+            10000000000,
+            0,
+            10000000000,
+            0,
+            10000000000,
+            0,
+            10000000000,
+            0,
+            10000000000,
+            0,
+            10000000000,
+            0,
+            10000000000,
+            0,
+            10000000000,
+            0
+          ]
+        },
+        "Unit": 2000,
+        "ByAnalysis": 1,
+        "IndepValue": "Designs\\rc_hierarchy_physical_Data\\Eqns\\VarBlock\\F2|Designs\\rc_hierarchy_physical_Data\\Eqns\\VarBlock\\ID2"
+      },
+      "P2": {
+        "Data": {
+          "dimensions": [
+            10
+          ],
+          "values": [
+            3.3058525039723094e-12,
+            3.3058525039723094e-12,
+            4.999999999467538e-42,
+            4.999999999467538e-42,
+            3.3058525039723094e-12,
+            3.3058525039723094e-12,
+            3.3058525039723094e-12,
+            3.3058525039723094e-12,
+            3.3058525039723094e-12,
+            3.3058525039723094e-12
+          ]
+        },
+        "Unit": 11000,
+        "ByAnalysis": 1,
+        "IndepValue": "Designs\\rc_hierarchy_physical_Data\\Eqns\\VarBlock\\F2|Designs\\rc_hierarchy_physical_Data\\Eqns\\VarBlock\\ID2"
+      },
+      "ID2": {
+        "Data": {
+          "dimensions": [
+            10
+          ],
+          "values": [
+            6,
+            6,
+            6,
+            6,
+            6,
+            6,
+            28,
+            28,
+            29,
+            29
+          ]
+        },
+        "ByAnalysis": 1
+      },
+      "DC_V": {
+        "Data": {
+          "dimensions": [
+            5,
+            1
+          ],
+          "values": [
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        "Unit": 9001,
+        "ByAnalysis": 1,
+        "IndepValue": "Designs\\rc_hierarchy_physical_Data\\Eqns\\VarBlock\\DC_ElemList"
+      },
+      "DC_I": {
+        "Data": {
+          "dimensions": [
+            5,
+            1
+          ],
+          "values": [
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        "Unit": 10002,
+        "ByAnalysis": 1,
+        "IndepValue": "Designs\\rc_hierarchy_physical_Data\\Eqns\\VarBlock\\DC_ElemList"
+      },
+      "LogOutput": {
+        "ByAnalysis": 1,
+        "Data": "System Analysis : RCHierarchyV2\r\n2026/10/15..20:50\r\n  RCHierarchyV2: \r\n  RCHierarchyV2: Normal RF Simulation\r\n    RCHierarchyV2: Normal RF Simulation.Creating Sources ...\r\n     - Spectrum (Type: Source) 24 {1} Freq: 1000.0000000000, BW: 1.000000, Pwr: -6.056917, Flags: H, D, C, , ID: [(Source.RC_1k)],Source\n\r\n    Adding Spectrum to Node: 1, From: Source, \r\n     - Spectrum (Type: Source) 25 {2} Freq: 1000000.0000000000, BW: 1.000000, Pwr: -6.056917, Flags: H, D, C, , ID: [(Source.RC_1M)],Source\n\r\n    Adding Spectrum to Node: 1, From: Source, \r\n    Analyze System ...\r\n  \n\r\n    Sequence: Probe, RCblock\n\r\n    RCHierarchyV2: Normal RF Simulation.Pass 1 ...\r\n      Created 4 Spectrums.\r\n    RCHierarchyV2: Normal RF Simulation.Pass 2 ...\r\n    RCHierarchyV2: Normal RF Simulation.Create Node Data ...\r\n    RCHierarchyV2: Normal RF Simulation.Create Composite Spectrum Data ...\r\n    RCHierarchyV2: Normal RF Simulation.Add Data to Dataset ...\r\n    Spectrums: 28 (Created: 4, Updated: 0, No Change:0, Other: 24, Deleted: 0), Passes: 2, Nodes: 2, Elements: 3\r\n    RCHierarchyV2: Normal RF Simulation.Done\r\nExecution time: 0.166 sec\r\n"
+      }
+    },
+    "limitations": [
+      "Both source identities export identical complex voltages despite distinct frequencies.",
+      "CW center rows are absent even with Pts=3 and typed UseSourcePts=true; all raw edge and plotting-floor rows are retained.",
+      "Z2 toward Probe is exported as 1e10 ohm. This does not establish an ideal nonloading probe; its implementation/boundary must be resolved before an equivalent-circuit claim.",
+      "The flat setup used Spectrasys loops; its source-direction and branch-direction totals cannot be silently substituted for complete physical node voltages.",
+      "This RC diagnostic does not solve or validate nonlinear DC bias."
+    ]
+  },
+  "session_restoration": {
+    "observed_utc": "2026-10-15T12:57:05.7473868Z",
+    "workspace": "D:/project/RFModel/build-reference/dc-systemvue-followup-20261015/session-restored-copy",
+    "original_copy_sha256": "a7bed1a8968c7a30e63e825ad88c6279afc1f4022c792d5d934b7499c2066c3f",
+    "opened_copy_sha256": "a7bed1a8968c7a30e63e825ad88c6279afc1f4022c792d5d934b7499c2066c3f",
+    "original_copy_bytes_unchanged": true,
+    "semantic_content_equal": true,
+    "ignored_ui_only_fields": [
+      "ClientWnd",
+      "DVport",
+      "PVPort",
+      "Selected",
+      "Time",
+      "Window"
+    ],
+    "analysis_done": 1,
+    "errors": "",
+    "design_items": [
+      {
+        "XName": "Design1",
+        "UserName": "Design1",
+        "Type": "Design"
+      },
+      {
+        "XName": "Design1 Analysis",
+        "UserName": "Design1 Analysis",
+        "Type": "Data Flow Analysis"
+      },
+      {
+        "XName": "Page",
+        "Type": "PageMgr"
+      }
+    ],
+    "raw_readback": "session-after-official-open.json",
+    "failures_retained": [
+      "session-restoration-timeout.json",
+      "session-after-restore-timeout.json",
+      "restore-official.stderr.log"
+    ],
+    "recovery_note": "Initial DeleteAllInternal helper did not return and was terminated; readback still contained the saved diagnostics. Official OpenWorkspace returned an internal error, but subsequent independent readback proved the original empty design/equations and idle error-free state were restored. Only viewport/window/selection/time differences are excluded."
+  },
+  "next_required": [
+    "A supported general nonlinear circuit reference that accepts the exact I(v) and Q(v) laws and exports solved node voltage and terminal current.",
+    "Resolve RC frequency propagation and probe boundary on the vendor path before reusing its voltages as an equivalent physical reference.",
+    "Reapply the unchanged V/I/derivative/Y criteria; only compare S after physical quantities and references pass."
+  ],
+  "raw_archive": {
+    "path": "dc-systemvue-followup-raw-20261015.zip",
+    "sha256": "ab0113ff473f259b9c17dab4256e1123112dc122249e5234db2233b846325fe2",
+    "bytes": 816636,
+    "included_files": 147,
+    "local_only_files": 10,
+    "local_raw_root": "build-reference/dc-systemvue-followup-20261015",
+    "crc_and_sha256_verified": true,
+    "note": "All task-owned captures, input/result workspaces, scripts and failure logs are included. Vendor documentation is retained locally and identified by hashes only. Scripts document attempted procedures and must not be run blindly; some intentionally retained attempts failed."
+  }
+}

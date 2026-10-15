@@ -176,6 +176,9 @@ independent determinant-based physical V/I power reconstruction, active singular
 boundaries, ownership/callback counts, explicit-domain recovery, and relocated
 installed two-translation-unit consumers. They make no new vendor-validation claim.
 
-The [2026-10-15 local comparison review](dc-bias-systemvue-verification-20261015.md)
-adds explicit finite-source two-node V/I checks and records the still-unresolved
-SystemVue model/export prerequisites. No vendor DC acquisition is counted as passed.
+The [2026-10-15 comparison review](dc-bias-systemvue-verification-20261015.md)
+adds explicit finite-source two-node V/I checks, covered by all 18 jobs for
+`dddc059`. The [live follow-up](dc-bias-systemvue-followup-20261015.md) preserves
+nonlinear model-creation failures and independent RC voltage exports that fail
+the original criterion. No vendor DC or small-signal comparison is counted as
+passed; native code and tolerances are unchanged.

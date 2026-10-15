@@ -1,10 +1,15 @@
 # DC and small-signal comparison readiness, 2026-10-15
 
-The native analytic cases pass. The SystemVue DC comparison is **not acquired**:
-no comparison workspace has been built, no vendor DC analysis was submitted, and
-no vendor V/I/Y or S result is counted as passing. The circuit and acquisition
-contract is recorded in the [readiness evidence](../validation/dc-bias-systemvue-readiness-20261015.json).
-This distinction prevents native mathematical tests from becoming a vendor claim.
+The native analytic cases pass. Commit `dddc0593961b3d734ee7702d96ee9d4ca370519a`
+passed all 18 CI jobs ([exact-commit evidence](../validation/dc-phd-ci-dddc059-20261015.json)).
+The later [live follow-up](dc-bias-systemvue-followup-20261015.md) constructed
+dedicated workspaces and submitted eight analyses. Nonlinear model creation failed;
+independent RC voltage spectra were exported but did not pass the original numeric
+criterion. **No vendor DC, V/I/Y or S comparison is accepted.**
+
+The earlier [readiness evidence](../validation/dc-bias-systemvue-readiness-20261015.json)
+remains the immutable pre-acquisition snapshot: its zero-submission counts describe
+that earlier time. The circuit and acceptance contract has not changed.
 
 ## Native results and finite source impedance
 
@@ -79,12 +84,17 @@ decompressed resource hash. Relevant resource names are:
 | `rfdesign/Nonlinear_Category.html` | The documented RF nonlinear category links Circuit Link and X-parameters. It does not establish an arbitrary I(v)/Q(v) device entry. |
 | `rfdesign/Circuit_Link.html` | Circuit Link uses harmonic balance and can automatically insert port matching/isolators. Those alter boundary conditions and cannot be left implicit. |
 
-The live session was inspected read-only: it remained the restored
+At the initial readiness inspection, the live session was inspected read-only and
+remained the restored
 `session-blank-before` workspace, idle and with no manager errors. The installed
 RF examples and help did not establish a supported arbitrary cubic I(v)/Q(v)
 model entry or an independent internal V/I export for these fixtures. This is a
 specific unresolved integration condition, not a claim that the entire product
-lacks those capabilities.
+lacks those capabilities. The subsequent live follow-up found the decisive
+installed `sim/Non-Linear_Co-Simulation.html` restriction: SystemVue nonlinear
+circuit co-simulation supports X-parameter models, while general nonlinear circuit
+simulation is directed to Genesys. NLRES/NLCAP registry entries and successful
+parameter readback did not produce usable simulation models in the tested path.
 
 ## Required order for the vendor acquisition
 

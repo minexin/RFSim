@@ -1,0 +1,1114 @@
+{
+  "schema_version": 1,
+  "archive": {
+    "path": "dc-systemvue-followup-raw-20261015.zip",
+    "sha256": "ab0113ff473f259b9c17dab4256e1123112dc122249e5234db2233b846325fe2",
+    "bytes": 816636,
+    "included_files": 147,
+    "local_only_files": 10,
+    "local_raw_root": "build-reference/dc-systemvue-followup-20261015",
+    "crc_and_sha256_verified": true,
+    "note": "All task-owned captures, input/result workspaces, scripts and failure logs are included. Vendor documentation is retained locally and identified by hashes only. Scripts document attempted procedures and must not be run blindly; some intentionally retained attempts failed."
+  },
+  "files": [
+    {
+      "path": "archive-dc-followup.py",
+      "bytes": 14509,
+      "sha256": "8dfe4829b4ad8deacde6c4ed162c499ed89916bec532611682aa183538c2504b",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "capture-live-state.ps1",
+      "bytes": 2544,
+      "sha256": "a596022a161f64fe0aab07b4798d073e55a8251326c7894ffa95e4744ceaaa10",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "circuit-co-simulation-detail-help.json",
+      "bytes": 23586,
+      "sha256": "ba188aebd4196cc4ad6a99d3e152aeb8de51ba509bf01e164064bc7592233548",
+      "archived": false,
+      "classification": "local_vendor_documentation_only"
+    },
+    {
+      "path": "circuit-co-simulation-help.json",
+      "bytes": 896,
+      "sha256": "d90c07fa4e98500f4f5ee733dfa58cbeb47f4eebeedeef8a25dcad6202428a5f",
+      "archived": false,
+      "classification": "local_vendor_documentation_only"
+    },
+    {
+      "path": "circuit-link-and-propagation-help.json",
+      "bytes": 13438,
+      "sha256": "1b5a183e1d77a3a05196766f79394430ed60e319c2306cf2f8f9593669838ea1",
+      "archived": false,
+      "classification": "local_vendor_documentation_only"
+    },
+    {
+      "path": "com-interfaces.txt",
+      "bytes": 2299,
+      "sha256": "cafc065a30b5ce417959498b5fa93e6294bbdc429c9b89f2c4a92f3649877fea",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "cubic-charge-entry-input.wsv",
+      "bytes": 44601,
+      "sha256": "178fbe48f9e14caa19a32f0c5a065f1d1718a080e8b7d25b5e1241756700f652",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "cubic-charge-entry-phases.log",
+      "bytes": 136,
+      "sha256": "84ceb340f42853b1690fdff111c1f542ddd2b19c35d55694d7ac9eb4341eedc9",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "cubic-charge-entry-result.wsv",
+      "bytes": 45632,
+      "sha256": "d840f4e196813b4b617188c91c0e62c3276fceb2ea8915743d69bda5ad871ba2",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "cubic-charge-entry.json",
+      "bytes": 931244,
+      "sha256": "805bca190f08a74e21b1cfb43ff0595b5ac89696d5a9a5cd0b04f534285160aa",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "cubic-charge-entry.stderr.log",
+      "bytes": 78,
+      "sha256": "1ee43739642cd07f1a02fa84f9c7273a30ec65ae02abd4febc4973f21316a25e",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "cubic-charge-entry.stdout.log",
+      "bytes": 1178,
+      "sha256": "9a006cb10d92a831b53687b170cd63b71a1191245a3be1b7b530599a81d24584",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "cubic-charge-errors-before.txt",
+      "bytes": 178,
+      "sha256": "af23f53f514699df5d2bb082a60a90c4268311d96cff3efe2796c4e4336fc38b",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "cubic-charge-prepared.json",
+      "bytes": 176952,
+      "sha256": "eaf888d15567fbf0bd2835090e2ca4383bf5978f1e59242cc202b0d3d679eeaf",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "cubic-charge-prepared.wsv",
+      "bytes": 44602,
+      "sha256": "576101b5047a349280ceec5316d80c6894b741845c04376ecd95b6c7da6619c8",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "cubic-current-entry-input.wsv",
+      "bytes": 41092,
+      "sha256": "1211361c0f0cb44089673e9ea8f1313ed3bb2e9e45119fb1a751b254cf8e84cd",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "cubic-current-entry-phases.log",
+      "bytes": 136,
+      "sha256": "4077863d1db037f7d4b30db894f50b737201cd7347e2cdefd8826317df29f2a7",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "cubic-current-entry-result.wsv",
+      "bytes": 42126,
+      "sha256": "2802580e38b08020997f83df3533c3da6a956046e9bc0823ded21f29544138ca",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "cubic-current-entry.json",
+      "bytes": 857846,
+      "sha256": "5d2160dc7352279a7bc3fcd99fac45e810f33d6b5bf459fd7d6bd3fd0c827b90",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "cubic-current-entry.stderr.log",
+      "bytes": 78,
+      "sha256": "1ee43739642cd07f1a02fa84f9c7273a30ec65ae02abd4febc4973f21316a25e",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "cubic-current-entry.stdout.log",
+      "bytes": 1171,
+      "sha256": "ff469fbeb18a85424e65d3e3ff6679482a7c79155aa43d176467fc35b4f3eccc",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "cubic-current-errors-before.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "cubic-current-prepared.json",
+      "bytes": 163371,
+      "sha256": "f949142d5df678534bda46e3fd83709d3bf0822e273a4b672f39cf5ff4cf9632",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "cubic-current-prepared.wsv",
+      "bytes": 41095,
+      "sha256": "d122f6e6f20796838cccccf1dd0f264bcee4670cf877c8a79fafb66975a1e763",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "dc-help-port-model-resources.json",
+      "bytes": 27195,
+      "sha256": "a3d7516ee7b0abd4613871c2531904b3b9d80f1dfcf35e695a18db63426980a0",
+      "archived": false,
+      "classification": "local_vendor_documentation_only"
+    },
+    {
+      "path": "divider-after-script-timeout.json",
+      "bytes": 606263,
+      "sha256": "266abc513774be7cd56ce24ca88fe4e6777a75c63579c095a661a7400c27dbc7",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "divider-dummy-port-entry.xml",
+      "bytes": 648,
+      "sha256": "86e9adb9e4bcd929bc0a0bbd197eb9f8ba02cb270a932c4bd892c3e1a5e5700b",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "divider-internal-dc-input.wsv",
+      "bytes": 38333,
+      "sha256": "37fce7f978bb42d44a049a7beb308d1c5119e858d0f0d86e13b8ff30184d87f0",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "divider-internal-dc-phases.log",
+      "bytes": 136,
+      "sha256": "8c1500f61f84bb0f12c886effb58d4b70e9e2814695e5583b9d9938a58fd4439",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "divider-internal-dc-result.wsv",
+      "bytes": 39367,
+      "sha256": "6177fd9f3ac2e6d67153349b61af924c1d64c35f566e194547f3a62ab5d24827",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "divider-internal-dc.json",
+      "bytes": 800921,
+      "sha256": "3ac0621e44ec38214bb5c0ac8712e97ff3ba0a3db1ad76909e350a82793a67ca",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "divider-internal-dc.stderr.log",
+      "bytes": 78,
+      "sha256": "1ee43739642cd07f1a02fa84f9c7273a30ec65ae02abd4febc4973f21316a25e",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "divider-internal-dc.stdout.log",
+      "bytes": 1171,
+      "sha256": "134c8ba2f49b150e84ea9459a20abe3e9e26493e9ddf8e0bfd394e88f193d5aa",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "divider-linear-control-input.wsv",
+      "bytes": 38465,
+      "sha256": "8ce7ceb88e30c0437b91cb127ecf05f44ab0c217c94b710c6ddbf11ab1daa769",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "divider-linear-control-phases.log",
+      "bytes": 136,
+      "sha256": "961b1abc7d0961513a64a0e0d156f2eff78709cc8edfad97c691a3bc0a11c7dc",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "divider-linear-control-result.wsv",
+      "bytes": 40183,
+      "sha256": "2a73774b7e72124436146d31455c2a9a9155f91463f249b673de789a5e151eba",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "divider-linear-control.json",
+      "bytes": 818109,
+      "sha256": "fdf0c5ab3d8891ce81c9766eccfa234d7a6876df23eec515baf0bf6994c02f9e",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "divider-linear-control.stderr.log",
+      "bytes": 78,
+      "sha256": "1ee43739642cd07f1a02fa84f9c7273a30ec65ae02abd4febc4973f21316a25e",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "divider-linear-control.stdout.log",
+      "bytes": 335,
+      "sha256": "48b863a5776938972de4b0b123d2baee7258ec776e89ecb277915f93daa8d1fd",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "divider-linear-dialog.txt",
+      "bytes": 871,
+      "sha256": "33fec679a102bdac4ae79077a33b3a51201c6b3623ff56b81299125a127757b7",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "divider-linear-helper-pid.txt",
+      "bytes": 5,
+      "sha256": "d5f5d376f57d081af4d31d339f35d5b448f793863f196f4765451b4545e2e998",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "divider-linear-helper-timeout.txt",
+      "bytes": 77,
+      "sha256": "cb8859930a7ed7c122fb1ab507e1225936a4752d0d5098db9da1376f01e8ae09",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "divider-linear-phases.log",
+      "bytes": 68,
+      "sha256": "a0516de1a258960000beba6471a068938d71c4d064b0bc896c21b311ea5c45f5",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "divider-linear-submit.vbs",
+      "bytes": 167,
+      "sha256": "81cbc389d73f23dd318890895d6fdffb6630126a23449e150e05a3a7e65a7717",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "divider-linear.stderr.log",
+      "bytes": 39,
+      "sha256": "79267e1e78d52e954aac54b3d52b7f2797bc2d956d4e140bee293ed04845dacf",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "divider-linear.stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "divider-nonlinear-errors-before.txt",
+      "bytes": 88,
+      "sha256": "05fbcdebcbf1cbd3a3e1b22c93731e67449d94480d7445a837a2c2b0b137cb68",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "divider-nonlinear-prepared.json",
+      "bytes": 82599,
+      "sha256": "565db8df54a4b24e4a9b9ebce0f35a5df3d2ad62b75be6031c5400d160ebd753",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "divider-nonlinear-prepared.wsv",
+      "bytes": 38337,
+      "sha256": "cebb7ea74b6d397fd1f81e11f07e51a791866bf04b8ea616d59dd0a78e7985c4",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "divider-noport-failed.wsv",
+      "bytes": 33018,
+      "sha256": "4d68428fbc196462f78c4d425968cc0e03a88eb6bb7da599563bce6945ba1e14",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "divider-prepare-before.wsv",
+      "bytes": 27668,
+      "sha256": "f95f0f9a1bd0e0c62df1b99eab0dcc10ba9563e149f3becc318fc2cf6ec3c456",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "divider-prepare-errors-before.txt",
+      "bytes": 113,
+      "sha256": "47957e1a6b8bc0e5b144a7f7708f6b4df6567c5bc0380b99e3c5afa5ed64739d",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "divider-prepare-phases.log",
+      "bytes": 326,
+      "sha256": "f1d3b67373c2b6c6d1ca17caf260821d35317dc7d45d9f11a333e11b69853389",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "divider-prepared.json",
+      "bytes": 579333,
+      "sha256": "dce97ed9cbef114e1030aae6bbd852df0ea46a9e0616558b06eed84a98780d47",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "divider-prepared.wsv",
+      "bytes": 32002,
+      "sha256": "a55b4f6a706b39ef8303f5183c73f35ae36ed81d23c412c96f1519d935867323",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "entry-api-loaded.wsv",
+      "bytes": 19151,
+      "sha256": "2626d744e37fc2e92e235e2b6e0fc160a2251924a0a399fa1b3e931d5964ca0c",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "entry-api-phases.log",
+      "bytes": 275,
+      "sha256": "3ea8ba7d2b90ee542c05d01979016010c809fd3c8f4bc9dc76df9e6bc5c4580c",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "entry-api.json",
+      "bytes": 229182,
+      "sha256": "30860b8dc0df18ed0b9ea195cbc0cc3ebd571cf460a68c02c3fe89d0154e2f36",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "entry-api.stderr.log",
+      "bytes": 188,
+      "sha256": "e083701e49e29b28a0b0e0e8929bd771c3126532180b2486730636584c8fb7c9",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "entry-api.stdout.log",
+      "bytes": 236,
+      "sha256": "2e7ea8a71c325c76fb4760e628a73c85b642cf97970489d5293d31455d50b168",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "entry-phases.log",
+      "bytes": 127,
+      "sha256": "e8a33101a013cfe34eeb5e541bb8005d4229ca4eb06cc060838a222c0c8f1310",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "entry-probe.stderr.log",
+      "bytes": 491,
+      "sha256": "25393d5cd4bbee9d9c61dccd882219520c45f50c94bfcad6f29d1565b172a94b",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "entry-probe.stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "genesys-2010-part.pdf",
+      "bytes": 6070997,
+      "sha256": "b7fc9c217604efec73fc5b78c14cff77ee5b063e27f285d182be093fa210b9c2",
+      "archived": false,
+      "classification": "local_vendor_documentation_only"
+    },
+    {
+      "path": "inspect-dc-help.py",
+      "bytes": 1327,
+      "sha256": "8939aa6d129d11af9b03ed1c02cf4b59f7cf15c06fe7e2b37a874ebe4fc5efe5",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "inspect-live-registry.ps1",
+      "bytes": 2400,
+      "sha256": "666283c23d94aafc3bd2bb94268f576d6d58eef86b51afd2f729873d8b544e11",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "inspect-model-metadata.ps1",
+      "bytes": 4075,
+      "sha256": "b5762407ad24b02902c0c7e0852d59ccf9d466a315ef4468542b0d756debab1f",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "linear-analysis-entry.xml",
+      "bytes": 1614,
+      "sha256": "0988bcdc2d6b14ed99b894d42ca930913bd2372693b032a1a412227639cd78f9",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "linear-control-errors-before.txt",
+      "bytes": 178,
+      "sha256": "af23f53f514699df5d2bb082a60a90c4268311d96cff3efe2796c4e4336fc38b",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "linear-control-prepared.json",
+      "bytes": 155261,
+      "sha256": "6200d7466df313bdfba06031c1d72bb0e1a2c7de89571547f268ae10508f844a",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "linear-control-prepared.wsv",
+      "bytes": 38462,
+      "sha256": "89fa23d107b280c1c46db392ccbd264365f89b8ac4b75661e83e6decc25b680a",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "load-entry-via-xml.ps1",
+      "bytes": 3280,
+      "sha256": "e6f114596442efd9c7a7ba5fd2af47170576d903c194614b25277a33c9401dc5",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "model-metadata-loaded.wsv",
+      "bytes": 27668,
+      "sha256": "8241ea11af549acb329eaa1871db388fe66d36406e18dd26342b252d1968727d",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "model-metadata-phases.log",
+      "bytes": 168,
+      "sha256": "edcc2f50f272045190c83a7a2773c53c80145704388085e2dfe608d50d9de767",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "model-metadata.json",
+      "bytes": 482851,
+      "sha256": "c233625ec7ed39a9e09a8df6fd09fcab9895666e847cabae23b4c72c6e66c81a",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "model-metadata.stderr.log",
+      "bytes": 110,
+      "sha256": "8728fa70e96d7c1b77fbb09049577922430de4a78efff7a39cf6bc6bf5d5bed8",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "model-metadata.stdout.log",
+      "bytes": 891,
+      "sha256": "4b6416a1106ef3636f9543b37e3cfcd50f1e45ba32743fa4bd71079391fa7754",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "nlcap-page237.png",
+      "bytes": 51995,
+      "sha256": "5c746b3db1872e2e7b54098fdfdc1c32ae47974a61f9e4582e33b3a17994c4e4",
+      "archived": false,
+      "classification": "local_vendor_documentation_only"
+    },
+    {
+      "path": "nlcap-printed237.png",
+      "bytes": 109009,
+      "sha256": "6b0e950f7440a8c23895c955f88eea5ce72510e185d8e1fa1cbedb79bebe4751",
+      "archived": false,
+      "classification": "local_vendor_documentation_only"
+    },
+    {
+      "path": "nlres-page241.png",
+      "bytes": 92565,
+      "sha256": "796a5f527b9b15d5e486cab32a56aad6b9ec2ca59fdc345ef377526976d46d38",
+      "archived": false,
+      "classification": "local_vendor_documentation_only"
+    },
+    {
+      "path": "nlres-printed241.png",
+      "bytes": 122588,
+      "sha256": "fd6333d6a34142b6bca3701469cafe466de26f094be9927f282387828c43dd63",
+      "archived": false,
+      "classification": "local_vendor_documentation_only"
+    },
+    {
+      "path": "open-entry-probe.ps1",
+      "bytes": 3298,
+      "sha256": "943e8a5880c57ba48d90df625ebd2fda75672d875b968fb741afb45a4c07d73f",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "prepare-divider-nonlinear.ps1",
+      "bytes": 3362,
+      "sha256": "7b1198353f37b25be88e6892ecbe317865fc61b80bf8e120758afd381c464232",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "prepare-divider.ps1",
+      "bytes": 4751,
+      "sha256": "dc3578990c2b5d5f6c001473c06ee8dfba9d41bb2e3bdf8ffd1e42f7895446d7",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "prepare-rc-expressions.ps1",
+      "bytes": 3917,
+      "sha256": "29d83f44ae7bdb79057f4977a389c9b9ae6dfe77276665ca3a04742b27989c8e",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "prepare-rc-hierarchy-live.ps1",
+      "bytes": 3643,
+      "sha256": "95bd0759f1162f27c5f1941a42dcd84845e7392ff3df5f647b7e7e20d305aea6",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "prepare-rc-hierarchy.py",
+      "bytes": 4732,
+      "sha256": "c4f44d182147cec67fad605e717cf07e42b4d583cfbc8816528065d8333fe353",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "prepare-rc-input.py",
+      "bytes": 4788,
+      "sha256": "a457790d99e370894635d728122ff3e4980165d673fb8b60609d01e64a58b0bb",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "prepare-rc-live.ps1",
+      "bytes": 3844,
+      "sha256": "f246fda4c089560ae991a89cd97643c5c4d413dcd1fbd3bcb8d721d006328ae1",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "prepare-rc-output-live.ps1",
+      "bytes": 3788,
+      "sha256": "1efe3eb4fbdb855d102970cc6f1fd5af00450796625ff20a783baeb901867946",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "rc-expressions-errors-before.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "rc-expressions-prepared.json",
+      "bytes": 155061,
+      "sha256": "99772588d9c78b33462d59c5a8fe6fa39b4f8a6cc26f62ce0b5b2a29d8834ebe",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "rc-expressions-prepared.wsv",
+      "bytes": 72498,
+      "sha256": "0fb9eaea9fa5ff6a6d0e1d9ad9212beab8202109835cedad910b146e66cadf9e",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "rc-hierarchy-ac-input.wsv",
+      "bytes": 121003,
+      "sha256": "0f74205a31bd125724225b0e4567d7c3c0e70bf476d590bb8abf422425db518a",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "rc-hierarchy-ac-phases.log",
+      "bytes": 136,
+      "sha256": "1a92ab046293d2a3e0244755ed9bb59b474066070c8cf742beb808367c117047",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "rc-hierarchy-ac-result.wsv",
+      "bytes": 125833,
+      "sha256": "d9cdd494d638b75f110ddd3d48cfcbd90e293c17a74f825a5f81bb236aa841c8",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "rc-hierarchy-ac.json",
+      "bytes": 2527534,
+      "sha256": "c7a9378835e182e3b94050258449a28d8bca0ed831e5f4c72f219659a10d8e6a",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "rc-hierarchy-ac.stderr.log",
+      "bytes": 78,
+      "sha256": "1ee43739642cd07f1a02fa84f9c7273a30ec65ae02abd4febc4973f21316a25e",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "rc-hierarchy-ac.stdout.log",
+      "bytes": 498,
+      "sha256": "8423b873473d6c50d270dea5741e6a7a88c3cfb063649e5aa7cd1b7a28721dd6",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "rc-hierarchy-entry.xml",
+      "bytes": 24985,
+      "sha256": "788b1115aaaccd93cd5559ae6e67d867d860c9219a60cb3c6e9803a5e8da5c0a",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "rc-hierarchy-errors-before.txt",
+      "bytes": 166,
+      "sha256": "a36b5902c1b53059ca8ff64abad460e14a0a354a8926a93caa39d6cde6afdd35",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "rc-hierarchy-output-entry.xml",
+      "bytes": 5784,
+      "sha256": "48aa2d56a3b8b422888ed0537c71ac6b747a46387881030af2547b3236028309",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "rc-hierarchy-output-prepared.json",
+      "bytes": 302662,
+      "sha256": "757f13bfa89b175442816f3cc008f6c70ee23b44d5601644132dc2b758b492a7",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "rc-hierarchy-output-prepared.wsv",
+      "bytes": 131676,
+      "sha256": "48e7fc6d7fcc04827e93dc2040771795696705014ab615a91517972ed3bb29d5",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "rc-hierarchy-physical-input.wsv",
+      "bytes": 131682,
+      "sha256": "82ee78777b6ed85d00579c6dcca513ea5928dd7384b767095686ab4a04323c82",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "rc-hierarchy-physical-phases.log",
+      "bytes": 136,
+      "sha256": "7684581c4b9970738f65bdee4357421434af943eeec41e4288f8f05d953dfdbe",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "rc-hierarchy-physical-result.wsv",
+      "bytes": 140550,
+      "sha256": "52358fe0f55c8d720981c833d26971307da95bcd0827d31c2651aee7e08bf2ac",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "rc-hierarchy-physical.json",
+      "bytes": 2759027,
+      "sha256": "8cf4a73bcc2d12a3d169397d94dab14470ba55fe9af803f6117b2af52820006b",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "rc-hierarchy-physical.stderr.log",
+      "bytes": 78,
+      "sha256": "1ee43739642cd07f1a02fa84f9c7273a30ec65ae02abd4febc4973f21316a25e",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "rc-hierarchy-physical.stdout.log",
+      "bytes": 333,
+      "sha256": "85541eb2217932eb0391efb88dbbabde026df2f8c37c787aed22a644dda6f366",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "rc-hierarchy-plan.json",
+      "bytes": 1190,
+      "sha256": "e2a3b12d905f367a5eea8c735fd3459f7d7f0406dc1295ce290144bcdcbea3ea",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "rc-hierarchy-prepared.json",
+      "bytes": 212787,
+      "sha256": "86c49f1984ff8450ed2421924bb3fb42dedd9b80805dff9c8f8cd66813987cf0",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "rc-hierarchy-prepared.wsv",
+      "bytes": 120122,
+      "sha256": "f957151a68a7653c85bd3fecf8344838a7e315b7d03237cc4a35b5e526e4d23e",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "rc-hierarchy-readback.json",
+      "bytes": 284606,
+      "sha256": "a2f335d9170060b7373378df48bf47794b63419239c53abba2eb328e0366fd45",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "rc-hierarchy-readback.wsv",
+      "bytes": 121009,
+      "sha256": "e66cd34116dc1220cdf8a3d5503548a14bc437dfa977454c8d1d872cc94f318c",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "rc-hierarchy-source-help.json",
+      "bytes": 34819,
+      "sha256": "5162dcd177d680261f99b0cee25ef49ca9deb0f588fbae88038f81178b3e610a",
+      "archived": false,
+      "classification": "local_vendor_documentation_only"
+    },
+    {
+      "path": "rc-physical-ac-input.wsv",
+      "bytes": 72494,
+      "sha256": "dcecd9720f152cfac0f6adc95559a5c5d6c82615475dbb35227f68b16c19c98e",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "rc-physical-ac-phases.log",
+      "bytes": 136,
+      "sha256": "0d838fe14edc9cacddf43ab654e00f0afe888f7efbd71b4fee57b7a5c207e494",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "rc-physical-ac-result.wsv",
+      "bytes": 90085,
+      "sha256": "ab59f14b6ad58440c6fa808c1cca1d3cd1188f281e882b8806b881c4466b06da",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "rc-physical-ac.json",
+      "bytes": 1802730,
+      "sha256": "44129caa0bb243c1398e5f5df35de2f81250ea0e957b6df8e5415a9d1e4bb2a4",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "rc-physical-ac.stderr.log",
+      "bytes": 78,
+      "sha256": "1ee43739642cd07f1a02fa84f9c7273a30ec65ae02abd4febc4973f21316a25e",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "rc-physical-ac.stdout.log",
+      "bytes": 381,
+      "sha256": "a1cfea4f4e7a57ad447ffa7254156b4e1cd29b429ef3f48388030b3285674e72",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "rc-physical-entry.xml",
+      "bytes": 17340,
+      "sha256": "9004a1e2937f90f6e255ec330b9e12048694310044a95122019452858e2ef6f1",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "rc-physical-errors-before.txt",
+      "bytes": 187,
+      "sha256": "b92170afec3374f22721e3f6bf9e68e3bfcf92c9fc3e31f4a3099d611fa64b3a",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "rc-physical-plan.json",
+      "bytes": 3839,
+      "sha256": "e1aa63e74d29cb478cd93753ddb0c37c1e8472ad83def252ecab9ed1f375e581",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "rc-physical-prepared.json",
+      "bytes": 125043,
+      "sha256": "a81a4d5bc3c403f3bebb5efd5bb3e04e51cb28539e8baef07b7d21549fcd1ac7",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "rc-physical-prepared.wsv",
+      "bytes": 67411,
+      "sha256": "4c9240adf4fe61dd878c94d376bcca0095d03fd5cd085235253a82f127b848e3",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "read-rc-hierarchy-live.ps1",
+      "bytes": 3729,
+      "sha256": "e9bee52044dddadd576203eb780d5695554d994996520087086dd2c2649277cd",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "reconfigure-probe.ps1",
+      "bytes": 4120,
+      "sha256": "3b60bbf1a5e8f22bb6af57fdbabf72f53225c0ba1ae85be2632334195b9499b1",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "reflect-com.ps1",
+      "bytes": 375,
+      "sha256": "8f4727f04b76130f7cb72d567cd0b7efd26ca41899f6f611adbfc03d020e5b9b",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "registry-before.stderr.log",
+      "bytes": 400,
+      "sha256": "92f24d37f62e2f544a7c34bd264ee7c47893826a6b2e43ae1e23442b29173733",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "registry-before.stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "registry-live.json",
+      "bytes": 37151,
+      "sha256": "0d2c8af2c006530bd57873bfed41d3f26273eddd227f92e8bf8038c14ba7f7d6",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "registry-live.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "registry-live.stdout.log",
+      "bytes": 236,
+      "sha256": "bbda9b333e935ad95c73d386401141f3f8a66cb33defc0f6691e36b28d3ae4da",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "restore-official.ps1",
+      "bytes": 2556,
+      "sha256": "ffed40cfacd70a38fc85c375fddfdf6a236d6bcbef53d298de832b6e69e9833b",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "restore-official.stderr.log",
+      "bytes": 456,
+      "sha256": "95600c667cb0ae9d3c1e1241e9c2af464e336f09ed1111e3f0aefcdc1cf04906",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "restore-official.stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "restore-session.ps1",
+      "bytes": 2340,
+      "sha256": "737ad90b08dbe296f5950449df72833a2fbfcaff84213709795f9457541250c5",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "RFModel_DC_Entry_API.wsv",
+      "bytes": 13006,
+      "sha256": "ac45dbfc35714b287739ab282b1f11bd68e965df1f15652633daa2be43a7f785",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "RFModel_DC_Entry_Probe.wsv",
+      "bytes": 2387,
+      "sha256": "cf35861142834e83a997442aef55c8f3cc4bcc120c351a854117531ecec77787",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "RFModel_DC_Model_Metadata.wsv",
+      "bytes": 19319,
+      "sha256": "fc56b666cc3eeaca97fad1cb17d3d802dc517ac9deed07a87866af60e0098dfb",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "run-direct-analysis.ps1",
+      "bytes": 3998,
+      "sha256": "3c271eb8d7cdc512687fd67672338d5ba8276458a35fe533cf75d40536efc7fc",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "run-divider.ps1",
+      "bytes": 3997,
+      "sha256": "59af05fe0d769bb1a4344c20acf5873c17657e3ad724b04cf353f206d86c7745",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "run-rc-direct-analysis.ps1",
+      "bytes": 4062,
+      "sha256": "4d6e005c83818e5081e272199fa20f40e9eb8e12e6cb9c5221689768d1df8092",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "session-after-official-open.json",
+      "bytes": 188012,
+      "sha256": "b2c06240f8bb57f906d79ead131a42ff71add96d407fdf168f0df6b663ec4d8f",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "session-after-restore-timeout.json",
+      "bytes": 2519571,
+      "sha256": "8870f3222f7f3dc1335618e7cd0e93e4e184031fcfe5f957a08a527564deeb1a",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "session-after-restore-timeout.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "session-after-restore-timeout.stdout.log",
+      "bytes": 347,
+      "sha256": "1bba7ad6634a7497c15744d115e8d17cd04f681f24888580f4705be4e737bb99",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "session-before-official-restore.wsv",
+      "bytes": 140592,
+      "sha256": "f51a93a647471ddd42129e1885b2a6d1445e3c9c09abb979d288d79095607db1",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "session-before-restore.wsv",
+      "bytes": 140592,
+      "sha256": "7de22960b55849ac645f387ee5a8462154526a149f7dde0aa73200b4c2afdb6f",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "session-before.xml",
+      "bytes": 13224,
+      "sha256": "31f0e491c00ec59c697a9f3a07a155f67673a5742a2a154ff9998344ad9fb474",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "session-preserved-before.wsv",
+      "bytes": 13006,
+      "sha256": "a7bed1a8968c7a30e63e825ad88c6279afc1f4022c792d5d934b7499c2066c3f",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "session-restoration-timeout.json",
+      "bytes": 218,
+      "sha256": "779a325e64549c77c2bb33107c014130c84317134535f4d4de0c8d83de40b1d4",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "session-restoration-verification.json",
+      "bytes": 1446,
+      "sha256": "a2c6230917d7ca67f99233b7cdfdc6d2ae964464452d67d5f1f97a9a43cb8594",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "session-restored-copy.wsv",
+      "bytes": 13006,
+      "sha256": "a7bed1a8968c7a30e63e825ad88c6279afc1f4022c792d5d934b7499c2066c3f",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    },
+    {
+      "path": "voltage-probe-entry.xml",
+      "bytes": 138,
+      "sha256": "86f4c99ba7a0a1b08140f889f7cef8b1c651a55c6c913466356fe5b692427b05",
+      "archived": true,
+      "classification": "owned_diagnostic_capture_or_procedure"
+    }
+  ]
+}
