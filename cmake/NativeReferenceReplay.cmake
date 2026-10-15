@@ -4,7 +4,14 @@ add_executable(rfmodel_reference_highorder_probe tests/reference/reference_higho
 target_link_libraries(rfmodel_reference_highorder_probe PRIVATE RFModel::rfmodel)
 add_executable(rfmodel_reference_highorder_oracle tests/reference/reference_highorder_oracle.cpp)
 target_link_libraries(rfmodel_reference_highorder_oracle PRIVATE RFModel::rfmodel)
+add_executable(rfmodel_reference_amplifier_probe
+    tests/reference/reference_amplifier_probe.cpp tests/reference/reference_amplifier_odr.cpp)
+target_link_libraries(rfmodel_reference_amplifier_probe PRIVATE RFModel::rfmodel)
+add_executable(rfmodel_reference_amplifier_oracle tests/reference/reference_amplifier_oracle.cpp)
+set_target_properties(rfmodel_reference_amplifier_oracle PROPERTIES
+    CXX_STANDARD 17 CXX_STANDARD_REQUIRED ON CXX_EXTENSIONS OFF)
 set_target_properties(rfmodel_reference_highorder_probe rfmodel_reference_highorder_oracle
+    rfmodel_reference_amplifier_probe
     PROPERTIES CXX_EXTENSIONS OFF)
 
 set(RFMODEL_REFERENCE_SOURCE_REVISION "" CACHE STRING
@@ -40,7 +47,11 @@ list(APPEND reference_sources CMakeLists.txt cmake/NativeReferenceReplay.cmake
     scripts/reference/probe-xparameter-data.cpp
     scripts/reference/installed-xparameter-probe/CMakeLists.txt
     scripts/reference/installed-xparameter-probe/odr.cpp
-    tests/cmake/check_xparameter_replay_install.cmake)
+    tests/cmake/check_xparameter_replay_install.cmake
+    tests/reference/reference_amplifier_probe.cpp tests/reference/reference_amplifier_odr.cpp
+    tests/reference/reference_amplifier_oracle.cpp
+    tests/cmake/check_amplifier_replay_install.cmake
+    tests/amplifier_reference_consumer/CMakeLists.txt)
 list(SORT reference_sources)
 set(reference_files "")
 set(reference_content "")
@@ -74,17 +85,19 @@ foreach(configuration IN LISTS reference_configs)
     set(identity "  \"protocol\": 1,\n  \"source_revision\": ${quoted_revision},\n  \"source_content_sha256\": \"${reference_content_hash}\",\n  \"configuration\": \"${configuration}\",\n  \"compiler\": {\"id\": \"${CMAKE_CXX_COMPILER_ID}\", \"version\": \"${CMAKE_CXX_COMPILER_VERSION}\", \"path\": ${quoted_compiler}, \"flags\": ${quoted_flags}},\n  \"generator\": ${quoted_generator},\n  \"source_files\": {\n${reference_files}\n  }")
     string(SHA256 build_id "${identity}")
     set(manifest "{\n  \"build_id\": \"${build_id}\",\n${identity}\n}\n")
-    if(configuration STREQUAL "unspecified")
-        target_compile_definitions(rfmodel_reference_highorder_probe PRIVATE
-            "RFMODEL_NATIVE_REPLAY_BUILD_ID=\"${build_id}\"")
-        file(GENERATE OUTPUT "$<TARGET_FILE:rfmodel_reference_highorder_probe>.manifest.json"
-            CONTENT "${manifest}" NEWLINE_STYLE LF)
-    else()
-        target_compile_definitions(rfmodel_reference_highorder_probe PRIVATE
-            "$<$<CONFIG:${configuration}>:RFMODEL_NATIVE_REPLAY_BUILD_ID=\"${build_id}\">")
-        file(GENERATE OUTPUT "$<TARGET_FILE:rfmodel_reference_highorder_probe>.manifest.json"
-            CONTENT "${manifest}" CONDITION "$<CONFIG:${configuration}>" NEWLINE_STYLE LF)
-    endif()
+    foreach(probe_target IN ITEMS rfmodel_reference_highorder_probe rfmodel_reference_amplifier_probe)
+        if(configuration STREQUAL "unspecified")
+            target_compile_definitions(${probe_target} PRIVATE
+                "RFMODEL_NATIVE_REPLAY_BUILD_ID=\"${build_id}\"")
+            file(GENERATE OUTPUT "$<TARGET_FILE:${probe_target}>.manifest.json"
+                CONTENT "${manifest}" NEWLINE_STYLE LF)
+        else()
+            target_compile_definitions(${probe_target} PRIVATE
+                "$<$<CONFIG:${configuration}>:RFMODEL_NATIVE_REPLAY_BUILD_ID=\"${build_id}\">")
+            file(GENERATE OUTPUT "$<TARGET_FILE:${probe_target}>.manifest.json"
+                CONTENT "${manifest}" CONDITION "$<CONFIG:${configuration}>" NEWLINE_STYLE LF)
+        endif()
+    endforeach()
 endforeach()
 
 add_test(NAME native_replay_protocol COMMAND "${Python3_EXECUTABLE}" -I -S
@@ -133,3 +146,25 @@ add_test(NAME xparameter_installed_replay_contract COMMAND ${CMAKE_COMMAND}
     -DPYTHON=${Python3_EXECUTABLE} -DCONFIG=$<CONFIG>
     -P ${CMAKE_CURRENT_SOURCE_DIR}/tests/cmake/check_xparameter_replay_install.cmake)
 set_tests_properties(xparameter_installed_replay_contract PROPERTIES TIMEOUT 300)
+
+# Narrow single/two-tone developer archive route; original numerical judges stay unchanged.
+foreach(suite IN ITEMS compare_single_compression compare_two_tone)
+    add_test(NAME native_${suite} COMMAND "${Python3_EXECUTABLE}" -I -S
+        "${CMAKE_CURRENT_SOURCE_DIR}/scripts/reference/test_${suite}.py"
+        --native-probe $<TARGET_FILE:rfmodel_reference_amplifier_probe>)
+    set_tests_properties(native_${suite} PROPERTIES TIMEOUT 180)
+endforeach()
+add_test(NAME native_amplifier_archive_replay COMMAND "${Python3_EXECUTABLE}" -I -S
+    "${CMAKE_CURRENT_SOURCE_DIR}/scripts/reference/test_amplifier_archive_replay.py"
+    --native-probe $<TARGET_FILE:rfmodel_reference_amplifier_probe>
+    --oracle $<TARGET_FILE:rfmodel_reference_amplifier_oracle>
+    --fault-oracle $<TARGET_FILE:rfmodel_reference_highorder_oracle>)
+set_tests_properties(native_amplifier_archive_replay PROPERTIES TIMEOUT 240)
+add_test(NAME native_amplifier_installed_sdk COMMAND "${CMAKE_COMMAND}"
+    "-DSOURCE=${CMAKE_CURRENT_SOURCE_DIR}"
+    "-DBINARY=${CMAKE_CURRENT_BINARY_DIR}/amplifier-installed-sdk"
+    "-DGENERATOR=${CMAKE_GENERATOR}" "-DCOMPILER=${CMAKE_CXX_COMPILER}"
+    "-DCONFIG=$<CONFIG>" "-DPYTHON=${Python3_EXECUTABLE}" "-DFLAGS=${CMAKE_CXX_FLAGS}"
+    "-DSOURCE_REVISION=${reference_revision}"
+    -P "${CMAKE_CURRENT_SOURCE_DIR}/tests/cmake/check_amplifier_replay_install.cmake")
+set_tests_properties(native_amplifier_installed_sdk PROPERTIES TIMEOUT 300)

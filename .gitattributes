@@ -28,3 +28,16 @@
 
 # Complete REST snapshots are hashed as received, including their original line endings.
 /validation/compatibility-raw-ci-*.json -text
+
+# Single/two-tone replay preserves current LF bytes and separate historical hash claims.
+/validation/systemvue-2023-single-compression-plus09-capture.json -text
+/validation/systemvue-2023-single-compression-plus09.json -text
+/validation/systemvue-2023-single-compression-plus09-riso50-capture.json -text
+/validation/systemvue-2023-single-compression-plus09-riso50.json -text
+/validation/systemvue-2023-single-compression-antenna-plus30-capture.json -text
+/validation/systemvue-2023-single-compression-antenna-plus30.json -text
+/validation/systemvue-2023-two-tone-captures.json -text
+/validation/systemvue-2023-two-tone.json -text
+# These unchanged scorer files also participate in the pilot's frozen predictor identity.
+/scripts/reference/compare-single-compression.py -text
+/scripts/reference/compare-two-tone.py -text

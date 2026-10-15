@@ -153,7 +153,7 @@ jobs:
           -DRFMODEL_BUILD_REFERENCE_TESTS=ON
           -DPython3_EXECUTABLE="$(python -c 'import sys; print(sys.executable)')"
       - name: Build probes
-        run: cmake --build build-reference --config ${{ matrix.configuration }} --target rfmodel_reference_highorder_probe rfmodel_reference_highorder_oracle --parallel 2
+        run: cmake --build build-reference --config ${{ matrix.configuration }} --target rfmodel_reference_highorder_probe rfmodel_reference_highorder_oracle rfmodel_reference_amplifier_probe rfmodel_reference_amplifier_oracle --parallel 2
       - name: Replay frozen evidence, protocol faults and installed SDK
         run: ctest --test-dir build-reference -C ${{ matrix.configuration }} -R '^native_' --output-on-failure
       - name: Record replay identity and evidence
@@ -163,6 +163,10 @@ jobs:
           probe="build-reference/rfmodel_reference_highorder_probe$suffix"
           configured="build-reference/${{ matrix.configuration }}/rfmodel_reference_highorder_probe$suffix"
           if [ -f "$configured" ]; then probe="$configured"; fi
+          amplifier_probe="build-reference/rfmodel_reference_amplifier_probe$suffix"
+          amplifier_configured="build-reference/${{ matrix.configuration }}/rfmodel_reference_amplifier_probe$suffix"
+          if [ -f "$amplifier_configured" ]; then amplifier_probe="$amplifier_configured"; fi
+          python -I -S scripts/reference/replay_amplifier_archives.py --native-probe "$amplifier_probe" --report build-reference/amplifier-archives-replay-v1.json
           python -I -S scripts/reference/native_replay.py --probe "$probe" --report build-reference/native-replay.json
           # A01 has a known native mismatch. Exit 1 with a saved report is expected;
           # test suites check all counts, tolerance and failure semantics.
@@ -206,6 +210,7 @@ jobs:
           path: |
             build-reference/Testing/Temporary/LastTest.log
             build-reference/native-replay.json
+            build-reference/amplifier-archives-replay-v1.json
             build-reference/am-pm-native-replay.json
             build-reference/am-pm-adapter-replay.json
             build-reference/am-pm-datapoints-zero-replay.json
@@ -215,4 +220,5 @@ jobs:
             build-reference/rfamp-op1db-pilot-replay.json
             build-reference/**/*.manifest.json
             build-reference/reference-installed-sdk/consumer-build/Testing/Temporary/LastTest.log
+            build-reference/amplifier-installed-sdk/consumer-build/Testing/Temporary/LastTest.log
           if-no-files-found: warn

@@ -5,17 +5,20 @@ from pathlib import Path
 import sys
 import unittest
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+
 spec = importlib.util.spec_from_file_location(
     "comparison", Path(__file__).with_name("compare-single-compression.py"))
 comparison = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(comparison)
-library_path = Path(sys.argv.pop(1)).resolve()
+from native_amplifier_replay import suite_provider
+PROVIDER = suite_provider(sys.argv)
 
 
 class SingleCompressionTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.library = comparison.Library(library_path)
+        cls.library = PROVIDER()
         cls.capture = json.loads((comparison.ROOT / "validation" /
             "systemvue-2023-single-compression-plus09-capture.json").read_text())
 
