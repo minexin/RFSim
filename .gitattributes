@@ -20,3 +20,6 @@
 /validation/am-pm-datapoints-observations-20261012.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 /validation/am-pm-existing-reference-evidence-20261012.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 /validation/rfamp-op1db-pilot-plan.json -text
+/validation/rfamp-op1db-pilot-*-20261015.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+/scripts/reference/analyze-rfamp-op1db-pilot.py -text
+/scripts/reference/capture-cascade-parameter-units.ps1 -text

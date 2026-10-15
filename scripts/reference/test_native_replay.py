@@ -37,6 +37,7 @@ SUITES = (
     "test_diagnose_am_pm_reference.py",
     "test_diagnose_am_pm_parameter_study.py",
     "test_systemvue_am_pm_adapter.py",
+    "test_analyze_rfamp_op1db_pilot.py",
 )
 PURE_PYTHON_SUITES = (
     "test_archive_am_pm_datapoints_zero_study.py",
@@ -78,6 +79,11 @@ DATAPOINTS_ORDER_RESULT_FIXTURES = (
     "am-pm-datapoints-order-captures-20261014.json",
     "am-pm-datapoints-order-observations-20261014.json",
     "am-pm-datapoints-order-diagnostic-20261014.json",
+)
+RFAMP_OP1DB_FIXTURES = (
+    "rfamp-op1db-pilot-plan.json",
+    "rfamp-op1db-pilot-ab-20261015.json",
+    "rfamp-op1db-pilot-freeze-20261015.json",
 )
 # Frozen before stage-3A implementation; these are archival identities, not
 # hashes regenerated from the files under test. Keep the historical bytes.
@@ -853,6 +859,10 @@ print("ACTIVE_IMPORT_BAN_PASSED", suite.name)
             scripts.mkdir(parents=True)
             for source in (ROOT / "scripts" / "reference").glob("*.py"):
                 shutil.copyfile(source, scripts / source.name)
+            # Read-only unit-supplement source is part of the frozen predictor's
+            # provenance. Isolated replay reads its bytes; it never invokes COM.
+            unit_source = ROOT / "scripts/reference/capture-cascade-parameter-units.ps1"
+            shutil.copyfile(unit_source, scripts / unit_source.name)
             data = root / "validation"
             data.mkdir()
             for name in dict.fromkeys(ARCHIVES + (
@@ -866,7 +876,7 @@ print("ACTIVE_IMPORT_BAN_PASSED", suite.name)
                     "am-pm-adapter-observations-20261013.json",
                     "am-pm-adapter-captures-20261013.json") + DATAPOINTS_ZERO_FIXTURES
                     + DATAPOINTS_ZERO_RESULT_FIXTURES + DATAPOINTS_RAW_AXIS_RESULT_FIXTURES
-                    + DATAPOINTS_ORDER_RESULT_FIXTURES):
+                    + DATAPOINTS_ORDER_RESULT_FIXTURES + RFAMP_OP1DB_FIXTURES):
                 shutil.copyfile(ROOT / "validation" / name, data / name)
             probe = root / PROBE.name
             shutil.copy2(PROBE, probe)

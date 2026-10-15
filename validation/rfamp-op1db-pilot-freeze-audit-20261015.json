@@ -1,0 +1,36 @@
+{
+  "classification": "independent_pre_C_direct_array_and_multinomial_audit",
+  "ab_sha256": "4a8f15a1d4688bbd4586d20f5a32e373d8d321ca6017fc30656f9014f48522ef",
+  "freeze_sha256": "882094c660e6a9f60e68a59f928ffe67d30614b762d0edc786ac59a66bab0d6a",
+  "raw_captures_verified": [
+    "A-baseline",
+    "B-op1db21"
+  ],
+  "identification": {
+    "A-baseline": {
+      "input_wave": [
+        0.056234131816108215,
+        0.0
+      ],
+      "max_relative_coefficient_error": 0.0
+    },
+    "B-op1db21": {
+      "input_wave": [
+        0.056234131816108215,
+        0.0
+      ],
+      "max_relative_coefficient_error": 0.0
+    }
+  },
+  "C_origin_counts": {
+    "5": 28,
+    "7": 60,
+    "9": 110,
+    "11": 182
+  },
+  "C_total_origins": 380,
+  "max_relative_prediction_error": 8.881784197001252e-16,
+  "common_input_scale": 0.9990897386142779,
+  "scientific_relative_wave_tolerance": 1e-07,
+  "passed": true
+}

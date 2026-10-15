@@ -1,0 +1,5007 @@
+{
+  "schema_version": 1,
+  "classification": "frozen_before_C_not_compatibility",
+  "created_utc": "2026-10-15T09:46:09.657703+00:00",
+  "plan_sha256": "1436ad0e2139919882de558861f049d2c3e5ec67332b13a25f5bbd74158937c8",
+  "relative_complex_wave_tolerance": 1e-07,
+  "workspace_sha256": "21e4b28eadd10919537434bc2e706d17fcf41e8691cc9406dea36ca69464487f",
+  "scope": "First-stage independent generated odd origins of orders 5,7,9,11 only",
+  "normalization": {
+    "input": "measured complex V1_peak/sqrt(2*50 ohm)",
+    "output": "measured complex V3_peak/sqrt(2*Z3)",
+    "drive": "sum(abs(measured input wave)^2)",
+    "coefficient": "Hn/(5^(n-1)*(measured input wave*common nonlinear scale)^n)",
+    "input_for_C_primary_score": "C measured input only; frozen coefficients and predictor"
+  },
+  "A_B_parameter_differences": [
+    {
+      "path": "RFModel_CascadeIntermods/Designs/Design3/PartList/RFAmp1/ParamSet/OP1dB",
+      "field": "DataEntry",
+      "A": {
+        "name": "DataEntry",
+        "type": "BSTR",
+        "value": "20",
+        "dimensions": null
+      },
+      "B": {
+        "name": "DataEntry",
+        "type": "BSTR",
+        "value": "21",
+        "dimensions": null
+      }
+    },
+    {
+      "path": "RFModel_CascadeIntermods/Designs/Design3/PartList/RFAmp1/ParamSet/OP1dB",
+      "field": "Data",
+      "A": {
+        "name": "Data",
+        "type": "Double",
+        "value": 0.1,
+        "dimensions": null
+      },
+      "B": {
+        "name": "Data",
+        "type": "Double",
+        "value": 0.12589254117941676,
+        "dimensions": null
+      }
+    }
+  ],
+  "A": {
+    "run_id": "A-baseline",
+    "coefficients_c0_to_c11": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      -0.07786106651126515,
+      0.0,
+      -0.025165408373618546,
+      0.0,
+      -0.003912668687190634,
+      0.0,
+      -0.00020418919449809446
+    ],
+    "measured_input": {
+      "sources": [
+        {
+          "source_index": 1,
+          "nominal_wave": [
+            0.05623413251903491,
+            0.0
+          ],
+          "measured_voltage_wave": [
+            0.056234131816108215,
+            0.0
+          ],
+          "relative_to_nominal": [
+            0.9999999874999993,
+            0.0
+          ],
+          "fixed_reference_power_w": 0.0031622775811114344,
+          "delivered_power_w": 0.003162277596922826
+        }
+      ],
+      "fixed_reference_drive_w": 0.0031622775811114344,
+      "delivered_drive_w": 0.003162277596922826,
+      "native_input_power_w": 0.003162277596922826
+    },
+    "operating_point": {
+      "fundamental_amplitude_gain": 3.075895211987797,
+      "nonlinear_input_scale": 1.0,
+      "limited_input_power_w": 0.0031622775811114344,
+      "quadratic_voltage_coefficient": 0.31622776601683794,
+      "cubic_voltage_coefficient": -0.4216370213557839
+    },
+    "isolated_harmonics": [
+      {
+        "order": 5,
+        "label": "[5x(Source.Source1)],RFAmp1",
+        "voltage_coefficient": -0.07786106651126515,
+        "edge_coefficients": [
+          [
+            -0.07786106651126515,
+            0.0
+          ],
+          [
+            -0.07786106651126515,
+            0.0
+          ]
+        ],
+        "observed_waves": [
+          [
+            -2.7365307866342333e-05,
+            0.0
+          ],
+          [
+            -2.7365307866342333e-05,
+            0.0
+          ]
+        ],
+        "reconstruction_relative_error": 0.0
+      },
+      {
+        "order": 7,
+        "label": "[7x(Source.Source1)],RFAmp1",
+        "voltage_coefficient": -0.025165408373618546,
+        "edge_coefficients": [
+          [
+            -0.025165408373618546,
+            0.0
+          ],
+          [
+            -0.025165408373618546,
+            0.0
+          ]
+        ],
+        "observed_waves": [
+          [
+            -6.992363068797382e-07,
+            0.0
+          ],
+          [
+            -6.992363068797382e-07,
+            0.0
+          ]
+        ],
+        "reconstruction_relative_error": 0.0
+      },
+      {
+        "order": 9,
+        "label": "[9x(Source.Source1)],RFAmp1",
+        "voltage_coefficient": -0.003912668687190634,
+        "edge_coefficients": [
+          [
+            -0.003912668687190634,
+            0.0
+          ],
+          [
+            -0.003912668687190634,
+            0.0
+          ]
+        ],
+        "observed_waves": [
+          [
+            -8.594746277565797e-09,
+            0.0
+          ],
+          [
+            -8.594746277565797e-09,
+            0.0
+          ]
+        ],
+        "reconstruction_relative_error": 2.220446049250313e-16
+      },
+      {
+        "order": 11,
+        "label": "[11x(Source.Source1)],RFAmp1",
+        "voltage_coefficient": -0.00020418919449809446,
+        "edge_coefficients": [
+          [
+            -0.00020418919449809446,
+            0.0
+          ],
+          [
+            -0.00020418919449809446,
+            0.0
+          ]
+        ],
+        "observed_waves": [
+          [
+            -3.545951078138641e-11,
+            0.0
+          ],
+          [
+            -3.545951078138641e-11,
+            0.0
+          ]
+        ],
+        "reconstruction_relative_error": 0.0
+      }
+    ],
+    "common_fundamental_control": {
+      "expected_wave": [
+        0.1729702968034579,
+        0.0
+      ],
+      "observed_waves": [
+        [
+          0.17297029680345807,
+          0.0
+        ],
+        [
+          0.17297029680345807,
+          0.0
+        ]
+      ],
+      "relative_wave_error": 8.881784197001252e-16,
+      "passed": true
+    },
+    "independent_prediction_count": 0
+  },
+  "B": {
+    "run_id": "B-op1db21",
+    "coefficients_c0_to_c11": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      -0.1971254375477264,
+      0.0,
+      -0.08997270771950767,
+      0.0,
+      -0.015325185082200548,
+      0.0,
+      -0.0008619208142545304
+    ],
+    "measured_input": {
+      "sources": [
+        {
+          "source_index": 1,
+          "nominal_wave": [
+            0.05623413251903491,
+            0.0
+          ],
+          "measured_voltage_wave": [
+            0.056234131816108215,
+            0.0
+          ],
+          "relative_to_nominal": [
+            0.9999999874999993,
+            0.0
+          ],
+          "fixed_reference_power_w": 0.0031622775811114344,
+          "delivered_power_w": 0.003162277596922826
+        }
+      ],
+      "fixed_reference_drive_w": 0.0031622775811114344,
+      "delivered_drive_w": 0.003162277596922826,
+      "native_input_power_w": 0.003162277596922826
+    },
+    "operating_point": {
+      "fundamental_amplitude_gain": 3.093661642593936,
+      "nonlinear_input_scale": 1.0,
+      "limited_input_power_w": 0.0031622775811114344,
+      "quadratic_voltage_coefficient": 0.31622776601683794,
+      "cubic_voltage_coefficient": -0.4216370213557839
+    },
+    "isolated_harmonics": [
+      {
+        "order": 5,
+        "label": "[5x(Source.Source1)],RFAmp1",
+        "voltage_coefficient": -0.1971254375477264,
+        "edge_coefficients": [
+          [
+            -0.1971254375477264,
+            0.0
+          ],
+          [
+            -0.1971254375477264,
+            0.0
+          ]
+        ],
+        "observed_waves": [
+          [
+            -6.928235803192467e-05,
+            0.0
+          ],
+          [
+            -6.928235803192467e-05,
+            0.0
+          ]
+        ],
+        "reconstruction_relative_error": 0.0
+      },
+      {
+        "order": 7,
+        "label": "[7x(Source.Source1)],RFAmp1",
+        "voltage_coefficient": -0.08997270771950767,
+        "edge_coefficients": [
+          [
+            -0.08997270771950767,
+            0.0
+          ],
+          [
+            -0.08997270771950767,
+            0.0
+          ]
+        ],
+        "observed_waves": [
+          [
+            -2.4999468688022916e-06,
+            0.0
+          ],
+          [
+            -2.4999468688022916e-06,
+            0.0
+          ]
+        ],
+        "reconstruction_relative_error": 0.0
+      },
+      {
+        "order": 9,
+        "label": "[9x(Source.Source1)],RFAmp1",
+        "voltage_coefficient": -0.015325185082200548,
+        "edge_coefficients": [
+          [
+            -0.015325185082200548,
+            0.0
+          ],
+          [
+            -0.015325185082200548,
+            0.0
+          ]
+        ],
+        "observed_waves": [
+          [
+            -3.366399968120596e-08,
+            0.0
+          ],
+          [
+            -3.366399968120596e-08,
+            0.0
+          ]
+        ],
+        "reconstruction_relative_error": 0.0
+      },
+      {
+        "order": 11,
+        "label": "[11x(Source.Source1)],RFAmp1",
+        "voltage_coefficient": -0.0008619208142545304,
+        "edge_coefficients": [
+          [
+            -0.0008619208142545304,
+            0.0
+          ],
+          [
+            -0.0008619208142545304,
+            0.0
+          ]
+        ],
+        "observed_waves": [
+          [
+            -1.496812330392199e-10,
+            0.0
+          ],
+          [
+            -1.496812330392199e-10,
+            0.0
+          ]
+        ],
+        "reconstruction_relative_error": 2.220446049250313e-16
+      }
+    ],
+    "common_fundamental_control": {
+      "expected_wave": [
+        0.17396937660406525,
+        0.0
+      ],
+      "observed_waves": [
+        [
+          0.1739693766040654,
+          0.0
+        ],
+        [
+          0.1739693766040654,
+          0.0
+        ]
+      ],
+      "relative_wave_error": 8.881784197001252e-16,
+      "passed": true
+    },
+    "independent_prediction_count": 0
+  },
+  "B_over_A_coefficients": {
+    "5": 2.531758764429534,
+    "7": 3.575253235859588,
+    "9": 3.9168113396292457,
+    "11": 4.221187200298075
+  },
+  "unchanged_coefficients_at_B": {
+    "expected_origin_count": 18,
+    "recorded_origin_count": 18,
+    "passed_origin_count": 0,
+    "failed_origin_count": 18,
+    "max_relative_wave_error": 3.2211872002980764,
+    "missing_origins": [],
+    "unexpected_origins": [],
+    "complete_and_passed": false,
+    "checks": [
+      {
+        "order": 5,
+        "label": "[-2x(Source.Source1)+3x(Source.Source1)],RFAmp1",
+        "bin": 10,
+        "bandwidth_hz": 5.0,
+        "expected_wave": [
+          -0.00027365307866342327,
+          0.0
+        ],
+        "observed_waves": [
+          [
+            -0.0006928235803192467,
+            0.0
+          ],
+          [
+            -0.0006928235803192467,
+            0.0
+          ]
+        ],
+        "relative_wave_error": 1.5317587644295347,
+        "passed": false
+      },
+      {
+        "order": 5,
+        "label": "[-(Source.Source1)+4x(Source.Source1)],RFAmp1",
+        "bin": 30,
+        "bandwidth_hz": 5.0,
+        "expected_wave": [
+          -0.00013682653933171164,
+          0.0
+        ],
+        "observed_waves": [
+          [
+            -0.00034641179015962336,
+            0.0
+          ],
+          [
+            -0.00034641179015962336,
+            0.0
+          ]
+        ],
+        "relative_wave_error": 1.5317587644295347,
+        "passed": false
+      },
+      {
+        "order": 5,
+        "label": "[5x(Source.Source1)],RFAmp1",
+        "bin": 50,
+        "bandwidth_hz": 5.0,
+        "expected_wave": [
+          -2.7365307866342327e-05,
+          0.0
+        ],
+        "observed_waves": [
+          [
+            -6.928235803192467e-05,
+            0.0
+          ],
+          [
+            -6.928235803192467e-05,
+            0.0
+          ]
+        ],
+        "relative_wave_error": 1.5317587644295343,
+        "passed": false
+      },
+      {
+        "order": 7,
+        "label": "[-3x(Source.Source1)+4x(Source.Source1)],RFAmp1",
+        "bin": 10,
+        "bandwidth_hz": 7.0,
+        "expected_wave": [
+          -2.4473270740790827e-05,
+          0.0
+        ],
+        "observed_waves": [
+          [
+            -8.74981404080802e-05,
+            0.0
+          ],
+          [
+            -8.74981404080802e-05,
+            0.0
+          ]
+        ],
+        "relative_wave_error": 2.5752532358595888,
+        "passed": false
+      },
+      {
+        "order": 7,
+        "label": "[-2x(Source.Source1)+5x(Source.Source1)],RFAmp1",
+        "bin": 30,
+        "bandwidth_hz": 7.0,
+        "expected_wave": [
+          -1.4683962444474498e-05,
+          0.0
+        ],
+        "observed_waves": [
+          [
+            -5.2498884244848124e-05,
+            0.0
+          ],
+          [
+            -5.2498884244848124e-05,
+            0.0
+          ]
+        ],
+        "relative_wave_error": 2.5752532358595888,
+        "passed": false
+      },
+      {
+        "order": 7,
+        "label": "[-(Source.Source1)+6x(Source.Source1)],RFAmp1",
+        "bin": 50,
+        "bandwidth_hz": 7.0,
+        "expected_wave": [
+          -4.894654148158166e-06,
+          0.0
+        ],
+        "observed_waves": [
+          [
+            -1.749962808161604e-05,
+            0.0
+          ],
+          [
+            -1.749962808161604e-05,
+            0.0
+          ]
+        ],
+        "relative_wave_error": 2.5752532358595888,
+        "passed": false
+      },
+      {
+        "order": 7,
+        "label": "[7x(Source.Source1)],RFAmp1",
+        "bin": 70,
+        "bandwidth_hz": 7.0,
+        "expected_wave": [
+          -6.99236306879738e-07,
+          0.0
+        ],
+        "observed_waves": [
+          [
+            -2.4999468688022916e-06,
+            0.0
+          ],
+          [
+            -2.4999468688022916e-06,
+            0.0
+          ]
+        ],
+        "relative_wave_error": 2.5752532358595888,
+        "passed": false
+      },
+      {
+        "order": 9,
+        "label": "[-4x(Source.Source1)+5x(Source.Source1)],RFAmp1",
+        "bin": 10,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          -1.0829380309732897e-06,
+          0.0
+        ],
+        "observed_waves": [
+          [
+            -4.2416639598319505e-06,
+            0.0
+          ],
+          [
+            -4.2416639598319505e-06,
+            0.0
+          ]
+        ],
+        "relative_wave_error": 2.9168113396292474,
+        "passed": false
+      },
+      {
+        "order": 9,
+        "label": "[-3x(Source.Source1)+6x(Source.Source1)],RFAmp1",
+        "bin": 30,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          -7.219586873155265e-07,
+          0.0
+        ],
+        "observed_waves": [
+          [
+            -2.8277759732213003e-06,
+            0.0
+          ],
+          [
+            -2.8277759732213003e-06,
+            0.0
+          ]
+        ],
+        "relative_wave_error": 2.9168113396292474,
+        "passed": false
+      },
+      {
+        "order": 9,
+        "label": "[-2x(Source.Source1)+7x(Source.Source1)],RFAmp1",
+        "bin": 50,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          -3.0941086599236853e-07,
+          0.0
+        ],
+        "observed_waves": [
+          [
+            -1.2119039885234143e-06,
+            0.0
+          ],
+          [
+            -1.2119039885234143e-06,
+            0.0
+          ]
+        ],
+        "relative_wave_error": 2.9168113396292465,
+        "passed": false
+      },
+      {
+        "order": 9,
+        "label": "[-(Source.Source1)+8x(Source.Source1)],RFAmp1",
+        "bin": 70,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          -7.735271649809213e-08,
+          0.0
+        ],
+        "observed_waves": [
+          [
+            -3.029759971308536e-07,
+            0.0
+          ],
+          [
+            -3.029759971308536e-07,
+            0.0
+          ]
+        ],
+        "relative_wave_error": 2.9168113396292465,
+        "passed": false
+      },
+      {
+        "order": 9,
+        "label": "[9x(Source.Source1)],RFAmp1",
+        "bin": 90,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          -8.594746277565792e-09,
+          0.0
+        ],
+        "observed_waves": [
+          [
+            -3.366399968120596e-08,
+            0.0
+          ],
+          [
+            -3.366399968120596e-08,
+            0.0
+          ]
+        ],
+        "relative_wave_error": 2.9168113396292474,
+        "passed": false
+      },
+      {
+        "order": 11,
+        "label": "[-5x(Source.Source1)+6x(Source.Source1)],RFAmp1",
+        "bin": 10,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          -1.6382293981000517e-08,
+          0.0
+        ],
+        "observed_waves": [
+          [
+            -6.915272966411959e-08,
+            0.0
+          ],
+          [
+            -6.915272966411959e-08,
+            0.0
+          ]
+        ],
+        "relative_wave_error": 3.2211872002980755,
+        "passed": false
+      },
+      {
+        "order": 11,
+        "label": "[-4x(Source.Source1)+7x(Source.Source1)],RFAmp1",
+        "bin": 30,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          -1.1701638557857512e-08,
+          0.0
+        ],
+        "observed_waves": [
+          [
+            -4.9394806902942566e-08,
+            0.0
+          ],
+          [
+            -4.9394806902942566e-08,
+            0.0
+          ]
+        ],
+        "relative_wave_error": 3.2211872002980755,
+        "passed": false
+      },
+      {
+        "order": 11,
+        "label": "[-3x(Source.Source1)+8x(Source.Source1)],RFAmp1",
+        "bin": 50,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          -5.850819278928756e-09,
+          0.0
+        ],
+        "observed_waves": [
+          [
+            -2.4697403451471283e-08,
+            0.0
+          ],
+          [
+            -2.4697403451471283e-08,
+            0.0
+          ]
+        ],
+        "relative_wave_error": 3.2211872002980755,
+        "passed": false
+      },
+      {
+        "order": 11,
+        "label": "[-2x(Source.Source1)+9x(Source.Source1)],RFAmp1",
+        "bin": 70,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          -1.950273092976252e-09,
+          0.0
+        ],
+        "observed_waves": [
+          [
+            -8.232467817157095e-09,
+            0.0
+          ],
+          [
+            -8.232467817157095e-09,
+            0.0
+          ]
+        ],
+        "relative_wave_error": 3.2211872002980755,
+        "passed": false
+      },
+      {
+        "order": 11,
+        "label": "[-(Source.Source1)+10x(Source.Source1)],RFAmp1",
+        "bin": 90,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          -3.900546185952504e-10,
+          0.0
+        ],
+        "observed_waves": [
+          [
+            -1.646493563431419e-09,
+            0.0
+          ],
+          [
+            -1.646493563431419e-09,
+            0.0
+          ]
+        ],
+        "relative_wave_error": 3.2211872002980764,
+        "passed": false
+      },
+      {
+        "order": 11,
+        "label": "[11x(Source.Source1)],RFAmp1",
+        "bin": 110,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          -3.54595107813864e-11,
+          0.0
+        ],
+        "observed_waves": [
+          [
+            -1.496812330392199e-10,
+            0.0
+          ],
+          [
+            -1.496812330392199e-10,
+            0.0
+          ]
+        ],
+        "relative_wave_error": 3.2211872002980755,
+        "passed": false
+      }
+    ]
+  },
+  "C_prospective_input_assumption": [
+    {
+      "bin": 10,
+      "wave": [
+        0.056234131816108215,
+        0.0
+      ],
+      "bandwidth_hz": 1.0,
+      "coherence_group": 1
+    },
+    {
+      "bin": 11,
+      "wave": [
+        0.0,
+        0.056234131816108215
+      ],
+      "bandwidth_hz": 1.0,
+      "coherence_group": 2
+    }
+  ],
+  "C_prospective_prediction": {
+    "operating_point": {
+      "fundamental_amplitude_gain": 3.025045625019492,
+      "nonlinear_input_scale": 0.9990897386142779,
+      "limited_input_power_w": 0.0063130464059040796,
+      "quadratic_voltage_coefficient": 0.31622776601683794,
+      "cubic_voltage_coefficient": -0.4216370213557839
+    },
+    "terms": [
+      {
+        "order": 5,
+        "label": "[-2x(Source.Source2)+3x(Source.Source1)],RFAmp1",
+        "bin": 8,
+        "bandwidth_hz": 5.0,
+        "expected_wave": [
+          0.0006896760629032509,
+          0.0
+        ]
+      },
+      {
+        "order": 5,
+        "label": "[-2x(Source.Source2)+2x(Source.Source1)+(Source.Source2)],RFAmp1",
+        "bin": 9,
+        "bandwidth_hz": 5.0,
+        "expected_wave": [
+          0.0,
+          0.002069028188709753
+        ]
+      },
+      {
+        "order": 5,
+        "label": "[-(Source.Source2)-(Source.Source1)+3x(Source.Source1)],RFAmp1",
+        "bin": 9,
+        "bandwidth_hz": 5.0,
+        "expected_wave": [
+          0.0,
+          0.0013793521258065019
+        ]
+      },
+      {
+        "order": 5,
+        "label": "[-2x(Source.Source2)+(Source.Source1)+2x(Source.Source2)],RFAmp1",
+        "bin": 10,
+        "bandwidth_hz": 5.0,
+        "expected_wave": [
+          -0.002069028188709753,
+          0.0
+        ]
+      },
+      {
+        "order": 5,
+        "label": "[-(Source.Source2)-(Source.Source1)+2x(Source.Source1)+(Source.Source2)],RFAmp1",
+        "bin": 10,
+        "bandwidth_hz": 5.0,
+        "expected_wave": [
+          -0.004138056377419506,
+          0.0
+        ]
+      },
+      {
+        "order": 5,
+        "label": "[-2x(Source.Source1)+3x(Source.Source1)],RFAmp1",
+        "bin": 10,
+        "bandwidth_hz": 5.0,
+        "expected_wave": [
+          -0.0006896760629032509,
+          0.0
+        ]
+      },
+      {
+        "order": 5,
+        "label": "[-2x(Source.Source2)+3x(Source.Source2)],RFAmp1",
+        "bin": 11,
+        "bandwidth_hz": 5.0,
+        "expected_wave": [
+          -0.0,
+          -0.0006896760629032509
+        ]
+      },
+      {
+        "order": 5,
+        "label": "[-(Source.Source2)-(Source.Source1)+(Source.Source1)+2x(Source.Source2)],RFAmp1",
+        "bin": 11,
+        "bandwidth_hz": 5.0,
+        "expected_wave": [
+          -0.0,
+          -0.004138056377419506
+        ]
+      },
+      {
+        "order": 5,
+        "label": "[-2x(Source.Source1)+2x(Source.Source1)+(Source.Source2)],RFAmp1",
+        "bin": 11,
+        "bandwidth_hz": 5.0,
+        "expected_wave": [
+          -0.0,
+          -0.002069028188709753
+        ]
+      },
+      {
+        "order": 5,
+        "label": "[-(Source.Source2)-(Source.Source1)+3x(Source.Source2)],RFAmp1",
+        "bin": 12,
+        "bandwidth_hz": 5.0,
+        "expected_wave": [
+          0.0013793521258065019,
+          -0.0
+        ]
+      },
+      {
+        "order": 5,
+        "label": "[-2x(Source.Source1)+(Source.Source1)+2x(Source.Source2)],RFAmp1",
+        "bin": 12,
+        "bandwidth_hz": 5.0,
+        "expected_wave": [
+          0.002069028188709753,
+          -0.0
+        ]
+      },
+      {
+        "order": 5,
+        "label": "[-2x(Source.Source1)+3x(Source.Source2)],RFAmp1",
+        "bin": 13,
+        "bandwidth_hz": 5.0,
+        "expected_wave": [
+          0.0,
+          0.0006896760629032509
+        ]
+      },
+      {
+        "order": 5,
+        "label": "[-(Source.Source2)+4x(Source.Source1)],RFAmp1",
+        "bin": 29,
+        "bandwidth_hz": 5.0,
+        "expected_wave": [
+          0.0,
+          0.00034483803145162546
+        ]
+      },
+      {
+        "order": 5,
+        "label": "[-(Source.Source2)+3x(Source.Source1)+(Source.Source2)],RFAmp1",
+        "bin": 30,
+        "bandwidth_hz": 5.0,
+        "expected_wave": [
+          -0.0013793521258065019,
+          0.0
+        ]
+      },
+      {
+        "order": 5,
+        "label": "[-(Source.Source1)+4x(Source.Source1)],RFAmp1",
+        "bin": 30,
+        "bandwidth_hz": 5.0,
+        "expected_wave": [
+          -0.00034483803145162546,
+          0.0
+        ]
+      },
+      {
+        "order": 5,
+        "label": "[-(Source.Source2)+2x(Source.Source1)+2x(Source.Source2)],RFAmp1",
+        "bin": 31,
+        "bandwidth_hz": 5.0,
+        "expected_wave": [
+          -0.0,
+          -0.002069028188709753
+        ]
+      },
+      {
+        "order": 5,
+        "label": "[-(Source.Source1)+3x(Source.Source1)+(Source.Source2)],RFAmp1",
+        "bin": 31,
+        "bandwidth_hz": 5.0,
+        "expected_wave": [
+          -0.0,
+          -0.0013793521258065019
+        ]
+      },
+      {
+        "order": 5,
+        "label": "[-(Source.Source2)+(Source.Source1)+3x(Source.Source2)],RFAmp1",
+        "bin": 32,
+        "bandwidth_hz": 5.0,
+        "expected_wave": [
+          0.0013793521258065019,
+          -0.0
+        ]
+      },
+      {
+        "order": 5,
+        "label": "[-(Source.Source1)+2x(Source.Source1)+2x(Source.Source2)],RFAmp1",
+        "bin": 32,
+        "bandwidth_hz": 5.0,
+        "expected_wave": [
+          0.002069028188709753,
+          -0.0
+        ]
+      },
+      {
+        "order": 5,
+        "label": "[-(Source.Source2)+4x(Source.Source2)],RFAmp1",
+        "bin": 33,
+        "bandwidth_hz": 5.0,
+        "expected_wave": [
+          0.0,
+          0.00034483803145162546
+        ]
+      },
+      {
+        "order": 5,
+        "label": "[-(Source.Source1)+(Source.Source1)+3x(Source.Source2)],RFAmp1",
+        "bin": 33,
+        "bandwidth_hz": 5.0,
+        "expected_wave": [
+          0.0,
+          0.0013793521258065019
+        ]
+      },
+      {
+        "order": 5,
+        "label": "[-(Source.Source1)+4x(Source.Source2)],RFAmp1",
+        "bin": 34,
+        "bandwidth_hz": 5.0,
+        "expected_wave": [
+          -0.00034483803145162546,
+          0.0
+        ]
+      },
+      {
+        "order": 5,
+        "label": "[5x(Source.Source1)],RFAmp1",
+        "bin": 50,
+        "bandwidth_hz": 5.0,
+        "expected_wave": [
+          -6.896760629032509e-05,
+          0.0
+        ]
+      },
+      {
+        "order": 5,
+        "label": "[4x(Source.Source1)+(Source.Source2)],RFAmp1",
+        "bin": 51,
+        "bandwidth_hz": 5.0,
+        "expected_wave": [
+          -0.0,
+          -0.00034483803145162546
+        ]
+      },
+      {
+        "order": 5,
+        "label": "[3x(Source.Source1)+2x(Source.Source2)],RFAmp1",
+        "bin": 52,
+        "bandwidth_hz": 5.0,
+        "expected_wave": [
+          0.0006896760629032509,
+          -0.0
+        ]
+      },
+      {
+        "order": 5,
+        "label": "[2x(Source.Source1)+3x(Source.Source2)],RFAmp1",
+        "bin": 53,
+        "bandwidth_hz": 5.0,
+        "expected_wave": [
+          0.0,
+          0.0006896760629032509
+        ]
+      },
+      {
+        "order": 5,
+        "label": "[(Source.Source1)+4x(Source.Source2)],RFAmp1",
+        "bin": 54,
+        "bandwidth_hz": 5.0,
+        "expected_wave": [
+          -0.00034483803145162546,
+          0.0
+        ]
+      },
+      {
+        "order": 5,
+        "label": "[5x(Source.Source2)],RFAmp1",
+        "bin": 55,
+        "bandwidth_hz": 5.0,
+        "expected_wave": [
+          -0.0,
+          -6.896760629032509e-05
+        ]
+      },
+      {
+        "order": 7,
+        "label": "[-3x(Source.Source2)+4x(Source.Source1)],RFAmp1",
+        "bin": 7,
+        "bandwidth_hz": 7.0,
+        "expected_wave": [
+          0.0,
+          -8.694213732633608e-05
+        ]
+      },
+      {
+        "order": 7,
+        "label": "[-3x(Source.Source2)+3x(Source.Source1)+(Source.Source2)],RFAmp1",
+        "bin": 8,
+        "bandwidth_hz": 7.0,
+        "expected_wave": [
+          0.0003477685493053443,
+          0.0
+        ]
+      },
+      {
+        "order": 7,
+        "label": "[-2x(Source.Source2)-(Source.Source1)+4x(Source.Source1)],RFAmp1",
+        "bin": 8,
+        "bandwidth_hz": 7.0,
+        "expected_wave": [
+          0.0002608264119790082,
+          0.0
+        ]
+      },
+      {
+        "order": 7,
+        "label": "[-3x(Source.Source2)+2x(Source.Source1)+2x(Source.Source2)],RFAmp1",
+        "bin": 9,
+        "bandwidth_hz": 7.0,
+        "expected_wave": [
+          0.0,
+          0.0005216528239580165
+        ]
+      },
+      {
+        "order": 7,
+        "label": "[-2x(Source.Source2)-(Source.Source1)+3x(Source.Source1)+(Source.Source2)],RFAmp1",
+        "bin": 9,
+        "bandwidth_hz": 7.0,
+        "expected_wave": [
+          0.0,
+          0.001043305647916033
+        ]
+      },
+      {
+        "order": 7,
+        "label": "[-(Source.Source2)-2x(Source.Source1)+4x(Source.Source1)],RFAmp1",
+        "bin": 9,
+        "bandwidth_hz": 7.0,
+        "expected_wave": [
+          0.0,
+          0.0002608264119790082
+        ]
+      },
+      {
+        "order": 7,
+        "label": "[-3x(Source.Source2)+(Source.Source1)+3x(Source.Source2)],RFAmp1",
+        "bin": 10,
+        "bandwidth_hz": 7.0,
+        "expected_wave": [
+          -0.0003477685493053443,
+          0.0
+        ]
+      },
+      {
+        "order": 7,
+        "label": "[-2x(Source.Source2)-(Source.Source1)+2x(Source.Source1)+2x(Source.Source2)],RFAmp1",
+        "bin": 10,
+        "bandwidth_hz": 7.0,
+        "expected_wave": [
+          -0.0015649584718740494,
+          0.0
+        ]
+      },
+      {
+        "order": 7,
+        "label": "[-(Source.Source2)-2x(Source.Source1)+3x(Source.Source1)+(Source.Source2)],RFAmp1",
+        "bin": 10,
+        "bandwidth_hz": 7.0,
+        "expected_wave": [
+          -0.001043305647916033,
+          0.0
+        ]
+      },
+      {
+        "order": 7,
+        "label": "[-3x(Source.Source1)+4x(Source.Source1)],RFAmp1",
+        "bin": 10,
+        "bandwidth_hz": 7.0,
+        "expected_wave": [
+          -8.694213732633608e-05,
+          0.0
+        ]
+      },
+      {
+        "order": 7,
+        "label": "[-3x(Source.Source2)+4x(Source.Source2)],RFAmp1",
+        "bin": 11,
+        "bandwidth_hz": 7.0,
+        "expected_wave": [
+          -0.0,
+          -8.694213732633608e-05
+        ]
+      },
+      {
+        "order": 7,
+        "label": "[-2x(Source.Source2)-(Source.Source1)+(Source.Source1)+3x(Source.Source2)],RFAmp1",
+        "bin": 11,
+        "bandwidth_hz": 7.0,
+        "expected_wave": [
+          -0.0,
+          -0.001043305647916033
+        ]
+      },
+      {
+        "order": 7,
+        "label": "[-(Source.Source2)-2x(Source.Source1)+2x(Source.Source1)+2x(Source.Source2)],RFAmp1",
+        "bin": 11,
+        "bandwidth_hz": 7.0,
+        "expected_wave": [
+          -0.0,
+          -0.0015649584718740494
+        ]
+      },
+      {
+        "order": 7,
+        "label": "[-3x(Source.Source1)+3x(Source.Source1)+(Source.Source2)],RFAmp1",
+        "bin": 11,
+        "bandwidth_hz": 7.0,
+        "expected_wave": [
+          -0.0,
+          -0.0003477685493053443
+        ]
+      },
+      {
+        "order": 7,
+        "label": "[-2x(Source.Source2)-(Source.Source1)+4x(Source.Source2)],RFAmp1",
+        "bin": 12,
+        "bandwidth_hz": 7.0,
+        "expected_wave": [
+          0.0002608264119790082,
+          -0.0
+        ]
+      },
+      {
+        "order": 7,
+        "label": "[-(Source.Source2)-2x(Source.Source1)+(Source.Source1)+3x(Source.Source2)],RFAmp1",
+        "bin": 12,
+        "bandwidth_hz": 7.0,
+        "expected_wave": [
+          0.001043305647916033,
+          -0.0
+        ]
+      },
+      {
+        "order": 7,
+        "label": "[-3x(Source.Source1)+2x(Source.Source1)+2x(Source.Source2)],RFAmp1",
+        "bin": 12,
+        "bandwidth_hz": 7.0,
+        "expected_wave": [
+          0.0005216528239580165,
+          -0.0
+        ]
+      },
+      {
+        "order": 7,
+        "label": "[-(Source.Source2)-2x(Source.Source1)+4x(Source.Source2)],RFAmp1",
+        "bin": 13,
+        "bandwidth_hz": 7.0,
+        "expected_wave": [
+          0.0,
+          0.0002608264119790082
+        ]
+      },
+      {
+        "order": 7,
+        "label": "[-3x(Source.Source1)+(Source.Source1)+3x(Source.Source2)],RFAmp1",
+        "bin": 13,
+        "bandwidth_hz": 7.0,
+        "expected_wave": [
+          0.0,
+          0.0003477685493053443
+        ]
+      },
+      {
+        "order": 7,
+        "label": "[-3x(Source.Source1)+4x(Source.Source2)],RFAmp1",
+        "bin": 14,
+        "bandwidth_hz": 7.0,
+        "expected_wave": [
+          -8.694213732633608e-05,
+          0.0
+        ]
+      },
+      {
+        "order": 7,
+        "label": "[-2x(Source.Source2)+5x(Source.Source1)],RFAmp1",
+        "bin": 28,
+        "bandwidth_hz": 7.0,
+        "expected_wave": [
+          5.216528239580164e-05,
+          0.0
+        ]
+      },
+      {
+        "order": 7,
+        "label": "[-2x(Source.Source2)+4x(Source.Source1)+(Source.Source2)],RFAmp1",
+        "bin": 29,
+        "bandwidth_hz": 7.0,
+        "expected_wave": [
+          0.0,
+          0.0002608264119790082
+        ]
+      },
+      {
+        "order": 7,
+        "label": "[-(Source.Source2)-(Source.Source1)+5x(Source.Source1)],RFAmp1",
+        "bin": 29,
+        "bandwidth_hz": 7.0,
+        "expected_wave": [
+          0.0,
+          0.00010433056479160328
+        ]
+      },
+      {
+        "order": 7,
+        "label": "[-2x(Source.Source2)+3x(Source.Source1)+2x(Source.Source2)],RFAmp1",
+        "bin": 30,
+        "bandwidth_hz": 7.0,
+        "expected_wave": [
+          -0.0005216528239580165,
+          0.0
+        ]
+      },
+      {
+        "order": 7,
+        "label": "[-(Source.Source2)-(Source.Source1)+4x(Source.Source1)+(Source.Source2)],RFAmp1",
+        "bin": 30,
+        "bandwidth_hz": 7.0,
+        "expected_wave": [
+          -0.0005216528239580165,
+          0.0
+        ]
+      },
+      {
+        "order": 7,
+        "label": "[-2x(Source.Source1)+5x(Source.Source1)],RFAmp1",
+        "bin": 30,
+        "bandwidth_hz": 7.0,
+        "expected_wave": [
+          -5.216528239580164e-05,
+          0.0
+        ]
+      },
+      {
+        "order": 7,
+        "label": "[-2x(Source.Source2)+2x(Source.Source1)+3x(Source.Source2)],RFAmp1",
+        "bin": 31,
+        "bandwidth_hz": 7.0,
+        "expected_wave": [
+          -0.0,
+          -0.0005216528239580165
+        ]
+      },
+      {
+        "order": 7,
+        "label": "[-(Source.Source2)-(Source.Source1)+3x(Source.Source1)+2x(Source.Source2)],RFAmp1",
+        "bin": 31,
+        "bandwidth_hz": 7.0,
+        "expected_wave": [
+          -0.0,
+          -0.001043305647916033
+        ]
+      },
+      {
+        "order": 7,
+        "label": "[-2x(Source.Source1)+4x(Source.Source1)+(Source.Source2)],RFAmp1",
+        "bin": 31,
+        "bandwidth_hz": 7.0,
+        "expected_wave": [
+          -0.0,
+          -0.0002608264119790082
+        ]
+      },
+      {
+        "order": 7,
+        "label": "[-2x(Source.Source2)+(Source.Source1)+4x(Source.Source2)],RFAmp1",
+        "bin": 32,
+        "bandwidth_hz": 7.0,
+        "expected_wave": [
+          0.0002608264119790082,
+          -0.0
+        ]
+      },
+      {
+        "order": 7,
+        "label": "[-(Source.Source2)-(Source.Source1)+2x(Source.Source1)+3x(Source.Source2)],RFAmp1",
+        "bin": 32,
+        "bandwidth_hz": 7.0,
+        "expected_wave": [
+          0.001043305647916033,
+          -0.0
+        ]
+      },
+      {
+        "order": 7,
+        "label": "[-2x(Source.Source1)+3x(Source.Source1)+2x(Source.Source2)],RFAmp1",
+        "bin": 32,
+        "bandwidth_hz": 7.0,
+        "expected_wave": [
+          0.0005216528239580165,
+          -0.0
+        ]
+      },
+      {
+        "order": 7,
+        "label": "[-2x(Source.Source2)+5x(Source.Source2)],RFAmp1",
+        "bin": 33,
+        "bandwidth_hz": 7.0,
+        "expected_wave": [
+          0.0,
+          5.216528239580164e-05
+        ]
+      },
+      {
+        "order": 7,
+        "label": "[-(Source.Source2)-(Source.Source1)+(Source.Source1)+4x(Source.Source2)],RFAmp1",
+        "bin": 33,
+        "bandwidth_hz": 7.0,
+        "expected_wave": [
+          0.0,
+          0.0005216528239580165
+        ]
+      },
+      {
+        "order": 7,
+        "label": "[-2x(Source.Source1)+2x(Source.Source1)+3x(Source.Source2)],RFAmp1",
+        "bin": 33,
+        "bandwidth_hz": 7.0,
+        "expected_wave": [
+          0.0,
+          0.0005216528239580165
+        ]
+      },
+      {
+        "order": 7,
+        "label": "[-(Source.Source2)-(Source.Source1)+5x(Source.Source2)],RFAmp1",
+        "bin": 34,
+        "bandwidth_hz": 7.0,
+        "expected_wave": [
+          -0.00010433056479160328,
+          0.0
+        ]
+      },
+      {
+        "order": 7,
+        "label": "[-2x(Source.Source1)+(Source.Source1)+4x(Source.Source2)],RFAmp1",
+        "bin": 34,
+        "bandwidth_hz": 7.0,
+        "expected_wave": [
+          -0.0002608264119790082,
+          0.0
+        ]
+      },
+      {
+        "order": 7,
+        "label": "[-2x(Source.Source1)+5x(Source.Source2)],RFAmp1",
+        "bin": 35,
+        "bandwidth_hz": 7.0,
+        "expected_wave": [
+          -0.0,
+          -5.216528239580164e-05
+        ]
+      },
+      {
+        "order": 7,
+        "label": "[-(Source.Source2)+6x(Source.Source1)],RFAmp1",
+        "bin": 49,
+        "bandwidth_hz": 7.0,
+        "expected_wave": [
+          0.0,
+          1.7388427465267214e-05
+        ]
+      },
+      {
+        "order": 7,
+        "label": "[-(Source.Source2)+5x(Source.Source1)+(Source.Source2)],RFAmp1",
+        "bin": 50,
+        "bandwidth_hz": 7.0,
+        "expected_wave": [
+          -0.00010433056479160328,
+          0.0
+        ]
+      },
+      {
+        "order": 7,
+        "label": "[-(Source.Source1)+6x(Source.Source1)],RFAmp1",
+        "bin": 50,
+        "bandwidth_hz": 7.0,
+        "expected_wave": [
+          -1.7388427465267214e-05,
+          0.0
+        ]
+      },
+      {
+        "order": 7,
+        "label": "[-(Source.Source2)+4x(Source.Source1)+2x(Source.Source2)],RFAmp1",
+        "bin": 51,
+        "bandwidth_hz": 7.0,
+        "expected_wave": [
+          -0.0,
+          -0.0002608264119790082
+        ]
+      },
+      {
+        "order": 7,
+        "label": "[-(Source.Source1)+5x(Source.Source1)+(Source.Source2)],RFAmp1",
+        "bin": 51,
+        "bandwidth_hz": 7.0,
+        "expected_wave": [
+          -0.0,
+          -0.00010433056479160328
+        ]
+      },
+      {
+        "order": 7,
+        "label": "[-(Source.Source2)+3x(Source.Source1)+3x(Source.Source2)],RFAmp1",
+        "bin": 52,
+        "bandwidth_hz": 7.0,
+        "expected_wave": [
+          0.0003477685493053443,
+          -0.0
+        ]
+      },
+      {
+        "order": 7,
+        "label": "[-(Source.Source1)+4x(Source.Source1)+2x(Source.Source2)],RFAmp1",
+        "bin": 52,
+        "bandwidth_hz": 7.0,
+        "expected_wave": [
+          0.0002608264119790082,
+          -0.0
+        ]
+      },
+      {
+        "order": 7,
+        "label": "[-(Source.Source2)+2x(Source.Source1)+4x(Source.Source2)],RFAmp1",
+        "bin": 53,
+        "bandwidth_hz": 7.0,
+        "expected_wave": [
+          0.0,
+          0.0002608264119790082
+        ]
+      },
+      {
+        "order": 7,
+        "label": "[-(Source.Source1)+3x(Source.Source1)+3x(Source.Source2)],RFAmp1",
+        "bin": 53,
+        "bandwidth_hz": 7.0,
+        "expected_wave": [
+          0.0,
+          0.0003477685493053443
+        ]
+      },
+      {
+        "order": 7,
+        "label": "[-(Source.Source2)+(Source.Source1)+5x(Source.Source2)],RFAmp1",
+        "bin": 54,
+        "bandwidth_hz": 7.0,
+        "expected_wave": [
+          -0.00010433056479160328,
+          0.0
+        ]
+      },
+      {
+        "order": 7,
+        "label": "[-(Source.Source1)+2x(Source.Source1)+4x(Source.Source2)],RFAmp1",
+        "bin": 54,
+        "bandwidth_hz": 7.0,
+        "expected_wave": [
+          -0.0002608264119790082,
+          0.0
+        ]
+      },
+      {
+        "order": 7,
+        "label": "[-(Source.Source2)+6x(Source.Source2)],RFAmp1",
+        "bin": 55,
+        "bandwidth_hz": 7.0,
+        "expected_wave": [
+          -0.0,
+          -1.7388427465267214e-05
+        ]
+      },
+      {
+        "order": 7,
+        "label": "[-(Source.Source1)+(Source.Source1)+5x(Source.Source2)],RFAmp1",
+        "bin": 55,
+        "bandwidth_hz": 7.0,
+        "expected_wave": [
+          -0.0,
+          -0.00010433056479160328
+        ]
+      },
+      {
+        "order": 7,
+        "label": "[-(Source.Source1)+6x(Source.Source2)],RFAmp1",
+        "bin": 56,
+        "bandwidth_hz": 7.0,
+        "expected_wave": [
+          1.7388427465267214e-05,
+          -0.0
+        ]
+      },
+      {
+        "order": 7,
+        "label": "[7x(Source.Source1)],RFAmp1",
+        "bin": 70,
+        "bandwidth_hz": 7.0,
+        "expected_wave": [
+          -2.484061066466745e-06,
+          0.0
+        ]
+      },
+      {
+        "order": 7,
+        "label": "[6x(Source.Source1)+(Source.Source2)],RFAmp1",
+        "bin": 71,
+        "bandwidth_hz": 7.0,
+        "expected_wave": [
+          -0.0,
+          -1.7388427465267214e-05
+        ]
+      },
+      {
+        "order": 7,
+        "label": "[5x(Source.Source1)+2x(Source.Source2)],RFAmp1",
+        "bin": 72,
+        "bandwidth_hz": 7.0,
+        "expected_wave": [
+          5.216528239580164e-05,
+          -0.0
+        ]
+      },
+      {
+        "order": 7,
+        "label": "[4x(Source.Source1)+3x(Source.Source2)],RFAmp1",
+        "bin": 73,
+        "bandwidth_hz": 7.0,
+        "expected_wave": [
+          0.0,
+          8.694213732633608e-05
+        ]
+      },
+      {
+        "order": 7,
+        "label": "[3x(Source.Source1)+4x(Source.Source2)],RFAmp1",
+        "bin": 74,
+        "bandwidth_hz": 7.0,
+        "expected_wave": [
+          -8.694213732633608e-05,
+          0.0
+        ]
+      },
+      {
+        "order": 7,
+        "label": "[2x(Source.Source1)+5x(Source.Source2)],RFAmp1",
+        "bin": 75,
+        "bandwidth_hz": 7.0,
+        "expected_wave": [
+          -0.0,
+          -5.216528239580164e-05
+        ]
+      },
+      {
+        "order": 7,
+        "label": "[(Source.Source1)+6x(Source.Source2)],RFAmp1",
+        "bin": 76,
+        "bandwidth_hz": 7.0,
+        "expected_wave": [
+          1.7388427465267214e-05,
+          -0.0
+        ]
+      },
+      {
+        "order": 7,
+        "label": "[7x(Source.Source2)],RFAmp1",
+        "bin": 77,
+        "bandwidth_hz": 7.0,
+        "expected_wave": [
+          0.0,
+          2.484061066466745e-06
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-4x(Source.Source2)+5x(Source.Source1)],RFAmp1",
+        "bin": 6,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          -4.20704100868777e-06,
+          -0.0
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-4x(Source.Source2)+4x(Source.Source1)+(Source.Source2)],RFAmp1",
+        "bin": 7,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          0.0,
+          -2.103520504343885e-05
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-3x(Source.Source2)-(Source.Source1)+5x(Source.Source1)],RFAmp1",
+        "bin": 7,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          0.0,
+          -1.682816403475108e-05
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-4x(Source.Source2)+3x(Source.Source1)+2x(Source.Source2)],RFAmp1",
+        "bin": 8,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          4.20704100868777e-05,
+          0.0
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-3x(Source.Source2)-(Source.Source1)+4x(Source.Source1)+(Source.Source2)],RFAmp1",
+        "bin": 8,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          8.41408201737554e-05,
+          0.0
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-2x(Source.Source2)-2x(Source.Source1)+5x(Source.Source1)],RFAmp1",
+        "bin": 8,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          2.524224605212662e-05,
+          0.0
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-4x(Source.Source2)+2x(Source.Source1)+3x(Source.Source2)],RFAmp1",
+        "bin": 9,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          0.0,
+          4.20704100868777e-05
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-3x(Source.Source2)-(Source.Source1)+3x(Source.Source1)+2x(Source.Source2)],RFAmp1",
+        "bin": 9,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          0.0,
+          0.0001682816403475108
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-2x(Source.Source2)-2x(Source.Source1)+4x(Source.Source1)+(Source.Source2)],RFAmp1",
+        "bin": 9,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          0.0,
+          0.0001262112302606331
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-(Source.Source2)-3x(Source.Source1)+5x(Source.Source1)],RFAmp1",
+        "bin": 9,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          0.0,
+          1.682816403475108e-05
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-4x(Source.Source2)+(Source.Source1)+4x(Source.Source2)],RFAmp1",
+        "bin": 10,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          -2.103520504343885e-05,
+          0.0
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-3x(Source.Source2)-(Source.Source1)+2x(Source.Source1)+3x(Source.Source2)],RFAmp1",
+        "bin": 10,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          -0.0001682816403475108,
+          0.0
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-2x(Source.Source2)-2x(Source.Source1)+3x(Source.Source1)+2x(Source.Source2)],RFAmp1",
+        "bin": 10,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          -0.0002524224605212662,
+          0.0
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-(Source.Source2)-3x(Source.Source1)+4x(Source.Source1)+(Source.Source2)],RFAmp1",
+        "bin": 10,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          -8.41408201737554e-05,
+          0.0
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-4x(Source.Source1)+5x(Source.Source1)],RFAmp1",
+        "bin": 10,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          -4.20704100868777e-06,
+          0.0
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-4x(Source.Source2)+5x(Source.Source2)],RFAmp1",
+        "bin": 11,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          -0.0,
+          -4.20704100868777e-06
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-3x(Source.Source2)-(Source.Source1)+(Source.Source1)+4x(Source.Source2)],RFAmp1",
+        "bin": 11,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          -0.0,
+          -8.41408201737554e-05
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-2x(Source.Source2)-2x(Source.Source1)+2x(Source.Source1)+3x(Source.Source2)],RFAmp1",
+        "bin": 11,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          -0.0,
+          -0.0002524224605212662
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-(Source.Source2)-3x(Source.Source1)+3x(Source.Source1)+2x(Source.Source2)],RFAmp1",
+        "bin": 11,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          -0.0,
+          -0.0001682816403475108
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-4x(Source.Source1)+4x(Source.Source1)+(Source.Source2)],RFAmp1",
+        "bin": 11,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          -0.0,
+          -2.103520504343885e-05
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-3x(Source.Source2)-(Source.Source1)+5x(Source.Source2)],RFAmp1",
+        "bin": 12,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          1.682816403475108e-05,
+          -0.0
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-2x(Source.Source2)-2x(Source.Source1)+(Source.Source1)+4x(Source.Source2)],RFAmp1",
+        "bin": 12,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          0.0001262112302606331,
+          -0.0
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-(Source.Source2)-3x(Source.Source1)+2x(Source.Source1)+3x(Source.Source2)],RFAmp1",
+        "bin": 12,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          0.0001682816403475108,
+          -0.0
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-4x(Source.Source1)+3x(Source.Source1)+2x(Source.Source2)],RFAmp1",
+        "bin": 12,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          4.20704100868777e-05,
+          -0.0
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-2x(Source.Source2)-2x(Source.Source1)+5x(Source.Source2)],RFAmp1",
+        "bin": 13,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          0.0,
+          2.524224605212662e-05
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-(Source.Source2)-3x(Source.Source1)+(Source.Source1)+4x(Source.Source2)],RFAmp1",
+        "bin": 13,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          0.0,
+          8.41408201737554e-05
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-4x(Source.Source1)+2x(Source.Source1)+3x(Source.Source2)],RFAmp1",
+        "bin": 13,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          0.0,
+          4.20704100868777e-05
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-(Source.Source2)-3x(Source.Source1)+5x(Source.Source2)],RFAmp1",
+        "bin": 14,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          -1.682816403475108e-05,
+          0.0
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-4x(Source.Source1)+(Source.Source1)+4x(Source.Source2)],RFAmp1",
+        "bin": 14,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          -2.103520504343885e-05,
+          0.0
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-4x(Source.Source1)+5x(Source.Source2)],RFAmp1",
+        "bin": 15,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          -0.0,
+          -4.20704100868777e-06
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-3x(Source.Source2)+6x(Source.Source1)],RFAmp1",
+        "bin": 27,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          0.0,
+          -2.804694005791847e-06
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-3x(Source.Source2)+5x(Source.Source1)+(Source.Source2)],RFAmp1",
+        "bin": 28,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          1.682816403475108e-05,
+          0.0
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-2x(Source.Source2)-(Source.Source1)+6x(Source.Source1)],RFAmp1",
+        "bin": 28,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          8.41408201737554e-06,
+          0.0
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-3x(Source.Source2)+4x(Source.Source1)+2x(Source.Source2)],RFAmp1",
+        "bin": 29,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          0.0,
+          4.20704100868777e-05
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-2x(Source.Source2)-(Source.Source1)+5x(Source.Source1)+(Source.Source2)],RFAmp1",
+        "bin": 29,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          0.0,
+          5.048449210425324e-05
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-(Source.Source2)-2x(Source.Source1)+6x(Source.Source1)],RFAmp1",
+        "bin": 29,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          0.0,
+          8.41408201737554e-06
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-3x(Source.Source2)+3x(Source.Source1)+3x(Source.Source2)],RFAmp1",
+        "bin": 30,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          -5.609388011583693e-05,
+          0.0
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-2x(Source.Source2)-(Source.Source1)+4x(Source.Source1)+2x(Source.Source2)],RFAmp1",
+        "bin": 30,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          -0.0001262112302606331,
+          0.0
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-(Source.Source2)-2x(Source.Source1)+5x(Source.Source1)+(Source.Source2)],RFAmp1",
+        "bin": 30,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          -5.048449210425324e-05,
+          0.0
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-3x(Source.Source1)+6x(Source.Source1)],RFAmp1",
+        "bin": 30,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          -2.804694005791847e-06,
+          0.0
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-3x(Source.Source2)+2x(Source.Source1)+4x(Source.Source2)],RFAmp1",
+        "bin": 31,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          -0.0,
+          -4.20704100868777e-05
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-2x(Source.Source2)-(Source.Source1)+3x(Source.Source1)+3x(Source.Source2)],RFAmp1",
+        "bin": 31,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          -0.0,
+          -0.0001682816403475108
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-(Source.Source2)-2x(Source.Source1)+4x(Source.Source1)+2x(Source.Source2)],RFAmp1",
+        "bin": 31,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          -0.0,
+          -0.0001262112302606331
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-3x(Source.Source1)+5x(Source.Source1)+(Source.Source2)],RFAmp1",
+        "bin": 31,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          -0.0,
+          -1.682816403475108e-05
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-3x(Source.Source2)+(Source.Source1)+5x(Source.Source2)],RFAmp1",
+        "bin": 32,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          1.682816403475108e-05,
+          -0.0
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-2x(Source.Source2)-(Source.Source1)+2x(Source.Source1)+4x(Source.Source2)],RFAmp1",
+        "bin": 32,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          0.0001262112302606331,
+          -0.0
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-(Source.Source2)-2x(Source.Source1)+3x(Source.Source1)+3x(Source.Source2)],RFAmp1",
+        "bin": 32,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          0.0001682816403475108,
+          -0.0
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-3x(Source.Source1)+4x(Source.Source1)+2x(Source.Source2)],RFAmp1",
+        "bin": 32,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          4.20704100868777e-05,
+          -0.0
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-3x(Source.Source2)+6x(Source.Source2)],RFAmp1",
+        "bin": 33,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          0.0,
+          2.804694005791847e-06
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-2x(Source.Source2)-(Source.Source1)+(Source.Source1)+5x(Source.Source2)],RFAmp1",
+        "bin": 33,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          0.0,
+          5.048449210425324e-05
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-(Source.Source2)-2x(Source.Source1)+2x(Source.Source1)+4x(Source.Source2)],RFAmp1",
+        "bin": 33,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          0.0,
+          0.0001262112302606331
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-3x(Source.Source1)+3x(Source.Source1)+3x(Source.Source2)],RFAmp1",
+        "bin": 33,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          0.0,
+          5.609388011583693e-05
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-2x(Source.Source2)-(Source.Source1)+6x(Source.Source2)],RFAmp1",
+        "bin": 34,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          -8.41408201737554e-06,
+          0.0
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-(Source.Source2)-2x(Source.Source1)+(Source.Source1)+5x(Source.Source2)],RFAmp1",
+        "bin": 34,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          -5.048449210425324e-05,
+          0.0
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-3x(Source.Source1)+2x(Source.Source1)+4x(Source.Source2)],RFAmp1",
+        "bin": 34,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          -4.20704100868777e-05,
+          0.0
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-(Source.Source2)-2x(Source.Source1)+6x(Source.Source2)],RFAmp1",
+        "bin": 35,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          -0.0,
+          -8.41408201737554e-06
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-3x(Source.Source1)+(Source.Source1)+5x(Source.Source2)],RFAmp1",
+        "bin": 35,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          -0.0,
+          -1.682816403475108e-05
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-3x(Source.Source1)+6x(Source.Source2)],RFAmp1",
+        "bin": 36,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          2.804694005791847e-06,
+          -0.0
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-2x(Source.Source2)+7x(Source.Source1)],RFAmp1",
+        "bin": 48,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          1.2020117167679343e-06,
+          0.0
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-2x(Source.Source2)+6x(Source.Source1)+(Source.Source2)],RFAmp1",
+        "bin": 49,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          0.0,
+          8.41408201737554e-06
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-(Source.Source2)-(Source.Source1)+7x(Source.Source1)],RFAmp1",
+        "bin": 49,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          0.0,
+          2.4040234335358686e-06
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-2x(Source.Source2)+5x(Source.Source1)+2x(Source.Source2)],RFAmp1",
+        "bin": 50,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          -2.524224605212662e-05,
+          0.0
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-(Source.Source2)-(Source.Source1)+6x(Source.Source1)+(Source.Source2)],RFAmp1",
+        "bin": 50,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          -1.682816403475108e-05,
+          0.0
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-2x(Source.Source1)+7x(Source.Source1)],RFAmp1",
+        "bin": 50,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          -1.2020117167679343e-06,
+          0.0
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-2x(Source.Source2)+4x(Source.Source1)+3x(Source.Source2)],RFAmp1",
+        "bin": 51,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          -0.0,
+          -4.20704100868777e-05
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-(Source.Source2)-(Source.Source1)+5x(Source.Source1)+2x(Source.Source2)],RFAmp1",
+        "bin": 51,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          -0.0,
+          -5.048449210425324e-05
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-2x(Source.Source1)+6x(Source.Source1)+(Source.Source2)],RFAmp1",
+        "bin": 51,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          -0.0,
+          -8.41408201737554e-06
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-2x(Source.Source2)+3x(Source.Source1)+4x(Source.Source2)],RFAmp1",
+        "bin": 52,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          4.20704100868777e-05,
+          -0.0
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-(Source.Source2)-(Source.Source1)+4x(Source.Source1)+3x(Source.Source2)],RFAmp1",
+        "bin": 52,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          8.41408201737554e-05,
+          -0.0
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-2x(Source.Source1)+5x(Source.Source1)+2x(Source.Source2)],RFAmp1",
+        "bin": 52,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          2.524224605212662e-05,
+          -0.0
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-2x(Source.Source2)+2x(Source.Source1)+5x(Source.Source2)],RFAmp1",
+        "bin": 53,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          0.0,
+          2.524224605212662e-05
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-(Source.Source2)-(Source.Source1)+3x(Source.Source1)+4x(Source.Source2)],RFAmp1",
+        "bin": 53,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          0.0,
+          8.41408201737554e-05
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-2x(Source.Source1)+4x(Source.Source1)+3x(Source.Source2)],RFAmp1",
+        "bin": 53,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          0.0,
+          4.20704100868777e-05
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-2x(Source.Source2)+(Source.Source1)+6x(Source.Source2)],RFAmp1",
+        "bin": 54,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          -8.41408201737554e-06,
+          0.0
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-(Source.Source2)-(Source.Source1)+2x(Source.Source1)+5x(Source.Source2)],RFAmp1",
+        "bin": 54,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          -5.048449210425324e-05,
+          0.0
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-2x(Source.Source1)+3x(Source.Source1)+4x(Source.Source2)],RFAmp1",
+        "bin": 54,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          -4.20704100868777e-05,
+          0.0
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-2x(Source.Source2)+7x(Source.Source2)],RFAmp1",
+        "bin": 55,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          -0.0,
+          -1.2020117167679343e-06
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-(Source.Source2)-(Source.Source1)+(Source.Source1)+6x(Source.Source2)],RFAmp1",
+        "bin": 55,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          -0.0,
+          -1.682816403475108e-05
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-2x(Source.Source1)+2x(Source.Source1)+5x(Source.Source2)],RFAmp1",
+        "bin": 55,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          -0.0,
+          -2.524224605212662e-05
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-(Source.Source2)-(Source.Source1)+7x(Source.Source2)],RFAmp1",
+        "bin": 56,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          2.4040234335358686e-06,
+          -0.0
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-2x(Source.Source1)+(Source.Source1)+6x(Source.Source2)],RFAmp1",
+        "bin": 56,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          8.41408201737554e-06,
+          -0.0
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-2x(Source.Source1)+7x(Source.Source2)],RFAmp1",
+        "bin": 57,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          0.0,
+          1.2020117167679343e-06
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-(Source.Source2)+8x(Source.Source1)],RFAmp1",
+        "bin": 69,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          0.0,
+          3.0050292919198357e-07
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-(Source.Source2)+7x(Source.Source1)+(Source.Source2)],RFAmp1",
+        "bin": 70,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          -2.4040234335358686e-06,
+          0.0
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-(Source.Source1)+8x(Source.Source1)],RFAmp1",
+        "bin": 70,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          -3.0050292919198357e-07,
+          0.0
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-(Source.Source2)+6x(Source.Source1)+2x(Source.Source2)],RFAmp1",
+        "bin": 71,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          -0.0,
+          -8.41408201737554e-06
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-(Source.Source1)+7x(Source.Source1)+(Source.Source2)],RFAmp1",
+        "bin": 71,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          -0.0,
+          -2.4040234335358686e-06
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-(Source.Source2)+5x(Source.Source1)+3x(Source.Source2)],RFAmp1",
+        "bin": 72,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          1.682816403475108e-05,
+          -0.0
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-(Source.Source1)+6x(Source.Source1)+2x(Source.Source2)],RFAmp1",
+        "bin": 72,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          8.41408201737554e-06,
+          -0.0
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-(Source.Source2)+4x(Source.Source1)+4x(Source.Source2)],RFAmp1",
+        "bin": 73,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          0.0,
+          2.103520504343885e-05
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-(Source.Source1)+5x(Source.Source1)+3x(Source.Source2)],RFAmp1",
+        "bin": 73,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          0.0,
+          1.682816403475108e-05
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-(Source.Source2)+3x(Source.Source1)+5x(Source.Source2)],RFAmp1",
+        "bin": 74,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          -1.682816403475108e-05,
+          0.0
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-(Source.Source1)+4x(Source.Source1)+4x(Source.Source2)],RFAmp1",
+        "bin": 74,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          -2.103520504343885e-05,
+          0.0
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-(Source.Source2)+2x(Source.Source1)+6x(Source.Source2)],RFAmp1",
+        "bin": 75,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          -0.0,
+          -8.41408201737554e-06
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-(Source.Source1)+3x(Source.Source1)+5x(Source.Source2)],RFAmp1",
+        "bin": 75,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          -0.0,
+          -1.682816403475108e-05
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-(Source.Source2)+(Source.Source1)+7x(Source.Source2)],RFAmp1",
+        "bin": 76,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          2.4040234335358686e-06,
+          -0.0
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-(Source.Source1)+2x(Source.Source1)+6x(Source.Source2)],RFAmp1",
+        "bin": 76,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          8.41408201737554e-06,
+          -0.0
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-(Source.Source2)+8x(Source.Source2)],RFAmp1",
+        "bin": 77,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          0.0,
+          3.0050292919198357e-07
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-(Source.Source1)+(Source.Source1)+7x(Source.Source2)],RFAmp1",
+        "bin": 77,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          0.0,
+          2.4040234335358686e-06
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[-(Source.Source1)+8x(Source.Source2)],RFAmp1",
+        "bin": 78,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          -3.0050292919198357e-07,
+          0.0
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[9x(Source.Source1)],RFAmp1",
+        "bin": 90,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          -3.338921435466484e-08,
+          0.0
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[8x(Source.Source1)+(Source.Source2)],RFAmp1",
+        "bin": 91,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          -0.0,
+          -3.0050292919198357e-07
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[7x(Source.Source1)+2x(Source.Source2)],RFAmp1",
+        "bin": 92,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          1.2020117167679343e-06,
+          -0.0
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[6x(Source.Source1)+3x(Source.Source2)],RFAmp1",
+        "bin": 93,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          0.0,
+          2.804694005791847e-06
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[5x(Source.Source1)+4x(Source.Source2)],RFAmp1",
+        "bin": 94,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          -4.20704100868777e-06,
+          0.0
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[4x(Source.Source1)+5x(Source.Source2)],RFAmp1",
+        "bin": 95,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          -0.0,
+          -4.20704100868777e-06
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[3x(Source.Source1)+6x(Source.Source2)],RFAmp1",
+        "bin": 96,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          2.804694005791847e-06,
+          -0.0
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[2x(Source.Source1)+7x(Source.Source2)],RFAmp1",
+        "bin": 97,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          0.0,
+          1.2020117167679343e-06
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[(Source.Source1)+8x(Source.Source2)],RFAmp1",
+        "bin": 98,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          -3.0050292919198357e-07,
+          0.0
+        ]
+      },
+      {
+        "order": 9,
+        "label": "[9x(Source.Source2)],RFAmp1",
+        "bin": 99,
+        "bandwidth_hz": 9.0,
+        "expected_wave": [
+          -0.0,
+          -3.338921435466484e-08
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-5x(Source.Source2)+6x(Source.Source1)],RFAmp1",
+        "bin": 5,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          -0.0,
+          6.846345482439321e-08
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-5x(Source.Source2)+5x(Source.Source1)+(Source.Source2)],RFAmp1",
+        "bin": 6,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          -4.107807289463593e-07,
+          0.0
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-4x(Source.Source2)-(Source.Source1)+6x(Source.Source1)],RFAmp1",
+        "bin": 6,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          -3.4231727412196604e-07,
+          0.0
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-5x(Source.Source2)+4x(Source.Source1)+2x(Source.Source2)],RFAmp1",
+        "bin": 7,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          -0.0,
+          -1.0269518223658981e-06
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-4x(Source.Source2)-(Source.Source1)+5x(Source.Source1)+(Source.Source2)],RFAmp1",
+        "bin": 7,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          -0.0,
+          -2.0539036447317963e-06
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-3x(Source.Source2)-2x(Source.Source1)+6x(Source.Source1)],RFAmp1",
+        "bin": 7,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          0.0,
+          -6.846345482439321e-07
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-5x(Source.Source2)+3x(Source.Source1)+3x(Source.Source2)],RFAmp1",
+        "bin": 8,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          1.3692690964878642e-06,
+          -0.0
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-4x(Source.Source2)-(Source.Source1)+4x(Source.Source1)+2x(Source.Source2)],RFAmp1",
+        "bin": 8,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          5.134759111829491e-06,
+          -0.0
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-3x(Source.Source2)-2x(Source.Source1)+5x(Source.Source1)+(Source.Source2)],RFAmp1",
+        "bin": 8,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          4.1078072894635925e-06,
+          0.0
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-2x(Source.Source2)-3x(Source.Source1)+6x(Source.Source1)],RFAmp1",
+        "bin": 8,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          6.846345482439321e-07,
+          0.0
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-5x(Source.Source2)+2x(Source.Source1)+4x(Source.Source2)],RFAmp1",
+        "bin": 9,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          0.0,
+          1.0269518223658981e-06
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-4x(Source.Source2)-(Source.Source1)+3x(Source.Source1)+3x(Source.Source2)],RFAmp1",
+        "bin": 9,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          0.0,
+          6.846345482439322e-06
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-3x(Source.Source2)-2x(Source.Source1)+4x(Source.Source1)+2x(Source.Source2)],RFAmp1",
+        "bin": 9,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          0.0,
+          1.0269518223658982e-05
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-2x(Source.Source2)-3x(Source.Source1)+5x(Source.Source1)+(Source.Source2)],RFAmp1",
+        "bin": 9,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          0.0,
+          4.1078072894635925e-06
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-(Source.Source2)-4x(Source.Source1)+6x(Source.Source1)],RFAmp1",
+        "bin": 9,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          0.0,
+          3.4231727412196604e-07
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-5x(Source.Source2)+(Source.Source1)+5x(Source.Source2)],RFAmp1",
+        "bin": 10,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          -4.107807289463593e-07,
+          0.0
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-4x(Source.Source2)-(Source.Source1)+2x(Source.Source1)+4x(Source.Source2)],RFAmp1",
+        "bin": 10,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          -5.134759111829491e-06,
+          0.0
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-3x(Source.Source2)-2x(Source.Source1)+3x(Source.Source1)+3x(Source.Source2)],RFAmp1",
+        "bin": 10,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          -1.3692690964878643e-05,
+          0.0
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-2x(Source.Source2)-3x(Source.Source1)+4x(Source.Source1)+2x(Source.Source2)],RFAmp1",
+        "bin": 10,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          -1.0269518223658982e-05,
+          0.0
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-(Source.Source2)-4x(Source.Source1)+5x(Source.Source1)+(Source.Source2)],RFAmp1",
+        "bin": 10,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          -2.0539036447317963e-06,
+          0.0
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-5x(Source.Source1)+6x(Source.Source1)],RFAmp1",
+        "bin": 10,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          -6.846345482439321e-08,
+          0.0
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-5x(Source.Source2)+6x(Source.Source2)],RFAmp1",
+        "bin": 11,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          -0.0,
+          -6.846345482439321e-08
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-4x(Source.Source2)-(Source.Source1)+(Source.Source1)+5x(Source.Source2)],RFAmp1",
+        "bin": 11,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          -0.0,
+          -2.0539036447317963e-06
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-3x(Source.Source2)-2x(Source.Source1)+2x(Source.Source1)+4x(Source.Source2)],RFAmp1",
+        "bin": 11,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          -0.0,
+          -1.0269518223658982e-05
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-2x(Source.Source2)-3x(Source.Source1)+3x(Source.Source1)+3x(Source.Source2)],RFAmp1",
+        "bin": 11,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          -0.0,
+          -1.3692690964878643e-05
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-(Source.Source2)-4x(Source.Source1)+4x(Source.Source1)+2x(Source.Source2)],RFAmp1",
+        "bin": 11,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          -0.0,
+          -5.134759111829491e-06
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-5x(Source.Source1)+5x(Source.Source1)+(Source.Source2)],RFAmp1",
+        "bin": 11,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          -0.0,
+          -4.107807289463593e-07
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-4x(Source.Source2)-(Source.Source1)+6x(Source.Source2)],RFAmp1",
+        "bin": 12,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          3.4231727412196604e-07,
+          -0.0
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-3x(Source.Source2)-2x(Source.Source1)+(Source.Source1)+5x(Source.Source2)],RFAmp1",
+        "bin": 12,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          4.1078072894635925e-06,
+          -0.0
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-2x(Source.Source2)-3x(Source.Source1)+2x(Source.Source1)+4x(Source.Source2)],RFAmp1",
+        "bin": 12,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          1.0269518223658982e-05,
+          -0.0
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-(Source.Source2)-4x(Source.Source1)+3x(Source.Source1)+3x(Source.Source2)],RFAmp1",
+        "bin": 12,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          6.846345482439322e-06,
+          -0.0
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-5x(Source.Source1)+4x(Source.Source1)+2x(Source.Source2)],RFAmp1",
+        "bin": 12,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          1.0269518223658981e-06,
+          -0.0
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-3x(Source.Source2)-2x(Source.Source1)+6x(Source.Source2)],RFAmp1",
+        "bin": 13,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          0.0,
+          6.846345482439321e-07
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-2x(Source.Source2)-3x(Source.Source1)+(Source.Source1)+5x(Source.Source2)],RFAmp1",
+        "bin": 13,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          0.0,
+          4.1078072894635925e-06
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-(Source.Source2)-4x(Source.Source1)+2x(Source.Source1)+4x(Source.Source2)],RFAmp1",
+        "bin": 13,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          0.0,
+          5.134759111829491e-06
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-5x(Source.Source1)+3x(Source.Source1)+3x(Source.Source2)],RFAmp1",
+        "bin": 13,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          0.0,
+          1.3692690964878642e-06
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-2x(Source.Source2)-3x(Source.Source1)+6x(Source.Source2)],RFAmp1",
+        "bin": 14,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          -6.846345482439321e-07,
+          0.0
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-(Source.Source2)-4x(Source.Source1)+(Source.Source1)+5x(Source.Source2)],RFAmp1",
+        "bin": 14,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          -2.0539036447317963e-06,
+          0.0
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-5x(Source.Source1)+2x(Source.Source1)+4x(Source.Source2)],RFAmp1",
+        "bin": 14,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          -1.0269518223658981e-06,
+          0.0
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-(Source.Source2)-4x(Source.Source1)+6x(Source.Source2)],RFAmp1",
+        "bin": 15,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          -0.0,
+          -3.4231727412196604e-07
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-5x(Source.Source1)+(Source.Source1)+5x(Source.Source2)],RFAmp1",
+        "bin": 15,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          -0.0,
+          -4.107807289463593e-07
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-5x(Source.Source1)+6x(Source.Source2)],RFAmp1",
+        "bin": 16,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          6.846345482439321e-08,
+          -0.0
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-4x(Source.Source2)+7x(Source.Source1)],RFAmp1",
+        "bin": 26,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          -4.890246773170944e-08,
+          -0.0
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-4x(Source.Source2)+6x(Source.Source1)+(Source.Source2)],RFAmp1",
+        "bin": 27,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          0.0,
+          -3.4231727412196604e-07
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-3x(Source.Source2)-(Source.Source1)+7x(Source.Source1)],RFAmp1",
+        "bin": 27,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          0.0,
+          -1.9560987092683777e-07
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-4x(Source.Source2)+5x(Source.Source1)+2x(Source.Source2)],RFAmp1",
+        "bin": 28,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          1.0269518223658981e-06,
+          0.0
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-3x(Source.Source2)-(Source.Source1)+6x(Source.Source1)+(Source.Source2)],RFAmp1",
+        "bin": 28,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          1.3692690964878642e-06,
+          0.0
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-2x(Source.Source2)-2x(Source.Source1)+7x(Source.Source1)],RFAmp1",
+        "bin": 28,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          2.934148063902566e-07,
+          0.0
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-4x(Source.Source2)+4x(Source.Source1)+3x(Source.Source2)],RFAmp1",
+        "bin": 29,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          0.0,
+          1.7115863706098304e-06
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-3x(Source.Source2)-(Source.Source1)+5x(Source.Source1)+2x(Source.Source2)],RFAmp1",
+        "bin": 29,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          0.0,
+          4.1078072894635925e-06
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-2x(Source.Source2)-2x(Source.Source1)+6x(Source.Source1)+(Source.Source2)],RFAmp1",
+        "bin": 29,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          0.0,
+          2.0539036447317963e-06
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-(Source.Source2)-3x(Source.Source1)+7x(Source.Source1)],RFAmp1",
+        "bin": 29,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          0.0,
+          1.9560987092683777e-07
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-4x(Source.Source2)+3x(Source.Source1)+4x(Source.Source2)],RFAmp1",
+        "bin": 30,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          -1.7115863706098304e-06,
+          0.0
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-3x(Source.Source2)-(Source.Source1)+4x(Source.Source1)+3x(Source.Source2)],RFAmp1",
+        "bin": 30,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          -6.846345482439322e-06,
+          0.0
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-2x(Source.Source2)-2x(Source.Source1)+5x(Source.Source1)+2x(Source.Source2)],RFAmp1",
+        "bin": 30,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          -6.161710934195389e-06,
+          0.0
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-(Source.Source2)-3x(Source.Source1)+6x(Source.Source1)+(Source.Source2)],RFAmp1",
+        "bin": 30,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          -1.3692690964878642e-06,
+          0.0
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-4x(Source.Source1)+7x(Source.Source1)],RFAmp1",
+        "bin": 30,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          -4.890246773170944e-08,
+          0.0
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-4x(Source.Source2)+2x(Source.Source1)+5x(Source.Source2)],RFAmp1",
+        "bin": 31,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          -0.0,
+          -1.0269518223658981e-06
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-3x(Source.Source2)-(Source.Source1)+3x(Source.Source1)+4x(Source.Source2)],RFAmp1",
+        "bin": 31,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          -0.0,
+          -6.846345482439322e-06
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-2x(Source.Source2)-2x(Source.Source1)+4x(Source.Source1)+3x(Source.Source2)],RFAmp1",
+        "bin": 31,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          -0.0,
+          -1.0269518223658982e-05
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-(Source.Source2)-3x(Source.Source1)+5x(Source.Source1)+2x(Source.Source2)],RFAmp1",
+        "bin": 31,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          -0.0,
+          -4.1078072894635925e-06
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-4x(Source.Source1)+6x(Source.Source1)+(Source.Source2)],RFAmp1",
+        "bin": 31,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          -0.0,
+          -3.4231727412196604e-07
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-4x(Source.Source2)+(Source.Source1)+6x(Source.Source2)],RFAmp1",
+        "bin": 32,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          3.4231727412196604e-07,
+          -0.0
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-3x(Source.Source2)-(Source.Source1)+2x(Source.Source1)+5x(Source.Source2)],RFAmp1",
+        "bin": 32,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          4.1078072894635925e-06,
+          -0.0
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-2x(Source.Source2)-2x(Source.Source1)+3x(Source.Source1)+4x(Source.Source2)],RFAmp1",
+        "bin": 32,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          1.0269518223658982e-05,
+          -0.0
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-(Source.Source2)-3x(Source.Source1)+4x(Source.Source1)+3x(Source.Source2)],RFAmp1",
+        "bin": 32,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          6.846345482439322e-06,
+          -0.0
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-4x(Source.Source1)+5x(Source.Source1)+2x(Source.Source2)],RFAmp1",
+        "bin": 32,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          1.0269518223658981e-06,
+          -0.0
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-4x(Source.Source2)+7x(Source.Source2)],RFAmp1",
+        "bin": 33,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          0.0,
+          4.890246773170944e-08
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-3x(Source.Source2)-(Source.Source1)+(Source.Source1)+6x(Source.Source2)],RFAmp1",
+        "bin": 33,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          0.0,
+          1.3692690964878642e-06
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-2x(Source.Source2)-2x(Source.Source1)+2x(Source.Source1)+5x(Source.Source2)],RFAmp1",
+        "bin": 33,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          0.0,
+          6.161710934195389e-06
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-(Source.Source2)-3x(Source.Source1)+3x(Source.Source1)+4x(Source.Source2)],RFAmp1",
+        "bin": 33,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          0.0,
+          6.846345482439322e-06
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-4x(Source.Source1)+4x(Source.Source1)+3x(Source.Source2)],RFAmp1",
+        "bin": 33,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          0.0,
+          1.7115863706098304e-06
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-3x(Source.Source2)-(Source.Source1)+7x(Source.Source2)],RFAmp1",
+        "bin": 34,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          -1.9560987092683777e-07,
+          0.0
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-2x(Source.Source2)-2x(Source.Source1)+(Source.Source1)+6x(Source.Source2)],RFAmp1",
+        "bin": 34,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          -2.0539036447317963e-06,
+          0.0
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-(Source.Source2)-3x(Source.Source1)+2x(Source.Source1)+5x(Source.Source2)],RFAmp1",
+        "bin": 34,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          -4.1078072894635925e-06,
+          0.0
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-4x(Source.Source1)+3x(Source.Source1)+4x(Source.Source2)],RFAmp1",
+        "bin": 34,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          -1.7115863706098304e-06,
+          0.0
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-2x(Source.Source2)-2x(Source.Source1)+7x(Source.Source2)],RFAmp1",
+        "bin": 35,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          -0.0,
+          -2.934148063902566e-07
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-(Source.Source2)-3x(Source.Source1)+(Source.Source1)+6x(Source.Source2)],RFAmp1",
+        "bin": 35,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          -0.0,
+          -1.3692690964878642e-06
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-4x(Source.Source1)+2x(Source.Source1)+5x(Source.Source2)],RFAmp1",
+        "bin": 35,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          -0.0,
+          -1.0269518223658981e-06
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-(Source.Source2)-3x(Source.Source1)+7x(Source.Source2)],RFAmp1",
+        "bin": 36,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          1.9560987092683777e-07,
+          -0.0
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-4x(Source.Source1)+(Source.Source1)+6x(Source.Source2)],RFAmp1",
+        "bin": 36,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          3.4231727412196604e-07,
+          -0.0
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-4x(Source.Source1)+7x(Source.Source2)],RFAmp1",
+        "bin": 37,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          0.0,
+          4.890246773170944e-08
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-3x(Source.Source2)+8x(Source.Source1)],RFAmp1",
+        "bin": 47,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          0.0,
+          -2.445123386585472e-08
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-3x(Source.Source2)+7x(Source.Source1)+(Source.Source2)],RFAmp1",
+        "bin": 48,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          1.9560987092683777e-07,
+          0.0
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-2x(Source.Source2)-(Source.Source1)+8x(Source.Source1)],RFAmp1",
+        "bin": 48,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          7.335370159756415e-08,
+          0.0
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-3x(Source.Source2)+6x(Source.Source1)+2x(Source.Source2)],RFAmp1",
+        "bin": 49,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          0.0,
+          6.846345482439321e-07
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-2x(Source.Source2)-(Source.Source1)+7x(Source.Source1)+(Source.Source2)],RFAmp1",
+        "bin": 49,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          0.0,
+          5.868296127805132e-07
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-(Source.Source2)-2x(Source.Source1)+8x(Source.Source1)],RFAmp1",
+        "bin": 49,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          0.0,
+          7.335370159756415e-08
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-3x(Source.Source2)+5x(Source.Source1)+3x(Source.Source2)],RFAmp1",
+        "bin": 50,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          -1.3692690964878642e-06,
+          0.0
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-2x(Source.Source2)-(Source.Source1)+6x(Source.Source1)+2x(Source.Source2)],RFAmp1",
+        "bin": 50,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          -2.0539036447317963e-06,
+          0.0
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-(Source.Source2)-2x(Source.Source1)+7x(Source.Source1)+(Source.Source2)],RFAmp1",
+        "bin": 50,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          -5.868296127805132e-07,
+          0.0
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-3x(Source.Source1)+8x(Source.Source1)],RFAmp1",
+        "bin": 50,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          -2.445123386585472e-08,
+          0.0
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-3x(Source.Source2)+4x(Source.Source1)+4x(Source.Source2)],RFAmp1",
+        "bin": 51,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          -0.0,
+          -1.7115863706098304e-06
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-2x(Source.Source2)-(Source.Source1)+5x(Source.Source1)+3x(Source.Source2)],RFAmp1",
+        "bin": 51,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          -0.0,
+          -4.1078072894635925e-06
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-(Source.Source2)-2x(Source.Source1)+6x(Source.Source1)+2x(Source.Source2)],RFAmp1",
+        "bin": 51,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          -0.0,
+          -2.0539036447317963e-06
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-3x(Source.Source1)+7x(Source.Source1)+(Source.Source2)],RFAmp1",
+        "bin": 51,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          -0.0,
+          -1.9560987092683777e-07
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-3x(Source.Source2)+3x(Source.Source1)+5x(Source.Source2)],RFAmp1",
+        "bin": 52,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          1.3692690964878642e-06,
+          -0.0
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-2x(Source.Source2)-(Source.Source1)+4x(Source.Source1)+4x(Source.Source2)],RFAmp1",
+        "bin": 52,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          5.134759111829491e-06,
+          -0.0
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-(Source.Source2)-2x(Source.Source1)+5x(Source.Source1)+3x(Source.Source2)],RFAmp1",
+        "bin": 52,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          4.1078072894635925e-06,
+          -0.0
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-3x(Source.Source1)+6x(Source.Source1)+2x(Source.Source2)],RFAmp1",
+        "bin": 52,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          6.846345482439321e-07,
+          -0.0
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-3x(Source.Source2)+2x(Source.Source1)+6x(Source.Source2)],RFAmp1",
+        "bin": 53,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          0.0,
+          6.846345482439321e-07
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-2x(Source.Source2)-(Source.Source1)+3x(Source.Source1)+5x(Source.Source2)],RFAmp1",
+        "bin": 53,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          0.0,
+          4.1078072894635925e-06
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-(Source.Source2)-2x(Source.Source1)+4x(Source.Source1)+4x(Source.Source2)],RFAmp1",
+        "bin": 53,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          0.0,
+          5.134759111829491e-06
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-3x(Source.Source1)+5x(Source.Source1)+3x(Source.Source2)],RFAmp1",
+        "bin": 53,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          0.0,
+          1.3692690964878642e-06
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-3x(Source.Source2)+(Source.Source1)+7x(Source.Source2)],RFAmp1",
+        "bin": 54,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          -1.9560987092683777e-07,
+          0.0
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-2x(Source.Source2)-(Source.Source1)+2x(Source.Source1)+6x(Source.Source2)],RFAmp1",
+        "bin": 54,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          -2.0539036447317963e-06,
+          0.0
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-(Source.Source2)-2x(Source.Source1)+3x(Source.Source1)+5x(Source.Source2)],RFAmp1",
+        "bin": 54,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          -4.1078072894635925e-06,
+          0.0
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-3x(Source.Source1)+4x(Source.Source1)+4x(Source.Source2)],RFAmp1",
+        "bin": 54,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          -1.7115863706098304e-06,
+          0.0
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-3x(Source.Source2)+8x(Source.Source2)],RFAmp1",
+        "bin": 55,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          -0.0,
+          -2.445123386585472e-08
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-2x(Source.Source2)-(Source.Source1)+(Source.Source1)+7x(Source.Source2)],RFAmp1",
+        "bin": 55,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          -0.0,
+          -5.868296127805132e-07
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-(Source.Source2)-2x(Source.Source1)+2x(Source.Source1)+6x(Source.Source2)],RFAmp1",
+        "bin": 55,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          -0.0,
+          -2.0539036447317963e-06
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-3x(Source.Source1)+3x(Source.Source1)+5x(Source.Source2)],RFAmp1",
+        "bin": 55,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          -0.0,
+          -1.3692690964878642e-06
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-2x(Source.Source2)-(Source.Source1)+8x(Source.Source2)],RFAmp1",
+        "bin": 56,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          7.335370159756415e-08,
+          -0.0
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-(Source.Source2)-2x(Source.Source1)+(Source.Source1)+7x(Source.Source2)],RFAmp1",
+        "bin": 56,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          5.868296127805132e-07,
+          -0.0
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-3x(Source.Source1)+2x(Source.Source1)+6x(Source.Source2)],RFAmp1",
+        "bin": 56,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          6.846345482439321e-07,
+          -0.0
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-(Source.Source2)-2x(Source.Source1)+8x(Source.Source2)],RFAmp1",
+        "bin": 57,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          0.0,
+          7.335370159756415e-08
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-3x(Source.Source1)+(Source.Source1)+7x(Source.Source2)],RFAmp1",
+        "bin": 57,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          0.0,
+          1.9560987092683777e-07
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-3x(Source.Source1)+8x(Source.Source2)],RFAmp1",
+        "bin": 58,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          -2.445123386585472e-08,
+          0.0
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-2x(Source.Source2)+9x(Source.Source1)],RFAmp1",
+        "bin": 68,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          8.15041128861824e-09,
+          0.0
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-2x(Source.Source2)+8x(Source.Source1)+(Source.Source2)],RFAmp1",
+        "bin": 69,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          0.0,
+          7.335370159756415e-08
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-(Source.Source2)-(Source.Source1)+9x(Source.Source1)],RFAmp1",
+        "bin": 69,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          0.0,
+          1.630082257723648e-08
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-2x(Source.Source2)+7x(Source.Source1)+2x(Source.Source2)],RFAmp1",
+        "bin": 70,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          -2.934148063902566e-07,
+          0.0
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-(Source.Source2)-(Source.Source1)+8x(Source.Source1)+(Source.Source2)],RFAmp1",
+        "bin": 70,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          -1.467074031951283e-07,
+          0.0
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-2x(Source.Source1)+9x(Source.Source1)],RFAmp1",
+        "bin": 70,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          -8.15041128861824e-09,
+          0.0
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-2x(Source.Source2)+6x(Source.Source1)+3x(Source.Source2)],RFAmp1",
+        "bin": 71,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          -0.0,
+          -6.846345482439321e-07
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-(Source.Source2)-(Source.Source1)+7x(Source.Source1)+2x(Source.Source2)],RFAmp1",
+        "bin": 71,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          -0.0,
+          -5.868296127805132e-07
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-2x(Source.Source1)+8x(Source.Source1)+(Source.Source2)],RFAmp1",
+        "bin": 71,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          -0.0,
+          -7.335370159756415e-08
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-2x(Source.Source2)+5x(Source.Source1)+4x(Source.Source2)],RFAmp1",
+        "bin": 72,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          1.0269518223658981e-06,
+          -0.0
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-(Source.Source2)-(Source.Source1)+6x(Source.Source1)+3x(Source.Source2)],RFAmp1",
+        "bin": 72,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          1.3692690964878642e-06,
+          -0.0
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-2x(Source.Source1)+7x(Source.Source1)+2x(Source.Source2)],RFAmp1",
+        "bin": 72,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          2.934148063902566e-07,
+          -0.0
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-2x(Source.Source2)+4x(Source.Source1)+5x(Source.Source2)],RFAmp1",
+        "bin": 73,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          0.0,
+          1.0269518223658981e-06
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-(Source.Source2)-(Source.Source1)+5x(Source.Source1)+4x(Source.Source2)],RFAmp1",
+        "bin": 73,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          0.0,
+          2.0539036447317963e-06
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-2x(Source.Source1)+6x(Source.Source1)+3x(Source.Source2)],RFAmp1",
+        "bin": 73,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          0.0,
+          6.846345482439321e-07
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-2x(Source.Source2)+3x(Source.Source1)+6x(Source.Source2)],RFAmp1",
+        "bin": 74,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          -6.846345482439321e-07,
+          0.0
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-(Source.Source2)-(Source.Source1)+4x(Source.Source1)+5x(Source.Source2)],RFAmp1",
+        "bin": 74,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          -2.0539036447317963e-06,
+          0.0
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-2x(Source.Source1)+5x(Source.Source1)+4x(Source.Source2)],RFAmp1",
+        "bin": 74,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          -1.0269518223658981e-06,
+          0.0
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-2x(Source.Source2)+2x(Source.Source1)+7x(Source.Source2)],RFAmp1",
+        "bin": 75,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          -0.0,
+          -2.934148063902566e-07
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-(Source.Source2)-(Source.Source1)+3x(Source.Source1)+6x(Source.Source2)],RFAmp1",
+        "bin": 75,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          -0.0,
+          -1.3692690964878642e-06
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-2x(Source.Source1)+4x(Source.Source1)+5x(Source.Source2)],RFAmp1",
+        "bin": 75,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          -0.0,
+          -1.0269518223658981e-06
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-2x(Source.Source2)+(Source.Source1)+8x(Source.Source2)],RFAmp1",
+        "bin": 76,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          7.335370159756415e-08,
+          -0.0
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-(Source.Source2)-(Source.Source1)+2x(Source.Source1)+7x(Source.Source2)],RFAmp1",
+        "bin": 76,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          5.868296127805132e-07,
+          -0.0
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-2x(Source.Source1)+3x(Source.Source1)+6x(Source.Source2)],RFAmp1",
+        "bin": 76,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          6.846345482439321e-07,
+          -0.0
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-2x(Source.Source2)+9x(Source.Source2)],RFAmp1",
+        "bin": 77,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          0.0,
+          8.15041128861824e-09
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-(Source.Source2)-(Source.Source1)+(Source.Source1)+8x(Source.Source2)],RFAmp1",
+        "bin": 77,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          0.0,
+          1.467074031951283e-07
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-2x(Source.Source1)+2x(Source.Source1)+7x(Source.Source2)],RFAmp1",
+        "bin": 77,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          0.0,
+          2.934148063902566e-07
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-(Source.Source2)-(Source.Source1)+9x(Source.Source2)],RFAmp1",
+        "bin": 78,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          -1.630082257723648e-08,
+          0.0
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-2x(Source.Source1)+(Source.Source1)+8x(Source.Source2)],RFAmp1",
+        "bin": 78,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          -7.335370159756415e-08,
+          0.0
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-2x(Source.Source1)+9x(Source.Source2)],RFAmp1",
+        "bin": 79,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          -0.0,
+          -8.15041128861824e-09
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-(Source.Source2)+10x(Source.Source1)],RFAmp1",
+        "bin": 89,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          0.0,
+          1.630082257723648e-09
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-(Source.Source2)+9x(Source.Source1)+(Source.Source2)],RFAmp1",
+        "bin": 90,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          -1.630082257723648e-08,
+          0.0
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-(Source.Source1)+10x(Source.Source1)],RFAmp1",
+        "bin": 90,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          -1.630082257723648e-09,
+          0.0
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-(Source.Source2)+8x(Source.Source1)+2x(Source.Source2)],RFAmp1",
+        "bin": 91,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          -0.0,
+          -7.335370159756415e-08
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-(Source.Source1)+9x(Source.Source1)+(Source.Source2)],RFAmp1",
+        "bin": 91,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          -0.0,
+          -1.630082257723648e-08
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-(Source.Source2)+7x(Source.Source1)+3x(Source.Source2)],RFAmp1",
+        "bin": 92,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          1.9560987092683777e-07,
+          -0.0
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-(Source.Source1)+8x(Source.Source1)+2x(Source.Source2)],RFAmp1",
+        "bin": 92,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          7.335370159756415e-08,
+          -0.0
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-(Source.Source2)+6x(Source.Source1)+4x(Source.Source2)],RFAmp1",
+        "bin": 93,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          0.0,
+          3.4231727412196604e-07
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-(Source.Source1)+7x(Source.Source1)+3x(Source.Source2)],RFAmp1",
+        "bin": 93,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          0.0,
+          1.9560987092683777e-07
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-(Source.Source2)+5x(Source.Source1)+5x(Source.Source2)],RFAmp1",
+        "bin": 94,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          -4.107807289463593e-07,
+          0.0
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-(Source.Source1)+6x(Source.Source1)+4x(Source.Source2)],RFAmp1",
+        "bin": 94,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          -3.4231727412196604e-07,
+          0.0
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-(Source.Source2)+4x(Source.Source1)+6x(Source.Source2)],RFAmp1",
+        "bin": 95,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          -0.0,
+          -3.4231727412196604e-07
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-(Source.Source1)+5x(Source.Source1)+5x(Source.Source2)],RFAmp1",
+        "bin": 95,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          -0.0,
+          -4.107807289463593e-07
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-(Source.Source2)+3x(Source.Source1)+7x(Source.Source2)],RFAmp1",
+        "bin": 96,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          1.9560987092683777e-07,
+          -0.0
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-(Source.Source1)+4x(Source.Source1)+6x(Source.Source2)],RFAmp1",
+        "bin": 96,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          3.4231727412196604e-07,
+          -0.0
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-(Source.Source2)+2x(Source.Source1)+8x(Source.Source2)],RFAmp1",
+        "bin": 97,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          0.0,
+          7.335370159756415e-08
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-(Source.Source1)+3x(Source.Source1)+7x(Source.Source2)],RFAmp1",
+        "bin": 97,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          0.0,
+          1.9560987092683777e-07
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-(Source.Source2)+(Source.Source1)+9x(Source.Source2)],RFAmp1",
+        "bin": 98,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          -1.630082257723648e-08,
+          0.0
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-(Source.Source1)+2x(Source.Source1)+8x(Source.Source2)],RFAmp1",
+        "bin": 98,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          -7.335370159756415e-08,
+          0.0
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-(Source.Source2)+10x(Source.Source2)],RFAmp1",
+        "bin": 99,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          -0.0,
+          -1.630082257723648e-09
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-(Source.Source1)+(Source.Source1)+9x(Source.Source2)],RFAmp1",
+        "bin": 99,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          -0.0,
+          -1.630082257723648e-08
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[-(Source.Source1)+10x(Source.Source2)],RFAmp1",
+        "bin": 100,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          1.630082257723648e-09,
+          -0.0
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[11x(Source.Source1)],RFAmp1",
+        "bin": 110,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          -1.4818929615669527e-10,
+          0.0
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[10x(Source.Source1)+(Source.Source2)],RFAmp1",
+        "bin": 111,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          -0.0,
+          -1.630082257723648e-09
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[9x(Source.Source1)+2x(Source.Source2)],RFAmp1",
+        "bin": 112,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          8.15041128861824e-09,
+          -0.0
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[8x(Source.Source1)+3x(Source.Source2)],RFAmp1",
+        "bin": 113,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          0.0,
+          2.445123386585472e-08
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[7x(Source.Source1)+4x(Source.Source2)],RFAmp1",
+        "bin": 114,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          -4.890246773170944e-08,
+          0.0
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[6x(Source.Source1)+5x(Source.Source2)],RFAmp1",
+        "bin": 115,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          -0.0,
+          -6.846345482439321e-08
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[5x(Source.Source1)+6x(Source.Source2)],RFAmp1",
+        "bin": 116,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          6.846345482439321e-08,
+          -0.0
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[4x(Source.Source1)+7x(Source.Source2)],RFAmp1",
+        "bin": 117,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          0.0,
+          4.890246773170944e-08
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[3x(Source.Source1)+8x(Source.Source2)],RFAmp1",
+        "bin": 118,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          -2.445123386585472e-08,
+          0.0
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[2x(Source.Source1)+9x(Source.Source2)],RFAmp1",
+        "bin": 119,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          -0.0,
+          -8.15041128861824e-09
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[(Source.Source1)+10x(Source.Source2)],RFAmp1",
+        "bin": 120,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          1.630082257723648e-09,
+          -0.0
+        ]
+      },
+      {
+        "order": 11,
+        "label": "[11x(Source.Source2)],RFAmp1",
+        "bin": 121,
+        "bandwidth_hz": 11.0,
+        "expected_wave": [
+          0.0,
+          1.4818929615669527e-10
+        ]
+      }
+    ]
+  },
+  "logic_sha256_lf": {
+    "analyze-rfamp-op1db-pilot.py": "2b4226bab4fe6db1361135e0c3d2c74a42b3f0a990fbfcf40d66b7dd106a4cca",
+    "rfamp-parameter-pilot.py": "3d1382fd7d2baf29419e40eebbe916838f605cd3eb71ace62f8f4d0a6249f485",
+    "archive-cascade-reference.py": "20b87d5df321d37495571eea93935ca27e156e01d9ed9da5be37a0721e5ca5ac",
+    "archive-cascade-input-reference.py": "6990f2e01c78458488f02653642e28cd82e42c4056f44be7ffbc22acd894de6d",
+    "compare-cascade-amplifier.py": "e340f4cb84e3722a0cd7d23d54cc7e83b7f1ef437559e79f4c0952ee20ccaf1a",
+    "diagnose-highorder-input-reference.py": "09d7a888a87e8ac9f70bbf03650d63b1b117fbd64e4513f59f54628ab079299f",
+    "diagnose-eleventh-order.py": "404956b894cbee93a6977ffbae6810ae64622264e57a7984a0aea58a716bdb32",
+    "diagnose-highorder-amplifier.py": "a75cb4c28b53761fb764b24d342058bf93d5142456b82010630f8188ebc4a10e",
+    "compare-amplifier-terms.py": "a2427cc2934f89a91b0c51dd45aed8aac5004262bf93a1fdad5e6813425895c7",
+    "compare-two-tone.py": "bd3a838ee9d4a1b1584da69eadfc1d050dee903b6d3e1be687c6cc367848605e",
+    "compare-single-compression.py": "48c2eb810803fb5f659cf80ab06c43f9643e201f98e3d75cd1dc8e63f8541050",
+    "run-systemvue-reference.py": "e3c7e9b6772031b21c8414a627a541495b3997ad8fd4c0754d7f7c5289190e67",
+    "retired_binding.py": "b91041225bf98078c62ee1f1dd1b37c1f70f6ed6c655b46c55858cc0b9b747ae",
+    "reference_records.py": "0933db4d825a58bc02ef155ce29a1053e2726d21aa5f6afee69bb263686fc63b",
+    "native_replay.py": "a90ec8d335b0b5526abd284ee9243d6bac864de1b83cab20999d62044df7fc1a",
+    "capture-cascade-parameter-units.ps1": "575de4d58f0544ededac1cffc07d1abb226b145f4e53929ff26faa8439311905"
+  },
+  "calibration_capture_sha256": {
+    "A-baseline": "c53979539ee47c7a1c9c04dd421703e276b0e92fa49056e91c0b299680ce961a",
+    "B-op1db21": "f9a2b8b0147962011f84c9ffd2be569ce3865700db1e96b30bbc5f0c27687e17"
+  },
+  "limits": [
+    "A and B are identification/control data, never independent holdout points.",
+    "C inputs are unmeasured at freeze; the numeric preview makes an explicit B-to-C input transfer assumption.",
+    "The primary C comparison uses measured C input with the unchanged frozen conditional predictor.",
+    "Common-response and coefficient-model errors remain separate observable residuals.",
+    "Missing terms remain missing; no refitting, zero filling or tolerance widening.",
+    "This does not identify a proprietary coefficient law or certify full RFAMP/network compatibility."
+  ],
+  "ab_archive_sha256": "4a8f15a1d4688bbd4586d20f5a32e373d8d321ca6017fc30656f9014f48522ef",
+  "native_replay": {
+    "schema": "rfmodel.native-reference-replay",
+    "schema_version": 1,
+    "classification": "diagnostic_only",
+    "eligible_for_compatibility": false,
+    "native_replay_execution": {
+      "protocol": 1,
+      "build_id": "663bf7dbcc2b8c4942b563d6ca5c5698d80083de7651f1ba95e5f6bc0f7888b0",
+      "executable_sha256": "7691fe1d60126513a4c4514d14fcd6adfc8fbf1049df9f9290d1279562454e1e",
+      "build_manifest_sha256": "74a0acb074dad1c1b244241d2001990ca2ba91307162273223a2c7372b16604b"
+    },
+    "build": {
+      "build_id": "663bf7dbcc2b8c4942b563d6ca5c5698d80083de7651f1ba95e5f6bc0f7888b0",
+      "protocol": 1,
+      "source_revision": "71999c42cdafe5c01b07580a033844adcc4e0664",
+      "source_content_sha256": "a7799d4a5d869fcb6d76e1c50847d8ebdb6ab1b27ed5ca39d7d327d8a2a9e13f",
+      "configuration": "Release",
+      "compiler": {
+        "id": "MSVC",
+        "version": "19.44.35228.0",
+        "path": "C:/Program Files (x86)/Microsoft Visual Studio/2022/BuildTools/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/cl.exe",
+        "flags": "/DWIN32 /D_WINDOWS /EHsc /O2 /Ob2 /DNDEBUG; C++17; extensions=OFF"
+      },
+      "generator": "Visual Studio 17 2022",
+      "source_files": {
+        "CMakeLists.txt": "10bb2e79caa6284efb9c09bcb7a3d16a5c743702f4631a6281b079aa1cd9f372",
+        "cmake/NativeReferenceReplay.cmake": "596391e95e99b4d0ae1f0b598491493a89d58303fe9c3079f6049722ba2ba353",
+        "cmake/RFModelExamples.cmake": "0772d020f93e16c0c7a8c0af89eee14c15245a25986d53303167d4b54b14ffa5",
+        "cmake/RFModelHeaders.cmake": "87eb4a8a3372c7cba291c4a42de2b76dc5e59ce00a0380ca101f5dce4856bb0d",
+        "cmake/RFModelTests.cmake": "69330a78e1d16d9098e18d36576e9bdd4ee7271d6fbf20533e2ac9d229a31f86",
+        "include/rfmodel/adapters/builtin_model_adapters.hpp": "13cbb53b08c97be884d03f5ff41aedfbf0c407d93136aef34b58fc558688537f",
+        "include/rfmodel/adapters/model_adapter.hpp": "f5bd7fb2cbfaef31f64d1dc6786bf26043d54ec1c76c5f718e78faf12c594f9f",
+        "include/rfmodel/adapters/systemvue2023_am_pm.hpp": "1bb61d3003a5c738c4755c17d96f1940d16d32eaa494a5f0687f1371c773de24",
+        "include/rfmodel/analysis/analysis_task.hpp": "d03dcad0b3528911cf32a2da235883b33af4d27b9fdb611b5fafd2a8a667b426",
+        "include/rfmodel/analysis/group_delay.hpp": "a301e47f2ef2a60abbff5ac424d44cd5b9d366930d5c1e9bb4baca7082cdd9ff",
+        "include/rfmodel/analysis/measurements.hpp": "49f1bca80838b660c441b1196b244e013d446f7b314d5910faac6e5d9a3d1c76",
+        "include/rfmodel/analysis/monte_carlo.hpp": "29bbafa4c98940adddf0bf663212b590e873de29e8c58b8f22c8260cda3974e7",
+        "include/rfmodel/analysis/optimization.hpp": "6334100b5bb716c35aae5fe354ad0afbeb21865ea7321194d6dbd524d6b6d3b6",
+        "include/rfmodel/analysis/power_gain.hpp": "885b41cbaa3ae88ac6e579ab41676128385fd087748da07cd8e59f8a6408ca87",
+        "include/rfmodel/analysis/spectrum_analysis.hpp": "965f73314ecb0f8885f13e3975860513c3ab80f6b6db17d33745f6bae5181500",
+        "include/rfmodel/coherent/coherence.hpp": "910938dee6a4f5c476304906a06eb7c18262f751e14bcf7d76ba70a083322490",
+        "include/rfmodel/coherent/coherent_amplifier.hpp": "be078dfcb0ea6400441d9ec7b7293b3a170bce8d777ccefa7279b8eb1493b834",
+        "include/rfmodel/coherent/coherent_compression.hpp": "76120c6d17010290d09d0b27e8682eea1397fc93d68fb6841469b6d9f983138a",
+        "include/rfmodel/coherent/coherent_highorder_amplifier.hpp": "ea98e9c57d938e4091c24576c61fb9b4269f414ba2f26dad823de9e45211f2e7",
+        "include/rfmodel/coherent/coherent_mixer.hpp": "d5d5b3801581ce5e45f15c23920b0b47d850d6631dbfb6bca9047ae2057084eb",
+        "include/rfmodel/coherent/coherent_network.hpp": "da54d0cf23c9a8e73931a547ac538bb63909405619a053778896c8a226bac4c0",
+        "include/rfmodel/coherent/coherent_pipeline.hpp": "7563352395802e352ff1a36045ac2f42c96c2ab70b2652839eaf67806e08a3aa",
+        "include/rfmodel/coherent/coherent_polynomial.hpp": "e7ad7ea1d7b866214c4c915d5615b17b79d50a66773e52561911a98b2d987191",
+        "include/rfmodel/coherent/coherent_system.hpp": "8ec271bc5f27bffae8a99d3d67f4f267a44640a3111d7c0480d9847a926f5638",
+        "include/rfmodel/coherent/mixing_origin.hpp": "159a32a0c5534c18b4b4f0312ffaa7f3f7ce5f9c900e26a2b94a1b8633a3b306",
+        "include/rfmodel/coherent/origin_expression.hpp": "c1cf8b3e3ee6721d4f850eaedeea7215da64c15fe2c10d589c498fbd39ddf0d7",
+        "include/rfmodel/coherent/source_coherence.hpp": "c68a47b369718440671136d863613085a6d78d050d5dfc712b9f04a3415a96e8",
+        "include/rfmodel/coherent/term_propagation.hpp": "d430f11609347bfc9b07bfea30a7235bb518f6b861f07730a389935982873b74",
+        "include/rfmodel/conversion/am_pm_linearization.hpp": "33a3856f7e556f61ac90432000b7a1972662fa61ab085adbb6936524e5b1e582",
+        "include/rfmodel/conversion/amplifier_linearization.hpp": "75423de7d71aa4dd7e60c495f452fbc586803e7a0ed0fd98f151086728d0ed70",
+        "include/rfmodel/conversion/conversion_frequency_plan.hpp": "b291a1c4da062a53f19572297f9a34998b0f25373dec87f80af09812f944b9f6",
+        "include/rfmodel/conversion/conversion_grid.hpp": "f1b924653b21db478110aeaf99f29035151f5e6af101da33a57919fd33987658",
+        "include/rfmodel/conversion/conversion_network.hpp": "8d6de54d312e1910843fc1ec3e18585bf4ee844a884c18e5ad3862139a0c5603",
+        "include/rfmodel/conversion/conversion_operating_point.hpp": "eea1985c4c99100859aff25b3c2a2128aca628b11aeac23d81f8f75876d8c29b",
+        "include/rfmodel/conversion/conversion_power_wave.hpp": "7ea30fefa883cee284d8327a417ae0c19ac622d01511196dedab823567ac798c",
+        "include/rfmodel/conversion/conversion_simulation.hpp": "58be79a94d5251b913ac653c0d55b8ead80a593c85679741d3659ac9f4ff1d8f",
+        "include/rfmodel/conversion/frequency_conversion.hpp": "ffac6cc4e61d1169efbc2833ba5812f1766cdc42a3e012e58485c5a07ba0cf46",
+        "include/rfmodel/conversion/highorder_linearization.hpp": "465b058a951bf850130cd7b963683e478cbc35a1bc6ce38c2b87719c490a4f1b",
+        "include/rfmodel/conversion/mixer_linearization.hpp": "9bf421bcba9b913db56319712feef7e016962fb3976d944271c34a15d6e2ce04",
+        "include/rfmodel/conversion/output_phase_linearization.hpp": "766bbb22b8195f5fd4f46553b6f9f2b0b3f5914b6267fc53ea9f45fb475d1025",
+        "include/rfmodel/conversion/polynomial_linearization.hpp": "f7d95595e8f045beffff680dac8cf346088ac57728248400cfdf3e1830116b5a",
+        "include/rfmodel/conversion/tabulated_amplifier_linearization.hpp": "f1ca6f67c37f61754619465540633ae1d2b7668053043c0e0e20e49f8d8f6a88",
+        "include/rfmodel/core/device_model.hpp": "bfddd2f07a8266acee505af43cad74a021e0083dca1d827702d1796bdf3f8c04",
+        "include/rfmodel/core/interpolation.hpp": "a9eed38f015c895d76bfa86446edab15b3d4d9373e8ded0971e2f137d48fcf33",
+        "include/rfmodel/core/linear_solver.hpp": "8ccf99f7f978594e3f3d615f613ae2272e03ad1ac30d933c6305ffec4ab2cdd9",
+        "include/rfmodel/core/network_parameters.hpp": "11a1cce01fcaf8926159c5850bb96f38e87883847cd884a71654d6acf57f017a",
+        "include/rfmodel/core/power_wave_reference.hpp": "2d12887a1a9b5f545bcde177b873b33eed09afed1f8fd877557e79076f506c14",
+        "include/rfmodel/io/tabulated_model.hpp": "646fb403d8da246929827554634f1f13ea8d5b9cb7ffee8c6ce89afa9737567c",
+        "include/rfmodel/io/tabulated_noise_model.hpp": "c3b957b473a836e6a4c54167c988e2e55e1bb00f4f06e8240cb30d7cb4b29e5f",
+        "include/rfmodel/io/touchstone.hpp": "599be085de377d93fa8f907db96f14f08fe07f6e10c42392751912dd9b19ccee",
+        "include/rfmodel/io/touchstone_writer.hpp": "e9b919eee403873a5d7944e735425927d27eeab4b4da6047992ff0477d89a7ea",
+        "include/rfmodel/linear/frozen_small_signal.hpp": "6256f0dd05740d717896794972c37912b6043ffc61d61c881af5cc5593259155",
+        "include/rfmodel/linear/linear_analysis.hpp": "f5a1eed718fbb0da768668384b2af20d198f669d41f4c337dde242c411411e19",
+        "include/rfmodel/linear/linear_path.hpp": "02eba8b4ba61b58279e4cd762b926079177efe7ea33ae552f54a83ca4509c9d0",
+        "include/rfmodel/linear/network.hpp": "3de30a1ece03a4a1ff5231e7b0236937500cc9fa653a24895adada4b10b18743",
+        "include/rfmodel/linear/power_wave_network.hpp": "61ecac0cb5563f3929a0411d1674f39a90ae85e4c5c042f1fedda3e519346f76",
+        "include/rfmodel/linear/sweep.hpp": "c11362b2d15fd4b0d9b212a56e3fe018925cfd619fcd334f23aa5daa3ca91a28",
+        "include/rfmodel/models/butterworth_filter.hpp": "0eccb1de6e5bfb7874d25b274051a5ecd46d0bb27543d625fb5afeb3e9096ad2",
+        "include/rfmodel/models/chebyshev_filter.hpp": "c3d168560254e7e53df9fc7f014ae59114dd74f74c20c8d0fd7d0534eb529711",
+        "include/rfmodel/models/filter_frequency.hpp": "87e83379f81c52c62640a8d753806afaf4ef770a3c891fab537a31af7c926637",
+        "include/rfmodel/models/frequency_dependent_cable.hpp": "c8ab809ee679f16fb9241c96cbbf882e7854dc128848390dfe3a732867b90740",
+        "include/rfmodel/models/ideal_devices.hpp": "ec84db37cce4041be5df5684597446fea0dacc6cf2b72bad8888107a8d69e8e4",
+        "include/rfmodel/models/lumped_model.hpp": "68384e70829492bd0c172637bbae08265fdd2071d778a0797a00785974ee8d54",
+        "include/rfmodel/models/multiport_devices.hpp": "0e6a15ffa4766b1cc65011389eaf844a6854b1ede661e50d5d037e12f6e403ec",
+        "include/rfmodel/models/rlc_model.hpp": "4041a11dc89f2ad8626256a1ee061818eb36566ad3eee38a760c9fa0c61dbbc4",
+        "include/rfmodel/models/rlgc_transmission_line.hpp": "38ced9bcd75e2dcacb50342e525ce22d3bdc43bd2b32fb0e7127ffa4e2d979dc",
+        "include/rfmodel/models/transmission_line.hpp": "94d352f4f335a76c839009cb24b7bcbaeed56ff485053228e75596a2cb18bef9",
+        "include/rfmodel/noise/channel_noise.hpp": "215f3b0f4aa9e31aac50a9fafe7a488f0475558d486288f733ac0fb2d3dec316",
+        "include/rfmodel/noise/linear_path_noise.hpp": "eb0265baf40803c880fd89dc7c185e7b059b8494e4e0a63303cf4ef53b1afec1",
+        "include/rfmodel/noise/loaded_noise.hpp": "ee73a0c3ad3bcfd59a797482da94b2ce70349acf8c57b7d0602b8ee850c3b8ab",
+        "include/rfmodel/noise/noise.hpp": "d8783fb25fa97602402f2c9549d35cb5f9caa0ce056bdffa6cfa91881da45432",
+        "include/rfmodel/noise/noise_figure.hpp": "586ed90d1abdacc33ff5caaa4111a6f8558b60066cc1a85e10f9b266bb8f90c1",
+        "include/rfmodel/noise/noise_matrix.hpp": "79c8a93ccad97f7f9b546a68ceff50de6ac77caab3ca0510a2e63d73aa37bacc",
+        "include/rfmodel/noise/noise_renormalization.hpp": "a162a8b7a10a48fb51c5957d9b3de11a9d7688a4640d08b6580b549b3b2fe9ee",
+        "include/rfmodel/noise/phase_noise.hpp": "e773010d7a6fde198e51a3165e97f08b26be67a494aefaa812934c532bdfd2ec",
+        "include/rfmodel/noise/power_wave_noise.hpp": "14d404f3780a43470c3ef3cecdb6e0c9ad4644a25ccdef47fda787c7dcdbea3b",
+        "include/rfmodel/nonlinear/am_pm.hpp": "9639361af73fe178295eed44433e2828668dd0f40ccc58955dca76d0a694b991",
+        "include/rfmodel/nonlinear/amplifier_model.hpp": "5c651de3a442f78a5ffff5cbec7d0304cc62f890e14355d22f2e2a0a499ffdef",
+        "include/rfmodel/nonlinear/dc_operating_point.hpp": "c7db2039997f2236cdea3474597fbfa93d22962bb4faea147912c437e0291cd0",
+        "include/rfmodel/nonlinear/fundamental_compression.hpp": "b07eeb5a7c08a9bd4f8ab8d08cb2ee26748f25d27aa11434ec5b0d686cf13025",
+        "include/rfmodel/nonlinear/ideal_mixer.hpp": "4776a0361e986e8fe79f86b8ad0887378bb85e15845f597305f63986109fbdc0",
+        "include/rfmodel/nonlinear/intermod_levels.hpp": "d40a8e1bfc43249de7c6fd7cc8e9e7f986e8a588e465437114c5d438f8770bd2",
+        "include/rfmodel/nonlinear/multitone_amplifier.hpp": "8ed593b8d5bc68aaf18fc436fb0ae464a8b445f6f095d723dea33e019e288a62",
+        "include/rfmodel/nonlinear/nonlinear_spectrum.hpp": "96d8750e29893f53b39ca222d2bf5f38ca0f0aec005bc17c5bd679ff41f19516",
+        "include/rfmodel/nonlinear/phd_coefficient_slice.hpp": "15bc00fa69a72bb804cb623b10ea96e0bb8771d3cf83d55fc111c37960db6421",
+        "include/rfmodel/nonlinear/phd_fixed_pump_network.hpp": "56a500462b8ea9dce38861498e8942e4ccd39e5d16fd3daaabb67eca4448c672",
+        "include/rfmodel/nonlinear/point_derivative_am_pm.hpp": "19d1082ed07cbc6253073a74bdf5568d6eb8d7bf46fb69de2bf1ea97c04daa95",
+        "include/rfmodel/nonlinear/polynomial_amplifier.hpp": "601a4cba5eb2857b588be1943214a055e886f0b5750ace2493d7247bc4c81e5c",
+        "include/rfmodel/nonlinear/polynomial_intercepts.hpp": "70077babafe9de497240a253da86986f879fc30572432ba5d7f71bac7c713b61",
+        "include/rfmodel/nonlinear/polynomial_limits.hpp": "f2e9c8e1668f6eb99dfd6d3795946dde08c1b200ba13a1f68a61b33ec8e6a3aa",
+        "include/rfmodel/nonlinear/power_wave_spectrum.hpp": "25b03f270932679fe0745b608eab1311b7053c1e8c41c143dec37830a15e91f4",
+        "include/rfmodel/nonlinear/saturating_fundamental.hpp": "66639cb88775cef3bacc501bafe094150d87a880c75d390b91d6ebf62f3e12dd",
+        "include/rfmodel/nonlinear/single_tone_amplifier.hpp": "9d74e382cdb87b4f938154eac5e427fc16397ed64760f36ca92dc7ba079384ed",
+        "include/rfmodel/nonlinear/tabulated_amplifier.hpp": "6878b6d31ee47b0c1518180465ec3566f84e178dc6848cfff131dfc898a050f0",
+        "scripts/reference/analyze-am-pm-datapoints.py": "56d4b9db966d2a5bc991ba2dd683cfe4b9807f8c6b040317889bf057f5fc633e",
+        "scripts/reference/analyze-attenuator-residuals.py": "c8e2d123a9405014c8e1f2ee4f12d4ec2c2b8b592db632816f8d684a2de8d326",
+        "scripts/reference/analyze-rfamp-op1db-pilot.py": "dc633b7eec18fcd4db4d361433f358d9dcd662314d9fc6ebb1f3593f59033896",
+        "scripts/reference/archive-am-pm-adapter-study.py": "9fa5cd44ed2fb17bcf4e9a3059bd885fe416f7c8c630d742f486178fd402fad8",
+        "scripts/reference/archive-am-pm-datapoints-allocation-acquisition.py": "f1971036362b057b5a0cd3fcbb17851da96d3217f761d64639936035e54ae2b6",
+        "scripts/reference/archive-am-pm-datapoints-order-acquisition.py": "244736fa59d52674bfc0f7badf44096d778463c202c3dfe732c6eda9a39a3c55",
+        "scripts/reference/archive-am-pm-datapoints-raw-axis-acquisition.py": "8faee6b7c48831ec4177717057b0db5ff158166450910ecd29994a627818ad05",
+        "scripts/reference/archive-am-pm-datapoints-zero-acquisition.py": "3fab56518d5dc5e88ae2ba914504444e590ca1e61bd142d7334f11b0ae2aa797",
+        "scripts/reference/archive-am-pm-datapoints-zero-study.py": "af25ef604e9ae395e96f4f148be9bb886425eb292643765cbaea16647b918c8e",
+        "scripts/reference/archive-am-pm-datapoints.py": "816c42280c3cfa868d10461661871e11366f8bbd03a53847befeb9eb2e2c8e71",
+        "scripts/reference/archive-am-pm-parameter-study.py": "4ca82fda62605b031693ae3fedb9085989643b844050ef55b9f3c88c4c9a5299",
+        "scripts/reference/archive-cascade-input-reference.py": "07e3d4902b8d93ab11f3df2f07d5699df518306a8542820d96cc90aec5243790",
+        "scripts/reference/archive-cascade-reference.py": "d75c144831906542c822d7a895b7f18ef1c82234ee8120ac6ee48a003c3c236f",
+        "scripts/reference/archive-coherent-captures.py": "e01708f29ed362d8afb8fb684d58be9081cc083a428af9dfd1d20ed3793d4145",
+        "scripts/reference/archive-shared-compression.py": "be0b9da81e4523b5b2e86d7de1d4a8ff8c1971aec49b7bdf234e6de60d7f5ec9",
+        "scripts/reference/audit-antenna-nonlinearity.py": "d1485c1833dd186803b8c1e5677a0c72bda90fc62b24113e133393266f4877e3",
+        "scripts/reference/audit-cascade-secondary-controls.py": "d30a7d3b5df421b6624ee71adcd99c15536ba3396c86ea8b7cc06879ff87f4cb",
+        "scripts/reference/check_compatibility_evidence.py": "f93a7a3f49e1bd737607279cfdd87f9ed007e51f4ca0157c91a54fcb76d4f6e9",
+        "scripts/reference/collect-attenuator-scan.py": "c08aba5a9adffdacb1c70d3584e645645cdf4af446793fcfbdb2669b65f154c5",
+        "scripts/reference/compare-amplifier-terms.py": "61f57104d17d0e32091fdc21073ae81f9d8d2bceba46b3208124336fef686a9e",
+        "scripts/reference/compare-antenna-compression.py": "c7f73c8aff05983c962f7a62a205bb531c3c3f6d74beb261d7783932fd3dd71c",
+        "scripts/reference/compare-antenna.py": "6b75697478f4113d26fc2748cd40e87dd2b6a02c540442a038b82419b1aadb39",
+        "scripts/reference/compare-attenuator.py": "2331867db7a8d69768d3cd530e82c5b6bd67f49c6e8db5a34eb488eefdf860e4",
+        "scripts/reference/compare-cascade-amplifier.py": "12aed0ce78e96f6ea624d9c6f9ad9df455106cb960ddb82629480c0fd7e303a6",
+        "scripts/reference/compare-coherent-amplifier.py": "a499bea303d687204ea5342d1cdb3d9a23be5d8d03515ea1ef7c08cbf75c6cbf",
+        "scripts/reference/compare-coherent-carriers.py": "47de105b50793a9095015d74fb7dc1a1b96fe02ddf0881b2e7d3b4bec531275a",
+        "scripts/reference/compare-coherent-network.py": "c8c33527fef4d64037c496b47bea7f1f6bce125cbdabbe6a9e20be71822b33c2",
+        "scripts/reference/compare-limited-single-tone.py": "2f13a9785d5bba90c5976c1a1f24c4b1d38626651dab826cd7ec301d63126a84",
+        "scripts/reference/compare-multitone-amplifier.py": "a12b2ff0aba039a69d9bb7a949ad68d19ecedc0ad9acccd7040dcbaa75deb9a1",
+        "scripts/reference/compare-saturating-fundamental.py": "06c7fb826cc28ecf0fec8dc278064a8b1e8006f29c0323dc514abcb1064b222e",
+        "scripts/reference/compare-shared-compression.py": "c1d4f6e91ed15f2958c7780ab7472573298f8a57cb389d4eb1d6b1fcf682d65b",
+        "scripts/reference/compare-single-compression.py": "48c2eb810803fb5f659cf80ab06c43f9643e201f98e3d75cd1dc8e63f8541050",
+        "scripts/reference/compare-single-harmonics.py": "4286045b13e1ea39519d61646d17a103d4e2a8a8cf971838ef695bcbca5eee10",
+        "scripts/reference/compare-two-tone.py": "d0e1f1c5d6ac25b7e7c436fa188d1fb768b195dd4c4adf969d90130164110579",
+        "scripts/reference/diagnose-am-pm-datapoints-allocation-study.py": "f0472f1316754ae7d10a982a89216dced073ba0792d0f152b824f7634e7ebbe5",
+        "scripts/reference/diagnose-am-pm-datapoints-order-study.py": "f1f29056e71d1424f759864e4f8443b18fbd24dd2d0db680e24c30dfff4b4505",
+        "scripts/reference/diagnose-am-pm-datapoints-raw-axis-study.py": "e86720712e37d81ec89a8476e09dfbca96015cb268acd6bf600e51cde0e853af",
+        "scripts/reference/diagnose-am-pm-datapoints-zero-study.py": "f6eec445f6206acd74e3cc6cbcdda2f2504e1283b6b8fd744f2d8a39a4ffd581",
+        "scripts/reference/diagnose-am-pm-parameter-study.py": "342b78036fa90e3ccd1805ef27b488b2a12577e3aaa937b2ba07bf893a10c928",
+        "scripts/reference/diagnose-am-pm-reference.py": "1638d57a923a05414b40681a0717b63995eaf623c808b7ca14561494bed33cb5",
+        "scripts/reference/diagnose-antenna-compression.py": "c8f6fef91a514a04c12d547062b71dad854864f559a53c1a28c5765c293a5661",
+        "scripts/reference/diagnose-attenuator-1db.py": "05cca61bcc232362a790607969cae1538bf40bd76c2c30b4efc10a774a2cfb51",
+        "scripts/reference/diagnose-cascade-unity-gain.py": "b942a2f264bfd94746edc42793c4e2ea26a6054ba427c1f79bfb4f54178ac4bf",
+        "scripts/reference/diagnose-eleventh-order.py": "e08e69608671dc65eba60553be4d87e67ad9fd3bd3aeeb4b128725e15054057f",
+        "scripts/reference/diagnose-highorder-amplifier.py": "d47c78e538684c83cffb581e1886a81a5cc00e68a9ee12acdda16ab7ba05d2cf",
+        "scripts/reference/diagnose-highorder-input-reference.py": "22ba986ad5aa2ffc5de09ec351b8a4443dcd7e57195e918aa056a78e95b3fab7",
+        "scripts/reference/diagnose-single-saturation.py": "8367fa823d84464fafabb6bc4420b8cdf4b81695e7b96e1ddf60012d57b172d2",
+        "scripts/reference/diagnose-spectrum-reduction.py": "501b9c6bc86d1331256e39ada2044263cbdbfe02373c6f91f6213281a9ca9dfc",
+        "scripts/reference/diagnose-systemvue-am-pm-adapter.py": "b8f984241204ff6c0c1a3d4e9880ed61d5d12fea0ba659951f13a55a019c4796",
+        "scripts/reference/diagnose-total-drive.py": "986a216b4bd729692f482e0bb6aef833c65e1d0f0c18d704568253de1e7f86e6",
+        "scripts/reference/extract-rf-catalog.py": "fa514db9cfcb79f3067e9d556e996943b90d100fda9c22fe261d585c59980210",
+        "scripts/reference/extract-rf-models.py": "4419d47f74612ff6a3f8bf525e0691bcacb965343552e584cdd29cbedc0caa2e",
+        "scripts/reference/extract-rf-parameters.py": "64dd3f82e48c77212891b18e39228ebb68d7e25a61e07ac210eb7f0e318ef0a6",
+        "scripts/reference/generate-transmission-line-oracle.py": "f82d1b19d58cf0b17bc53689db34711268cf5b407e69356a086afa03d322311c",
+        "scripts/reference/identify-attenuator-near-zero.py": "6c9f8c44351721f1985f83593378bf40c6b72f77b5971e5202d3ec0d9675387f",
+        "scripts/reference/identify-attenuator-noise.py": "324b5d11e862489d0e4f7fd29a8ce4c3329ad153f6452c6419343c1706dba9ad",
+        "scripts/reference/native_replay.py": "a90ec8d335b0b5526abd284ee9243d6bac864de1b83cab20999d62044df7fc1a",
+        "scripts/reference/normalize-am-pm-datapoints-allocation.py": "fedf61a3aa9238931be02413dbc98f0c222779c9d9f9e920ec450c0784650836",
+        "scripts/reference/prepare-am-pm-datapoints-allocation-study.py": "c3a2d90e5436efe302d81d49ab0df989496079d0cad848bd23759f45b518fc26",
+        "scripts/reference/prepare-am-pm-datapoints-order-study.py": "65274da74c15dad79df33d47c11e886522bc31ea239156289e11d66d660ed410",
+        "scripts/reference/prepare-am-pm-datapoints-raw-axis-study.py": "59149bd433d76333d0e855eb205f981f6bc4ab25f6e5a48322d982e41bc81ede",
+        "scripts/reference/reference_records.py": "c940aa727b6b1c2063722bcda560d7d93105576517f6c12683d3575f443398ea",
+        "scripts/reference/report-am-pm-datapoints-allocation-study.py": "09027671f98d693902767d2babc4b8353f6cc3e95c9a0cf2f1fe9959e3144fa6",
+        "scripts/reference/report-am-pm-datapoints-order-study.py": "2b0f8336c3ebf29f1c758f38103c4e06ef7e95501b652f9f60166ece74159241",
+        "scripts/reference/report-am-pm-datapoints-raw-axis-study.py": "2416b399c372caf5d8a2faf0307eb4a7d72edcd244558125246098c6b0f473e8",
+        "scripts/reference/retired_binding.py": "61fa00f02dd283324474b847c47b62a717d36559bc9b2f48fd5088c4e43db516",
+        "scripts/reference/rfamp-parameter-pilot.py": "769aaf9e211ef6c7ce4526f29ab603d9aaa72c91fede4aa8cc0ff02ac7ca4f27",
+        "scripts/reference/run-systemvue-reference.py": "58cdb38621b132cd8e40748bfd38c81aa60e7ad3a3073ac9e43df21ec8dd4890",
+        "scripts/reference/summarize-antenna-power.py": "bd9a30a3c383818b4f46b09c562bb3ac0bc01c132a6b182fd0b0aec581850e9e",
+        "scripts/reference/test_analyze_am_pm_datapoints.py": "1f89b3d78308c63aaf11e7271cf1999afe6e6bf03e5b7be01c34bef42d0af543",
+        "scripts/reference/test_archive_am_pm_datapoints_allocation_acquisition.py": "1c6e2df9e210c9f9dfa8284a2c2a10b681cd4b70e1abe03662f081a116cd9fff",
+        "scripts/reference/test_archive_am_pm_datapoints_order_acquisition.py": "9fb4e67813adc5987496ad2edf44c3adbe4b7bc6a9248745373e216df5317880",
+        "scripts/reference/test_archive_am_pm_datapoints_raw_axis_acquisition.py": "cc1c6260ee523c9a4981a0f503190383b528cd740a015f8775d2e0149fc75006",
+        "scripts/reference/test_archive_am_pm_datapoints_zero_acquisition.py": "3548654d1ccb5d87fd47ee4866895e937f6bcb08f815ec793248cd52dfb72570",
+        "scripts/reference/test_archive_am_pm_datapoints_zero_study.py": "3ed13f673dacf88d053a9ebfdb7f9966fc252f31ec690200c87c59499ac4d6f3",
+        "scripts/reference/test_audit_antenna_nonlinearity.py": "c389cd5cef6b93f24b6ee790248d4e495c0d921ea69cbb65c5403a36ec572d98",
+        "scripts/reference/test_compare_amplifier_terms.py": "afadf3c841f1ad11c0869e31be4198b8b88e09feb23e65ae1c2a2242dd120348",
+        "scripts/reference/test_compare_antenna.py": "d45e00a15ef6c3d645d2c8ae9a7b6db8a77fec36baa4e894512389948d2239d3",
+        "scripts/reference/test_compare_antenna_compression.py": "c18e404e5de545c27c406c6599b823cbc49343b41966f4619e94f3aa059c8e51",
+        "scripts/reference/test_compare_attenuator.py": "1b0489a260969a596dc8c9d2b6c8e3ec09853b85f7c77305422aa1bc6b9b9fb0",
+        "scripts/reference/test_compare_cascade_amplifier.py": "8a367693b0c06fa3d8402fcd8cfe4044ef7da56a4f05bce561d775d210936f89",
+        "scripts/reference/test_compare_coherent_amplifier.py": "2e4c03d15da5ccfb1ef8a49ce47bd793602476210043f664f414150e4335f5c8",
+        "scripts/reference/test_compare_coherent_carriers.py": "002cd73c382907658cd8e515ffdb321bfb733192974bc3c0b1c9567c663bb97e",
+        "scripts/reference/test_compare_coherent_network.py": "0c906421be03056262c2ee5a4ab43cbbc4788266f710fed5c460a196f34f2e0c",
+        "scripts/reference/test_compare_limited_single_tone.py": "5576103ff08090fa2f719761ffff66b16b1ef11f1134457add449b22693edf8a",
+        "scripts/reference/test_compare_multitone_amplifier.py": "4f30d00ce178c56829fed9222984c39bdf58e89ca9fbbcc0d03ea3f68856f500",
+        "scripts/reference/test_compare_saturating_fundamental.py": "2c416c308f47d6216672dbe9ab5a7ad2624b2e412c92b6b42a6f82a5c339bc96",
+        "scripts/reference/test_compare_shared_compression.py": "ee919800624594d5069f2c8d49653f894d0220f55f6e4b6422398a05d64690f1",
+        "scripts/reference/test_compare_single_compression.py": "814760cc97c6aecda772c3921dae62009ef9609a9d502f161e168599abfbe68a",
+        "scripts/reference/test_compare_single_harmonics.py": "2152b93dc0ec6f14e7823f6db1cac2a2ffe972679d812b96cc6ec8516d5e125e",
+        "scripts/reference/test_compare_two_tone.py": "1ba7da9d954a8b243b01b57334eb8dada2ce69ce00231215ee68c9498fd8dfb4",
+        "scripts/reference/test_diagnose_am_pm_datapoints_allocation_study.py": "783295713e36ce1cfde7833e84c5799029a71421384cbfa872d50152065a0dce",
+        "scripts/reference/test_diagnose_am_pm_datapoints_order_study.py": "64e37d37d281d77000c4ce15cecee67f7fb8dce59eca984d5fc7ff5631ac50b5",
+        "scripts/reference/test_diagnose_am_pm_datapoints_raw_axis_study.py": "034023f9781a789458360e17727d73c28c0d3b3359bf9af71ae85bcbb421ea9e",
+        "scripts/reference/test_diagnose_am_pm_datapoints_zero_study.py": "bed705e8173c43511c05ebda853a12171e59758a83cdc6e729909f6c29c43d0e",
+        "scripts/reference/test_diagnose_am_pm_parameter_study.py": "12b8d7035e14c662ed905af645d9c1fdc61559edcd785779b7b555b59bf77c08",
+        "scripts/reference/test_diagnose_am_pm_reference.py": "94c49a80eff27b30ccc0a8d11599c9f22cf3c580838c3eb6d14d89a53260c8b7",
+        "scripts/reference/test_diagnose_antenna_compression.py": "1fb5086ce27448032ef8ae93bca1386d7c7cdcf4e74225efc4b6de861dc85573",
+        "scripts/reference/test_diagnose_attenuator_1db.py": "34a64b5267be6051d94c3c2124d909b0029fb8f90fbaff298a73b3f3e5e230c5",
+        "scripts/reference/test_diagnose_cascade_unity_gain.py": "8aa97aee64c977136f3dc33c988cc217f8a0c7e1e69ff7c0ad6cc97e94fbc8f0",
+        "scripts/reference/test_diagnose_eleventh_order.py": "f190a1412d81bf7a2c1489b48b2dfe6d973fe7de4263cdef296ef51ba316bf80",
+        "scripts/reference/test_diagnose_highorder_amplifier.py": "f293daf540b8807ac51560b50ed95a683450b5119cc92da99335e5bda3e9dc5a",
+        "scripts/reference/test_diagnose_single_saturation.py": "0fd224586595ec2616777a3f1efb82b3266eca2b3cd6ccc2216ba7c65d48fc94",
+        "scripts/reference/test_diagnose_spectrum_reduction.py": "0a40131e4eb248e8cf63685e3fe30491a9eeb0b02b2d328cd982e52e706f44e2",
+        "scripts/reference/test_diagnose_total_drive.py": "c1c9e98f0afe9d61dbde7fb8e517ec889eae641a51dd202ada0e0b5ba91f34e9",
+        "scripts/reference/test_extract_rf_models.py": "aba514ef9b757b83e569a018c5b150029cdd441333f1b424129426628b4a6b14",
+        "scripts/reference/test_extract_rf_parameters.py": "772e714c65b6ffd4bc25170c5cec36e52e2f00168954dc1062a11557860b9444",
+        "scripts/reference/test_highorder_input_reference.py": "db7f67ba8c3ab99b531b7eec9bf68ce6d842232bc88ac05ff6cb3f97e8e23130",
+        "scripts/reference/test_highorder_model_reference.py": "929cc7c66c42a19e8e03638ed6e6da28ac635b1c22f56808cdb8385b428a938c",
+        "scripts/reference/test_identify_attenuator_near_zero.py": "d0c3154d73aab8bf49dd292b536bf272fdc4a658ce578c230d82b95dade54852",
+        "scripts/reference/test_identify_attenuator_noise.py": "a6ee8504a902546e9e270bbc715048db8ad5f3ff3cf4cdbc10bd12dcf42deebc",
+        "scripts/reference/test_native_replay.py": "1bd6c51aa3deaa84300bf0e20c2e4dd57a38b94a3b1d5279a45e17fab07ea29b",
+        "scripts/reference/test_normalize_am_pm_datapoints_allocation.py": "b0e8851cd8a272bac5ad601b19aee8c38238e6e557aea1da0824de965b4af295",
+        "scripts/reference/test_prepare_am_pm_datapoints_allocation_study.py": "893c54ca08bef9427bf9c0a14a81c1d63b1f60aa16f5f5d6bfd3c3c9b3c564cf",
+        "scripts/reference/test_prepare_am_pm_datapoints_order_study.py": "45df4a0debc72193d987f16d5fed47af983fa515ad9c8d52ab3e5f97871fe1c7",
+        "scripts/reference/test_prepare_am_pm_datapoints_raw_axis_study.py": "f190c76f363802ba69f64210a9a361dc49db3833f1be666f71891781cf56b0e5",
+        "scripts/reference/test_python_retirement.py": "53a13302f2f42a81259b16b971aa0c7977e81cf521ae9dacab7c65fb33b32ffc",
+        "scripts/reference/test_report_am_pm_datapoints_allocation_study.py": "bed362869607b0885a7e7cc6e46b46803d0748d64f0664a60332a44656f0f0a2",
+        "scripts/reference/test_report_am_pm_datapoints_order_study.py": "5014327d206ffc02703bec6ffb712dd2064d13fb37662338391e0a200db4a450",
+        "scripts/reference/test_report_am_pm_datapoints_raw_axis_study.py": "b4a509ddc8ade581c79747b52bebd185929fb68c8e638b62a95a0a9f4e4fa8dc",
+        "scripts/reference/test_rfamp_parameter_pilot.py": "23f417121098d5aa063c0e3fb164229b6af7944473644ec0edbb63cac3117d5b",
+        "scripts/reference/test_run_systemvue_reference.py": "6878b4ce3bb9d0ac2e4e0ff11c1801f29922df8743b03e454d64620357c906cc",
+        "scripts/reference/test_summarize_antenna_power.py": "fdfc08433e6c67368844cbef995465bcf241657aed0f0f3942f0ea4ec2372917",
+        "scripts/reference/test_systemvue_am_pm_adapter.py": "53af3f221521daa1a1566adfc404f557ed955822ebfabf196ce0785e8798c802",
+        "scripts/reference/verify-rf-parameters.py": "10389558d05af3661a94daef74b647089de9e6b37e91e10fd525cbe823863120",
+        "tests/cmake/check_native_replay_install.cmake": "356aaf7d3c91f9ba7fbbd2793a8576e9878ad2ca326719b5530641e5a38edf29",
+        "tests/reference/reference_highorder_oracle.cpp": "06d205261e23e75473feeac459a1d882ef8eb9aab3e06f88f1faf8c92e7d20d8",
+        "tests/reference/reference_highorder_probe.cpp": "35a4f8ca8e4a49e6084a604c1b6146890071b58d383a46aca0ed01cd98186ceb",
+        "tests/reference_consumer/CMakeLists.txt": "7c64365306d7c51ac29e242bd742b1d76294bfacbbeff91629b7937d99f08494"
+      }
+    },
+    "available_archive_bytes_sha256": {
+      "validation\\rfamp-op1db-pilot-ab-20261015.json": "4a8f15a1d4688bbd4586d20f5a32e373d8d321ca6017fc30656f9014f48522ef"
+    },
+    "scorer_bytes_sha256": {
+      "D:\\project\\RFModel\\scripts\\reference\\analyze-rfamp-op1db-pilot.py": "2b4226bab4fe6db1361135e0c3d2c74a42b3f0a990fbfcf40d66b7dd106a4cca",
+      "D:\\project\\RFModel\\scripts\\reference\\rfamp-parameter-pilot.py": "769aaf9e211ef6c7ce4526f29ab603d9aaa72c91fede4aa8cc0ff02ac7ca4f27",
+      "D:\\project\\RFModel\\scripts\\reference\\archive-cascade-reference.py": "d75c144831906542c822d7a895b7f18ef1c82234ee8120ac6ee48a003c3c236f",
+      "D:\\project\\RFModel\\scripts\\reference\\archive-cascade-input-reference.py": "07e3d4902b8d93ab11f3df2f07d5699df518306a8542820d96cc90aec5243790",
+      "D:\\project\\RFModel\\scripts\\reference\\compare-cascade-amplifier.py": "12aed0ce78e96f6ea624d9c6f9ad9df455106cb960ddb82629480c0fd7e303a6",
+      "D:\\project\\RFModel\\scripts\\reference\\diagnose-highorder-input-reference.py": "22ba986ad5aa2ffc5de09ec351b8a4443dcd7e57195e918aa056a78e95b3fab7",
+      "D:\\project\\RFModel\\scripts\\reference\\diagnose-eleventh-order.py": "e08e69608671dc65eba60553be4d87e67ad9fd3bd3aeeb4b128725e15054057f",
+      "D:\\project\\RFModel\\scripts\\reference\\diagnose-highorder-amplifier.py": "d47c78e538684c83cffb581e1886a81a5cc00e68a9ee12acdda16ab7ba05d2cf",
+      "D:\\project\\RFModel\\scripts\\reference\\compare-amplifier-terms.py": "61f57104d17d0e32091fdc21073ae81f9d8d2bceba46b3208124336fef686a9e",
+      "D:\\project\\RFModel\\scripts\\reference\\compare-two-tone.py": "d0e1f1c5d6ac25b7e7c436fa188d1fb768b195dd4c4adf969d90130164110579",
+      "D:\\project\\RFModel\\scripts\\reference\\compare-single-compression.py": "48c2eb810803fb5f659cf80ab06c43f9643e201f98e3d75cd1dc8e63f8541050",
+      "D:\\project\\RFModel\\scripts\\reference\\run-systemvue-reference.py": "58cdb38621b132cd8e40748bfd38c81aa60e7ad3a3073ac9e43df21ec8dd4890",
+      "D:\\project\\RFModel\\scripts\\reference\\retired_binding.py": "61fa00f02dd283324474b847c47b62a717d36559bc9b2f48fd5088c4e43db516",
+      "D:\\project\\RFModel\\scripts\\reference\\reference_records.py": "c940aa727b6b1c2063722bcda560d7d93105576517f6c12683d3575f443398ea",
+      "D:\\project\\RFModel\\scripts\\reference\\native_replay.py": "a90ec8d335b0b5526abd284ee9243d6bac864de1b83cab20999d62044df7fc1a",
+      "D:\\project\\RFModel\\scripts\\reference\\capture-cascade-parameter-units.ps1": "575de4d58f0544ededac1cffc07d1abb226b145f4e53929ff26faa8439311905"
+    },
+    "adapter_bytes_sha256": {
+      "native_replay.py": "a90ec8d335b0b5526abd284ee9243d6bac864de1b83cab20999d62044df7fc1a",
+      "reference_records.py": "c940aa727b6b1c2063722bcda560d7d93105576517f6c12683d3575f443398ea"
+    },
+    "units": {
+      "wave": "sqrt(W)",
+      "power": "W",
+      "frequency_and_bandwidth": "Hz",
+      "reference_impedance": "ohm",
+      "gain": "dB",
+      "intercept": "dBm",
+      "polynomial_coefficients": "voltage-domain c0..cn",
+      "highorder_coefficients": "voltage-domain a2..an",
+      "am_pm_phase": "rad",
+      "am_pm_peak": "degree/dB",
+      "am_pm_reference": "dBm",
+      "radial_phase_slope": "rad per log amplitude"
+    },
+    "exchanges": [
+      {
+        "operation": "operating_point",
+        "request_id": "67f2d08ad98cad1f3606b889375c5ce262b33555a6bc297494627ef9e98b4e84",
+        "request_sha256": "d29800cc650eb5cfebac67599584b7ae8a9e2811e45acde342c046ae86bc0943",
+        "response_sha256": "76d33884b2edb891d8c8e77a0ae1ea71210cf174e8c3dae2b9621d1aa1c12463",
+        "canonical_request": "RFMODEL_NATIVE_REPLAY 1 operating_point 67f2d08ad98cad1f3606b889375c5ce262b33555a6bc297494627ef9e98b4e84\n0.0031622775811114344 10.0 20.0 23.0 30.0 20.0 50.0\n"
+      },
+      {
+        "operation": "operating_point",
+        "request_id": "2e9fd9ff7d47e32c602adcebae693f80aa87e7fcf79ba554233098d7be44cff9",
+        "request_sha256": "4291b5e0404eb18e24fa957577ee9f2156effbaeed32cdcfd761deb4a01e0398",
+        "response_sha256": "823ca07be7ff8ad871ff2d6cc3bc3cbb9a903962c5329ef02bfbcf9d32d5e320",
+        "canonical_request": "RFMODEL_NATIVE_REPLAY 1 operating_point 2e9fd9ff7d47e32c602adcebae693f80aa87e7fcf79ba554233098d7be44cff9\n0.0031622775811114344 10.0 21.0 23.0 30.0 20.0 50.0\n"
+      },
+      {
+        "operation": "operating_point",
+        "request_id": "2e9fd9ff7d47e32c602adcebae693f80aa87e7fcf79ba554233098d7be44cff9",
+        "request_sha256": "4291b5e0404eb18e24fa957577ee9f2156effbaeed32cdcfd761deb4a01e0398",
+        "response_sha256": "823ca07be7ff8ad871ff2d6cc3bc3cbb9a903962c5329ef02bfbcf9d32d5e320",
+        "canonical_request": "RFMODEL_NATIVE_REPLAY 1 operating_point 2e9fd9ff7d47e32c602adcebae693f80aa87e7fcf79ba554233098d7be44cff9\n0.0031622775811114344 10.0 21.0 23.0 30.0 20.0 50.0\n"
+      },
+      {
+        "operation": "polynomial",
+        "request_id": "08176e315e2b6f9fb815dbf9c2e597bb6ca217d3a5d3a6752525fb6b5b82bf1f",
+        "request_sha256": "488cf0c9ba9e36c2d318d6cfbf78b87c0adb116a7dd0ba7230b51bd1b65ad33f",
+        "response_sha256": "f08df8e28ba11d68d3b8ac22f06b8cc49ca380aa912c6f3a159637b8e82dccb2",
+        "canonical_request": "RFMODEL_NATIVE_REPLAY 1 polynomial 08176e315e2b6f9fb815dbf9c2e597bb6ca217d3a5d3a6752525fb6b5b82bf1f\n100000000.0 50.0 0 12 0.0 0.0 0.0 0.0 0.0 -0.07786106651126515 0.0 -0.025165408373618546 0.0 -0.003912668687190634 0.0 -0.00020418919449809446 1 10 0 1.0 1 0.056234131816108215 0.0\n"
+      },
+      {
+        "operation": "operating_point",
+        "request_id": "1fc2b1d511def2288f6ce7fd54f5b75a2e382283d2482a8af2d5b796283dec63",
+        "request_sha256": "e7e8ce13b4f78f41f99a7cf4cac5e4ba2ba07d75a0a0d521b7b60d29aa95ea9e",
+        "response_sha256": "1a456377d2b7180bae2593b10e6ff74d5bfae8aa0a589ff1bc7415f45cc6fb9a",
+        "canonical_request": "RFMODEL_NATIVE_REPLAY 1 operating_point 1fc2b1d511def2288f6ce7fd54f5b75a2e382283d2482a8af2d5b796283dec63\n0.006324555162222869 10.0 21.0 23.0 30.0 20.0 50.0\n"
+      },
+      {
+        "operation": "polynomial",
+        "request_id": "f7687bc700c89653827398d110166e27fd94c8a934165b346c4f873d1f7fcbd7",
+        "request_sha256": "13337f8103b0c00f9c58b77a88d53a0b4a60f649f20b1dbd6c71843b40c6ca1c",
+        "response_sha256": "ef1e57bc44183f5e81fb7893e6bad80cd74edf2101fd225bbacac5709ee5f453",
+        "canonical_request": "RFMODEL_NATIVE_REPLAY 1 polynomial f7687bc700c89653827398d110166e27fd94c8a934165b346c4f873d1f7fcbd7\n100000000.0 50.0 0 12 0.0 0.0 0.0 0.0 0.0 -0.1971254375477264 0.0 -0.08997270771950767 0.0 -0.015325185082200548 0.0 -0.0008619208142545304 2 10 0 1.0 1 0.0561829440573564 0.0 11 0 1.0 2 0.0 0.0561829440573564\n"
+      }
+    ],
+    "verification_scope": "Only listed available bytes were rehashed. Embedded historical raw/workspace hashes are retained claims, not verification of unavailable originals."
+  }
+}
