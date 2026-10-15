@@ -47,6 +47,8 @@
 
 `adapt_passive_model(model, identity, temperature_k)` 是显式温度的无源噪声适配。每次评估检查无源性，包括零温度。调用者选择此工厂即选择无源热噪声定义；不会从器件名称、厂商 NF 默认值或环境中猜测温度。
 
+`adapt_tabulated_amplifier(name, table, reference_ohms=50., mode=sources_only)` 拥有显式 Hermite AM-AM/AM-PM 表，提供正 RF 频率下零驱动导数 S、共同半径频谱、解析工作点和相干图能力，不推断噪声。相干图按真实合成后功率计算复增益，保留相消历史与后级失真来源；显式 `propagate_distortion` 模式可将已有失真一并纳入共同驱动和传播。域外拒绝、DC、参考及原生语义边界见[表格放大器契约](tabulated-amplifier.md)。
+
 `adapt_polynomial_amplifier(model, identity, max_source_order)` 额外提供工作点及相干适配。工作点和频谱保留 DC；相干接口沿用 RF 投影及来源阶数截断，不包含 DC 反馈。非零常数项的模型保留线性/频谱/工作点能力，关闭相干能力。`max_source_order` 为 1..256，与已有管线相同，不等于电压多项式最高十一阶。
 
 `adapt_highorder_amplifier(name, model, generating_bins, max_source_order=11, mode=AmplifierInputMode::sources_only)` 拥有一个不可变的 `CoherentHighOrderAmplifier` 快照，仅声明工作点和相干能力；不声明固定线性 S、内生噪声或普通频谱能力。物理端口为 0→1，两个端口使用模型自身的公共正实参考。实例名必须非空；内置身份为 `rfmodel.coherent_highorder_amplifier`、修订 `1`，不附加厂商兼容含义。

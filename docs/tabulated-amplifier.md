@@ -96,6 +96,55 @@ nonlinear operating-point solver and accepted-point noise analysis. A solver
 trial outside the table is rejected rather than silently extrapolated; choose
 a domain that covers the intended operating point and iteration path.
 
+## Owning model adapter and coherent systems
+
+Include `rfmodel/adapters/builtin_model_adapters.hpp` and call
+`adapt_tabulated_amplifier(name, table, reference_ohms=50., mode=sources_only)`.
+The returned `ModelAdapter` owns an immutable table and declares `linear`,
+`spectrum`, `operating_point`, and `coherent`; it does not declare intrinsic noise.
+It uses matched unilateral physical ports 0 to 1 at the supplied common positive
+real reference. `rfmodel.tabulated_amplifier`, revision `1`, identifies the native
+contract and makes no vendor claim.
+
+The stationary S matrix has `S21=g(0)` at positive RF frequencies and all other
+entries zero. It represents the zero-drive derivative, not the compressed gain
+at a nonzero operating point. Frequency zero is rejected because the table is an
+RF envelope response, not a DC conduction law. For the ordinary spectrum callback,
+the common radius is `hypot` accumulated over all input RF bin amplitudes, and each
+bin is transmitted with that radius. A zero-valued DC bin is retained; nonzero DC
+is rejected. No bins are added. The operating-point hook uses the same owning
+table and the existing analytic direct/conjugate Jacobian, including cross-tone
+derivatives; output-incident waves do not contribute to drive.
+
+In the coherent system graph, physical coherent reduction occurs before the drive
+power is evaluated. Coherent cancellation reduces the drive, while independent
+groups contribute separate powers even at the same frequency. The table's common
+complex gain is then applied using the existing linear-network pipeline operation.
+This preserves physical identities, bandwidths, kinds, and each history contribution,
+including zero or cancelling paths. Individual history contributions are not passed
+through the table's radius-domain test: a path may exceed the net physical drive.
+The table limit applies to the reduced physical radius. Stage statistics record
+`input_power_w`, `common_amplitude_gain` (the magnitude), and `common_complex_gain`.
+
+The default coherent mode rejects distortion-kind input. Explicit
+`AmplifierInputMode::propagate_distortion` includes all existing RF components in
+the common drive and propagates them with the same gain, without generating new
+frequencies. This is the native common-radius approximation; it is not a waveform
+nonlinearity, automatic harmonic/IMD generator, or SystemVue DataPoints algorithm.
+Subsequent polynomial stages can generate new distortion from the propagated waves
+and their preserved source histories. Pipeline power, history and numerical-range
+budgets still apply; the table's standalone extreme-amplitude domain does not
+override those graph budgets. Out-of-domain drive throws without publishing a
+partial graph result. Plans own their adapters and survive caller/builder destruction.
+
+```cpp
+auto adapter = rfmodel::adapt_tabulated_amplifier("PA", amplifier, 50.);
+rfmodel::CoherentSystem system(1e8, 50., {{"rf", "clock"}});
+auto source = system.input("in", {{1, rfmodel::SpectrumKind::source, 1., 1, .1}});
+adapter.coherent_stage(system, "PA", {source}, {"amplified"});
+auto result = system.compile().execute();
+```
+
 ## Verification boundary
 
 `tabulated_amplifier_test` checks analytic cubic/quadratic and independent
@@ -107,3 +156,11 @@ its covariance and complementary covariance are checked against a real 2x2
 Cartesian feedback calculation. `tabulated_amplifier_installed` builds relocated
 full and pure C++ SDK consumers with two translation units and no source-header
 fallback. These are native mathematical/API checks, not vendor validation.
+
+`tabulated_model_adapter_test` independently checks the shared cubic amplitude and
+quadratic phase law across S, spectrum, analytic multi-tone Jacobian and coherent
+graph entry points. It also checks zero-drive coherent cancellation, same-frequency
+independent powers, phase propagation through a subsequent quadratic stage,
+distortion mode admission, frozen ownership, reference/domain failures and history
+retention. The installed table consumer uses the owning adapter across translation
+units and executes its spectrum and coherent stages.

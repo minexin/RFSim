@@ -54,6 +54,8 @@ public:
         std::optional<AmplifierOperatingPoint> operating_point;
         std::optional<PolynomialCounts> polynomial;
         std::size_t direct_contribution_count{}, discarded_direct_contributions{};
+        // Populated by stages with a common AM/PM response; appended for aggregate compatibility.
+        std::optional<Complex> common_complex_gain{};
     };
 
     struct StageResult {

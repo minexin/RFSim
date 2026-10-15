@@ -1,0 +1,98 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-15",
+  "baseline_commit": "95ef3345c6c0a4428e193a4c7501f2bd718b835a",
+  "scope": "Owning native tabulated AM-AM/AM-PM adapter across linear, spectrum, operating-point and coherent engines",
+  "local_status": "passed_after_reference_fix",
+  "windows": [
+    {
+      "configuration": "Debug",
+      "tests": 10,
+      "failures": 0,
+      "skipped": 0,
+      "path": "build-reference/module-layout-full/tabulated-adapter-final-Debug.xml",
+      "sha256": "a49aa319620b9832d38f6f6a115ccbafca6caaf44af87ea32ea7a7281c411923",
+      "names": [
+        "model_conversion_adapter_test",
+        "model_adapter_test",
+        "tabulated_model_adapter_test",
+        "coherent_stage_test",
+        "coherent_system_test",
+        "coherent_pipeline_test",
+        "highorder_model_adapter_test",
+        "bilinear_mixer_adapter_test",
+        "tabulated_amplifier_test",
+        "tabulated_amplifier_installed"
+      ]
+    },
+    {
+      "configuration": "Release",
+      "tests": 10,
+      "failures": 0,
+      "skipped": 0,
+      "path": "build-reference/module-layout-full/tabulated-adapter-final-Release.xml",
+      "sha256": "b051e7b53547c609f7ccfd1bcf919bddd34e3f3341532e07b9cfb8af98f5e6e5",
+      "names": [
+        "model_conversion_adapter_test",
+        "model_adapter_test",
+        "tabulated_model_adapter_test",
+        "coherent_stage_test",
+        "coherent_system_test",
+        "coherent_pipeline_test",
+        "highorder_model_adapter_test",
+        "bilinear_mixer_adapter_test",
+        "tabulated_amplifier_test",
+        "tabulated_amplifier_installed"
+      ]
+    }
+  ],
+  "linux": {
+    "environment": "Local Ubuntu WSL GCC",
+    "flags": "-std=c++17 -Wall -Wextra -Wpedantic -Werror",
+    "test": "tabulated_model_adapter_test",
+    "status": "passed",
+    "log": "build-reference/tabulated-model-adapter-linux.log",
+    "sha256": "97a5df619d741033402e98f0f989ab704cc0dfe444ff08f1b99686b6e9678ef2"
+  },
+  "resolved_precommit_defects": [
+    "75-ohm coherent case initially used a 50-ohm temporary network; corrected constructor to use adapter reference. Initial Release 9/10 record retained in build-reference/module-layout-full/tabulated-adapter-Release.xml.",
+    "Appended common_complex_gain field now has explicit default initializer to avoid GCC missing-field warnings in existing aggregates."
+  ],
+  "sources": [
+    {
+      "path": "include/rfmodel/adapters/builtin_model_adapters.hpp",
+      "sha256": "13cbb53b08c97be884d03f5ff41aedfbf0c407d93136aef34b58fc558688537f"
+    },
+    {
+      "path": "include/rfmodel/coherent/coherent_system.hpp",
+      "sha256": "8ec271bc5f27bffae8a99d3d67f4f267a44640a3111d7c0480d9847a926f5638"
+    },
+    {
+      "path": "tests/models/tabulated_model_adapter_test.cpp",
+      "sha256": "b68d4e959320ec5a8ee9ecfba36412636eee248fcb05f9deab16a43e06533bb6"
+    },
+    {
+      "path": "tests/tabulated_amplifier_consumer/main.cpp",
+      "sha256": "3fc467b38a5edfde56bcc6e75ee11bd5b4ddcbd80241802512c6746f6ab13d39"
+    },
+    {
+      "path": "tests/tabulated_amplifier_consumer/second.cpp",
+      "sha256": "d64dc9944d6573c466169917bbc73371f29d48f4ee29d83bc17602ee57369d0a"
+    },
+    {
+      "path": "cmake/RFModelTests.cmake",
+      "sha256": "69330a78e1d16d9098e18d36576e9bdd4ee7271d6fbf20533e2ac9d229a31f86"
+    }
+  ],
+  "format": "Five changed C++ files pass clang-format dry-run",
+  "ci": {
+    "status": "pending",
+    "scope": "Exact-head remote verification recorded separately"
+  },
+  "limits": [
+    "No SystemVue DataPoints or new vendor compatibility claim",
+    "No inferred noise or automatic harmonic/IMD generation",
+    "Positive-frequency linear S is zero-drive derivative; nonzero operating-point gain uses nonlinear callbacks",
+    "Overall RFModel goal remains open"
+  ]
+}

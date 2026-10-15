@@ -4,6 +4,7 @@
 #include "rfmodel/conversion/mixer_linearization.hpp"
 #include "rfmodel/conversion/highorder_linearization.hpp"
 #include "rfmodel/conversion/polynomial_linearization.hpp"
+#include "rfmodel/conversion/tabulated_amplifier_linearization.hpp"
 #include "rfmodel/nonlinear/polynomial_amplifier.hpp"
 #include <type_traits>
 
@@ -204,6 +205,79 @@ inline ModelAdapter adapt_saturating_amplifier(std::string name,
         stats.input_power_w = result.input_power_w;
         stats.common_amplitude_gain = result.common_amplitude_gain;
         return CoherentSystem::StageEvaluation{{result.output}, std::move(stats)};
+    };
+    return {std::move(descriptor), std::move(functions)};
+}
+
+// Native common-radius AM/AM and AM/PM; all callbacks own the supplied table.
+// The RF small-signal S matrix is the zero-drive derivative, not a large-signal
+// gain or a vendor DataPoints interpretation. No intrinsic noise is inferred.
+inline ModelAdapter
+adapt_tabulated_amplifier(std::string name,
+                          TabulatedAmplifier amplifier,
+                          double reference_ohms = 50.,
+                          AmplifierInputMode mode = AmplifierInputMode::sources_only) {
+    if (mode != AmplifierInputMode::sources_only &&
+        mode != AmplifierInputMode::propagate_distortion) {
+        throw std::invalid_argument("invalid tabulated amplifier input mode");
+    }
+    ModelDescriptor descriptor{{"rfmodel.tabulated_amplifier", "1", "", ""},
+                               std::move(name),
+                               {{0, "in", reference_ohms}, {1, "out", reference_ohms}}};
+    auto owned = std::make_shared<const TabulatedAmplifier>(std::move(amplifier));
+    ModelFunctions functions;
+    functions.scattering = [owned](double f) {
+        if (f <= 0.) {
+            throw std::invalid_argument(
+                "tabulated amplifier small-signal S requires positive RF frequency");
+        }
+        return SMatrix{2, {0., 0., owned->response(0.).gain, 0.}};
+    };
+    functions.spectrum = [owned](const PowerWaveSpectrum &input) {
+        double radius = 0.;
+        for (const auto &entry : input.amplitudes) {
+            if (entry.first == 0 && entry.second != Complex{}) {
+                throw std::invalid_argument("tabulated amplifier cannot transmit nonzero DC");
+            }
+            radius = std::hypot(radius, std::hypot(entry.second.real(), entry.second.imag()));
+        }
+        // Validate the common radius even for an empty/zero-only spectrum.
+        owned->response(radius);
+        auto output = input;
+        for (auto &entry : output.amplitudes) {
+            entry.second = owned->transmit(entry.second, radius);
+        }
+        return output;
+    };
+    functions.operating_point = [owned, reference_ohms](const ModelOperatingPoint &point) {
+        return linearize_tabulated_amplifier(
+            point.spacing_hz, point.channels, point.incident, *owned, 0, 1, reference_ohms);
+    };
+    functions.coherent = [owned, reference_ohms, mode](auto &pipeline, const auto &inputs) {
+        const auto &snapshot = pipeline.inspect(inputs.at(0));
+        if (mode == AmplifierInputMode::sources_only) {
+            for (const auto &record : snapshot.records) {
+                if (record.component.kind != SpectrumKind::source) {
+                    throw std::invalid_argument("tabulated source-only adapter rejects distortion");
+                }
+            }
+        }
+        const double power = snapshot.reduction.total_power_w;
+        const auto gain = owned->response(std::sqrt(power)).gain;
+        // Apply the accepted common gain through the existing linear operation:
+        // it scales each history contribution, including cancelled paths whose
+        // individual amplitudes can exceed the physical common drive radius.
+        auto output =
+            pipeline.linear_network({{inputs.at(0), 0}}, {0, 1}, 1, [gain, reference_ohms](double) {
+                LinearNetwork network(reference_ohms);
+                network.add_power_waves({2, {0., 0., gain, 0.}}, {reference_ohms, reference_ohms});
+                return network;
+            });
+        CoherentSystem::StageStatistics statistics;
+        statistics.input_power_w = power;
+        statistics.common_amplitude_gain = std::abs(gain);
+        statistics.common_complex_gain = gain;
+        return CoherentSystem::StageEvaluation{{output}, std::move(statistics)};
     };
     return {std::move(descriptor), std::move(functions)};
 }
