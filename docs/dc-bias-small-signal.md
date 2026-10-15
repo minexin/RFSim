@@ -182,3 +182,12 @@ adds explicit finite-source two-node V/I checks, covered by all 18 jobs for
 nonlinear model-creation failures and independent RC voltage exports that fail
 the original criterion. No vendor DC or small-signal comparison is counted as
 passed; native code and tolerances are unchanged.
+
+## Host SDK composition example
+
+See the dual-TU [frozen adapter SDK example](../examples/frozen-adapter-sdk/README.md)
+for an owning frozen RC model evaluated after its source callbacks are destroyed.
+It uses existing `ModelDescriptor`/`ModelFunctions` callbacks, explicit nodal Q,
+and installed SDK workflows for linear/noise/conversion/spectrum/coherent use.
+It does not infer a noise law, add a factory, or freeze frequency dependence by
+storing one sampled S matrix.

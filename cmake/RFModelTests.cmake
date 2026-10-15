@@ -545,3 +545,19 @@ add_test(NAME phase_response_test COMMAND phase_response_test)
 add_executable(phase_jitter_test tests/noise/phase_jitter_test.cpp)
 target_link_libraries(phase_jitter_test PRIVATE rfmodel)
 add_test(NAME phase_jitter_test COMMAND phase_jitter_test)
+
+# End-to-end PLL/noise/jitter host example, compiled only against an installed SDK.
+add_test(NAME pll_phase_jitter_sdk_installed COMMAND ${CMAKE_COMMAND}
+    -DSOURCE=${CMAKE_CURRENT_SOURCE_DIR}
+    -DBINARY=${CMAKE_CURRENT_BINARY_DIR}/pll-phase-jitter-sdk-installed
+    -DGENERATOR=${CMAKE_GENERATOR} -DCOMPILER=${CMAKE_CXX_COMPILER}
+    -DCONFIG=$<CONFIG> -P ${CMAKE_CURRENT_SOURCE_DIR}/tests/cmake/check_pll_phase_jitter_install.cmake)
+set_tests_properties(pll_phase_jitter_sdk_installed PROPERTIES TIMEOUT 300)
+
+# End-to-end Frozen DC adapter host example, compiled only against an installed SDK.
+add_test(NAME frozen_adapter_sdk_installed COMMAND ${CMAKE_COMMAND}
+    -DSOURCE=${CMAKE_CURRENT_SOURCE_DIR}
+    -DBINARY=${CMAKE_CURRENT_BINARY_DIR}/frozen-adapter-sdk-installed
+    -DGENERATOR=${CMAKE_GENERATOR} -DCOMPILER=${CMAKE_CXX_COMPILER}
+    -DCONFIG=$<CONFIG> -P ${CMAKE_CURRENT_SOURCE_DIR}/tests/cmake/check_frozen_adapter_install.cmake)
+set_tests_properties(frozen_adapter_sdk_installed PROPERTIES TIMEOUT 300)

@@ -138,3 +138,12 @@ auto nonlinear = mixer.operating_device(
 旧 `nonlinear/am_pm.hpp` 与 `conversion/am_pm_linearization.hpp` 保留为兼容入口，继续同时公开旧类型和函数。类名、参数单位、公式、经验常量及现有 C ABI 不变。本轮没有新增 SystemVue 数值兼容结论，DataPoints、自动 RFAMP 高阶系数、完整器件库和 PHD 仍按原验收记录推进。
 
 这层是源码级 C++17 API，与 `RFModel::rfmodel` 一起安装；不定义跨编译器插件 ABI，不恢复已退役 Python/JSON 产品接口。
+
+## Owning frozen DC example
+
+The installed-only [frozen adapter SDK example](../examples/frozen-adapter-sdk/README.md)
+uses `ModelDescriptor` and `ModelFunctions` to own `FrozenSmallSignal`, nodes,
+references and explicit optional nodal noise. It exercises linear/noise,
+conversion, spectrum and coherent host composition without a new public factory.
+Missing noise remains distinct from supplied zero noise; a frozen DC operating
+point does not enable the wave-domain nonlinear `operating_point` capability.

@@ -172,3 +172,20 @@ cmake -DARCHIVE="/absolute/path/RFModel-0.1.0-sdk-headers-g<commit>.zip" \
   保留零端口、名称、端口 id 和参考阻抗元数据的历史语义，不引入 1024 端口上限。
 
 这些检查不修改传入矩阵；失败后可以继续使用有效输入调用 API。
+
+### PLL 相关相噪与有限带宽 jitter 的 C++ 集成示例
+
+[`examples/pll-phase-jitter-sdk`](../examples/pll-phase-jitter-sdk/README.md)
+提供 installed-only、双翻译单元 C++17 示例：两路同载波 locked PI PLL，显式共享
+reference 的复 H 和独立 VCO，完整 cross C/P，以及直接从 rad²/Hz budget 计算的
+单输出有限 band jitter。含 Release 有效的独立数值 oracle；不新增差分 jitter API。
+
+### Frozen DC adapter integration
+
+[`examples/frozen-adapter-sdk`](../examples/frozen-adapter-sdk/README.md) is a
+second installed-only dual-TU host example. It owns frozen numeric state and
+explicit optional noise, preserves RC frequency dependence, and checks existing
+linear/noise/conversion/spectrum/coherent APIs with independent matrix oracles.
+The `frozen_adapter_sdk_installed` and `pll_phase_jitter_sdk_installed` top-level
+CTests validate both native integration examples in the same SDK stage; they
+supplement, rather than replace, core numerical regression gates.
