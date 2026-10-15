@@ -561,3 +561,14 @@ add_test(NAME frozen_adapter_sdk_installed COMMAND ${CMAKE_COMMAND}
     -DGENERATOR=${CMAKE_GENERATOR} -DCOMPILER=${CMAKE_CXX_COMPILER}
     -DCONFIG=$<CONFIG> -P ${CMAKE_CURRENT_SOURCE_DIR}/tests/cmake/check_frozen_adapter_install.cmake)
 set_tests_properties(frozen_adapter_sdk_installed PROPERTIES TIMEOUT 300)
+
+# Independent owning bounded linear MNA; distinct from the nonlinear DC solver.
+add_executable(linear_mna_test tests/mna/linear_network_test.cpp)
+target_link_libraries(linear_mna_test PRIVATE RFModel::rfmodel)
+add_test(NAME linear_mna_test COMMAND linear_mna_test)
+add_test(NAME linear_mna_installed COMMAND ${CMAKE_COMMAND}
+    -DSOURCE=${CMAKE_CURRENT_SOURCE_DIR}
+    -DBINARY=${CMAKE_CURRENT_BINARY_DIR}/linear-mna-installed
+    -DGENERATOR=${CMAKE_GENERATOR} -DCOMPILER=${CMAKE_CXX_COMPILER}
+    -DCONFIG=$<CONFIG> -P ${CMAKE_CURRENT_SOURCE_DIR}/tests/cmake/check_linear_mna_install.cmake)
+set_tests_properties(linear_mna_installed PROPERTIES TIMEOUT 300)

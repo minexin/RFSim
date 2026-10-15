@@ -42,6 +42,7 @@ set(RFMODEL_PUBLIC_HEADERS
     conversion/output_phase_linearization.hpp
     core/device_model.hpp
     core/interpolation.hpp
+    mna/linear_network.hpp
     core/linear_solver.hpp
     core/network_parameters.hpp
     core/power_wave_reference.hpp
