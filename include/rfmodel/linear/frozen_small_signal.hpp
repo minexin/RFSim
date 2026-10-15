@@ -1,8 +1,15 @@
 #pragma once
 #include "rfmodel/nonlinear/dc_operating_point.hpp"
 #include "rfmodel/linear/network.hpp"
+#include "rfmodel/noise/noise_matrix.hpp"
 
 namespace rfmodel {
+// Explicit stationary nodal current injection covariance, ordered node n -> n-1.
+// Units are A^2/Hz, not the W/Hz used by NoiseCorrelation.
+struct NodalCurrentNoise {
+    SMatrix ampere_squared_per_hz;
+};
+
 namespace frozen_detail {
 using Wide = std::complex<long double>;
 
@@ -293,6 +300,78 @@ public:
                        const std::vector<DcNode> &nodes,
                        const std::vector<Complex> &references_ohm) const {
         return admittance_to_power_wave_s(external_y(f, nodes), references_ohm);
+    }
+
+    // Intrinsic outgoing power-wave covariance with zero incident waves at the
+    // selected ports. No termination noise or thermal law is inferred. Solve the
+    // full reference-loaded nodal system, retaining correlated internal injections.
+    NoiseCorrelation external_noise(double f,
+                                    const std::vector<DcNode> &nodes,
+                                    const std::vector<Complex> &references_ohm,
+                                    const NodalCurrentNoise &current_noise) const {
+        const auto n = point_.voltage_volt().size(), p = nodes.size();
+        if (!p || p > n) {
+            throw std::invalid_argument("invalid small-signal noise port count");
+        }
+        std::vector<bool> selected(n, false);
+        for (auto node : nodes) {
+            if (!node || node > n || selected[node - 1]) {
+                throw std::invalid_argument("noise ports must be distinct non-ground nodes");
+            }
+            selected[node - 1] = true;
+        }
+        power_wave_detail::references(references_ohm, p);
+        const auto &q = current_noise.ampere_squared_per_hz;
+        noise_detail::finite_matrix(q);
+        if (q.ports != n) {
+            throw std::invalid_argument("nodal current noise dimensions differ");
+        }
+        if (f == 0.) {
+            for (auto value : q.values) {
+                if (value.imag() != 0.) {
+                    throw std::invalid_argument("DC current noise must be real");
+                }
+            }
+            for (auto z : references_ohm) {
+                if (z.imag() != 0.) {
+                    throw std::invalid_argument("DC noise references must be real");
+                }
+            }
+        }
+        // Validate before solving; propagation below factors the original input
+        // directly, without reconstructing a covariance and losing low-rank modes.
+        (void)noise_detail::psd_factor(q);
+        const auto y = nodal_y(f);
+        using frozen_detail::Wide;
+        std::vector<Wide> a(n * n), rhs(n * p);
+        for (std::size_t r = 0; r < n; ++r) {
+            for (std::size_t c = 0; c < n; ++c) {
+                a[r * n + c] = y(c, r); // transpose, not conjugate transpose
+            }
+        }
+        for (std::size_t k = 0; k < p; ++k) {
+            const auto i = nodes[k] - 1;
+            const Wide z = references_ohm[k];
+            a[i * n + i] = frozen_detail::checked(a[i * n + i] + frozen_detail::divide(1.L, z));
+            rhs[i * p + k] = frozen_detail::divide(std::sqrt(z.real()), z);
+        }
+        // (Y+Yref)V=j, b_k=sqrt(Re z_k)*V_k/z_k for a_k=0.
+        // Transposed solves need only p right-hand sides instead of n.
+        const auto solved = frozen_detail::solve(std::move(a), std::move(rhs), n, p, 0.L, true);
+        SMatrix transfer{n, std::vector<Complex>(n * n)};
+        for (std::size_t k = 0; k < p; ++k) {
+            for (std::size_t i = 0; i < n; ++i) {
+                transfer(k, i) = frozen_detail::narrow(solved[i * p + k]);
+            }
+        }
+        const auto propagated = propagate_noise(transfer, {q});
+        SMatrix result{p, std::vector<Complex>(p * p)};
+        for (std::size_t r = 0; r < p; ++r) {
+            for (std::size_t c = 0; c < p; ++c) {
+                result(r, c) = propagated.watts_per_hz(r, c);
+            }
+        }
+        return {std::move(result)};
     }
 
     // Adapter ports are 0..nodes.size()-1, not physical DC node IDs.

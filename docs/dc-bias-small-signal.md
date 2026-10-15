@@ -47,6 +47,52 @@ performs no reevaluation. Frequency operations remain valid after the model is
 changed or destroyed. Independent const reads on the frozen numeric object use
 no mutable global cache.
 
+## Explicit nodal current noise
+
+`external_noise(f, external_nodes, references, NodalCurrentNoise{Q})` propagates
+an explicitly supplied stationary current-injection covariance to intrinsic
+outgoing power-wave covariance (W/Hz). `Q` is an N-by-N Hermitian positive
+semidefinite matrix in A^2/Hz, ordered by non-ground node ID minus one, including
+internal nodes and all cross-correlations. The caller defines the spectral-density
+convention and supplies the covariance at the accepted bias and requested frequency.
+The API never derives noise from G, assumes a temperature, adds termination noise,
+or reevaluates DC callbacks. It describes stationary noise; cyclostationary
+frequency coupling and complementary RF noise require the conversion APIs.
+
+With zero incident waves at the selected ports it solves
+`(Y + diag_external(1/z)) V = j` and forms `b_k = sqrt(Re(z_k))*V_k/z_k`.
+Other nodes have zero external current except for their explicit noise injections.
+The sign of j is positive into the node. Transposed solves obtain the port transfer
+rows without inverting Y; the existing factor-based covariance propagation retains
+correlated low-rank cancellation. Ports follow the requested order, not node order.
+The returned value owns its covariance. At f=0, covariance and references must be
+real; the result is the real DC covariance (C=P when lifted to a conversion model).
+
+This noise solve uses the full reference-loaded nodal system. A singular internal
+Yii can therefore be acceptable for noise if the full loaded system is well posed,
+even though `external_y`/`external_s` reject that internal Schur complement. A
+singular or ill-conditioned loaded boundary fails even for zero supplied noise.
+Existing frozen-solver numerical range and backward-error rules apply to the
+transfer, and existing noise PSD admission tolerances apply to Q. No clipping or
+implicit uncorrelated approximation is performed.
+
+For a resistor with conductance g at T, the caller may explicitly supply
+`Q=4*k*T*g`. A resistor between two non-ground nodes contributes equal diagonal
+terms and negative off-diagonal terms; omitting these correlations changes the
+circuit's physical noise. `frozen_noise_test` checks RC thermal equilibrium,
+internal-node elimination against determinant formulas, complex references,
+nonsymmetric active responses, correlated cancellation, malformed/DC inputs,
+and callback counts. The installed DC consumer checks an explicit 50-ohm
+resistor at 290 K. These are native mathematical checks, not SystemVue validation.
+
+```cpp
+// `frozen` is a one-node accepted 50-ohm resistor with no other conductance.
+constexpr double kT = 1.380649e-23 * 290.;
+const rfmodel::NodalCurrentNoise injection{{1, {4. * kT / 50.}}};
+const auto covariance = frozen.external_noise(1e6, {1}, {50.}, injection);
+// covariance.watts_per_hz(0, 0) == kT for a matched reference.
+```
+
 ## Convergence and failures
 
 Separate fixed positive current scales Is (default 1 mA) and voltage scales Vs

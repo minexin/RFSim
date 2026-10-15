@@ -512,6 +512,9 @@ add_test(NAME dc_operating_point_test COMMAND dc_operating_point_test)
 add_executable(frozen_small_signal_test tests/linear/frozen_small_signal_test.cpp)
 target_link_libraries(frozen_small_signal_test PRIVATE RFModel::rfmodel)
 add_test(NAME frozen_small_signal_test COMMAND frozen_small_signal_test)
+add_executable(frozen_noise_test tests/linear/frozen_noise_test.cpp)
+target_link_libraries(frozen_noise_test PRIVATE RFModel::rfmodel)
+add_test(NAME frozen_noise_test COMMAND frozen_noise_test)
 add_test(NAME dc_bias_installed COMMAND ${CMAKE_COMMAND}
     -DSOURCE=${CMAKE_CURRENT_SOURCE_DIR}
     -DBINARY=${CMAKE_CURRENT_BINARY_DIR}/dc-bias-installed

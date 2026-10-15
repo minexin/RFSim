@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-15",
+  "baseline_commit": "aed19cf698581dd86798485a62f9687ce279a2f8",
+  "scope": "Frozen nodal current covariance to intrinsic port power-wave noise",
+  "local_status": "passed",
+  "build": "MSVC x64 Debug and Release, focused targets",
+  "tests": [
+    {
+      "configuration": "Debug",
+      "tests": 6,
+      "failures": 0,
+      "skipped": 0,
+      "junit": "build-reference/module-layout-full/frozen-noise-Debug.xml",
+      "sha256": "a1a421c114bf405a9b7ebe90456924b135a1fc60bce72a3a24eb9849eafe2a63",
+      "names": [
+        "noise_factor_test",
+        "noise_factor_integration_test",
+        "dc_operating_point_test",
+        "frozen_small_signal_test",
+        "frozen_noise_test",
+        "dc_bias_installed"
+      ]
+    },
+    {
+      "configuration": "Release",
+      "tests": 6,
+      "failures": 0,
+      "skipped": 0,
+      "junit": "build-reference/module-layout-full/frozen-noise-Release.xml",
+      "sha256": "6c23f7edb197fb8c8b68145f1b705d141bcaefd4b4bc3247a0d65941e939b644",
+      "names": [
+        "noise_factor_test",
+        "noise_factor_integration_test",
+        "dc_operating_point_test",
+        "frozen_small_signal_test",
+        "frozen_noise_test",
+        "dc_bias_installed"
+      ]
+    }
+  ],
+  "source_fingerprints": [
+    {
+      "path": "include/rfmodel/linear/frozen_small_signal.hpp",
+      "sha256": "37d0caba8c6cbca3d3fc4c5c87f44ad48425fc81a1edcecaf1b60e62f7b30ab3"
+    },
+    {
+      "path": "tests/linear/frozen_noise_test.cpp",
+      "sha256": "ccf9dfe7fd5dfa02b7ea9c34f29955d53efcc8f3cb2ee8581da189c27bb369c3"
+    },
+    {
+      "path": "tests/dc_bias_consumer/main.cpp",
+      "sha256": "a71ed8e5071e78507041366af2ae454c54a2f5ea9a3b8cf362dd3f91600e7811"
+    },
+    {
+      "path": "cmake/RFModelTests.cmake",
+      "sha256": "90e4c4a93ebcb0dd0a8d2dd49352fd38e57712be4f821a6964a61762b56f0d44"
+    }
+  ],
+  "installation": "dc_bias_installed checks full and pure C++ SDK relocated two-translation-unit consumers in both configurations",
+  "format": "Three changed C++ files passed clang-format dry-run; unrelated baseline formatting preserved",
+  "independent_checks": [
+    "RC branch-noise determinant solution and kT(I-SS^H)",
+    "Nonsymmetric active two-node determinant and correlated rank-one injections",
+    "Complex reference and reversed port order",
+    "Low-rank source cancellation",
+    "Singular internal Schur block with solvable loaded boundary",
+    "DC reality, invalid covariance and singular boundary rejection"
+  ],
+  "ci": {
+    "status": "pending",
+    "scope": "No exact-head cross-platform claim until CI finishes"
+  },
+  "compatibility": {
+    "new_systemvue_runs": 0,
+    "vendor_compatibility_claim": false,
+    "overall_goal_complete": false
+  }
+}
