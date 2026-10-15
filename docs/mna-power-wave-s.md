@@ -139,3 +139,11 @@ ownership and diagnostics with active checks under NDEBUG. The relocated
 `mna_power_wave_s_installed` consumer uses two translation units in both full and
 pure header-only SDK installations. Focused checks are separate from final
 integration gates and vendor acceptance.
+
+For an installed-only C++17 host workflow, see the two-TU
+[MNA thermal-noise SDK example](../examples/mna-noise-sdk/README.md). It uses a
+known source-free isothermal RL circuit, owns its ModelAdapter captures, checks
+complex-reference noise against independent Johnson voltage sources, and
+propagates the extracted S and full covariance into linear and conversion
+networks. Its explicit temperature/passive-circuit assumptions cannot be inferred
+from incremental source deactivation in an arbitrary MNA circuit.

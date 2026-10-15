@@ -586,3 +586,11 @@ set_tests_properties(mna_power_wave_s_installed PROPERTIES TIMEOUT 300)
 add_executable(mna_factorization_test tests/mna/factorization_test.cpp)
 target_link_libraries(mna_factorization_test PRIVATE RFModel::rfmodel)
 add_test(NAME mna_factorization_test COMMAND mna_factorization_test)
+
+# Real MNA/thermal-noise host workflow; both relocated SDK modes, two C++17 TUs.
+add_test(NAME mna_noise_sdk_installed COMMAND ${CMAKE_COMMAND}
+    -DSOURCE=${CMAKE_CURRENT_SOURCE_DIR}
+    -DBINARY=${CMAKE_CURRENT_BINARY_DIR}/mna-noise-sdk-installed
+    -DGENERATOR=${CMAKE_GENERATOR} -DCOMPILER=${CMAKE_CXX_COMPILER}
+    -DCONFIG=$<CONFIG> -P ${CMAKE_CURRENT_SOURCE_DIR}/tests/cmake/check_mna_noise_install.cmake)
+set_tests_properties(mna_noise_sdk_installed PROPERTIES TIMEOUT 300)

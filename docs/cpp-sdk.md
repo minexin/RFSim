@@ -189,3 +189,14 @@ linear/noise/conversion/spectrum/coherent APIs with independent matrix oracles.
 The `frozen_adapter_sdk_installed` and `pll_phase_jitter_sdk_installed` top-level
 CTests validate both native integration examples in the same SDK stage; they
 supplement, rather than replace, core numerical regression gates.
+
+### MNA, explicit thermal noise and conversion integration
+
+[`examples/mna-noise-sdk`](../examples/mna-noise-sdk/README.md) owns a source-free
+series RL MNA model with explicit temperature and unequal complex power-wave
+references. Its two C++17 translation units consume the installed package only,
+compose ModelAdapter/LinearNetwork/loaded_noise and a six-channel stationary
+conversion snapshot, and check full correlated covariance against independent
+Johnson 4kTR and physical V/I oracles. The full/pure relocated integration test
+is `mna_noise_sdk_installed`. This example adds no solver, Python runtime,
+automatic temperature/noise inference or new SystemVue measurement claim.

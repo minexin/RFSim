@@ -147,3 +147,9 @@ references and explicit optional nodal noise. It exercises linear/noise,
 conversion, spectrum and coherent host composition without a new public factory.
 Missing noise remains distinct from supplied zero noise; a frozen DC operating
 point does not enable the wave-domain nonlinear `operating_point` capability.
+
+The installed-only [MNA thermal-noise example](../examples/mna-noise-sdk/README.md)
+provides a second owning linear/noise factory from a finalized source-free RL
+circuit. It captures port order, complex references and an explicit temperature
+by value; extracts actual MNA S; and verifies loaded thermal covariance and a
+six-channel stationary snapshot after the temporary adapter is destroyed.
