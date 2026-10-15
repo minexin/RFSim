@@ -38,7 +38,7 @@ struct PsdFactor {
 
 // Pivoted semidefinite Cholesky. Input admission and discarded tiny modes use
 // the same tolerance as psd_matrix, including the final numerically zero block.
-inline PsdFactor psd_factor(const SMatrix &input, double scale_floor = 0.) {
+inline PsdFactor legacy_psd_factor(const SMatrix &input, double scale_floor = 0.) {
     finite_matrix(input);
     const auto n = input.ports;
     double scale = scale_floor;
@@ -114,6 +114,109 @@ inline PsdFactor psd_factor(const SMatrix &input, double scale_floor = 0.) {
     }
     finite_matrix(original);
     return {std::move(original), scale, rank};
+}
+
+// Keep the global admission/projection above unchanged. The retention contract
+// additionally preserves wholly discarded, exact-independent input components
+// when their local projection fits the old common-scale representation. This is
+// not recovery of weak modes within a partially retained connected component.
+inline PsdFactor psd_factor(const SMatrix &input, double scale_floor = 0.) {
+    auto factor = legacy_psd_factor(input, scale_floor);
+    const auto n = input.ports;
+    if (scale_floor != 0. || factor.scale == 0. || factor.rank == n) {
+        return factor;
+    }
+    const auto original_rank = factor.rank;
+    std::vector<bool> visited(n);
+    for (std::size_t seed = 0; seed < n; ++seed) {
+        if (visited[seed]) {
+            continue;
+        }
+        std::vector<std::size_t> rows{seed};
+        visited[seed] = true;
+        for (std::size_t cursor = 0; cursor < rows.size(); ++cursor) {
+            const auto i = rows[cursor];
+            for (std::size_t j = 0; j < n; ++j) {
+                // Use both original directions, including globally tolerated
+                // non-Hermitian entries. A numerical-zero threshold is unsafe.
+                if (!visited[j] && (input(i, j) != Complex{} || input(j, i) != Complex{})) {
+                    visited[j] = true;
+                    rows.push_back(j);
+                }
+            }
+        }
+        bool wholly_discarded = true;
+        for (auto i : rows) {
+            for (std::size_t k = 0; k < original_rank; ++k) {
+                wholly_discarded = wholly_discarded && factor.values(i, k) == Complex{};
+            }
+        }
+        if (!wholly_discarded) {
+            continue;
+        }
+        std::sort(rows.begin(), rows.end());
+        const auto size = rows.size();
+        SMatrix component{size, std::vector<Complex>(size * size)};
+        bool normal_parts = true;
+        for (std::size_t i = 0; i < size; ++i) {
+            for (std::size_t j = 0; j < size; ++j) {
+                const auto value = input(rows[i], rows[j]);
+                component(i, j) = value;
+                for (double part : {value.real(), value.imag()}) {
+                    if (part != 0. && !std::isnormal(part / factor.scale)) {
+                        normal_parts = false;
+                    }
+                }
+            }
+        }
+        if (!normal_parts) {
+            continue;
+        }
+        try {
+            // One local legacy attempt, never recursive component recovery.
+            auto extra = legacy_psd_factor(component);
+            if (extra.rank == 0) {
+                continue;
+            }
+            const double ratio = extra.scale / factor.scale;
+            if (!std::isnormal(ratio)) {
+                continue;
+            }
+            const double root = std::sqrt(ratio);
+            if (!std::isnormal(root)) {
+                continue;
+            }
+            bool normal_factor = true;
+            for (std::size_t i = 0; i < size; ++i) {
+                for (std::size_t k = 0; k < extra.rank; ++k) {
+                    const auto value = extra.values(i, k);
+                    const auto scaled = value * root;
+                    if ((value.real() != 0. && !std::isnormal(scaled.real())) ||
+                        (value.imag() != 0. && !std::isnormal(scaled.imag()))) {
+                        normal_factor = false;
+                    }
+                    extra.values(i, k) = scaled;
+                }
+            }
+            if (!normal_factor) {
+                continue; // Never append only part of a local component.
+            }
+            // These columns have support only on previously zero rows, so their
+            // total rank fits the existing n-by-n storage. Old coefficients and
+            // scale remain bitwise unchanged. Stage all scaling before appending:
+            // local fill-in can underflow despite normal original input parts.
+            for (std::size_t i = 0; i < size; ++i) {
+                for (std::size_t k = 0; k < extra.rank; ++k) {
+                    factor.values(rows[i], factor.rank + k) = extra.values(i, k);
+                }
+            }
+            factor.rank += extra.rank;
+        } catch (const std::invalid_argument &) {
+            // Local Hermitian/PSD failure retains the admitted global projection.
+        }
+    }
+    finite_matrix(factor.values);
+    return factor;
 }
 
 inline SMatrix psd_matrix(const SMatrix &input, double scale_floor = 0.) {

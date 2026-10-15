@@ -62,11 +62,11 @@ int main() {
             .watts_per_hz;
     relative(modes(0, 0), 1e200);
     relative(modes(1, 1), 1e-10);
-    // Input tiny-mode truncation remains exactly the documented admission rule.
-    const auto discarded =
+    // Positive independent tiny components now survive the global truncation.
+    const auto independent =
         propagate_noise(SMatrix{2, {1., 0., 0., 1e100}}, {SMatrix{2, {1., 0., 0., 1e-16}}})
             .watts_per_hz;
-    relative(discarded(1, 1), 0.);
+    relative(independent(1, 1), 1e184);
     const auto zero =
         propagate_noise(SMatrix{2, {1e308, 1e308, -1e308, 1e308}}, {SMatrix{2, {0., 0., 0., 0.}}})
             .watts_per_hz;
