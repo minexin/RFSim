@@ -495,3 +495,13 @@ add_test(NAME external_s_factorization_test COMMAND external_s_factorization_tes
 add_executable(phd_fixed_pump_network_test tests/nonlinear/phd_fixed_pump_network_test.cpp)
 target_link_libraries(phd_fixed_pump_network_test PRIVATE RFModel::rfmodel)
 add_test(NAME phd_fixed_pump_network_test COMMAND phd_fixed_pump_network_test)
+
+add_executable(tabulated_amplifier_test tests/conversion/tabulated_amplifier_test.cpp)
+target_link_libraries(tabulated_amplifier_test PRIVATE RFModel::rfmodel)
+add_test(NAME tabulated_amplifier_test COMMAND tabulated_amplifier_test)
+add_test(NAME tabulated_amplifier_installed COMMAND ${CMAKE_COMMAND}
+    -DSOURCE=${CMAKE_CURRENT_SOURCE_DIR}
+    -DBINARY=${CMAKE_CURRENT_BINARY_DIR}/tabulated-amplifier-installed
+    -DGENERATOR=${CMAKE_GENERATOR} -DCOMPILER=${CMAKE_CXX_COMPILER}
+    -DCONFIG=$<CONFIG> -P ${CMAKE_CURRENT_SOURCE_DIR}/tests/cmake/check_tabulated_amplifier_install.cmake)
+set_tests_properties(tabulated_amplifier_installed PROPERTIES TIMEOUT 300)

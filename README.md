@@ -30,6 +30,7 @@ ctest --test-dir build -C Release --output-on-failure
 - [相干流管线](docs/coherent-pipeline.md)、来源历史、多项式及[限幅/高阶放大器](docs/coherent-pipeline-amplifiers.md)、失真传播与共同压缩。
 - [变频功率波](docs/conversion-power-wave.md)、[复参考工作点](docs/conversion-operating-point-power-wave.md)、[接受工作点本征噪声](docs/conversion-operating-noise.md)、结构扩频、完整 C/P、加载噪声和相位噪声。
 - [优化](docs/optimization.md)、[Monte Carlo](docs/monte-carlo.md)与新的有类型任务装配。
+- [原生表格放大器](docs/tabulated-amplifier.md)：显式半径轴、AM/AM 与展开相位的 Hermite 值/导数、变频工作点和噪声组合；不宣称 SystemVue DataPoints 兼容。
 - [显式 AM/PM 参数适配器](docs/systemvue-am-pm-adapter.md)：C++ 相位、导数及工作点组合；549 个无告警登记点通过，另保留 37 个告警诊断点，完整兼容仍未验收。
 - [DataPoints 零 dBm 判别](docs/systemvue-am-pm-datapoints-zero-study.md)：七组、387 个登记扫描点支持零位置异常；DCP 同功率异相位反例保留，完整表格算法尚未闭合。
 - [DataPoints 普通原始功率轴](docs/systemvue-am-pm-datapoints-raw-axis-study.md)：十个新点中原始功率样条通过九点；−0.000001 dBm 零相移反例否定“仅名义零旁路”，四个冻结候选均未全部通过。

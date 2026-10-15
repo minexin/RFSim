@@ -27,6 +27,7 @@ set(RFMODEL_PUBLIC_HEADERS
     coherent/term_propagation.hpp
     conversion/am_pm_linearization.hpp
     conversion/amplifier_linearization.hpp
+    conversion/tabulated_amplifier_linearization.hpp
     conversion/conversion_frequency_plan.hpp
     conversion/conversion_grid.hpp
     conversion/conversion_network.hpp
@@ -75,6 +76,7 @@ set(RFMODEL_PUBLIC_HEADERS
     nonlinear/phd_fixed_pump_network.hpp
     nonlinear/am_pm.hpp
     nonlinear/amplifier_model.hpp
+    nonlinear/tabulated_amplifier.hpp
     nonlinear/fundamental_compression.hpp
     nonlinear/ideal_mixer.hpp
     nonlinear/intermod_levels.hpp
