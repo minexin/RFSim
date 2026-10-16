@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
   "snapshot": {
-    "source_commit": "5c5812e0f81ef4fa45893784f9f9e7430170e218",
-    "date_utc": "2026-10-15",
-    "scope": "Bounded current C++ capability/evidence summary through locked PI PLL, explicit shared complex phase response, finite-band jitter, installed SDK workflows, read-only X-parameter replay tools, linear MNA, loaded power-wave S, raw two-port Touchstone noise serialization and an explicit isothermal MNA/ModelAdapter/conversion SDK example. Includes archived RFAMP holdout, eight DC/RC submissions with zero accepted comparisons and installed PHD format diagnostics; not whole-catalog acceptance.",
-    "integration_note": "Frozen source 5c5812e0f81ef4fa45893784f9f9e7430170e218, tree 29d6961e28f7d9f4f1c99c30e9028b1c81b7a2f2; exact source CI 38815413675 passed all 18 required jobs. 10 newly indexed integrated-stage runs are verified against complete REST run/jobs snapshots with SHA-256 byte bindings, not text counts. Earlier raw-reader/catalog and vendor records remain unchanged. This later docs/validation and strict-evidence-checker overlay changes no numerical implementation, thresholds, SDK example or acceptance conditions; its own exact-commit CI remains separately required. Recording overlay CI must not trigger self-referential source-baseline updates. No SystemVue execution, actual four-file installed X-parameter replay, release or license decision occurred in this refresh. Local and remote stage results remain bound to their listed source identities, not this overlay."
+    "source_commit": "6ef3b0c0c840d2434b4b59e959b6c93eb4beb211",
+    "date_utc": "2026-10-16",
+    "scope": "Bounded C++ behavioral-device/system workflow through independent weak-noise preservation, historical amplifier/shared-source/cascade replay and installed same-model/same-wiring external-S and loaded-port/path example. Not whole-catalog or SystemVue acceptance.",
+    "integration_note": "Frozen engineering source 6ef3b0c0c840d2434b4b59e959b6c93eb4beb211, tree a305e404e004330dab4f69478aee17da4bad976a, includes the strict SDK target guard integration correction. Exact source CI 38835703380 is verified completed/success with all 18 required jobs against complete raw run/jobs bytes. Original example source 350bc9f run 38834090412 failed; its complete terminal record is indexed separately, never reclassified by the fix. This docs/validation overlay changes no numerical implementation or acceptance threshold; its own exact-commit CI remains separately required. Do not recursively move the source baseline to record overlay CI. No new SystemVue execution, license, release or stable API/ABI decision. Local results remain stage-bound via identical-tree evidence; original pending/failed statements in historical artifacts remain intact."
   },
   "catalog": {
     "inventory": "validation/systemvue-2023-rf-catalog.json",
@@ -679,6 +679,79 @@
         "No new MNA/noise solver, nonuniform-temperature/active/nonequilibrium model, nonlinear/transient physics or automatic noise inference. The stationary positive-bin conversion snapshot is not a mixer, cross-frequency intrinsic-noise model, coherent/spectrum capability or new vendor acceptance.",
         "Existing covariance admission/truncation, floating-point conditioning and range boundaries still apply; no arbitrary dynamic-range or all-reference numerical equivalence guarantee. Internal SDK example only; Python/C API product interfaces, release/license/stable-ABI decisions and vendor thresholds are unchanged."
       ]
+    },
+    {
+      "id": "independent_weak_noise_blocks",
+      "contract": "Preserve representable independent weak covariance blocks while retaining the existing legacy factor result and tolerance boundaries.",
+      "implementation": "implemented",
+      "references": [
+        "docs/noise.md",
+        "tests/noise/noise_independent_blocks_test.cpp",
+        "validation/engineering-stage-evidence-20261016.json"
+      ],
+      "numerical_evidence": "Stage-bound 756 full/pure/installed executions plus separate focused and negative controls; not rerun by this overlay.",
+      "vendor_evidence": "not_executed",
+      "remaining": [
+        "Connected weak modes, subnormal arithmetic, rounding floors and upstream reconstruction remain limited; no automatic physical noise law or SystemVue noise acceptance."
+      ]
+    },
+    {
+      "id": "native_amplifier_archive_replay",
+      "contract": "Typed developer-only replay of three single-tone and three two-tone historical cases; original nominal inputs, scorers and thresholds.",
+      "implementation": "implemented",
+      "references": [
+        "docs/amplifier-archive-native-replay.md",
+        "validation/engineering-stage-evidence-20261016.json"
+      ],
+      "numerical_evidence": "Affected native Debug/Release 8/8 each, separate protocol/oracle and relocated two-TU consumer checks.",
+      "vendor_evidence": "mixed_pass_fail",
+      "remaining": [
+        "Historical 42 checks: 22 pass, 20 fail. No new acquisition, full RFAMP model or product Python interface."
+      ]
+    },
+    {
+      "id": "native_shared_source_archive_replay",
+      "contract": "Two distinct scorers on the same 23 historical captures: shared fundamentals and cubic source origins.",
+      "implementation": "implemented",
+      "references": [
+        "docs/source-archive-native-replay.md",
+        "validation/engineering-stage-evidence-20261016.json"
+      ],
+      "numerical_evidence": "Strict native Debug/Release 36/36 each; separate installed, mathematical and protocol evidence.",
+      "vendor_evidence": "mixed_pass_fail",
+      "remaining": [
+        "A:53 checks=49 pass/4 fail; B:206 pass and 21 group checks pass; two cancellation diagnostics excluded. Not independent new samples, noise law, NodeTotal or complete RFAMP acceptance."
+      ]
+    },
+    {
+      "id": "native_source_cubic_cascade_replay",
+      "contract": "Fixed two-stage source-cubic developer replay with distinct raw paths and typed combined predictions; existing distortion is conducted, not remixed.",
+      "implementation": "implemented",
+      "references": [
+        "docs/cascade-archive-native-replay.md",
+        "validation/engineering-stage-evidence-20261016.json"
+      ],
+      "numerical_evidence": "Strict native Debug/Release 39/39 each, relocated SDK and independent long-double oracle; not full four-gate numerical matrix.",
+      "vendor_evidence": "diagnostic",
+      "remaining": [
+        "Eight archives:230 diagnostic checks=208 pass/22 fail. Missing spectrum-reduction readback prevents physical acceptance; 43 measured port3 origins remain unscored with unknown direction. Historical raw/workspace/library byte claims remain unverified."
+      ]
+    },
+    {
+      "id": "installed_behavioral_system_workflow",
+      "contract": "Same immutable named behavioral models and one physical connection table feed external linear S and loaded internal port/selected-path measurements.",
+      "implementation": "implemented",
+      "references": [
+        "examples/behavioral-system-sdk/README.md",
+        "examples/behavioral-system-sdk/workflow.cpp",
+        "tests/cmake/check_behavioral_system_install.cmake",
+        "validation/engineering-stage-evidence-20261016.json"
+      ],
+      "numerical_evidence": "Strict focused Debug/Release 1/1 each; relocated full/pure SDK Debug/Release consumers 1/1 each; independent NDEBUG review and deliberately wrong analytic-S rejection. No new numerical core. Original 350bc9f integration guard failed in CI; separate 6ef3b0c target-guard fix has Debug/Release 3/3 affected tests, four relocated consumers and extra-target/wrong-name negative controls. Exact guard-fix source CI 38835703380 passed all 18 jobs; it does not change the historical failure or establish vendor equivalence.",
+      "vendor_evidence": "not_executed",
+      "remaining": [
+        "Port reference impedance is not measured node impedance; loaded V/I is not incremental looking-in impedance or SystemVue ZPORT. Net power is not asserted to equal SystemVue CP/CNP/CV. Chain path and branch selected cut use explicit sources, loads and directions, retaining off-path loading. Full 2023 help text was not readable in this review; hashed historical excerpts and new runtime experiments remain distinct sources. No vendor equivalence or universal nonlinear switching."
+      ]
     }
   ],
   "ci": [
@@ -1145,6 +1218,118 @@
       "url": "https://github.com/minexin/RFSim/actions/runs/38815413675",
       "raw_snapshot": "validation/compatibility-raw-ci-38815413675.json",
       "raw_snapshot_sha256": "a6d38f86f5123179e9a6a130785e543c8fd7b698b8eeabc6d367eeb973938359"
+    },
+    {
+      "id": "evidence_overlay_failed",
+      "commit": "eebef2f38a5a758446374c9a7a963997f9dc03ff",
+      "run_id": 38818254433,
+      "status": "failed",
+      "verified_successful_jobs": 16,
+      "verified_failed_jobs": 2,
+      "verified_cancelled_jobs": 0,
+      "expected_jobs": 18,
+      "evidence": "validation/compatibility-evidence-overlay-failed-ci-38818254433.json",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38818254433",
+      "raw_snapshot": "validation/compatibility-raw-ci-38818254433.json",
+      "raw_snapshot_sha256": "870984a316dc3b0cc55cea4ea25600a2fbed5b5ed95c0e4c6b559241d2ebecaf"
+    },
+    {
+      "id": "raw_byte_fix",
+      "commit": "71e56a157d2eb2ecd05831e6629a4b97442e19cd",
+      "run_id": 38819089099,
+      "status": "success",
+      "verified_successful_jobs": 18,
+      "verified_failed_jobs": 0,
+      "verified_cancelled_jobs": 0,
+      "expected_jobs": 18,
+      "evidence": "validation/compatibility-raw-byte-fix-ci-38819089099.json",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38819089099",
+      "raw_snapshot": "validation/compatibility-raw-ci-38819089099.json",
+      "raw_snapshot_sha256": "eb6fa7785d0d4cee618fa9031fefb5acb6835e0eaf0e83ecca378e64a546acec"
+    },
+    {
+      "id": "independent_weak_noise",
+      "commit": "d84c60558abbf4ff2737476771970d0fb5bbf28b",
+      "run_id": 38823709238,
+      "status": "success",
+      "verified_successful_jobs": 18,
+      "verified_failed_jobs": 0,
+      "verified_cancelled_jobs": 0,
+      "expected_jobs": 18,
+      "evidence": "validation/compatibility-independent-weak-noise-ci-38823709238.json",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38823709238",
+      "raw_snapshot": "validation/compatibility-raw-ci-38823709238.json",
+      "raw_snapshot_sha256": "b7997f41c897b60d25e957dc357c2d1428e8427d3605d3893aba1ade3596c824"
+    },
+    {
+      "id": "amplifier_archive_replay",
+      "commit": "b5ed5efa5b95a79eba8ea156738158c31326fd93",
+      "run_id": 38825457841,
+      "status": "success",
+      "verified_successful_jobs": 18,
+      "verified_failed_jobs": 0,
+      "verified_cancelled_jobs": 0,
+      "expected_jobs": 18,
+      "evidence": "validation/compatibility-amplifier-archive-replay-ci-38825457841.json",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38825457841",
+      "raw_snapshot": "validation/compatibility-raw-ci-38825457841.json",
+      "raw_snapshot_sha256": "924adb5b2b9b7803caf64a83807bb8c2fd7ab33730ba3eaa8f2955d2b95ccde8"
+    },
+    {
+      "id": "source_archive_replay",
+      "commit": "118c1a77850001c260705860bc2d7d37247bdf6a",
+      "run_id": 38827153851,
+      "status": "success",
+      "verified_successful_jobs": 18,
+      "verified_failed_jobs": 0,
+      "verified_cancelled_jobs": 0,
+      "expected_jobs": 18,
+      "evidence": "validation/compatibility-source-archive-replay-ci-38827153851.json",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38827153851",
+      "raw_snapshot": "validation/compatibility-raw-ci-38827153851.json",
+      "raw_snapshot_sha256": "791efaa72b2ba5118f4fdeb9668ac731c46ad25cf69bf13aa095e7c389f3fed0"
+    },
+    {
+      "id": "cascade_archive_replay",
+      "commit": "02c71637c751e7e3f4e6315c036803ef26a87f65",
+      "run_id": 38832230566,
+      "status": "success",
+      "verified_successful_jobs": 18,
+      "verified_failed_jobs": 0,
+      "verified_cancelled_jobs": 0,
+      "expected_jobs": 18,
+      "evidence": "validation/compatibility-cascade-archive-replay-ci-38832230566.json",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38832230566",
+      "raw_snapshot": "validation/compatibility-raw-ci-38832230566.json",
+      "raw_snapshot_sha256": "e5efaed155ce5a5d9f2dd7197fd63dbde3d3287e5050b3c721ed4e2c0371ed9d"
+    },
+    {
+      "id": "behavioral_sdk_failed",
+      "commit": "350bc9fcb4b2663972c639ad47429711a35c2eb8",
+      "run_id": 38834090412,
+      "status": "failed",
+      "verified_successful_jobs": 6,
+      "verified_failed_jobs": 12,
+      "verified_cancelled_jobs": 0,
+      "expected_jobs": 18,
+      "evidence": "validation/compatibility-behavioral-sdk-failed-ci-38834090412.json",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38834090412",
+      "raw_snapshot": "validation/compatibility-raw-ci-38834090412.json",
+      "raw_snapshot_sha256": "d450d92fb2ee6c9e1b991f9359b4334e5ee24fe13e31966c5e79ed99fd9ec4ff"
+    },
+    {
+      "id": "behavioral_sdk_guard_fix",
+      "commit": "6ef3b0c0c840d2434b4b59e959b6c93eb4beb211",
+      "run_id": 38835703380,
+      "status": "success",
+      "verified_successful_jobs": 18,
+      "verified_failed_jobs": 0,
+      "verified_cancelled_jobs": 0,
+      "expected_jobs": 18,
+      "evidence": "validation/compatibility-behavioral-sdk-guard-ci-38835703380.json",
+      "url": "https://github.com/minexin/RFSim/actions/runs/38835703380",
+      "raw_snapshot": "validation/compatibility-raw-ci-38835703380.json",
+      "raw_snapshot_sha256": "80b7b103c2a7498ae7a5802f628ca6a29295d9036895860b50dbe4159475be55"
     }
   ],
   "release_gates": [

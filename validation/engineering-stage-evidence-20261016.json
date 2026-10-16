@@ -1,0 +1,620 @@
+{
+  "schema_version": 1,
+  "date_utc": "2026-10-16",
+  "classification": "Stage-specific local engineering summary; remote jobs are separately indexed, historical vendor comparisons are not new measurements.",
+  "source_commit": "6ef3b0c0c840d2434b4b59e959b6c93eb4beb211",
+  "source_tree": "a305e404e004330dab4f69478aee17da4bad976a",
+  "summary_prepared_at_utc": "2026-10-16T01:50:46.557185+00:00",
+  "timestamp_policy": "Source timestamps remain source-specific; summary time is not a build, capture or CI time. Undated originals are not assigned invented times.",
+  "availability_policy": "External audit original files are not embedded. Their names and byte hashes identify private audit originals, not public download paths or independently accessible evidence. Public source files are named relative to each stage commit.",
+  "no_new_systemvue_execution": true,
+  "stages": [
+    {
+      "id": "independent_weak_noise",
+      "published_commit": "d84c60558abbf4ff2737476771970d0fb5bbf28b",
+      "tested_candidate_commit": "6008d9a6bc737b16be1984537533d5fb850afa5e",
+      "identical_source_tree": "d08cb34433a07acd5744ba5b981799648e2cfae7",
+      "local_validation": {
+        "scope": "Four full/pure Debug/Release configurations follow the prior-stage default build flags. Strict -Wall -Wextra -Wpedantic -Werror and ASan/UBSan apply to focused verification. Each of four configurations installs a standalone SDK and builds/runs all independent consumers.",
+        "total_full_pure_and_installed_ctest_executions": 756,
+        "configurations": {
+          "full-Debug": {
+            "tests": 189,
+            "passed": 189,
+            "failures": 0,
+            "skipped": 0,
+            "junit_sha256": "266f2ab06a3904778a02aae3d3cbd339cceaffe58f00c855f79e402ddf566b8a"
+          },
+          "full-Debug-consumer": {
+            "tests": 22,
+            "passed": 22,
+            "failures": 0,
+            "skipped": 0,
+            "junit_sha256": "e7f81d03d1fa50e5b752925712853123f23bd145534aac733a92bd1540f91670"
+          },
+          "full-Release": {
+            "tests": 189,
+            "passed": 189,
+            "failures": 0,
+            "skipped": 0,
+            "junit_sha256": "552b1e0bcf80cdd0487fa0e285780a6d283e0a6204a4ef986fd793957b91413c"
+          },
+          "full-Release-consumer": {
+            "tests": 22,
+            "passed": 22,
+            "failures": 0,
+            "skipped": 0,
+            "junit_sha256": "57cbf01df0b80a7574c044c01682b717996577d6b3531b1d91b508e667cee383"
+          },
+          "pure-Debug": {
+            "tests": 147,
+            "passed": 147,
+            "failures": 0,
+            "skipped": 0,
+            "junit_sha256": "4edbf99f83d29ea7f3042f65aab2f68c017cbbb396c6047fe01ebae8678395f8"
+          },
+          "pure-Debug-consumer": {
+            "tests": 20,
+            "passed": 20,
+            "failures": 0,
+            "skipped": 0,
+            "junit_sha256": "c6510938ad292d89074900d7669f3395d6610a44467262069a63ff64e15b5138"
+          },
+          "pure-Release": {
+            "tests": 147,
+            "passed": 147,
+            "failures": 0,
+            "skipped": 0,
+            "junit_sha256": "890d85a8e911f3a84a337cd770aa7061f2380bf9ee537f885a4a4af181c6d300"
+          },
+          "pure-Release-consumer": {
+            "tests": 20,
+            "passed": 20,
+            "failures": 0,
+            "skipped": 0,
+            "junit_sha256": "de475a48d9e13c95c05c16a360cae3c218fc6946adfbef32ef834ebd973b4d21"
+          }
+        },
+        "focused": {
+          "strict_debug": "18/18 focused tests passed",
+          "strict_release_ndebug": "18/18 focused tests passed",
+          "installed_header_only_release_dual_tu": "1/1 affected public API consumer passed",
+          "asan_ubsan": "all three new tests passed together with both sanitizers; detect_leaks=0 due executor ptrace limitation",
+          "long_double_64": "new contract, MNA integration, caller migration and original noise_factor passed",
+          "format": "clang-format 19.1.7 dry-run clean; git diff --check clean",
+          "negative_controls": "original header makes physical test and caller/dual-TU weak-retention tests fail as expected"
+        }
+      },
+      "vendor_scope": "No new vendor execution or noise acceptance.",
+      "source_file_sha256": {
+        "cmake/RFModelTests.cmake": "958db0f8592b72d262ce273453826163a06e17d8a2b800f84c54bc3aa753d542",
+        "docs/noise.md": "557cf7fc2dd86ef18345d46893ece828bdc2c3f02f04b4b7bd14429637705b54",
+        "include/rfmodel/noise/noise_matrix.hpp": "fb6c6bcdb6897ae955a11f4c740489b26c5cb69c3f5bd53afc1b709043450f5b",
+        "tests/consumer/noise_factor.cpp": "6e6a2cfd4560a026297498b1dc72200a93e88234ea32561d957d485212a5ef23",
+        "tests/consumer/noise_factor_probe.cpp": "36d735229ffc8bc10c30ee4a8ebb209b9b16cefa72e40c9aa2ae12ddab512bb9",
+        "tests/noise/noise_factor_test.cpp": "ca9c8e0060abd310acb633990d8205edbd98e13c38a177bb2ffdff44e072e2f8",
+        "tests/noise/noise_independent_blocks_callers_test.cpp": "e32834b4dcdb0450b7a470bbbde4db29b75f7b427129fd995dd9d84a0bfe9d0c",
+        "tests/noise/noise_independent_blocks_integration_test.cpp": "73de782310ee1e8f18dab12780d1d2e785c9b450368233392dafd8fbba83e677",
+        "tests/noise/noise_independent_blocks_test.cpp": "54cbd36f3987a964d5c848616ae51cef9b94384ebf8277c47088f4023e0987aa"
+      },
+      "external_artifacts": [
+        {
+          "artifact_name": "independent-weak-noise-final-manifest.json",
+          "sha256": "0caa6f7aa999aedf6c97801c965a26f51f4cd0a30233511eb14b09b1d1eb44db",
+          "availability": "External local audit artifact; bytes are not embedded or publicly retrievable from this index. Hash is an identity binding, not a claim of public reproducibility.",
+          "recorded_source_times": {
+            "completed_utc": "2026-10-15T23:26:32.740744+00:00",
+            "publication.recorded_utc": "2026-10-15T23:28:35.681530+00:00"
+          }
+        },
+        {
+          "artifact_name": "independent-weak-noise-final-gates/receipt.json",
+          "sha256": "89e938b897c89f9d5e55821e93007d1f2e46ef19c12411ad927458d114efb5cc",
+          "availability": "External local audit artifact; bytes are not embedded or publicly retrievable from this index. Hash is an identity binding, not a claim of public reproducibility.",
+          "recorded_source_times": {
+            "started_utc": "2026-10-15T22:44:39Z",
+            "steps.full-Debug-build.started_utc": "2026-10-15T22:47:53Z",
+            "steps.full-Debug-build.ended_utc": "2026-10-15T22:49:29Z",
+            "steps.full-Debug-configure.started_utc": "2026-10-15T22:47:48Z",
+            "steps.full-Debug-configure.ended_utc": "2026-10-15T22:47:53Z",
+            "steps.full-Debug-ctest.started_utc": "2026-10-15T22:49:29Z",
+            "steps.full-Debug-ctest.ended_utc": "2026-10-15T22:55:39Z",
+            "steps.full-Debug-install.started_utc": "2026-10-15T22:55:39Z",
+            "steps.full-Debug-install.ended_utc": "2026-10-15T22:55:44Z",
+            "steps.full-Debug-consumer-configure.started_utc": "2026-10-15T22:55:44Z",
+            "steps.full-Debug-consumer-configure.ended_utc": "2026-10-15T22:55:49Z",
+            "steps.full-Debug-consumer-build.started_utc": "2026-10-15T22:55:49Z",
+            "steps.full-Debug-consumer-build.ended_utc": "2026-10-15T22:56:19Z",
+            "steps.full-Debug-consumer-ctest.started_utc": "2026-10-15T22:56:19Z",
+            "steps.full-Debug-consumer-ctest.ended_utc": "2026-10-15T22:56:24Z",
+            "steps.full-Release-configure.started_utc": "2026-10-15T22:56:24Z",
+            "steps.full-Release-configure.ended_utc": "2026-10-15T22:56:29Z",
+            "steps.full-Release-build.started_utc": "2026-10-15T22:56:29Z",
+            "steps.full-Release-build.ended_utc": "2026-10-15T22:59:40Z",
+            "steps.full-Release-ctest.started_utc": "2026-10-15T22:59:40Z",
+            "steps.full-Release-ctest.ended_utc": "2026-10-15T23:08:00Z",
+            "steps.full-Release-install.started_utc": "2026-10-15T23:08:00Z",
+            "steps.full-Release-install.ended_utc": "2026-10-15T23:08:05Z",
+            "steps.full-Release-consumer-configure.started_utc": "2026-10-15T23:08:05Z",
+            "steps.full-Release-consumer-configure.ended_utc": "2026-10-15T23:08:10Z",
+            "steps.full-Release-consumer-build.started_utc": "2026-10-15T23:08:10Z",
+            "steps.full-Release-consumer-build.ended_utc": "2026-10-15T23:09:10Z",
+            "steps.full-Release-consumer-ctest.started_utc": "2026-10-15T23:09:10Z",
+            "steps.full-Release-consumer-ctest.ended_utc": "2026-10-15T23:09:15Z",
+            "steps.pure-Debug-configure.started_utc": "2026-10-15T23:09:15Z",
+            "steps.pure-Debug-configure.ended_utc": "2026-10-15T23:09:20Z",
+            "steps.pure-Debug-build.started_utc": "2026-10-15T23:09:20Z",
+            "steps.pure-Debug-build.ended_utc": "2026-10-15T23:10:46Z",
+            "steps.pure-Debug-ctest.started_utc": "2026-10-15T23:10:46Z",
+            "steps.pure-Debug-ctest.ended_utc": "2026-10-15T23:14:26Z",
+            "steps.pure-Debug-install.started_utc": "2026-10-15T23:14:26Z",
+            "steps.pure-Debug-install.ended_utc": "2026-10-15T23:14:31Z",
+            "steps.pure-Debug-consumer-configure.started_utc": "2026-10-15T23:14:31Z",
+            "steps.pure-Debug-consumer-configure.ended_utc": "2026-10-15T23:14:36Z",
+            "steps.pure-Debug-consumer-build.started_utc": "2026-10-15T23:14:36Z",
+            "steps.pure-Debug-consumer-build.ended_utc": "2026-10-15T23:15:06Z",
+            "steps.pure-Debug-consumer-ctest.started_utc": "2026-10-15T23:15:06Z",
+            "steps.pure-Debug-consumer-ctest.ended_utc": "2026-10-15T23:15:11Z",
+            "steps.pure-Release-configure.started_utc": "2026-10-15T23:15:11Z",
+            "steps.pure-Release-configure.ended_utc": "2026-10-15T23:15:16Z",
+            "steps.pure-Release-build.started_utc": "2026-10-15T23:15:16Z",
+            "steps.pure-Release-build.ended_utc": "2026-10-15T23:18:16Z",
+            "steps.pure-Release-ctest.started_utc": "2026-10-15T23:18:16Z",
+            "steps.pure-Release-ctest.ended_utc": "2026-10-15T23:23:27Z",
+            "steps.pure-Release-install.started_utc": "2026-10-15T23:23:27Z",
+            "steps.pure-Release-install.ended_utc": "2026-10-15T23:23:32Z",
+            "steps.pure-Release-consumer-configure.started_utc": "2026-10-15T23:23:32Z",
+            "steps.pure-Release-consumer-configure.ended_utc": "2026-10-15T23:23:37Z",
+            "steps.pure-Release-consumer-build.started_utc": "2026-10-15T23:23:37Z",
+            "steps.pure-Release-consumer-build.ended_utc": "2026-10-15T23:24:27Z",
+            "steps.pure-Release-consumer-ctest.started_utc": "2026-10-15T23:24:27Z",
+            "steps.pure-Release-consumer-ctest.ended_utc": "2026-10-15T23:24:32Z",
+            "previous_attempts[0].started_utc": "2026-10-15T22:44:39Z",
+            "previous_attempts[0].ended_utc": "2026-10-15T22:44:44Z",
+            "previous_attempts[1].started_utc": "2026-10-15T22:45:07Z",
+            "previous_attempts[1].ended_utc": "2026-10-15T22:45:12Z",
+            "previous_attempts[2].started_utc": "2026-10-15T22:45:12Z",
+            "previous_attempts[2].ended_utc": "2026-10-15T22:45:33Z",
+            "finished_utc": "2026-10-15T23:24:32Z"
+          }
+        },
+        {
+          "artifact_name": "independent-weak-noise-publication-binding.json",
+          "sha256": "63b6d804fdfe32896329d67242f150def7aae64c741dba7ea4ab0d211f6f26e8",
+          "availability": "External local audit artifact; bytes are not embedded or publicly retrievable from this index. Hash is an identity binding, not a claim of public reproducibility.",
+          "recorded_source_times": {
+            "recorded_utc": "2026-10-15T23:28:35.681530+00:00"
+          }
+        }
+      ]
+    },
+    {
+      "id": "amplifier_archive_replay",
+      "published_commit": "b5ed5efa5b95a79eba8ea156738158c31326fd93",
+      "tested_candidate_commit": "a88a5b710371f0cb9ad465cb7cfc6a3fa3837f70",
+      "identical_source_tree": "9738ae91ede63e6d1e263525e40bd700ca5536d5",
+      "local_validation": {
+        "scope": "completed Linux affected gates on a clean candidate based on formally published weaknoise stage; not Windows runtime or remote CI",
+        "native_affected_ctest": {
+          "Debug": {
+            "passed": 8,
+            "failed": 0
+          },
+          "Release": {
+            "passed": 8,
+            "failed": 0
+          }
+        },
+        "unit_tests_per_source_and_installed_configuration": 35,
+        "installed_two_tu": true,
+        "retirement_tests": 4
+      },
+      "vendor_scope": "42 historical verdicts:22 pass/20 fail; original threshold 1e-7. No new SystemVue run.",
+      "source_file_sha256": {
+        ".gitattributes": "75ac92a0882efc1dfef25126d0313681114920bcfcdf813d8b0393998cb7a794",
+        ".github/workflows/build.yml": "9352aa79707b9db94c84c84ce255ffc87887a4c2af119a802874b47c5e8a4cbd",
+        "cmake/NativeReferenceReplay.cmake": "3c5fc7e8451343c2ff37489163a08ceb93b0f452913e91c2b193c05c3db46489",
+        "docs/amplifier-archive-native-replay.md": "fb4750de459c7a15e4397a5a0f8983144e52b4ffa92cd2a00f565856efc65955",
+        "docs/python-interface-retirement.md": "c73afeaec4a2618e15f3e71e340fe1fd0bd79f449cf28ca82fa3558935af482d",
+        "scripts/reference/native_amplifier_replay.py": "12fc63e19890713c092373a12d29520004187b9ddd7c5f994b824f92b0f6d11d",
+        "scripts/reference/replay_amplifier_archives.py": "2581a57e951fd9bcfb1c72478c9b0b631f74581c770d86b039c4d3c48302c951",
+        "scripts/reference/test_amplifier_archive_replay.py": "08a5d37debb6b086fea1185bba2b90efc403ef0fff98d2bf77e29e4ea22476d9",
+        "scripts/reference/test_compare_single_compression.py": "fa4c05a7da58f787115f576274e2e07c425773d7b6970da96387c7968d9baab6",
+        "scripts/reference/test_compare_two_tone.py": "b664b1494097a53f1c622a905156c64918ec1d22890d18fd5b517e2e4f080a47",
+        "tests/amplifier_reference_consumer/CMakeLists.txt": "76748ca77f998cb7e9b4567aa77be136359cc2125fcde750c426afd2c6c1a858",
+        "tests/cmake/check_amplifier_replay_install.cmake": "0249ca64f2c8b9882da8bc116058b85a420a408a750eca2c1ddaf2f0e61392a2",
+        "tests/reference/reference_amplifier_odr.cpp": "4a9f813d40d61e0e24a706c47533f481db76768d4195970f54fd8a94dfa9ec23",
+        "tests/reference/reference_amplifier_oracle.cpp": "d3fd3eea7d12aa50ab6c2836b0f1168aa5e6b11587bc99ac9e6f73d077c3651f",
+        "tests/reference/reference_amplifier_probe.cpp": "7c0d6b63e5c7a8a169121b5b94f126e7bb3a66157ebbadfaca3a4f866735124c"
+      },
+      "external_artifacts": [
+        {
+          "artifact_name": "amplifier-replay-final-evidence/validation-receipt.json",
+          "sha256": "740028e31f78b7ccb0e2c0fd0fa248c41585a3e5d6bb2a3fe45ec10006cd7b0b",
+          "availability": "External local audit artifact; bytes are not embedded or publicly retrievable from this index. Hash is an identity binding, not a claim of public reproducibility.",
+          "recorded_source_times": {},
+          "time_note": "No explicit timestamp in this artifact; no filesystem mtime substituted for execution time."
+        },
+        {
+          "artifact_name": "amplifier-replay-final-evidence/source-manifest.json",
+          "sha256": "b0692646559a9398c66aaa389eba6e986ddf01a0e50159ede3904f3996ff7228",
+          "availability": "External local audit artifact; bytes are not embedded or publicly retrievable from this index. Hash is an identity binding, not a claim of public reproducibility.",
+          "recorded_source_times": {},
+          "time_note": "No explicit timestamp in this artifact; no filesystem mtime substituted for execution time."
+        },
+        {
+          "artifact_name": "amplifier-replay-final-evidence/publication-binding-b5ed5efa.json",
+          "sha256": "dd6d25bbf8f31d34cd37eba91a8cc0e3e8c0d8c2bf5487bbc2ed1e9b6e4b65da",
+          "availability": "External local audit artifact; bytes are not embedded or publicly retrievable from this index. Hash is an identity binding, not a claim of public reproducibility.",
+          "recorded_source_times": {
+            "verified_utc": "2026-10-15T23:46:19.882022+00:00"
+          }
+        }
+      ]
+    },
+    {
+      "id": "source_archive_replay",
+      "published_commit": "118c1a77850001c260705860bc2d7d37247bdf6a",
+      "tested_candidate_commit": "f0a2cc46e1b0666ad68f3471a520a9bdcf7dda5d",
+      "identical_source_tree": "64a70f4f0441ca6fa633bed90b866d80fa303a06",
+      "local_validation": {
+        "native_ctest": {
+          "Debug": "36/36",
+          "Release": "36/36"
+        },
+        "installed": {
+          "Debug": "2/2",
+          "Release": "2/2",
+          "two_tu_one_executable": true,
+          "relocated_sdk": true,
+          "no_c_or_python_sdk_configuration": true
+        },
+        "scope": "Affected native, protocol/oracle, installed and retirement gates; not full four-gate numerical matrix.",
+        "retained_limitation": "Unchanged baseline analysis_task_test.cpp:147,187 missing-field-initializers; retained failure log, no unrelated code edits. All six affected probe/oracle targets and36native tests strict D/R pass."
+      },
+      "vendor_scope": {
+        "shared": {
+          "check_count": 53,
+          "passed_count": 49,
+          "failed_count": 4,
+          "vendor_passed": false,
+          "historical_passed_count": 49,
+          "historical_failed_count": 4,
+          "historical_vendor_passed": false
+        },
+        "coherent": {
+          "check_count": 206,
+          "passed_count": 206,
+          "failed_count": 0,
+          "vendor_passed": true,
+          "historical_passed_count": 206,
+          "historical_failed_count": 0,
+          "historical_vendor_passed": true
+        },
+        "capture_count": 23,
+        "scored_case_count": 21,
+        "excluded_diagnostic_count": 2,
+        "direct_boundary_complex_comparison_count": 64,
+        "group_partition_check_count": 21,
+        "group_partition_passed_count": 21
+      },
+      "source_file_sha256": {
+        ".gitattributes": "4680c588e984d5c05b2fde53b7d1b3fb318534dbcdb2bae1001794c3ee50fb0b",
+        ".github/workflows/build.yml": "b9c5e6f24612fd0fc7d132ff8ff6edb53d9fad0d4b818e352b077d32bbb3a016",
+        "cmake/RFModelTests.cmake": "7c47af7a5b76eb3c1b65e0a3966d8a6ac9422dda17e242de475cd33bbd1806b7",
+        "cmake/SourceReferenceReplay.cmake": "069a40aeacb0111d92e5a725ac44d2ed22f45ff3ec1d9189f178deaa692b5a1d",
+        "docs/source-archive-native-replay.md": "4d10456142870aacbb1445160bb89ccaa7139fcb1f7dcc33cbe84786875d9374",
+        "scripts/reference/native_source_replay.py": "a814bcb31d016ffc9cf9f60d41608644616d024455ffcc450ce04c93c3ef6d06",
+        "scripts/reference/replay_source_archives.py": "4eb151d60561a1504925e96697aef1c9a0f7cfb55488e0842a29b81e93c81cf8",
+        "scripts/reference/test_source_archive_replay.py": "98f856d9b6d286b5484d2803ad61de47a07b53eed77e2519fa42109b2437fcd6",
+        "scripts/reference/test_source_replay_protocol.py": "52a33db4190febd4f68eb5c0e21107bc524fcbf9d526a9c1c145f0d85fb43f92",
+        "tests/cmake/check_source_replay_install.cmake": "165106e635d99cd29fe4457f552c64afb0db097528be1b6b4d3b9076f794598e",
+        "tests/reference/reference_source_odr.cpp": "abcb31356d5b12f9e92d5eeac23a6c68496cf573d0b41627e7e829fbdf8ab64b",
+        "tests/reference/reference_source_oracle.cpp": "5907d52de92eab75f3f122ea3d65b98d31a1e42dc0158169db0211fbeb9315f0",
+        "tests/reference/reference_source_probe.cpp": "c79e6b2ed5613505aa7f0cf58110f3f6d8391bcc9fb92fbf5b7821b415b510b0",
+        "tests/source_reference_consumer/CMakeLists.txt": "70f4cc252ac2192d6e68e06f5271c98cdac30107ac1cf5155546591b75bffe46"
+      },
+      "external_artifacts": [
+        {
+          "artifact_name": "source-shared-replay-f0a2cc4-evidence.json",
+          "sha256": "21502c7d7d5321094830b0e76c5df14be6d52b2ca68976ba49f0e42c57ca85ed",
+          "availability": "External local audit artifact; bytes are not embedded or publicly retrievable from this index. Hash is an identity binding, not a claim of public reproducibility.",
+          "recorded_source_times": {},
+          "time_note": "No explicit timestamp in this artifact; no filesystem mtime substituted for execution time."
+        },
+        {
+          "artifact_name": "source-publication-binding-118c1a7.json",
+          "sha256": "fb08b43ce2f80f8cf5c4977627e5439e02f47b5ffdb55735746aeab23b1ce2e8",
+          "availability": "External local audit artifact; bytes are not embedded or publicly retrievable from this index. Hash is an identity binding, not a claim of public reproducibility.",
+          "recorded_source_times": {
+            "verified_at_utc": "2026-10-16T00:03:37.956823+00:00"
+          }
+        },
+        {
+          "artifact_name": "source-replay-evidence-f0a2cc4/summary.json",
+          "sha256": "3d18462fb8e492f582b29a20c7dba023223af16fb364f3f2caa4923294fd48a8",
+          "availability": "External local audit artifact; bytes are not embedded or publicly retrievable from this index. Hash is an identity binding, not a claim of public reproducibility.",
+          "recorded_source_times": {},
+          "time_note": "No explicit timestamp in this artifact; no filesystem mtime substituted for execution time."
+        }
+      ]
+    },
+    {
+      "id": "cascade_archive_replay",
+      "published_commit": "02c71637c751e7e3f4e6315c036803ef26a87f65",
+      "tested_candidate_commit": "26b32e85898dcd539c78e4b99afd9c7769d42de3",
+      "identical_source_tree": "3e2704b12b1509f307a27016420538df39bc92a8",
+      "local_validation": {
+        "scope": "strict GCC Debug/Release all 39 native suites, relocated SDK consumers, RFAMP pilots and retirement; not full four-gate matrix, remote CI or new SystemVue",
+        "configurations": {
+          "Debug": {
+            "native_suite_count": 39,
+            "all_native_passed": true,
+            "retirement_passed": true
+          },
+          "Release": {
+            "native_suite_count": 39,
+            "all_native_passed": true,
+            "retirement_passed": true
+          }
+        },
+        "full_four_gate_matrix": false
+      },
+      "vendor_scope": "Eight diagnostic-only captures:230=208 pass+22 fail,10 power-only failures;43 additional measured origins unscored,missing spectrum-reduction readback. All historical statuses retained;58 rows/136 numerical fields differ at rounding scale without proven historical-platform cause.",
+      "source_file_sha256": {
+        ".gitattributes": "9566d6b449142d470f38087fcc58dc9e37c608671ed5fc78dbd1ea24e0044065",
+        ".github/workflows/build.yml": "2208939b08ed4815a5b39c9b317d5de6452ea7bca9d76d6a907d00fadef8b45e",
+        "cmake/CascadeReferenceReplay.cmake": "8de3440eeabd8687bf2dd4fa6e18b2e826f788c9f6bc539a03968c444ccf869c",
+        "cmake/RFModelTests.cmake": "01a62104f0cb1001f4b484368eb7ed8e3eb17853ae68c883bfccbd1787396e4a",
+        "docs/cascade-archive-native-replay.md": "6fd17a13b44d18a19e0778960ece640e8f4e8f957cec1b7a56896c648ba1ab9e",
+        "scripts/reference/native_cascade_replay.py": "855c84386ec598ba2d4a5fd5f4d8842aa02c853061964c8560573c0f7818db95",
+        "scripts/reference/replay_cascade_archives.py": "8791c6218f44fc21f275bf902d0120910294ad358960636d677a9db77c69f398",
+        "scripts/reference/test_cascade_archive_replay.py": "dcd6b9d6eeaa3e037d907be5947cd3c76d4a6f22a2549baee2b5d5f2b2d70236",
+        "scripts/reference/test_cascade_replay_protocol.py": "08d4beb161f46e6fe66beb0a820ef937b700b0f78d54b8fdb50941bdd6064d8f",
+        "tests/cascade_reference_consumer/CMakeLists.txt": "e5afb546a0795952c694eb91d2973cc4f1d23bb9b1a13713e8fb9c73de82931d",
+        "tests/cmake/check_cascade_replay_install.cmake": "ae8eb6bf62b6a8722c67d4659b783b8d3168538036003f87deb4ebf5cf023083",
+        "tests/reference/reference_cascade_odr.cpp": "444d3fd5960ea6d5d6afd93c0cc5038fbc8c416a3de1e2801b0613d5dc780897",
+        "tests/reference/reference_cascade_oracle.cpp": "65dab024703a55ce6e44ea4e651e5afaf3b642d9f2e6ecb35cda7cabcf92f2fa",
+        "tests/reference/reference_cascade_probe.cpp": "5a6659d67a2ec2c66d87b4ada7f830ece49a2126936c0176d4a43deebb48d3eb"
+      },
+      "external_artifacts": [
+        {
+          "artifact_name": "cascade-source-final-evidence/manifest.json",
+          "sha256": "d23e5a7d632eb69677aa70ac832a71d2917103b759ad8dc8252af1d52f6d0c71",
+          "availability": "External local audit artifact; bytes are not embedded or publicly retrievable from this index. Hash is an identity binding, not a claim of public reproducibility.",
+          "recorded_source_times": {},
+          "time_note": "No explicit timestamp in this artifact; no filesystem mtime substituted for execution time."
+        },
+        {
+          "artifact_name": "cascade-source-final-evidence/report.md",
+          "sha256": "64a4d91653c1500ac5c07e52f8d33edd6a594a510a67542dde6a091cad71e401",
+          "availability": "External local audit artifact; bytes are not embedded or publicly retrievable from this index. Hash is an identity binding, not a claim of public reproducibility."
+        },
+        {
+          "artifact_name": "cascade-source-publication-binding/publication-binding.json",
+          "sha256": "f9a7eecc622123a6de8ab2ff3bf023897af6b21122f84b81d5fbcdcab65aadc2",
+          "availability": "External local audit artifact; bytes are not embedded or publicly retrievable from this index. Hash is an identity binding, not a claim of public reproducibility.",
+          "recorded_source_times": {
+            "verified_at": "2026-10-16T00:56:50.856287+00:00"
+          }
+        }
+      ]
+    },
+    {
+      "id": "installed_behavioral_system_workflow",
+      "published_commit": "350bc9fcb4b2663972c639ad47429711a35c2eb8",
+      "tested_candidate_commit": "5f496ca00bd02c027288f3c8c96539de309b2ab1",
+      "identical_source_tree": "25876974efcf862a303ad280f0478902b29ed5d8",
+      "local_validation": {
+        "scope": "Focused/installed checks only; not full four-gate numerical matrix.",
+        "focused": {
+          "Debug": "1/1",
+          "Release": "1/1"
+        },
+        "relocated_two_tu_consumers": {
+          "full_Debug": "1/1",
+          "pure_Debug": "1/1",
+          "full_Release": "1/1",
+          "pure_Release": "1/1"
+        },
+        "independent_NDEBUG": "Strict final-source build/run passed; deliberately wrong analytic S00 rejected with exit 1.",
+        "no_new_solver_or_device_algorithm": true
+      },
+      "vendor_scope": "No new vendor measurement or SystemVue CP/CNP/CV/ZPORT equivalence.",
+      "source_file_sha256": {
+        "cmake/RFModelExamples.cmake": "3603e51f9c71dd46be06686216c2fb4eed0818bf7094b3613e194326914a3977",
+        "cmake/RFModelTests.cmake": "566bc21156cd12556b37d5350e4727570d352aeb4890f9ddfb5b240ca679ccb5",
+        "examples/behavioral-system-sdk/CMakeLists.txt": "3f91bc03cd9f3d477b728a6280341362572e02c6a2296c1c0c8feb3938a15b2d",
+        "examples/behavioral-system-sdk/README.md": "f6cf6e99937b56de783667cc8f04d09e129e0422cecef1b120c59f97e7d48726",
+        "examples/behavioral-system-sdk/main.cpp": "e0440118b47284ee4a7a16cbb705e0b8f07552b83fbe6dcd0125be37073d14dc",
+        "examples/behavioral-system-sdk/workflow.cpp": "ac3d31b0463e375c32d4cbf53a7753672e73c5ebaf2da795cf0e40008037f018",
+        "examples/behavioral-system-sdk/workflow.hpp": "5134e9e27a5462453a1a8be6d42803ea8a589d7846a14f514475c35e9a18bdd7",
+        "tests/cmake/check_behavioral_system_install.cmake": "6d276cdab923e7c5a7666857f67b38a89d7536c64e71436b9cac3fa33ec586aa"
+      },
+      "external_artifacts": [
+        {
+          "artifact_name": "behavioral-system-final-v2/report.md",
+          "sha256": "54528110595da42cf18b14ecfde0d08af323156b3c6153b5f7420de7fa43316a",
+          "availability": "External local audit artifact; bytes are not embedded or publicly retrievable from this index. Hash is an identity binding, not a claim of public reproducibility."
+        },
+        {
+          "artifact_name": "behavioral-system-final-v2/identity.txt",
+          "sha256": "de053e7257a45602d326d2e7cf3a3fbd8efd1bd17a562b424970430d0a8f60d7",
+          "availability": "External local audit artifact; bytes are not embedded or publicly retrievable from this index. Hash is an identity binding, not a claim of public reproducibility."
+        },
+        {
+          "artifact_name": "behavioral-system-final-v2/SHA256SUMS",
+          "sha256": "364bf2b923f7418e657dd2c000652f4b0e010be5dda9a758187626233d51b27c",
+          "availability": "External local audit artifact; bytes are not embedded or publicly retrievable from this index. Hash is an identity binding, not a claim of public reproducibility."
+        },
+        {
+          "artifact_name": "behavioral-system-final-v2/root-verification.json",
+          "sha256": "0930facea283e7bc8a834dbbe2e5985e80be2d5ca0b7731cb3074adb6888f8c4",
+          "availability": "External local audit artifact; bytes are not embedded or publicly retrievable from this index. Hash is an identity binding, not a claim of public reproducibility.",
+          "recorded_source_times": {
+            "checked_at": "2026-10-16T01:04:17.353198+00:00"
+          }
+        },
+        {
+          "artifact_name": "behavioral-system-publication-binding-350bc9f.json",
+          "sha256": "a14b447581127d2ecdd9a671bfce062489795b1b85cb78adeec6514271a497f5",
+          "availability": "External local audit artifact; bytes are not embedded or publicly retrievable from this index. Hash is an identity binding, not a claim of public reproducibility.",
+          "recorded_source_times": {},
+          "time_note": "No explicit timestamp in this artifact; no filesystem mtime substituted for execution time."
+        }
+      ]
+    },
+    {
+      "id": "behavioral_sdk_target_guard_fix",
+      "published_commit": "6ef3b0c0c840d2434b4b59e959b6c93eb4beb211",
+      "tested_candidate_commit": "1df09c376bb94bffc34973300f17a7ef072cfea2",
+      "identical_source_tree": "a305e404e004330dab4f69478aee17da4bad976a",
+      "local_validation": {
+        "scope": "Two-line strict SDK target-list/count integration fix; no numerical core or example algorithm changes.",
+        "cause": "The 350bc9f focused selection omitted sdk_configuration_test; CI exposed eight example targets against seven expected. Original focused/installed success is not a full integration pass.",
+        "focused": {
+          "Debug": "3/3",
+          "Release": "3/3"
+        },
+        "selected_tests": [
+          "sdk_configuration_test",
+          "behavioral_system_example",
+          "behavioral_system_sdk_installed"
+        ],
+        "relocated_two_tu_consumers": {
+          "full_Debug": "1/1",
+          "pure_Debug": "1/1",
+          "full_Release": "1/1",
+          "pure_Release": "1/1"
+        },
+        "negative_controls": [
+          "Unmodified 350bc9f reproduces target-count failure.",
+          "Extra ninth target rejected with exit 1.",
+          "Wrong example name at unchanged count rejected with exit 1."
+        ],
+        "full_four_gate_matrix": false
+      },
+      "vendor_scope": "No new vendor acquisition or acceptance. Strict target identities and minimal zero-target expectation remain enforced.",
+      "source_file_sha256": {
+        "tests/cmake/check_sdk_configuration.cmake": "fba030ee12c8b246d02b92b96ae482b44aa437d6bf5ac85f01cb9045762ebd32"
+      },
+      "external_artifacts": [
+        {
+          "artifact_name": "behavioral-sdk-guard-evidence/report.md",
+          "sha256": "9731ba5814a9266579f081f1a3ae5b6209e6817e317fe1332cab48de78b35975",
+          "availability": "External local audit artifact; not embedded or publicly retrievable from this index.",
+          "time_note": "Original report/log/receipt preserves its own source timestamps where present; summary assembly time is not execution or retrieval time."
+        },
+        {
+          "artifact_name": "behavioral-sdk-guard-evidence/identity.txt",
+          "sha256": "d1e4e332e1fb2039abea5343770b9aa835a18fba49aa475c7d47c8fce889c41c",
+          "availability": "External local audit artifact; not embedded or publicly retrievable from this index.",
+          "time_note": "Original report/log/receipt preserves its own source timestamps where present; summary assembly time is not execution or retrieval time."
+        },
+        {
+          "artifact_name": "behavioral-sdk-guard-evidence/source-sha256.txt",
+          "sha256": "1ceeacd5b9b84118f2938338e8ba2af5feb0915cd99985c108d39955352ba45c",
+          "availability": "External local audit artifact; not embedded or publicly retrievable from this index.",
+          "time_note": "Original report/log/receipt preserves its own source timestamps where present; summary assembly time is not execution or retrieval time."
+        },
+        {
+          "artifact_name": "behavioral-sdk-guard-evidence/SHA256SUMS",
+          "sha256": "d6b2de258a8b19d7fccb0123c80cd0c52bd5e9bb64cd28eb19cd0948eb79cf2f",
+          "availability": "External local audit artifact; not embedded or publicly retrievable from this index.",
+          "time_note": "Original report/log/receipt preserves its own source timestamps where present; summary assembly time is not execution or retrieval time."
+        },
+        {
+          "artifact_name": "behavioral-sdk-guard-evidence/publication-receipt-6ef3b0c.json",
+          "sha256": "37b8784e7fe4054f08b53753eabf81b48655b856408a0566d4c5be21bd9d9066",
+          "availability": "External local audit artifact; not embedded or publicly retrievable from this index.",
+          "time_note": "Original report/log/receipt preserves its own source timestamps where present; summary assembly time is not execution or retrieval time."
+        },
+        {
+          "artifact_name": "behavioral-sdk-guard-evidence/focused-Debug.log",
+          "sha256": "a3e2c195c29574c77535ae5b930f7abff9c79f97a132b6541268aba25e7c245c",
+          "availability": "External local audit artifact; not embedded or publicly retrievable from this index.",
+          "time_note": "Original report/log/receipt preserves its own source timestamps where present; summary assembly time is not execution or retrieval time."
+        },
+        {
+          "artifact_name": "behavioral-sdk-guard-evidence/focused-Release.log",
+          "sha256": "5b1eb2b6724a3cc17dd7c8fd31d8cf0fa35a87d010b1e69be959815c766cfca1",
+          "availability": "External local audit artifact; not embedded or publicly retrievable from this index.",
+          "time_note": "Original report/log/receipt preserves its own source timestamps where present; summary assembly time is not execution or retrieval time."
+        },
+        {
+          "artifact_name": "behavioral-sdk-guard-evidence/base-repro.log",
+          "sha256": "35e20db94153abb3a1641738ffdc8a14f9e0699843b1751d44a16abcb418b0e0",
+          "availability": "External local audit artifact; not embedded or publicly retrievable from this index.",
+          "time_note": "Original report/log/receipt preserves its own source timestamps where present; summary assembly time is not execution or retrieval time."
+        },
+        {
+          "artifact_name": "behavioral-sdk-guard-evidence/negative-extra-target.log",
+          "sha256": "32dd714b283c3d9ab316a18e347ffdcedfe969449ccacec791180e97d90716e4",
+          "availability": "External local audit artifact; not embedded or publicly retrievable from this index.",
+          "time_note": "Original report/log/receipt preserves its own source timestamps where present; summary assembly time is not execution or retrieval time."
+        },
+        {
+          "artifact_name": "behavioral-sdk-guard-evidence/negative-wrong-name.log",
+          "sha256": "3cdc7d32f7ff43fcc98c004adc04f55771b46c845b36392660a3a2210bc2fc43",
+          "availability": "External local audit artifact; not embedded or publicly retrievable from this index.",
+          "time_note": "Original report/log/receipt preserves its own source timestamps where present; summary assembly time is not execution or retrieval time."
+        },
+        {
+          "artifact_name": "behavioral-sdk-guard-evidence/old-failed-job-audit/audit.json",
+          "sha256": "c1e5d9656eee75c7820ca8f21a27dc3b84750b8dc409bb773db6fb3db6b1b798",
+          "availability": "External audit artifact, not embedded or publicly downloadable here.",
+          "scope": "All 12 failed jobs from exact 350bc9f run; decoded logs normalize CRLF to LF and are not raw network bytes.",
+          "recorded_source_time": "2026-10-16T01:34Z retrieval window reported by audit worker; exact per-source timestamps remain in audit."
+        },
+        {
+          "artifact_name": "behavioral-sdk-guard-evidence/old-failed-job-audit/report.md",
+          "sha256": "d016019d8d4a99a5b2d50052de3d3a1404f2121dda3334305e6c616f90ff22bf",
+          "availability": "External audit artifact, not embedded or publicly downloadable here.",
+          "scope": "All 12 failed jobs from exact 350bc9f run; decoded logs normalize CRLF to LF and are not raw network bytes.",
+          "recorded_source_time": "2026-10-16T01:34Z retrieval window reported by audit worker; exact per-source timestamps remain in audit."
+        },
+        {
+          "artifact_name": "behavioral-sdk-guard-evidence/old-failed-job-audit/SHA256SUMS",
+          "sha256": "7ffeed6c3a6297a0ca1a7fde5bae40da60ee2ef12758d0ba15ddab8db88cb8a3",
+          "availability": "External audit artifact, not embedded or publicly downloadable here.",
+          "scope": "All 12 failed jobs from exact 350bc9f run; decoded logs normalize CRLF to LF and are not raw network bytes.",
+          "recorded_source_time": "2026-10-16T01:34Z retrieval window reported by audit worker; exact per-source timestamps remain in audit."
+        }
+      ],
+      "old_ci_failure_audit": {
+        "run_id": 38834090412,
+        "run_conclusion": "failure",
+        "successful_jobs": 6,
+        "failed_jobs": 12,
+        "cancelled_jobs": 0,
+        "failure_in_each_failed_job": "sdk_configuration_test only: actual example targets 8 versus expected 7",
+        "example_and_installed_checks_in_failed_jobs": {
+          "passed": 24,
+          "total": 24
+        },
+        "meaning": "Passing individual example/install checks does not turn any failed job or run green."
+      }
+    }
+  ],
+  "final_source_ci": {
+    "run_id": 38835703380,
+    "commit": "6ef3b0c0c840d2434b4b59e959b6c93eb4beb211",
+    "status": "completed",
+    "conclusion": "success",
+    "successful_jobs": 18,
+    "raw_snapshot": "validation/compatibility-raw-ci-38835703380.json",
+    "raw_snapshot_sha256": "80b7b103c2a7498ae7a5802f628ca6a29295d9036895860b50dbe4159475be55",
+    "capture_times": {
+      "iteration": 9,
+      "runFetchStartedUtc": "2026-10-16T01:49:19.582Z",
+      "runFetchFinishedUtc": "2026-10-16T01:49:19.932Z",
+      "jobsFetchStartedUtc": "2026-10-16T01:49:19.932Z",
+      "jobsFetchFinishedUtc": "2026-10-16T01:49:20.867Z",
+      "assembledUtc": "2026-10-16T01:49:20.867Z"
+    },
+    "capture_time_meaning": "UTC intervals surround each REST fetch; assembledUtc is envelope assembly, not server completion. Combined capture copied byte-for-byte. Embedded run/jobs JSON payload bytes match the separately saved originals except that each standalone file terminal LF is omitted in the envelope. Separate original-file hashes retain those LF bytes.",
+    "original_run_sha256": "6d4818dc3685a226b0065da49365e692f1b16a225a1a63bf7f078f71b6ab6bd1",
+    "original_jobs_sha256": "10a91164818d9b111e5b257fcb4f1385ddb85043ea50791068964b22f5465592",
+    "capture_record_sha256": "84b2cb4ca39c9c068b0747a1892cdba038d2cc922d3c78628897bdb6e3755bb2"
+  }
+}

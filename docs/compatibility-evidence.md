@@ -1,13 +1,14 @@
 # 当前 C++ 能力与证据
 
 [机读映射](../validation/compatibility-evidence.json)是当前兼容摘要的权威索引，
-本轮冻结源码基线为 `5c5812e0f81ef4fa45893784f9f9e7430170e218`，不是全目录验收清单。
-源码树为 `29d6961e28f7d9f4f1c99c30e9028b1c81b7a2f2`。已包括 locked PI PLL、共享复相位响应、
-有限频带 jitter、installed SDK 示例、只读 X-parameter 重放工具、线性 MNA、MNA→S、
-Touchstone raw 两端口噪声导出及显式等温 MNA/ModelAdapter/conversion SDK 示例。
-源基线精确 CI 38815413675 已从完整原始 REST run/jobs 核验全部 18 作业成功。
+本轮工程源码基线为 `6ef3b0c0c840d2434b4b59e959b6c93eb4beb211`，不是全目录验收清单。
+源码树为 `a305e404e004330dab4f69478aee17da4bad976a`。在既有原生能力上加入独立弱噪声块保留、
+历史单/双音、共享来源及两级 source-cubic 归档重放，以及同一行为模型/接线表的系统 SDK 示例。
+源基线精确 CI 38835703380 已从完整原始 REST run/jobs 核验全部 18 作业成功。
+原示例提交 `350bc9f` 的 CI 38834090412 失败，严格 SDK 目标清单修复与原失败记录分列。
+前次冻结基线 `5c5812e` 的 CI 38815413675 仍只证明该历史提交的 18 作业成功。
 各阶段 CI 只属于所列精确源码提交；后续文档/证据校验覆盖层仍须单独核验，不能继承源码成功。
-本覆盖层仅更新 docs/validation 与严格证据校验，不改数值实现、原阈值、验收条件或 SDK 示例。
+本覆盖层仅更新 docs/validation；现有严格 checker/schema 不变，不改数值实现、原阈值、验收条件或 SDK 示例。
 先前 `3160ba` 覆盖层的工具与格式改动属于历史记录，不是本轮改动。
 它分列实现范围、独立数值证据、厂商归档状态、剩余问题及发布门禁。
 `implemented` 只表示所述 C++ 契约存在；`bounded_pass` 只表示指定厂商子集通过。
@@ -173,6 +174,52 @@ reader 与 catalog 的精确源码 CI 均已核验 18/18 成功；覆盖层自�
 即使未来选定文件格式重放通过，也不独立验证所有系数值、模型数值、归一化或参考面。
 工具不运行 SystemVue/COM，不上传完整厂商文件；Python 仅为开发编排与评分。
 
+## 2026-10-16 行为级系统工作流与追加证据
+
+主线是 RF Design 行为器件建模、共享器件与系统组网、Linear 外部 S，以及 RF System
+节点/端口谱和路径性能。这是主要框架，不能替代完整 SystemVue 2023 规格。
+底层算法服务明确的行为与测量；算法存在或测试通过不自动增加厂商覆盖，目录检索未命中也不证明能力不存在。
+
+- [独立弱噪声块](noise.md)：保留可表示的独立弱块，同时保持旧因子结果与既有容差。
+  本地 full/pure Debug/Release 及安装消费者合计 756/756；严格 focused 与负控另列。
+  连通块内弱模式、次正规数、舍入底噪及上层矩阵重构限制保留，不推断物理噪声律或厂商验收。
+- [单/双音原生归档重放](amplifier-archive-native-replay.md)：六个历史 case 的 42 项判定为
+  22 通过、20 失败；原名义输入、scorer 和 1e-7 阈值不变。本地 affected native 各 8/8，
+  工具通过表示正确报告差异，不是 RFAMP 全过，也不是新增采集。
+- [共享来源重放](source-archive-native-replay.md)：同批 23 capture 中 21 正常 case；
+  A 的 53 项为 49 通过/4 失败，B 的 206 项和 21 分组关系通过；两个相消 case 仅为排除诊断。
+  64 次 direct 边界比较不另加为独立覆盖。严格 native 各 36/36，安装证据另列。
+  B 的通过不覆盖 A 的 RFPwrIn 失败；原始 raw/workspace/library 字节声明仍有未核验部分。
+- [两级 source-cubic 重放](cascade-archive-native-replay.md)：8 份旧 capture、230 项诊断判定为
+  208 通过/22 失败，含 10 个仅功率阈值失败；原逐项状态保持，数值差异单列。
+  缺少 spectrum-reduction 回读，全部为 diagnostic_only；43 条额外实测 port3 来源未评分且方向未知。
+  不补零、不升级为完整端口谱、NodeTotal 或厂商物理验收。严格 native 各 39/39 与安装消费者
+  是 affected gate，不是 full four-gate 数值矩阵。既有失真仅线性传导，不证明任意二次混频。
+- [行为级系统 installed SDK 示例](../examples/behavioral-system-sdk/README.md)：同一不可变命名模型和
+  单一物理接线表用于外部 S 扫频与加载后的内部端口测量；失配链和带旁支加载的 tee 都有独立解析 oracle。
+  strict focused Debug/Release 各 1/1，重定位 full/pure SDK Debug/Release 四格各 1/1，
+  双 TU、NDEBUG 独立审查和错误解析 S 负控分别保留。仅是现有 API 的工程组合，没有新求解器或器件算法，
+  不是 full numerical gate 或 SystemVue 新实测。
+- 严格 SDK 目标清单修复：原 `350bc9f` focused 选择未包含 sdk_configuration_test，新增示例使
+  CI 检出 8 个目标而旧清单要求 7 个。`6ef3b0c` 仅同步两行目标名/数量，保持严格名称、
+  最小配置零目标和 C/Python 隔离检查。本地 Debug/Release 各 3/3 affected tests，四格安装消费者
+  各 1/1；额外目标和等数量错误名称两个负控均拒绝。
+  旧运行 12 个失败 job 的完整解码日志均只列该 guard 失败，example/installed 两项合计 24/24 通过；
+  这不改变原 job/run 失败结论，解码日志 hash 与原始 REST 快照字节 hash 分列。
+
+示例端口参考阻抗不是测得节点阻抗；实际加载下 V/I 不是增量 looking-in 阻抗或已验证的 ZPORT。
+V、I 均为 RMS 相量，电流朝器件内，净功率为 Re(V·conj(I))，不声称等同于 SystemVue CP/CNP/CV。
+链路 helper 限定有序二端口链；分支 selected-cut 比值说明源、两侧负载、频率与方向，并保留旁支加载。
+完整 2023 官方帮助正文在本轮核验中尚未可读；已有带哈希的
+[历史通道测量帮助摘要](../validation/systemvue-2023-channel-noise-help-provenance.json)、
+[谱约简帮助来源](../validation/systemvue-2023-spectrum-reduction-help-provenance.json)与新的运行实验必须分列，
+不以摘要冒充完整规格，也不由访问限制推断厂商功能不存在。
+
+[阶段工程摘要](../validation/engineering-stage-evidence-20261016.json)分列本地候选、正式提交、同树绑定、
+逐源文件哈希及外部审计原件身份。外部原件未嵌入公开仓库，摘要哈希不是公开下载或独立可复核原件的承诺。
+原始执行时间、发布绑定时间与 CI 采集时间各自保留；本摘要时间不替代它们。
+本轮未执行 SystemVue，不新增厂商样本；三个重放路线也不恢复 Python 产品接口。
+
 ## 精确提交与运行
 
 以下成功记录均为各自精确提交 18/18 作业，不覆盖后续提交：
@@ -218,18 +265,35 @@ reader 与 catalog 的精确源码 CI 均已核验 18/18 成功；覆盖层自�
 - Touchstone raw 两端口噪声 writer `f603bcf42e1db12fdd50704b0c73d9a189d557de`：[38813359905](https://github.com/minexin/RFSim/actions/runs/38813359905)
 - 显式等温 MNA 噪声 SDK 示例 `5c5812e0f81ef4fa45893784f9f9e7430170e218`：[38815413675](https://github.com/minexin/RFSim/actions/runs/38815413675)
 
+
+- raw 字节跨平台修复 `71e56a157d2eb2ecd05831e6629a4b97442e19cd`：[38819089099](https://github.com/minexin/RFSim/actions/runs/38819089099)
+- 独立弱噪声块 `d84c60558abbf4ff2737476771970d0fb5bbf28b`：[38823709238](https://github.com/minexin/RFSim/actions/runs/38823709238)
+- 单/双音归档重放 `b5ed5efa5b95a79eba8ea156738158c31326fd93`：[38825457841](https://github.com/minexin/RFSim/actions/runs/38825457841)
+- 共享来源归档重放 `118c1a77850001c260705860bc2d7d37247bdf6a`：[38827153851](https://github.com/minexin/RFSim/actions/runs/38827153851)
+- 两级 source-cubic 诊断重放 `02c71637c751e7e3f4e6315c036803ef26a87f65`：[38832230566](https://github.com/minexin/RFSim/actions/runs/38832230566)
+
+- 行为级系统示例的严格 SDK 清单修复 `6ef3b0c0c840d2434b4b59e959b6c93eb4beb211`：[38835703380](https://github.com/minexin/RFSim/actions/runs/38835703380)
+
 frozen noise 原提交 `2033fd33c47a49f0b3ce33b322e97dfe5cc77cc9` 的
 [38705856824](https://github.com/minexin/RFSim/actions/runs/38705856824) 为 14 成功、4 失败。
 新严格快照直接取自实际 REST jobs 的 head_sha/run_id/status，保留旧阶段原格式快照。
-当前机读索引从实际列表核算为 37 个不同运行、666 个逐作业记录。新增 10 个运行均保留
-完整原始 REST run/jobs JSON、SHA-256 及逐 job 归一化映射；checker 核验原始字节、run/head、
-完整 18 作业矩阵和每项 job 的身份/终态，不把本段文字计数当证据。旧 27 份快照原样保留。
+当前机读索引从实际列表核算为 45 个不同终态运行、810 个逐作业记录：
+786 成功、23 失败、1 取消，不能写成全部通过。前次 37 条索引及其全部快照原样保留；
+本轮追加的 8 个已完成运行均保留完整原始 REST run/jobs JSON、SHA-256 和逐 job 映射。
+最终工程源码 CI 38835703380 已在此列表中；后续文档覆盖层自身的 CI 仍须单独核验。
+checker 核验原始字节、run/head、完整 18 作业矩阵和每项 job 的身份/终态；文字计数不是独立证据。
+只有原 27 份 normalized-only 历史运行享有既有例外，其余新增运行必须有完整 raw 绑定。
 
 原失败也保留：pilot `2752af6a5010a7c5ee5fbeddda42c360cf54ff97`
 [38579642585](https://github.com/minexin/RFSim/actions/runs/38579642585) 为 16 成功、2 失败；
 writer `a88dcc041917e30a620a6f06a98caa56042b5b04`
 [38600226155](https://github.com/minexin/RFSim/actions/runs/38600226155) 为 14 成功、3 失败、1 取消。
-后续修复不会改写这些历史结论。
+本轮追加文档覆盖层 `eebef2f38a5a758446374c9a7a963997f9dc03ff` 的
+[38818254433](https://github.com/minexin/RFSim/actions/runs/38818254433)：16 成功、2 失败。
+原行为示例 `350bc9fcb4b2663972c639ad47429711a35c2eb8` 的
+[38834090412](https://github.com/minexin/RFSim/actions/runs/38834090412) 为 6 成功、12 失败。
+以上五个历史 run 的实际 REST conclusion 均为 failure；writer 的 1 个 cancelled 是作业结论，
+不计作失败作业。后续修复不会改写这些历史结论。
 
 逐作业快照由机读映射引用。18 作业是 Windows/Ubuntu/macOS × Debug/Release ×
 核心/纯 SDK/归档重放，并非 18 个厂商兼容测试。所有发布门禁保持开放。
@@ -268,7 +332,7 @@ Python 包或第三方模块。它验证所用 schema 子集、路径、唯一 I
 终态矩阵与成功/失败/取消计数；所有快照均强制逐 job SHA/run/status 绑定。
 早期快照逐 job 字段根据独立重新取得的原始 CI 数据补全。
 自测注入错误引用、重复 ID/运行、虚假 CI 成功及 job 身份/状态/计数篡改，检查拒绝行为。
-本轮新增原始 REST 快照路径/hash 绑定：还校验原始运行/完整 jobs 与归一化记录的一致性，
+既有原始 REST 快照路径/hash 绑定继续使用：还校验原始运行/完整 jobs 与归一化记录的一致性，
 拒绝原始字节篡改、重新计算 hash 后的错误身份及缺失/不完整绑定。只有明确列出的原 27 个
 历史运行可沿用 normalized-only 格式，新增运行不能删除 raw 字段降级；历史快照不重写。
 checker/schema 是开发证据工具，默认 C++ SDK 构建不依赖它；不恢复 Python 产品接口。
