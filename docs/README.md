@@ -4,6 +4,8 @@
 
 - [代码目录与模块归属](repository-layout.md)
 - [C++ SDK 安装](cpp-sdk.md)
+- [2026-10-16 本地同步、审查与回归](local-takeover-validation-20261016.md)
+- [SystemVue 同电路 Linear / RF System 最小实验方案](systemvue-linear-rfsystem-minimal-plan-20261016.md)
 - [C++ 仿真编排 API](cpp-simulation-api.md)
 - [Python 产品接口退役与迁移记录](python-interface-retirement.md)
 - [M1 建设目标](m1-goal.md)

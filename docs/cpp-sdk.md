@@ -72,9 +72,13 @@ ctest --test-dir build-native -C Debug --output-on-failure
 ```
 
 - `BUILD_TESTING=OFF` 不再留下未受控的原生测试可执行文件。
-- `RFMODEL_BUILD_EXAMPLES` 独立控制六个 C++ 示例，默认 ON；测试关闭时仍可单独构建示例。
+- `RFMODEL_BUILD_EXAMPLES` 独立控制八个 C++ 示例目标，默认 ON；测试关闭时仍可单独构建示例。
 - 默认不查找 Python。只有显式 `RFMODEL_BUILD_REFERENCE_TESTS=ON` 的开发重放依赖 Python。
 - 旧 Python 开关 OFF 兼容现有脚本；显式要求 ON 将报退役错误，避免误报已验证绑定。
+
+Windows/MSBuild 的归档测试会创建多层临时构建目录。使用仓库根下较短的 build 目录，
+为编译器探测文件预留路径长度；本机曾在较深目录触发 260 字符限制，
+失败原件及短目录重跑结果见[本地接手验证](local-takeover-validation-20261016.md)。
 
 ## 常用入口与调用责任
 

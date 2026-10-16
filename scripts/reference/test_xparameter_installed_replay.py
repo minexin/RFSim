@@ -313,7 +313,9 @@ class FileIdentityTests(unittest.TestCase):
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory(prefix="replay identity spaces ")
         self.addCleanup(self.temp.cleanup)
-        self.root = Path(self.temp.name)
+        # collect() passes a canonical installation root; the Windows temp path
+        # may otherwise contain an 8.3 alias while read_once resolves its input.
+        self.root = Path(self.temp.name).resolve()
         self.path = self.root / "synthetic input.mdf"
         self.path.write_bytes(LEGACY)
 
@@ -333,6 +335,75 @@ class FileIdentityTests(unittest.TestCase):
         self.assertEqual(identity, replay.identity(before))
         self.assertEqual(replay.identity(self.path.stat()), identity)
         self.assertEqual(self.path.read_bytes(), LEGACY)
+
+    def test_read_after_real_metadata_change_keeps_same_api_snapshots_stable(self):
+        # A write-once fixture may have equal creation/change times on Windows,
+        # hiding the stat(path)/fstat(fd) ctime difference. Change metadata first.
+        os.utime(self.path, ns=(1234567890000000000, 1234567890000000000))
+        before = replay.identity(self.path.stat())
+        data, observed = replay.read_once(self.path, self.root)
+        self.assertEqual(data, LEGACY)
+        self.assertEqual(observed, before)
+        self.assertEqual(replay.identity(self.path.stat()), before)
+
+    def check_identity_snapshots(self, platform, path_before, fd_before, fd_after,
+                                 path_after, error=None):
+        """Exercise read_once without changing the host's global os.name."""
+        opened = mock.MagicMock()
+        opened.__enter__.return_value = opened
+        opened.read.return_value = LEGACY
+        module_os = SimpleNamespace(name=platform, fstat=mock.Mock())
+        with mock.patch.object(Path, "open", return_value=opened) as open_file, \
+                mock.patch.object(replay, "os", module_os), \
+                mock.patch.object(replay, "identity", side_effect=[
+                    path_before, fd_before, fd_after, path_after]) as identity:
+            if error:
+                with self.assertRaisesRegex(score.ReplayError, error):
+                    replay.read_once(self.path, self.root)
+            else:
+                self.assertEqual(replay.read_once(self.path, self.root), (LEGACY, path_before))
+        open_file.assert_called_once_with("rb")
+        if error == "changed_before_read":
+            opened.read.assert_not_called()
+            self.assertEqual(module_os.fstat.call_count, 1)
+            self.assertEqual(identity.call_count, 2)
+        else:
+            opened.read.assert_called_once_with(replay.MAX_INPUT_BYTES + 1)
+            self.assertEqual(module_os.fstat.call_count, 2)
+            self.assertEqual(identity.call_count, 4)
+
+    def test_windows_stable_cross_api_ctime_difference_is_accepted(self):
+        before = replay.identity(self.path.stat())
+        descriptor = dict(before, ctime_ns=before["ctime_ns"] + 1)
+        self.check_identity_snapshots("nt", before, descriptor, descriptor, before)
+
+    def test_same_api_ctime_changes_are_rejected_on_every_platform(self):
+        before = replay.identity(self.path.stat())
+        for platform in ("nt", "posix"):
+            descriptor = dict(before, ctime_ns=before["ctime_ns"] + (platform == "nt"))
+            changed_path = dict(before, ctime_ns=before["ctime_ns"] + 2)
+            changed_fd = dict(descriptor, ctime_ns=descriptor["ctime_ns"] + 2)
+            for owner, after_fd, after_path in (("path", descriptor, changed_path),
+                                               ("descriptor", changed_fd, before)):
+                with self.subTest(platform=platform, changed=owner):
+                    self.check_identity_snapshots(platform, before, descriptor, after_fd,
+                                                  after_path, "changed_during_read")
+
+    def test_cross_api_non_ctime_identity_changes_are_rejected_before_read(self):
+        before = replay.identity(self.path.stat())
+        for platform in ("nt", "posix"):
+            for key in ("device", "inode", "size", "mtime_ns", "mode"):
+                descriptor = dict(before)
+                descriptor[key] += 1
+                with self.subTest(platform=platform, changed=key):
+                    self.check_identity_snapshots(platform, before, descriptor, descriptor,
+                                                  before, "changed_before_read")
+
+    def test_nonwindows_cross_api_ctime_mismatch_still_fails_before_read(self):
+        before = replay.identity(self.path.stat())
+        descriptor = dict(before, ctime_ns=before["ctime_ns"] + 1)
+        self.check_identity_snapshots("posix", before, descriptor, descriptor, before,
+                                      "changed_before_read")
 
     def test_descriptor_identity_mutation_fails_without_retry(self):
         before = self.path.stat()
@@ -417,21 +488,52 @@ class CommandCaptureTests(unittest.TestCase):
         counter = self.root / "invocation count"
         script = ("from pathlib import Path; import sys; "
                   f"p=Path({str(counter)!r}); p.write_text(p.read_text()+'x' if p.exists() else 'x'); "
-                  "print('partial output', flush=True); sys.stderr.write('failure'); sys.exit(7)")
+                  "sys.stdout.buffer.write(b'partial output\\r\\n'); sys.stdout.buffer.flush(); "
+                  "sys.stderr.write('failure'); sys.exit(7)")
         with self.assertRaisesRegex(score.ReplayError, "command_failed_probe"):
             self.invoke(script)
         self.assertEqual(counter.read_text(), "x")
         self.assertEqual(len(self.commands), 1)
         self.assertEqual(self.command_record()["returncode"], 7)
-        self.assertEqual((self.root / "probe.stdout").read_bytes(), b"partial output\n")
+        self.assertEqual((self.root / "probe.stdout").read_bytes(), b"partial output\r\n")
         self.assertEqual((self.root / "probe.stderr").read_bytes(), b"failure")
 
     def test_timeout_retains_failure_without_retry(self):
+        # Interpreter startup can exceed the short deadline on a busy host.
+        # Prepare one real process and wait for its flushed output before testing
+        # the runner's unchanged timeout/kill/capture path. Do not consume pipes.
+        ready = self.root / "timeout child ready"
+        script = ("from pathlib import Path; import sys, time; "
+                  "sys.stdout.buffer.write(b'started\\n'); sys.stdout.buffer.flush(); "
+                  f"Path({str(ready)!r}).write_bytes(b'ready'); time.sleep(30)")
+        argv = [sys.executable, "-c", script]
+        process = subprocess.Popen(argv, stdin=subprocess.DEVNULL, stdout=subprocess.PIPE,
+                                   stderr=subprocess.PIPE, shell=False)
+
+        def cleanup_process():
+            if process.poll() is None:
+                process.kill()
+            process.wait(timeout=5)
+            for pipe in (process.stdout, process.stderr):
+                pipe.close()
+
+        self.addCleanup(cleanup_process)
+        startup_deadline = time.monotonic() + 10
+        while not ready.is_file():
+            self.assertIsNone(process.poll(), "Timeout fixture exited before readiness")
+            self.assertLess(time.monotonic(), startup_deadline,
+                            "Timeout fixture did not become ready during setup")
+            time.sleep(0.01)
         started = time.monotonic()
-        with self.assertRaisesRegex(score.ReplayError, "command_failed_probe"):
-            self.invoke("import time; print('started', flush=True); time.sleep(30)", timeout=0.2)
+        with mock.patch.object(replay.subprocess, "Popen", return_value=process) as launch:
+            with self.assertRaisesRegex(score.ReplayError, "command_failed_probe"):
+                replay.run_command(argv, self.root, "probe", self.commands, timeout=0.2)
         self.assertLess(time.monotonic() - started, 10)
+        launch.assert_called_once_with(argv, stdin=subprocess.DEVNULL, stdout=subprocess.PIPE,
+                                       stderr=subprocess.PIPE, env=None, shell=False)
         self.assertTrue(self.command_record()["timed_out"])
+        self.assertNotEqual(self.command_record()["returncode"], 0)
+        self.assertIsNotNone(process.poll())
         self.assertEqual(len(self.commands), 1)
         self.assertEqual((self.root / "probe.stdout").read_bytes(), b"started\n")
 

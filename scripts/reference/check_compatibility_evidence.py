@@ -145,11 +145,11 @@ def validate(data, schema):
     for capability in data['capabilities']:
         for reference in capability['references']:
             file_reference(reference)
-    inventory = json.loads(file_reference(data['catalog']['inventory']).read_text())
+    inventory = json.loads(file_reference(data['catalog']['inventory']).read_text(encoding="utf-8"))
     require(data['catalog']['unique_part_count'] == inventory['unique_part_count'],
             'Catalog inventory count mismatch')
     for run in data['ci']:
-        evidence = json.loads(file_reference(run['evidence']).read_text())
+        evidence = json.loads(file_reference(run['evidence']).read_text(encoding="utf-8"))
         require(run['url'] == f"https://github.com/minexin/RFSim/actions/runs/{run['run_id']}",
                 'CI URL/run mismatch')
         require(run['verified_successful_jobs'] <= run['expected_jobs'], 'Impossible CI count')
@@ -184,7 +184,7 @@ def self_test(data, schema):
         except ValueError:
             continue
         raise AssertionError('Invalid evidence mutation was accepted')
-    evidence = json.loads(file_reference(data['ci'][0]['evidence']).read_text())
+    evidence = json.loads(file_reference(data['ci'][0]['evidence']).read_text(encoding="utf-8"))
     evidence['jobs'][0]['name'] = 'build (unverified-platform, Release)'
     try:
         validate_ci_run(data['ci'][0], evidence)
@@ -194,7 +194,7 @@ def self_test(data, schema):
         raise AssertionError('Invalid CI matrix identity was accepted')
     for run_under_test in (data['ci'][0], next(row for row in data['ci']
                                               if row['status'] == 'failed')):
-        original = json.loads(file_reference(run_under_test['evidence']).read_text())
+        original = json.loads(file_reference(run_under_test['evidence']).read_text(encoding="utf-8"))
         job_mutations = [
             lambda e: e['jobs'][0].update(head_sha='0' * 40),
             lambda e: e['jobs'][0].update(run_id=0),
@@ -237,7 +237,7 @@ def self_test(data, schema):
             raise AssertionError('Duplicate CI matrix member with adjusted counts was accepted')
     print(f'{len(mutations) + 1 + 2 * (len(job_mutations) + 5)} invalid-evidence mutations rejected')
     raw_run = next(row for row in data['ci'] if 'raw_snapshot' in row)
-    raw_evidence = json.loads(file_reference(raw_run['evidence']).read_text())
+    raw_evidence = json.loads(file_reference(raw_run['evidence']).read_text(encoding="utf-8"))
     raw_bytes = file_reference(raw_run['raw_snapshot']).read_bytes()
     raw_original = json.loads(raw_bytes)
     raw_mutations = [
@@ -315,8 +315,8 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--self-test', action='store_true')
     arguments = parser.parse_args()
-    data = json.loads((ROOT / 'validation/compatibility-evidence.json').read_text())
-    schema = json.loads((ROOT / 'validation/compatibility-evidence.schema.json').read_text())
+    data = json.loads((ROOT / 'validation/compatibility-evidence.json').read_text(encoding="utf-8"))
+    schema = json.loads((ROOT / 'validation/compatibility-evidence.schema.json').read_text(encoding="utf-8"))
     validate(data, schema)
     if arguments.self_test:
         self_test(data, schema)

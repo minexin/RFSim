@@ -57,6 +57,15 @@ def identity(st):
             'mtime_ns': st.st_mtime_ns, 'ctime_ns': st.st_ctime_ns,
             'mode': st.st_mode}
 
+def opened_identity_matches(path_identity, descriptor_identity):
+    # Windows Python may report creation time for stat(path) but metadata-change
+    # time for fstat(fd). Compare ctime only within each API's before/after chain.
+    # Keep every other cross-API field, and the full comparison on other platforms.
+    if os.name == 'nt':
+        return ({key: value for key, value in path_identity.items() if key != 'ctime_ns'} ==
+                {key: value for key, value in descriptor_identity.items() if key != 'ctime_ns'})
+    return path_identity == descriptor_identity
+
 def read_once(path, root):
     """One bounded open/read, with descriptor and path identity checks; no retries."""
     resolved = path.resolve(strict=True)
@@ -67,12 +76,12 @@ def read_once(path, root):
         raise ReplayError('selected_file_type_or_size')
     with path.open('rb') as stream:
         opened = identity(os.fstat(stream.fileno()))
-        if opened != before:
+        if not opened_identity_matches(before, opened):
             raise ReplayError('selected_file_changed_before_read')
         data = stream.read(MAX_INPUT_BYTES + 1)
         after_fd = identity(os.fstat(stream.fileno()))
     after = identity(path.stat())
-    if (before != after_fd or before != after or len(data) != before['size'] or
+    if (opened != after_fd or before != after or len(data) != before['size'] or
             len(data) > MAX_INPUT_BYTES or path.resolve(strict=True) != resolved):
         raise ReplayError('selected_file_changed_during_read')
     return data, before

@@ -1,5 +1,9 @@
 # 当前 C++ 能力与证据
 
+2026-10-16 本地后续已完成[同步审查、工具修复及实际四文件格式回放](local-takeover-validation-20261016.md)，
+并冻结[同电路最小实验](systemvue-linear-rfsystem-minimal-plan-20261016.md)。
+该补充不改变下文历史源提交及 CI 归属，不增加厂商数值验收。
+
 [机读映射](../validation/compatibility-evidence.json)是当前兼容摘要的权威索引，
 本轮工程源码基线为 `6ef3b0c0c840d2434b4b59e959b6c93eb4beb211`，不是全目录验收清单。
 源码树为 `a305e404e004330dab4f69478aee17da4bad976a`。在既有原生能力上加入独立弱噪声块保留、

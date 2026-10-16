@@ -56,9 +56,15 @@ recorded separately and must not be read as a freshly observed version.
 ## Identity, bounds, and exact scoring
 
 Each file is read into at most 64 MiB of memory. The same bytes supply SHA-256 and
-the native stream reader via binary stdin (including on Windows). Descriptor and
-path identity, size, mtime, and ctime are checked before/after the read; detected
-changes fail without retry. This is a consistency check, not a filesystem snapshot
+the native stream reader via binary stdin (including on Windows). Device, inode,
+mode, size and mtime bind the opened descriptor to the selected path. On Windows,
+Python's pathname stat may expose creation time as ctime while descriptor fstat
+exposes metadata-change time ([upstream issue](https://github.com/python/cpython/issues/157671)),
+so ctime is not compared across those two APIs;
+other platforms retain the complete cross-API comparison. The full descriptor
+identity (including ctime) is checked against its own post-read observation, and
+the full pathname identity against its own post-read observation. Detected changes
+fail without retry. This is a consistency check, not a filesystem snapshot
 or a guarantee against a privileged concurrent writer restoring metadata.
 
 The native parser must finish before a JSON summary is emitted. Schema 1 uses
@@ -119,9 +125,17 @@ files are byte-identical. Independent simulations remain **zero**, and
 Cloud synthetic tests are never an installed vendor-file pass. Current automated
 coverage uses authored synthetic legacy/v2 fixtures, strict scorer mutations,
 installed-only dual-translation-unit compilation, output protection, retained
-failures, timeouts, and one-shot collection. Complete vendor files are not committed
-or uploaded by this workflow. Actual four-file local replay remains a separate,
-not-yet-run validation step.
+failures, timeouts, one-shot collection, and separate pathname/descriptor ctime
+mutation tests. A real synthetic fixture changes metadata before collection to
+exercise Windows' differing creation/change timestamps. Complete vendor files are not committed
+or uploaded by this workflow. Actual four-file local replay remains a separate
+validation step. The first local attempt on 2026-10-16, using Python 3.12.14,
+failed all four files before native parsing because of the Windows ctime API
+difference described above. That failed receipt is retained; it is a collection
+defect, not evidence of a vendor file format or baseline identity mismatch.
+The corrected collector's separately retained [local replay on 2026-10-16](local-takeover-validation-20261016.md)
+passed all four selected files against the unchanged baseline (three unique content hashes,
+zero independent simulations). That result closes this selected-file format check only.
 
 ## Developer test gate
 

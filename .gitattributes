@@ -28,6 +28,8 @@
 
 # Complete REST snapshots are hashed as received, including their original line endings.
 /validation/compatibility-raw-ci-*.json -text
+/validation/local-takeover-raw-ci-*.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+/validation/systemvue-linear-rfsystem-minimal-plan-20261016.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 
 # Single/two-tone replay preserves current LF bytes and separate historical hash claims.
 /validation/systemvue-2023-single-compression-plus09-capture.json -text

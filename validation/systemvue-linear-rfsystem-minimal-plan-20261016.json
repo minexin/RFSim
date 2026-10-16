@@ -1,0 +1,587 @@
+{
+  "schema_version": 1,
+  "plan_id": "systemvue-linear-rfsystem-minimal-20261016-v1",
+  "status": "frozen_candidate_not_acquired",
+  "frozen_local_date": "2026-10-16",
+  "analysis_scope": "Shared two-resistor DUT; deterministic Linear S and explicitly identified RF System signal observations.",
+  "document": "docs/systemvue-linear-rfsystem-minimal-plan-20261016.md",
+  "validation_report": "docs/local-takeover-validation-20261016.md",
+  "observations": {
+    "live_vendor_runs_for_this_plan": 0,
+    "accepted_comparisons_for_this_plan": 0,
+    "prior_dc_rc_accepted_comparisons": 0,
+    "installed_xparameter_format_replay_vendor_simulations": 0
+  },
+  "provenance": {
+    "reference": "Installed SystemVue 2023 help; local read-only review",
+    "source_qch": "C:\\Program Files\\Keysight\\SystemVue2023\\Help\\systemvue.qch",
+    "source_qch_sha256": "eacdae962108181a917525b8e233d5b33d97f683674d1c79007c1c2b7a24bd83",
+    "source_qch_bytes": 173317120,
+    "read_time_utc": "2026-10-16T03:54:54.046797+00:00",
+    "executable_version_observation": {
+      "path": "C:/Program Files/Keysight/SystemVue2023/Bin/SystemVue.exe",
+      "file_version": "2023.0.0.11903",
+      "product_version": "2023.0.0.11903",
+      "method": "PowerShell VersionInfo; process not launched"
+    },
+    "source_count": 27,
+    "sources": [
+      {
+        "path": "sim/Linear_Analysis.html",
+        "title": "Linear Analysis",
+        "sha256_decompressed_html": "adee44143b11a98c71611b052a805ca0b80421ad4664d0b22629acb54d3b6eab",
+        "decompressed_bytes": 4896,
+        "fact_summary": "Computes schematic S and noise parameters; the overview says nonlinear parts are linearized at a DC operating point. This overview alone does not prove arbitrary device support."
+      },
+      {
+        "path": "sim/Linear_Analysis_Output.html",
+        "title": "Linear Analysis Output",
+        "sha256_decompressed_html": "e5285cefa53ebb2e31ef4ca23975b69b7535f870b7e46aba4a4552b75c1b66bd",
+        "decompressed_bytes": 10238,
+        "fact_summary": "F is the frequency vector; S is normalized to schematic port ZPORT; CS is the S-form noise correlation matrix; ZPORT contains impedances from port parts. Two-port shortcuts include S11/S12/S21/S22, Zin1/Zin2, and NF when noise is enabled."
+      },
+      {
+        "path": "sim/Port_Impedance_Usage.html",
+        "title": "Port Impedance Usage",
+        "sha256_decompressed_html": "bd608da3e4c7426d5d070f66dbf9c6212e834698548bc29ab74ecf0a65f72d8a",
+        "decompressed_bytes": 3079,
+        "fact_summary": "Linear design ports are sequential starting at 1. Balanced ports and complex port terminations are described; complex impedance can be supplied directly or from one-port data."
+      },
+      {
+        "path": "sim/Linear_Analysis_Properties.html",
+        "title": "Linear Analysis Properties",
+        "sha256_decompressed_html": "a189fe150fc3cab1403851652f5fc1be25196e3e11c40b355143b271a7bb0668",
+        "decompressed_bytes": 9558,
+        "fact_summary": "Calculate Noise enables CS; the frequency range has explicit units and sweep choice. Analysis temperature can be overridden by a part Ta."
+      },
+      {
+        "path": "sim/Spectrasys.html",
+        "title": "RF Design Kit Spectrasys",
+        "sha256_decompressed_html": "8b9ae6504c6d3c2962286a71dff5153debdc7079cd0b48bf3c3911139bbe1817",
+        "decompressed_bytes": 4247,
+        "fact_summary": "Spectrasys is the RF architecture analysis with spectral propagation, mismatch, nonlinear behavioral and X-parameter support."
+      },
+      {
+        "path": "sim/Getting_Started_with_Spectrasys.html",
+        "title": "Getting Started with Spectrasys",
+        "sha256_decompressed_html": "f3fbcafa009ecb73a5496f7a0ce44e02bf0174ad1fec3d8cabe4455d93107cc0",
+        "decompressed_bytes": 20888,
+        "fact_summary": "States that Spectrasys supports all linear models and behavioral nonlinear models. The tutorial adds an RF System Analysis and uses a fixed attenuator among its RF chain components."
+      },
+      {
+        "path": "sim/Spectrasys_Channel_Power.html",
+        "title": "Channel Power (CP)",
+        "sha256_decompressed_html": "868981d833dfd44d350b6550ddf4bef9e2aee1ccd558b692792664630ba12ee5",
+        "decompressed_bytes": 7083,
+        "fact_summary": "Main-channel integrated total power includes signal, intermod, harmonic, noise and phase-noise spectra in all travel directions. First-path-node power uses the internal source plane rather than the delivered first-stage input. Requires Add Power Measurements."
+      },
+      {
+        "path": "sim/Spectrasys_Desired_Channel_Power.html",
+        "title": "Desired Channel Power (DCP)",
+        "sha256_decompressed_html": "adb3a6b704e1cc0e23f3f659339f090dc623e7e890938e9db1492f8d57e20a6b",
+        "decompressed_bytes": 8620,
+        "fact_summary": "Main-channel integrated power includes only desired signals originating at the path beginning and traveling forward; other signal classes and reverse travel are excluded. First-node value uses the internal source plane. Requires power or voltage measurements."
+      },
+      {
+        "path": "sim/Spectrasys_Channel_Voltage.html",
+        "title": "Channel Voltage (CV)",
+        "sha256_decompressed_html": "cc12d00dbb9004b9ed3c064948902c9069b33de9fa4527488d9245e1dae52fea",
+        "decompressed_bytes": 6723,
+        "fact_summary": "Described as main-channel peak voltage, default dBV; includes all spectrum types and all directions. Not supported for nonlinear circuit models such as X parameters. Requires Add Voltage Measurements."
+      },
+      {
+        "path": "sim/Spectrasys_Channel_Noise_Voltage.html",
+        "title": "Channel Noise Voltage (CNV)",
+        "sha256_decompressed_html": "7f7259a31771ffd8fc50a8f09a8439bb9d2cb78e0dbae8f4ecf6e26b271817f7",
+        "decompressed_bytes": 6479,
+        "fact_summary": "Described as main-channel peak noise voltage, default dBV; only noise and forward path direction. Not supported for nonlinear circuit models such as X parameters. Requires Add Voltage Measurements."
+      },
+      {
+        "path": "sim/Spectrasys_Desired_Channel_Voltage.html",
+        "title": "Desired Channel Voltage (DCV)",
+        "sha256_decompressed_html": "e82fa60377002f08ce5f8941ce3876bfca7710ba5dabfb0f40254937916b39d8",
+        "decompressed_bytes": 8212,
+        "fact_summary": "Main-channel desired peak voltage, default dBV; only desired signals in the forward path direction. Requires Add Voltage Measurements; nonlinear circuit models are excluded."
+      },
+      {
+        "path": "sim/Spectrasys_Node_Noise_Voltage.html",
+        "title": "Node Noise Voltage (NNV)",
+        "sha256_decompressed_html": "7c5877787c8e6b4090914960506de3da0a974d047de798475eee6f2d09ade303",
+        "decompressed_bytes": 6297,
+        "fact_summary": "Peak node noise voltage includes in-band and out-of-band noise; only forward path noise. Distinct from band-limited CNV."
+      },
+      {
+        "path": "sim/Spectrasys_Input_Impedance.html",
+        "title": "Input Impedance (ZIN)",
+        "sha256_decompressed_html": "2845f2ca09e703e9addfaa3c1313a929517c05a436f768eb3a7c918c763b2988",
+        "decompressed_bytes": 4876,
+        "fact_summary": "Simulated input impedance at the path node, evaluated at the path center frequency, independent of channel bandwidth. Not defined using signal-spectrum selection."
+      },
+      {
+        "path": "sim/Spectrasys_Output_Impedance.html",
+        "title": "Output Impedance (ZOUT)",
+        "sha256_decompressed_html": "3e80fce512bd59d130da43c71995ee7afc1dae86660fce24f840bdb00e53faef",
+        "decompressed_bytes": 4884,
+        "fact_summary": "Simulated output impedance at the path node, evaluated at the path center frequency, independent of channel bandwidth. Not defined using signal-spectrum selection."
+      },
+      {
+        "path": "sim/Spectrasys_Stage_Input_Impedance.html",
+        "title": "Stage Input Impedance (SZIN)",
+        "sha256_decompressed_html": "3b929ee70f07d29b1fdd9b9e7ad2a9234302dca77d91f06c7525d7c78958a92e",
+        "decompressed_bytes": 4961,
+        "fact_summary": "User-entered stage input impedance; stages without this parameter use 50 ohms. Associated with a stage rather than the path node."
+      },
+      {
+        "path": "sim/Spectrasys_Stage_Output_Impedance.html",
+        "title": "Stage Output Impedance (SZOUT)",
+        "sha256_decompressed_html": "802590461ac4d3befd25895bf087d0e3174a472d224c9358f7f94cca7d5aa41d",
+        "decompressed_bytes": 4971,
+        "fact_summary": "User-entered stage output impedance; stages without this parameter use 50 ohms. Associated with a stage rather than the path node."
+      },
+      {
+        "path": "sim/Spectrasys_Desired_Channel_Resistance.html",
+        "title": "Desired Channel Resistance (DCR)",
+        "sha256_decompressed_html": "efaa4941917cb8681872493c3ab6a42495dae671023a1b5fb39f0c7d05f1a09c",
+        "decompressed_bytes": 6960,
+        "fact_summary": "Average real part of desired-signal impedance in the main channel and forward path direction, not impedance magnitude."
+      },
+      {
+        "path": "sim/Path_Measurement_Overview.html",
+        "title": "Path Measurement Overview",
+        "sha256_decompressed_html": "d2c727842b674e8dccdf8fb0e8be315330317d736482833c488e7c5f7eaa4b5f",
+        "decompressed_bytes": 12567,
+        "fact_summary": "Path measurements integrate grouped spectra over channel center and bandwidth. GAIN is stage-output DCP divided by stage-input DCP; CGAIN uses DCP at the source. A CW spectrum has 1 Hz width; integrating only 0.5 Hz yields 3 dB less power."
+      },
+      {
+        "path": "sim/Node_Measurements_Along_Path.html",
+        "title": "Node Measurements Along Path",
+        "sha256_decompressed_html": "a48df49bd47a271eb7739ea4f4f9cd933bff7645eaedf86ee11fb516c502382b",
+        "decompressed_bytes": 8289,
+        "fact_summary": "Optional path datasets save F/V/P/Z for named nodes and groups such as Desired, Noise and PhaseNoise. The grouping paragraph describes the path direction; this generic wording must not override the CP-specific all-directions definition."
+      },
+      {
+        "path": "sim/Specifying_Paths.html",
+        "title": "Specifying Paths",
+        "sha256_decompressed_html": "b3f66b072c6ba54d45e06dadc815e65fd8f78fdbb854592582676e2932c5b195",
+        "decompressed_bytes": 11380,
+        "fact_summary": "Arbitrary architectures and multiple paths are supported. Start/end and optional through-nodes define the shortest route; equal-length ties can depend on component creation order. Record the resolved route."
+      },
+      {
+        "path": "sim/Edit_Path_Dialog.html",
+        "title": "Add / Edit Path Dialog Box",
+        "sha256_decompressed_html": "8a010829d32a7d48b39ed0aa436c6e267b0b05d67135a1c7f5f590ed1dd32b5e",
+        "decompressed_bytes": 40410,
+        "fact_summary": "Normal path uses nonmodulated schematic sources. Allow path to begin on internal node changes desired classification. Power, voltage and detailed P/V/Z output switches are separate. Channel frequency changes through translation devices; explicit ordered through-nodes disambiguate routes."
+      },
+      {
+        "path": "sim/VSWR_and_Mismatch_Loss.html",
+        "title": "VSWR and Mismatch Loss",
+        "sha256_decompressed_html": "fe8b59d01d6facacc231dc745ec130d0ba3f6441df8ff3db87eff0b2bc209e16",
+        "decompressed_bytes": 10225,
+        "fact_summary": "Saved node voltage is a transmitted voltage associated with a source and travel direction, and its spectrum power uses the load impedance seen in that direction. Opposite-travel spectra can have different loads. First-node DCP/GAIN/CGAIN source references include the input mismatch correction."
+      },
+      {
+        "path": "sim/Gain_and_Impedance.html",
+        "title": "Gain and Impedance",
+        "sha256_decompressed_html": "afdc8fa16112a1c63e8123ea0873a38ad2c93b9a2ae2867f2c95cfd64a8f50b4",
+        "decompressed_bytes": 11739,
+        "fact_summary": "Model gain parameters use S21; path gains use operating-power gain with a source/first-stage mismatch correction. Model S21 and path gain are different quantities."
+      },
+      {
+        "path": "rfdesign/Resistor_Part.html",
+        "title": "Resistor Part",
+        "sha256_decompressed_html": "3cdd5fb0083fcc4c523cb7ff83aeb2fefe59e67848870b827621bfc2e643bb70",
+        "decompressed_bytes": 3886,
+        "fact_summary": "Identifies the ideal non-inductive resistor and lists RES among the associated models."
+      },
+      {
+        "path": "rfdesign/RES.html",
+        "title": "Resistor (RES)",
+        "sha256_decompressed_html": "3c13ab340ece02577af6f2090f50cb1261cd915f577f88e6e1eaf61e85e9294c",
+        "decompressed_bytes": 7349,
+        "fact_summary": "R is resistance in ohms, default 50; optional Ta overrides analysis ambient temperature. The part is a lumped resistor."
+      },
+      {
+        "path": "rfdesign/Attenuator_Part.html",
+        "title": "Attenuator Part",
+        "sha256_decompressed_html": "d833906abed7f68306c89064a091d0f41ba462c923a33da8a7c8750c3739d0ad",
+        "decompressed_bytes": 5249,
+        "fact_summary": "Lists ATTN_Linear as a behavioral attenuator alongside other nonlinear and S-parameter based options."
+      },
+      {
+        "path": "rfdesign/ATTN_Linear.html",
+        "title": "ATTN_Linear",
+        "sha256_decompressed_html": "b181c390a6313e766c2a6b125615c6ed9192d0578f3b19e11bd73cb737f42b67",
+        "decompressed_bytes": 14004,
+        "fact_summary": "Parameters include L in dB, Zref, ZIN, ZOUT and Ta. Notes distinguish user input/output impedances, loss dependence for large impedance ratios, and use of the linear portion outside Spectrasys. Do not infer a matched four-S matrix from L alone."
+      }
+    ],
+    "stored_content": "Only independently written factual summaries, page identifiers and hashes; no vendor HTML or installed example files."
+  },
+  "evidence_layers": {
+    "help_definition": "The 27 local pages define analysis outputs, spectra, directions, reference planes and device identity. They do not prove this candidate has run.",
+    "independent_oracle": "Elementary series-resistor circuit equations. Production code and vendor results are not used to construct expected numbers.",
+    "implementation": "Existing native C++17 typed APIs and behavioral SDK; no new acquisition adapter or runtime invocation is supplied by this plan.",
+    "unresolved": "Vendor export identity and the additional semantic questions listed below remain gates, not accepted equivalences."
+  },
+  "fixture": {
+    "topology": [
+      "IN",
+      "R1",
+      "MID",
+      "R2",
+      "OUT"
+    ],
+    "shared_dut": true,
+    "devices": [
+      {
+        "name": "R1",
+        "vendor_model": "RES",
+        "resistance_ohms": 50.0,
+        "terminals": [
+          "IN",
+          "MID"
+        ],
+        "Ta": "blank; actual readback required"
+      },
+      {
+        "name": "R2",
+        "vendor_model": "RES",
+        "resistance_ohms": 50.0,
+        "terminals": [
+          "MID",
+          "OUT"
+        ],
+        "Ta": "blank; actual readback required"
+      }
+    ],
+    "frequency_hz": 100000000.0,
+    "analysis_temperature_c": 26.85,
+    "reference_ground": "Common physical ground; record actual schematic reference.",
+    "actual_instance_pin_and_node_readback_required": true
+  },
+  "linear_analysis": {
+    "external_ports": [
+      {
+        "number": 1,
+        "node": "IN",
+        "reference_ohms": {
+          "real": 50.0,
+          "imag": 0.0
+        }
+      },
+      {
+        "number": 2,
+        "node": "OUT",
+        "reference_ohms": {
+          "real": 50.0,
+          "imag": 0.0
+        }
+      }
+    ],
+    "frequencies_hz": [
+      100000000.0
+    ],
+    "calculate_noise": false,
+    "required_exports": [
+      "F",
+      "ZPORT",
+      "S11",
+      "S12",
+      "S21",
+      "S22"
+    ],
+    "S_index_convention": "row=response port, column=excited port; capture source array ordering explicitly"
+  },
+  "rf_system_analysis": {
+    "source": {
+      "node": "IN",
+      "type": "one unmodulated CW",
+      "frequency_hz": 100000000.0,
+      "available_power_dbm": 0.0,
+      "available_power_w": 0.001,
+      "phase_degrees": 0.0,
+      "impedance_ohms": {
+        "real": 50.0,
+        "imag": 0.0
+      }
+    },
+    "load": {
+      "node": "OUT",
+      "impedance_ohms": {
+        "real": 50.0,
+        "imag": 0.0
+      }
+    },
+    "path": {
+      "type": "Normal",
+      "ordered_nodes": [
+        "IN",
+        "MID",
+        "OUT"
+      ],
+      "allow_internal_node_start": false,
+      "resolved_order_readback_required": true
+    },
+    "channel": {
+      "center_hz": 100000000.0,
+      "bandwidth_hz": 1000.0,
+      "purpose": "RF integrated path measurements only; captures the entire documented 1-Hz CW spectrum. Not used by Linear or deterministic circuit equations."
+    },
+    "calculation": {
+      "thermal_noise": false,
+      "phase_noise": false,
+      "nonlinear_spectrum_generation": false,
+      "unknown_readback_is_not_false": true
+    },
+    "output_options": {
+      "power_measurements": true,
+      "voltage_measurements": true,
+      "grouped_powers_voltages_impedances": true
+    },
+    "requested_exports": [
+      "CP",
+      "DCP",
+      "CV",
+      "DCV",
+      "ZIN",
+      "ZOUT",
+      "SZIN",
+      "SZOUT",
+      "DCR",
+      "Desired group F/V/P/Z at IN,MID,OUT"
+    ],
+    "noise_off_optional_exports": [
+      "CNV",
+      "CNP",
+      "Noise group F/V/P/Z"
+    ],
+    "noise_off_absence_policy": "Record presence or absence; absent/omitted noise output is not an accepted zero-noise measurement and does not fail this signal-only minimum.",
+    "capture_settings": [
+      "exact executable build",
+      "actual model and parameter units",
+      "port, pin and node names",
+      "source and load impedance and units",
+      "temperature and Ta",
+      "resolved path",
+      "all calculation/output switches",
+      "spectrum reduction settings",
+      "export units and shape"
+    ]
+  },
+  "oracle": {
+    "classification": "Independent analytic physical circuit, not vendor-observed data.",
+    "source_open_circuit_voltage_rms_v": {
+      "real": 0.4472135954999579,
+      "imag": 0.0
+    },
+    "formula": "Vs=2*sqrt(Rs*Pavailable); I=Vs/(Rs+R1+R2+RL); V_IN=I*(R1+R2+RL); V_MID=I*(R2+RL); V_OUT=I*RL",
+    "each_device_S_at_50ohm": {
+      "row_major_real": [
+        0.3333333333333333,
+        0.6666666666666666,
+        0.6666666666666666,
+        0.3333333333333333
+      ],
+      "row_major_imag": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "DUT_S": {
+      "port_order": [
+        "IN",
+        "OUT"
+      ],
+      "row_major_real": [
+        0.5,
+        0.5,
+        0.5,
+        0.5
+      ],
+      "row_major_imag": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "explicit_reflection_sign": "S11 and S22 are positive 0.5"
+    },
+    "current_rms_a": 0.0022360679774997894,
+    "physical_node_voltage_rms_v": {
+      "IN": 0.3354101966249684,
+      "MID": 0.22360679774997894,
+      "OUT": 0.11180339887498947
+    },
+    "single_cw_peak_voltage_v": {
+      "IN": 0.4743416490252569,
+      "MID": 0.31622776601683794,
+      "OUT": 0.15811388300841897
+    },
+    "source_internal_available_power_w": 0.001,
+    "dut_input_delivered_power_w": 0.00075,
+    "mid_delivered_to_R2_plus_load_power_w": 0.0005,
+    "load_delivered_power_w": 0.00025,
+    "load_delivered_power_dbm": -6.020599913279624,
+    "each_resistor_dissipation_w": 0.00025,
+    "load_over_available_ratio": 0.25,
+    "load_over_dut_input_delivered_ratio": 0.3333333333333333,
+    "port_current_convention": "Native current enters the named device; R1/p1 and R2/p1 are -I. Vendor RF-path current direction is unconfirmed.",
+    "loaded_apparent_output_V_over_I_ohms": -50.0,
+    "impedance_warning": "Loaded V/I is neither ZPORT nor an automatically identified ZIN/ZOUT/SZIN/SZOUT/DCR.",
+    "peak_warning": "sqrt(2)*abs(V_RMS) applies here to a deterministic single CW; this plan does not impose it on integrated noise."
+  },
+  "observable_identity_gate": {
+    "required_before_numeric_comparison": [
+      "exact raw variable name",
+      "analysis and dataset identity",
+      "shape and indices",
+      "node or device-port identity",
+      "resolved path and travel direction",
+      "spectrum class",
+      "frequency and channel bounds where relevant",
+      "original unit and physical reference",
+      "scalar magnitude versus complex phasor",
+      "peak versus RMS where relevant",
+      "phase reference for any complex voltage",
+      "source calculation/output settings"
+    ],
+    "numeric_format": "Raw complex real/imaginary values with enough precision for binary64 round-trip; a screenshot or truncated displayed value is insufficient.",
+    "unit_conversions": "Convert dBm to W only for confirmed referenced power; convert dBV to V only for confirmed peak-voltage observable in this plan. Preserve original values and units.",
+    "identity_prohibition": "Numerical proximity to the oracle must never establish the observable identity.",
+    "classification_if_gate_fails": "not_comparable; never pass"
+  },
+  "comparison_policy": {
+    "locked_before_acquisition": true,
+    "policy_not_vendor_accuracy": true,
+    "scalar_formula": "abs(actual-expected) <= atol + rtol*abs(expected)",
+    "complex_formula": "abs(actual_complex-expected_complex) <= atol + rtol*abs(expected_complex)",
+    "thresholds": {
+      "frequency_hz": {
+        "atol": 0.001,
+        "rtol": 0.0
+      },
+      "reference_ohms": {
+        "atol": 1e-08,
+        "rtol": 1e-10
+      },
+      "dimensionless_complex_S": {
+        "atol": 1e-10,
+        "rtol": 1e-08
+      },
+      "linear_power_w": {
+        "atol": 1e-10,
+        "rtol": 1e-07
+      },
+      "peak_voltage_v": {
+        "atol": 1e-09,
+        "rtol": 1e-07
+      }
+    },
+    "justification": "A passive nonresonant resistor chain has benign conditioning. These experiment-policy bounds allow implementation and unit-conversion rounding while distinguishing the reference-plane, RMS/peak and sign errors at issue. They are not a measured or promised Keysight accuracy.",
+    "eligible_comparisons": [
+      {
+        "id": "linear_frequency",
+        "variable": "F",
+        "expected": 100000000.0,
+        "threshold": "frequency_hz"
+      },
+      {
+        "id": "linear_port_references",
+        "variable": "ZPORT",
+        "ports": [
+          1,
+          2
+        ],
+        "expected_complex": {
+          "real": 50.0,
+          "imag": 0.0
+        },
+        "threshold": "reference_ohms"
+      },
+      {
+        "id": "linear_full_S",
+        "variables": [
+          "S11",
+          "S12",
+          "S21",
+          "S22"
+        ],
+        "expected_complex": {
+          "real": 0.5,
+          "imag": 0.0
+        },
+        "threshold": "dimensionless_complex_S"
+      },
+      {
+        "id": "rf_DCP_first_node",
+        "variable": "DCP",
+        "node": "IN",
+        "required_plane": "internal source available power, not DUT delivered input",
+        "expected_w": 0.001,
+        "threshold": "linear_power_w"
+      },
+      {
+        "id": "rf_DCP_output",
+        "variable": "DCP",
+        "node": "OUT",
+        "required_identity": "forward desired CW delivered to the sole load; complete main-channel integration",
+        "expected_w": 0.00025,
+        "threshold": "linear_power_w"
+      },
+      {
+        "id": "rf_DCV_output",
+        "variable": "DCV",
+        "node": "OUT",
+        "required_identity": "peak voltage of the same forward desired CW; dBV or linear peak V explicitly confirmed",
+        "expected_peak_v": 0.15811388300841897,
+        "threshold": "peak_voltage_v"
+      }
+    ],
+    "diagnostic_not_scored": [
+      "CP and CV at every node",
+      "MID grouped spectra and power",
+      "other port V/P until directional identity is established",
+      "ZIN/ZOUT",
+      "SZIN/SZOUT",
+      "DCR",
+      "CNV/CNP/Noise group"
+    ],
+    "completion_rule": "Every required identity and eligible comparison must be present and pass to accept this minimum; otherwise report pass/fail/not_comparable/missing/not_run individually and do not claim overall compatibility. Diagnostics do not turn into acceptance points.",
+    "change_control": "Insufficient export precision requires reacquisition. Do not relax gates after viewing differences; any changed design or policy requires a new justified plan revision and fresh acquisition. No historical thresholds are changed."
+  },
+  "native_mapping": {
+    "shared_example": "examples/behavioral-system-sdk",
+    "model": "StaticSParameterModel and owning ModelAdapter, one shared connection list",
+    "linear": "analyze_linear at 100e6; external ports R1/p0 then R2/p1",
+    "loaded": "conversion_device(100e6,{1},ModelNoisePolicy::omit_intrinsic_noise) followed by analyze_conversion_simulation",
+    "device_sources": "R1/p0 source=sqrt(0.001), all other source entries zero",
+    "boundary_reflections": "source and load reflection=0 at 50-ohm references",
+    "result_fields": [
+      "ConversionSimulationResult.channels[].voltage_v (RMS complex)",
+      "ConversionSimulationResult.channels[].current_a (RMS, entering device)",
+      "ConversionSimulationResult.channels[].reference_ohms (coordinate reference)",
+      "ConversionSimulationResult.channels[].net_into_device_w",
+      "ConversionSimulationResult.waves.incident/outgoing"
+    ],
+    "optional_chain_helper": "analyze_linear_path independently names source_available_w, input_accepted_w, load_delivered_w and transducer_gain; it is not automatically vendor GAIN/CGAIN.",
+    "existing_example_limit": "The current example uses 1 and 2 GHz. It demonstrates the API pattern and analytic circuit but does not execute this 100-MHz vendor experiment.",
+    "missing": "No plan-specific vendor exporter or general CP/CV/CNV compatibility implementation is provided."
+  },
+  "open_questions": [
+    "Exact machine-export dataset names, dimensions and unit metadata must be captured without guessing.",
+    "The general node grouping page describes path-forward groups while the CP-specific definition includes all directions; retain both raw groups and named measurements.",
+    "ZIN/ZOUT suppressed-source boundary conditions and looking direction are not fully specified by the reviewed pages.",
+    "CV/CNV pages mix peak with average/integrated wording; general stochastic RMS mapping remains unverified.",
+    "RF-path current direction and coherent complex-voltage aggregation remain unverified.",
+    "Do not infer a full matched ATTN_Linear four-S/noise law from L; RES avoids that unresolved model mapping in this first candidate."
+  ],
+  "follow_up_not_in_this_plan": [
+    "100-ohm physical load variant",
+    "unambiguous passive branch",
+    "separate coordinate-reference changes and physical source/load impedance changes",
+    "noise-enabled reference experiment with its own normalization and tolerance policy"
+  ]
+}

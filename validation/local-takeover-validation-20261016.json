@@ -1,0 +1,165 @@
+{
+  "schema_version": 1,
+  "classification": "local_sync_review_native_regression_and_selected_format_replay",
+  "created_utc": "2026-10-16T04:16:49.099567+00:00",
+  "previous_local_commit": "6870b477f2f08ace29f72212c620d023b3bbffca",
+  "synchronized_commit": "8984da6f9d503b4927888071046ad66c551709a4",
+  "synchronized_tree": "ff723d70b490c5f47105d9ab234e2efa544e7136",
+  "fast_forward_commits": 22,
+  "clean_before_sync": true,
+  "baseline_ci": {
+    "observed_utc": "2026-10-16T03:56:45.410371+00:00",
+    "head_sha": "8984da6f9d503b4927888071046ad66c551709a4",
+    "run_id": 38846356382,
+    "url": "https://github.com/minexin/RFSim/actions/runs/38846356382",
+    "status": "completed",
+    "conclusion": "success",
+    "jobs": 18,
+    "run_sha256": "3f879d68600b810a6e5cd87bb9d8af25038930ba20a2d7d18df1c47571553779",
+    "jobs_sha256": "b50994b121cd910d2ce85d4cd8abfb56a127ef704887b4b32abeac102bd7700c"
+  },
+  "native_core_changed": false,
+  "historical_expectations_changed": false,
+  "evidence_identity": "Base plus tested-source hashes in archive. This record does not claim CI for the subsequent publication commit.",
+  "source_hashes": {
+    ".github/workflows/build.yml": "8f849e5bf3811968444ae622b9cfdb8f4f743cd648796e306b112ae52e79c495",
+    "cmake/RFModelTests.cmake": "55f8ea40bf0badb0c4975ac420b502ebea5021c36a9ea7ef83b1474971e84649",
+    "scripts/reference/check_compatibility_evidence.py": "69d0d65c835915edcbe7d0b87e221c81160cd88321917c560ef551473b1d4554",
+    "scripts/reference/test_compatibility_evidence_encoding.py": "ea307ab1a974542e9238f97f32a75389f124c128fe17949dc233954fb6ec2d85",
+    "scripts/reference/replay-installed-xparameter-evidence.py": "ef0d3ca3dbed3a5b732907bdc235bd6c383b20194a1be20f739899e0cfc4a58d",
+    "scripts/reference/test_xparameter_installed_replay.py": "c111b9e8f1cdad9462eb36b0451abec91a541389b0ea2f0e68b2245dc966fdd9",
+    "tests/cmake/check_linear_mna_install.cmake": "e6da74740fbe9d5858546b7b048f58b6fc807757fd26730b83087e34bca8d2b2",
+    "tests/cmake/check_mna_power_wave_s_install.cmake": "c9e8918c2838fbb72e664684afb378250fc3388b275d9a2e8c697f2196f776b1",
+    "tests/cmake/check_mna_default_config_install.cmake": "e4d552ea7b826860d0d31329ce1e0b1e9a021ad9db12e393ed92cdfa15725078"
+  },
+  "local_native_before": {
+    "tests": 149,
+    "passed": 148,
+    "failures": [
+      "sdk_archive_test"
+    ],
+    "skipped": [],
+    "xml": "ctest-Release.xml"
+  },
+  "local_native_after": {
+    "Debug": {
+      "tests": 150,
+      "passed": 150,
+      "failures": [],
+      "skipped": [],
+      "xml": "ctest-Debug-fixed.xml",
+      "receipt": {
+        "name": "ctest-Debug-fixed",
+        "argv": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\Common7\\IDE\\CommonExtensions\\Microsoft\\CMake\\CMake\\bin\\ctest.exe",
+          "--test-dir",
+          "D:\\project\\RFModel\\build-1016d",
+          "-C",
+          "Debug",
+          "--output-on-failure",
+          "--parallel",
+          "2",
+          "--output-junit",
+          "D:\\project\\RFModel\\build-reference\\local-takeover-20261016\\ctest-Debug-fixed.xml"
+        ],
+        "started_utc": "2026-10-16T04:07:10.626806+00:00",
+        "finished_utc": "2026-10-16T04:16:11.636826+00:00",
+        "returncode": 0,
+        "log": "ctest-Debug-fixed.log"
+      }
+    },
+    "Release": {
+      "tests": 150,
+      "passed": 150,
+      "failures": [],
+      "skipped": [],
+      "xml": "ctest-Release-fixed.xml",
+      "receipt": {
+        "name": "ctest-Release-fixed",
+        "argv": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\Common7\\IDE\\CommonExtensions\\Microsoft\\CMake\\CMake\\bin\\ctest.exe",
+          "--test-dir",
+          "D:\\project\\RFModel\\build-1016r",
+          "-C",
+          "Release",
+          "--output-on-failure",
+          "--parallel",
+          "2",
+          "--output-junit",
+          "D:\\project\\RFModel\\build-reference\\local-takeover-20261016\\ctest-Release-fixed.xml"
+        ],
+        "started_utc": "2026-10-16T04:08:40.063856+00:00",
+        "finished_utc": "2026-10-16T04:16:07.123776+00:00",
+        "returncode": 0,
+        "log": "ctest-Release-fixed.log"
+      }
+    }
+  },
+  "xparameter_contract": {
+    "tests": 38,
+    "passed": 38,
+    "skipped": 0,
+    "receipt": {
+      "argv": [
+        "C:\\Users\\Administrator\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+        "scripts/reference/test_xparameter_installed_replay.py"
+      ],
+      "started_utc": "2026-10-16T04:09:04.269549+00:00",
+      "finished_utc": "2026-10-16T04:09:35.325252+00:00",
+      "returncode": 0,
+      "log": "xparameter-contract-Release-ready.log",
+      "source_sha256": "c111b9e8f1cdad9462eb36b0451abec91a541389b0ea2f0e68b2245dc966fdd9"
+    }
+  },
+  "evidence_check": {
+    "metadata_mutations_rejected": 34,
+    "raw_ci_mutations_rejected": 40,
+    "gbk_regression_tests": 1,
+    "passed": 1
+  },
+  "mna_targeted": {
+    "Release": {
+      "passed": 6,
+      "tests": 6
+    },
+    "Debug": {
+      "passed": 5,
+      "tests": 5
+    },
+    "evidence": "mna-after/verification.json"
+  },
+  "installed_xparameter": {
+    "status": "selected_installed_file_replay_pass",
+    "files": 4,
+    "unique_content_hashes": 3,
+    "independent_simulations": 0,
+    "numerical_model_compatibility": false,
+    "before": "xparameter-replay/replay.json",
+    "after": "xparameter-replay-fixed/replay.json",
+    "baseline_sha256": "432022e69d4cb1010b27d73b18adc03488d106989f69900ccc5592421963ec59"
+  },
+  "vendor_help": {
+    "pages": 27,
+    "evidence": "help-review.json",
+    "version_observation": "2023.0.0.11903",
+    "simulation_executed": false
+  },
+  "new_vendor_analysis_submissions": 0,
+  "prior_dc_rc_accepted_comparisons": 0,
+  "next_plan": "systemvue-linear-rfsystem-minimal-plan-20261016.json",
+  "archive": {
+    "path": "local-takeover-raw-20261016.zip",
+    "bytes": 1411388,
+    "sha256": "6459a5e7ee284bdc657246dd3a4e27336cba1bd9301ed394156336d908589e31",
+    "files": 155,
+    "crc_and_sha256_verified": true
+  },
+  "manifest": "local-takeover-manifest-20261016.json",
+  "limitations": [
+    "Selected installed file format match is not full numerical X-parameter model compatibility.",
+    "New shared-circuit plan is frozen, not acquired or accepted.",
+    "Local complete native tests cover Windows/MSVC with C API and CLI disabled.",
+    "Deep-path MSBuild MAX_PATH failure is retained; short-path rerun is a separate run, not a general long-path fix.",
+    "No new release, tag, license, API/ABI stability or full SystemVue coverage decision."
+  ]
+}

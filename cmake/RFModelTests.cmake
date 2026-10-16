@@ -594,6 +594,13 @@ add_test(NAME mna_power_wave_s_installed COMMAND ${CMAKE_COMMAND}
     -DCONFIG=$<CONFIG> -P ${CMAKE_CURRENT_SOURCE_DIR}/tests/cmake/check_mna_power_wave_s_install.cmake)
 set_tests_properties(mna_power_wave_s_installed PROPERTIES TIMEOUT 300)
 
+add_test(NAME mna_installed_default_config COMMAND ${CMAKE_COMMAND}
+    -DSOURCE=${CMAKE_CURRENT_SOURCE_DIR}
+    -DBINARY=${CMAKE_CURRENT_BINARY_DIR}/mna-installed-default-config
+    -DGENERATOR=${CMAKE_GENERATOR} -DCOMPILER=${CMAKE_CXX_COMPILER}
+    -P ${CMAKE_CURRENT_SOURCE_DIR}/tests/cmake/check_mna_default_config_install.cmake)
+set_tests_properties(mna_installed_default_config PROPERTIES TIMEOUT 300)
+
 add_executable(mna_factorization_test tests/mna/factorization_test.cpp)
 target_link_libraries(mna_factorization_test PRIVATE RFModel::rfmodel)
 add_test(NAME mna_factorization_test COMMAND mna_factorization_test)
