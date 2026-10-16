@@ -35,3 +35,15 @@
     if(BUILD_TESTING)
         add_test(NAME monte_carlo_correlated_resistors COMMAND rfmodel_correlated_tolerance)
     endif()
+
+add_executable(behavioral_system_example examples/behavioral-system-sdk/main.cpp
+    examples/behavioral-system-sdk/workflow.cpp)
+target_link_libraries(behavioral_system_example PRIVATE RFModel::rfmodel)
+if(MSVC)
+    target_compile_options(behavioral_system_example PRIVATE /W4 /WX /permissive-)
+else()
+    target_compile_options(behavioral_system_example PRIVATE -Wall -Wextra -Wpedantic -Werror)
+endif()
+if(BUILD_TESTING)
+    add_test(NAME behavioral_system_example COMMAND behavioral_system_example)
+endif()

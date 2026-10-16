@@ -605,3 +605,11 @@ add_test(NAME mna_noise_sdk_installed COMMAND ${CMAKE_COMMAND}
     -DGENERATOR=${CMAKE_GENERATOR} -DCOMPILER=${CMAKE_CXX_COMPILER}
     -DCONFIG=$<CONFIG> -P ${CMAKE_CURRENT_SOURCE_DIR}/tests/cmake/check_mna_noise_install.cmake)
 set_tests_properties(mna_noise_sdk_installed PROPERTIES TIMEOUT 300)
+
+# Same named behavioral instances/wiring, external S and loaded port reports.
+add_test(NAME behavioral_system_sdk_installed COMMAND ${CMAKE_COMMAND}
+    -DSOURCE=${CMAKE_CURRENT_SOURCE_DIR}
+    -DBINARY=${CMAKE_CURRENT_BINARY_DIR}/behavioral-system-sdk-installed
+    -DGENERATOR=${CMAKE_GENERATOR} -DCOMPILER=${CMAKE_CXX_COMPILER}
+    -DCONFIG=$<CONFIG> -P ${CMAKE_CURRENT_SOURCE_DIR}/tests/cmake/check_behavioral_system_install.cmake)
+set_tests_properties(behavioral_system_sdk_installed PROPERTIES TIMEOUT 300)
