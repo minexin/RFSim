@@ -78,6 +78,7 @@ endif()
 if(RFMODEL_BUILD_REFERENCE_TESTS)
     include(cmake/NativeReferenceReplay.cmake)
     include(cmake/SourceReferenceReplay.cmake)
+    include(cmake/CascadeReferenceReplay.cmake)
 endif()
 if(RFMODEL_BUILD_CLI)
 add_test(NAME cli_export COMMAND ${CMAKE_COMMAND}

@@ -54,3 +54,6 @@
 /scripts/reference/reference_records.py -text
 /scripts/reference/native_replay.py -text
 /scripts/reference/retired_binding.py -text
+# Fixed cascade archive replay preserves observed bytes and separate CRLF claims.
+/validation/systemvue-2023-cascade-captures.json -text
+/validation/systemvue-2023-cascade-amplifier.json -text
