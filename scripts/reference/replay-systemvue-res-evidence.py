@@ -163,25 +163,77 @@ def fixture(capture):
         require(capture.parameter('Designs/RES_Linear/' + name) == value, 'linear sweep setting differs')
 
 
-def dataset_xml(raw, names):
+def xml_item(raw, names):
     node = ET.fromstring(raw)
     for name in names:
         found = [child for child in node if child.tag == 'Item' and child.get('XName') == name]
-        require(len(found) == 1, 'dataset missing or ambiguous in XML: ' + name)
+        require(len(found) == 1, 'item missing or ambiguous in XML: ' + name)
         node = found[0]
+    return node
+
+
+def normalized_xml(element):
+    # Only inter-element whitespace is formatting. Preserve complete leaf text
+    # (including string/parameter whitespace) and any non-whitespace mixed text
+    # or child tail; stripping every value would weaken the identity binding.
+    text = element.text or ''
+    if len(element) and not text.strip():
+        text = ''
+    tail = element.tail or ''
+    return (element.tag, sorted(element.attrib.items()), text,
+            tail if tail.strip() else '', [normalized_xml(child) for child in element])
+
+
+def dataset_xml(raw, names):
+    node = xml_item(raw, names)
     # SaveAs/readback materializes FullPath at the dataset root after RunAnalysis.
     # Permit only that exact derived identity field; compare all data, equations,
     # timestamps and other attributes without exclusions.
     paths = node.findall('FullPath')
     require(len(paths) <= 1, 'duplicate dataset FullPath')
     if paths:
-        require(paths[0].text == '\\'.join(names), 'dataset FullPath differs')
+        require(paths[0].text == '\\'.join(names) and not paths[0].attrib and not len(paths[0])
+                and not (paths[0].tail or '').strip(), 'dataset FullPath differs')
         node.remove(paths[0])
-    # Ignore indentation, preserving element identity, attributes, values and order.
-    def normalized(element):
-        return (element.tag, sorted(element.attrib.items()), (element.text or '').strip(),
-                [normalized(child) for child in element])
-    return normalized(node)
+    return normalized_xml(node)
+
+
+def submitted_fixture(run, analysis, capture):
+    # Bind the already validated captured fixture to the actual submitted input,
+    # not only to the saved result dataset. With AutoRecalc disabled, a later
+    # schematic edit can otherwise coexist with an unchanged earlier dataset.
+    # These owned snapshots retain the complete DUT and selected analysis, so
+    # no parameter-expression evaluator or duplicate physical-setting table is
+    # needed. A different expression/unit/wire/flag is a different submission.
+    captured = scalar(capture.readback['xml_before'])
+    design_path = ['Designs', 'RES_Shared']
+    design = normalized_xml(xml_item(captured, design_path))
+    for name, raw in [('input', run['input_xml']), ('result', run['result_xml']),
+                      ('capture_after', scalar(capture.readback['xml_after']))]:
+        require(normalized_xml(xml_item(raw, design_path)) == design,
+                'submitted DUT differs from validated capture: ' + name)
+    require(normalized_xml(ET.fromstring(run['part_snapshot'])) ==
+            normalized_xml(xml_item(run['input_xml'], design_path + ['PartList'])),
+            'preflight part snapshot differs from submitted input')
+
+    def settings(raw, pending):
+        node = xml_item(raw, ['Designs', analysis])
+        states = node.findall('NeedRun')
+        expected = ET.fromstring('<NeedRun><T>Bool</T><D>' + str(pending) + '</D></NeedRun>')
+        require(len(states) == 1 and normalized_xml(states[0]) == normalized_xml(expected)
+                and not (states[0].tail or '').strip(),
+                'unexpected analysis NeedRun state')
+        # Only this observed runtime transition is allowed: pending input (1)
+        # becomes completed output (0). Do not erase other analysis properties.
+        node.remove(states[0])
+        return normalized_xml(node)
+
+    completed = settings(captured, 0)
+    require(settings(run['input_xml'], 1) == completed,
+            'submitted analysis settings differ from validated capture')
+    for raw in (run['result_xml'], scalar(capture.readback['xml_after'])):
+        require(settings(raw, 0) == completed,
+                'completed analysis settings differ from validated capture')
 
 
 def score(files):
@@ -197,6 +249,7 @@ def score(files):
         require(sha(files['vendor/sources/run-systemvue-res-analysis-acquired.ps1']) == run['script_sha256'],
                 'acquisition source hash differs')
         capture = linear if stem == 'linear' else rf
+        submitted_fixture(run['run'], analysis, capture)
         require(capture.parameter('Designs/' + analysis + '/DataName') == stem + '_once_Data',
                 'analysis dataset parameter differs')
         names = (['Designs', 'linear_once_Data'] if stem == 'linear' else
