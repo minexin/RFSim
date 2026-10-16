@@ -22,6 +22,8 @@ RF System 关注节点/端口谱与路径性能。底层算法为这些行为和
 [历史通道测量帮助来源](../validation/systemvue-2023-channel-noise-help-provenance.json)保留既有出处与哈希；
 完整 2023 正文在本轮核验中尚未可读，历史帮助摘要与新的运行实验分开解释，示例不宣称厂商测量等价。
 后续本地只读资料核验与最小实验见[2023 行为级核验清单](systemvue-2023-behavioral-handoff.md)。
+云端收尾后由本地 Codex 已有长期任务继续，冻结基线、源码审计、安全同步顺序与未闭合事项见
+[本地 Codex 操作交接](local-codex-handoff.md)。
 以下历史路线和证据保持原样。
 
 ## 兼容策略

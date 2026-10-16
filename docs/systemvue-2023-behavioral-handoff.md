@@ -3,6 +3,8 @@
 本清单供后续本地核验使用，不启动脚本或仿真。主要框架是 RF Design 行为器件库 → 同一系统组网 →
 Linear 外部 S → RF System 节点/端口谱与路径性能；它不是完整 2023 规格，也不扩展为全 DSP、GUI 或通用 SPICE。
 当前 C++ 组合入口见[行为系统 SDK 示例](../examples/behavioral-system-sdk/README.md)。
+接手执行顺序、Git 同步保护、源码与证据可用性见[本地 Codex 操作交接](local-codex-handoff.md)；
+继续本地已有长期任务，云端不再并行开发。
 
 ## 先只读资料，保留来源
 
