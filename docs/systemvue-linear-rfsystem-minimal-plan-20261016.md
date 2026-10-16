@@ -1,6 +1,8 @@
 # SystemVue 2023：共享 RES 链的 Linear / RF System 最小实验
 
-状态：**采集前冻结的候选方案，尚未运行**。本方案未产生任何厂商数值验收。
+本页保存**采集前冻结的候选方案**；以下“尚未运行”等表述属于冻结时状态。
+后续已各提交一次 Linear / RF System 分析，实际回读、逐项验收和未决身份见
+[首次采集报告](systemvue-res-validation-20261016.md)。原始方案 JSON 与门限未修改。
 配套[机器可读方案与 27 页来源索引](../validation/systemvue-linear-rfsystem-minimal-plan-20261016.json)
 记录配置、oracle、比较门限和未决项；本轮工程验证见
 [本地接手验证记录](local-takeover-validation-20261016.md)。

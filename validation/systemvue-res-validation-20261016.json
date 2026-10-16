@@ -1,0 +1,219 @@
+{
+  "schema_version": 1,
+  "plan_sha256": "4000c4549f5ed0a129f1f5ccf1069d4ef4c36be6da9c5de04d86b441f9d4a30e",
+  "status": "incomplete_minimum",
+  "full_minimum_accepted": false,
+  "vendor_analysis_requests": 2,
+  "eligible_atomic_comparisons": 10,
+  "counts": {
+    "pass": 5,
+    "fail": 0,
+    "not_comparable": 5
+  },
+  "native_oracle_checks": 99,
+  "comparisons": [
+    {
+      "id": "linear_frequency",
+      "status": "pass",
+      "vendor": 100000000,
+      "oracle": 100000000.0,
+      "native": 100000000,
+      "vendor_oracle_absolute_error": 0.0,
+      "vendor_native_absolute_error": 0,
+      "limit": 0.001,
+      "threshold": "frequency_hz",
+      "provenance": "Designs/linear_once_Data/Eqns/VarBlock/F: Data/GetValue in Hz"
+    },
+    {
+      "id": "linear_S11",
+      "status": "pass",
+      "vendor": {
+        "real": 0.5,
+        "imag": 0.0
+      },
+      "oracle": {
+        "real": 0.5,
+        "imag": 0.0
+      },
+      "native": {
+        "real": 0.5,
+        "imag": 0.0
+      },
+      "vendor_oracle_absolute_error": 0.0,
+      "vendor_native_absolute_error": 0.0,
+      "limit": 5.1e-09,
+      "threshold": "dimensionless_complex_S",
+      "provenance": "Designs/linear_once_Data/Eqns/VarBlock/S11: complete System.Double value and explicit S(:,row,column) alias"
+    },
+    {
+      "id": "linear_S12",
+      "status": "pass",
+      "vendor": {
+        "real": 0.5,
+        "imag": 0.0
+      },
+      "oracle": {
+        "real": 0.5,
+        "imag": 0.0
+      },
+      "native": {
+        "real": 0.5,
+        "imag": 0.0
+      },
+      "vendor_oracle_absolute_error": 0.0,
+      "vendor_native_absolute_error": 0.0,
+      "limit": 5.1e-09,
+      "threshold": "dimensionless_complex_S",
+      "provenance": "Designs/linear_once_Data/Eqns/VarBlock/S12: complete System.Double value and explicit S(:,row,column) alias"
+    },
+    {
+      "id": "linear_S21",
+      "status": "pass",
+      "vendor": {
+        "real": 0.5000000000000001,
+        "imag": 0.0
+      },
+      "oracle": {
+        "real": 0.5,
+        "imag": 0.0
+      },
+      "native": {
+        "real": 0.5,
+        "imag": 0.0
+      },
+      "vendor_oracle_absolute_error": 1.1102230246251565e-16,
+      "vendor_native_absolute_error": 1.1102230246251565e-16,
+      "limit": 5.1e-09,
+      "threshold": "dimensionless_complex_S",
+      "provenance": "Designs/linear_once_Data/Eqns/VarBlock/S21: complete System.Double value and explicit S(:,row,column) alias"
+    },
+    {
+      "id": "linear_S22",
+      "status": "pass",
+      "vendor": {
+        "real": 0.5,
+        "imag": 0.0
+      },
+      "oracle": {
+        "real": 0.5,
+        "imag": 0.0
+      },
+      "native": {
+        "real": 0.5,
+        "imag": 0.0
+      },
+      "vendor_oracle_absolute_error": 0.0,
+      "vendor_native_absolute_error": 0.0,
+      "limit": 5.1e-09,
+      "threshold": "dimensionless_complex_S",
+      "provenance": "Designs/linear_once_Data/Eqns/VarBlock/S22: complete System.Double value and explicit S(:,row,column) alias"
+    },
+    {
+      "id": "linear_ZPORT_1",
+      "status": "not_comparable",
+      "reason": "Complex SAFEARRAY port/component axes have no confirmed contract."
+    },
+    {
+      "id": "linear_ZPORT_2",
+      "status": "not_comparable",
+      "reason": "Complex SAFEARRAY port/component axes have no confirmed contract."
+    },
+    {
+      "id": "rf_DCP_first_node",
+      "status": "not_comparable",
+      "reason": "Observed SrcType=0 is not yet bound to an authoritative CW enumeration."
+    },
+    {
+      "id": "rf_DCP_output",
+      "status": "not_comparable",
+      "reason": "Observed SrcType=0 is not yet bound to an authoritative CW enumeration."
+    },
+    {
+      "id": "rf_DCV_output",
+      "status": "not_comparable",
+      "reason": "Observed SrcType=0 is not yet bound to an authoritative CW enumeration."
+    }
+  ],
+  "unscored_raw_rf_linear_units": {
+    "DCP": [
+      0.001,
+      0.0004999999912499996,
+      0.00024999999124999993
+    ],
+    "DCV": [
+      0.47434164388655564,
+      0.31622776127342134,
+      0.15811388024142597
+    ]
+  },
+  "limitations": [
+    "One 100-MHz two-RES fixture only.",
+    "No noise, arbitrary CP/CV, current-direction, nonlinear or complex-reference acceptance."
+  ],
+  "created_utc": "2026-10-16T12:28:48.724249+00:00",
+  "report": "docs/systemvue-res-validation-20261016.md",
+  "code_base_before_changes": "d75c2aac2513d0ec8f1198caf3211da8e2c974ad",
+  "code_identity_note": "New developer tools and probe were uncommitted during local validation; exact bytes are in the archive. Production C++ headers are unchanged from this base. Later exact-commit CI is a separate record.",
+  "vendor_build": "2023.0.0.11903",
+  "archive": {
+    "path": "validation/systemvue-res-raw-20261016.zip",
+    "sha256": "a1046bc87ecafa8f1a0b988dee3d46636d1c0b84c26bc2eec3c6272920d03d70",
+    "bytes": 2061540,
+    "members": 328
+  },
+  "local_checks": {
+    "receipt": "validation/systemvue-res-checks-20261016.json",
+    "sha256": "4c8a3974a522bac54334307b727398ae127055147056cbe5b7935e726fea98bc",
+    "negative_evidence_checks": 21,
+    "input_generation_tests": 4,
+    "PS51_compile_and_managed_guards": 40,
+    "file_only_preamble_checks": 42,
+    "final_absolute_path_checks": 7,
+    "vendor_analyses_by_offline_checks": 0
+  },
+  "native": {
+    "status": "pass",
+    "configurations": [
+      {
+        "configuration": "Debug",
+        "status": "pass",
+        "checks_passed": 99,
+        "compiler_id": "MSVC",
+        "compiler_version": "19.44.35228.0",
+        "compiler_path": "C:/Program Files (x86)/Microsoft Visual Studio/2022/BuildTools/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/cl.exe",
+        "executable_sha256": "85c9a518ccf450f5dc54a8afdbd782315c58fe1c64b92ec3be5f12b63cbc5178",
+        "result_sha256": "b34a16bcc77da106c3e385442ab2356e11b3bfdd220c8ea971768c95c6e6d570",
+        "analytic_check_sha256": "eb78983833dfb92b3f167e79e8ba18bd8a6b11ed20eedd1a73c81e48715ae716",
+        "installed_include_trace_count": 47
+      },
+      {
+        "configuration": "Release",
+        "status": "pass",
+        "checks_passed": 99,
+        "compiler_id": "MSVC",
+        "compiler_version": "19.44.35228.0",
+        "compiler_path": "C:/Program Files (x86)/Microsoft Visual Studio/2022/BuildTools/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/cl.exe",
+        "executable_sha256": "af7bdda5e11fd56dedfd0ee9ee041f4c70955bd163891ce46e363f28113283d3",
+        "result_sha256": "b34a16bcc77da106c3e385442ab2356e11b3bfdd220c8ea971768c95c6e6d570",
+        "analytic_check_sha256": "eb78983833dfb92b3f167e79e8ba18bd8a6b11ed20eedd1a73c81e48715ae716",
+        "installed_include_trace_count": 47
+      }
+    ],
+    "negative_checks": 12,
+    "source_hashes_sha256": "1ccffae04b1e00882a133511f0242662285cc54ff7a7b0fd9098b932b0f24cb3",
+    "installed_sdk_hashes_sha256": "3c3a4f24d722b492dc210a979d1191f0c8ec7ee4a0f1fcc1c5ba8e567487868a",
+    "receipt_archive_member": "native/receipt.json"
+  },
+  "preserved_failures": {
+    "path_preparation": "Expression errors, unsupported string SetValue attempt, and crash during reloading after Param XML modification; zero analyses in these preparations.",
+    "ZPORT_scalar_postprocessing": "Three separately retained attempts; ROT unavailable in sandbox, created object name mismatch, then Text property dispatch type mismatch. No Equation.Calculate or additional RunAnalysis.",
+    "native_development": "Earlier configure and verifier-development receipts are retained under native-history; authoritative final results are native/."
+  },
+  "evidence_limits": {
+    "initialization_receipt_had_source_hash": false,
+    "current_hardened_helpers_live_rerun": false,
+    "prior_DC_RC_accepted_comparisons": 0,
+    "installed_X_format_replay_vendor_simulations": 0,
+    "complete_SystemVue_compatibility": false
+  }
+}

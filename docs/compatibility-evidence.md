@@ -2,9 +2,11 @@
 
 2026-10-16 本地后续已完成[同步审查、工具修复及实际四文件格式回放](local-takeover-validation-20261016.md)，
 并冻结[同电路最小实验](systemvue-linear-rfsystem-minimal-plan-20261016.md)。
-该补充不改变下文历史源提交及 CI 归属，不增加厂商数值验收。
+随后完成[同一 RES 电路的首次实际采集与归档重放](systemvue-res-validation-20261016.md)，
+新增观测量逐项分列通过与身份未决，不宣称最小实验整体验收。
+这些补充不改变下文历史源提交及 CI 归属；下文原始阶段计数不回填更新。
 
-[机读映射](../validation/compatibility-evidence.json)是当前兼容摘要的权威索引，
+[机读映射](../validation/compatibility-evidence.json)保留下述工程基线的兼容摘要，
 本轮工程源码基线为 `6ef3b0c0c840d2434b4b59e959b6c93eb4beb211`，不是全目录验收清单。
 源码树为 `a305e404e004330dab4f69478aee17da4bad976a`。在既有原生能力上加入独立弱噪声块保留、
 历史单/双音、共享来源及两级 source-cubic 归档重放，以及同一行为模型/接线表的系统 SDK 示例。

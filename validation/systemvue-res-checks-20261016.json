@@ -1,0 +1,67 @@
+{
+  "started_utc": "2026-10-16T12:27:58.372723+00:00",
+  "steps": [
+    {
+      "name": "replay",
+      "argv": [
+        "C:\\Users\\Administrator\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+        "scripts/reference/replay-systemvue-res-evidence.py",
+        "--archive",
+        "build-reference\\res-linear-rfsystem-20261016\\publication\\final\\systemvue-res-raw-20261016.zip",
+        "--manifest",
+        "build-reference\\res-linear-rfsystem-20261016\\publication\\final\\systemvue-res-manifest-20261016.json"
+      ],
+      "returncode": 0,
+      "stdout_sha256": "dc01ff05921826107d57ba81c2eb7618c1109cbc98c9e82ad7b3d55b9ca5f3de",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "corruption-tests",
+      "argv": [
+        "C:\\Users\\Administrator\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+        "scripts/reference/test_systemvue_res_evidence.py",
+        "--archive",
+        "build-reference\\res-linear-rfsystem-20261016\\publication\\final\\systemvue-res-raw-20261016.zip",
+        "--manifest",
+        "build-reference\\res-linear-rfsystem-20261016\\publication\\final\\systemvue-res-manifest-20261016.json"
+      ],
+      "returncode": 0,
+      "stdout_sha256": "a28549a11c539c532a0fb3872c48dbf82417d28894ee7b0ea0ea9fc02ce04c28",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "input-tests",
+      "argv": [
+        "C:\\Users\\Administrator\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+        "scripts/reference/test_systemvue_res_input.py"
+      ],
+      "returncode": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "bf75396d61d990654f2490dbd581269d30f3754871c957918b78c1321a21acd1"
+    },
+    {
+      "name": "existing-evidence-check",
+      "argv": [
+        "C:\\Users\\Administrator\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+        "scripts/reference/check_compatibility_evidence.py",
+        "--self-test"
+      ],
+      "returncode": 0,
+      "stdout_sha256": "84308b7d3622e8d95528485c0a7da307ef351b290d4b2808677c8c9b859a9383",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "archive_sha256": "a1046bc87ecafa8f1a0b988dee3d46636d1c0b84c26bc2eec3c6272920d03d70",
+  "finished_utc": "2026-10-16T12:28:04.674526+00:00",
+  "status": "pass",
+  "raw_outputs": {
+    "corruption-tests.stderr.log": "",
+    "corruption-tests.stdout.log": "{\n  \"status\": \"pass\",\n  \"negative_checks_passed\": 21,\n  \"checks\": [\n    \"wrong_vendor_build\",\n    \"unknown_snapshot_equality\",\n    \"truncated_traversal\",\n    \"multiple_analysis_submissions\",\n    \"wrong_run_dataset\",\n    \"S_alias_wrong_port_order\",\n    \"S_unit_metadata_changed\",\n    \"analysis_dataset_binding_changed\",\n    \"runner_source_hash_changed\",\n    \"collector_source_hash_changed\",\n    \"run_dataset_XML_changed\",\n    \"double_unit_conversion\",\n    \"wrong_node_dependency\",\n    \"wrong_lower_bound\",\n    \"binary64_text_disagrees\",\n    \"display_string_in_place_of_binary64\",\n    \"wrong_physical_wiring\",\n    \"wrong_reflection_sign_is_failure\",\n    \"wrong_native_reference_plane\",\n    \"duplicate_JSON_key\",\n    \"nonfinite_JSON\"\n  ],\n  \"baseline_counts\": {\n    \"pass\": 5,\n    \"fail\": 0,\n    \"not_comparable\": 5\n  }\n}\n",
+    "existing-evidence-check.stderr.log": "",
+    "existing-evidence-check.stdout.log": "34 invalid-evidence mutations rejected\n40 raw-CI binding mutations rejected\nCompatibility evidence metadata valid; no numerical or vendor tests executed\n",
+    "input-tests.stderr.log": "....\n----------------------------------------------------------------------\nRan 4 tests in 1.371s\n\nOK\n",
+    "input-tests.stdout.log": "",
+    "replay.stderr.log": "",
+    "replay.stdout.log": "{\n  \"schema_version\": 1,\n  \"plan_sha256\": \"4000c4549f5ed0a129f1f5ccf1069d4ef4c36be6da9c5de04d86b441f9d4a30e\",\n  \"status\": \"incomplete_minimum\",\n  \"full_minimum_accepted\": false,\n  \"vendor_analysis_requests\": 2,\n  \"eligible_atomic_comparisons\": 10,\n  \"counts\": {\n    \"pass\": 5,\n    \"fail\": 0,\n    \"not_comparable\": 5\n  },\n  \"native_oracle_checks\": 99,\n  \"comparisons\": [\n    {\n      \"id\": \"linear_frequency\",\n      \"status\": \"pass\",\n      \"vendor\": 100000000,\n      \"oracle\": 100000000.0,\n      \"native\": 100000000,\n      \"vendor_oracle_absolute_error\": 0.0,\n      \"vendor_native_absolute_error\": 0,\n      \"limit\": 0.001,\n      \"threshold\": \"frequency_hz\",\n      \"provenance\": \"Designs/linear_once_Data/Eqns/VarBlock/F: Data/GetValue in Hz\"\n    },\n    {\n      \"id\": \"linear_S11\",\n      \"status\": \"pass\",\n      \"vendor\": {\n        \"real\": 0.5,\n        \"imag\": 0.0\n      },\n      \"oracle\": {\n        \"real\": 0.5,\n        \"imag\": 0.0\n      },\n      \"native\": {\n        \"real\": 0.5,\n        \"imag\": 0.0\n      },\n      \"vendor_oracle_absolute_error\": 0.0,\n      \"vendor_native_absolute_error\": 0.0,\n      \"limit\": 5.1e-09,\n      \"threshold\": \"dimensionless_complex_S\",\n      \"provenance\": \"Designs/linear_once_Data/Eqns/VarBlock/S11: complete System.Double value and explicit S(:,row,column) alias\"\n    },\n    {\n      \"id\": \"linear_S12\",\n      \"status\": \"pass\",\n      \"vendor\": {\n        \"real\": 0.5,\n        \"imag\": 0.0\n      },\n      \"oracle\": {\n        \"real\": 0.5,\n        \"imag\": 0.0\n      },\n      \"native\": {\n        \"real\": 0.5,\n        \"imag\": 0.0\n      },\n      \"vendor_oracle_absolute_error\": 0.0,\n      \"vendor_native_absolute_error\": 0.0,\n      \"limit\": 5.1e-09,\n      \"threshold\": \"dimensionless_complex_S\",\n      \"provenance\": \"Designs/linear_once_Data/Eqns/VarBlock/S12: complete System.Double value and explicit S(:,row,column) alias\"\n    },\n    {\n      \"id\": \"linear_S21\",\n      \"status\": \"pass\",\n      \"vendor\": {\n        \"real\": 0.5000000000000001,\n        \"imag\": 0.0\n      },\n      \"oracle\": {\n        \"real\": 0.5,\n        \"imag\": 0.0\n      },\n      \"native\": {\n        \"real\": 0.5,\n        \"imag\": 0.0\n      },\n      \"vendor_oracle_absolute_error\": 1.1102230246251565e-16,\n      \"vendor_native_absolute_error\": 1.1102230246251565e-16,\n      \"limit\": 5.1e-09,\n      \"threshold\": \"dimensionless_complex_S\",\n      \"provenance\": \"Designs/linear_once_Data/Eqns/VarBlock/S21: complete System.Double value and explicit S(:,row,column) alias\"\n    },\n    {\n      \"id\": \"linear_S22\",\n      \"status\": \"pass\",\n      \"vendor\": {\n        \"real\": 0.5,\n        \"imag\": 0.0\n      },\n      \"oracle\": {\n        \"real\": 0.5,\n        \"imag\": 0.0\n      },\n      \"native\": {\n        \"real\": 0.5,\n        \"imag\": 0.0\n      },\n      \"vendor_oracle_absolute_error\": 0.0,\n      \"vendor_native_absolute_error\": 0.0,\n      \"limit\": 5.1e-09,\n      \"threshold\": \"dimensionless_complex_S\",\n      \"provenance\": \"Designs/linear_once_Data/Eqns/VarBlock/S22: complete System.Double value and explicit S(:,row,column) alias\"\n    },\n    {\n      \"id\": \"linear_ZPORT_1\",\n      \"status\": \"not_comparable\",\n      \"reason\": \"Complex SAFEARRAY port/component axes have no confirmed contract.\"\n    },\n    {\n      \"id\": \"linear_ZPORT_2\",\n      \"status\": \"not_comparable\",\n      \"reason\": \"Complex SAFEARRAY port/component axes have no confirmed contract.\"\n    },\n    {\n      \"id\": \"rf_DCP_first_node\",\n      \"status\": \"not_comparable\",\n      \"reason\": \"Observed SrcType=0 is not yet bound to an authoritative CW enumeration.\"\n    },\n    {\n      \"id\": \"rf_DCP_output\",\n      \"status\": \"not_comparable\",\n      \"reason\": \"Observed SrcType=0 is not yet bound to an authoritative CW enumeration.\"\n    },\n    {\n      \"id\": \"rf_DCV_output\",\n      \"status\": \"not_comparable\",\n      \"reason\": \"Observed SrcType=0 is not yet bound to an authoritative CW enumeration.\"\n    }\n  ],\n  \"unscored_raw_rf_linear_units\": {\n    \"DCP\": [\n      0.001,\n      0.0004999999912499996,\n      0.00024999999124999993\n    ],\n    \"DCV\": [\n      0.47434164388655564,\n      0.31622776127342134,\n      0.15811388024142597\n    ]\n  },\n  \"limitations\": [\n    \"One 100-MHz two-RES fixture only.\",\n    \"No noise, arbitrary CP/CV, current-direction, nonlinear or complex-reference acceptance.\"\n  ]\n}\n\n"
+  }
+}

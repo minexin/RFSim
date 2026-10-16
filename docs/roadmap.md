@@ -63,8 +63,10 @@ DC/RC 八次分析提交而零项比较验收，实际四文件 X-parameter 重�
 
 2026-10-16 后续：实际四文件已通过冻结格式回放（3 个独立内容哈希、0 次仿真），
 本机工具缺陷修复及原始证据见[接手验证](local-takeover-validation-20261016.md)。
-下一项为[已冻结的同电路 Linear / RF System 最小实验](systemvue-linear-rfsystem-minimal-plan-20261016.md)，
-尚未采集；完整系数、参考面与上述 DC/RC 数值验收缺口保持。
+[已冻结的同电路 Linear / RF System 最小实验](systemvue-linear-rfsystem-minimal-plan-20261016.md)
+随后完成各一次真实分析；实际验收、源类型身份缺口及独立安装 SDK 探针见
+[RES 首次采集报告](systemvue-res-validation-20261016.md)。
+完整系数、一般参考面与上述 DC/RC 数值验收缺口保持。
 
 后续顺序由明确缺口、可取得的厂商证据和用户产品选择决定，不能靠新增示例或 CI 数量闭合。
 公开分发、许可、版本/标签、API/ABI 稳定性及最终精确提交门禁尚未关闭；本轮不作这些决定。

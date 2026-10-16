@@ -147,6 +147,18 @@ jobs:
         run: python scripts/reference/test_diagnose_single_saturation.py
       - name: Test Python retirement and independent capture imports
         run: python -I -S scripts/reference/test_python_retirement.py
+      - name: Verify frozen RES input and archived vendor evidence without SystemVue
+        run: |
+          python scripts/reference/test_systemvue_res_input.py
+          python scripts/reference/replay-systemvue-res-evidence.py --archive validation/systemvue-res-raw-20261016.zip --manifest validation/systemvue-res-manifest-20261016.json
+          python scripts/reference/test_systemvue_res_evidence.py --archive validation/systemvue-res-raw-20261016.zip --manifest validation/systemvue-res-manifest-20261016.json
+      - name: Verify frozen RES fixture against an independently installed C++17 SDK
+        run: >-
+          python scripts/reference/behavioral-res-probe/run.py
+          --repo "$PWD"
+          --cmake "$(python -c 'import shutil; print(shutil.which("cmake"))')"
+          --out "$PWD/res-native-ci"
+          --configuration ${{ matrix.configuration }}
       - name: Configure explicit developer replay without the C ABI
         run: >-
           cmake -S . -B build-reference -DCMAKE_BUILD_TYPE=${{ matrix.configuration }}
@@ -243,4 +255,6 @@ jobs:
             build-reference/**/*.manifest.json
             build-reference/reference-installed-sdk/consumer-build/Testing/Temporary/LastTest.log
             build-reference/amplifier-installed-sdk/consumer-build/Testing/Temporary/LastTest.log
+            res-native-ci/*.json
+            res-native-ci/*.log
           if-no-files-found: warn
