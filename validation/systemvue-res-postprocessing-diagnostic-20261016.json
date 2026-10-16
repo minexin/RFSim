@@ -1,0 +1,651 @@
+{
+  "schema_version": 1,
+  "classification": "post_publication_read_only_diagnosis_no_new_acceptance",
+  "diagnosed_utc": "2026-10-16T12:34:19.039177+00:00",
+  "original_diagnostic_sha256": "6f837962261382117919934cd3df892e4554220dc852b4365fbb91b265c93c24",
+  "conclusion": {
+    "SetProperty_strong_typed_signature_in_installed_Interop": "absent",
+    "ref_object_requirement_proven_from_Interop": false,
+    "ParameterModifier_requirement_proven": false,
+    "binding_error_explanation": "plausible_but_not_demonstrated",
+    "Text_property_unsupported_established": false,
+    "summary": "This Interop contains no strongly typed SetProperty declaration. The recorded application method table and official help describe a dynamic SetProperty(BSTR,Variant*) method. A plain-string InvokeMember call without parameter modifiers failed with DISP_E_TYPEMISMATCH. The mismatch is consistent with an argument-binding issue, but the existing HRESULT does not identify the offending argument or prove a by-reference remedy. It does not establish that Text is unsupported."
+  },
+  "live_COM_UI_calls": 0,
+  "new_vendor_analyses": 0,
+  "metadata_evidence": {
+    "schema_version": 1,
+    "inspected_utc": "2026-10-16T12:32:47.2730792Z",
+    "execution_kind": "passive_assembly_metadata_only",
+    "COM_activation_or_attachment_calls": 0,
+    "application_or_UI_calls": 0,
+    "powershell_version": "5.1.19041.6456",
+    "clr_version": "4.0.30319.42000",
+    "script_sha256": "8ec9a7278065f735eb923293b40c008b523421c94a9349bb06d18978d4054e47",
+    "interop": {
+      "path": "C:/Program Files/Keysight/SystemVue2023/Examples/RF Architecture Design/RF Design Kit/Scripting/Excel_to_RF/Interop.GENESYS.dll",
+      "sha256": "5326e6d22c9d4328526255483d0d8f4c1eb31137fa130b3ac762d6667e505666",
+      "assembly_full_name": "Interop.GENESYS, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+      "image_runtime_version": "v4.0.30319",
+      "all_type_count": 24,
+      "exported_type_count": 24,
+      "types": [
+        {
+          "name": "GENESYS.GENESYSDisplayFlags",
+          "is_interface": false,
+          "is_import": false
+        },
+        {
+          "name": "GENESYS.__MIDL___MIDL_itf_Genesys_0000_0000_0001",
+          "is_interface": false,
+          "is_import": false
+        },
+        {
+          "name": "GENESYS.ShowEnum",
+          "is_interface": false,
+          "is_import": false
+        },
+        {
+          "name": "GENESYS.__MIDL___MIDL_itf_Genesys_0000_0000_0002",
+          "is_interface": false,
+          "is_import": false
+        },
+        {
+          "name": "GENESYS.ScriptLanguage",
+          "is_interface": false,
+          "is_import": false
+        },
+        {
+          "name": "GENESYS.__MIDL___MIDL_itf_Genesys_0000_0000_0003",
+          "is_interface": false,
+          "is_import": false
+        },
+        {
+          "name": "GENESYS.IApplication",
+          "is_interface": true,
+          "is_import": true
+        },
+        {
+          "name": "GENESYS.ApplicationClass",
+          "is_interface": false,
+          "is_import": true
+        },
+        {
+          "name": "GENESYS.Application",
+          "is_interface": true,
+          "is_import": true
+        },
+        {
+          "name": "GENESYS.ManagerClass",
+          "is_interface": false,
+          "is_import": true
+        },
+        {
+          "name": "GENESYS.Manager",
+          "is_interface": true,
+          "is_import": true
+        },
+        {
+          "name": "GENESYS.IManager",
+          "is_interface": true,
+          "is_import": true
+        },
+        {
+          "name": "GENESYS.WorkspaceClass",
+          "is_interface": false,
+          "is_import": true
+        },
+        {
+          "name": "GENESYS.Workspace",
+          "is_interface": true,
+          "is_import": true
+        },
+        {
+          "name": "GENESYS.IWorkspace",
+          "is_interface": true,
+          "is_import": true
+        },
+        {
+          "name": "GENESYS.OptimizeHelperClass",
+          "is_interface": false,
+          "is_import": true
+        },
+        {
+          "name": "GENESYS.OptimizeHelper",
+          "is_interface": true,
+          "is_import": true
+        },
+        {
+          "name": "GENESYS.IOptimizeHelper",
+          "is_interface": true,
+          "is_import": true
+        },
+        {
+          "name": "GENESYS.IItem",
+          "is_interface": true,
+          "is_import": true
+        },
+        {
+          "name": "GENESYS.ItemClass",
+          "is_interface": false,
+          "is_import": true
+        },
+        {
+          "name": "GENESYS.Item",
+          "is_interface": true,
+          "is_import": true
+        },
+        {
+          "name": "GENESYS.ToolbarSetClass",
+          "is_interface": false,
+          "is_import": true
+        },
+        {
+          "name": "GENESYS.ToolbarSet",
+          "is_interface": true,
+          "is_import": true
+        },
+        {
+          "name": "GENESYS.IToolbarSet",
+          "is_interface": true,
+          "is_import": true
+        }
+      ]
+    },
+    "search_scope": "All public and nonpublic instance/static methods in all types of this single installed Interop assembly.",
+    "SetProperty_declarations": [],
+    "SetName_declarations": [],
+    "IItem_inherited_interfaces": [],
+    "IItem_methods": [
+      {
+        "declaring_type": "GENESYS.IItem",
+        "name": "get_Application",
+        "signature": "GENESYS.Application get_Application()",
+        "return_type": "GENESYS.Application",
+        "parameters": []
+      },
+      {
+        "declaring_type": "GENESYS.IItem",
+        "name": "set_Application",
+        "signature": "Void set_Application(GENESYS.Application)",
+        "return_type": "System.Void",
+        "parameters": [
+          {
+            "name": null,
+            "position": 0,
+            "type": "GENESYS.Application",
+            "is_by_ref": false,
+            "is_in": false,
+            "is_out": false,
+            "attributes": "None"
+          }
+        ]
+      },
+      {
+        "declaring_type": "GENESYS.IItem",
+        "name": "ToXML",
+        "signature": "System.String ToXML()",
+        "return_type": "System.String",
+        "parameters": []
+      },
+      {
+        "declaring_type": "GENESYS.IItem",
+        "name": "FromXML",
+        "signature": "Void FromXML(System.String)",
+        "return_type": "System.Void",
+        "parameters": [
+          {
+            "name": "inString",
+            "position": 0,
+            "type": "System.String",
+            "is_by_ref": false,
+            "is_in": true,
+            "is_out": false,
+            "attributes": "In, HasFieldMarshal"
+          }
+        ]
+      },
+      {
+        "declaring_type": "GENESYS.IItem",
+        "name": "ToString",
+        "signature": "System.String ToString()",
+        "return_type": "System.String",
+        "parameters": []
+      },
+      {
+        "declaring_type": "GENESYS.IItem",
+        "name": "GetName",
+        "signature": "System.String GetName()",
+        "return_type": "System.String",
+        "parameters": []
+      },
+      {
+        "declaring_type": "GENESYS.IItem",
+        "name": "GetItemByName",
+        "signature": "GENESYS.IItem GetItemByName(System.String)",
+        "return_type": "GENESYS.IItem",
+        "parameters": [
+          {
+            "name": "Name",
+            "position": 0,
+            "type": "System.String",
+            "is_by_ref": false,
+            "is_in": true,
+            "is_out": false,
+            "attributes": "In, HasFieldMarshal"
+          }
+        ]
+      },
+      {
+        "declaring_type": "GENESYS.IItem",
+        "name": "GetItemCount",
+        "signature": "Int32 GetItemCount()",
+        "return_type": "System.Int32",
+        "parameters": []
+      },
+      {
+        "declaring_type": "GENESYS.IItem",
+        "name": "GetItemByIndex",
+        "signature": "GENESYS.IItem GetItemByIndex(Int32)",
+        "return_type": "GENESYS.IItem",
+        "parameters": [
+          {
+            "name": "iIndex",
+            "position": 0,
+            "type": "System.Int32",
+            "is_by_ref": false,
+            "is_in": true,
+            "is_out": false,
+            "attributes": "In"
+          }
+        ]
+      },
+      {
+        "declaring_type": "GENESYS.IItem",
+        "name": "GetVarCount",
+        "signature": "Int32 GetVarCount()",
+        "return_type": "System.Int32",
+        "parameters": []
+      },
+      {
+        "declaring_type": "GENESYS.IItem",
+        "name": "GetVarName",
+        "signature": "System.String GetVarName(Int32)",
+        "return_type": "System.String",
+        "parameters": [
+          {
+            "name": "iIndex",
+            "position": 0,
+            "type": "System.Int32",
+            "is_by_ref": false,
+            "is_in": true,
+            "is_out": false,
+            "attributes": "In"
+          }
+        ]
+      },
+      {
+        "declaring_type": "GENESYS.IItem",
+        "name": "GetVarXMLName",
+        "signature": "System.String GetVarXMLName(Int32)",
+        "return_type": "System.String",
+        "parameters": [
+          {
+            "name": "iIndex",
+            "position": 0,
+            "type": "System.Int32",
+            "is_by_ref": false,
+            "is_in": true,
+            "is_out": false,
+            "attributes": "In"
+          }
+        ]
+      },
+      {
+        "declaring_type": "GENESYS.IItem",
+        "name": "GetVarValue",
+        "signature": "System.Object GetVarValue(Int32)",
+        "return_type": "System.Object",
+        "parameters": [
+          {
+            "name": "iIndex",
+            "position": 0,
+            "type": "System.Int32",
+            "is_by_ref": false,
+            "is_in": true,
+            "is_out": false,
+            "attributes": "In"
+          }
+        ]
+      },
+      {
+        "declaring_type": "GENESYS.IItem",
+        "name": "GetVarType",
+        "signature": "System.String GetVarType(Int32)",
+        "return_type": "System.String",
+        "parameters": [
+          {
+            "name": "iIndex",
+            "position": 0,
+            "type": "System.Int32",
+            "is_by_ref": false,
+            "is_in": true,
+            "is_out": false,
+            "attributes": "In"
+          }
+        ]
+      },
+      {
+        "declaring_type": "GENESYS.IItem",
+        "name": "GetParentOfItem",
+        "signature": "GENESYS.IItem GetParentOfItem(GENESYS.IItem)",
+        "return_type": "GENESYS.IItem",
+        "parameters": [
+          {
+            "name": "pChild",
+            "position": 0,
+            "type": "GENESYS.IItem",
+            "is_by_ref": false,
+            "is_in": true,
+            "is_out": false,
+            "attributes": "In, HasFieldMarshal"
+          }
+        ]
+      },
+      {
+        "declaring_type": "GENESYS.IItem",
+        "name": "GetMethodList",
+        "signature": "System.String GetMethodList()",
+        "return_type": "System.String",
+        "parameters": []
+      }
+    ],
+    "InvokeMember_runtime_overloads": [
+      {
+        "declaring_type": "System.Type",
+        "name": "InvokeMember",
+        "signature": "System.Object InvokeMember(System.String, System.Reflection.BindingFlags, System.Reflection.Binder, System.Object, System.Object[], System.Globalization.CultureInfo)",
+        "return_type": "System.Object",
+        "parameters": [
+          {
+            "name": "name",
+            "position": 0,
+            "type": "System.String",
+            "is_by_ref": false,
+            "is_in": false,
+            "is_out": false,
+            "attributes": "None"
+          },
+          {
+            "name": "invokeAttr",
+            "position": 1,
+            "type": "System.Reflection.BindingFlags",
+            "is_by_ref": false,
+            "is_in": false,
+            "is_out": false,
+            "attributes": "None"
+          },
+          {
+            "name": "binder",
+            "position": 2,
+            "type": "System.Reflection.Binder",
+            "is_by_ref": false,
+            "is_in": false,
+            "is_out": false,
+            "attributes": "None"
+          },
+          {
+            "name": "target",
+            "position": 3,
+            "type": "System.Object",
+            "is_by_ref": false,
+            "is_in": false,
+            "is_out": false,
+            "attributes": "None"
+          },
+          {
+            "name": "args",
+            "position": 4,
+            "type": "System.Object[]",
+            "is_by_ref": false,
+            "is_in": false,
+            "is_out": false,
+            "attributes": "None"
+          },
+          {
+            "name": "culture",
+            "position": 5,
+            "type": "System.Globalization.CultureInfo",
+            "is_by_ref": false,
+            "is_in": false,
+            "is_out": false,
+            "attributes": "None"
+          }
+        ]
+      },
+      {
+        "declaring_type": "System.Type",
+        "name": "InvokeMember",
+        "signature": "System.Object InvokeMember(System.String, System.Reflection.BindingFlags, System.Reflection.Binder, System.Object, System.Object[])",
+        "return_type": "System.Object",
+        "parameters": [
+          {
+            "name": "name",
+            "position": 0,
+            "type": "System.String",
+            "is_by_ref": false,
+            "is_in": false,
+            "is_out": false,
+            "attributes": "None"
+          },
+          {
+            "name": "invokeAttr",
+            "position": 1,
+            "type": "System.Reflection.BindingFlags",
+            "is_by_ref": false,
+            "is_in": false,
+            "is_out": false,
+            "attributes": "None"
+          },
+          {
+            "name": "binder",
+            "position": 2,
+            "type": "System.Reflection.Binder",
+            "is_by_ref": false,
+            "is_in": false,
+            "is_out": false,
+            "attributes": "None"
+          },
+          {
+            "name": "target",
+            "position": 3,
+            "type": "System.Object",
+            "is_by_ref": false,
+            "is_in": false,
+            "is_out": false,
+            "attributes": "None"
+          },
+          {
+            "name": "args",
+            "position": 4,
+            "type": "System.Object[]",
+            "is_by_ref": false,
+            "is_in": false,
+            "is_out": false,
+            "attributes": "None"
+          }
+        ]
+      },
+      {
+        "declaring_type": "System.Type",
+        "name": "InvokeMember",
+        "signature": "System.Object InvokeMember(System.String, System.Reflection.BindingFlags, System.Reflection.Binder, System.Object, System.Object[], System.Reflection.ParameterModifier[], System.Globalization.CultureInfo, System.String[])",
+        "return_type": "System.Object",
+        "parameters": [
+          {
+            "name": "name",
+            "position": 0,
+            "type": "System.String",
+            "is_by_ref": false,
+            "is_in": false,
+            "is_out": false,
+            "attributes": "None"
+          },
+          {
+            "name": "invokeAttr",
+            "position": 1,
+            "type": "System.Reflection.BindingFlags",
+            "is_by_ref": false,
+            "is_in": false,
+            "is_out": false,
+            "attributes": "None"
+          },
+          {
+            "name": "binder",
+            "position": 2,
+            "type": "System.Reflection.Binder",
+            "is_by_ref": false,
+            "is_in": false,
+            "is_out": false,
+            "attributes": "None"
+          },
+          {
+            "name": "target",
+            "position": 3,
+            "type": "System.Object",
+            "is_by_ref": false,
+            "is_in": false,
+            "is_out": false,
+            "attributes": "None"
+          },
+          {
+            "name": "args",
+            "position": 4,
+            "type": "System.Object[]",
+            "is_by_ref": false,
+            "is_in": false,
+            "is_out": false,
+            "attributes": "None"
+          },
+          {
+            "name": "modifiers",
+            "position": 5,
+            "type": "System.Reflection.ParameterModifier[]",
+            "is_by_ref": false,
+            "is_in": false,
+            "is_out": false,
+            "attributes": "None"
+          },
+          {
+            "name": "culture",
+            "position": 6,
+            "type": "System.Globalization.CultureInfo",
+            "is_by_ref": false,
+            "is_in": false,
+            "is_out": false,
+            "attributes": "None"
+          },
+          {
+            "name": "namedParameters",
+            "position": 7,
+            "type": "System.String[]",
+            "is_by_ref": false,
+            "is_in": false,
+            "is_out": false,
+            "attributes": "None"
+          }
+        ]
+      }
+    ],
+    "ParameterModifier_constructors": [
+      "Void .ctor(Int32)"
+    ],
+    "ParameterModifier_properties": [
+      "Boolean Item [Int32]"
+    ],
+    "interpretation_limit": "The existence of a ParameterModifier overload does not identify the server ABI or prove which argument needs by-reference binding. No candidate invocation is executed."
+  },
+  "read_only_inspector_source": "# Read-only metadata inspection. Does not instantiate or attach to any COM object.\n[CmdletBinding()]\nparam()\n$ErrorActionPreference = 'Stop'\n$taskOutput = 'D:/project/RFModel/build-reference/res-linear-rfsystem-20261016/post-publication/setproperty-metadata.json'\n$taskInterop = 'C:/Program Files/Keysight/SystemVue2023/Examples/RF Architecture Design/RF Design Kit/Scripting/Excel_to_RF/Interop.GENESYS.dll'\nif (Test-Path -LiteralPath $taskOutput) { throw 'Fresh diagnostic output required.' }\n$taskAssembly = [Reflection.Assembly]::LoadFrom($taskInterop)\n$taskFlags = [Reflection.BindingFlags]'Public,NonPublic,Instance,Static'\n$taskAllTypes = @($taskAssembly.GetTypes())\n$taskAllMethods = @($taskAllTypes | ForEach-Object { $_.GetMethods($taskFlags) })\nfunction Convert-MethodMetadata($taskMethod) {\n    [ordered]@{\n        declaring_type = $taskMethod.DeclaringType.FullName\n        name = $taskMethod.Name\n        signature = $taskMethod.ToString()\n        return_type = $taskMethod.ReturnType.FullName\n        parameters = @($taskMethod.GetParameters() | ForEach-Object {\n            [ordered]@{\n                name = $_.Name\n                position = $_.Position\n                type = $_.ParameterType.FullName\n                is_by_ref = $_.ParameterType.IsByRef\n                is_in = $_.IsIn\n                is_out = $_.IsOut\n                attributes = $_.Attributes.ToString()\n            }\n        })\n    }\n}\n$taskIItem = $taskAssembly.GetType('GENESYS.IItem')\n$taskRecord = [ordered]@{\n    schema_version = 1\n    inspected_utc = [DateTime]::UtcNow.ToString('o')\n    execution_kind = 'passive_assembly_metadata_only'\n    COM_activation_or_attachment_calls = 0\n    application_or_UI_calls = 0\n    powershell_version = $PSVersionTable.PSVersion.ToString()\n    clr_version = $PSVersionTable.CLRVersion.ToString()\n    script_sha256 = (Get-FileHash -LiteralPath $PSCommandPath -Algorithm SHA256).Hash.ToLowerInvariant()\n    interop = [ordered]@{\n        path = $taskInterop\n        sha256 = (Get-FileHash -LiteralPath $taskInterop -Algorithm SHA256).Hash.ToLowerInvariant()\n        assembly_full_name = $taskAssembly.FullName\n        image_runtime_version = $taskAssembly.ImageRuntimeVersion\n        all_type_count = $taskAllTypes.Count\n        exported_type_count = @($taskAssembly.GetExportedTypes()).Count\n        types = @($taskAllTypes | ForEach-Object {\n            [ordered]@{ name = $_.FullName; is_interface = $_.IsInterface; is_import = $_.IsImport }\n        })\n    }\n    search_scope = 'All public and nonpublic instance/static methods in all types of this single installed Interop assembly.'\n    SetProperty_declarations = @($taskAllMethods | Where-Object { $_.Name -eq 'SetProperty' } | ForEach-Object { Convert-MethodMetadata $_ })\n    SetName_declarations = @($taskAllMethods | Where-Object { $_.Name -eq 'SetName' } | ForEach-Object { Convert-MethodMetadata $_ })\n    IItem_inherited_interfaces = @($taskIItem.GetInterfaces() | ForEach-Object { $_.FullName })\n    IItem_methods = @($taskIItem.GetMethods() | ForEach-Object { Convert-MethodMetadata $_ })\n    InvokeMember_runtime_overloads = @([type].GetMethods() | Where-Object { $_.Name -eq 'InvokeMember' } | ForEach-Object { Convert-MethodMetadata $_ })\n    ParameterModifier_constructors = @([Reflection.ParameterModifier].GetConstructors() | ForEach-Object { $_.ToString() })\n    ParameterModifier_properties = @([Reflection.ParameterModifier].GetProperties() | ForEach-Object { $_.ToString() })\n    interpretation_limit = 'The existence of a ParameterModifier overload does not identify the server ABI or prove which argument needs by-reference binding. No candidate invocation is executed.'\n}\n$taskBytes = ([Text.UTF8Encoding]::new($false)).GetBytes(($taskRecord | ConvertTo-Json -Depth 15) + [Environment]::NewLine)\n$taskStream = [IO.File]::Open($taskOutput,[IO.FileMode]::CreateNew,[IO.FileAccess]::Write)\ntry { $taskStream.Write($taskBytes,0,$taskBytes.Length) } finally { $taskStream.Dispose() }\n[pscustomobject]@{\n    output = $taskOutput\n    interop_sha256 = $taskRecord.interop.sha256\n    all_types = $taskAllTypes.Count\n    SetProperty_declarations = $taskRecord.SetProperty_declarations.Count\n    SetName_declarations = $taskRecord.SetName_declarations.Count\n    IItem_methods = $taskRecord.IItem_methods.Count\n    COM_calls = 0\n} | ConvertTo-Json\n",
+  "official_source_files": [
+    {
+      "file": "C:/Program Files/Keysight/SystemVue2023/Examples/RF Architecture Design/RF Design Kit/Scripting/Excel_to_RF/C# Source Code/Excel_to_RF_Sys/ExcelDataMigrator.cs",
+      "sha256": "d4a95580965e3707253ab6182d68b5690183b9a6b1449f830273557f366ceca5",
+      "bytes": 14074
+    },
+    {
+      "file": "C:/Program Files/Keysight/SystemVue2023/Examples/RF Architecture Design/RF Design Kit/Scripting/Excel_to_RF/C# Source Code/Excel_to_RF_Sys/ExcelSheetReader.cs",
+      "sha256": "c181ccedd1df23b1f3c38e916f6ed50816423da5efd8b8615dfa5743e6005a37",
+      "bytes": 11518
+    },
+    {
+      "file": "C:/Program Files/Keysight/SystemVue2023/Examples/RF Architecture Design/RF Design Kit/Scripting/Excel_to_RF/C# Source Code/Excel_to_RF_Sys/MainForm.cs",
+      "sha256": "af58985114afb34f4af773931146a0cdd461350f9111f266ec8c5f7147d451b6",
+      "bytes": 16657
+    },
+    {
+      "file": "C:/Program Files/Keysight/SystemVue2023/Examples/RF Architecture Design/RF Design Kit/Scripting/Excel_to_RF/C# Source Code/Excel_to_RF_Sys/MainForm.Designer.cs",
+      "sha256": "a3f9228ac1e20c5b2a65cb7a3685fb7ba0aa69131edadb90d5d358ea75e7db2f",
+      "bytes": 21085
+    },
+    {
+      "file": "C:/Program Files/Keysight/SystemVue2023/Examples/RF Architecture Design/RF Design Kit/Scripting/Excel_to_RF/C# Source Code/Excel_to_RF_Sys/Program.cs",
+      "sha256": "3cbf3e6cfccea07111919deb183d239c8baadf6cc5dcc904403c8c5c157080b1",
+      "bytes": 647
+    },
+    {
+      "file": "C:/Program Files/Keysight/SystemVue2023/Examples/RF Architecture Design/RF Design Kit/Scripting/Excel_to_RF/C# Source Code/Excel_to_RF_Sys/Properties/AssemblyInfo.cs",
+      "sha256": "df9fc5fb2d6538544a21c8dbc5c377e929e3239c9594b4e3432ea62fa496917f",
+      "bytes": 1450
+    },
+    {
+      "file": "C:/Program Files/Keysight/SystemVue2023/Examples/RF Architecture Design/RF Design Kit/Scripting/Excel_to_RF/C# Source Code/Excel_to_RF_Sys/Properties/Resources.Designer.cs",
+      "sha256": "c463930696de4a969072885e1bda6d1a717b0a6732a9e2ff851f2e72032e3175",
+      "bytes": 2858
+    },
+    {
+      "file": "C:/Program Files/Keysight/SystemVue2023/Examples/RF Architecture Design/RF Design Kit/Scripting/Excel_to_RF/C# Source Code/Excel_to_RF_Sys/Properties/Settings.Designer.cs",
+      "sha256": "4227d4d41a0da1819d46c09e40f346685a56dd1439927735774061b67cfd797f",
+      "bytes": 1098
+    },
+    {
+      "file": "C:/Program Files/Keysight/SystemVue2023/Examples/RF Architecture Design/RF Design Kit/Scripting/Excel_to_RF/C# Source Code/SystemVueNET/Properties/AssemblyInfo.cs",
+      "sha256": "c205f95b1f5458d5d558b1d8392a45cae7cb77a4bf3d8fa8ad891128a349a892",
+      "bytes": 1465
+    },
+    {
+      "file": "C:/Program Files/Keysight/SystemVue2023/Examples/RF Architecture Design/RF Design Kit/Scripting/Excel_to_RF/C# Source Code/SystemVueNET/SystemVue.cs",
+      "sha256": "de0fb99e088d93d836d7f406a5189d98359c8591692aeff707cd5495ad16d912",
+      "bytes": 7415
+    },
+    {
+      "file": "C:/Program Files/Keysight/SystemVue2023/Examples/Tutorials/Simulation_Control_and_Scripting/Scripting/Visual Basic/Browser/MainForm.vb",
+      "sha256": "021a9c2a3aaed96c3c47b72f8ad6e99bcbbb1de255a3b6dfdcf979d478975831",
+      "bytes": 18994
+    }
+  ],
+  "official_example_fact": "The inspected C# wrapper calls Application.RunScript with VBScript and supplies a local variable to SetProperty. The inspected VB Browser dispatches methods through RunScript. No ParameterModifier or InvokeMember recipe was found in these 11 files.",
+  "future_route_not_executed": "Use the documented VBScript local-variable pattern to set Text on the already observed owned Equation; preserve a fresh copy, verify the exact formula and AutoCalc=0, then perform one explicitly scoped equation calculation. This does not require resubmitting Linear or RF analyses.",
+  "limits": {
+    "recorded_hresult": "0x80020005 / DISP_E_TYPEMISMATCH",
+    "argument_error_index_recorded": false,
+    "inner_error_detail_recorded": "Type mismatch only",
+    "Text_present_in_failure_XML": false,
+    "formula_calculation_attempted": false,
+    "cannot_distinguish": [
+      "By-reference VARIANT binding expected by this dynamic method",
+      "Another argument-type expectation in the application dispatch handler",
+      "A Text-specific assignment constraint not described by the current sources"
+    ],
+    "not_performed": [
+      "COM attachment",
+      "COM activation",
+      "UI inspection",
+      "ParameterModifier trial",
+      "ref object interface invention",
+      "VBScript execution",
+      "Calculate or GetValue",
+      "archived evidence rewrite"
+    ]
+  },
+  "publication": "Vendor source excerpts and complete example files are omitted; this file contains independent facts, file hashes, reflected metadata and our inspection source."
+}

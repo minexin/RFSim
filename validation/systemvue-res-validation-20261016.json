@@ -163,7 +163,7 @@
   },
   "local_checks": {
     "receipt": "validation/systemvue-res-checks-20261016.json",
-    "sha256": "4c8a3974a522bac54334307b727398ae127055147056cbe5b7935e726fea98bc",
+    "sha256": "319e74df24d3ab204ed9802e3b7a6a16dfe589c5861d0116a5dc0a719a76805f",
     "negative_evidence_checks": 21,
     "input_generation_tests": 4,
     "PS51_compile_and_managed_guards": 40,

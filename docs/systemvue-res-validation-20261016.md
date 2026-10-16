@@ -85,6 +85,9 @@ CLR 类型、binary64 位模式、往返文本、前后 XML 和应用错误。
 索引下界、位模式、器件接线与反射符号。输入生成测试 4/4；PowerShell 5.1 的解析、
 C# 编译与托管假对象检查 40 项、纯文件预检 42 项、最终绝对路径修复专项 7 项通过，
 这些离线检查没有连接应用或追加分析。开发检查本身的早期失败也保留，不记为厂商物理失败。
+[检查记录](../validation/systemvue-res-checks-20261016.json)同时保存可读的 LF 文本视图和
+原始 stdout/stderr 字节的 base64；每步哈希对应原始字节，避免 Windows CRLF 转换歧义。
+这项发布后封装补充不改变检查结果、原始归档或比较门限。
 
 以下离线命令验证归档哈希、观测量身份和原门限，不启动 SystemVue：
 
@@ -94,10 +97,21 @@ python scripts/reference/test_systemvue_res_evidence.py --archive validation/sys
 python scripts/reference/test_systemvue_res_input.py
 ```
 
-CI 增加上述归档重放、输入生成检查与安装版 RES 探针，沿用原来的 18 作业矩阵。
-具体提交的运行状态及原始 REST 记录在完成后单独登记，不能借用此前提交的成功状态。
+源码提交 `9af6896923120d00d0130620bc12ec390879ed31`（树
+`32c7ac73720b9009e2f70c97b7da4d01b68fcb1d`）的
+[CI 38900886066](https://github.com/minexin/RFSim/actions/runs/38900886066)
+已完成 **18/18 success**，于 2026-10-16 12:45:11 UTC 核验。
+新增归档重放、输入生成及安装版 RES 探针均在 Windows/Linux/macOS × Debug/Release 的六项矩阵中成功。
+CI 不运行 SystemVue，也不增加厂商采集或验收点。
+[精确提交记录与完整原始 REST run/jobs 哈希](../validation/systemvue-res-ci-20261016.json)
+单独保留；后续文档和证据封装覆盖层不继承这次运行作为自身的 CI。
 
 ## 后续范围
+
+发布后的[只读自动化诊断](../validation/systemvue-res-postprocessing-diagnostic-20261016.json)
+确认安装 Interop 没有强类型 SetProperty 声明；官方示例使用 VBScript 局部变量传值。
+这给出了下一次有界后处理的依据，但没有证明参数绑定是唯一原因，也没有证明 Text 不受支持。
+诊断未连接应用、未运行公式或仿真，不改变本次 5/0/5 计数及冻结归档。
 
 先闭合当前缺失的身份凭据，再按新方案分别验证 100 Ω 物理负载、无歧义旁支、
 坐标参考变化与真实源/负载变化；噪声实验需要独立的归一化和门限。
