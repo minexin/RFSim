@@ -1,0 +1,441 @@
+{
+  "schema_version": 1,
+  "classification": "read_only_next_acquisition_readiness_no_live_COM_access",
+  "read_time_utc": "2026-10-16T04:26:20.550119+00:00",
+  "user_local_date": "2026-10-16",
+  "plan": "validation/systemvue-linear-rfsystem-minimal-plan-20261016.json",
+  "frozen_numeric_plan_changed": false,
+  "live_app_launches": 0,
+  "live_COM_calls": 0,
+  "new_vendor_analyses": 0,
+  "tracked_files_modified": false,
+  "installed_version": {
+    "executable": "C:/Program Files/Keysight/SystemVue2023/Bin/SystemVue.exe",
+    "file_version": "2023.0.0.11903",
+    "product_version": "2023.0.0.11903",
+    "basis": "FileVersionInfo read earlier in this same review; no process launch"
+  },
+  "installed_help": {
+    "directory": "C:\\Program Files\\Keysight\\SystemVue2023\\Help",
+    "direct_child_files": [
+      "WJ Double Balanced Intermods.pdf",
+      "programmers64.qch",
+      "systemvue.qch",
+      "systemvue64.qhc"
+    ],
+    "containers": [
+      {
+        "path": "C:\\Program Files\\Keysight\\SystemVue2023\\Help\\programmers64.qch",
+        "bytes": 2125824,
+        "sha256": "0969ea511e0a346a9b74ef1d24e3939e0ade1d15a3a0c8a1ed0f2915d220fd5d",
+        "kind": "Qt compressed help content",
+        "counts": {
+          "all_rows": 416,
+          "distinct_names": 416,
+          "distinct_file_ids": 416,
+          "html_rows": 374,
+          "distinct_html_names": 374,
+          "distinct_html_file_ids": 374
+        },
+        "count_definition": "FileNameTable rows; distinct Name logical resource paths; distinct FileId content records. HTML filter is case-insensitive .html or .htm filename suffix; not a semantic topic count or proof of complete reading.",
+        "inspected_scope": "resource index samples show C++ ModelBuilder/Engine documentation; not exhaustively reviewed"
+      },
+      {
+        "path": "C:\\Program Files\\Keysight\\SystemVue2023\\Help\\systemvue.qch",
+        "bytes": 173317120,
+        "sha256": "eacdae962108181a917525b8e233d5b33d97f683674d1c79007c1c2b7a24bd83",
+        "kind": "Qt compressed help content",
+        "counts": {
+          "all_rows": 15847,
+          "distinct_names": 15847,
+          "distinct_file_ids": 15847,
+          "html_rows": 6273,
+          "distinct_html_names": 6273,
+          "distinct_html_file_ids": 6273
+        },
+        "count_definition": "FileNameTable rows; distinct Name logical resource paths; distinct FileId content records. HTML filter is case-insensitive .html or .htm filename suffix; not a semantic topic count or proof of complete reading.",
+        "inspected_scope": "27 measurement/model pages previously reviewed plus relevant automation pages below; not exhaustive"
+      },
+      {
+        "path": "C:\\Program Files\\Keysight\\SystemVue2023\\Help\\systemvue64.qhc",
+        "bytes": 177152,
+        "sha256": "6171b37a0ec5f277ba7b0fa903b71b275e95370490327ea220dd2bc9509ed5d2",
+        "kind": "Qt help collection/index",
+        "inspected_scope": "container inventory only"
+      }
+    ],
+    "coverage_warning": "The earlier 27 pages and these additional automation pages are a reviewed subset of installed help, not exhaustive coverage.",
+    "additional_reviewed_pages": [
+      {
+        "container": "systemvue.qch",
+        "resource": "rfdesign/MultiSource.html",
+        "sha256_decompressed_html": "47a1fe6baf69051dc972b50a7349c2de49264f0bdeda54ab1578585b887d175b",
+        "summary": "Explicitly restricted to System and Linear simulation. Documents PORT, source impedance R, source average carrier power and source phase reference. Supports using the same flat DUT design for both analyses without a hierarchy wrapper."
+      },
+      {
+        "container": "systemvue.qch",
+        "resource": "users/Scripts.html",
+        "sha256_decompressed_html": "e4140649e945cac643119cdebb7ce2507a8ab5a01fb9f2a10b79961764caaf8d",
+        "summary": "Local starting index for script verbs, object creation, external COM, Python and read-only external Python API."
+      },
+      {
+        "container": "systemvue.qch",
+        "resource": "users/Script_Verbs.html",
+        "sha256_decompressed_html": "80ed7552e69fbe25a658ae4cb6a42b3a758bbfb23fc4d7fd7df68bc3535843a0",
+        "summary": "Documents Analysis SetDataName/GetDataName/ClearModelCache/RunAnalysis; Item enumeration/property methods; parameter Get/Set and MKS GetValue; Dataset ExportS; workspace IsAnalysisDone/SaveAs. Manager.Update runs pending analyses and is not a read-only polling call."
+      },
+      {
+        "container": "systemvue.qch",
+        "resource": "users/Creating_Script_Objects.html",
+        "sha256_decompressed_html": "bab9834d1a7dc0ad6cb6f51ea4aac2b76f63b45195ecdf60432693a7d563649f",
+        "summary": "Set uses the parameter display unit. This forbids guessing Hz from a numeric string without reading the existing unit and evaluated GetValue."
+      },
+      {
+        "container": "systemvue.qch",
+        "resource": "users/Calling_Scripts_From_External_Programs.html",
+        "sha256_decompressed_html": "ce84e0df2d14d7e2a929f06c2a8881a322f42b8f776579ed2374a2aa4e43a519",
+        "summary": "COM automation uses the shared GENESYS name and Interop.GENESYS.dll; C#/C++/VB are supported. Existing-instance/version verification matters. Registration changes are not needed for this read-only review."
+      },
+      {
+        "container": "systemvue.qch",
+        "resource": "users/External_Python_Script_API.html",
+        "sha256_decompressed_html": "92f555a1b7e2781acf6d05472e9cce12c6dc6b939a11a7aae8d89131bf479267",
+        "summary": "Documents external workspace read access through keysight.systemvue; built for Python 3.10.6 and requires Python 3.10.x. No package was installed or imported here."
+      },
+      {
+        "container": "systemvue.qch",
+        "resource": "users/Python_Variable_Class_for_External_API.html",
+        "sha256_decompressed_html": "8e69f74e33e17caa02a30a812cea9a83eca58587e4a608f62a74cf65b11fcc64",
+        "summary": "Variable.value is MKS and supports scalars and one-dimensional numpy arrays including complex values, but not matrices. units and indeps expose metadata; dataframe and slice_data are documented. Do not select .value as a complete multidimensional S exporter."
+      },
+      {
+        "container": "systemvue.qch",
+        "resource": "users/Python_Dataset_Class_for_External_API.html",
+        "sha256_decompressed_html": "96275a1b8ec9bfabe8c21e803b290f67b38fac4b3ae48dc013b851684a19e5f9",
+        "summary": "Dataset.variables maps names to Variable objects. export_data supports JSON with per-variable unit options; format and preservation of multidimensional S need a local preflight before reliance."
+      },
+      {
+        "container": "systemvue.qch",
+        "resource": "users/Python_Workspace_Class_for_External_API.html",
+        "sha256_decompressed_html": "3a983f381fbb0b56cde3222c332e7f8e4e70fe62bfdd2bf5114b61a1c9fc0231",
+        "summary": "Workspace exposes datasets by name; external Analysis wrappers support only Sweeps and Data Flow. Thus this is an optional postprocessing reader, not a replacement RF/Linear analysis controller."
+      },
+      {
+        "container": "systemvue.qch",
+        "resource": "tutorials/Simulation_Control_and_Scripting.html",
+        "sha256_decompressed_html": "d93a4d573fe74372c83661ec847fc7af7b08bb1cefd6f69f07c79c48476d8b71",
+        "summary": "Top-level local automation tutorial index."
+      },
+      {
+        "container": "systemvue.qch",
+        "resource": "tutorials/Controlling_SystemVue_from_External_Programs.html",
+        "sha256_decompressed_html": "4825a45fd74e16d455693bd727e95f70b6933255e314ca9c7b9fab966d5b6d03",
+        "summary": "Points to COM plus built-in VB scripting and the local Users Guide Scripts section."
+      },
+      {
+        "container": "systemvue.qch",
+        "resource": "tutorials/Exploring_the_Workspace_Using_Visual_Basic.html",
+        "sha256_decompressed_html": "4372ba16f5ecda06034bf207720dab031aa638eb83c04530f87136715ab70b0a",
+        "summary": "Documents the installed VBBrowser source/executable, object and method discovery, and RunAnalysis. The browser may launch the app when no instance exists, so it was not started."
+      },
+      {
+        "container": "systemvue.qch",
+        "resource": "sim/Linear_Co-Simulation.html",
+        "sha256_decompressed_html": "b9dc69e0c2444bca137bd78502050dd8c314bac5b428f6d4fdcc35ce0f9742d0",
+        "summary": "Linear subcircuits can be characterized by the linear simulator for Spectrasys; avoiding an unnecessary hierarchy wrapper preserves the MID node for this acyclic flat RES chain."
+      }
+    ]
+  },
+  "official_automation_entrypoints": {
+    "COM_help": "systemvue.qch::users/Script_Verbs.html",
+    "COM_tutorial": "systemvue.qch::tutorials/Exploring_the_Workspace_Using_Visual_Basic.html",
+    "installed_browser_source": "C:/Program Files/Keysight/SystemVue2023/Examples/Tutorials/Simulation_Control_and_Scripting/Scripting/Visual Basic/Browser/MainForm.vb",
+    "interop_used_by_owned_helpers": "C:/Program Files/Keysight/SystemVue2023/Examples/RF Architecture Design/RF Design Kit/Scripting/Excel_to_RF/Interop.GENESYS.dll",
+    "external_python_wheel": "C:/Program Files/Keysight/SystemVue2023/Python/keysight_systemvue-2023.0-py3-none-any.whl",
+    "external_python_status": "Not installed or loaded in this review; Python 3.10 requirement and matrix restrictions make it optional, not the primary next-step controller."
+  },
+  "owned_helper_evidence": {
+    "published_archive": "validation/dc-systemvue-followup-raw-20261015.zip",
+    "archive_sha256": "ab0113ff473f259b9c17dab4256e1123112dc122249e5234db2233b846325fe2",
+    "archive_member_count": 147,
+    "members": [
+      {
+        "archive": "validation/dc-systemvue-followup-raw-20261015.zip",
+        "member": "prepare-divider.ps1",
+        "sha256": "dc3578990c2b5d5f6c001473c06ee8dfba9d41bb2e3bdf8ffd1e42f7895446d7",
+        "local_path": "build-reference/dc-systemvue-followup-20261015/prepare-divider.ps1",
+        "local_matches_archive": true
+      },
+      {
+        "archive": "validation/dc-systemvue-followup-raw-20261015.zip",
+        "member": "prepare-rc-live.ps1",
+        "sha256": "f246fda4c089560ae991a89cd97643c5c4d413dcd1fbd3bcb8d721d006328ae1",
+        "local_path": "build-reference/dc-systemvue-followup-20261015/prepare-rc-live.ps1",
+        "local_matches_archive": true
+      },
+      {
+        "archive": "validation/dc-systemvue-followup-raw-20261015.zip",
+        "member": "prepare-rc-input.py",
+        "sha256": "a457790d99e370894635d728122ff3e4980165d673fb8b60609d01e64a58b0bb",
+        "local_path": "build-reference/dc-systemvue-followup-20261015/prepare-rc-input.py",
+        "local_matches_archive": true
+      },
+      {
+        "archive": "validation/dc-systemvue-followup-raw-20261015.zip",
+        "member": "prepare-rc-hierarchy.py",
+        "sha256": "c4f44d182147cec67fad605e717cf07e42b4d583cfbc8816528065d8333fe353",
+        "local_path": "build-reference/dc-systemvue-followup-20261015/prepare-rc-hierarchy.py",
+        "local_matches_archive": true
+      },
+      {
+        "archive": "validation/dc-systemvue-followup-raw-20261015.zip",
+        "member": "linear-analysis-entry.xml",
+        "sha256": "0988bcdc2d6b14ed99b894d42ca930913bd2372693b032a1a412227639cd78f9",
+        "local_path": "build-reference/dc-systemvue-followup-20261015/linear-analysis-entry.xml",
+        "local_matches_archive": true
+      },
+      {
+        "archive": "validation/dc-systemvue-followup-raw-20261015.zip",
+        "member": "run-rc-direct-analysis.ps1",
+        "sha256": "4d6e005c83818e5081e272199fa20f40e9eb8e12e6cb9c5221689768d1df8092",
+        "local_path": "build-reference/dc-systemvue-followup-20261015/run-rc-direct-analysis.ps1",
+        "local_matches_archive": true
+      },
+      {
+        "archive": "validation/dc-systemvue-followup-raw-20261015.zip",
+        "member": "capture-live-state.ps1",
+        "sha256": "a596022a161f64fe0aab07b4798d073e55a8251326c7894ffa95e4744ceaaa10",
+        "local_path": "build-reference/dc-systemvue-followup-20261015/capture-live-state.ps1",
+        "local_matches_archive": true
+      },
+      {
+        "archive": "validation/dc-systemvue-followup-raw-20261015.zip",
+        "member": "divider-linear-control.json",
+        "sha256": "fdf0c5ab3d8891ce81c9766eccfa234d7a6876df23eec515baf0bf6994c02f9e",
+        "local_path": "build-reference/dc-systemvue-followup-20261015/divider-linear-control.json",
+        "local_matches_archive": true
+      }
+    ],
+    "tracked_helpers": [
+      {
+        "path": "scripts/reference/capture-cascade-reference.ps1",
+        "sha256": "dbc924c2613f5a92018c0a827970d99b3bf82745aafe3224304c68d0c8fe9424"
+      },
+      {
+        "path": "scripts/reference/capture-cascade-parameter-units.ps1",
+        "sha256": "575de4d58f0544ededac1cffc07d1abb226b145f4e53929ff26faa8439311905"
+      },
+      {
+        "path": "scripts/reference/compare-amplifier-terms.py",
+        "sha256": "61f57104d17d0e32091fdc21073ae81f9d8d2bceba46b3208124336fef686a9e"
+      }
+    ],
+    "local_template": {
+      "path": "build-reference/RFModel_AttenuatorNoise.wsv",
+      "sha256": "89784b61cb3ec533b70618f8bb4b32a0ae883cc61d90e6f9445fab2cec8e1616",
+      "usage": "Local task-owned source/port/System Analysis/Path0 template inspected, not executed. No original template or complete vendor page is copied into this readiness record."
+    }
+  },
+  "next_start": [
+    {
+      "step": 1,
+      "action": "Create a new guarded preparation/capture helper in a fresh build-reference acquisition directory; do not execute any old helper verbatim.",
+      "specific_pointer": "prepare-divider.ps1 and run-rc-direct-analysis.ps1 in the published archive",
+      "reason": "Old helpers hardcode workspace names/output roots, some replace contents or clear logs, and existing evidence must not be overwritten."
+    },
+    {
+      "step": 2,
+      "action": "Before preparation, attach only to the intended existing Genesys.Application instance; verify executable version, workspace identity/count, IsAnalysisDone and errors. Preserve current workspace and logs, then use a dedicated saved copy.",
+      "specific_pointer": "capture-live-state.ps1 read-only tree walker; Script_Verbs workspace and Item methods",
+      "constraint": "No Manager.Update, RunScript, FileOpen or registration command is a read-only status poll."
+    },
+    {
+      "step": 3,
+      "action": "Construct one flat Design with Intent=1, MultiSource Source on input net 1, R1 between nets 1/2, R2 between nets 2/3, and *OUT Port_2 on net 3. Both analyses point to this one DesignName.",
+      "specific_pointer": "prepare-rc-input.py XML builder plus prepare-divider.ps1 ChangeModel/ParamSet readback",
+      "netlists": {
+        "Source": "1,1",
+        "R1": "Port_1,1|Port_2,2",
+        "R2": "Port_1,2|Port_2,3",
+        "Port_2": "Port_1,3"
+      },
+      "constraint": "Assign/capture IN/MID/OUT node aliases or an explicit numeric-to-logical mapping; verify actual Connectivity before analysis. No hierarchy wrapper is needed for this acyclic chain."
+    },
+    {
+      "step": 4,
+      "action": "Initialize RES with ChangeModel(\"RES\"), then each ParamSet.R.Set(\"50\"); read Get(), GetValue(), Unit and model/netlist. Set source/port parameters as listed below and fail unless their evaluated MKS readbacks match.",
+      "specific_pointer": "prepare-divider.ps1 initialize loop; prepare-rc-live.ps1 Set helper; official Set/GetValue definitions"
+    },
+    {
+      "step": 5,
+      "action": "Insert a Linear Analysis from the owned linear-analysis-entry.xml structure, and a System Analysis plus Path0 from the local task-owned RF template; disable AutoRecalc/NeedRun throughout preparation.",
+      "specific_pointer": "linear-analysis-entry.xml; prepare-rc-input.py structured XML edits",
+      "constraint": "FromXML is observed in owned runs and interop; exact new two-port/path construction must still be read back before claiming successful setup."
+    },
+    {
+      "step": 6,
+      "action": "Run a no-analysis capture of both analyses, source/parts, paths and Connectivity. Preserve raw XML and evaluated values; freeze exact export identities before numeric scoring.",
+      "specific_pointer": "combine capture-live-state.ps1 walker with capture-cascade-parameter-units.ps1 metadata handling",
+      "constraint": "Keep preparation errors; do not discard them by merely clearing the error log."
+    },
+    {
+      "step": 7,
+      "action": "On the later authorized acquisition, submit Linear once using SetDataName(unique), ClearModelCache(), RunAnalysis(); preserve before/after workspaces and timestamps. Run RF System separately once after Linear terminal state is confirmed.",
+      "specific_pointer": "run-rc-direct-analysis.ps1 direct InvokeMember runner",
+      "constraint": "Timeout is not termination. Poll the same live process/session/IsAnalysisDone and never restart or resubmit solely because observation timed out."
+    },
+    {
+      "step": 8,
+      "action": "Export Linear using COM raw variables and documented Dataset.ExportS; export RF path variables using COM GetValue plus raw Data/Unit/IndepValue metadata. Verify complete identity and units, then apply the already-frozen plan.",
+      "specific_pointer": "export details below",
+      "constraint": "A source-matched numeric result cannot establish direction, units or the identity of an exported variable."
+    }
+  ],
+  "concrete_parameter_candidates": {
+    "source_ParamSet_display_entries": {
+      "Name": "RES_CW",
+      "Enable": "[1]",
+      "Desired": "[1]",
+      "SrcType": "[0]",
+      "MultiCarrier": "[0]",
+      "EnablePN": "[0]",
+      "Freq": "100",
+      "BW": "0.000001",
+      "Pwr": "0",
+      "Phase": "0",
+      "RefClk": "",
+      "R": "50",
+      "ZO": "50",
+      "PORT": "1",
+      "POff": "0",
+      "PhOff": "0"
+    },
+    "source_readback_requirements": {
+      "Freq_MKS_hz": 100000000.0,
+      "BW_MKS_hz": 1.0,
+      "Pwr_MKS_w": 0.001,
+      "R_ohms": 50.0,
+      "ZO_ohms": 50.0,
+      "PORT": 1,
+      "source_type": "single CW, verified after initialization"
+    },
+    "output_ParamSet_entries": {
+      "PORT": "2",
+      "ZO": "50",
+      "ZFreq": "0"
+    },
+    "linear_analysis": {
+      "DesignName": "new shared design",
+      "DataName": "new unique linear dataset",
+      "Start": "100 with verified MHz display unit",
+      "Stop": "100 with verified MHz display unit",
+      "NumPoints": "1",
+      "SweepType": "0 from owned linear sweep template; read back",
+      "Temperature": "26.85 with verified degC display unit",
+      "CalcNoise": 0,
+      "AutoRecalc": 0,
+      "NeedRun": 0
+    },
+    "RF_analysis_parameters": {
+      "DesignName": "same shared design",
+      "DataName": "new unique RF dataset",
+      "ChanBW": "0.001 with verified MHz display unit => 1000 Hz",
+      "NominalZ0": "50",
+      "Temperature": "26.85",
+      "MaxOrder": "3; do not reuse old MaxOrder=1 because an archived run warned it was coerced to 3",
+      "UseSpecReduction": "0",
+      "UsePrevSolution": "0"
+    },
+    "RF_analysis_properties_false": [
+      "AutoRecalc",
+      "NeedRun",
+      "CalcNoise",
+      "CalcPhaseNoise",
+      "CalcHarmonics",
+      "CalcIntermods"
+    ],
+    "path_observed_fields": {
+      "Path0.PathDef": "parts-name string in the local template",
+      "Path0.Definition": "quoted parts-name expression in the template",
+      "Path0.PathName": "output suffix identity, e.g. RES_Path",
+      "Path0.PathType": "template value 1 corresponds to observed parts-name path; verify live meaning",
+      "Path0.Type": "template value 0 is observed Normal path; verify live meaning",
+      "Path0.AddPwrMeas": "1",
+      "Path0.AddVoltMeas": "1",
+      "Path0.CalcVolt": "1 candidate for detailed P/V/Z option; verify actual readback/UI metadata",
+      "Path0.Internal": "0",
+      "Path0.PathFreq": "100 with verified MHz display unit"
+    },
+    "path_route_candidate": "Source,R1,R2,Port_2 as an ordered parts path; resolved logical nodes must be IN,MID,OUT. If parts-path resolution differs, stop before analysis and use confirmed node-name mapping; do not guess PathType enum values.",
+    "unit_rule": "Set strings use the parameter unit; GetValue is documented MKS for united parameters. Never infer that raw value 100 means 100 Hz. SetValue was used in older scripts but display-unit Set plus MKS readback is the more directly documented control here."
+  },
+  "exports": {
+    "linear": {
+      "object_path_pattern": "workspace.GetItemByName(\"Designs\").GetItemByName(actual analysis.GetDataName()).GetItemByName(\"Eqns\").GetItemByName(\"VarBlock\")",
+      "required_variables": [
+        "F",
+        "S",
+        "ZPORT",
+        "S11",
+        "S12",
+        "S21",
+        "S22"
+      ],
+      "raw_capture": [
+        "GetVarName/GetVarType/GetVarXMLName",
+        "Data plus every rank length and lower bound, enumerated values and indexed elements",
+        "Unit",
+        "IndepValue",
+        "TimeStamp/ByAnalysis where present",
+        "GetValue and Get/GetData where supported",
+        "ToXML type metadata"
+      ],
+      "secondary_export": "Invoke documented dataset.ExportS(new absolute .s2p path); inspect actual format/reference headers and compare all four complex entries to raw aliases. Keep ZPORT raw export because an S file need not preserve every internal metadata field.",
+      "known_prior_shape": "Archived one-port control had F Data dimensions [1], S [2,1,1], ZPORT [2,1], XML Array_Cplx64. This does not prove the full two-port axis/complex packing.",
+      "packing_gate": "Do not reuse 1-D Vn interleaved decoding for multidimensional S. Resolve via named aliases plus ExportS and indexed shape capture; if still ambiguous, a dedicated no-analysis asymmetric complex marker variable is an optional marshalling preflight, not the symmetric RES oracle."
+    },
+    "RF_path": {
+      "object_path_pattern": "Discover actual new dataset and its path dataset children/siblings by enumeration; do not assume the former System1/System3 suffix. Under Eqns/VarBlock request DCP, DCV, CF and any NODE/PART label independent variables.",
+      "required_context": [
+        "PathName and resolved node labels/order",
+        "DCP/DCV/CF shape and independent-variable links",
+        "Unit and evaluated GetValue MKS",
+        "source/analysis setting readbacks and dataset timestamp"
+      ],
+      "DCP": "GetValue is evaluated in W where a united parameter/variable exposes it; retain raw Data and Unit ID. Never apply dBm conversion to an already-MKS number merely because display Unit is dBm.",
+      "DCV": "Use the documented DCV identity as peak desired voltage, and GetValue linear V only after metadata confirms it. Apply the plan peak oracle directly; do not divide by sqrt(2) based on array shape or a Vn name.",
+      "Vn_spectra": "Existing 1-D Vn/Zn captures are interleaved and older amplifier tools cross-check P=|Vpeak|^2/(2*Re Z) for real 50-ohm cases. That scoped evidence does not define all node-direction, complex-reference or integrated-noise semantics.",
+      "do_not_reuse": "Do not run compare-attenuator.py or compare-amplifier-terms.py as the new comparator; their identities, tolerances, path cardinalities and fixed model assumptions differ."
+    },
+    "optional_python_reader": "Official external Dataset.export_data(...,\"json\",options), variables[name].units and value could independently read saved datasets with Python 3.10.x. Its matrix limitations and wrapper support must be preflighted; no import/open/read operation was attempted here."
+  },
+  "remaining_actionable_gaps": [
+    {
+      "gap": "No new dedicated helper exists yet",
+      "next_action": "Write guarded prepare/readback/run/export stages using the pointers above; separate preparation from both RunAnalysis submissions."
+    },
+    {
+      "gap": "Path enum and detailed P/V/Z switch are template observations, not fully typed API documentation",
+      "next_action": "Before analysis enumerate actual Path0 metadata and read back Definition/PathDef/PathFreq/Internal/AddPwrMeas/AddVoltMeas/CalcVolt and resolved node labels. Do not choose an enum from a guessed meaning."
+    },
+    {
+      "gap": "Two-port complex S axis layout is not proven by old one-port capture",
+      "next_action": "Capture full indexed array metadata and aliases, and use documented ExportS for an independent serialization check; preserve unresolved cases as not comparable."
+    },
+    {
+      "gap": "Raw exported Unit IDs are not a unit conversion formula",
+      "next_action": "Capture GetValue MKS alongside Unit/Get/GetData and official per-observable definition; use explicit normalizer only after this identity gate."
+    },
+    {
+      "gap": "Old RC session/result includes old datasets and nonaccepted interpretations",
+      "next_action": "Use unique dataset names and timestamps so no pre-existing F/S/DCP is mistaken for the new run; do not import old zero-accepted results into acceptance."
+    }
+  ],
+  "scope_preserved": {
+    "prior_dc_rc_accepted_comparisons": 0,
+    "format_replay_vendor_simulations": 0,
+    "new_res_candidate_accepted_comparisons": 0,
+    "no_vendor_license_or_credential_collection": true,
+    "no_full_vendor_help_or_examples_published": true
+  }
+}

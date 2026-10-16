@@ -7,6 +7,15 @@
 [CI 38846356382](https://github.com/minexin/RFSim/actions/runs/38846356382)
 已核实为 18/18 作业成功；不能把它当成本轮修复提交的 CI。
 
+本轮修复随后提交并推送为 `581901bc430ad7cdbdf90958d18c8380807d340f`（tree
+`9c998e248c82f7780d20c803f732581cd01fe426`）。该精确提交的
+[CI 38849921737](https://github.com/minexin/RFSim/actions/runs/38849921737)
+于本次 04:35:25 UTC 核验时已完成，**18/18 作业成功**：Windows、Ubuntu、macOS，
+Debug/Release，build、C++ SDK、原生归档回放三类各六项。
+[原始 run/jobs 绑定记录](../validation/local-takeover-ci-581901b-20261016.json)
+保留完整 API 字节、哈希与每项作业的提交身份。
+其后的帮助索引与 CI 文档补充不修改工程源码，不借用上述 CI 作为文档补充提交自身的运行结果。
+
 本轮关闭实际安装 X 文件的格式回放缺口，并修复本机复现的三类工具问题。
 没有修改 C++ 数值核心、历史期望、厂商容差或独立样本身份。
 本轮新的 SystemVue 分析提交为 **0**；长期兼容目标尚未完成。
@@ -79,6 +88,9 @@
 
 本地实际读取 SystemVue 2023 QCH 的 27 页，记录页面哈希与事实摘要；
 完整帮助、QCH、安装 MDF/XNP、许可证及凭据不在公开归档中。
+后续又核实了完整安装帮助库的资源索引，并补读 13 页自动化/模型说明；
+这部分只读后续见[本机帮助与采集入口](systemvue-installed-help-20261016.md)，
+不回填到前述已经冻结的 155 文件归档。
 本次核清以下口径，不能把它们互相代换：
 
 - Linear `ZPORT` 来自端口件的参考阻抗；RF System `RFZIN/RFZOUT` 是节点在中心频率的模拟输入/输出阻抗；`SZIN/SZOUT` 来自模型参数或默认值。
