@@ -41,3 +41,16 @@
 # These unchanged scorer files also participate in the pilot's frozen predictor identity.
 /scripts/reference/compare-single-compression.py -text
 /scripts/reference/compare-two-tone.py -text
+# Source-only replay pins current bytes separately from historical CRLF claims.
+/validation/systemvue-2023-shared-compression-captures.json -text
+/validation/systemvue-2023-shared-compression.json -text
+/validation/systemvue-2023-coherent-amplifier.json -text
+# Preserve the complete frozen scorer dependency chain on every checkout platform.
+/scripts/reference/compare-shared-compression.py -text
+/scripts/reference/compare-coherent-amplifier.py -text
+/scripts/reference/compare-cascade-amplifier.py -text
+/scripts/reference/compare-amplifier-terms.py -text
+/scripts/reference/run-systemvue-reference.py -text
+/scripts/reference/reference_records.py -text
+/scripts/reference/native_replay.py -text
+/scripts/reference/retired_binding.py -text

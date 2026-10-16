@@ -153,7 +153,7 @@ jobs:
           -DRFMODEL_BUILD_REFERENCE_TESTS=ON
           -DPython3_EXECUTABLE="$(python -c 'import sys; print(sys.executable)')"
       - name: Build probes
-        run: cmake --build build-reference --config ${{ matrix.configuration }} --target rfmodel_reference_highorder_probe rfmodel_reference_highorder_oracle rfmodel_reference_amplifier_probe rfmodel_reference_amplifier_oracle --parallel 2
+        run: cmake --build build-reference --config ${{ matrix.configuration }} --target rfmodel_reference_highorder_probe rfmodel_reference_highorder_oracle rfmodel_reference_amplifier_probe rfmodel_reference_amplifier_oracle rfmodel_reference_source_probe rfmodel_reference_source_oracle --parallel 2
       - name: Replay frozen evidence, protocol faults and installed SDK
         run: ctest --test-dir build-reference -C ${{ matrix.configuration }} -R '^native_' --output-on-failure
       - name: Record replay identity and evidence
@@ -202,6 +202,14 @@ jobs:
             --capture-manifest validation/am-pm-datapoints-allocation-captures-20261014.json
           python -I -S scripts/reference/report-rfamp-op1db-pilot.py \
             --native-probe "$probe" --output build-reference/rfamp-op1db-pilot-replay.json
+      - name: Record source archive replay
+        run: |
+          suffix=""
+          if [ "$RUNNER_OS" = Windows ]; then suffix=".exe"; fi
+          probe="build-reference/rfmodel_reference_source_probe$suffix"
+          configured="build-reference/${{ matrix.configuration }}/rfmodel_reference_source_probe$suffix"
+          if [ -f "$configured" ]; then probe="$configured"; fi
+          python -I -S scripts/reference/replay_source_archives.py --native-probe "$probe" --report build-reference/source-archives-replay.json
       - name: Preserve replay verification evidence
         if: always()
         uses: actions/upload-artifact@v7
@@ -211,6 +219,8 @@ jobs:
             build-reference/Testing/Temporary/LastTest.log
             build-reference/native-replay.json
             build-reference/amplifier-archives-replay-v1.json
+            build-reference/source-archives-replay.json
+            build-reference/source-installed-sdk/consumer-build/Testing/Temporary/LastTest.log
             build-reference/am-pm-native-replay.json
             build-reference/am-pm-adapter-replay.json
             build-reference/am-pm-datapoints-zero-replay.json
